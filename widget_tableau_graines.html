@@ -313,6 +313,11 @@ function buildGrainesMap(records) {
   records
     .filter(r => r.Sachets) // On n'affiche que les millésimes avec un sachet
     .forEach((r, index) => {
+  if (index === 0) {
+    console.log('r.NomVariete :', JSON.stringify(r.NomVariete));
+    console.log('Clé dans varietesById :', JSON.stringify(Object.keys(varietesById)[0]));
+    console.log('Match :', varietesById[r.NomVariete] !== undefined);
+  }
   if (index === 0) console.log('Premier r.NomVariete :', r.NomVariete, typeof r.NomVariete);
       // r.NomVariete est l'ID numérique de la ligne dans Varietes
       // varietesById[r.NomVariete] contient toutes les infos de la variété
