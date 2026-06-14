@@ -316,6 +316,9 @@ function buildGrainesMap(records) {
       // r.NomVariete est l'ID numérique de la ligne dans Varietes
       // varietesById[r.NomVariete] contient toutes les infos de la variété
       const v = varietesById[r.NomVariete] || {};
+      if (!varietesById[r.NomVariete]) {
+  console.log('NomVariete non trouvé :', r.NomVariete, typeof r.NomVariete);
+}
 
       // Clé unique par variété : utilise l'id Grist de Varietes
       const key = r.NomVariete || ('_' + (r.id || Math.random()));
