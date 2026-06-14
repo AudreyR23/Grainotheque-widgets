@@ -431,7 +431,9 @@ grist.docApi.fetchTable('Varietes').then(data => {
   varietesById = {};
   const ids = data.id || [];
   ids.forEach((id, i) => {
-    varietesById[id] = {
+  const nomCle = data.NomVariete ? data.NomVariete[i] : null;
+  if (!nomCle) return;
+  varietesById[nomCle] = {
       // ⚠️ Noms de colonnes exacts de ta table Varietes — à adapter si tu les renommes
       Type:              data.Type ? data.Type[i] : '',
       Nom:               data.Nom ? data.Nom[i] : '',           // Formule : NomVariete.split("\n")[0]
