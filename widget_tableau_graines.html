@@ -313,6 +313,8 @@ function buildGrainesMap(records) {
   records
     .filter(r => r.Sachets) // On n'affiche que les millésimes avec un sachet
     .forEach(r => {
+    .forEach((r, index) => {
+  if (index === 0) console.log('Premier r.NomVariete :', r.NomVariete, typeof r.NomVariete);
       // r.NomVariete est l'ID numérique de la ligne dans Varietes
       // varietesById[r.NomVariete] contient toutes les infos de la variété
       const v = varietesById[r.NomVariete] || {};
@@ -428,6 +430,8 @@ grist.ready({ requiredAccess: 'full' });
 // fetchTable retourne un objet { colonne: [val1, val2, ...], id: [1, 2, ...] }
 // On le transforme en dictionnaire { id: { col1: val1, col2: val2 } }
 grist.docApi.fetchTable('Varietes').then(data => {
+  console.log('Exemple NomVariete[0] :', data.NomVariete ? data.NomVariete[0] : 'absent');
+  console.log('Exemple id[0] :', data.id ? data.id[0] : 'absent');
   varietesById = {};
   const ids = data.id || [];
   ids.forEach((id, i) => {
