@@ -312,7 +312,6 @@ function buildGrainesMap(records) {
 
   records
     .filter(r => r.Sachets) // On n'affiche que les millésimes avec un sachet
-    .forEach(r => {
     .forEach((r, index) => {
   if (index === 0) console.log('Premier r.NomVariete :', r.NomVariete, typeof r.NomVariete);
       // r.NomVariete est l'ID numérique de la ligne dans Varietes
