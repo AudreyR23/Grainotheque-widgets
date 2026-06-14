@@ -422,8 +422,8 @@ function render(graines) {
    Étape 1 : fetchTable('Varietes') — charge toutes les infos stables une fois
    Étape 2 : onRecords — reçoit Millesimes et construit le tableau
    ============================================= */
-grist.ready({ requiredAccess: 'read table' });
-
+grist.ready({ requiredAccess: 'full' });
+   
 // Étape 1 : charger la table Varietes au démarrage
 // fetchTable retourne un objet { colonne: [val1, val2, ...], id: [1, 2, ...] }
 // On le transforme en dictionnaire { id: { col1: val1, col2: val2 } }
