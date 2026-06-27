@@ -354,7 +354,7 @@ function buildGrainesMap(records) {
         });
       }
 
-      // Depuis Millesimes (onRecords)
+      // Depuis Millesimes ()
       map.get(key).sachets.push({
         origine:     r.Origine || '',
         sachet:      r.Sachets || '',
@@ -415,14 +415,6 @@ grist.docApi.fetchTable('Varietes').then(data => {
   }
 }).catch(e => console.error('Erreur:', e));
 
-// Étape 2 : réception de Millesimes
-grist.onRecords(function(records) {
-  derniersRecords = records;
-  if (Object.keys(varietesById).length > 0) {
-    const map = buildGrainesMap(records);
-    render(Array.from(map.values()));
-  }
-});
  console.log('onRecords reçu, varietesById size:', Object.keys(varietesById).length);
 </script>
 </body>
