@@ -216,27 +216,26 @@ function makeHeader(){
 return `
 <thead>
 <tr>
-<th>Type</th>
-<th>Nom</th>
-<th>Ép.</th>
-<th>Nb</th>
-<th>Orig.</th>
-<th>Sac.</th>
-<th>Année</th>
-<th>Sais.</th>
-<th>Qté</th>
-<th>Germ.</th>
-<th>Nb.gr</th>
-<th>Nb.go</th>
-<th>Année.s</th>
-<th>Date.s</th>
-<th>Germé</th>
-<th>Oups</th>
-<th>Planté</th>
-<th>Date.p</th>
-<th>Où</th>
-<th>Donné</th>
-</tr>
+<th class="col-type">Type</th>
+<th class="col-nom">Nom-Variété</th>
+<th class="col-epingle">Ép.</th>
+<th class="col-nbep">Nb</th>
+<th class="col-origine">Orig.</th>
+<th class="col-sachet">Sac.</th>
+<th class="col-annee">Millesime</th>
+<th class="col-saisons">Sais.</th>
+<th class="col-qtte">Qté</th>
+<th class="col-germ">Germ.</th>
+<th class="col-profond">Nb.gr</th>
+<th class="col-germdur">Nb.go</th>
+<th class="col-germtemp">Année.s</th>
+<th class="col-sa">Date.s</th>
+<th class="col-se">Germé</th>
+<th class="col-vide1">Oups</th>
+<th class="col-arrosage">Planté</th>
+<th class="col-exposition">Date.p</th>
+<th class="col-ou">Où</th>
+<th class="col-vide2">Donné</th></tr>
 </thead>
 `;
 }
@@ -260,7 +259,7 @@ function multiCell(cls, values) {
 return `
 <tr>
 
-<td>${graine.type}</td>
+<td class="col-type" rowspan="1">${graine.type}</td>
 
 <td>
 <b>${graine.nom}</b><br>
