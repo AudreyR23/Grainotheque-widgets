@@ -400,7 +400,8 @@ grist.docApi.fetchTable('Varietes').then(data => {
     };
   });
   console.log('Varietes chargées :', Object.keys(varietesById).length);
-
+  console.log('derniersRecords au moment du fetch:', derniersRecords ? derniersRecords.length : 'null');
+   
   // Si Millesimes déjà reçus, on peut rendre
   if (derniersRecords) {
     const map = buildGrainesMap(derniersRecords);
@@ -416,6 +417,7 @@ grist.onRecords(function(records) {
     render(Array.from(map.values()));
   }
 });
+ console.log('onRecords reçu, varietesById size:', Object.keys(varietesById).length);
 </script>
 </body>
 </html>
