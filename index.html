@@ -394,6 +394,36 @@ graines.length+" variétés";
 
 document.getElementById('pages').innerHTML = `
 
+  // Grouper par type
+  const parType = [];
+  let typeActuel = null;
+  let groupe = [];
+
+  graines.forEach(g => {
+    if (g.type !== typeActuel) {
+      if (groupe.length > 0) parType.push(groupe);
+      typeActuel = g.type;
+      groupe = [g];
+    } else {
+      groupe.push(g);
+    }
+  });
+  if (groupe.length > 0) parType.push(groupe);
+
+  // Pour chaque type, paginer
+  parType.forEach(groupeType => {
+    for (let p = 0; p < Math.ceil(groupeType.length / GRAINES_PAR_PAGE); p++) {
+      const pageGraines = groupeType.slice(p * GRAINES_PAR_PAGE, (p + 1) * GRAINES_PAR_PAGE);
+      const page = document.createElement('div');
+const isLastPageOfGroup = (p === Math.ceil(groupeType.length / GRAINES_PAR_PAGE) - 1);
+page.className = isLastPageOfGroup ? 'page page-last-of-group' : 'page';
+      page.innerHTML = `<table>${makeHeader()}<tbody>
+        ${pageGraines.map(makeRow).join('')}
+      </tbody></table>`;
+      pagesEl.appendChild(page);
+    }
+  });
+
 <div class="page">
 
 <table>
