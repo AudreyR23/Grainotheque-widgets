@@ -244,9 +244,19 @@ return `
 
 
 function makeRow(graine){
+const sachets = graine.sachets;
+const nb = sachets.length;
 
-let sachets = graine.sachets;
-
+// Cellules multi-sachets
+function multiCell(cls, values) {
+  if (nb <= 1) {
+    return `<td class="${cls}">${values[0] || ''}</td>`;
+  }
+  const lines = values.map(v =>
+    `<span class="sachet-line">${v || ''}</span>`
+  ).join('');
+  return `<td class="${cls} multi">${lines}</td>`;
+}
 return `
 <tr>
 
