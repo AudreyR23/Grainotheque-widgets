@@ -94,6 +94,10 @@ td.info-bas {
   color: #888;
   padding-bottom: 2px;
 }
+/* Info Nb d'épingle — données stables */
+.info-gris {
+  color: #888;
+}
 
 /* Cellule Nom */
 td.nom-cell { text-align: center; vertical-align: middle; }
@@ -232,7 +236,7 @@ function makeRow(g) {
       ${g.variete ? `<span class="var">${g.variete}</span>` : ''}
     </td>
     <td class="col-epingle">${g.num_epingle || ''}</td>
-    <td class="col-nbep">${g.nb_epingle || ''}</td>
+    <td class="col-nbep info-gris">${g.nb_epingle || ''}</td>
     ${mc('col-origine',   ss.map(s => fmtVal(s.origine)))}
     ${mc('col-sachet',    ss.map(s => s.sachet))}
     ${mc('col-annee',     ss.map(s => fmtAnnee(s.annee)))}
