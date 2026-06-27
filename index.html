@@ -230,7 +230,7 @@ function makeRow(g) {
     <td class="col-profond   info-bas">${g.profondeur  || ''}</td>
     <td class="col-germdur   info-bas">${g.germ_duree  || ''}</td>
     <td class="col-germtemp  info-bas">${g.germ_temp   || ''}</td>
-    <td class="col-sa        info-bas">${fmtMois(g.semis_abri)}</td>
+    <td class="col-sa        info-bas">${fmtMois(g.abri)}</td>
     <td class="col-se        info-bas">${fmtMois(g.semis_ext)}</td>
     <td class="col-vide1"></td>
     <td class="col-arrosage  info-bas">${g.arrosage    || ''}</td>
@@ -320,14 +320,14 @@ function buildGrainesMap(records) {
           variete,
           num_epingle: v.Num_epingle      || '',
           nb_epingle:  v.Nb_epingle       || '',
-          profondeur:  v.Semis_profondeur || '',
+          profondeur:  v.profondeur || '',
           germ_duree:  v.Duree_germ       || '',
           germ_temp:   v.Temp_germ        || '',
-          semis_abri:  v.Semis_sous_abris || '',
-          semis_ext:   v.Semis_pleine_terre || '',
+          abri:        fmtVal(v.Semis_sous_abris),
+          semis_ext:   fmtVal(v.Semis_pleine_terre),
           arrosage:    v.Arrosage         || '',
           exposition:  v.Exposition       || '',
-          ou:          v.Ou_cultiver      || '',
+          ou:          fmtVal(v.Ou_cultiver),
           sachets: []
         });
       }
