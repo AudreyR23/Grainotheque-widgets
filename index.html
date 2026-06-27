@@ -13,28 +13,28 @@ body { font-family: Arial, sans-serif; background: white; font-size: 9px; }
 .info { font-size: 12px; color: #666; flex: 1; }
 
 /* =============================================
-   LARGEURS DES COLONNES
+   LARGEURS DES COLONNES — modifiez ici
    ============================================= */
-.col-type      { width: 7.5%; }   /* Type */
-.col-nom       { width: 12.5%; }  /* Nom + Variété */
-.col-epingle   { width: 2.5%; }   /* N° épingle */
-.col-nbep      { width: 2.5%; }   /* Nb épingles */
-.col-origine   { width: 5%; }     /* Origine (par sachet) */
-.col-sachet    { width: 2.5%; }   /* Sachet */
-.col-annee     { width: 5%; }     /* Millésime */
-.col-saisons   { width: 2.5%; }   /* Nb saisons */
-.col-qtte      { width: 5%; }     /* Quantité graines */
-.col-germ      { width: 5%; }     /* Germination % */
-.col-profond   { width: 5%; }     /* Profondeur / Nb.gr (vide à remplir) */
-.col-germdur   { width: 5%; }     /* Durée germ / Nb.go (vide à remplir) */
-.col-germtemp  { width: 5%; }     /* T° germ / Année.s (vide à remplir) */
-.col-sa        { width: 10%; }    /* Semis sous abri / Date.s (vide) */
-.col-se        { width: 5%; }     /* Semis ext / Germé (vide) */
-.col-vide1     { width: 5%; }     /* Oups (vide à remplir) */
-.col-arrosage  { width: 5%; }     /* Arrosage / Planté (vide) */
-.col-exposition{ width: 10%; }    /* Exposition / Date.p (vide) */
-.col-ou        { width: 10%; }    /* Où cultiver */
-.col-vide2     { width: 5%; }     /* Donné (vide à remplir) */
+.col-type      { width: 7.5%; }   /* A - Type */
+.col-nom       { width: 12.5%; }  /* B - Nom + Variété */
+.col-epingle   { width: 2.5%; }   /* C - N° épingle */
+.col-nbep      { width: 2.5%; }   /* D - Nb épingles */
+.col-origine   { width: 5%; }   /* E - Origine (par sachet) */
+.col-sachet    { width: 2.5%; }   /* F - Sachet */
+.col-annee     { width: 5%; }   /* G - Année */
+.col-saisons   { width: 2.5%; }   /* H - Nb saisons */
+.col-qtte      { width: 5%; }   /* I - Quantité graines */
+.col-germ      { width: 5%; }   /* J - Germination % */
+.col-profond   { width: 5%; }   /* K - Profondeur */
+.col-germdur   { width: 5%; }   /* L - Durée germination */
+.col-germtemp  { width: 5%; }   /* M - Temp germination */
+.col-sa        { width: 10%; }   /* N - Semis sous abri */
+.col-se        { width: 5%; }   /* O - Semis extérieur */
+.col-vide1     { width: 5%; }   /* P - Colonne vide */
+.col-arrosage  { width: 5%; }   /* Q - Arrosage */
+.col-exposition{ width: 10%; }   /* R - Exposition */
+.col-ou        { width: 10%; }   /* S - Où planter */
+.col-vide2     { width: 5%; }   /* T - Colonne vide */
 
 .page {
   width: 297mm;
@@ -50,6 +50,7 @@ table {
   table-layout: fixed;
 }
 
+/* En-têtes */
 thead th {
   background: #e0e0e0;
   color: #111;
@@ -62,6 +63,7 @@ thead th {
   vertical-align: middle;
 }
 
+/* Cellules */
 td {
   border: 1px solid #aaa;
   text-align: center;
@@ -77,16 +79,13 @@ th, td {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-
-/* Info en bas de cellule — données stables depuis Varietes */
 td.info-bas {
   vertical-align: bottom;
   font-size: 7px;
   color: #888;
   padding-bottom: 2px;
 }
-
-/* Cellule Nom */
+/* Colonne Nom spéciale */
 td.nom-cell {
   text-align: center;
   vertical-align: middle;
@@ -108,17 +107,19 @@ td.multi {
   padding: 0;
 }
 td.multi .sachet-line {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
   border-bottom: 1px solid #ddd;
   padding: 0px 2px;
   min-height: 4mm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 td.multi .sachet-line:last-child {
   border-bottom: none;
 }
 
+/* Ligne graine */
 tr.graine-row td {
   height: 8mm;
 }
@@ -127,19 +128,19 @@ tr.graine-row td {
   .controls { display: none; }
   @page { size: A4 landscape; margin: 0; }
   .page {
-    width: 100%;
-    padding: 15mm 10mm 10mm 10mm;
-    margin: 0;
-    border: none;
-  }
-  .page-last-of-group {
-    page-break-after: always;
-    break-after: page;
-  }
-  .page:last-child {
-    page-break-after: avoid !important;
-    break-after: avoid !important;
-  }
+  width: 100%;
+  padding: 15mm 10mm 10mm 10mm;
+  margin: 0;
+  border: none;
+}
+.page-last-of-group { 
+  page-break-after: always; 
+  break-after: page; 
+}
+.page:last-child { 
+  page-break-after: avoid !important; 
+  break-after: avoid !important; 
+}
   tr { page-break-inside: avoid; break-inside: avoid; }
 }
 </style>
@@ -155,9 +156,7 @@ tr.graine-row td {
 
 <script>
 
-alert("TEST WIDGET");
-   
-console.log("SCRIPT DEMARRE");
+ console.log("SCRIPT DEMARRE");
 
 const GRAINES_PAR_PAGE = 20;
 
