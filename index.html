@@ -257,51 +257,32 @@ function multiCell(cls, values) {
   return `<td class="${cls} multi">${lines}</td>`;
 }
 return `
-<tr>
+<tr class="graine-row">
 
-<td class="col-type" rowspan="1">${graine.type}</td>
-
-<td>
-<b>${graine.nom}</b><br>
-${graine.variete || ''}
-</td>
-
-<td>${graine.num_epingle}</td>
-<td>${graine.nb_epingle}</td>
-
-<td>${sachets.map(x=>x.origine).join('<br>')}</td>
-
-<td>${sachets.map(x=>x.sachet).join('<br>')}</td>
-
-<td>${sachets.map(x=>formatAnnee(x.annee)).join('<br>')}</td>
-
-<td>${sachets.map(x=>x.saisons).join('<br>')}</td>
-
-<td>${sachets.map(x=>x.qtte).join('<br>')}</td>
-
-<td>${sachets.map(x=>x.germination).join('<br>')}</td>
-
-
-<td>${graine.profondeur}</td>
-<td>${graine.germ_duree}</td>
-<td>${graine.germ_temp}</td>
-
-<td>${abrevMois(graine.semis_abri)}</td>
-
-<td>${abrevMois(graine.semis_ext)}</td>
-
-<td></td>
-
-<td>${graine.arrosage}</td>
-
-<td>${graine.exposition}</td>
-
-<td>${formatVal(graine.ou)}</td>
-
-<td></td>
-
-</tr>
-`;
+ <td class="col-type" rowspan="1">${graine.type || ''}</td>
+    <td class="col-nom nom-cell">
+      <span class="nom">${graine.nom || ''}</span>
+      ${graine.variete ? `<span class="variete">${graine.variete}</span>` : ''}
+    </td>
+    <td class="col-epingle">${graine.num_epingle || ''}</td>
+    <td class="col-nbep">${graine.nb_epingle || ''}</td>
+    ${multiCell('col-origine', sachets.map(s => s.origine))}
+    ${multiCell('col-sachet', sachets.map(s => s.sachet))}
+    ${multiCell('col-annee', sachets.map(s => formatAnnee(s.annee)))}
+    ${multiCell('col-saisons', sachets.map(s => s.saisons))}
+    ${multiCell('col-qtte', sachets.map(s => s.qtte))}
+    ${multiCell('col-germ', sachets.map(s => s.germination))}
+    <td class="col-profond info-bas">${graine.profondeur || ''}</td>
+    <td class="col-germdur info-bas">${graine.germ_duree || ''}</td>
+    <td class="col-germtemp info-bas">${graine.germ_temp || ''}</td>
+    <td class="col-sa info-bas">${abrevMois(graine.semis_abri)}</td>
+    <td class="col-se info-bas">${abrevMois(graine.semis_ext)}</td>
+    <td class="col-vide1"></td>
+    <td class="col-arrosage info-bas">${graine.arrosage || ''}</td>
+    <td class="col-exposition info-bas">${graine.exposition || ''}</td>
+    <td class="col-ou info-bas">${graine.ou || ''}</td>
+    <td class="col-vide2"></td>
+  </tr>`;
 
 }
 
