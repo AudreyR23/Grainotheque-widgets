@@ -389,6 +389,9 @@ grist.docApi.fetchTable('Varietes').then(data => {
       Exposition:         data.Exposition          ? data.Exposition[i]          : '',
       Ou_cultiver:        data.Ou_cultiver         ? data.Ou_cultiver[i]         : '',
     };
+    console.log("Semis sous abris :", JSON.stringify(data.Semis_sous_abris[i]));
+    console.log("Semis pleine terre :", JSON.stringify(data.Semis_pleine_terre[i]));
+    console.log("Où cultiver :", JSON.stringify(data.Ou_cultiver[i]));
   });
 
   /* Si Millesimes déjà reçus → on peut rendre maintenant */
