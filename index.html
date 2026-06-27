@@ -196,7 +196,7 @@ function makeHeader() {
     <th class="col-saisons">Sais.</th>
     <th class="col-qtte">Qté</th>
     <th class="col-germ">Germ.</th>
-    <th class="col-profond">Nb.gr</th>
+    <th class="col-ond">Nb.gr</th>
     <th class="col-germdur">Nb.go</th>
     <th class="col-germtemp">Année.s</th>
     <th class="col-sa">Date.s</th>
@@ -332,7 +332,7 @@ function buildGrainesMap(records) {
           variete,
           num_epingle: v.Num_epingle      || '',
           nb_epingle:  v.Nb_epingle       || '',
-          profondeur:  v.profondeur || '',
+          profondeur:  v.Semis_profondeur || '',
           germ_duree:  v.Duree_germ       || '',
           germ_temp:   v.Temp_germ        || '',
           abri:        fmtVal(v.Semis_sous_abris),
