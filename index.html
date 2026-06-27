@@ -154,268 +154,420 @@ tr.graine-row td {
 <div id="pages"></div>
 
 <script>
+<script>
+
 const GRAINES_PAR_PAGE = 20;
 
-/* =============================================
-   Abréviations mois
-   ============================================= */
+
+/* ===============================
+   STOCKAGE
+================================ */
+
+let varietesById = {};
+let derniersRecords = null;
+
+
+/* ===============================
+   FORMATAGE
+================================ */
+
 const MOIS_ABBREV = {
   "Jan": "J", "Fév": "F", "Mar": "M", "Avr": "A",
   "Mai": "Ma", "Jui": "Ju", "Juil": "Jl", "Aou": "Ao",
   "Sep": "S", "Oct": "O", "Nov": "N", "Déc": "D",
-  "Janvier": "J", "Février": "F", "Mars": "M", "Avril": "A",
-  "Juin": "Ju", "Juillet": "Jl", "Août": "Ao",
-  "Septembre": "S", "Octobre": "O", "Novembre": "N", "Décembre": "D"
+  "Janvier": "J", "Février": "F", "Mars": "M",
+  "Avril": "A", "Juin": "Ju", "Juillet": "Jl",
+  "Août": "Ao", "Septembre": "S",
+  "Octobre": "O", "Novembre": "N",
+  "Décembre": "D"
 };
 
-function formatAnnee(valeur) {
-  if (!valeur) return '';
-  return String(valeur).substring(0, 4);
+
+function formatVal(v){
+  if (!v) return '';
+  if (Array.isArray(v)) return v.join(', ');
+  return String(v);
 }
 
-function abrevMois(valeur) {
-  if (!valeur) return '';
-  if (Array.isArray(valeur)) {
-    return valeur.map(m => MOIS_ABBREV[m] || m).join(' ');
-  }
-  return String(valeur).split(',').map(m => MOIS_ABBREV[m.trim()] || m.trim()).join(' ');
+
+function formatAnnee(v){
+  if (!v) return '';
+  return String(v).substring(0,4);
 }
 
-function formatVal(valeur) {
-  if (!valeur) return '';
-  if (Array.isArray(valeur)) return valeur.join(', ');
-  return String(valeur);
+
+function abrevMois(v){
+  if (!v) return '';
+  return String(v)
+    .split(',')
+    .map(x => MOIS_ABBREV[x.trim()] || x.trim())
+    .join(' ');
 }
 
-/* =============================================
-   EN-TÊTE DU TABLEAU
-   ============================================= */
-function makeHeader() {
-  return `<thead><tr>
-    <th class="col-type">Type</th>
-    <th class="col-nom">Nom-Variété</th>
-    <th class="col-epingle">Ép.</th>
-    <th class="col-nbep">Nb</th>
-    <th class="col-origine">Orig.</th>
-    <th class="col-sachet">Sac.</th>
-    <th class="col-annee">Millésime</th>
-    <th class="col-saisons">Sais.</th>
-    <th class="col-qtte">Qté</th>
-    <th class="col-germ">Germ.</th>
-    <th class="col-profond">Nb.gr</th>
-    <th class="col-germdur">Nb.go</th>
-    <th class="col-germtemp">Année.s</th>
-    <th class="col-sa">Date.s</th>
-    <th class="col-se">Germé</th>
-    <th class="col-vide1">Oups</th>
-    <th class="col-arrosage">Planté</th>
-    <th class="col-exposition">Date.p</th>
-    <th class="col-ou">Où</th>
-    <th class="col-vide2">Donné</th>
-  </tr></thead>`;
+
+/* ===============================
+   TABLEAU
+================================ */
+
+function makeHeader(){
+
+return `
+<thead>
+<tr>
+<th>Type</th>
+<th>Nom</th>
+<th>Ép.</th>
+<th>Nb</th>
+<th>Orig.</th>
+<th>Sac.</th>
+<th>Année</th>
+<th>Sais.</th>
+<th>Qté</th>
+<th>Germ.</th>
+<th>Nb.gr</th>
+<th>Nb.go</th>
+<th>Année.s</th>
+<th>Date.s</th>
+<th>Germé</th>
+<th>Oups</th>
+<th>Planté</th>
+<th>Date.p</th>
+<th>Où</th>
+<th>Donné</th>
+</tr>
+</thead>
+`;
 }
 
-/* =============================================
-   CONSTRUCTION D'UNE LIGNE
-   graine = objet avec sachets[] et infos Varietes
-   ============================================= */
-function makeRow(graine) {
-  const sachets = graine.sachets;
-  const nb = sachets.length;
 
-  function multiCell(cls, values) {
-    if (nb <= 1) {
-      return `<td class="${cls}">${values[0] || ''}</td>`;
-    }
-    const lines = values.map(v =>
-      `<span class="sachet-line">${v || ''}</span>`
-    ).join('');
-    return `<td class="${cls} multi">${lines}</td>`;
-  }
 
-  return `<tr class="graine-row">
-    <td class="col-type">${graine.type || ''}</td>
-    <td class="col-nom nom-cell">
-      <span class="nom">${graine.nom || ''}</span>
-      ${graine.variete ? `<span class="variete">${graine.variete}</span>` : ''}
-    </td>
-    <td class="col-epingle">${graine.num_epingle || ''}</td>
-    <td class="col-nbep">${graine.nb_epingle || ''}</td>
+function makeRow(graine){
 
-    <!-- Colonnes par sachet (depuis Millesimes) -->
-    ${multiCell('col-origine', sachets.map(s => formatVal(s.origine)))}
-    ${multiCell('col-sachet', sachets.map(s => s.sachet))}
-    ${multiCell('col-annee', sachets.map(s => formatAnnee(s.annee)))}
-    ${multiCell('col-saisons', sachets.map(s => s.saisons))}
-    ${multiCell('col-qtte', sachets.map(s => s.qtte))}
-    ${multiCell('col-germ', sachets.map(s => s.germination))}
+let sachets = graine.sachets;
 
-    <!-- Colonnes info-bas (depuis Varietes via fetchTable) + colonnes vides à remplir à la main -->
-    <td class="col-profond info-bas">${graine.profondeur || ''}</td>
-    <td class="col-germdur info-bas">${graine.germ_duree || ''}</td>
-    <td class="col-germtemp info-bas">${graine.germ_temp || ''}</td>
-    <td class="col-sa info-bas">${abrevMois(graine.semis_abri)}</td>
-    <td class="col-se info-bas">${abrevMois(graine.semis_ext)}</td>
-    <td class="col-vide1"></td>
-    <td class="col-arrosage info-bas">${graine.arrosage || ''}</td>
-    <td class="col-exposition info-bas">${graine.exposition || ''}</td>
-    <td class="col-ou info-bas">${formatVal(graine.ou)}</td>
-    <td class="col-vide2"></td>
-  </tr>`;
+return `
+<tr>
+
+<td>${graine.type}</td>
+
+<td>
+<b>${graine.nom}</b><br>
+${graine.variete || ''}
+</td>
+
+<td>${graine.num_epingle}</td>
+<td>${graine.nb_epingle}</td>
+
+<td>${sachets.map(x=>x.origine).join('<br>')}</td>
+
+<td>${sachets.map(x=>x.sachet).join('<br>')}</td>
+
+<td>${sachets.map(x=>formatAnnee(x.annee)).join('<br>')}</td>
+
+<td>${sachets.map(x=>x.saisons).join('<br>')}</td>
+
+<td>${sachets.map(x=>x.qtte).join('<br>')}</td>
+
+<td>${sachets.map(x=>x.germination).join('<br>')}</td>
+
+
+<td>${graine.profondeur}</td>
+<td>${graine.germ_duree}</td>
+<td>${graine.germ_temp}</td>
+
+<td>${abrevMois(graine.semis_abri)}</td>
+
+<td>${abrevMois(graine.semis_ext)}</td>
+
+<td></td>
+
+<td>${graine.arrosage}</td>
+
+<td>${graine.exposition}</td>
+
+<td>${formatVal(graine.ou)}</td>
+
+<td></td>
+
+</tr>
+`;
+
 }
 
-/* =============================================
-   RENDU DES PAGES
-   Groupement par Type, tri Nom + Variété
-   ============================================= */
-function render(graines) {
-  document.getElementById('info-count').textContent = graines.length + ' variétés';
-  const pagesEl = document.getElementById('pages');
-  pagesEl.innerHTML = '';
 
-  graines.sort((a, b) => {
-    const typeComp = (a.type || '').localeCompare(b.type || '', 'fr');
-    if (typeComp !== 0) return typeComp;
-    const nomComp = (a.nom || '').localeCompare(b.nom || '', 'fr');
-    if (nomComp !== 0) return nomComp;
-    return (a.variete || '').localeCompare(b.variete || '', 'fr');
-  });
+/* ===============================
+   CONSTRUCTION DONNEES
+================================ */
 
-  const parType = [];
-  let typeActuel = null;
-  let groupe = [];
-  graines.forEach(g => {
-    if (g.type !== typeActuel) {
-      if (groupe.length > 0) parType.push(groupe);
-      typeActuel = g.type;
-      groupe = [g];
-    } else {
-      groupe.push(g);
-    }
-  });
-  if (groupe.length > 0) parType.push(groupe);
+function buildGrainesMap(records){
 
-  parType.forEach(groupeType => {
-    const nbPages = Math.ceil(groupeType.length / GRAINES_PAR_PAGE);
-    for (let p = 0; p < nbPages; p++) {
-      const pageGraines = groupeType.slice(p * GRAINES_PAR_PAGE, (p + 1) * GRAINES_PAR_PAGE);
-      const page = document.createElement('div');
-      const isLastOfGroup = (p === nbPages - 1);
-      page.className = isLastOfGroup ? 'page page-last-of-group' : 'page';
-      page.innerHTML = `<table>
-        ${makeHeader()}
-        <tbody>${pageGraines.map(makeRow).join('')}</tbody>
-      </table>`;
-      pagesEl.appendChild(page);
-    }
-  });
-}
+console.log("Construction map avec",records.length,"lignes");
 
-/* =============================================
-   STOCKAGE DE VARIETES (chargé via fetchTable)
-   Clé = id Grist de la ligne Varietes
-   ============================================= */
-let varietesById = {};
-let derniersRecords = null;
 
-/* =============================================
-   CONSTRUCTION DE LA MAP DES GRAINES
-   Reçoit les enregistrements de Millesimes
-   Croise avec varietesById via r.NomVariete (id)
-   Groupement par variété — agrège les sachets
-   ============================================= */
-function buildGrainesMap(records) {
-  const map = new Map();
+const map = new Map();
 
-  records
-    .filter(r => r.Sachets)
-    .forEach(r => {
-      // r.NomVariete = id numérique de la ligne Varietes
-      const v = varietesById[r.NomVariete] || {};
-      const key = r.NomVariete || ('_' + r.id);
 
-      if (!map.has(key)) {
-        map.set(key, {
-          // Depuis Varietes (fetchTable)
-          type:        v.Type || '',
-          nom:         v.Nom || '',
-          variete:     v.Variete || '',
-          num_epingle: v.Num_epingle || '',
-          nb_epingle:  v.Nb_epingle || '',
-          profondeur:  v.Semis_profondeur || '',
-          germ_duree:  v.Duree_germ || '',
-          germ_temp:   v.Temp_germ || '',
-          semis_abri:  v.Semis_sous_abris || '',
-          semis_ext:   v.Semis_pleine_terre || '',
-          arrosage:    v.Arrosage || '',
-          exposition:  v.Exposition || '',
-          ou:          v.Ou_cultiver || '',
-          sachets: []
-        });
-      }
+records.forEach(r=>{
 
-      // Depuis Millesimes ()
-      map.get(key).sachets.push({
-        origine:     r.Origine || '',
-        sachet:      r.Sachets || '',
-        annee:       r.Millesime || '',
-        saisons:     r.Nb_saisons || '',
-        qtte:        r.Qtte_graines || '',
-        germination: r.Germination_affichee != null
-          ? Math.round(r.Germination_affichee * 100) + '%'
-          : '',
-      });
-    });
 
-  return map;
-}
+if(!r.Sachets) return;
 
-/* =============================================
-   INITIALISATION GRIST
-   Étape 1 : fetchTable('Varietes') — infos stables
-   Étape 2 : onRecords — reçoit Millesimes
-   Le rendu n'a lieu que quand les deux sont prêts
-   ============================================= */
-grist.ready({ requiredAccess: 'full' });
 
-grist.onRecords(function(records) {
-  derniersRecords = records;
-  console.log('onRecords reçu:', records.length, '| varietesById:', Object.keys(varietesById).length);
-  if (Object.keys(varietesById).length > 0) {
-    const map = buildGrainesMap(records);
-    render(Array.from(map.values()));
-  }
+const v = varietesById[r.NomVariete] || {};
+
+
+const key = r.NomVariete || r.id;
+
+
+if(!map.has(key)){
+
+
+map.set(key,{
+
+type:v.Type || '',
+
+nom:v.Nom || '',
+
+variete:v.Variete || '',
+
+num_epingle:v.Num_epingle || '',
+
+nb_epingle:v.Nb_epingle || '',
+
+profondeur:v.Semis_profondeur || '',
+
+germ_duree:v.Duree_germ || '',
+
+germ_temp:v.Temp_germ || '',
+
+semis_abri:v.Semis_sous_abris || '',
+
+semis_ext:v.Semis_pleine_terre || '',
+
+arrosage:v.Arrosage || '',
+
+exposition:v.Exposition || '',
+
+ou:v.Ou_cultiver || '',
+
+sachets:[]
+
 });
 
-// fetchTable APRÈS onRecords
-grist.docApi.fetchTable('Varietes').then(data => {
-  varietesById = {};
-  const ids = data.id || [];
-  ids.forEach((id, i) => {
-    varietesById[id] = {
-      Type:               data.Type        ? data.Type[i]        : '',
-      Nom:                data.Nom         ? data.Nom[i]         : '',
-      Variete:            data.Variete     ? data.Variete[i]     : '',
-      Num_epingle:        data.Num_epingle ? data.Num_epingle[i] : '',
-      Nb_epingle:         data.Nb_epingle  ? data.Nb_epingle[i]  : '',
-      Semis_profondeur:   data.Semis_profondeur  ? data.Semis_profondeur[i]  : '',
-      Duree_germ:         data.Duree_germ        ? data.Duree_germ[i]        : '',
-      Temp_germ:          data.Temp_germ         ? data.Temp_germ[i]         : '',
-      Semis_sous_abris:   data.Semis_sous_abris  ? data.Semis_sous_abris[i]  : '',
-      Semis_pleine_terre: data.Semis_pleine_terre ? data.Semis_pleine_terre[i] : '',
-      Arrosage:           data.Arrosage    ? data.Arrosage[i]    : '',
-      Exposition:         data.Exposition  ? data.Exposition[i]  : '',
-      Ou_cultiver:        data.Ou_cultiver ? data.Ou_cultiver[i] : '',
-    };
-  });
-  console.log('Varietes chargées :', Object.keys(varietesById).length);
-  if (derniersRecords) {
-    const map = buildGrainesMap(derniersRecords);
-    render(Array.from(map.values()));
-  }
-}).catch(e => console.error('Erreur:', e));
+}
 
- console.log('onRecords reçu, varietesById size:', Object.keys(varietesById).length);
+
+
+map.get(key).sachets.push({
+
+origine:r.Origine || '',
+
+sachet:r.Sachets || '',
+
+annee:r.Millesime || '',
+
+saisons:r.Nb_saisons || '',
+
+qtte:r.Qtte_graines || '',
+
+germination:
+r.Germination_affichee != null
+? Math.round(r.Germination_affichee*100)+'%'
+: ''
+
+});
+
+
+});
+
+
+return map;
+
+}
+
+
+
+/* ===============================
+   AFFICHAGE
+================================ */
+
+function render(graines){
+
+console.log("RENDER",graines.length);
+
+
+document.getElementById('info-count').textContent =
+graines.length+" variétés";
+
+
+document.getElementById('pages').innerHTML = `
+
+<div class="page">
+
+<table>
+
+${makeHeader()}
+
+<tbody>
+
+${graines.map(makeRow).join('')}
+
+</tbody>
+
+</table>
+
+</div>
+
+`;
+
+}
+
+
+
+/* ===============================
+   GRIST
+================================ */
+
+
+console.log("SCRIPT DEMARRE");
+
+
+grist.ready({
+requiredAccess:'full'
+});
+
+
+
+/*
+ CHARGE VARIETES
+*/
+
+console.log("AVANT FETCH");
+
+
+grist.docApi.fetchTable('Varietes')
+
+.then(data=>{
+
+
+console.log("FETCH OK");
+console.log("Colonnes reçues :",Object.keys(data));
+
+
+const ids = data.id ?? data.Id ?? [];
+
+
+console.log("Nombre IDs :",ids.length);
+
+
+
+ids.forEach((id,i)=>{
+
+
+varietesById[id]={
+
+
+Type:data.Type?.[i] || '',
+
+Nom:data.Nom?.[i] || '',
+
+Variete:data.Variete?.[i] || '',
+
+Num_epingle:data.Num_epingle?.[i] || '',
+
+Nb_epingle:data.Nb_epingle?.[i] || '',
+
+Semis_profondeur:data.Semis_profondeur?.[i] || '',
+
+Duree_germ:data.Duree_germ?.[i] || '',
+
+Temp_germ:data.Temp_germ?.[i] || '',
+
+Semis_sous_abris:data.Semis_sous_abris?.[i] || '',
+
+Semis_pleine_terre:data.Semis_pleine_terre?.[i] || '',
+
+Arrosage:data.Arrosage?.[i] || '',
+
+Exposition:data.Exposition?.[i] || '',
+
+Ou_cultiver:data.Ou_cultiver?.[i] || ''
+
+};
+
+
+});
+
+
+
+console.log(
+"Varietes chargées :",
+Object.keys(varietesById).length
+);
+
+
+
+if(derniersRecords){
+
+render(
+[...buildGrainesMap(derniersRecords).values()]
+);
+
+}
+
+
+})
+
+.catch(err=>{
+
+console.error(
+"ERREUR FETCH VARIETES",
+err
+);
+
+});
+
+
+
+
+/*
+ RECEPTION MILLESIMES
+*/
+
+grist.onRecords(records=>{
+
+
+console.log(
+"MILLESIMES RECUS",
+records.length
+);
+
+
+console.log(
+"PREMIERE LIGNE",
+records[0]
+);
+
+
+derniersRecords = records;
+
+
+
+if(Object.keys(varietesById).length){
+
+
+render(
+[...buildGrainesMap(records).values()]
+);
+
+
+}
+
+
+});
+
+
+</script>
 </script>
 </body>
 </html>
