@@ -378,7 +378,16 @@ function buildGrainesMap(records) {
    ============================================= */
 grist.ready({ requiredAccess: 'full' });
 
-// Étape 1 : charger Varietes
+grist.onRecords(function(records) {
+  derniersRecords = records;
+  console.log('onRecords reçu:', records.length, '| varietesById:', Object.keys(varietesById).length);
+  if (Object.keys(varietesById).length > 0) {
+    const map = buildGrainesMap(records);
+    render(Array.from(map.values()));
+  }
+});
+
+// fetchTable APRÈS onRecords
 grist.docApi.fetchTable('Varietes').then(data => {
   varietesById = {};
   const ids = data.id || [];
@@ -400,14 +409,11 @@ grist.docApi.fetchTable('Varietes').then(data => {
     };
   });
   console.log('Varietes chargées :', Object.keys(varietesById).length);
-  console.log('derniersRecords au moment du fetch:', derniersRecords ? derniersRecords.length : 'null');
-   
-  // Si Millesimes déjà reçus, on peut rendre
   if (derniersRecords) {
     const map = buildGrainesMap(derniersRecords);
     render(Array.from(map.values()));
   }
-}).catch(e => console.error('Erreur chargement Varietes :', e));
+}).catch(e => console.error('Erreur:', e));
 
 // Étape 2 : réception de Millesimes
 grist.onRecords(function(records) {
