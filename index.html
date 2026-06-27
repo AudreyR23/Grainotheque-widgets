@@ -457,17 +457,12 @@ console.log("FETCH OK");
 console.log("Colonnes reçues :",Object.keys(data));
 
 
-const ids = data.id ?? data.Id ?? [];
+const ids = data.id || [];
+ids.forEach((id, i) => {
 
+  const cle = data.NomVariete ? data.NomVariete[i] : "";
 
-console.log("Nombre IDs :",ids.length);
-
-
-
-ids.forEach((id,i)=>{
-
-
-varietesById[id]={
+  varietesById[cle] = {
 
 
 Type:data.Type?.[i] || '',
