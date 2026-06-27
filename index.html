@@ -159,13 +159,25 @@ function fmtAnnee(v) {
 
 function fmtMois(v) {
   if (!v) return '';
-  const src = Array.isArray(v) ? v : String(v).split(',').map(x => x.trim());
+
+  let src = Array.isArray(v) ? [...v] : String(v).split(',').map(x => x.trim());
+
+  // Les Choice List Grist sont renvoyées sous la forme ["L", ...]
+  if (Array.isArray(src) && src[0] === 'L') {
+    src = src.slice(1);
+  }
+
   return src.map(m => MOIS[m] || m).join(' ');
 }
 
 function fmtVal(v) {
   if (!v) return '';
-  if (Array.isArray(v)) return v.join(', ');
+
+  if (Array.isArray(v)) {
+    const vals = v[0] === 'L' ? v.slice(1) : v;
+    return vals.join(', ');
+  }
+
   return String(v);
 }
 
