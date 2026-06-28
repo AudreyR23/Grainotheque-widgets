@@ -408,27 +408,27 @@ records
 
     if(!v) return;
 
-  plantes[nom]?.varietes.push({
-    nom:v.NomVariete,
-    abri:v.Semis_sous_abris,
-    terre:v.Semis_pleine_terre
-});
-
-
     const nom = v.Nom;
 
 
-    if(!plantes[nom]){
+ if(!plantes[nom]){
 
     plantes[nom]={
         nom:nom,
         type:v.Type || '',
         abri:new Set(),
-        terre:new Set()
+        terre:new Set(),
         varietes:[]
     };
 
 }
+
+
+plantes[nom].varietes.push({
+    nom:v.NomVariete,
+    abri:v.Semis_sous_abris,
+    terre:v.Semis_pleine_terre
+});
 
 
     let abri = v.Semis_sous_abris || [];
