@@ -328,22 +328,35 @@ let terre=[];
 
 liste.forEach(p=>{
 
-    p.varietes.forEach(v=>{
+    let planteAffichee =
+        iconeType(p.type) + " " + p.nom;
 
-        if(v.abri.some(x=>mois.abrevs.includes(x))){
-            abri.push(
-                iconeType(p.type) + " " + p.nom
-            );
+
+    if(
+        p.varietes.some(v =>
+            v.abri.some(x=>mois.abrevs.includes(x))
+        )
+    ){
+
+        if(!abri.includes(planteAffichee)){
+            abri.push(planteAffichee);
         }
 
+    }
 
-        if(v.terre.some(x=>mois.abrevs.includes(x))){
-            terre.push(
-                iconeType(p.type) + " " + p.nom
-            );
+
+    if(
+        p.varietes.some(v =>
+            v.terre.some(x=>mois.abrevs.includes(x))
+        )
+    ){
+
+        if(!terre.includes(planteAffichee)){
+            terre.push(planteAffichee);
         }
 
-    });
+    }
+
 
 });
 
