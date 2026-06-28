@@ -429,12 +429,12 @@ const idPopup = encodeURIComponent(
     JSON.stringify(p.varietes)
 );
 
-
 if(differenceType(p.varietes,"abri")){
 
     planteAbri =
     `<span class="ligne-alerte"
-onclick="voirDetails(decodeURIComponent('${idPopup}'), '${mois.label}', 'abri')"    ${planteAffichee} *
+    onclick="voirDetails(decodeURIComponent('${idPopup}'), '${mois.label}', 'abri')">
+    ${planteAffichee} *
     </span>`;
 
 }
@@ -444,7 +444,8 @@ if(differenceType(p.varietes,"terre")){
 
     planteTerre =
     `<span class="ligne-alerte"
-onclick="voirDetails(decodeURIComponent('${idPopup}'), '${mois.label}', 'terre')"    ${planteAffichee} *
+    onclick="voirDetails(decodeURIComponent('${idPopup}'), '${mois.label}', 'terre')">
+    ${planteAffichee} *
     </span>`;
 
 }
