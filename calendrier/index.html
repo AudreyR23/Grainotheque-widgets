@@ -318,45 +318,60 @@ function voirDetails(varietes, mois){
         MOIS_DEF.find(m => m.label === mois);
 
 
-    const abreviation =
-        moisObj.abrevs[0];
-
-
-let html = `
-<span class="popup-close" onclick="fermerPopup()">✕</span>
-<h2>⚠ Différences — ${mois}</h2>
-`;
-
-
-varietes.forEach(v=>{
-
-
-    const abri =
-        v.abri.length
-        ? v.abri.join(", ")
-        : "-";
-
-
-    const terre =
-        v.terre.length
-        ? v.terre.join(", ")
-        : "-";
-
-
-    html += `
-    <div class="popup-ligne">
-    🌱 <b>${v.nom}</b><br>
-    🏠 ${abri}<br>
-    🌿 ${terre}
-    </div>
+    let html = `
+    <span class="popup-close" onclick="fermerPopup()">✕</span>
+    <h2>⚠ Différences — ${mois}</h2>
     `;
 
 
-});
+    let absentes = [];
 
 
-popup.innerHTML = html;
-popup.style.display="block";
+    varietes.forEach(v=>{
+
+
+        const present =
+            v.abri.some(x => moisObj.abrevs.includes(x)) ||
+            v.terre.some(x => moisObj.abrevs.includes(x));
+
+
+        if(!present){
+
+            absentes.push(v.nom);
+
+        }
+
+
+    });
+
+
+
+    if(absentes.length){
+
+
+        html += `
+        <div class="popup-ligne">
+        🌱 <b>Variétés sans semis en ${mois}</b><br><br>
+        ${[...new Set(absentes)].join("<br>")}
+        </div>
+        `;
+
+
+    }
+    else {
+
+
+        html += `
+        <div class="popup-ligne">
+        Toutes les variétés ont un semis en ${mois}.
+        </div>
+        `;
+
+    }
+
+
+    popup.innerHTML = html;
+    popup.style.display="block";
 
 }
   
