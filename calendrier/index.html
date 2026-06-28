@@ -322,40 +322,249 @@ grist.ready({
 });
 
 
-
-async function charger(){
-
-
- const [varietes,millesimes] =
- await Promise.all([
-
-    grist.fetchTable("Varietes"),
-
-    grist.fetchTable("Millesimes")
-
- ]);
+let varietesParId = {};
+let millesimesRecus = null;
 
 
 
- /*
-   Transformation des références Grist
-
-   NomVariete dans Millesimes est une référence
-   vers Varietes.id
- */
+function chargerVarietes(){
 
 
- render(
-    varietes,
-    millesimes
- );
+grist.docApi.fetchTable('Varietes')
+.then(data=>{
+
+
+    const ids = data.id || [];
+
+
+    ids.forEach((id,i)=>{
+
+
+        varietesParId[id] = {
+
+            Nom:
+              data.Nom
+              ? data.Nom[i]
+              : '',
+
+            Semis_sous_abris:
+              data.Semis_sous_abris
+              ? data.Semis_sous_abris[i]
+              : [],
+
+
+            Semis_pleine_terre:
+              data.Semis_pleine_terre
+              ? data.Semis_pleine_terre[i]
+              : []
+
+        };
+
+
+    });
+
+
+
+    if(millesimesRecus){
+        renderCalendrier(millesimesRecus);
+    }
+
+
+})
+.catch(err=>console.error(err));
 
 
 }
 
 
 
-charger();
+
+function renderCalendrier(records){
+
+
+const plantes={};
+
+
+
+records
+.filter(r=>r.Sachets)
+.forEach(r=>{
+
+
+    const v =
+      varietesParId[r.NomVariete];
+
+
+    if(!v) return;
+
+
+
+    const nom = v.Nom;
+
+
+    if(!plantes[nom]){
+
+        plantes[nom]={
+            nom:nom,
+            abri:new Set(),
+            terre:new Set()
+        };
+
+    }
+
+
+
+    let abri = v.Semis_sous_abris || [];
+
+    let terre = v.Semis_pleine_terre || [];
+
+
+
+    // ChoiceList Grist : enlève le "L"
+    if(abri[0]==="L") abri=abri.slice(1);
+    if(terre[0]==="L") terre=terre.slice(1);
+
+
+
+    abri.forEach(x=>
+       plantes[nom].abri.add(x)
+    );
+
+
+    terre.forEach(x=>
+       plantes[nom].terre.add(x)
+    );
+
+
+});
+
+
+
+const liste = Object.values(plantes);
+
+
+
+const cal=document.getElementById('calendrier');
+
+cal.innerHTML='';
+
+
+
+MOIS_DEF.forEach(mois=>{
+
+
+let abri=[];
+let terre=[];
+
+
+
+liste.forEach(p=>{
+
+
+ if([...p.abri].some(x=>mois.abrevs.includes(x))){
+     abri.push(p.nom);
+ }
+
+
+ if([...p.terre].some(x=>mois.abrevs.includes(x))){
+     terre.push(p.nom);
+ }
+
+
+});
+
+
+
+const card=document.createElement('div');
+
+
+card.className =
+"mois-card" +
+(mois.num===MOIS_COURANT ? " actuel":"");
+
+
+
+card.innerHTML=`
+
+
+<div class="mois-titre">
+${mois.label}
+</div>
+
+
+<div class="mois-body">
+
+
+<div class="col-abri">
+
+<div class="col-label">
+🏠 S/Abri
+</div>
+
+
+${
+abri.length
+?
+abri.map(n=>`<span class="variete-tag">${n}</span>`).join('')
+:
+'<span class="vide">—</span>'
+}
+
+
+</div>
+
+
+
+<div class="col-terre">
+
+<div class="col-label">
+🌿 P.Terre
+</div>
+
+
+${
+terre.length
+?
+terre.map(n=>`<span class="variete-tag">${n}</span>`).join('')
+:
+'<span class="vide">—</span>'
+}
+
+
+</div>
+
+
+</div>
+
+`;
+
+
+cal.appendChild(card);
+
+
+});
+
+
+}
+
+
+
+
+grist.onRecords(function(records){
+
+    millesimesRecus = records;
+
+
+    if(Object.keys(varietesParId).length){
+        renderCalendrier(records);
+    }
+
+
+});
+
+
+
+chargerVarietes();
 
 
 
