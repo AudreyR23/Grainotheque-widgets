@@ -448,33 +448,31 @@ onclick="voirDetails(decodeURIComponent('${idPopup}'), '${mois.label}', 'terre')
     </span>`;
 
 }
+if(
+    p.varietes.some(v =>
+        v.abri.some(x=>mois.abrevs.includes(x))
+    )
+){
 
-    if(
-        p.varietes.some(v =>
-            v.abri.some(x=>mois.abrevs.includes(x))
-        )
-    ){
-
-        if(!abri.includes(planteAbri)){
-  abri.push(planteAbri);
-}
-
-
-    if(
-        p.varietes.some(v =>
-            v.terre.some(x=>mois.abrevs.includes(x))
-        )
-    ){
-
-        if(!terre.includes(planteTerre)){
-   terre.push(planteTerre);
-}
-
+    if(!abri.includes(planteAbri)){
+        abri.push(planteAbri);
     }
 
+}
 
+
+if(
+    p.varietes.some(v =>
+        v.terre.some(x=>mois.abrevs.includes(x))
+    )
+){
+
+    if(!terre.includes(planteTerre)){
+        terre.push(planteTerre);
+    }
+
+}
 });
-
 
 
 const card=document.createElement('div');
