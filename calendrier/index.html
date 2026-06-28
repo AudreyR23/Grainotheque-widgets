@@ -334,21 +334,7 @@ function fermerPopup(){
     .style.display = "none";
 
 }
-function differenceType(varietes, type){
 
-    const signatures = varietes.map(v => {
-
-        return JSON.stringify(
-            type === "abri"
-            ? v.abri
-            : v.terre
-        );
-
-    });
-
-    return new Set(signatures).size > 1;
-
-}
 function renderCalendrier(records){
 
 
