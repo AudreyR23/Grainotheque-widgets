@@ -475,23 +475,48 @@ let terre=[];
 
 liste.forEach(p=>{
 
-let planteAffichee =
+let nomBase =
     iconeType(p.type)
     + " "
     + p.nom;
 
 
-if(calendrierDifferent(p.varietes)){
+let planteAbri = nomBase;
+let planteTerre = nomBase;
+
+
+
+if(differenceType(p.varietes,"abri")){
+
 
     const idPopup = encodeURIComponent(
         JSON.stringify(p.varietes)
     );
 
-   planteAffichee =
-`<span class="ligne-alerte"
-onclick="voirDetails(decodeURIComponent('${idPopup}'), '${mois.label}')">
-${planteAffichee} *
-</span>`;
+
+    planteAbri =
+    `<span class="ligne-alerte"
+    onclick="voirDetails(decodeURIComponent('${idPopup}'), '${mois.label}')">
+    ${nomBase} *
+    </span>`;
+
+}
+
+
+
+if(differenceType(p.varietes,"terre")){
+
+
+    const idPopup = encodeURIComponent(
+        JSON.stringify(p.varietes)
+    );
+
+
+    planteTerre =
+    `<span class="ligne-alerte"
+    onclick="voirDetails(decodeURIComponent('${idPopup}'), '${mois.label}')">
+    ${nomBase} *
+    </span>`;
 
 }
 
@@ -503,8 +528,7 @@ ${planteAffichee} *
     ){
 
         if(!abri.includes(planteAffichee)){
-            abri.push(planteAffichee);
-        }
+          abri.push(planteAbri);        }
 
     }
 
@@ -516,7 +540,7 @@ ${planteAffichee} *
     ){
 
         if(!terre.includes(planteAffichee)){
-            terre.push(planteAffichee);
+           terre.push(planteTerre);
         }
 
     }
