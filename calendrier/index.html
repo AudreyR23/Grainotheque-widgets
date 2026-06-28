@@ -279,7 +279,7 @@ function differenceType(varietes, type){
     return new Set(signatures).size > 1;
 
 }
-function voirDetails(varietes, mois){
+function voirDetails(varietes, mois, type){
     if(typeof varietes === "string"){
         varietes = JSON.parse(varietes);
     }
@@ -434,8 +434,7 @@ if(differenceType(p.varietes,"abri")){
 
     planteAbri =
     `<span class="ligne-alerte"
-    onclick="voirDetails(decodeURIComponent('${idPopup}'), '${mois.label}')">
-    ${planteAffichee} *
+onclick="voirDetails(decodeURIComponent('${idPopup}'), '${mois.label}', 'abri')"    ${planteAffichee} *
     </span>`;
 
 }
@@ -445,8 +444,7 @@ if(differenceType(p.varietes,"terre")){
 
     planteTerre =
     `<span class="ligne-alerte"
-    onclick="voirDetails(decodeURIComponent('${idPopup}'), '${mois.label}')">
-    ${planteAffichee} *
+onclick="voirDetails(decodeURIComponent('${idPopup}'), '${mois.label}', 'terre')"    ${planteAffichee} *
     </span>`;
 
 }
@@ -457,10 +455,9 @@ if(differenceType(p.varietes,"terre")){
         )
     ){
 
-        if(!abri.includes(planteAffichee)){
-          abri.push(planteAbri);        }
-
-    }
+        if(!abri.includes(planteAbri)){
+  abri.push(planteAbri);
+}
 
 
     if(
@@ -469,9 +466,9 @@ if(differenceType(p.varietes,"terre")){
         )
     ){
 
-        if(!terre.includes(planteAffichee)){
-           terre.push(planteTerre);
-        }
+        if(!terre.includes(planteTerre)){
+   terre.push(planteTerre);
+}
 
     }
 
