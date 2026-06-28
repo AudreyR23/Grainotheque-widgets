@@ -394,7 +394,21 @@ function fermerPopup(){
     .style.display = "none";
 
 }
+function differenceType(varietes, type){
 
+    const signatures = varietes.map(v => {
+
+        return JSON.stringify(
+            type === "abri"
+            ? v.abri
+            : v.terre
+        );
+
+    });
+
+    return new Set(signatures).size > 1;
+
+}
 function renderCalendrier(records){
 
 
@@ -475,29 +489,38 @@ let terre=[];
 
 liste.forEach(p=>{
 
-let nomBase =
+let planteAffichee =
     iconeType(p.type)
     + " "
     + p.nom;
 
 
-let planteAbri = nomBase;
-let planteTerre = nomBase;
+let planteAbri = planteAffichee;
+let planteTerre = planteAffichee;
 
+
+const idPopup = encodeURIComponent(
+    JSON.stringify(p.varietes)
+);
 
 
 if(differenceType(p.varietes,"abri")){
 
-
-    const idPopup = encodeURIComponent(
-        JSON.stringify(p.varietes)
-    );
-
-
     planteAbri =
     `<span class="ligne-alerte"
     onclick="voirDetails(decodeURIComponent('${idPopup}'), '${mois.label}')">
-    ${nomBase} *
+    ${planteAffichee} *
+    </span>`;
+
+}
+
+
+if(differenceType(p.varietes,"terre")){
+
+    planteTerre =
+    `<span class="ligne-alerte"
+    onclick="voirDetails(decodeURIComponent('${idPopup}'), '${mois.label}')">
+    ${planteAffichee} *
     </span>`;
 
 }
