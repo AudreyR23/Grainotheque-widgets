@@ -102,6 +102,45 @@ h1 {
     font-weight:bold;
     cursor:pointer;
 }  
+
+/* Pop-in détails */
+.popup {
+  display:none;
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  background:white;
+  border:2px solid #2d6a4f;
+  border-radius:10px;
+  padding:12px;
+  width:260px;
+  max-height:300px;
+  overflow:auto;
+  box-shadow:0 5px 20px #0004;
+  z-index:100;
+  font-size:11px;
+}
+
+.popup h2 {
+  font-size:13px;
+  color:#2d6a4f;
+  margin-bottom:8px;
+}
+
+.popup-close {
+  float:right;
+  cursor:pointer;
+  color:#e94560;
+  font-weight:bold;
+}
+
+.popup-ligne {
+  margin-bottom:8px;
+  border-bottom:1px solid #eee;
+  padding-bottom:5px;
+}  
+
   
 </style>
 </head>
@@ -109,6 +148,9 @@ h1 {
 
 <h1>🌱 Calendrier des semis</h1>
 <div class="calendrier" id="calendrier"></div>
+
+<div class="popup" id="popup">
+</div>
 
 <script>
 
@@ -256,29 +298,55 @@ function calendrierDifferent(varietes){
 
 function voirDetails(varietes){
 
-    let texte = "Différences entre variétés :\n\n";
+    const popup = document.getElementById('popup');
+
+    let html = `
+    <span class="popup-close" onclick="fermerPopup()">✕</span>
+    <h2>⚠ Différences de semis</h2>
+    `;
 
 
     varietes.forEach(v=>{
 
-        texte += "• " + v.nom + "\n";
+        html += `
+        <div class="popup-ligne">
+        <b>${v.nom}</b><br>
+        `;
+
 
         if(v.abri.length){
-            texte += "  🏠 Sous abri : " + v.abri.join(", ") + "\n";
+            html += 
+            "🏠 Sous abri : " 
+            + v.abri.join(", ")
+            + "<br>";
         }
+
 
         if(v.terre.length){
-            texte += "  🌿 Pleine terre : " + v.terre.join(", ") + "\n";
+            html +=
+            "🌿 Pleine terre : "
+            + v.terre.join(", ")
+            + "<br>";
         }
 
-        texte += "\n";
+
+        html += "</div>";
 
     });
 
 
-    alert(texte);
+    popup.innerHTML = html;
+    popup.style.display = "block";
 
-}  
+}
+
+
+function fermerPopup(){
+
+    document.getElementById('popup')
+    .style.display = "none";
+
+}
 
 function renderCalendrier(records){
 
