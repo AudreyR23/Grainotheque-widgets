@@ -390,7 +390,9 @@ records
 
 
     const v =
-      varietesParId[r.NomVariete];
+      varietesParId[r.NomVariete] ||
+      Object.values(varietesParId)
+      .find(x => x.NomVariete === r.NomVariete);
 
 
     if(!v) return;
