@@ -196,8 +196,8 @@ millesimes.forEach(m => {
     if(!plantes[nom]){
         plantes[nom] = {
             nom: nom,
-            abri: new Set(),
-            terre: new Set()
+            type: v.Type || '',
+        varietes: []
         };
     }
 
@@ -414,21 +414,15 @@ records
  if(!plantes[nom]){
 
     plantes[nom]={
-        nom:nom,
-        type:v.Type || '',
-        abri:new Set(),
-        terre:new Set(),
-        varietes:[]
+        nom: nom,
+        type: v.Type || '',
+        varietes: []
     };
 
 }
 
 
-plantes[nom].varietes.push({
-    nom:v.NomVariete,
-    abri:v.Semis_sous_abris,
-    terre:v.Semis_pleine_terre
-});
+
 
 
     let abri = v.Semis_sous_abris || [];
@@ -446,21 +440,11 @@ if(Array.isArray(terre) && terre[0]==="L"){
     terre = terre.slice(1);
 }
 
-
-
-    abri.forEach(x=>
-       plantes[nom].abri.add(x)
-    );
-
-
-    terre.forEach(x=>
-       plantes[nom].terre.add(x)
-    );
-
-
+plantes[nom].varietes.push({
+    nom:v.NomVariete,
+    abri: abris,
+    terre: terre
 });
-
-
 
 const liste = Object.values(plantes);
 
