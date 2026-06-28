@@ -290,40 +290,47 @@ function voirDetails(varietes, mois, type){
     <span class="popup-close" onclick="fermerPopup()">✕</span>
     <h2>⚠ Différences — ${mois}</h2>
     `;
-    let absentesAbri = [];
-    let absentesTerre = [];
-    varietes.forEach(v=>{
-        const enAbri =
-            v.abri.some(x =>
-                moisObj.abrevs.includes(x)
-            );
-        const enTerre =
-            v.terre.some(x =>
-                moisObj.abrevs.includes(x)
-            );
-        if(!enAbri){
-            absentesAbri.push(v.nom);
-        }
-        if(!enTerre){
-            absentesTerre.push(v.nom);
-        }
-    });
-    if(absentesAbri.length){
-        html += `
-        <div class="popup-ligne">
-        🏠 <b>Sous abri — pas de semis en ${mois}</b><br>
-        ${[...new Set(absentesAbri)].join("<br>")}
-        </div>
-        `;
+    let absentes = [];
+varietes.forEach(v=>{
+
+    const liste =
+        type === "abri"
+        ? v.abri
+        : v.terre;
+
+
+    const present =
+        liste.some(x =>
+            moisObj.abrevs.includes(x)
+        );
+
+
+    if(!present){
+        absentes.push(v.nom);
     }
-    if(absentesTerre.length){
-        html += `
-        <div class="popup-ligne">
-        🌿 <b>Pleine terre — pas de semis en ${mois}</b><br>
-        ${[...new Set(absentesTerre)].join("<br>")}
-        </div>
-        `;
+
+});
+
+
+if(absentes.length){
+
+    html += `
+    <div class="popup-ligne">
+
+    ${
+    type === "abri"
+    ? "🏠 <b>Sous abri — pas de semis en " + mois + "</b>"
+    : "🌿 <b>Pleine terre — pas de semis en " + mois + "</b>"
     }
+
+    <br>
+
+    ${[...new Set(absentes)].join("<br>")}
+
+    </div>
+    `;
+
+}
     popup.innerHTML = html;
     popup.style.display="block";
 }
