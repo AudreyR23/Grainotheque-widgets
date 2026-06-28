@@ -198,6 +198,7 @@ millesimes.forEach(m => {
             nom: nom,
             abri: new Set(),
             terre: new Set()
+            varietes:[]
         };
     }
 
@@ -408,6 +409,11 @@ records
 
     if(!v) return;
 
+  plantes[nom]?.varietes.push({
+    nom:v.NomVariete,
+    abri:v.Semis_sous_abris,
+    terre:v.Semis_pleine_terre
+});
 
 
     const nom = v.Nom;
