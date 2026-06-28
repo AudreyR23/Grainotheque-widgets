@@ -141,16 +141,21 @@ h1 {
   padding-bottom:5px;
 }  
 
+.legende {
+  text-align:center;
+  font-size:9px;
+  color:#777;
+  margin-bottom:10px;
+}
   
 </style>
 </head>
 <body>
 
 <h1>🌱 Calendrier des semis</h1>
+<div class="legende">* Plusieurs variétés avec des périodes de semis différentes</div>
 <div class="calendrier" id="calendrier"></div>
-
-<div class="popup" id="popup">
-</div>
+<div class="popup" id="popup"></div>
 
 <script>
 
@@ -306,40 +311,74 @@ function voirDetails(varietes){
     `;
 
 
+    let abri = {};
+    let terre = {};
+
+
     varietes.forEach(v=>{
 
-        html += `
-        <div class="popup-ligne">
-        <b>${v.nom}</b><br>
-        `;
+        v.abri.forEach(m=>{
+            if(!abri[m]) abri[m]=[];
+            abri[m].push(v.nom);
+        });
 
 
-        if(v.abri.length){
-            html += 
-            "🏠 Sous abri : " 
-            + v.abri.join(", ")
-            + "<br>";
-        }
-
-
-        if(v.terre.length){
-            html +=
-            "🌿 Pleine terre : "
-            + v.terre.join(", ")
-            + "<br>";
-        }
-
-
-        html += "</div>";
+        v.terre.forEach(m=>{
+            if(!terre[m]) terre[m]=[];
+            terre[m].push(v.nom);
+        });
 
     });
 
 
-    popup.innerHTML = html;
-    popup.style.display = "block";
+    let aDifference = false;
+
+
+    if(Object.keys(abri).length){
+
+        html += "<b>🏠 Sous abri</b><br>";
+
+        Object.entries(abri).forEach(([mois,noms])=>{
+
+            if(noms.length){
+                html += `
+                ${mois} :
+                ${noms.join(", ")}<br>
+                `;
+            }
+
+        });
+
+        aDifference=true;
+    }
+
+
+    if(Object.keys(terre).length){
+
+        html += "<br><b>🌿 Pleine terre</b><br>";
+
+        Object.entries(terre).forEach(([mois,noms])=>{
+
+            html += `
+            ${mois} :
+            ${noms.join(", ")}<br>
+            `;
+
+        });
+
+        aDifference=true;
+    }
+
+
+    if(!aDifference){
+        html += "Pas de différence.";
+    }
+
+
+    popup.innerHTML=html;
+    popup.style.display="block";
 
 }
-
 
 function fermerPopup(){
 
@@ -428,15 +467,19 @@ let terre=[];
 
 liste.forEach(p=>{
 
-    let planteAffichee =
-    iconeType(p.type) 
-    + " " 
+let planteAffichee =
+    iconeType(p.type)
+    + " "
     + p.nom;
 
 
 if(calendrierDifferent(p.varietes)){
-    planteAffichee += 
-    ` <span class="alerte" onclick='voirDetails(${JSON.stringify(p.varietes)})'>*</span>`;
+
+    planteAffichee =
+    `<span class="ligne-alerte" onclick='voirDetails(${JSON.stringify(p.varietes)})'>
+    ${planteAffichee} *
+    </span>`;
+
 }
 
 
