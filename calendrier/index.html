@@ -185,13 +185,9 @@ const MOIS_DEF = [
 const MOIS_COURANT = new Date().getMonth()+1;
 
 function iconeType(type){
-
     if(!type) return '';
-
     const emojis = type.match(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu);
-
     return emojis ? emojis[emojis.length - 1] : '';
-
 }  
 
 
@@ -200,18 +196,13 @@ function iconeType(type){
 ============================================= */
 
 function contientMois(valeur, mois){
-
   if(!valeur) return false;
-
   let liste = Array.isArray(valeur)
       ? valeur
       : String(valeur).split(',');
-
-
   return liste.some(v =>
       mois.abrevs.includes(v.trim())
   );
-
 }
 
 
@@ -220,11 +211,8 @@ function contientMois(valeur, mois){
 ============================================= */
 
 function nomAffichage(n){
-
   if(!n) return '';
-
   return n.replace('\n',' ');
-
 }
 
 /* =============================================
@@ -240,69 +228,42 @@ grist.ready({
 let varietesParId = {};
 let millesimesRecus = null;
 
-
-
 function chargerVarietes(){
-
-
 grist.docApi.fetchTable('Varietes')
 .then(data=>{
-
-
     const ids = data.id || [];
-
-
     ids.forEach((id,i)=>{
-
-
 varietesParId[id] = {
-
     Nom: data.Nom ? data.Nom[i] : '',
-
     Type: data.Type ? data.Type[i] : '',
-
     NomVariete: data.NomVariete ? data.NomVariete[i] : '',
-
     Semis_sous_abris:
         data.Semis_sous_abris
         ? data.Semis_sous_abris[i]
         : [],
-
     Semis_pleine_terre:
         data.Semis_pleine_terre
         ? data.Semis_pleine_terre[i]
         : []
-
 };
-
-
     });
-
-
-
     if(millesimesRecus){
         renderCalendrier(millesimesRecus);
     }
-
-
 })
 .catch(err=>console.error(err));
-
-
 }
 
 function calendrierDifferent(varietes){
-
     const signatures = varietes.map(v =>
         JSON.stringify({
             abri: v.abri,
             terre: v.terre
         })
     );
-
     return new Set(signatures).size > 1;
-
 }
+
 function differenceType(varietes, type){
 
     const signatures = varietes.map(v => {
@@ -319,87 +280,52 @@ function differenceType(varietes, type){
 
 }
 function voirDetails(varietes, mois){
-
     if(typeof varietes === "string"){
         varietes = JSON.parse(varietes);
     }
-
-
     const popup = document.getElementById('popup');
-
-
     const moisObj =
         MOIS_DEF.find(m => m.label === mois);
-
-
     let html = `
     <span class="popup-close" onclick="fermerPopup()">✕</span>
     <h2>⚠ Différences — ${mois}</h2>
     `;
-
-
     let absentesAbri = [];
     let absentesTerre = [];
-
-
     varietes.forEach(v=>{
-
-
         const enAbri =
             v.abri.some(x =>
                 moisObj.abrevs.includes(x)
             );
-
-
         const enTerre =
             v.terre.some(x =>
                 moisObj.abrevs.includes(x)
             );
-
-
         if(!enAbri){
             absentesAbri.push(v.nom);
         }
-
-
         if(!enTerre){
             absentesTerre.push(v.nom);
         }
-
-
     });
-
-
-
     if(absentesAbri.length){
-
         html += `
         <div class="popup-ligne">
         🏠 <b>Sous abri — pas de semis en ${mois}</b><br>
         ${[...new Set(absentesAbri)].join("<br>")}
         </div>
         `;
-
     }
-
-
-
     if(absentesTerre.length){
-
         html += `
         <div class="popup-ligne">
         🌿 <b>Pleine terre — pas de semis en ${mois}</b><br>
         ${[...new Set(absentesTerre)].join("<br>")}
         </div>
         `;
-
     }
-
-
-
     popup.innerHTML = html;
     popup.style.display="block";
-
 }
   
 function fermerPopup(){
