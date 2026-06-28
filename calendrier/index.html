@@ -127,6 +127,15 @@ const MOIS_DEF = [
 
 const MOIS_COURANT = new Date().getMonth()+1;
 
+function iconeType(type){
+
+    if(!type) return '';
+
+    const emojis = type.match(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu);
+
+    return emojis ? emojis[emojis.length - 1] : '';
+
+}  
 
 
 /* =============================================
@@ -344,6 +353,8 @@ varietesParId[id] = {
 
     Nom: data.Nom ? data.Nom[i] : '',
 
+    Type: data.Type ? data.Type[i] : '',
+
     NomVariete: data.NomVariete ? data.NomVariete[i] : '',
 
     Semis_sous_abris:
@@ -404,14 +415,14 @@ records
 
     if(!plantes[nom]){
 
-        plantes[nom]={
-            nom:nom,
-            abri:new Set(),
-            terre:new Set()
-        };
+    plantes[nom]={
+        nom:nom,
+        type:v.Type || '',
+        abri:new Set(),
+        terre:new Set()
+    };
 
-    }
-
+}
 
 
     let abri = v.Semis_sous_abris || [];
@@ -467,12 +478,16 @@ liste.forEach(p=>{
 
 
  if([...p.abri].some(x=>mois.abrevs.includes(x))){
-     abri.push(p.nom);
+     abri.push(
+    iconeType(p.type) + " " + p.nom
+);
  }
 
 
  if([...p.terre].some(x=>mois.abrevs.includes(x))){
-     terre.push(p.nom);
+     terre.push(
+    iconeType(p.type) + " " + p.nom
+);
  }
 
 
