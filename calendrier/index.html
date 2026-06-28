@@ -96,6 +96,13 @@ h1 {
   border-color: #e94560;
   box-shadow: 0 0 0 2px #e9456044;
 }
+
+.alerte {
+    color:#e94560;
+    font-weight:bold;
+    cursor:pointer;
+}  
+  
 </style>
 </head>
 <body>
@@ -247,6 +254,31 @@ function calendrierDifferent(varietes){
 
 }
 
+function voirDetails(varietes){
+
+    let texte = "Différences entre variétés :\n\n";
+
+
+    varietes.forEach(v=>{
+
+        texte += "• " + v.nom + "\n";
+
+        if(v.abri.length){
+            texte += "  🏠 Sous abri : " + v.abri.join(", ") + "\n";
+        }
+
+        if(v.terre.length){
+            texte += "  🌿 Pleine terre : " + v.terre.join(", ") + "\n";
+        }
+
+        texte += "\n";
+
+    });
+
+
+    alert(texte);
+
+}  
 
 function renderCalendrier(records){
 
@@ -329,10 +361,15 @@ let terre=[];
 liste.forEach(p=>{
 
     let planteAffichee =
-        iconeType(p.type) 
+    iconeType(p.type) 
     + " " 
-    + p.nom
-    + (calendrierDifferent(p.varietes) ? " *" : "");
+    + p.nom;
+
+
+if(calendrierDifferent(p.varietes)){
+    planteAffichee += 
+    ` <span class="alerte" onclick='voirDetails(${JSON.stringify(p.varietes)})'>*</span>`;
+}
 
 
     if(
