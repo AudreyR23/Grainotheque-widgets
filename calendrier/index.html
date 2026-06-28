@@ -340,25 +340,23 @@ grist.docApi.fetchTable('Varietes')
     ids.forEach((id,i)=>{
 
 
-        varietesParId[id] = {
+varietesParId[id] = {
 
-            Nom:
-              data.Nom
-              ? data.Nom[i]
-              : '',
+    Nom: data.Nom ? data.Nom[i] : '',
 
-            Semis_sous_abris:
-              data.Semis_sous_abris
-              ? data.Semis_sous_abris[i]
-              : [],
+    NomVariete: data.NomVariete ? data.NomVariete[i] : '',
 
+    Semis_sous_abris:
+        data.Semis_sous_abris
+        ? data.Semis_sous_abris[i]
+        : [],
 
-            Semis_pleine_terre:
-              data.Semis_pleine_terre
-              ? data.Semis_pleine_terre[i]
-              : []
+    Semis_pleine_terre:
+        data.Semis_pleine_terre
+        ? data.Semis_pleine_terre[i]
+        : []
 
-        };
+};
 
 
     });
