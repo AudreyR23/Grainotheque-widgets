@@ -421,8 +421,13 @@ records
 
 
     // ChoiceList Grist : enlève le "L"
-    if(abri[0]==="L") abri=abri.slice(1);
-    if(terre[0]==="L") terre=terre.slice(1);
+    if(Array.isArray(abri) && abri[0]==="L"){
+    abri = abri.slice(1);
+}
+
+if(Array.isArray(terre) && terre[0]==="L"){
+    terre = terre.slice(1);
+}
 
 
 
