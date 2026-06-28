@@ -442,9 +442,11 @@ if(Array.isArray(terre) && terre[0]==="L"){
 
 plantes[nom].varietes.push({
     nom:v.NomVariete,
-    abri: abris,
+    abri: abri,
     terre: terre
 });
+
+});  
 
 const liste = Object.values(plantes);
 
@@ -466,20 +468,22 @@ let terre=[];
 
 liste.forEach(p=>{
 
+    p.varietes.forEach(v=>{
 
- if([...p.abri].some(x=>mois.abrevs.includes(x))){
-     abri.push(
-    iconeType(p.type) + " " + p.nom
-);
- }
+        if(v.abri.some(x=>mois.abrevs.includes(x))){
+            abri.push(
+                iconeType(p.type) + " " + p.nom
+            );
+        }
 
 
- if([...p.terre].some(x=>mois.abrevs.includes(x))){
-     terre.push(
-    iconeType(p.type) + " " + p.nom
-);
- }
+        if(v.terre.some(x=>mois.abrevs.includes(x))){
+            terre.push(
+                iconeType(p.type) + " " + p.nom
+            );
+        }
 
+    });
 
 });
 
