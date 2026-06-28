@@ -309,88 +309,85 @@ function voirDetails(varietes, mois){
     if(typeof varietes === "string"){
         varietes = JSON.parse(varietes);
     }
-    const regroupement = {};
 
-varietes.forEach(v=>{
-
-    if(!regroupement[v.nom]){
-
-        regroupement[v.nom] = {
-            nom:v.nom,
-            abri:[],
-            terre:[]
-        };
-
-    }
-
-
-    regroupement[v.nom].abri.push(...v.abri);
-    regroupement[v.nom].terre.push(...v.terre);
-
-});
-
-
-varietes = Object.values(regroupement);
 
     const popup = document.getElementById('popup');
 
 
-        let html = `
+    const moisObj =
+        MOIS_DEF.find(m => m.label === mois);
+
+
+    const abreviation =
+        moisObj.abrevs[0];
+
+
+    let html = `
     <span class="popup-close" onclick="fermerPopup()">✕</span>
     <h2>⚠ Différences — ${mois}</h2>
     `;
 
 
-    const abreviation =
-        MOIS_DEF.find(m => m.label === mois)
-        ?.abrevs[0];
-
-
-    let trouve = false;
-
-
-    html += `<b>🌱 Variétés qui ne correspondent pas :</b><br><br>`;
+    let groupes = {};
 
 
     varietes.forEach(v=>{
 
 
-        const okAbri =
-            v.abri.includes(abreviation);
+        let present = false;
 
 
-        const okTerre =
-            v.terre.includes(abreviation);
-
-
-
-        if(!okAbri && !okTerre){
-
-
-            html += `
-            <div class="popup-ligne">
-            🌱 <b>${v.nom}</b><br>
-            Pas de semis en ${mois}
-            </div>
-            `;
-
-
-            trouve = true;
-
+        if(v.abri.includes(abreviation)){
+            present = true;
         }
+
+
+        if(v.terre.includes(abreviation)){
+            present = true;
+        }
+
+
+        if(!groupes[present]){
+            groupes[present]=[];
+        }
+
+
+        groupes[present].push(v.nom);
 
 
     });
 
 
 
-    if(!trouve){
+    if(groupes.true && groupes.false){
+
 
         html += `
         <div class="popup-ligne">
-        Toutes les variétés ont un semis en ${mois}.
+        🌱 <b>Semis en ${mois}</b><br>
+        ${groupes.true.join("<br>")}
         </div>
         `;
+
+
+        html += `
+        <div class="popup-ligne">
+        ⚠ <b>Pas de semis en ${mois}</b><br>
+        ${groupes.false.join("<br>")}
+        </div>
+        `;
+
+
+    }
+    else {
+
+
+        html += `
+        <div class="popup-ligne">
+        Les différences concernent une autre période de semis.
+        </div>
+        `;
+
 
     }
 
@@ -399,6 +396,7 @@ varietes = Object.values(regroupement);
     popup.style.display="block";
 
 }
+  
 function fermerPopup(){
 
     document.getElementById('popup')
