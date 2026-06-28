@@ -97,10 +97,13 @@ h1 {
   box-shadow: 0 0 0 2px #e9456044;
 }
 
-.alerte {
-    color:#e94560;
-    font-weight:bold;
+.ligne-alerte {
+    color:#333;
     cursor:pointer;
+}
+
+.ligne-alerte:hover {
+    color:#e94560;
 }  
 
 /* Pop-in détails */
@@ -303,6 +306,10 @@ function calendrierDifferent(varietes){
 
 function voirDetails(varietes){
 
+    if(typeof varietes === "string"){
+        varietes = JSON.parse(varietes);
+    }
+
     const popup = document.getElementById('popup');
 
     let html = `
@@ -475,8 +482,13 @@ let planteAffichee =
 
 if(calendrierDifferent(p.varietes)){
 
+    const idPopup = encodeURIComponent(
+        JSON.stringify(p.varietes)
+    );
+
     planteAffichee =
-    `<span class="ligne-alerte" onclick='voirDetails(${JSON.stringify(p.varietes)})'>
+    `<span class="ligne-alerte" 
+    onclick="voirDetails(decodeURIComponent('${idPopup}'))">
     ${planteAffichee} *
     </span>`;
 
