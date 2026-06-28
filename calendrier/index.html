@@ -304,7 +304,7 @@ function calendrierDifferent(varietes){
 
 }
 
-function voirDetails(varietes){
+function voirDetails(varietes, mois){
 
     if(typeof varietes === "string"){
         varietes = JSON.parse(varietes);
@@ -486,8 +486,7 @@ if(calendrierDifferent(p.varietes)){
 
     planteAffichee =
     `<span class="ligne-alerte" 
-    onclick="voirDetails(decodeURIComponent('${idPopup}'))">
-    ${planteAffichee} *
+    onclick="voirDetails(decodeURIComponent('${idPopup}'), '${mois.label}')"    ${planteAffichee} *
     </span>`;
 
 }
