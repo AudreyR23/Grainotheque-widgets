@@ -175,7 +175,7 @@ function nomAffichage(n){
 /* =============================================
    CONSTRUCTION DU CALENDRIER
 ============================================= */
-function render(varietes, millesimes){
+function (varietes, millesimes){
 
 const cal = document.getElementById('calendrier');
 cal.innerHTML = '';
@@ -385,7 +385,18 @@ varietesParId[id] = {
 
 }
 
+function calendrierDifferent(varietes){
 
+    const signatures = varietes.map(v =>
+        JSON.stringify({
+            abri: v.abri,
+            terre: v.terre
+        })
+    );
+
+    return new Set(signatures).size > 1;
+
+}
 
 
 function renderCalendrier(records){
