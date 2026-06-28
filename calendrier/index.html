@@ -314,77 +314,70 @@ function voirDetails(varietes, mois){
     const popup = document.getElementById('popup');
 
 
-    let html = `
+        let html = `
     <span class="popup-close" onclick="fermerPopup()">✕</span>
-    <h2>⚠ Différences de semis</h2>
+    <h2>⚠ Différences — ${mois}</h2>
     `;
 
 
-    html += "<b>🏠 Sous abri</b><br>";
+    const abreviation =
+        MOIS_DEF.find(m => m.label === mois)
+        ?.abrevs[0];
 
 
-    const dejaVu = new Set();
+    let trouve = false;
+
+
+    html += `<b>🌱 Variétés qui ne correspondent pas :</b><br><br>`;
 
 
     varietes.forEach(v=>{
 
-        if(v.abri.length){
 
-            const cle = v.nom + v.abri.join(',');
+        const okAbri =
+            v.abri.includes(abreviation);
 
-            if(!dejaVu.has(cle)){
 
-                html += `
-                <div class="popup-ligne">
-                🌱 <b>${v.nom}</b><br>
-                ${v.abri.join(" / ")}
-                </div>
-                `;
+        const okTerre =
+            v.terre.includes(abreviation);
 
-                dejaVu.add(cle);
 
-            }
+
+        if(!okAbri && !okTerre){
+
+
+            html += `
+            <div class="popup-ligne">
+            🌱 <b>${v.nom}</b><br>
+            Pas de semis en ${mois}
+            </div>
+            `;
+
+
+            trouve = true;
 
         }
+
 
     });
 
 
 
-    html += "<br><b>🌿 Pleine terre</b><br>";
+    if(!trouve){
 
+        html += `
+        <div class="popup-ligne">
+        Toutes les variétés ont un semis en ${mois}.
+        </div>
+        `;
 
-    varietes.forEach(v=>{
-
-        if(v.terre.length){
-
-            const cle = v.nom + v.terre.join(',');
-
-
-            if(!dejaVu.has(cle)){
-
-                html += `
-                <div class="popup-ligne">
-                🌱 <b>${v.nom}</b><br>
-                ${v.terre.join(" / ")}
-                </div>
-                `;
-
-                dejaVu.add(cle);
-
-            }
-
-        }
-
-    });
-
+    }
 
 
     popup.innerHTML = html;
-    popup.style.display = "block";
+    popup.style.display="block";
 
 }
-
 function fermerPopup(){
 
     document.getElementById('popup')
