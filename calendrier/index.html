@@ -168,94 +168,70 @@ function nomAffichage(n){
 ============================================= */
 function render(varietes, millesimes){
 
-const cal=document.getElementById('calendrier');
-cal.innerHTML='';
+const cal = document.getElementById('calendrier');
+cal.innerHTML = '';
+
+const plantes = {};
 
 
-const plantes={};
+// Regroupement par NOM
+millesimes.forEach(m => {
 
-
-
-millesimes.forEach(m=>{
-
-
-    // pas de sachets = pas affiché
     if(!m.Sachets) return;
 
-
-
     const nom = m.Nom;
-
 
     if(!nom) return;
 
 
-
     if(!plantes[nom]){
-
-        plantes[nom]={
+        plantes[nom] = {
             nom: nom,
-            abri:new Set(),
-            terre:new Set()
+            abri: new Set(),
+            terre: new Set()
         };
-
     }
 
 
-
-    // retrouver les variétés correspondantes
-    varietes
-    .filter(v=>v.id===m.NomVariete)
-    .forEach(v=>{
+    const variete = varietes.find(v => v.id === m.NomVariete);
 
 
-        (v.Semis_sous_abris || [])
-        .forEach(x =>
-            plantes[nom].abri.add(x)
-        );
+    if(variete){
+
+        (variete.Semis_sous_abris || [])
+        .forEach(x => plantes[nom].abri.add(x));
 
 
-        (v.Semis_pleine_terre || [])
-        .forEach(x =>
-            plantes[nom].terre.add(x)
-        );
+        (variete.Semis_pleine_terre || [])
+        .forEach(x => plantes[nom].terre.add(x));
 
-
-    });
-
+    }
 
 });
+
+
 
 const listePlantes = Object.values(plantes);
 
 
 
-MOIS_DEF.forEach(mois=>{
+MOIS_DEF.forEach(mois => {
 
 
-    let abri=[];
-    let terre=[];
+    let abri = [];
+    let terre = [];
 
 
 
-    listePlantes.forEach(p=>{
+    listePlantes.forEach(p => {
 
 
-        if(
-          [...p.abri].some(x =>
-             mois.abrevs.includes(x)
-          )
-        ){
+        if([...p.abri].some(x => mois.abrevs.includes(x))){
             abri.push(p.nom);
         }
 
 
-
-        if(
-          [...p.terre].some(x =>
-             mois.abrevs.includes(x)
-          )
-        ){
+        if([...p.terre].some(x => mois.abrevs.includes(x))){
             terre.push(p.nom);
         }
 
@@ -264,44 +240,40 @@ MOIS_DEF.forEach(mois=>{
 
 
 
-    abri.sort((a,b)=>a.localeCompare(b,'fr'));
-    terre.sort((a,b)=>a.localeCompare(b,'fr'));
+    const card = document.createElement('div');
 
-
-
-    const card=document.createElement('div');
 
     card.className =
-       "mois-card" +
-       (mois.num===MOIS_COURANT ? " actuel":"");
+        "mois-card" +
+        (mois.num === MOIS_COURANT ? " actuel" : "");
 
 
 
-    card.innerHTML=`
+    card.innerHTML = `
 
-      <div class="mois-titre">
+    <div class="mois-titre">
         ${mois.label}
-      </div>
+    </div>
 
 
-      <div class="mois-body">
+    <div class="mois-body">
 
 
         <div class="col-abri">
 
-          <div class="col-label">
-            🏠 S/Abri
-          </div>
+            <div class="col-label">
+                🏠 S/Abri
+            </div>
 
-          ${
-          abri.length
-          ?
-          abri.map(n =>
-             `<span class="variete-tag">${n}</span>`
-          ).join('')
-          :
-          '<span class="vide">—</span>'
-          }
+            ${
+            abri.length
+            ?
+            abri.map(n =>
+                `<span class="variete-tag">${n}</span>`
+            ).join('')
+            :
+            '<span class="vide">—</span>'
+            }
 
         </div>
 
@@ -309,32 +281,34 @@ MOIS_DEF.forEach(mois=>{
 
         <div class="col-terre">
 
-          <div class="col-label">
-            🌿 P.Terre
-          </div>
+            <div class="col-label">
+                🌿 P.Terre
+            </div>
 
-          ${
-          terre.length
-          ?
-          terre.map(n =>
-             `<span class="variete-tag">${n}</span>`
-          ).join('')
-          :
-          '<span class="vide">—</span>'
-          }
+            ${
+            terre.length
+            ?
+            terre.map(n =>
+                `<span class="variete-tag">${n}</span>`
+            ).join('')
+            :
+            '<span class="vide">—</span>'
+            }
 
         </div>
 
 
-      </div>
-    `;
+    </div>
 
+    `;
 
 
     cal.appendChild(card);
 
 
 });
+
+}
 
 
 
@@ -372,7 +346,7 @@ async function charger(){
 
 
  render(
-    varietes,
+    nom,
     millesimes
  );
 
