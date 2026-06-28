@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f5f0;
+  color: #222;
+  padding: 12px;
+}
+
+h1 {
+  font-size: 16px;
+  color: #2d6a4f;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+/* Grille 12 mois — 4 colonnes × 3 lignes */
+.calendrier {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+/* Carte d'un mois */
+.mois-card {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #d0e8d0;
+  overflow: hidden;
+}
+
+.mois-titre {
+  background: #2d6a4f;
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+  text-align: center;
+  padding: 4px 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.mois-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  min-height: 60px;
+}
+
+.col-abri, .col-terre {
+  padding: 4px 6px;
+}
+
+.col-abri {
+  border-right: 1px solid #e0e8e0;
+  background: #f0f8f0;
+}
+
+.col-label {
+  font-size: 8px;
+  font-weight: bold;
+  color: #2d6a4f;
+  margin-bottom: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.variete-tag {
+  display: block;
+  font-size: 9px;
+  color: #333;
+  padding: 1px 0;
+  border-bottom: 1px solid #e8f0e8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.variete-tag:last-child { border-bottom: none; }
+
+.vide {
+  font-size: 9px;
+  color: #aaa;
+  font-style: italic;
+}
+
+/* Mois courant mis en évidence */
+.mois-card.actuel .mois-titre {
+  background: #e94560;
+}
+.mois-card.actuel {
+  border-color: #e94560;
+  box-shadow: 0 0 0 2px #e9456044;
+}
+</style>
+</head>
+<body>
+
+<h1>🌱 Calendrier des semis</h1>
+<div class="calendrier" id="calendrier"></div>
+
+<script>
+
+/* =============================================
+   DEFINITION DES MOIS
+============================================= */
+
+const MOIS_DEF = [
+  { num:1, label:'Janvier', abrevs:['Jan','Janvier'] },
+  { num:2, label:'Février', abrevs:['Fév','Février'] },
+  { num:3, label:'Mars', abrevs:['Mar','Mars'] },
+  { num:4, label:'Avril', abrevs:['Avr','Avril'] },
+  { num:5, label:'Mai', abrevs:['Mai'] },
+  { num:6, label:'Juin', abrevs:['Jui','Juin'] },
+  { num:7, label:'Juillet', abrevs:['Juil','Juillet'] },
+  { num:8, label:'Août', abrevs:['Aou','Août'] },
+  { num:9, label:'Septembre', abrevs:['Sep','Septembre'] },
+  { num:10, label:'Octobre', abrevs:['Oct','Octobre'] },
+  { num:11, label:'Novembre', abrevs:['Nov','Novembre'] },
+  { num:12, label:'Décembre', abrevs:['Déc','Décembre'] }
+];
+
+
+const MOIS_COURANT = new Date().getMonth()+1;
+
+
+
+/* =============================================
+   TEST MOIS DANS CHOICELIST
+============================================= */
+
+function contientMois(valeur, mois){
+
+  if(!valeur) return false;
+
+  let liste = Array.isArray(valeur)
+      ? valeur
+      : String(valeur).split(',');
+
+
+  return liste.some(v =>
+      mois.abrevs.includes(v.trim())
+  );
+
+}
+
+
+/* =============================================
+   NOM PROPRE
+============================================= */
+
+function nomAffichage(n){
+
+  if(!n) return '';
+
+  return n.replace('\n',' ');
+
+}
+
+
+
+/* =============================================
+   CONSTRUCTION DU CALENDRIER
+============================================= */
+function render(varietes, millesimes){
+
+const cal=document.getElementById('calendrier');
+cal.innerHTML='';
+
+
+const plantes={};
+
+
+
+millesimes.forEach(m=>{
+
+
+    // pas de sachets = pas affiché
+    if(!m.Sachets) return;
+
+
+
+    const nom = m.Nom;
+
+
+    if(!nom) return;
+
+
+
+    if(!plantes[nom]){
+
+        plantes[nom]={
+            nom: nom,
+            abri:new Set(),
+            terre:new Set()
+        };
+
+    }
+
+
+
+    // retrouver les variétés correspondantes
+    varietes
+    .filter(v=>v.id===m.NomVariete)
+    .forEach(v=>{
+
+
+        (v.Semis_sous_abris || [])
+        .forEach(x =>
+            plantes[nom].abri.add(x)
+        );
+
+
+        (v.Semis_pleine_terre || [])
+        .forEach(x =>
+            plantes[nom].terre.add(x)
+        );
+
+
+    });
+
+
+});
+
+ MOIS_DEF.forEach(mois=>{
+
+
+    let abri=[];
+    let terre=[];
+
+
+
+    varietesOK.forEach(v=>{
+
+
+        if(contientMois(v.Semis_sous_abris,mois)){
+            abri.push(v.Nom);
+        }
+
+
+        if(contientMois(v.Semis_pleine_terre,mois)){
+            terre.push(v.Nom);
+        }
+
+
+    });
+
+
+
+    abri.sort((a,b)=>a.localeCompare(b,'fr'));
+    terre.sort((a,b)=>a.localeCompare(b,'fr'));
+
+
+
+    const card=document.createElement('div');
+
+    card.className =
+       "mois-card" +
+       (mois.num===MOIS_COURANT ? " actuel":"");
+
+
+
+    card.innerHTML=`
+
+      <div class="mois-titre">
+        ${mois.label}
+      </div>
+
+
+      <div class="mois-body">
+
+
+        <div class="col-abri">
+
+          <div class="col-label">
+            🏠 S/Abri
+          </div>
+
+
+          ${
+          abri.length
+          ?
+          abri.map(n=>
+            `<span class="variete-tag">${n}</span>`
+          ).join('')
+          :
+          '<span class="vide">—</span>'
+          }
+
+
+        </div>
+
+
+
+        <div class="col-terre">
+
+          <div class="col-label">
+            🌿 P.Terre
+          </div>
+
+
+          ${
+          terre.length
+          ?
+          terre.map(n=>
+            `<span class="variete-tag">${n}</span>`
+          ).join('')
+          :
+          '<span class="vide">—</span>'
+          }
+
+
+        </div>
+
+
+      </div>
+
+    `;
+
+
+
+    cal.appendChild(card);
+
+
+ });
+
+
+
+}
+
+
+
+/* =============================================
+   GRIST MULTI TABLE
+============================================= */
+
+
+grist.ready({
+ requiredAccess:'read table'
+});
+
+
+
+async function charger(){
+
+
+ const [varietes,millesimes] =
+ await Promise.all([
+
+    grist.fetchTable("Varietes"),
+
+    grist.fetchTable("Millesimes")
+
+ ]);
+
+
+
+ /*
+   Transformation des références Grist
+
+   NomVariete dans Millesimes est une référence
+   vers Varietes.id
+ */
+
+
+ render(
+    varietes,
+    millesimes
+ );
+
+
+}
+
+
+
+charger();
+
+
+
+</script>
+</body>
+</html>
