@@ -226,7 +226,11 @@ millesimes.forEach(m=>{
 
 });
 
- MOIS_DEF.forEach(mois=>{
+const listePlantes = Object.values(plantes);
+
+
+
+MOIS_DEF.forEach(mois=>{
 
 
     let abri=[];
@@ -234,16 +238,25 @@ millesimes.forEach(m=>{
 
 
 
-    varietesOK.forEach(v=>{
+    listePlantes.forEach(p=>{
 
 
-        if(contientMois(v.Semis_sous_abris,mois)){
-            abri.push(v.Nom);
+        if(
+          [...p.abri].some(x =>
+             mois.abrevs.includes(x)
+          )
+        ){
+            abri.push(p.nom);
         }
 
 
-        if(contientMois(v.Semis_pleine_terre,mois)){
-            terre.push(v.Nom);
+
+        if(
+          [...p.terre].some(x =>
+             mois.abrevs.includes(x)
+          )
+        ){
+            terre.push(p.nom);
         }
 
 
@@ -280,17 +293,15 @@ millesimes.forEach(m=>{
             🏠 S/Abri
           </div>
 
-
           ${
           abri.length
           ?
-          abri.map(n=>
-            `<span class="variete-tag">${n}</span>`
+          abri.map(n =>
+             `<span class="variete-tag">${n}</span>`
           ).join('')
           :
           '<span class="vide">—</span>'
           }
-
 
         </div>
 
@@ -302,23 +313,20 @@ millesimes.forEach(m=>{
             🌿 P.Terre
           </div>
 
-
           ${
           terre.length
           ?
-          terre.map(n=>
-            `<span class="variete-tag">${n}</span>`
+          terre.map(n =>
+             `<span class="variete-tag">${n}</span>`
           ).join('')
           :
           '<span class="vide">—</span>'
           }
 
-
         </div>
 
 
       </div>
-
     `;
 
 
@@ -326,11 +334,7 @@ millesimes.forEach(m=>{
     cal.appendChild(card);
 
 
- });
-
-
-
-}
+});
 
 
 
