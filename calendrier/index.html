@@ -303,7 +303,21 @@ function calendrierDifferent(varietes){
     return new Set(signatures).size > 1;
 
 }
+function differenceType(varietes, type){
 
+    const signatures = varietes.map(v => {
+
+        return JSON.stringify(
+            type === "abri"
+            ? v.abri
+            : v.terre
+        );
+
+    });
+
+    return new Set(signatures).size > 1;
+
+}
 function voirDetails(varietes, mois){
 
     if(typeof varietes === "string"){
