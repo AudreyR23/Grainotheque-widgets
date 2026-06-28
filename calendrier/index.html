@@ -322,78 +322,41 @@ function voirDetails(varietes, mois){
         moisObj.abrevs[0];
 
 
-    let html = `
-    <span class="popup-close" onclick="fermerPopup()">✕</span>
-    <h2>⚠ Différences — ${mois}</h2>
+let html = `
+<span class="popup-close" onclick="fermerPopup()">✕</span>
+<h2>⚠ Différences — ${mois}</h2>
+`;
+
+
+varietes.forEach(v=>{
+
+
+    const abri =
+        v.abri.length
+        ? v.abri.join(", ")
+        : "-";
+
+
+    const terre =
+        v.terre.length
+        ? v.terre.join(", ")
+        : "-";
+
+
+    html += `
+    <div class="popup-ligne">
+    🌱 <b>${v.nom}</b><br>
+    🏠 ${abri}<br>
+    🌿 ${terre}
+    </div>
     `;
 
 
-    let groupes = {};
+});
 
 
-    varietes.forEach(v=>{
-
-
-        let present = false;
-
-
-        if(v.abri.includes(abreviation)){
-            present = true;
-        }
-
-
-        if(v.terre.includes(abreviation)){
-            present = true;
-        }
-
-
-        if(!groupes[present]){
-            groupes[present]=[];
-        }
-
-
-        groupes[present].push(v.nom);
-
-
-    });
-
-
-
-    if(groupes.true && groupes.false){
-
-
-        html += `
-        <div class="popup-ligne">
-        🌱 <b>Semis en ${mois}</b><br>
-        ${groupes.true.join("<br>")}
-        </div>
-        `;
-
-
-        html += `
-        <div class="popup-ligne">
-        ⚠ <b>Pas de semis en ${mois}</b><br>
-        ${groupes.false.join("<br>")}
-        </div>
-        `;
-
-
-    }
-    else {
-
-
-        html += `
-        <div class="popup-ligne">
-        Les différences concernent une autre période de semis.
-        </div>
-        `;
-
-
-    }
-
-
-    popup.innerHTML = html;
-    popup.style.display="block";
+popup.innerHTML = html;
+popup.style.display="block";
 
 }
   
