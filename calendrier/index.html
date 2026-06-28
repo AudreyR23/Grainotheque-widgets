@@ -310,7 +310,9 @@ function voirDetails(varietes){
         varietes = JSON.parse(varietes);
     }
 
+
     const popup = document.getElementById('popup');
+
 
     let html = `
     <span class="popup-close" onclick="fermerPopup()">✕</span>
@@ -318,72 +320,68 @@ function voirDetails(varietes){
     `;
 
 
-    let abri = {};
-    let terre = {};
+    html += "<b>🏠 Sous abri</b><br>";
+
+
+    const dejaVu = new Set();
 
 
     varietes.forEach(v=>{
 
-        v.abri.forEach(m=>{
-            if(!abri[m]) abri[m]=[];
-            abri[m].push(v.nom);
-        });
+        if(v.abri.length){
 
+            const cle = v.nom + v.abri.join(',');
 
-        v.terre.forEach(m=>{
-            if(!terre[m]) terre[m]=[];
-            terre[m].push(v.nom);
-        });
+            if(!dejaVu.has(cle)){
+
+                html += `
+                <div class="popup-ligne">
+                🌱 <b>${v.nom}</b><br>
+                ${v.abri.join(" / ")}
+                </div>
+                `;
+
+                dejaVu.add(cle);
+
+            }
+
+        }
 
     });
 
 
-    let aDifference = false;
+
+    html += "<br><b>🌿 Pleine terre</b><br>";
 
 
-    if(Object.keys(abri).length){
+    varietes.forEach(v=>{
 
-        html += "<b>🏠 Sous abri</b><br>";
+        if(v.terre.length){
 
-        Object.entries(abri).forEach(([mois,noms])=>{
+            const cle = v.nom + v.terre.join(',');
 
-            if(noms.length){
+
+            if(!dejaVu.has(cle)){
+
                 html += `
-                ${mois} :
-                ${noms.join(", ")}<br>
+                <div class="popup-ligne">
+                🌱 <b>${v.nom}</b><br>
+                ${v.terre.join(" / ")}
+                </div>
                 `;
+
+                dejaVu.add(cle);
+
             }
 
-        });
+        }
 
-        aDifference=true;
-    }
-
-
-    if(Object.keys(terre).length){
-
-        html += "<br><b>🌿 Pleine terre</b><br>";
-
-        Object.entries(terre).forEach(([mois,noms])=>{
-
-            html += `
-            ${mois} :
-            ${noms.join(", ")}<br>
-            `;
-
-        });
-
-        aDifference=true;
-    }
+    });
 
 
-    if(!aDifference){
-        html += "Pas de différence.";
-    }
 
-
-    popup.innerHTML=html;
-    popup.style.display="block";
+    popup.innerHTML = html;
+    popup.style.display = "block";
 
 }
 
