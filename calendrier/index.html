@@ -539,25 +539,6 @@ if(differenceType(p.varietes,"terre")){
 
 }
 
-
-
-if(differenceType(p.varietes,"terre")){
-
-
-    const idPopup = encodeURIComponent(
-        JSON.stringify(p.varietes)
-    );
-
-
-    planteTerre =
-    `<span class="ligne-alerte"
-    onclick="voirDetails(decodeURIComponent('${idPopup}'), '${mois.label}')">
-    ${nomBase} *
-    </span>`;
-
-}
-
-
     if(
         p.varietes.some(v =>
             v.abri.some(x=>mois.abrevs.includes(x))
