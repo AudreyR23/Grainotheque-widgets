@@ -329,7 +329,10 @@ let terre=[];
 liste.forEach(p=>{
 
     let planteAffichee =
-        iconeType(p.type) + " " + p.nom;
+        iconeType(p.type) 
+    + " " 
+    + p.nom
+    + (calendrierDifferent(p.varietes) ? " *" : "");
 
 
     if(
