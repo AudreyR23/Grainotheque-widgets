@@ -309,7 +309,28 @@ function voirDetails(varietes, mois){
     if(typeof varietes === "string"){
         varietes = JSON.parse(varietes);
     }
+    const regroupement = {};
 
+varietes.forEach(v=>{
+
+    if(!regroupement[v.nom]){
+
+        regroupement[v.nom] = {
+            nom:v.nom,
+            abri:[],
+            terre:[]
+        };
+
+    }
+
+
+    regroupement[v.nom].abri.push(...v.abri);
+    regroupement[v.nom].terre.push(...v.terre);
+
+});
+
+
+varietes = Object.values(regroupement);
 
     const popup = document.getElementById('popup');
 
