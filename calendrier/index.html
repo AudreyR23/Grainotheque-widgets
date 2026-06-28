@@ -477,10 +477,11 @@ if(calendrierDifferent(p.varietes)){
         JSON.stringify(p.varietes)
     );
 
-    planteAffichee =
-    `<span class="ligne-alerte" 
-    onclick="voirDetails(decodeURIComponent('${idPopup}'), '${mois.label}')"    ${planteAffichee} *
-    </span>`;
+   planteAffichee =
+`<span class="ligne-alerte"
+onclick="voirDetails(decodeURIComponent('${idPopup}'), '${mois.label}')">
+${planteAffichee} *
+</span>`;
 
 }
 
