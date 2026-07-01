@@ -622,6 +622,9 @@ async function init() {
       Variete:    dataVar.Variete?.[i]    || '',
     })).sort((a, b) => (a.Nom + a.Variete).localeCompare(b.Nom + b.Variete, 'fr'));
 
+     console.log("COLONNES VARIETES =", Object.keys(dataVar));
+console.log("TYPE =", dataVar.Type);
+
     /* Charger les métadonnées des colonnes (pour récupérer les choix) */
     const meta = await grist.docApi.fetchTable('_grist_Tables_column');
     const tablesMeta = await grist.docApi.fetchTable('_grist_Tables');
