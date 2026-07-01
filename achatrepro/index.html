@@ -794,6 +794,14 @@ async function creerVariete() {
     Ou_cultiver:        getMultiSelect('v-ou-cultiver'),
   };
 
+
+
+   
+console.log("ROW =", JSON.stringify(row, null, 2));
+
+
+
+   
   try {
     await grist.docApi.applyUserActions([
       ['AddRecord', 'Varietes', null, row]
