@@ -506,7 +506,10 @@ function buildPills(containerId, values, selected = []) {
 }
 
 function getPills(containerId) {
-  return [...document.querySelectorAll(`#${containerId} input:checked`)].map(i => i.value);
+  const vals = [...document.querySelectorAll(`#${containerId} input:checked`)]
+    .map(i => i.value);
+
+  return vals.length ? ["L", ...vals] : ["L"];
 }
 
 function setPills(containerId, selected) {
