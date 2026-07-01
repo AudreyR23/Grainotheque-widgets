@@ -866,7 +866,7 @@ console.log("Famille =", data.Famille[i]);
     varietes = dataVar.id.map((id, i) => ({
       id, NomVariete: dataVar.NomVariete?.[i] || '',
       Nom: dataVar.Nom?.[i] || '', 
-      Variete: dataVar.Variete?.[i] || '', 
+      Variete: dataVar.Variete?.[i] || '',
       Type: dataVar.Type?.[i] || '',
     })).sort((a, b) => (a.Nom + a.Variete).localeCompare(b.Nom + b.Variete, 'fr'));
     const selM = document.getElementById('m-variete');
