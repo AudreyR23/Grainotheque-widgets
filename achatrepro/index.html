@@ -305,9 +305,9 @@ body {
   </div>
 
   <div class="form-group">
-    <label>Infos</label>
-    <select id="v-infos" multiple style="height:60px"></select>
-  </div>
+  <label>Infos</label>
+  <select id="v-infos" multiple style="height:60px"></select>
+</div>
 
   <div class="btn-row">
     <button class="btn btn-primary" id="btn-creer-variete" onclick="creerVariete()">✅ Créer la variété</button>
@@ -469,6 +469,11 @@ body {
     <label>Où cultiver</label>
     <select id="e-ou-cultiver" multiple style="height:60px"></select>
   </div>
+
+<div class="form-group">
+  <label>Infos</label>
+  <select id="v-infos" multiple style="height:60px"></select>
+</div>
 
   <div class="btn-row">
     <button class="btn btn-primary" onclick="creerModele()">✅ Créer l'espèce</button>
@@ -692,7 +697,7 @@ async function init() {
     const OU      = metaChoix['Ou_cultiver']     || [];
     const ORIG    = metaChoix['Origine']         || [];
     const SACHET  = metaChoix['Sachets']         || [];
-    const INFOS   = metaChoix['Infos']         || [];
+    const INFOS = metaChoix['Infos'] || metaChoix['Info_supp'] || [];
 
     /* Panneau 1 — Variété */
     fillSelect('v-type', TYPE);
@@ -706,7 +711,7 @@ async function init() {
     buildPills('v-abri', MOIS);
     buildPills('v-terre', MOIS);
     buildPills('v-recolte', MOIS);
-    fillMultiSelect('v-infos', INFOS); 
+    fillMultiSelect('v-infos', INFOS);
 
     /* Panneau 2 — Millésime */
     fillMultiSelect('m-origine', ORIG);
@@ -724,6 +729,7 @@ async function init() {
     buildPills('e-abri', MOIS);
     buildPills('e-terre', MOIS);
     buildPills('e-recolte', MOIS);
+    fillMultiSelect('e-infos', INFOS);
 
   } catch(e) {
     console.error('Erreur init:', e);
@@ -781,7 +787,7 @@ function resetVariete() {
     [...document.querySelectorAll(`#${id} option`)].forEach(o => o.selected = false);
   });
   ['v-abri','v-terre','v-recolte'].forEach(id => setPills(id, []));
-  document.getElementById('v-infos').value = '';
+  [...document.querySelectorAll('#v-infos option')].forEach(o => o.selected = false);
 }
 
 /* =============================================
@@ -842,7 +848,7 @@ async function creerVariete() {
     Qualite_du_sol:     getMultiSelect('v-qualite-sol'),
     Famille:            getMultiSelect('v-famille'),
     Ou_cultiver:        getMultiSelect('v-ou-cultiver'),
-    Infos:              document.getElementById('v-infos').value || null,
+    Infos:              getMultiSelect('v-infos'),
   };
 
 
