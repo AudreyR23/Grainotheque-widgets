@@ -306,7 +306,7 @@ body {
 
   <div class="form-group">
     <label>Infos</label>
-    <textarea id="v-infos" rows="3" placeholder="Notes, remarques..."></textarea>
+    <select id="v-infos" multiple style="height:60px"></select>
   </div>
 
   <div class="btn-row">
@@ -692,6 +692,7 @@ async function init() {
     const OU      = metaChoix['Ou_cultiver']     || [];
     const ORIG    = metaChoix['Origine']         || [];
     const SACHET  = metaChoix['Sachets']         || [];
+    const INFOS   = metaChoix['Infos']         || [];
 
     /* Panneau 1 — Variété */
     fillSelect('v-type', TYPE);
@@ -705,6 +706,7 @@ async function init() {
     buildPills('v-abri', MOIS);
     buildPills('v-terre', MOIS);
     buildPills('v-recolte', MOIS);
+    fillMultiSelect('v-infos', INFOS); 
 
     /* Panneau 2 — Millésime */
     fillMultiSelect('m-origine', ORIG);
@@ -761,6 +763,7 @@ function appliquerModele(m, prefix) {
   fillMultiSelect(prefix + '-nature-sol', metaChoix['Nature_du_sol']  || [], toArray(m.Nature_du_sol));
   fillMultiSelect(prefix + '-qualite-sol',metaChoix['Qualite_du_sol'] || [], toArray(m.Qualite_du_sol));
   fillMultiSelect(prefix + '-ou-cultiver',metaChoix['Ou_cultiver']    || [], toArray(m.Ou_cultiver));
+  fillMultiSelect(prefix + '-infos',metaChoix['Infos']                || [], toArray(m.Infos));
 
   /* Pills mois */
   setPills(prefix + '-abri',    toArray(m.Semis_sous_abris));
