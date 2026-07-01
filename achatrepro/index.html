@@ -319,9 +319,14 @@ body {
 
   <div class="form-group">
     <label>Variété</label>
-    <select id="m-variete">
+    <select id="m-variete" onchange="chargerTypeMillesime()">
       <option value="">— Choisir une variété —</option>
     </select>
+  </div>
+
+  <div class="form-group">
+   <label>Type</label>
+   <input type="text" id="m-type" readonly>
   </div>
 
   <div class="form-row">
@@ -487,7 +492,17 @@ function showPanel(id) {
   document.getElementById('panel-' + id).classList.add('active');
   event.target.classList.add('active');
 }
+   
+/* =============================================
+   AJOUT TYPE LIE A VARIETE
+   ============================================= */   
+function chargerTypeMillesime() {
+  const id = parseInt(document.getElementById('m-variete').value);
 
+  const v = varietes.find(x => x.id === id);
+
+  document.getElementById('m-type').value = v ? v.Type : '';
+}
 /* =============================================
    UTILITAIRES — PILLS (cases à cocher style étiquette)
    ============================================= */
@@ -847,7 +862,9 @@ console.log("Famille =", data.Famille[i]);
     const dataVar = await grist.docApi.fetchTable('Varietes');
     varietes = dataVar.id.map((id, i) => ({
       id, NomVariete: dataVar.NomVariete?.[i] || '',
-      Nom: dataVar.Nom?.[i] || '', Variete: dataVar.Variete?.[i] || '',
+      Nom: dataVar.Nom?.[i] || '', 
+      Variete: dataVar.Variete?.[i] || '', 
+      Type: dataVar.Type?.[i] || '',
     })).sort((a, b) => (a.Nom + a.Variete).localeCompare(b.Nom + b.Variete, 'fr'));
     const selM = document.getElementById('m-variete');
     selM.innerHTML = '<option value="">— Choisir une variété —</option>';
@@ -876,6 +893,7 @@ async function creerMillesime() {
 
   const row = {
     NomVariete:   varId,
+    Type: document.getElementById('m-type').value || null,
     Millesime:    dateTs,
     Nb_saisons:   document.getElementById('m-nb-saisons').value || null,
     Origine:      getMultiSelect('m-origine'),
