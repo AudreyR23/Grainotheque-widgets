@@ -855,7 +855,7 @@ async function creerMillesime() {
     NomVariete:   varId,
     Millesime:    dateTs,
     Nb_saisons:   document.getElementById('m-nb-saisons').value || null,
-    Origine:      document.getElementById('m-origine').value || null,
+    Origine:      Origine: getMultiSelect('m-origine'),
     Sachets:      document.getElementById('m-sachet').value || null,
     Qtte_graines: parseFloat(document.getElementById('m-qtte').value) || null,
   };
