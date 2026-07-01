@@ -304,6 +304,11 @@ body {
     <select id="v-ou-cultiver" multiple style="height:60px"></select>
   </div>
 
+  <div class="form-group">
+    <label>Infos</label>
+    <textarea id="v-infos" rows="3" placeholder="Notes, remarques..."></textarea>
+  </div>
+
   <div class="btn-row">
     <button class="btn btn-primary" id="btn-creer-variete" onclick="creerVariete()">✅ Créer la variété</button>
     <button class="btn btn-secondary" onclick="resetVariete()">↩ Réinitialiser</button>
@@ -623,10 +628,7 @@ async function init() {
       Type: dataVar.Type?.[i] || '', 
     })).sort((a, b) => (a.Nom + a.Variete).localeCompare(b.Nom + b.Variete, 'fr'));
 
-     console.log("DATA VARIETES =", dataVar);
-     console.log("COLONNES =", Object.keys(dataVar));
-     console.log("PREMIERE VARIETE =", varietes[0]);
-
+     
     /* Charger les métadonnées des colonnes (pour récupérer les choix) */
     const meta = await grist.docApi.fetchTable('_grist_Tables_column');
     const tablesMeta = await grist.docApi.fetchTable('_grist_Tables');
@@ -776,6 +778,7 @@ function resetVariete() {
     [...document.querySelectorAll(`#${id} option`)].forEach(o => o.selected = false);
   });
   ['v-abri','v-terre','v-recolte'].forEach(id => setPills(id, []));
+  document.getElementById('v-infos').value = '';
 }
 
 /* =============================================
@@ -836,6 +839,7 @@ async function creerVariete() {
     Qualite_du_sol:     getMultiSelect('v-qualite-sol'),
     Famille:            getMultiSelect('v-famille'),
     Ou_cultiver:        getMultiSelect('v-ou-cultiver'),
+    Infos:              document.getElementById('v-infos').value || null,
   };
 
 
