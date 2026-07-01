@@ -548,13 +548,8 @@ function fillMultiSelect(id, options, selected = []) {
 }
 
 function getMultiSelect(id) {
-  const el = document.getElementById(id);
-
-  if (!el) return ["L"];
-
-  const vals = [...el.selectedOptions]
-    .map(o => o.value)
-    .filter(v => v);
+  const vals = [...document.querySelectorAll(`#${id} input:checked`)]
+    .map(i => i.value);
 
   return ["L", ...vals];
 }
