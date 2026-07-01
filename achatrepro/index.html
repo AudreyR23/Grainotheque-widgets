@@ -620,6 +620,7 @@ async function init() {
       NomVariete: dataVar.NomVariete?.[i] || '',
       Nom:        dataVar.Nom?.[i]        || '',
       Variete:    dataVar.Variete?.[i]    || '',
+      Type: dataVar.Type?.[i] || '', 
     })).sort((a, b) => (a.Nom + a.Variete).localeCompare(b.Nom + b.Variete, 'fr'));
 
      console.log("DATA VARIETES =", dataVar);
