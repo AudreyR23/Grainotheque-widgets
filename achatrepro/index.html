@@ -612,19 +612,32 @@ async function init() {
     const tablesMeta = await grist.docApi.fetchTable('_grist_Tables');
 
     /* Trouver l'id de la table Varietes */
-    const varTableId = tablesMeta.id[tablesMeta.tableId.indexOf('Varietes')];
+    const tablesInteressantes = [
+        tablesMeta.id[tablesMeta.tableId.indexOf('Varietes')],
+        tablesMeta.id[tablesMeta.tableId.indexOf('Millesimes')],
+        tablesMeta.id[tablesMeta.tableId.indexOf('Modele')]
+   ];
+
 
     /* Extraire les choix pour chaque colonne */
     meta.id.forEach((id, i) => {
-      if (meta.parentId[i] !== varTableId) return;
-      const col = meta.colId[i];
-      const widgetOpts = meta.widgetOptions[i];
-      if (!widgetOpts) return;
-      try {
-        const opts = JSON.parse(widgetOpts);
-        if (opts.choices) metaChoix[col] = opts.choices;
-      } catch(e) {}
-    });
+
+  if (!tablesInteressantes.includes(meta.parentId[i])) return;
+
+  const col = meta.colId[i];
+  const widgetOpts = meta.widgetOptions[i];
+
+  if (!widgetOpts) return;
+
+  try {
+    const opts = JSON.parse(widgetOpts);
+
+    if (opts.choices) {
+      metaChoix[col] = opts.choices;
+    }
+
+  } catch(e) {}
+});
 
     /* Remplir les listes de modèles */
     const selV = document.getElementById('v-modele');
