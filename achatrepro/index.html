@@ -798,7 +798,13 @@ async function creerVariete() {
 
    
 console.log("ROW =", JSON.stringify(row, null, 2));
+const data = await grist.docApi.fetchTable("Varietes");
 
+const i = data.id.length - 1;
+
+console.log("id =", data.id[i]);
+console.log("Semis =", data.Semis_sous_abris[i]);
+console.log("Famille =", data.Famille[i]);
 
 
    
