@@ -624,6 +624,7 @@ async function init() {
 
      console.log("DATA VARIETES =", dataVar);
      console.log("COLONNES =", Object.keys(dataVar));
+     console.log("PREMIERE VARIETE =", varietes[0]);
 
     /* Charger les métadonnées des colonnes (pour récupérer les choix) */
     const meta = await grist.docApi.fetchTable('_grist_Tables_column');
