@@ -622,8 +622,8 @@ async function init() {
       Variete:    dataVar.Variete?.[i]    || '',
     })).sort((a, b) => (a.Nom + a.Variete).localeCompare(b.Nom + b.Variete, 'fr'));
 
-     console.log("COLONNES VARIETES =", Object.keys(dataVar));
-console.log("TYPE =", dataVar.Type);
+     console.log("DATA VARIETES =", dataVar);
+     console.log("COLONNES =", Object.keys(dataVar));
 
     /* Charger les métadonnées des colonnes (pour récupérer les choix) */
     const meta = await grist.docApi.fetchTable('_grist_Tables_column');
@@ -704,11 +704,6 @@ console.log("TYPE =", dataVar.Type);
 
     /* Panneau 2 — Millésime */
     fillMultiSelect('m-origine', ORIG);
-
-console.log("CHOIX ORIGINE =", ORIG);
-console.log("OPTIONS ORIGINE =", document.querySelectorAll('#m-origine option'));
-
-     
     fillSelect('m-sachet', SACHET);
 
     /* Panneau 3 — Modèle */
@@ -849,12 +844,6 @@ const data = await grist.docApi.fetchTable("Varietes");
 
 const i = data.id.length - 1;
 
-console.log("id =", data.id[i]);
-console.log("Semis =", data.Semis_sous_abris[i]);
-console.log("Famille =", data.Famille[i]);
-
-
-   
   try {
     await grist.docApi.applyUserActions([
       ['AddRecord', 'Varietes', null, row]
