@@ -39,7 +39,10 @@ body {
   padding: 10px 12px 0;
   border-bottom: 2px solid var(--vert);
   background: var(--blanc);
+  align-items: center;
+  justify-content: space-between;
 }
+.nav-tabs { display: flex; gap: 4px; }
 .nav-btn {
   padding: 7px 14px;
   border: none;
@@ -60,9 +63,36 @@ body {
   color: var(--vert);
 }
 
+/* Toggle enchainement */
+.chain-toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--gris-texte);
+  padding-bottom: 8px;
+  user-select: none;
+  cursor: pointer;
+}
+.chain-toggle input { cursor: pointer; }
+
 /* Panneaux */
 .panel { display: none; padding: 14px 12px; }
 .panel.active { display: block; }
+
+/* Bandeau info enchainement */
+.chain-banner {
+  display: none;
+  background: var(--vert-bg);
+  color: var(--vert);
+  border: 1px solid var(--vert-clair);
+  border-radius: var(--radius);
+  padding: 8px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.chain-banner.show { display: block; }
 
 /* Titre panneau */
 .panel-title {
@@ -198,9 +228,15 @@ body {
 
 <!-- Navigation -->
 <div class="nav">
-  <button class="nav-btn active" onclick="showPanel('variete')">🌱 Nouvelle variété</button>
-  <button class="nav-btn" onclick="showPanel('millesime')">📦 Nouveau millésime</button>
-  <button class="nav-btn" onclick="showPanel('modele')">🗂 Nouvelle espèce</button>
+  <div class="nav-tabs">
+    <button class="nav-btn active" onclick="showPanel('variete')">🌱 Nouvelle variété</button>
+    <button class="nav-btn" onclick="showPanel('millesime')">📦 Nouveau millésime</button>
+    <button class="nav-btn" onclick="showPanel('modele')">🗂 Nouvelle espèce</button>
+  </div>
+  <label class="chain-toggle">
+    <input type="checkbox" id="chain-auto" checked>
+    🔗 Enchaîner automatiquement
+  </label>
 </div>
 
 <!-- =============================================
@@ -208,6 +244,7 @@ body {
      ============================================= -->
 <div class="panel active" id="panel-variete">
   <div class="panel-title">🌱 Nouvelle variété</div>
+  <div class="chain-banner" id="chain-banner-variete"></div>
 
   <div class="form-group">
     <label>Modèle de base <span class="badge">pré-remplit le formulaire</span></label>
@@ -321,6 +358,7 @@ body {
      ============================================= -->
 <div class="panel" id="panel-millesime">
   <div class="panel-title">📦 Nouveau millésime</div>
+  <div class="chain-banner" id="chain-banner-millesime"></div>
 
   <div class="form-group">
     <label>Variété</label>
@@ -472,7 +510,7 @@ body {
 
 <div class="form-group">
   <label>Infos</label>
-  <select id="v-infos" multiple style="height:60px"></select>
+  <select id="e-infos" multiple style="height:60px"></select>
 </div>
 
   <div class="btn-row">
@@ -502,7 +540,33 @@ function showPanel(id) {
   document.getElementById('panel-' + id).classList.add('active');
   event.target.classList.add('active');
 }
-   
+
+/* Bascule de panneau par programme (sans event, utilisé pour l'enchainement) */
+function goToPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  const idx = { variete: 0, millesime: 1, modele: 2 }[id];
+  document.querySelectorAll('.nav-btn')[idx].classList.add('active');
+}
+
+function chainEnabled() {
+  return document.getElementById('chain-auto').checked;
+}
+
+function showChainBanner(id, txt) {
+  const el = document.getElementById('chain-banner-' + id);
+  if (!el) return;
+  el.textContent = txt;
+  el.classList.add('show');
+}
+
+function hideChainBanner(id) {
+  const el = document.getElementById('chain-banner-' + id);
+  if (!el) return;
+  el.classList.remove('show');
+}
+
 /* =============================================
    AJOUT TYPE LIE A VARIETE
    ============================================= */   
@@ -788,6 +852,7 @@ function resetVariete() {
   });
   ['v-abri','v-terre','v-recolte'].forEach(id => setPills(id, []));
   [...document.querySelectorAll('#v-infos option')].forEach(o => o.selected = false);
+  hideChainBanner('variete');
 }
 
 /* =============================================
@@ -810,6 +875,7 @@ function resetModele() {
     [...document.querySelectorAll(`#${id} option`)].forEach(o => o.selected = false);
   });
   ['e-abri','e-terre','e-recolte'].forEach(id => setPills(id, []));
+  [...document.querySelectorAll('#e-infos option')].forEach(o => o.selected = false);
 }
 
 function resetMillesime() {
@@ -819,6 +885,7 @@ function resetMillesime() {
   document.getElementById('m-qtte').value = '';
   document.getElementById('m-sachet').value = '';
   [...document.querySelectorAll('#m-origine option')].forEach(o => o.selected = false);
+  hideChainBanner('millesime');
 }
 
 /* =============================================
@@ -851,20 +918,14 @@ async function creerVariete() {
     Infos:              getMultiSelect('v-infos'),
   };
 
-
-
-   
-console.log("ROW =", JSON.stringify(row, null, 2));
-const data = await grist.docApi.fetchTable("Varietes");
-
-const i = data.id.length - 1;
-
   try {
-    await grist.docApi.applyUserActions([
+    const result = await grist.docApi.applyUserActions([
       ['AddRecord', 'Varietes', null, row]
     ]);
+    const newVarieteId = result && result.retValues ? result.retValues[0] : null;
+
     showMsg('msg-variete', '✅ Variété créée : ' + nomVariete, 'ok');
-    resetVariete();
+
     /* Recharger la liste des variétés pour le panneau millésime */
     const dataVar = await grist.docApi.fetchTable('Varietes');
     varietes = dataVar.id.map((id, i) => ({
@@ -881,6 +942,16 @@ const i = data.id.length - 1;
       opt.textContent = v.Nom + (v.Variete ? ' — ' + v.Variete : '');
       selM.appendChild(opt);
     });
+
+    resetVariete();
+
+    /* Enchainement vers le millésime avec la variété pré-sélectionnée */
+    if (chainEnabled() && newVarieteId) {
+      document.getElementById('m-variete').value = newVarieteId;
+      chargerTypeMillesime();
+      goToPanel('millesime');
+      showChainBanner('millesime', '🔗 Variété "' + nomVariete + '" créée — complétez maintenant son millésime.');
+    }
   } catch(e) {
     showMsg('msg-variete', '❌ Erreur : ' + e.message, 'err');
   }
@@ -943,12 +1014,15 @@ async function creerModele() {
     Qualite_du_sol:     getMultiSelect('e-qualite-sol'),
     Famille:            getMultiSelect('e-famille'),
     Ou_cultiver:        getMultiSelect('e-ou-cultiver'),
+    Infos:              getMultiSelect('e-infos'),
   };
 
   try {
-    await grist.docApi.applyUserActions([
+    const result = await grist.docApi.applyUserActions([
       ['AddRecord', 'Modele', null, row]
     ]);
+    const newModeleId = result && result.retValues ? result.retValues[0] : null;
+
     showMsg('msg-modele', '✅ Espèce créée : ' + nom, 'ok');
     /* Ajouter à la liste des modèles */
     const dataModele = await grist.docApi.fetchTable('Modele');
@@ -968,6 +1042,7 @@ async function creerModele() {
       Qualite_du_sol: dataModele.Qualite_du_sol?.[i] || [],
       Famille: dataModele.Famille?.[i] || [],
       Ou_cultiver: dataModele.Ou_cultiver?.[i] || [],
+      Infos: dataModele.Infos?.[i] || [],
     }));
     ['v-modele','e-modele-base'].forEach(id => {
       const sel = document.getElementById(id);
@@ -979,6 +1054,14 @@ async function creerModele() {
       });
     });
     resetModele();
+
+    /* Enchainement vers la variété avec le modèle pré-sélectionné et pré-rempli */
+    if (chainEnabled() && newModeleId) {
+      document.getElementById('v-modele').value = newModeleId;
+      chargerModele();
+      goToPanel('variete');
+      showChainBanner('variete', '🔗 Espèce "' + nom + '" créée — complétez maintenant sa première variété.');
+    }
   } catch(e) {
     showMsg('msg-modele', '❌ Erreur : ' + e.message, 'err');
   }
