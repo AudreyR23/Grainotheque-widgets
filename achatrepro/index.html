@@ -317,6 +317,13 @@ body {
     <div class="choice-grid" id="v-recolte"></div>
   </div>
 
+  <hr class="sep">
+
+  <div class="form-group">
+    <label>Semis (GPT)</label>
+    <select id="v-semis-gpt" multiple style="height:60px"></select>
+  </div>
+
   <div class="form-row">
     <div class="form-group">
       <label>Exposition</label>
@@ -400,7 +407,7 @@ body {
 
   <div class="form-row">
     <div class="form-group">
-      <label>Origine</label>
+      <label>Origine <span class="badge" style="background:#fce4e4;color:var(--rouge)">obligatoire</span></label>
       <select id="m-origine" multiple style="height:60px"></select>
     </div>
     <div class="form-group">
@@ -770,6 +777,7 @@ async function init() {
     const ORIG    = metaChoix['Origine']         || [];
     const SACHET  = metaChoix['Sachets']         || [];
     const INFOS = metaChoix['Infos'] || metaChoix['Info_supp'] || [];
+    const SEMIS_GPT = metaChoix['Semis_GPT'] || [];
 
     /* Panneau 1 — Variété */
     fillSelect('v-type', TYPE);
@@ -784,6 +792,7 @@ async function init() {
     buildPills('v-terre', MOIS);
     buildPills('v-recolte', MOIS);
     fillMultiSelect('v-infos', INFOS);
+    fillMultiSelect('v-semis-gpt', SEMIS_GPT);
 
     /* Panneau 2 — Millésime */
     fillMultiSelect('m-origine', ORIG);
@@ -860,6 +869,7 @@ function resetVariete() {
   });
   ['v-abri','v-terre','v-recolte'].forEach(id => setPills(id, []));
   [...document.querySelectorAll('#v-infos option')].forEach(o => o.selected = false);
+  [...document.querySelectorAll('#v-semis-gpt option')].forEach(o => o.selected = false);
   document.getElementById('v-description').value = '';
   hideChainBanner('variete');
 }
@@ -926,6 +936,7 @@ async function creerVariete() {
     Ou_cultiver:        getMultiSelect('v-ou-cultiver'),
     Infos:              getMultiSelect('v-infos'),
     Description:        document.getElementById('v-description').value.trim() || null,
+    Semis_GPT:          getMultiSelect('v-semis-gpt'),
   };
 
   try {
@@ -975,6 +986,8 @@ async function creerMillesime() {
   const annee   = parseInt(document.getElementById('m-millesime').value);
   if (!varId) { showMsg('msg-millesime', 'Choisir une variété.', 'err'); return; }
   if (!annee)  { showMsg('msg-millesime', 'Indiquer une année.', 'err'); return; }
+  const origineChoisie = getMultiSelect('m-origine').length > 1; // getMultiSelect renvoie toujours ["L", ...] même vide
+  if (!origineChoisie) { showMsg('msg-millesime', "L'origine est obligatoire.", 'err'); return; }
 
   /* Grist stocke les dates en secondes depuis epoch — 1er janvier de l'année */
   const dateTs = Math.floor(new Date(annee + '-01-01T00:00:00Z').getTime() / 1000);
