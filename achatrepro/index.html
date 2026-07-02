@@ -34,15 +34,11 @@ body {
 
 /* Navigation */
 .nav {
-  display: flex;
-  gap: 4px;
   padding: 10px 12px 0;
   border-bottom: 2px solid var(--vert);
   background: var(--blanc);
-  align-items: center;
-  justify-content: space-between;
 }
-.nav-tabs { display: flex; gap: 4px; }
+.nav-tabs { display: flex; flex-wrap: wrap; gap: 4px; }
 .nav-btn {
   padding: 7px 14px;
   border: none;
@@ -64,13 +60,18 @@ body {
 }
 
 /* Toggle enchainement */
+.chain-toggle-row {
+  padding: 6px 12px;
+  background: var(--vert-bg);
+  border-bottom: 1px solid var(--vert-clair);
+}
 .chain-toggle {
   display: flex;
   align-items: center;
   gap: 5px;
   font-size: 11px;
-  color: var(--gris-texte);
-  padding-bottom: 8px;
+  font-weight: 600;
+  color: var(--vert);
   user-select: none;
   cursor: pointer;
 }
@@ -233,9 +234,11 @@ body {
     <button class="nav-btn" onclick="showPanel('millesime')">📦 Nouveau millésime</button>
     <button class="nav-btn" onclick="showPanel('modele')">🗂 Nouvelle espèce</button>
   </div>
+</div>
+<div class="chain-toggle-row">
   <label class="chain-toggle">
     <input type="checkbox" id="chain-auto" checked>
-    🔗 Enchaîner automatiquement
+    🔗 Enchaîner automatiquement (espèce → variété → millésime)
   </label>
 </div>
 
