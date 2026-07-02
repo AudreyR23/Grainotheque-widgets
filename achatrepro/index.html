@@ -349,6 +349,11 @@ body {
   <select id="v-infos" multiple style="height:60px"></select>
 </div>
 
+  <div class="form-group">
+    <label>Description</label>
+    <textarea id="v-description" rows="4" placeholder="Description libre de la variété..."></textarea>
+  </div>
+
   <div class="btn-row">
     <button class="btn btn-primary" id="btn-creer-variete" onclick="creerVariete()">✅ Créer la variété</button>
     <button class="btn btn-secondary" onclick="resetVariete()">↩ Réinitialiser</button>
@@ -855,6 +860,7 @@ function resetVariete() {
   });
   ['v-abri','v-terre','v-recolte'].forEach(id => setPills(id, []));
   [...document.querySelectorAll('#v-infos option')].forEach(o => o.selected = false);
+  document.getElementById('v-description').value = '';
   hideChainBanner('variete');
 }
 
@@ -919,6 +925,7 @@ async function creerVariete() {
     Famille:            getMultiSelect('v-famille'),
     Ou_cultiver:        getMultiSelect('v-ou-cultiver'),
     Infos:              getMultiSelect('v-infos'),
+    Description:        document.getElementById('v-description').value.trim() || null,
   };
 
   try {
