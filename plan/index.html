@@ -15,118 +15,6 @@ body {
   overflow: hidden;
 }
 
-/* =============================================
-   LAYOUT
-   ============================================= */
-.app {
-  display: flex;
-  flex: 1;
-  overflow: hidden;
-}
-
-/* Panel gauche — liste des étiquettes à placer */
-.panel {
-  width: 200px;
-  min-width: 200px;
-  background: #fff8f0;
-  border-right: 2px solid #d4c5b0;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.panel-title {
-  background: #2d6a4f;
-  color: white;
-  font-size: 11px;
-  font-weight: bold;
-  padding: 8px 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.panel-filter {
-  padding: 6px 8px;
-  border-bottom: 1px solid #e0d8cc;
-}
-
-.panel-filter input {
-  width: 100%;
-  padding: 4px 6px;
-  border: 1px solid #d4c5b0;
-  border-radius: 4px;
-  font-size: 11px;
-}
-
-.panel-list {
-  flex: 1;
-  overflow-y: auto;
-  padding: 6px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-/* Étiquette draggable dans le panel */
-.etiquette-item {
-  background: #e8f5e9;
-  border: 1px solid #a5d6a7;
-  border-radius: 6px;
-  padding: 5px 8px;
-  cursor: grab;
-  font-size: 10px;
-  line-height: 1.3;
-  user-select: none;
-  transition: all 0.1s;
-}
-.etiquette-item:hover { background: #c8e6c9; border-color: #66bb6a; }
-.etiquette-item.placed { background: #f0f0f0; border-color: #ccc; color: #999; cursor: default; }
-.etiquette-item .nom { font-weight: bold; }
-.etiquette-item .variete { font-style: italic; color: #555; }
-.etiquette-item .zone { font-size: 9px; color: #2d6a4f; }
-
-/* Zone centrale — le plan */
-.plan-container {
-  flex: 1;
-  overflow: auto;
-  padding: 16px;
-  position: relative;
-}
-
-svg#plan {
-  background: #f5f0e8;
-  border-radius: 8px;
-  border: 1px solid #d4c5b0;
-  cursor: default;
-}
-
-/* Zones du plan */
-.zone {
-  cursor: pointer;
-  transition: opacity 0.15s;
-}
-.zone:hover { opacity: 0.85; }
-.zone.active { stroke-width: 3 !important; stroke: #2d6a4f !important; }
-.zone.drag-over { opacity: 0.7; }
-
-/* Étiquettes placées sur le plan */
-.placed-tag {
-  cursor: move;
-  filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.3));
-}
-.placed-tag rect {
-  fill: #fff9c4;
-  stroke: #f9a825;
-  stroke-width: 1;
-  rx: 3;
-}
-.placed-tag text {
-  font-size: 8px;
-  fill: #333;
-  font-family: Arial, sans-serif;
-}
-
-/* Bouton reset */
 .toolbar {
   background: #fff8f0;
   border-bottom: 1px solid #d4c5b0;
@@ -135,6 +23,7 @@ svg#plan {
   gap: 8px;
   align-items: center;
   font-size: 11px;
+  flex-shrink: 0;
 }
 .btn {
   padding: 4px 10px;
@@ -147,357 +36,468 @@ svg#plan {
 .btn:hover { background: #f0ebe3; }
 .btn-primary { background: #2d6a4f; color: white; border-color: #2d6a4f; }
 .btn-primary:hover { background: #1f4f38; }
-
 .status { color: #666; flex: 1; }
+
+.app {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Panel gauche */
+.panel {
+  width: 190px;
+  min-width: 190px;
+  background: #fff8f0;
+  border-right: 2px solid #d4c5b0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.panel-title {
+  background: #2d6a4f;
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 6px 8px;
+  text-transform: uppercase;
+}
+.panel-zone-label {
+  background: #e8f5e9;
+  color: #2d6a4f;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-bottom: 1px solid #c8e6c9;
+}
+.panel-filter {
+  padding: 5px 6px;
+  border-bottom: 1px solid #e0d8cc;
+}
+.panel-filter input {
+  width: 100%;
+  padding: 3px 5px;
+  border: 1px solid #d4c5b0;
+  border-radius: 4px;
+  font-size: 10px;
+}
+.panel-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.etiquette-item {
+  background: #e8f5e9;
+  border: 1px solid #a5d6a7;
+  border-radius: 5px;
+  padding: 4px 6px;
+  cursor: grab;
+  font-size: 10px;
+  line-height: 1.3;
+  user-select: none;
+}
+.etiquette-item:hover { background: #c8e6c9; }
+.etiquette-item.placed { background: #f5f5f5; border-color: #ddd; color: #aaa; cursor: default; opacity: 0.6; }
+.etiquette-item .nom { font-weight: bold; }
+.etiquette-item .variete { font-style: italic; color: #555; font-size: 9px; }
+.etiquette-item .ou { font-size: 9px; color: #2d6a4f; }
+
+/* Plan */
+.plan-container {
+  flex: 1;
+  overflow: auto;
+  padding: 12px;
+  background: #f0ebe3;
+}
+
+svg#plan {
+  background: #faf8f4;
+  border-radius: 6px;
+  border: 1px solid #d4c5b0;
+  display: block;
+}
+
+.zone-g { cursor: pointer; }
+.zone-g:hover > * { opacity: 0.8; }
+.zone-g.active > rect,
+.zone-g.active > ellipse,
+.zone-g.active > polygon,
+.zone-g.active > path,
+.zone-g.active > circle { stroke: #2d6a4f !important; stroke-width: 3 !important; }
+
+.placed-tag { cursor: move; }
 </style>
 </head>
 <body>
 
 <div class="toolbar">
-  <button class="btn btn-primary" onclick="sauvegarder()">💾 Sauvegarder positions</button>
+  <button class="btn btn-primary" onclick="sauvegarder()">💾 Sauvegarder</button>
   <button class="btn" onclick="resetPositions()">↩ Réinitialiser</button>
+  <button class="btn" onclick="zoneActive=null; renderPanel()">🌿 Tout afficher</button>
   <span class="status" id="status">Chargement...</span>
 </div>
 
 <div class="app">
-  <!-- Panel gauche -->
   <div class="panel">
-    <div class="panel-title">🌱 À placer</div>
+    <div class="panel-title">🌱 Plantes à placer</div>
+    <div class="panel-zone-label" id="zone-label">Cliquer sur une zone</div>
     <div class="panel-filter">
-      <input type="text" id="search" placeholder="Rechercher..." oninput="filtrerEtiquettes()">
+      <input type="text" id="search" placeholder="Rechercher..." oninput="renderPanel()">
     </div>
     <div class="panel-list" id="panel-list"></div>
   </div>
 
-  <!-- Plan SVG -->
-  <div class="plan-container" id="plan-container">
-    <svg id="plan" width="900" height="780"
+  <div class="plan-container">
+    <!-- 
+      ÉCHELLE : 1cm = 1.3px (ajustée pour tenir dans ~900px de large)
+      Les zones sont positionnées approximativement, pas géographiquement exactes
+      sauf Ext.Serre qui entoure la Serre
+    -->
+    <svg id="plan" width="1050" height="820"
          ondragover="event.preventDefault()"
          ondrop="dropOnPlan(event)">
 
-      <!-- =============================================
-           ZONES DU PLAN
-           Toutes les dimensions sont en cm → échelle 1cm = 1.8px
-           Plan total ~900×780px
-           ============================================= -->
+      <text x="10" y="14" font-size="10" fill="#999" font-family="Arial">
+        Cliquer sur une zone pour filtrer les plantes · Glisser-déposer pour placer
+      </text>
 
-      <!-- LÉGENDE -->
-      <text x="10" y="16" font-size="10" fill="#666" font-family="Arial">🌿 Plan du potager — glisser-déposer les plantes</text>
+      <!-- =======================================
+           SERRE (300×400cm → 234×312px)
+           + EXT SERRE (bande 40cm = 31px autour sur 3 côtés S/E/W)
+           ======================================= -->
 
-      <!-- =============================================
-           SERRE + EXT SERRE
-           Serre : 300×400cm → 540×720px trop grand
-           On réduit l'échelle : 1cm = 0.8px
-           Serre : 300×400 → 240×320px
-           ============================================= -->
-
-      <!-- Ext. Serre (contour 3 côtés, bande 40cm = 32px) -->
-      <g class="zone" id="z-ext-serre" data-zone="Ext. Serre"
-         ondragover="dragOverZone(event, this)"
-         ondrop="dropOnZone(event, 'Ext. Serre')">
-        <rect x="18" y="58" width="304" height="384"
-              fill="#c8e6c9" stroke="#66bb6a" stroke-width="1.5" opacity="0.6"/>
-        <text x="26" y="72" font-size="9" fill="#2d6a4f" font-family="Arial" font-weight="bold">Ext. Serre</text>
+      <!-- Ext. Serre (bande autour de 3 côtés) -->
+      <g class="zone-g" id="z-ext-serre" onclick="selectZone('Ext. Serre')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Ext. Serre')">
+        <!-- Bande S -->
+        <rect x="59" y="343" width="234" height="31" fill="#b2dfdb" stroke="#00796b" stroke-width="1.5" opacity="0.8"/>
+        <!-- Bande E -->
+        <rect x="293" y="30" width="31" height="313" fill="#b2dfdb" stroke="#00796b" stroke-width="1.5" opacity="0.8"/>
+        <!-- Bande W -->
+        <rect x="28" y="30" width="31" height="313" fill="#b2dfdb" stroke="#00796b" stroke-width="1.5" opacity="0.8"/>
+        <text x="303" y="100" font-size="8" fill="#004d40" font-family="Arial" font-weight="bold" transform="rotate(90,303,100)">Ext. Serre E</text>
+        <text x="42" y="190" font-size="8" fill="#004d40" font-family="Arial" writing-mode="tb">Ext. Serre W</text>
+        <text x="100" y="368" font-size="8" fill="#004d40" font-family="Arial">Ext. Serre S</text>
       </g>
 
-      <!-- Serre principale -->
-      <g class="zone" id="z-serre" data-zone="Serre"
-         ondragover="dragOverZone(event, this)"
-         ondrop="dropOnZone(event, 'Serre')">
-        <rect x="50" y="90" width="240" height="320"
-              fill="#a5d6a7" stroke="#388e3c" stroke-width="2"/>
-        <text x="58" y="106" font-size="10" fill="#1b5e20" font-family="Arial" font-weight="bold">Serre</text>
-        <!-- Tipi à l'intérieur -->
-        <polygon points="130,200 170,200 150,160"
-                 fill="#fff9c4" stroke="#f9a825" stroke-width="1.5" opacity="0.8"/>
-        <text x="135" y="210" font-size="8" fill="#e65100" font-family="Arial">Tipi</text>
+      <!-- Ext. Serre Clôture (400×50cm → 312×39px) - bande au nord -->
+      <g class="zone-g" id="z-ext-serre-clo" onclick="selectZone('Ext. Serre Clô.')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Ext. Serre Clô.')">
+        <rect x="59" y="22" width="234" height="39" fill="#a5d6a7" stroke="#388e3c" stroke-width="1.5"/>
+        <text x="90" y="36" font-size="8" fill="#1b5e20" font-family="Arial" font-weight="bold">Ext. Serre Clô.</text>
       </g>
 
-      <!-- =============================================
-           POTAGER PRINCIPAL + BULLE
-           Potager : 350×450cm → 280×360px
-           ============================================= -->
-
-      <!-- Potager principal -->
-      <g class="zone" id="z-potager" data-zone="Potager"
-         ondragover="dragOverZone(event, this)"
-         ondrop="dropOnZone(event, 'Potager')">
-        <rect x="330" y="90" width="280" height="360"
-              fill="#ffe082" stroke="#f9a825" stroke-width="2"/>
-        <text x="338" y="106" font-size="10" fill="#e65100" font-family="Arial" font-weight="bold">Potager</text>
+      <!-- Ext. Serre Bulle (160×80cm → 125×62px) -->
+      <g class="zone-g" id="z-ext-serre-bulle" onclick="selectZone('Ext. Serre Bulle')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Ext. Serre Bulle')">
+        <ellipse cx="480" cy="200" rx="62" ry="31" fill="#c8e6c9" stroke="#388e3c" stroke-width="1.5"/>
+        <text x="440" y="204" font-size="8" fill="#1b5e20" font-family="Arial" font-weight="bold">Ext.Serre Bulle</text>
       </g>
 
-      <!-- Pot. Bulle (ovale 150×100 → 120×80px) -->
-      <g class="zone" id="z-pot-bulle" data-zone="Pot.Bulle"
-         ondragover="dragOverZone(event, this)"
-         ondrop="dropOnZone(event, 'Pot.Bulle')">
-        <ellipse cx="470" cy="270" rx="60" ry="40"
-                 fill="#ffcc80" stroke="#fb8c00" stroke-width="1.5"/>
-        <text x="436" y="274" font-size="8" fill="#e65100" font-family="Arial" font-weight="bold">Pot.Bulle</text>
+      <!-- Ext. Serre Tipi (cercle diam 100cm → r=39px) -->
+      <g class="zone-g" id="z-ext-serre-tipi" onclick="selectZone('Ext. Serre Tipi')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Ext. Serre Tipi')">
+        <circle cx="480" cy="100" r="39" fill="#dcedc8" stroke="#558b2f" stroke-width="1.5"/>
+        <text x="452" y="104" font-size="8" fill="#33691e" font-family="Arial" font-weight="bold">Ext.Serre Tipi</text>
       </g>
 
-      <!-- =============================================
-           POT. HAUT (bandes autour du potager)
-           ============================================= -->
-
-      <!-- Pot.HN (650×100 → 520×80px) -->
-      <g class="zone" id="z-pot-hn" data-zone="Pot.HN"
-         ondragover="dragOverZone(event, this)"
-         ondrop="dropOnZone(event, 'Pot.HN')">
-        <rect x="330" y="10" width="520" height="76"
-              fill="#ffe0b2" stroke="#ff8f00" stroke-width="1.5"/>
-        <text x="338" y="24" font-size="9" fill="#e65100" font-family="Arial" font-weight="bold">Pot.HN — Potager Haut Nord</text>
+      <!-- Serre principale (300×400cm → 234×312px) -->
+      <g class="zone-g" id="z-serre" onclick="selectZone('Serre')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Serre')">
+        <rect x="59" y="30" width="234" height="312" fill="#a5d6a7" stroke="#2e7d32" stroke-width="2"/>
+        <text x="140" y="50" font-size="11" fill="#1b5e20" font-family="Arial" font-weight="bold">Serre</text>
+        <text x="100" y="180" font-size="9" fill="#2e7d32" font-family="Arial" font-style="italic">SerreN / SerreS</text>
+        <text x="100" y="195" font-size="9" fill="#2e7d32" font-family="Arial" font-style="italic">SerreE / SerreW</text>
+        <text x="100" y="210" font-size="9" fill="#2e7d32" font-family="Arial" font-style="italic">Serre Tipi</text>
       </g>
 
-      <!-- Pot.HE (280×100 → 224×80px) -->
-      <g class="zone" id="z-pot-he" data-zone="Pot.HE"
-         ondragover="dragOverZone(event, this)"
-         ondrop="dropOnZone(event, 'Pot.HE')">
-        <rect x="614" y="90" width="224" height="280"
-              fill="#ffe0b2" stroke="#ff8f00" stroke-width="1.5"/>
-        <text x="622" y="106" font-size="9" fill="#e65100" font-family="Arial" font-weight="bold">Pot.HE</text>
+      <!-- =======================================
+           POT. HN (650×100cm → 507×78px) — bande nord du potager
+           ======================================= -->
+      <g class="zone-g" id="z-pot-hn" onclick="selectZone('Pot.HN')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Pot.HN')">
+        <rect x="355" y="22" width="507" height="78" fill="#ffe0b2" stroke="#e65100" stroke-width="1.5"/>
+        <text x="570" y="40" font-size="10" fill="#bf360c" font-family="Arial" font-weight="bold">Pot.HN — Potager Haut Nord (6m50)</text>
       </g>
 
-      <!-- Pot.HC (380×40 → 304×32px) -->
-      <g class="zone" id="z-pot-hc" data-zone="Pot.HC"
-         ondragover="dragOverZone(event, this)"
-         ondrop="dropOnZone(event, 'Pot.HC')">
-        <rect x="330" y="454" width="304" height="32"
-              fill="#ffe0b2" stroke="#ff8f00" stroke-width="1.5"/>
-        <text x="338" y="468" font-size="9" fill="#e65100" font-family="Arial" font-weight="bold">Pot.HC — Haut Sud</text>
+      <!-- =======================================
+           POTAGER PRINCIPAL (350×450cm → 273×351px)
+           ======================================= -->
+      <g class="zone-g" id="z-potager" onclick="selectZone('Potager')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Potager')">
+        <rect x="355" y="100" width="273" height="351" fill="#fff9c4" stroke="#f9a825" stroke-width="2"/>
+        <text x="460" y="118" font-size="11" fill="#e65100" font-family="Arial" font-weight="bold">Potager</text>
       </g>
 
-      <!-- =============================================
+      <!-- Pot.Bulle dans le potager (150×100cm → 117×78px) -->
+      <g class="zone-g" id="z-pot-bulle" onclick="selectZone('Pot.Bulle')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Pot.Bulle')">
+        <ellipse cx="492" cy="300" rx="58" ry="39" fill="#ffcc80" stroke="#fb8c00" stroke-width="1.5"/>
+        <text x="455" y="304" font-size="8" fill="#e65100" font-family="Arial" font-weight="bold">Pot.Bulle</text>
+      </g>
+
+      <!-- =======================================
+           POT. HE (280×100cm → 218×78px) — bande est du potager
+           ======================================= -->
+      <g class="zone-g" id="z-pot-he" onclick="selectZone('Pot.HE')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Pot.HE')">
+        <rect x="628" y="100" width="218" height="273" fill="#ffe0b2" stroke="#e65100" stroke-width="1.5"/>
+        <text x="700" y="120" font-size="10" fill="#bf360c" font-family="Arial" font-weight="bold">Pot.HE</text>
+        <text x="660" y="138" font-size="8" fill="#bf360c" font-family="Arial">Potager Haut Est</text>
+      </g>
+
+      <!-- =======================================
+           POT. HC (380×40cm → 296×31px) — bande sud du potager
+           ======================================= -->
+      <g class="zone-g" id="z-pot-hc" onclick="selectZone('Pot.HC')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Pot.HC')">
+        <rect x="355" y="451" width="296" height="31" fill="#ffe0b2" stroke="#e65100" stroke-width="1.5"/>
+        <text x="460" y="466" font-size="8" fill="#bf360c" font-family="Arial" font-weight="bold">Pot.HC — Potager Haut Sud</text>
+      </g>
+
+      <!-- =======================================
            POTAGER GRILLE 4×4
-           ============================================= -->
-      <g class="zone" id="z-potager-grille" data-zone="Pot.X-Y"
-         ondragover="dragOverZone(event, this)"
-         ondrop="dropOnZone(event, 'Pot.X-Y')">
-        <rect x="330" y="490" width="280" height="280"
-              fill="#fff9c4" stroke="#f9a825" stroke-width="2"/>
-        <text x="338" y="506" font-size="10" fill="#e65100" font-family="Arial" font-weight="bold">Potager grille</text>
-        <!-- Lignes de la grille -->
-        <line x1="400" y1="490" x2="400" y2="770" stroke="#f9a825" stroke-width="0.8"/>
-        <line x1="470" y1="490" x2="470" y2="770" stroke="#f9a825" stroke-width="0.8"/>
-        <line x1="540" y1="490" x2="540" y2="770" stroke="#f9a825" stroke-width="0.8"/>
-        <line x1="330" y1="560" x2="610" y2="560" stroke="#f9a825" stroke-width="0.8"/>
-        <line x1="330" y1="630" x2="610" y2="630" stroke="#f9a825" stroke-width="0.8"/>
-        <line x1="330" y1="700" x2="610" y2="700" stroke="#f9a825" stroke-width="0.8"/>
-        <!-- Labels -->
-        <text x="332" y="520" font-size="7" fill="#999" font-family="Arial">1-1</text>
-        <text x="402" y="520" font-size="7" fill="#999" font-family="Arial">2-1</text>
-        <text x="472" y="520" font-size="7" fill="#999" font-family="Arial">3-1</text>
-        <text x="542" y="520" font-size="7" fill="#999" font-family="Arial">4-1</text>
-        <text x="332" y="590" font-size="7" fill="#999" font-family="Arial">1-2</text>
-        <text x="402" y="590" font-size="7" fill="#999" font-family="Arial">2-2</text>
-        <text x="472" y="590" font-size="7" fill="#999" font-family="Arial">3-2</text>
-        <text x="542" y="590" font-size="7" fill="#999" font-family="Arial">4-2</text>
-        <text x="332" y="660" font-size="7" fill="#999" font-family="Arial">1-3</text>
-        <text x="402" y="660" font-size="7" fill="#999" font-family="Arial">2-3</text>
-        <text x="472" y="660" font-size="7" fill="#999" font-family="Arial">3-3</text>
-        <text x="542" y="660" font-size="7" fill="#999" font-family="Arial">4-3</text>
-        <text x="332" y="730" font-size="7" fill="#999" font-family="Arial">1-4</text>
-        <text x="402" y="730" font-size="7" fill="#999" font-family="Arial">2-4</text>
-        <text x="472" y="730" font-size="7" fill="#999" font-family="Arial">3-4</text>
-        <text x="542" y="730" font-size="7" fill="#999" font-family="Arial">4-4</text>
+           ======================================= -->
+      <g class="zone-g" id="z-potager-grille" onclick="selectZone('Pot.X-Y')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Pot.X-Y')">
+        <rect x="355" y="490" width="273" height="273" fill="#fffde7" stroke="#f9a825" stroke-width="2"/>
+        <text x="460" y="508" font-size="10" fill="#e65100" font-family="Arial" font-weight="bold">Potager grille</text>
+        <!-- lignes grille -->
+        <line x1="423" y1="490" x2="423" y2="763" stroke="#f9a825" stroke-width="0.8"/>
+        <line x1="491" y1="490" x2="491" y2="763" stroke="#f9a825" stroke-width="0.8"/>
+        <line x1="559" y1="490" x2="559" y2="763" stroke="#f9a825" stroke-width="0.8"/>
+        <line x1="355" y1="558" x2="628" y2="558" stroke="#f9a825" stroke-width="0.8"/>
+        <line x1="355" y1="626" x2="628" y2="626" stroke="#f9a825" stroke-width="0.8"/>
+        <line x1="355" y1="694" x2="628" y2="694" stroke="#f9a825" stroke-width="0.8"/>
+        <!-- labels -->
+        <text x="357" y="522" font-size="7" fill="#bbb" font-family="Arial">1-1</text>
+        <text x="425" y="522" font-size="7" fill="#bbb" font-family="Arial">2-1</text>
+        <text x="493" y="522" font-size="7" fill="#bbb" font-family="Arial">3-1</text>
+        <text x="561" y="522" font-size="7" fill="#bbb" font-family="Arial">4-1</text>
+        <text x="357" y="590" font-size="7" fill="#bbb" font-family="Arial">1-2</text>
+        <text x="425" y="590" font-size="7" fill="#bbb" font-family="Arial">2-2</text>
+        <text x="493" y="590" font-size="7" fill="#bbb" font-family="Arial">3-2</text>
+        <text x="561" y="590" font-size="7" fill="#bbb" font-family="Arial">4-2</text>
+        <text x="357" y="658" font-size="7" fill="#bbb" font-family="Arial">1-3</text>
+        <text x="425" y="658" font-size="7" fill="#bbb" font-family="Arial">2-3</text>
+        <text x="493" y="658" font-size="7" fill="#bbb" font-family="Arial">3-3</text>
+        <text x="561" y="658" font-size="7" fill="#bbb" font-family="Arial">4-3</text>
+        <text x="357" y="726" font-size="7" fill="#bbb" font-family="Arial">1-4</text>
+        <text x="425" y="726" font-size="7" fill="#bbb" font-family="Arial">2-4</text>
+        <text x="493" y="726" font-size="7" fill="#bbb" font-family="Arial">3-4</text>
+        <text x="561" y="726" font-size="7" fill="#bbb" font-family="Arial">4-4</text>
       </g>
 
-      <!-- =============================================
-           BACS
-           ============================================= -->
-
-      <!-- Bac C angle (carré 160×160 → 128×128px) -->
-      <g class="zone" id="z-bac-c-angle" data-zone="Bac C angle"
-         ondragover="dragOverZone(event, this)"
-         ondrop="dropOnZone(event, 'Bac C angle')">
-        <rect x="640" y="380" width="128" height="128"
-              fill="#b3e5fc" stroke="#0288d1" stroke-width="1.5"/>
-        <text x="648" y="396" font-size="9" fill="#01579b" font-family="Arial" font-weight="bold">Bac C angle</text>
+      <!-- =======================================
+           POTAGER BAS (Pot.B + Pot.BC — carré 250×250cm → 195×195px)
+           ======================================= -->
+      <g class="zone-g" id="z-potager-bas" onclick="selectZone('Potager Bas')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Potager Bas')">
+        <rect x="660" y="390" width="195" height="195" fill="#dcedc8" stroke="#558b2f" stroke-width="1.5"/>
+        <text x="710" y="410" font-size="10" fill="#33691e" font-family="Arial" font-weight="bold">Potager Bas</text>
+        <text x="680" y="425" font-size="8" fill="#558b2f" font-family="Arial" font-style="italic">Pot.B / Pot.BC</text>
       </g>
 
-      <!-- Bac R milieu (50×140 → 40×112px) -->
-      <g class="zone" id="z-bac-r-milieu" data-zone="Bac R milieu"
-         ondragover="dragOverZone(event, this)"
-         ondrop="dropOnZone(event, 'Bac R milieu')">
-        <rect x="640" y="516" width="40" height="112"
-              fill="#b3e5fc" stroke="#0288d1" stroke-width="1.5"/>
-        <text x="644" y="530" font-size="7" fill="#01579b" font-family="Arial" font-weight="bold">Bac R</text>
-        <text x="644" y="540" font-size="7" fill="#01579b" font-family="Arial">milieu</text>
+      <!-- =======================================
+           POT. TABLE (100×150cm → 78×117px)
+           ======================================= -->
+      <g class="zone-g" id="z-pot-table" onclick="selectZone('Pot.Table')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Pot.Table')">
+        <rect x="660" y="593" width="78" height="117" fill="#f8bbd0" stroke="#c2185b" stroke-width="1.5"/>
+        <text x="666" y="610" font-size="8" fill="#880e4f" font-family="Arial" font-weight="bold">Pot.Table</text>
       </g>
 
-      <!-- Bac terrasse (300×150 → 240×120px) -->
-      <g class="zone" id="z-bac-terrasse" data-zone="Bac terrasse"
-         ondragover="dragOverZone(event, this)"
-         ondrop="dropOnZone(event, 'Bac terrasse')">
-        <rect x="688" y="516" width="200" height="120"
-              fill="#b3e5fc" stroke="#0288d1" stroke-width="1.5"/>
-        <text x="696" y="532" font-size="9" fill="#01579b" font-family="Arial" font-weight="bold">Bac terrasse</text>
+      <!-- POT. PRUNIER (ovale 200×120cm → 156×94px) -->
+      <g class="zone-g" id="z-pot-prunier" onclick="selectZone('Pot.Prunier')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Pot.Prunier')">
+        <ellipse cx="837" cy="490" rx="78" ry="47" fill="#ce93d8" stroke="#7b1fa2" stroke-width="1.5"/>
+        <text x="800" y="494" font-size="8" fill="#4a148c" font-family="Arial" font-weight="bold">Pot.Prunier</text>
       </g>
 
-      <!-- Grand bac (trapèze 280-160-225-160 → ~224×128px) -->
-      <g class="zone" id="z-grand-bac" data-zone="Grand bac"
-         ondragover="dragOverZone(event, this)"
-         ondrop="dropOnZone(event, 'Grand bac')">
-        <polygon points="640,644 864,644 820,772 684,772"
-                 fill="#81d4fa" stroke="#0288d1" stroke-width="1.5"/>
-        <text x="720" y="700" font-size="9" fill="#01579b" font-family="Arial" font-weight="bold">Grand bac</text>
+      <!-- =======================================
+           BACS (indépendants)
+           ======================================= -->
+
+      <!-- Bac C angle (carré 160×160cm → 125×125px) -->
+      <g class="zone-g" id="z-bac-c-angle" onclick="selectZone('Bac C angle')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Bac C angle')">
+        <rect x="855" y="100" width="125" height="125" fill="#b3e5fc" stroke="#0277bd" stroke-width="1.5"/>
+        <text x="870" y="118" font-size="9" fill="#01579b" font-family="Arial" font-weight="bold">Bac C angle</text>
       </g>
 
-      <!-- =============================================
-           POTS
-           ============================================= -->
-
-      <!-- Pot.B (carré 250×250 → 80×80px) -->
-      <g class="zone" id="z-pot-b" data-zone="Pot.B"
-         ondragover="dragOverZone(event, this)"
-         ondrop="dropOnZone(event, 'Pot.B')">
-        <rect x="10" y="490" width="80" height="80"
-              fill="#f8bbd0" stroke="#c2185b" stroke-width="1.5"/>
-        <text x="18" y="506" font-size="9" fill="#880e4f" font-family="Arial" font-weight="bold">Pot.B</text>
+      <!-- Bac R milieu (50×140cm → 39×109px) -->
+      <g class="zone-g" id="z-bac-r-milieu" onclick="selectZone('Bac R milieu')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Bac R milieu')">
+        <rect x="855" y="233" width="39" height="109" fill="#b3e5fc" stroke="#0277bd" stroke-width="1.5"/>
+        <text x="858" y="248" font-size="7" fill="#01579b" font-family="Arial" font-weight="bold">Bac R</text>
+        <text x="858" y="260" font-size="7" fill="#01579b" font-family="Arial">milieu</text>
       </g>
 
-      <!-- Pot.BC (carré ~80×80px) -->
-      <g class="zone" id="z-pot-bc" data-zone="Pot.BC"
-         ondragover="dragOverZone(event, this)"
-         ondrop="dropOnZone(event, 'Pot.BC')">
-        <rect x="100" y="490" width="80" height="80"
-              fill="#f8bbd0" stroke="#c2185b" stroke-width="1.5"/>
-        <text x="108" y="506" font-size="9" fill="#880e4f" font-family="Arial" font-weight="bold">Pot.BC</text>
+      <!-- Bac C milieu (trapèze 160-150-160-200 → ~156×140px) -->
+      <g class="zone-g" id="z-bac-c-milieu" onclick="selectZone('Bac C milieu')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Bac C milieu')">
+        <polygon points="902,233 980,233 996,373 902,373"
+                 fill="#81d4fa" stroke="#0277bd" stroke-width="1.5"/>
+        <text x="918" y="300" font-size="8" fill="#01579b" font-family="Arial" font-weight="bold">Bac C milieu</text>
       </g>
 
-      <!-- Pot.Table (100×150 → 80×120px) -->
-      <g class="zone" id="z-pot-table" data-zone="Pot.Table"
-         ondragover="dragOverZone(event, this)"
-         ondrop="dropOnZone(event, 'Pot.Table')">
-        <rect x="190" y="490" width="80" height="120"
-              fill="#f8bbd0" stroke="#c2185b" stroke-width="1.5"/>
-        <text x="198" y="506" font-size="9" fill="#880e4f" font-family="Arial" font-weight="bold">Pot.Table</text>
+      <!-- Bac R angle (150×100cm → 117×78px) -->
+      <g class="zone-g" id="z-bac-r-angle" onclick="selectZone('Bac R angle')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Bac R angle')">
+        <rect x="855" y="350" width="117" height="78" fill="#b3e5fc" stroke="#0277bd" stroke-width="1.5"/>
+        <text x="870" y="368" font-size="8" fill="#01579b" font-family="Arial" font-weight="bold">Bac R angle</text>
       </g>
 
-      <!-- Pot.Prunier (ovale 200×120 → 160×96px) -->
-      <g class="zone" id="z-pot-prunier" data-zone="Pot.Prunier"
-         ondragover="dragOverZone(event, this)"
-         ondrop="dropOnZone(event, 'Pot.Prunier')">
-        <ellipse cx="90" cy="640" rx="80" ry="48"
-                 fill="#ce93d8" stroke="#7b1fa2" stroke-width="1.5"/>
-        <text x="38" y="644" font-size="9" fill="#4a148c" font-family="Arial" font-weight="bold">Pot.Prunier</text>
+      <!-- Bac terrasse (300×150cm → 234×117px) -->
+      <g class="zone-g" id="z-bac-terrasse" onclick="selectZone('Bac terrasse')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Bac terrasse')">
+        <rect x="855" y="436" width="180" height="117" fill="#b3e5fc" stroke="#0277bd" stroke-width="1.5"/>
+        <text x="900" y="454" font-size="9" fill="#01579b" font-family="Arial" font-weight="bold">Bac terrasse</text>
       </g>
 
-      <!-- =============================================
-           COUR
-           ============================================= -->
-
-      <!-- Cour (rectangle 580×60 → 464×48px) -->
-      <g class="zone" id="z-cour" data-zone="Cour"
-         ondragover="dragOverZone(event, this)"
-         ondrop="dropOnZone(event, 'Cour')">
-        <rect x="10" y="420" width="310" height="48"
-              fill="#d7ccc8" stroke="#795548" stroke-width="1.5"/>
-        <text x="18" y="436" font-size="9" fill="#3e2723" font-family="Arial" font-weight="bold">Cour 1 / Cour 2</text>
+      <!-- Grand bac (trapèze 280-225 → ~218×140px) -->
+      <g class="zone-g" id="z-grand-bac" onclick="selectZone('Grand bac')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Grand bac')">
+        <polygon points="855,561 1037,561 1002,701 890,701"
+                 fill="#81d4fa" stroke="#0277bd" stroke-width="1.5"/>
+        <text x="910" y="638" font-size="9" fill="#01579b" font-family="Arial" font-weight="bold">Grand bac</text>
       </g>
 
-      <!-- C. Fosse (640×300 → 320×150px) -->
-      <g class="zone" id="z-c-fosse" data-zone="C. Fosse"
-         ondragover="dragOverZone(event, this)"
-         ondrop="dropOnZone(event, 'C. Fosse')">
-        <rect x="10" y="620" width="160" height="150"
-              fill="#bcaaa4" stroke="#795548" stroke-width="1.5"/>
-        <text x="18" y="636" font-size="9" fill="#3e2723" font-family="Arial" font-weight="bold">C. Fosse</text>
+      <!-- =======================================
+           COUR + FOSSE + TERRASSE
+           ======================================= -->
+
+      <!-- Cour (580×60cm → 452×47px) -->
+      <g class="zone-g" id="z-cour" onclick="selectZone('Cour')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Cour')">
+        <rect x="28" y="390" width="320" height="47" fill="#d7ccc8" stroke="#795548" stroke-width="1.5"/>
+        <text x="140" y="408" font-size="9" fill="#3e2723" font-family="Arial" font-weight="bold">Cour 1 / Cour 2</text>
       </g>
 
-      <!-- C. Terrasse (640×300 → 160×150px) -->
-      <g class="zone" id="z-c-terrasse" data-zone="C. Terrasse"
-         ondragover="dragOverZone(event, this)"
-         ondrop="dropOnZone(event, 'C. Terrasse')">
-        <rect x="178" y="620" width="140" height="150"
-              fill="#bcaaa4" stroke="#795548" stroke-width="1.5"/>
-        <text x="186" y="636" font-size="9" fill="#3e2723" font-family="Arial" font-weight="bold">C. Terrasse</text>
+      <!-- Cour tri. (triangle rectangle 120h×240hyp) -->
+      <g class="zone-g" id="z-cour-tri" onclick="selectZone('Cour')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Cour')">
+        <polygon points="28,437 148,437 28,530"
+                 fill="#bcaaa4" stroke="#795548" stroke-width="1.5"/>
+        <text x="40" y="470" font-size="8" fill="#3e2723" font-family="Arial">Cour tri.</text>
       </g>
 
-      <!-- =============================================
-           REGARD EAU (740×100 → 592×80px)
-           ============================================= -->
-      <g class="zone" id="z-regard-eau" data-zone="Regard eau"
-         ondragover="dragOverZone(event, this)"
-         ondrop="dropOnZone(event, 'Regard eau')">
-        <rect x="10" y="472" width="310" height="44"
-              fill="#80deea" stroke="#00838f" stroke-width="1.5"/>
-        <text x="18" y="488" font-size="9" fill="#006064" font-family="Arial" font-weight="bold">Regard eau</text>
+      <!-- Fosse / C.Fosse / C.Terrasse (640×300cm → 499×234px) -->
+      <g class="zone-g" id="z-fosse" onclick="selectZone('Fosse')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Fosse')">
+        <rect x="28" y="545" width="320" height="234" fill="#bcaaa4" stroke="#795548" stroke-width="1.5"/>
+        <text x="120" y="563" font-size="10" fill="#3e2723" font-family="Arial" font-weight="bold">C. Fosse / C. Terrasse</text>
       </g>
 
-      <!-- =============================================
+      <!-- =======================================
+           REGARD EAU (740×100cm → 577×78px)
+           ======================================= -->
+      <g class="zone-g" id="z-regard-eau" onclick="selectZone('Regard eau')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Regard eau')">
+        <rect x="28" y="460" width="320" height="78" fill="#80deea" stroke="#00838f" stroke-width="1.5"/>
+        <text x="140" y="502" font-size="9" fill="#006064" font-family="Arial" font-weight="bold">Regard eau</text>
+      </g>
+
+      <!-- =======================================
            SÉCHOIR
-           ============================================= -->
+           ======================================= -->
 
-      <!-- Séchoir H (cercle 120×120 → r=48px) -->
-      <g class="zone" id="z-sechoir-h" data-zone="Séchoir H"
-         ondragover="dragOverZone(event, this)"
-         ondrop="dropOnZone(event, 'Séchoir H')">
-        <circle cx="244" cy="580" r="40"
-                fill="#ffe082" stroke="#f57f17" stroke-width="1.5"/>
-        <text x="212" y="584" font-size="9" fill="#e65100" font-family="Arial" font-weight="bold">Séchoir H</text>
+      <!-- Séchoir H (cercle 120cm → r=47px) -->
+      <g class="zone-g" id="z-sechoir-h" onclick="selectZone('Séchoir H')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Séchoir H')">
+        <circle cx="230" cy="490" r="47" fill="#ffe082" stroke="#f57f17" stroke-width="1.5"/>
+        <text x="198" y="494" font-size="9" fill="#e65100" font-family="Arial" font-weight="bold">Séchoir H</text>
       </g>
 
-      <!-- Séchoir B (demi-cercle) -->
-      <g class="zone" id="z-sechoir-b" data-zone="Séchoir B"
-         ondragover="dragOverZone(event, this)"
-         ondrop="dropOnZone(event, 'Séchoir B')">
-        <path d="M204,620 A40,30 0 0,1 284,620 Z"
+      <!-- Séchoir B (demi-cercle rayon 100cm, hauteur 70cm) -->
+      <g class="zone-g" id="z-sechoir-b" onclick="selectZone('Séchoir B')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Séchoir B')">
+        <path d="M183,543 A47,55 0 0,1 277,543 Z"
               fill="#ffe082" stroke="#f57f17" stroke-width="1.5"/>
-        <text x="220" y="618" font-size="8" fill="#e65100" font-family="Arial" font-weight="bold">Séchoir B</text>
+        <text x="200" y="560" font-size="8" fill="#e65100" font-family="Arial" font-weight="bold">Séchoir B</text>
       </g>
 
-      <!-- =============================================
-           ARBRES
-           ============================================= -->
-
-      <!-- Figuier (cercle 60×60 → r=24px) -->
-      <g class="zone" id="z-figuier" data-zone="Fig.J"
-         ondragover="dragOverZone(event, this)"
-         ondrop="dropOnZone(event, 'Fig.J')">
-        <circle cx="190" cy="380" r="24"
-                fill="#a5d6a7" stroke="#2e7d32" stroke-width="1.5"/>
-        <text x="172" y="384" font-size="8" fill="#1b5e20" font-family="Arial" font-weight="bold">Figuier</text>
+      <!-- =======================================
+           MURETTE (550×60cm → 429×47px)
+           ======================================= -->
+      <g class="zone-g" id="z-murette" onclick="selectZone('Murette')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Murette')">
+        <rect x="355" y="451" width="273" height="30" fill="#d7ccc8" stroke="#795548" stroke-width="1"/>
+        <text x="460" y="464" font-size="7" fill="#5d4037" font-family="Arial">Murette</text>
       </g>
 
-      <!-- Murier (ovale 230×400 → 92×40px) -->
-      <g class="zone" id="z-murier" data-zone="Murier"
-         ondragover="dragOverZone(event, this)"
-         ondrop="dropOnZone(event, 'Murier')">
-        <ellipse cx="100" cy="380" rx="46" ry="20"
-                 fill="#ce93d8" stroke="#6a1b9a" stroke-width="1.5"/>
-        <text x="68" y="384" font-size="8" fill="#4a148c" font-family="Arial" font-weight="bold">Murier</text>
+      <!-- =======================================
+           FIGUIER (cercle 60cm → r=23px)
+           ======================================= -->
+      <g class="zone-g" id="z-figuier" onclick="selectZone('Fig.J')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Fig.J')">
+        <circle cx="780" cy="600" r="23" fill="#a5d6a7" stroke="#2e7d32" stroke-width="1.5"/>
+        <text x="757" y="604" font-size="8" fill="#1b5e20" font-family="Arial" font-weight="bold">Figuier</text>
       </g>
 
-      <!-- Tipi carré (40×40 → 32×32px) -->
-      <g class="zone" id="z-tipi-carre" data-zone="Tipi carré"
-         ondragover="dragOverZone(event, this)"
-         ondrop="dropOnZone(event, 'Tipi carré')">
-        <rect x="280" y="370" width="32" height="32"
-              fill="#fff9c4" stroke="#f9a825" stroke-width="1.5"/>
-        <text x="282" y="384" font-size="7" fill="#e65100" font-family="Arial" font-weight="bold">Tipi</text>
-        <text x="282" y="394" font-size="7" fill="#e65100" font-family="Arial">carré</text>
+      <!-- =======================================
+           MURIER (ovale 230×400cm → 180×312px)
+           ======================================= -->
+      <g class="zone-g" id="z-murier" onclick="selectZone('Murier')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Murier')">
+        <ellipse cx="780" cy="720" rx="90" ry="47" fill="#ce93d8" stroke="#6a1b9a" stroke-width="1.5"/>
+        <text x="745" y="724" font-size="8" fill="#4a148c" font-family="Arial" font-weight="bold">Murier / Prairie</text>
       </g>
 
-      <!-- Fontaine (200×100 → 160×80px) -->
-      <g class="zone" id="z-fontaine" data-zone="Fontaine"
-         ondragover="dragOverZone(event, this)"
-         ondrop="dropOnZone(event, 'Fontaine')">
-        <rect x="190" y="620" width="80" height="40"
-              fill="#80deea" stroke="#00838f" stroke-width="1.5"/>
-        <text x="198" y="636" font-size="8" fill="#006064" font-family="Arial" font-weight="bold">Fontaine</text>
+      <!-- =======================================
+           TIPI CARRÉ (40×40cm → 31×31px)
+           ======================================= -->
+      <g class="zone-g" id="z-tipi-carre" onclick="selectZone('Tipi carré')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Tipi carré')">
+        <rect x="628" y="373" width="31" height="31" fill="#fff9c4" stroke="#f9a825" stroke-width="1.5"/>
+        <text x="630" y="385" font-size="7" fill="#e65100" font-family="Arial" font-weight="bold">Tipi</text>
+        <text x="630" y="397" font-size="7" fill="#e65100" font-family="Arial">carré</text>
       </g>
 
-      <!-- Murette (550×60 → 220×24px) -->
-      <g class="zone" id="z-murette" data-zone="Murette"
-         ondragover="dragOverZone(event, this)"
-         ondrop="dropOnZone(event, 'Murette')">
-        <rect x="330" y="456" width="220" height="24"
-              fill="#d7ccc8" stroke="#795548" stroke-width="1.5"/>
-        <text x="338" y="468" font-size="8" fill="#3e2723" font-family="Arial" font-weight="bold">Murette</text>
+      <!-- =======================================
+           FONTAINE (200×100cm → 156×78px)
+           ======================================= -->
+      <g class="zone-g" id="z-fontaine" onclick="selectZone('Fontaine')"
+         ondragover="event.preventDefault()"
+         ondrop="dropOnZone(event,'Fontaine')">
+        <rect x="348" y="760" width="156" height="47" fill="#80deea" stroke="#00838f" stroke-width="1.5"/>
+        <text x="395" y="782" font-size="9" fill="#006064" font-family="Arial" font-weight="bold">Fontaine</text>
       </g>
 
-      <!-- Conteneur des étiquettes placées -->
+      <!-- Conteneur étiquettes placées -->
       <g id="placed-tags"></g>
 
     </svg>
@@ -506,91 +506,149 @@ svg#plan {
 
 <script>
 /* =============================================
-   DONNÉES
+   CORRESPONDANCE Zone SVG → valeurs Ou dans Semis
    ============================================= */
-let records = [];           // enregistrements Semis
-let positions = {};         // id → {x, y} positions sur le plan
-let draggedId = null;       // id de l'élément en cours de drag
+const ZONE_MAP = {
+  'Serre':         ['Serre','SerreN','SerreS','SerreE','SerreW','Serre Tipi'],
+  'Ext. Serre':    ['Ext. Serre N','Ext. Serre S','Ext. Serre E','Ext. Serre W'],
+  'Ext. Serre Clô.': ['Ext. Serre Clô.'],
+  'Ext. Serre Bulle': ['Ext. Serre Bulle'],
+  'Ext. Serre Tipi':  ['Ext. Serre Tipi'],
+  'Pot.HN':        ['Pot.HN'],
+  'Potager':       ['Pot.Bulle','Pot.HE','Pot.HC','Pot. X-Y'],
+  'Pot.Bulle':     ['Pot.Bulle'],
+  'Pot.HE':        ['Pot.HE'],
+  'Pot.HC':        ['Pot.HC'],
+  'Pot.X-Y':       ['Pot.1-1','Pot.1-2','Pot.1-3','Pot.1-4',
+                    'Pot.2-1','Pot.2-2','Pot.2-3','Pot.2-4',
+                    'Pot.3-1','Pot.3-2','Pot.3-3','Pot.3-4',
+                    'Pot.4-1','Pot.4-2','Pot.4-3','Pot.4-4',
+                    'Pot. 1-1'],
+  'Potager Bas':   ['Pot.B','Pot.BC'],
+  'Pot.Table':     ['Pot.Table'],
+  'Pot.Prunier':   ['Pot.Prunier'],
+  'Bac C angle':   ['Bac C angle'],
+  'Bac R milieu':  ['Bac R milieu'],
+  'Bac C milieu':  ['Bac C milieu'],
+  'Bac R angle':   ['Bac R angle'],
+  'Bac terrasse':  ['Bac terrasse'],
+  'Grand bac':     ['Grand bac'],
+  'Cour':          ['Cour 1','Cour 2','C. Fosse','C. Terrasse'],
+  'Fosse':         ['C. Fosse','C. Terrasse'],
+  'Regard eau':    ['Regard eau'],
+  'Séchoir H':     ['Séchoir H','Séchoir HB'],
+  'Séchoir B':     ['Séchoir B','Séchoir HB'],
+  'Murette':       ['Murette'],
+  'Fig.J':         ['Fig.J','Figuier'],
+  'Murier':        ['Murier','Prairie murier'],
+  'Tipi carré':    ['Tipi carré'],
+  'Fontaine':      ['Fontaine'],
+};
+
+/* =============================================
+   ÉTAT
+   ============================================= */
+let records     = [];
+let positions   = {};
+let zoneActive  = null;
+let draggedId   = null;
 let dragOffsetX = 0;
 let dragOffsetY = 0;
 let isDraggingPlaced = false;
 
 /* =============================================
-   INITIALISATION GRIST
+   GRIST
    ============================================= */
 grist.ready({ requiredAccess: 'full' });
 
 grist.onRecords(function(recs) {
-  records = recs.filter(r => r.Plantes > 0 || r.A_produire);
-  
-  // Charger les positions sauvegardées
+  records = recs.filter(r => (r.Plantes > 0) || r.A_produire);
   records.forEach(r => {
     if (r.Position_X && r.Position_Y) {
       positions[r.id] = { x: r.Position_X, y: r.Position_Y };
     }
   });
-
-  document.getElementById('status').textContent = records.length + ' plantes à placer';
+  document.getElementById('status').textContent = records.length + ' plantes';
   renderPanel();
   renderPlacedTags();
 });
 
 /* =============================================
-   PANEL — liste des étiquettes
+   SÉLECTION DE ZONE
    ============================================= */
-function renderPanel() {
-  const list = document.getElementById('panel-list');
-  const search = document.getElementById('search').value.toLowerCase();
-  list.innerHTML = '';
-
-  records
-    .filter(r => {
-      const nom = ((r.Nom || '') + ' ' + (r.Variete || '')).toLowerCase();
-      return nom.includes(search);
-    })
-    .forEach(r => {
-      const placed = positions[r.id] !== undefined;
-      const div = document.createElement('div');
-      div.className = 'etiquette-item' + (placed ? ' placed' : '');
-      div.draggable = !placed;
-      div.dataset.id = r.id;
-
-      const zone = r.Ou ? (Array.isArray(r.Ou) ? r.Ou.join(', ') : r.Ou) : '';
-      div.innerHTML = `
-        <div class="nom">${r.Nom || ''}</div>
-        <div class="variete">${r.Variete || ''}</div>
-        ${zone ? `<div class="zone">📍 ${zone}</div>` : ''}
-      `;
-
-      if (!placed) {
-        div.addEventListener('dragstart', e => {
-          draggedId = r.id;
-          isDraggingPlaced = false;
-          e.dataTransfer.effectAllowed = 'move';
-        });
-      }
-
-      list.appendChild(div);
-    });
-}
-
-function filtrerEtiquettes() {
+function selectZone(zoneName) {
+  zoneActive = zoneName;
+  document.getElementById('zone-label').textContent = '📍 ' + zoneName;
+  document.querySelectorAll('.zone-g').forEach(g => g.classList.remove('active'));
+  // Activer toutes les zones ayant ce nom
+  document.querySelectorAll(`[onclick*="${zoneName}"]`).forEach(g => g.classList.add('active'));
   renderPanel();
 }
 
 /* =============================================
-   DROP SUR LE PLAN
+   PANEL — liste filtrée
+   ============================================= */
+function renderPanel() {
+  const list   = document.getElementById('panel-list');
+  const search = (document.getElementById('search').value || '').toLowerCase();
+
+  // Valeurs Ou acceptées pour la zone active
+  const ouAcceptes = zoneActive ? (ZONE_MAP[zoneActive] || [zoneActive]) : null;
+
+  const filtered = records.filter(r => {
+    const nom = ((r.Nom || '') + ' ' + (r.Variete || '')).toLowerCase();
+    if (!nom.includes(search)) return false;
+    if (!ouAcceptes) return true;
+    // Vérifier si Ou contient une des valeurs acceptées
+    const ouVals = Array.isArray(r.Ou) ? r.Ou : (r.Ou ? [r.Ou] : []);
+    return ouVals.some(v => ouAcceptes.includes(v));
+  });
+
+  list.innerHTML = '';
+  if (filtered.length === 0) {
+    list.innerHTML = '<div style="color:#aaa;font-size:10px;padding:8px;text-align:center">Aucune plante pour cette zone</div>';
+    return;
+  }
+
+  filtered.forEach(r => {
+    const placed = positions[r.id] !== undefined;
+    const div = document.createElement('div');
+    div.className = 'etiquette-item' + (placed ? ' placed' : '');
+    div.draggable = !placed;
+    div.dataset.id = r.id;
+
+    const ouStr = Array.isArray(r.Ou) ? r.Ou.join(', ') : (r.Ou || '');
+    div.innerHTML = `
+      <div class="nom">${r.Nom || ''}</div>
+      <div class="variete">${r.Variete || ''}</div>
+      ${ouStr ? `<div class="ou">📍 ${ouStr}</div>` : ''}
+    `;
+
+    if (!placed) {
+      div.addEventListener('dragstart', e => {
+        draggedId = r.id;
+        isDraggingPlaced = false;
+        dragOffsetX = 0;
+        dragOffsetY = 0;
+        e.dataTransfer.effectAllowed = 'move';
+      });
+    }
+    list.appendChild(div);
+  });
+}
+
+/* =============================================
+   DROP
    ============================================= */
 function dropOnPlan(event) {
   event.preventDefault();
-  if (draggedId === null) return;
-
-  const svg = document.getElementById('plan');
+  if (draggedId === null || isDraggingPlaced) return;
+  const svg  = document.getElementById('plan');
   const rect = svg.getBoundingClientRect();
-  const x = Math.round(event.clientX - rect.left - dragOffsetX);
-  const y = Math.round(event.clientY - rect.top - dragOffsetY);
-
-  positions[draggedId] = { x, y };
+  positions[draggedId] = {
+    x: Math.round(event.clientX - rect.left - 40),
+    y: Math.round(event.clientY - rect.top - 10)
+  };
   draggedId = null;
   renderPanel();
   renderPlacedTags();
@@ -599,29 +657,20 @@ function dropOnPlan(event) {
 function dropOnZone(event, zoneName) {
   event.preventDefault();
   event.stopPropagation();
-  if (draggedId === null) return;
-
-  const svg = document.getElementById('plan');
+  if (draggedId === null || isDraggingPlaced) return;
+  const svg  = document.getElementById('plan');
   const rect = svg.getBoundingClientRect();
-  const x = Math.round(event.clientX - rect.left);
-  const y = Math.round(event.clientY - rect.top);
-
-  positions[draggedId] = { x, y };
+  positions[draggedId] = {
+    x: Math.round(event.clientX - rect.left - 40),
+    y: Math.round(event.clientY - rect.top - 10)
+  };
   draggedId = null;
-
-  document.querySelectorAll('.zone').forEach(z => z.classList.remove('drag-over'));
   renderPanel();
   renderPlacedTags();
 }
 
-function dragOverZone(event, el) {
-  event.preventDefault();
-  document.querySelectorAll('.zone').forEach(z => z.classList.remove('drag-over'));
-  el.classList.add('drag-over');
-}
-
 /* =============================================
-   ÉTIQUETTES PLACÉES SUR LE PLAN
+   ÉTIQUETTES PLACÉES
    ============================================= */
 function renderPlacedTags() {
   const container = document.getElementById('placed-tags');
@@ -631,53 +680,52 @@ function renderPlacedTags() {
     const r = records.find(x => x.id === parseInt(id));
     if (!r) return;
 
-    const nom = (r.Nom || '').substring(0, 12);
-    const variete = (r.Variete || '').substring(0, 12);
-    const w = Math.max(nom.length, variete.length) * 5.5 + 10;
+    const nom     = (r.Nom     || '').substring(0, 14);
+    const variete = (r.Variete || '').substring(0, 14);
+    const w = Math.max(nom.length, variete.length) * 5.2 + 16;
 
     const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     g.classList.add('placed-tag');
     g.dataset.id = id;
-    g.setAttribute('transform', `translate(${pos.x}, ${pos.y})`);
+    g.setAttribute('transform', `translate(${pos.x},${pos.y})`);
 
     g.innerHTML = `
-      <rect x="0" y="0" width="${w}" height="${variete ? 28 : 18}" rx="3"/>
-      <text x="4" y="11" font-size="8" font-weight="bold">${nom}</text>
-      ${variete ? `<text x="4" y="22" font-size="7" font-style="italic">${variete}</text>` : ''}
-      <text x="${w - 10}" y="9" font-size="9" fill="#c62828" style="cursor:pointer" 
-            onclick="removeTag(${id})">×</text>
+      <rect x="0" y="0" width="${w}" height="${variete ? 26 : 16}" rx="3"
+            fill="#fff9c4" stroke="#f9a825" stroke-width="1"/>
+      <text x="4" y="10" font-size="8" font-weight="bold" font-family="Arial" fill="#333">${nom}</text>
+      ${variete ? `<text x="4" y="20" font-size="7" font-style="italic" font-family="Arial" fill="#555">${variete}</text>` : ''}
+      <text x="${w-9}" y="9" font-size="10" fill="#c62828" font-family="Arial"
+            style="cursor:pointer" onclick="removeTag(${id})">×</text>
     `;
 
-    /* Drag des étiquettes déjà placées */
+    // Drag des étiquettes déjà placées
     g.addEventListener('mousedown', e => {
+      if (e.target.tagName === 'text' && e.target.textContent === '×') return;
       draggedId = parseInt(id);
       isDraggingPlaced = true;
-      const svg = document.getElementById('plan');
+      const svg  = document.getElementById('plan');
       const rect = svg.getBoundingClientRect();
       dragOffsetX = e.clientX - rect.left - pos.x;
-      dragOffsetY = e.clientY - rect.top - pos.y;
+      dragOffsetY = e.clientY - rect.top  - pos.y;
       e.preventDefault();
     });
 
     container.appendChild(g);
   });
 
-  /* Drag des étiquettes placées avec la souris */
+  // Drag souris sur le plan
   const svg = document.getElementById('plan');
   svg.onmousemove = e => {
     if (!isDraggingPlaced || draggedId === null) return;
     const rect = svg.getBoundingClientRect();
-    const x = Math.round(e.clientX - rect.left - dragOffsetX);
-    const y = Math.round(e.clientY - rect.top - dragOffsetY);
-    positions[draggedId] = { x, y };
+    positions[draggedId] = {
+      x: Math.round(e.clientX - rect.left - dragOffsetX),
+      y: Math.round(e.clientY - rect.top  - dragOffsetY)
+    };
     renderPlacedTags();
   };
-
   svg.onmouseup = () => {
-    if (isDraggingPlaced) {
-      isDraggingPlaced = false;
-      draggedId = null;
-    }
+    if (isDraggingPlaced) { isDraggingPlaced = false; draggedId = null; }
   };
 }
 
@@ -688,37 +736,30 @@ function removeTag(id) {
 }
 
 /* =============================================
-   SAUVEGARDE DANS GRIST
+   SAUVEGARDE
    ============================================= */
 async function sauvegarder() {
   document.getElementById('status').textContent = 'Sauvegarde...';
   try {
-    const actions = Object.entries(positions).map(([id, pos]) => [
-      'UpdateRecord', 'Semis', parseInt(id), {
-        Position_X: pos.x,
-        Position_Y: pos.y
-      }
-    ]);
-
-    // Remettre à zéro les positions des étiquettes retirées
     const placedIds = Object.keys(positions).map(Number);
+    const actions = Object.entries(positions).map(([id, pos]) =>
+      ['UpdateRecord','Semis', parseInt(id), { Position_X: pos.x, Position_Y: pos.y }]
+    );
     records.forEach(r => {
       if (!placedIds.includes(r.id) && (r.Position_X || r.Position_Y)) {
-        actions.push(['UpdateRecord', 'Semis', r.id, { Position_X: null, Position_Y: null }]);
+        actions.push(['UpdateRecord','Semis', r.id, { Position_X: null, Position_Y: null }]);
       }
     });
-
     await grist.docApi.applyUserActions(actions);
     document.getElementById('status').textContent = '✅ Positions sauvegardées !';
-    setTimeout(() => {
-      document.getElementById('status').textContent = records.length + ' plantes';
-    }, 2000);
+    setTimeout(() => document.getElementById('status').textContent = records.length + ' plantes', 2000);
   } catch(e) {
-    document.getElementById('status').textContent = '❌ Erreur : ' + e.message;
+    document.getElementById('status').textContent = '❌ ' + e.message;
   }
 }
 
 function resetPositions() {
+  if (!confirm('Réinitialiser toutes les positions ?')) return;
   positions = {};
   renderPanel();
   renderPlacedTags();
