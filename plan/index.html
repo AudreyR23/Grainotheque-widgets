@@ -13,41 +13,55 @@ body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  user-select: none;
 }
 
+/* TOOLBAR */
 .toolbar {
   background: #fff8f0;
   border-bottom: 1px solid #d4c5b0;
-  padding: 6px 10px;
+  padding: 5px 8px;
   display: flex;
-  gap: 8px;
+  gap: 6px;
   align-items: center;
   font-size: 11px;
   flex-shrink: 0;
+  flex-wrap: wrap;
 }
 .btn {
-  padding: 4px 10px;
+  padding: 3px 8px;
   border: 1px solid #d4c5b0;
   border-radius: 4px;
   background: white;
   cursor: pointer;
   font-size: 11px;
+  white-space: nowrap;
 }
 .btn:hover { background: #f0ebe3; }
 .btn-primary { background: #2d6a4f; color: white; border-color: #2d6a4f; }
 .btn-primary:hover { background: #1f4f38; }
-.status { color: #666; flex: 1; }
-
-.app {
-  display: flex;
-  flex: 1;
-  overflow: hidden;
+.btn-edit { background: #e65100; color: white; border-color: #e65100; }
+.btn-edit:hover { background: #bf360c; }
+.btn-lock { background: #1565c0; color: white; border-color: #1565c0; }
+.sep { width: 1px; height: 20px; background: #d4c5b0; margin: 0 2px; }
+.status { color: #666; flex: 1; font-size: 10px; }
+.mode-badge {
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: bold;
 }
+.mode-view  { background: #e8f5e9; color: #2d6a4f; }
+.mode-edit  { background: #fff3e0; color: #e65100; }
+.mode-plant { background: #e3f2fd; color: #1565c0; }
 
-/* Panel gauche */
+/* LAYOUT */
+.app { display: flex; flex: 1; overflow: hidden; }
+
+/* PANEL */
 .panel {
-  width: 190px;
-  min-width: 190px;
+  width: 180px;
+  min-width: 180px;
   background: #fff8f0;
   border-right: 2px solid #d4c5b0;
   display: flex;
@@ -57,580 +71,549 @@ body {
 .panel-title {
   background: #2d6a4f;
   color: white;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: bold;
-  padding: 6px 8px;
+  padding: 5px 7px;
   text-transform: uppercase;
 }
 .panel-zone-label {
   background: #e8f5e9;
   color: #2d6a4f;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: bold;
-  padding: 4px 8px;
+  padding: 3px 7px;
   border-bottom: 1px solid #c8e6c9;
-}
-.panel-filter {
-  padding: 5px 6px;
-  border-bottom: 1px solid #e0d8cc;
+  min-height: 20px;
 }
 .panel-filter input {
   width: 100%;
   padding: 3px 5px;
-  border: 1px solid #d4c5b0;
-  border-radius: 4px;
+  border: none;
+  border-bottom: 1px solid #e0d8cc;
   font-size: 10px;
+  background: #fff8f0;
 }
+.panel-filter input:focus { outline: none; }
 .panel-list {
   flex: 1;
   overflow-y: auto;
-  padding: 4px;
+  padding: 3px;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
 }
 .etiquette-item {
   background: #e8f5e9;
   border: 1px solid #a5d6a7;
-  border-radius: 5px;
-  padding: 4px 6px;
+  border-radius: 4px;
+  padding: 3px 5px;
   cursor: grab;
-  font-size: 10px;
+  font-size: 9px;
   line-height: 1.3;
-  user-select: none;
 }
 .etiquette-item:hover { background: #c8e6c9; }
-.etiquette-item.placed { background: #f5f5f5; border-color: #ddd; color: #aaa; cursor: default; opacity: 0.6; }
+.etiquette-item.placed { background: #f5f5f5; border-color: #ddd; color: #bbb; cursor: default; }
 .etiquette-item .nom { font-weight: bold; }
-.etiquette-item .variete { font-style: italic; color: #555; font-size: 9px; }
-.etiquette-item .ou { font-size: 9px; color: #2d6a4f; }
+.etiquette-item .var { font-style: italic; color: #666; font-size: 8px; }
+.etiquette-item .ou  { font-size: 8px; color: #2d6a4f; }
 
-/* Plan */
-.plan-container {
+/* PLAN */
+.plan-wrap {
   flex: 1;
-  overflow: auto;
-  padding: 12px;
-  background: #f0ebe3;
+  overflow: hidden;
+  position: relative;
+  background: #e8e0d5;
 }
+.plan-viewport {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  cursor: grab;
+  position: relative;
+}
+.plan-viewport.grabbing { cursor: grabbing; }
+.plan-viewport.edit-mode { cursor: default; }
 
 svg#plan {
   background: #faf8f4;
-  border-radius: 6px;
-  border: 1px solid #d4c5b0;
   display: block;
+  transform-origin: 0 0;
 }
 
-.zone-g { cursor: pointer; }
-.zone-g:hover > * { opacity: 0.8; }
-.zone-g.active > rect,
-.zone-g.active > ellipse,
-.zone-g.active > polygon,
-.zone-g.active > path,
-.zone-g.active > circle { stroke: #2d6a4f !important; stroke-width: 3 !important; }
+/* ZONES SVG */
+.zone-shape {
+  stroke-width: 1.5;
+  transition: opacity 0.1s;
+}
+.zone-label {
+  font-family: Arial, sans-serif;
+  font-size: 9px;
+  font-weight: bold;
+  pointer-events: none;
+}
+.zone-group { cursor: pointer; }
+.zone-group.selected .zone-shape {
+  stroke-width: 3 !important;
+  filter: drop-shadow(0 0 4px rgba(45,106,79,0.6));
+}
+.zone-group.edit-handle { cursor: move; }
+.zone-group.edit-handle .zone-shape { stroke-dasharray: 4,2; }
 
-.placed-tag { cursor: move; }
+/* Étiquettes placées */
+.placed-label { cursor: move; }
+.placed-label rect {
+  fill: #fff9c4;
+  stroke: #f9a825;
+  stroke-width: 1;
+}
+.placed-label text { font-family: Arial, sans-serif; }
+
+/* Rotation handle */
+.rot-handle {
+  cursor: crosshair;
+  fill: #1565c0;
+  stroke: white;
+  stroke-width: 1;
+}
+
+/* Zoom controls */
+.zoom-controls {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  z-index: 10;
+}
+.zoom-btn {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #d4c5b0;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+.zoom-btn:hover { background: #f0ebe3; }
 </style>
 </head>
 <body>
 
 <div class="toolbar">
+  <span class="mode-badge mode-view" id="mode-badge">VUE</span>
+  <div class="sep"></div>
+  <button class="btn btn-edit"  onclick="setMode('edit')" title="Déplacer et pivoter les zones">✏️ Éditer zones</button>
+  <button class="btn btn-lock"  onclick="setMode('plant')" title="Placer les plantes">🌱 Placer plantes</button>
+  <button class="btn"           onclick="setMode('view')" title="Vue normale">👁 Vue</button>
+  <div class="sep"></div>
   <button class="btn btn-primary" onclick="sauvegarder()">💾 Sauvegarder</button>
-  <button class="btn" onclick="resetPositions()">↩ Réinitialiser</button>
-  <button class="btn" onclick="zoneActive=null; renderPanel()">🌿 Tout afficher</button>
-  <span class="status" id="status">Chargement...</span>
+  <button class="btn" onclick="resetPlantes()">↩ Réinit. plantes</button>
+  <div class="sep"></div>
+  <button class="btn" onclick="zoomIn()">🔍+</button>
+  <button class="btn" onclick="zoomOut()">🔍−</button>
+  <button class="btn" onclick="zoomReset()">⊡</button>
+  <div class="sep"></div>
+  <span class="status" id="status">Chargement…</span>
 </div>
 
 <div class="app">
-  <div class="panel">
-    <div class="panel-title">🌱 Plantes à placer</div>
+  <!-- Panel gauche -->
+  <div class="panel" id="panel">
+    <div class="panel-title">🌱 Plantes</div>
     <div class="panel-zone-label" id="zone-label">Cliquer sur une zone</div>
     <div class="panel-filter">
-      <input type="text" id="search" placeholder="Rechercher..." oninput="renderPanel()">
+      <input type="text" id="search" placeholder="🔍 Rechercher…" oninput="renderPanel()">
     </div>
     <div class="panel-list" id="panel-list"></div>
   </div>
 
-  <div class="plan-container">
-    <!-- 
-      ÉCHELLE : 1cm = 1.3px (ajustée pour tenir dans ~900px de large)
-      Les zones sont positionnées approximativement, pas géographiquement exactes
-      sauf Ext.Serre qui entoure la Serre
-    -->
-    <svg id="plan" width="1050" height="820"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnPlan(event)">
-
-      <text x="10" y="14" font-size="10" fill="#999" font-family="Arial">
-        Cliquer sur une zone pour filtrer les plantes · Glisser-déposer pour placer
-      </text>
-
-      <!-- =======================================
-           SERRE (300×400cm → 234×312px)
-           + EXT SERRE (bande 40cm = 31px autour sur 3 côtés S/E/W)
-           ======================================= -->
-
-      <!-- Ext. Serre (bande autour de 3 côtés) -->
-      <g class="zone-g" id="z-ext-serre" onclick="selectZone('Ext. Serre')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Ext. Serre')">
-        <!-- Bande S -->
-        <rect x="59" y="343" width="234" height="31" fill="#b2dfdb" stroke="#00796b" stroke-width="1.5" opacity="0.8"/>
-        <!-- Bande E -->
-        <rect x="293" y="30" width="31" height="313" fill="#b2dfdb" stroke="#00796b" stroke-width="1.5" opacity="0.8"/>
-        <!-- Bande W -->
-        <rect x="28" y="30" width="31" height="313" fill="#b2dfdb" stroke="#00796b" stroke-width="1.5" opacity="0.8"/>
-        <text x="303" y="100" font-size="8" fill="#004d40" font-family="Arial" font-weight="bold" transform="rotate(90,303,100)">Ext. Serre E</text>
-        <text x="42" y="190" font-size="8" fill="#004d40" font-family="Arial" writing-mode="tb">Ext. Serre W</text>
-        <text x="100" y="368" font-size="8" fill="#004d40" font-family="Arial">Ext. Serre S</text>
-      </g>
-
-      <!-- Ext. Serre Clôture (400×50cm → 312×39px) - bande au nord -->
-      <g class="zone-g" id="z-ext-serre-clo" onclick="selectZone('Ext. Serre Clô.')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Ext. Serre Clô.')">
-        <rect x="59" y="22" width="234" height="39" fill="#a5d6a7" stroke="#388e3c" stroke-width="1.5"/>
-        <text x="90" y="36" font-size="8" fill="#1b5e20" font-family="Arial" font-weight="bold">Ext. Serre Clô.</text>
-      </g>
-
-      <!-- Ext. Serre Bulle (160×80cm → 125×62px) -->
-      <g class="zone-g" id="z-ext-serre-bulle" onclick="selectZone('Ext. Serre Bulle')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Ext. Serre Bulle')">
-        <ellipse cx="480" cy="200" rx="62" ry="31" fill="#c8e6c9" stroke="#388e3c" stroke-width="1.5"/>
-        <text x="440" y="204" font-size="8" fill="#1b5e20" font-family="Arial" font-weight="bold">Ext.Serre Bulle</text>
-      </g>
-
-      <!-- Ext. Serre Tipi (cercle diam 100cm → r=39px) -->
-      <g class="zone-g" id="z-ext-serre-tipi" onclick="selectZone('Ext. Serre Tipi')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Ext. Serre Tipi')">
-        <circle cx="480" cy="100" r="39" fill="#dcedc8" stroke="#558b2f" stroke-width="1.5"/>
-        <text x="452" y="104" font-size="8" fill="#33691e" font-family="Arial" font-weight="bold">Ext.Serre Tipi</text>
-      </g>
-
-      <!-- Serre principale (300×400cm → 234×312px) -->
-      <g class="zone-g" id="z-serre" onclick="selectZone('Serre')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Serre')">
-        <rect x="59" y="30" width="234" height="312" fill="#a5d6a7" stroke="#2e7d32" stroke-width="2"/>
-        <text x="140" y="50" font-size="11" fill="#1b5e20" font-family="Arial" font-weight="bold">Serre</text>
-        <text x="100" y="180" font-size="9" fill="#2e7d32" font-family="Arial" font-style="italic">SerreN / SerreS</text>
-        <text x="100" y="195" font-size="9" fill="#2e7d32" font-family="Arial" font-style="italic">SerreE / SerreW</text>
-        <text x="100" y="210" font-size="9" fill="#2e7d32" font-family="Arial" font-style="italic">Serre Tipi</text>
-      </g>
-
-      <!-- =======================================
-           POT. HN (650×100cm → 507×78px) — bande nord du potager
-           ======================================= -->
-      <g class="zone-g" id="z-pot-hn" onclick="selectZone('Pot.HN')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Pot.HN')">
-        <rect x="355" y="22" width="507" height="78" fill="#ffe0b2" stroke="#e65100" stroke-width="1.5"/>
-        <text x="570" y="40" font-size="10" fill="#bf360c" font-family="Arial" font-weight="bold">Pot.HN — Potager Haut Nord (6m50)</text>
-      </g>
-
-      <!-- =======================================
-           POTAGER PRINCIPAL (350×450cm → 273×351px)
-           ======================================= -->
-      <g class="zone-g" id="z-potager" onclick="selectZone('Potager')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Potager')">
-        <rect x="355" y="100" width="273" height="351" fill="#fff9c4" stroke="#f9a825" stroke-width="2"/>
-        <text x="460" y="118" font-size="11" fill="#e65100" font-family="Arial" font-weight="bold">Potager</text>
-      </g>
-
-      <!-- Pot.Bulle dans le potager (150×100cm → 117×78px) -->
-      <g class="zone-g" id="z-pot-bulle" onclick="selectZone('Pot.Bulle')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Pot.Bulle')">
-        <ellipse cx="492" cy="300" rx="58" ry="39" fill="#ffcc80" stroke="#fb8c00" stroke-width="1.5"/>
-        <text x="455" y="304" font-size="8" fill="#e65100" font-family="Arial" font-weight="bold">Pot.Bulle</text>
-      </g>
-
-      <!-- =======================================
-           POT. HE (280×100cm → 218×78px) — bande est du potager
-           ======================================= -->
-      <g class="zone-g" id="z-pot-he" onclick="selectZone('Pot.HE')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Pot.HE')">
-        <rect x="628" y="100" width="218" height="273" fill="#ffe0b2" stroke="#e65100" stroke-width="1.5"/>
-        <text x="700" y="120" font-size="10" fill="#bf360c" font-family="Arial" font-weight="bold">Pot.HE</text>
-        <text x="660" y="138" font-size="8" fill="#bf360c" font-family="Arial">Potager Haut Est</text>
-      </g>
-
-      <!-- =======================================
-           POT. HC (380×40cm → 296×31px) — bande sud du potager
-           ======================================= -->
-      <g class="zone-g" id="z-pot-hc" onclick="selectZone('Pot.HC')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Pot.HC')">
-        <rect x="355" y="451" width="296" height="31" fill="#ffe0b2" stroke="#e65100" stroke-width="1.5"/>
-        <text x="460" y="466" font-size="8" fill="#bf360c" font-family="Arial" font-weight="bold">Pot.HC — Potager Haut Sud</text>
-      </g>
-
-      <!-- =======================================
-           POTAGER GRILLE 4×4
-           ======================================= -->
-      <g class="zone-g" id="z-potager-grille" onclick="selectZone('Pot.X-Y')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Pot.X-Y')">
-        <rect x="355" y="490" width="273" height="273" fill="#fffde7" stroke="#f9a825" stroke-width="2"/>
-        <text x="460" y="508" font-size="10" fill="#e65100" font-family="Arial" font-weight="bold">Potager grille</text>
-        <!-- lignes grille -->
-        <line x1="423" y1="490" x2="423" y2="763" stroke="#f9a825" stroke-width="0.8"/>
-        <line x1="491" y1="490" x2="491" y2="763" stroke="#f9a825" stroke-width="0.8"/>
-        <line x1="559" y1="490" x2="559" y2="763" stroke="#f9a825" stroke-width="0.8"/>
-        <line x1="355" y1="558" x2="628" y2="558" stroke="#f9a825" stroke-width="0.8"/>
-        <line x1="355" y1="626" x2="628" y2="626" stroke="#f9a825" stroke-width="0.8"/>
-        <line x1="355" y1="694" x2="628" y2="694" stroke="#f9a825" stroke-width="0.8"/>
-        <!-- labels -->
-        <text x="357" y="522" font-size="7" fill="#bbb" font-family="Arial">1-1</text>
-        <text x="425" y="522" font-size="7" fill="#bbb" font-family="Arial">2-1</text>
-        <text x="493" y="522" font-size="7" fill="#bbb" font-family="Arial">3-1</text>
-        <text x="561" y="522" font-size="7" fill="#bbb" font-family="Arial">4-1</text>
-        <text x="357" y="590" font-size="7" fill="#bbb" font-family="Arial">1-2</text>
-        <text x="425" y="590" font-size="7" fill="#bbb" font-family="Arial">2-2</text>
-        <text x="493" y="590" font-size="7" fill="#bbb" font-family="Arial">3-2</text>
-        <text x="561" y="590" font-size="7" fill="#bbb" font-family="Arial">4-2</text>
-        <text x="357" y="658" font-size="7" fill="#bbb" font-family="Arial">1-3</text>
-        <text x="425" y="658" font-size="7" fill="#bbb" font-family="Arial">2-3</text>
-        <text x="493" y="658" font-size="7" fill="#bbb" font-family="Arial">3-3</text>
-        <text x="561" y="658" font-size="7" fill="#bbb" font-family="Arial">4-3</text>
-        <text x="357" y="726" font-size="7" fill="#bbb" font-family="Arial">1-4</text>
-        <text x="425" y="726" font-size="7" fill="#bbb" font-family="Arial">2-4</text>
-        <text x="493" y="726" font-size="7" fill="#bbb" font-family="Arial">3-4</text>
-        <text x="561" y="726" font-size="7" fill="#bbb" font-family="Arial">4-4</text>
-      </g>
-
-      <!-- =======================================
-           POTAGER BAS (Pot.B + Pot.BC — carré 250×250cm → 195×195px)
-           ======================================= -->
-      <g class="zone-g" id="z-potager-bas" onclick="selectZone('Potager Bas')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Potager Bas')">
-        <rect x="660" y="390" width="195" height="195" fill="#dcedc8" stroke="#558b2f" stroke-width="1.5"/>
-        <text x="710" y="410" font-size="10" fill="#33691e" font-family="Arial" font-weight="bold">Potager Bas</text>
-        <text x="680" y="425" font-size="8" fill="#558b2f" font-family="Arial" font-style="italic">Pot.B / Pot.BC</text>
-      </g>
-
-      <!-- =======================================
-           POT. TABLE (100×150cm → 78×117px)
-           ======================================= -->
-      <g class="zone-g" id="z-pot-table" onclick="selectZone('Pot.Table')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Pot.Table')">
-        <rect x="660" y="593" width="78" height="117" fill="#f8bbd0" stroke="#c2185b" stroke-width="1.5"/>
-        <text x="666" y="610" font-size="8" fill="#880e4f" font-family="Arial" font-weight="bold">Pot.Table</text>
-      </g>
-
-      <!-- POT. PRUNIER (ovale 200×120cm → 156×94px) -->
-      <g class="zone-g" id="z-pot-prunier" onclick="selectZone('Pot.Prunier')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Pot.Prunier')">
-        <ellipse cx="837" cy="490" rx="78" ry="47" fill="#ce93d8" stroke="#7b1fa2" stroke-width="1.5"/>
-        <text x="800" y="494" font-size="8" fill="#4a148c" font-family="Arial" font-weight="bold">Pot.Prunier</text>
-      </g>
-
-      <!-- =======================================
-           BACS (indépendants)
-           ======================================= -->
-
-      <!-- Bac C angle (carré 160×160cm → 125×125px) -->
-      <g class="zone-g" id="z-bac-c-angle" onclick="selectZone('Bac C angle')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Bac C angle')">
-        <rect x="855" y="100" width="125" height="125" fill="#b3e5fc" stroke="#0277bd" stroke-width="1.5"/>
-        <text x="870" y="118" font-size="9" fill="#01579b" font-family="Arial" font-weight="bold">Bac C angle</text>
-      </g>
-
-      <!-- Bac R milieu (50×140cm → 39×109px) -->
-      <g class="zone-g" id="z-bac-r-milieu" onclick="selectZone('Bac R milieu')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Bac R milieu')">
-        <rect x="855" y="233" width="39" height="109" fill="#b3e5fc" stroke="#0277bd" stroke-width="1.5"/>
-        <text x="858" y="248" font-size="7" fill="#01579b" font-family="Arial" font-weight="bold">Bac R</text>
-        <text x="858" y="260" font-size="7" fill="#01579b" font-family="Arial">milieu</text>
-      </g>
-
-      <!-- Bac C milieu (trapèze 160-150-160-200 → ~156×140px) -->
-      <g class="zone-g" id="z-bac-c-milieu" onclick="selectZone('Bac C milieu')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Bac C milieu')">
-        <polygon points="902,233 980,233 996,373 902,373"
-                 fill="#81d4fa" stroke="#0277bd" stroke-width="1.5"/>
-        <text x="918" y="300" font-size="8" fill="#01579b" font-family="Arial" font-weight="bold">Bac C milieu</text>
-      </g>
-
-      <!-- Bac R angle (150×100cm → 117×78px) -->
-      <g class="zone-g" id="z-bac-r-angle" onclick="selectZone('Bac R angle')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Bac R angle')">
-        <rect x="855" y="350" width="117" height="78" fill="#b3e5fc" stroke="#0277bd" stroke-width="1.5"/>
-        <text x="870" y="368" font-size="8" fill="#01579b" font-family="Arial" font-weight="bold">Bac R angle</text>
-      </g>
-
-      <!-- Bac terrasse (300×150cm → 234×117px) -->
-      <g class="zone-g" id="z-bac-terrasse" onclick="selectZone('Bac terrasse')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Bac terrasse')">
-        <rect x="855" y="436" width="180" height="117" fill="#b3e5fc" stroke="#0277bd" stroke-width="1.5"/>
-        <text x="900" y="454" font-size="9" fill="#01579b" font-family="Arial" font-weight="bold">Bac terrasse</text>
-      </g>
-
-      <!-- Grand bac (trapèze 280-225 → ~218×140px) -->
-      <g class="zone-g" id="z-grand-bac" onclick="selectZone('Grand bac')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Grand bac')">
-        <polygon points="855,561 1037,561 1002,701 890,701"
-                 fill="#81d4fa" stroke="#0277bd" stroke-width="1.5"/>
-        <text x="910" y="638" font-size="9" fill="#01579b" font-family="Arial" font-weight="bold">Grand bac</text>
-      </g>
-
-      <!-- =======================================
-           COUR + FOSSE + TERRASSE
-           ======================================= -->
-
-      <!-- Cour (580×60cm → 452×47px) -->
-      <g class="zone-g" id="z-cour" onclick="selectZone('Cour')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Cour')">
-        <rect x="28" y="390" width="320" height="47" fill="#d7ccc8" stroke="#795548" stroke-width="1.5"/>
-        <text x="140" y="408" font-size="9" fill="#3e2723" font-family="Arial" font-weight="bold">Cour 1 / Cour 2</text>
-      </g>
-
-      <!-- Cour tri. (triangle rectangle 120h×240hyp) -->
-      <g class="zone-g" id="z-cour-tri" onclick="selectZone('Cour')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Cour')">
-        <polygon points="28,437 148,437 28,530"
-                 fill="#bcaaa4" stroke="#795548" stroke-width="1.5"/>
-        <text x="40" y="470" font-size="8" fill="#3e2723" font-family="Arial">Cour tri.</text>
-      </g>
-
-      <!-- Fosse / C.Fosse / C.Terrasse (640×300cm → 499×234px) -->
-      <g class="zone-g" id="z-fosse" onclick="selectZone('Fosse')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Fosse')">
-        <rect x="28" y="545" width="320" height="234" fill="#bcaaa4" stroke="#795548" stroke-width="1.5"/>
-        <text x="120" y="563" font-size="10" fill="#3e2723" font-family="Arial" font-weight="bold">C. Fosse / C. Terrasse</text>
-      </g>
-
-      <!-- =======================================
-           REGARD EAU (740×100cm → 577×78px)
-           ======================================= -->
-      <g class="zone-g" id="z-regard-eau" onclick="selectZone('Regard eau')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Regard eau')">
-        <rect x="28" y="460" width="320" height="78" fill="#80deea" stroke="#00838f" stroke-width="1.5"/>
-        <text x="140" y="502" font-size="9" fill="#006064" font-family="Arial" font-weight="bold">Regard eau</text>
-      </g>
-
-      <!-- =======================================
-           SÉCHOIR
-           ======================================= -->
-
-      <!-- Séchoir H (cercle 120cm → r=47px) -->
-      <g class="zone-g" id="z-sechoir-h" onclick="selectZone('Séchoir H')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Séchoir H')">
-        <circle cx="230" cy="490" r="47" fill="#ffe082" stroke="#f57f17" stroke-width="1.5"/>
-        <text x="198" y="494" font-size="9" fill="#e65100" font-family="Arial" font-weight="bold">Séchoir H</text>
-      </g>
-
-      <!-- Séchoir B (demi-cercle rayon 100cm, hauteur 70cm) -->
-      <g class="zone-g" id="z-sechoir-b" onclick="selectZone('Séchoir B')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Séchoir B')">
-        <path d="M183,543 A47,55 0 0,1 277,543 Z"
-              fill="#ffe082" stroke="#f57f17" stroke-width="1.5"/>
-        <text x="200" y="560" font-size="8" fill="#e65100" font-family="Arial" font-weight="bold">Séchoir B</text>
-      </g>
-
-      <!-- =======================================
-           MURETTE (550×60cm → 429×47px)
-           ======================================= -->
-      <g class="zone-g" id="z-murette" onclick="selectZone('Murette')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Murette')">
-        <rect x="355" y="451" width="273" height="30" fill="#d7ccc8" stroke="#795548" stroke-width="1"/>
-        <text x="460" y="464" font-size="7" fill="#5d4037" font-family="Arial">Murette</text>
-      </g>
-
-      <!-- =======================================
-           FIGUIER (cercle 60cm → r=23px)
-           ======================================= -->
-      <g class="zone-g" id="z-figuier" onclick="selectZone('Fig.J')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Fig.J')">
-        <circle cx="780" cy="600" r="23" fill="#a5d6a7" stroke="#2e7d32" stroke-width="1.5"/>
-        <text x="757" y="604" font-size="8" fill="#1b5e20" font-family="Arial" font-weight="bold">Figuier</text>
-      </g>
-
-      <!-- =======================================
-           MURIER (ovale 230×400cm → 180×312px)
-           ======================================= -->
-      <g class="zone-g" id="z-murier" onclick="selectZone('Murier')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Murier')">
-        <ellipse cx="780" cy="720" rx="90" ry="47" fill="#ce93d8" stroke="#6a1b9a" stroke-width="1.5"/>
-        <text x="745" y="724" font-size="8" fill="#4a148c" font-family="Arial" font-weight="bold">Murier / Prairie</text>
-      </g>
-
-      <!-- =======================================
-           TIPI CARRÉ (40×40cm → 31×31px)
-           ======================================= -->
-      <g class="zone-g" id="z-tipi-carre" onclick="selectZone('Tipi carré')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Tipi carré')">
-        <rect x="628" y="373" width="31" height="31" fill="#fff9c4" stroke="#f9a825" stroke-width="1.5"/>
-        <text x="630" y="385" font-size="7" fill="#e65100" font-family="Arial" font-weight="bold">Tipi</text>
-        <text x="630" y="397" font-size="7" fill="#e65100" font-family="Arial">carré</text>
-      </g>
-
-      <!-- =======================================
-           FONTAINE (200×100cm → 156×78px)
-           ======================================= -->
-      <g class="zone-g" id="z-fontaine" onclick="selectZone('Fontaine')"
-         ondragover="event.preventDefault()"
-         ondrop="dropOnZone(event,'Fontaine')">
-        <rect x="348" y="760" width="156" height="47" fill="#80deea" stroke="#00838f" stroke-width="1.5"/>
-        <text x="395" y="782" font-size="9" fill="#006064" font-family="Arial" font-weight="bold">Fontaine</text>
-      </g>
-
-      <!-- Conteneur étiquettes placées -->
-      <g id="placed-tags"></g>
-
-    </svg>
+  <!-- Plan -->
+  <div class="plan-wrap">
+    <div class="plan-viewport" id="viewport">
+      <svg id="plan" width="2000" height="1600">
+        <defs>
+          <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+            <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#e8e0d5" stroke-width="0.5"/>
+          </pattern>
+        </defs>
+        <rect width="2000" height="1600" fill="url(#grid)"/>
+        <text x="10" y="18" font-size="11" fill="#bbb" font-family="Arial">
+          Mode VUE — cliquer sur une zone pour filtrer les plantes
+        </text>
+        <!-- Zones générées par JS -->
+        <g id="zones-layer"></g>
+        <!-- Étiquettes plantes -->
+        <g id="plants-layer"></g>
+      </svg>
+    </div>
+    <div class="zoom-controls">
+      <div class="zoom-btn" onclick="zoomIn()">+</div>
+      <div class="zoom-btn" onclick="zoomOut()">−</div>
+      <div class="zoom-btn" onclick="zoomReset()" style="font-size:12px">⊡</div>
+    </div>
   </div>
 </div>
 
 <script>
 /* =============================================
-   CORRESPONDANCE Zone SVG → valeurs Ou dans Semis
+   CORRESPONDANCE Zone → valeurs Ou dans Semis
    ============================================= */
 const ZONE_MAP = {
-  'Serre':         ['Serre','SerreN','SerreS','SerreE','SerreW','Serre Tipi'],
-  'Ext. Serre':    ['Ext. Serre N','Ext. Serre S','Ext. Serre E','Ext. Serre W'],
-  'Ext. Serre Clô.': ['Ext. Serre Clô.'],
+  'Serre':            ['Serre','SerreN','SerreS','SerreE','SerreW','Serre Tipi'],
+  'Ext. Serre S':     ['Ext. Serre S'],
+  'Ext. Serre E':     ['Ext. Serre E'],
+  'Ext. Serre W':     ['Ext. Serre W'],
+  'Ext. Serre Clô.':  ['Ext. Serre Clô.'],
   'Ext. Serre Bulle': ['Ext. Serre Bulle'],
   'Ext. Serre Tipi':  ['Ext. Serre Tipi'],
-  'Pot.HN':        ['Pot.HN'],
-  'Potager':       ['Pot.Bulle','Pot.HE','Pot.HC','Pot. X-Y'],
-  'Pot.Bulle':     ['Pot.Bulle'],
-  'Pot.HE':        ['Pot.HE'],
-  'Pot.HC':        ['Pot.HC'],
-  'Pot.X-Y':       ['Pot.1-1','Pot.1-2','Pot.1-3','Pot.1-4',
-                    'Pot.2-1','Pot.2-2','Pot.2-3','Pot.2-4',
-                    'Pot.3-1','Pot.3-2','Pot.3-3','Pot.3-4',
-                    'Pot.4-1','Pot.4-2','Pot.4-3','Pot.4-4',
-                    'Pot. 1-1'],
-  'Potager Bas':   ['Pot.B','Pot.BC'],
-  'Pot.Table':     ['Pot.Table'],
-  'Pot.Prunier':   ['Pot.Prunier'],
-  'Bac C angle':   ['Bac C angle'],
-  'Bac R milieu':  ['Bac R milieu'],
-  'Bac C milieu':  ['Bac C milieu'],
-  'Bac R angle':   ['Bac R angle'],
-  'Bac terrasse':  ['Bac terrasse'],
-  'Grand bac':     ['Grand bac'],
-  'Cour':          ['Cour 1','Cour 2','C. Fosse','C. Terrasse'],
-  'Fosse':         ['C. Fosse','C. Terrasse'],
-  'Regard eau':    ['Regard eau'],
-  'Séchoir H':     ['Séchoir H','Séchoir HB'],
-  'Séchoir B':     ['Séchoir B','Séchoir HB'],
-  'Murette':       ['Murette'],
-  'Fig.J':         ['Fig.J','Figuier'],
-  'Murier':        ['Murier','Prairie murier'],
-  'Tipi carré':    ['Tipi carré'],
-  'Fontaine':      ['Fontaine'],
+  'Pot.HN':           ['Pot.HN'],
+  'Pot.HE':           ['Pot.HE'],
+  'Pot.HC':           ['Pot.HC'],
+  'Pot.Bulle':        ['Pot.Bulle'],
+  'Potager':          ['Pot.Bulle','Pot.HE','Pot.HC'],
+  'Pot.X-Y':          ['Pot.1-1','Pot.1-2','Pot.1-3','Pot.1-4',
+                       'Pot.2-1','Pot.2-2','Pot.2-3','Pot.2-4',
+                       'Pot.3-1','Pot.3-2','Pot.3-3','Pot.3-4',
+                       'Pot.4-1','Pot.4-2','Pot.4-3','Pot.4-4','Pot. 1-1'],
+  'Potager Bas':      ['Pot.B','Pot.BC'],
+  'Pot.Table':        ['Pot.Table'],
+  'Pot.Prunier':      ['Pot.Prunier'],
+  'Bac C angle':      ['Bac C angle'],
+  'Bac R milieu':     ['Bac R milieu'],
+  'Bac C milieu':     ['Bac C milieu'],
+  'Bac R angle':      ['Bac R angle'],
+  'Bac terrasse':     ['Bac terrasse'],
+  'Grand bac':        ['Grand bac'],
+  'Cour':             ['Cour 1','Cour 2'],
+  'Cour tri.':        ['Cour 1','Cour 2'],
+  'C. Fosse':         ['C. Fosse'],
+  'C. Terrasse':      ['C. Terrasse'],
+  'Regard eau':       ['Regard eau'],
+  'Séchoir H':        ['Séchoir H','Séchoir HB'],
+  'Séchoir B':        ['Séchoir B','Séchoir HB'],
+  'Murette':          ['Murette'],
+  'Fig.J':            ['Fig.J','Figuier'],
+  'Murier':           ['Murier','Prairie murier'],
+  'Tipi carré':       ['Tipi carré'],
+  'Fontaine':         ['Fontaine'],
+  'En pot':           ['En pot','Pot'],
 };
+
+/* =============================================
+   DÉFINITION DES ZONES
+   shape: 'rect'|'ellipse'|'circle'|'trapeze'|'triangle'|'semi-circle'
+   w,h en pixels (échelle ~1.3px/cm)
+   couleur fill/stroke
+   ============================================= */
+const ZONES_DEF = [
+  // Serre & Ext
+  { id:'serre',           label:'Serre',            shape:'rect',        w:234, h:312, fill:'#a5d6a7', stroke:'#2e7d32', x:300, y:100 },
+  { id:'ext-serre-s',     label:'Ext. Serre S',     shape:'rect',        w:234, h:31,  fill:'#b2dfdb', stroke:'#00796b', x:300, y:420 },
+  { id:'ext-serre-e',     label:'Ext. Serre E',     shape:'rect',        w:31,  h:312, fill:'#b2dfdb', stroke:'#00796b', x:534, y:100 },
+  { id:'ext-serre-w',     label:'Ext. Serre W',     shape:'rect',        w:31,  h:312, fill:'#b2dfdb', stroke:'#00796b', x:269, y:100 },
+  { id:'ext-serre-clo',   label:'Ext. Serre Clô.',  shape:'rect',        w:234, h:39,  fill:'#c8e6c9', stroke:'#388e3c', x:300, y:55  },
+  { id:'ext-serre-bulle', label:'Ext. Serre Bulle', shape:'ellipse',     w:160, h:80,  fill:'#c8e6c9', stroke:'#388e3c', x:600, y:200 },
+  { id:'ext-serre-tipi',  label:'Ext. Serre Tipi',  shape:'circle',      w:80,  h:80,  fill:'#dcedc8', stroke:'#558b2f', x:600, y:100 },
+  // Potager
+  { id:'pot-hn',          label:'Pot.HN',            shape:'rect',        w:507, h:78,  fill:'#ffe0b2', stroke:'#e65100', x:600, y:30  },
+  { id:'potager',         label:'Potager',           shape:'rect',        w:273, h:351, fill:'#fff9c4', stroke:'#f9a825', x:600, y:108 },
+  { id:'pot-bulle',       label:'Pot.Bulle',         shape:'ellipse',     w:150, h:100, fill:'#ffcc80', stroke:'#fb8c00', x:660, y:250 },
+  { id:'pot-he',          label:'Pot.HE',            shape:'rect',        w:218, h:273, fill:'#ffe0b2', stroke:'#e65100', x:873, y:108 },
+  { id:'pot-hc',          label:'Pot.HC',            shape:'rect',        w:296, h:31,  fill:'#ffe0b2', stroke:'#e65100', x:600, y:459 },
+  { id:'potager-grille',  label:'Pot.X-Y',           shape:'grid',        w:273, h:273, fill:'#fffde7', stroke:'#f9a825', x:600, y:500 },
+  { id:'potager-bas',     label:'Potager Bas',       shape:'rect',        w:195, h:195, fill:'#dcedc8', stroke:'#558b2f', x:900, y:400 },
+  { id:'pot-table',       label:'Pot.Table',         shape:'rect',        w:78,  h:117, fill:'#f8bbd0', stroke:'#c2185b', x:900, y:600 },
+  { id:'pot-prunier',     label:'Pot.Prunier',       shape:'ellipse',     w:200, h:120, fill:'#ce93d8', stroke:'#7b1fa2', x:1000, y:600 },
+  // Bacs
+  { id:'bac-c-angle',     label:'Bac C angle',       shape:'rect',        w:125, h:125, fill:'#b3e5fc', stroke:'#0277bd', x:1150, y:100 },
+  { id:'bac-r-milieu',    label:'Bac R milieu',      shape:'trapeze',     w:50,  h:140, fill:'#b3e5fc', stroke:'#0277bd', x:1150, y:230 },
+  { id:'bac-c-milieu',    label:'Bac C milieu',      shape:'trapeze',     w:160, h:150, fill:'#81d4fa', stroke:'#0277bd', x:1210, y:230 },
+  { id:'bac-r-angle',     label:'Bac R angle',       shape:'rect',        w:117, h:78,  fill:'#b3e5fc', stroke:'#0277bd', x:1150, y:385 },
+  { id:'bac-terrasse',    label:'Bac terrasse',      shape:'rect',        w:234, h:117, fill:'#b3e5fc', stroke:'#0277bd', x:1150, y:470 },
+  { id:'grand-bac',       label:'Grand bac',         shape:'trapeze2',    w:218, h:140, fill:'#81d4fa', stroke:'#0277bd', x:1150, y:600 },
+  // Cour & alentours
+  { id:'cour',            label:'Cour',              shape:'rect',        w:320, h:47,  fill:'#d7ccc8', stroke:'#795548', x:50,  y:500 },
+  { id:'cour-tri',        label:'Cour tri.',         shape:'triangle',    w:120, h:93,  fill:'#bcaaa4', stroke:'#795548', x:50,  y:547 },
+  { id:'c-fosse',         label:'C. Fosse',          shape:'rect',        w:160, h:234, fill:'#bcaaa4', stroke:'#795548', x:50,  y:650 },
+  { id:'c-terrasse',      label:'C. Terrasse',       shape:'rect',        w:155, h:234, fill:'#bcaaa4', stroke:'#795548', x:215, y:650 },
+  { id:'regard-eau',      label:'Regard eau',        shape:'rect',        w:320, h:78,  fill:'#80deea', stroke:'#00838f', x:50,  y:547 },
+  // Séchoir
+  { id:'sechoir-h',       label:'Séchoir H',         shape:'circle',      w:120, h:120, fill:'#ffe082', stroke:'#f57f17', x:100, y:400 },
+  { id:'sechoir-b',       label:'Séchoir B',         shape:'semi-circle', w:100, h:70,  fill:'#ffe082', stroke:'#f57f17', x:60,  y:465 },
+  // Divers
+  { id:'murette',         label:'Murette',           shape:'rect',        w:273, h:30,  fill:'#d7ccc8', stroke:'#795548', x:600, y:490 },
+  { id:'tipi-carre',      label:'Tipi carré',        shape:'rect',        w:31,  h:31,  fill:'#fff9c4', stroke:'#f9a825', x:873, y:459 },
+  { id:'fontaine',        label:'Fontaine',          shape:'rect',        w:156, h:47,  fill:'#80deea', stroke:'#00838f', x:600, y:800 },
+  { id:'figuier',         label:'Fig.J',             shape:'circle',      w:60,  h:60,  fill:'#a5d6a7', stroke:'#2e7d32', x:1400, y:200 },
+  { id:'murier',          label:'Murier',            shape:'ellipse',     w:230, h:80,  fill:'#ce93d8', stroke:'#6a1b9a', x:1380, y:300 },
+  { id:'en-pot',          label:'En pot',            shape:'rect',        w:120, h:80,  fill:'#f5f5f5', stroke:'#999',    x:1400, y:500 },
+];
 
 /* =============================================
    ÉTAT
    ============================================= */
-let records     = [];
-let positions   = {};
-let zoneActive  = null;
-let draggedId   = null;
-let dragOffsetX = 0;
-let dragOffsetY = 0;
-let isDraggingPlaced = false;
+let mode         = 'view';   // 'view' | 'edit' | 'plant'
+let zoneActive   = null;
+let records      = [];
+let plantPos     = {};       // id semis → {x,y}
+let zonePos      = {};       // id zone → {x,y,rot,w,h}  (depuis Grist Plan)
+let planRecords  = [];       // lignes de la table Plan
+
+// Drag état
+let drag = null;
+// {type:'zone'|'plant', id, startX, startY, origX, origY}
+
+// Pan état
+let pan = { active:false, startX:0, startY:0, ox:0, oy:0, x:0, y:0 };
+let scale = 1;
 
 /* =============================================
    GRIST
    ============================================= */
 grist.ready({ requiredAccess: 'full' });
 
-grist.onRecords(function(recs) {
+grist.onRecords(async function(recs) {
+  // Charger les plantes depuis Semis
   records = recs.filter(r => (r.Plantes > 0) || r.A_produire);
   records.forEach(r => {
-    if (r.Position_X && r.Position_Y) {
-      positions[r.id] = { x: r.Position_X, y: r.Position_Y };
-    }
+    if (r.Position_X && r.Position_Y)
+      plantPos[r.id] = { x: r.Position_X, y: r.Position_Y };
   });
+
+  // Charger les positions des zones depuis Plan
+  try {
+    const planData = await grist.docApi.fetchTable('Plan');
+    planRecords = planData.id.map((id,i) => ({
+      id, Zone: planData.Zone?.[i]||'',
+      X: planData.X?.[i]||0, Y: planData.Y?.[i]||0,
+      Rotation: planData.Rotation?.[i]||0,
+      Largeur: planData.Largeur?.[i]||0,
+      Hauteur: planData.Hauteur?.[i]||0,
+    }));
+    // Appliquer les positions sauvegardées
+    planRecords.forEach(pr => {
+      const z = ZONES_DEF.find(z => z.label === pr.Zone);
+      if (!z) return;
+      zonePos[z.id] = {
+        x: pr.X || z.x, y: pr.Y || z.y,
+        rot: pr.Rotation || 0,
+        w: pr.Largeur || z.w,
+        h: pr.Hauteur || z.h,
+      };
+    });
+  } catch(e) {
+    console.warn('Table Plan non trouvée, utilisation des positions par défaut');
+  }
+
   document.getElementById('status').textContent = records.length + ' plantes';
-  renderPanel();
-  renderPlacedTags();
+  renderAll();
 });
 
 /* =============================================
-   SÉLECTION DE ZONE
+   MODE
    ============================================= */
-function selectZone(zoneName) {
-  zoneActive = zoneName;
-  document.getElementById('zone-label').textContent = '📍 ' + zoneName;
-  document.querySelectorAll('.zone-g').forEach(g => g.classList.remove('active'));
-  // Activer toutes les zones ayant ce nom
-  document.querySelectorAll(`[onclick*="${zoneName}"]`).forEach(g => g.classList.add('active'));
-  renderPanel();
+function setMode(m) {
+  mode = m;
+  const badge = document.getElementById('mode-badge');
+  const vp    = document.getElementById('viewport');
+  if (m === 'edit') {
+    badge.className = 'mode-badge mode-edit';
+    badge.textContent = 'ÉDITION ZONES';
+    vp.classList.add('edit-mode');
+    document.getElementById('zone-label').textContent = '✏️ Glisser les zones · Clic droit = pivoter';
+  } else if (m === 'plant') {
+    badge.className = 'mode-badge mode-plant';
+    badge.textContent = 'PLACEMENT PLANTES';
+    vp.classList.remove('edit-mode');
+    document.getElementById('zone-label').textContent = '🌱 Cliquer zone puis glisser plante';
+  } else {
+    badge.className = 'mode-badge mode-view';
+    badge.textContent = 'VUE';
+    vp.classList.remove('edit-mode');
+    document.getElementById('zone-label').textContent = 'Cliquer sur une zone';
+  }
+  renderAll();
 }
 
 /* =============================================
-   PANEL — liste filtrée
+   RENDU ZONES
+   ============================================= */
+function getZoneState(z) {
+  return zonePos[z.id] || { x: z.x, y: z.y, rot: 0, w: z.w, h: z.h };
+}
+
+function makeShape(z, st) {
+  const cx = st.w / 2, cy = st.h / 2;
+  switch(z.shape) {
+    case 'rect':
+    case 'grid':
+      return `<rect x="0" y="0" width="${st.w}" height="${st.h}"
+                fill="${z.fill}" stroke="${z.stroke}" stroke-width="1.5" class="zone-shape"/>`;
+    case 'ellipse':
+      return `<ellipse cx="${cx}" cy="${cy}" rx="${cx}" ry="${cy}"
+                fill="${z.fill}" stroke="${z.stroke}" stroke-width="1.5" class="zone-shape"/>`;
+    case 'circle':
+      return `<circle cx="${cx}" cy="${cy}" r="${cx}"
+                fill="${z.fill}" stroke="${z.stroke}" stroke-width="1.5" class="zone-shape"/>`;
+    case 'trapeze':
+      // trapèze : angles droits en haut, incliné en bas
+      return `<polygon points="0,0 ${st.w},0 ${st.w},${st.h} 0,${st.h*0.85}"
+                fill="${z.fill}" stroke="${z.stroke}" stroke-width="1.5" class="zone-shape"/>`;
+    case 'trapeze2':
+      // trapèze : grande base en haut, petite en bas
+      const off = Math.round((st.w - st.w*0.75)/2);
+      return `<polygon points="0,0 ${st.w},0 ${st.w-off},${st.h} ${off},${st.h}"
+                fill="${z.fill}" stroke="${z.stroke}" stroke-width="1.5" class="zone-shape"/>`;
+    case 'triangle':
+      return `<polygon points="0,0 ${st.w},0 0,${st.h}"
+                fill="${z.fill}" stroke="${z.stroke}" stroke-width="1.5" class="zone-shape"/>`;
+    case 'semi-circle':
+      return `<path d="M0,0 A${cx},${st.h} 0 0,1 ${st.w},0 Z"
+                fill="${z.fill}" stroke="${z.stroke}" stroke-width="1.5" class="zone-shape"/>`;
+    default:
+      return `<rect x="0" y="0" width="${st.w}" height="${st.h}"
+                fill="${z.fill}" stroke="${z.stroke}" stroke-width="1.5" class="zone-shape"/>`;
+  }
+}
+
+function makeGrid(z, st) {
+  if (z.shape !== 'grid') return '';
+  const cw = st.w/4, ch = st.h/4;
+  let lines = '';
+  for(let i=1;i<4;i++) {
+    lines += `<line x1="${i*cw}" y1="0" x2="${i*cw}" y2="${st.h}" stroke="${z.stroke}" stroke-width="0.7" opacity="0.5"/>`;
+    lines += `<line x1="0" y1="${i*ch}" x2="${st.w}" y2="${i*ch}" stroke="${z.stroke}" stroke-width="0.7" opacity="0.5"/>`;
+  }
+  // Labels
+  const cols=['1','2','3','4'], rows=['1','2','3','4'];
+  for(let r=0;r<4;r++) for(let c=0;c<4;c++) {
+    lines += `<text x="${c*cw+3}" y="${r*ch+12}" font-size="7" fill="#bbb" font-family="Arial">${cols[c]}-${rows[r]}</text>`;
+  }
+  return lines;
+}
+
+function renderZones() {
+  const layer = document.getElementById('zones-layer');
+  layer.innerHTML = '';
+  ZONES_DEF.forEach(z => {
+    const st  = getZoneState(z);
+    const sel = zoneActive === z.label;
+    const g   = document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.id      = 'zg-' + z.id;
+    g.classList.add('zone-group');
+    if (sel) g.classList.add('selected');
+    if (mode === 'edit') g.classList.add('edit-handle');
+
+    g.setAttribute('transform',
+      `translate(${st.x},${st.y}) rotate(${st.rot},${st.w/2},${st.h/2})`);
+
+    g.innerHTML = makeShape(z, st) + makeGrid(z, st) +
+      `<text x="4" y="13" class="zone-label" fill="${z.stroke}">${z.label}</text>`;
+
+    // Poignée de rotation (visible en mode edit)
+    if (mode === 'edit') {
+      g.innerHTML += `
+        <circle class="rot-handle" cx="${st.w}" cy="0" r="6"
+          data-id="${z.id}" title="Pivoter"/>`;
+    }
+
+    // Événements
+    g.addEventListener('mousedown', e => onZoneMouseDown(e, z));
+    g.addEventListener('contextmenu', e => { e.preventDefault(); rotateZone(z.id, 15); });
+
+    layer.appendChild(g);
+  });
+}
+
+function rotateZone(zid, deg) {
+  if (mode !== 'edit') return;
+  const z  = ZONES_DEF.find(x => x.id === zid);
+  const st = getZoneState(z);
+  zonePos[zid] = { ...st, rot: (st.rot + deg) % 360 };
+  renderZones();
+}
+
+/* =============================================
+   RENDU PLANTES
+   ============================================= */
+function renderPlants() {
+  const layer = document.getElementById('plants-layer');
+  layer.innerHTML = '';
+  Object.entries(plantPos).forEach(([id, pos]) => {
+    const r = records.find(x => x.id === parseInt(id));
+    if (!r) return;
+    const nom = (r.Nom||'').substring(0,16);
+    const var_ = (r.Variete||'').substring(0,16);
+    const w = Math.max(nom.length, var_.length) * 5.2 + 14;
+    const h = var_ ? 26 : 16;
+    const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.classList.add('placed-label');
+    g.dataset.id = id;
+    g.setAttribute('transform',`translate(${pos.x},${pos.y})`);
+    g.innerHTML = `
+      <rect x="0" y="0" width="${w}" height="${h}" rx="2"
+            fill="#fff9c4" stroke="#f9a825" stroke-width="1"/>
+      <text x="3" y="10" font-size="8" font-weight="bold" font-family="Arial" fill="#333">${nom}</text>
+      ${var_ ? `<text x="3" y="20" font-size="7" font-style="italic" font-family="Arial" fill="#555">${var_}</text>` : ''}
+      <text x="${w-9}" y="9" font-size="11" fill="#c62828" font-family="Arial"
+            style="cursor:pointer" data-remove="${id}">×</text>`;
+    g.addEventListener('mousedown', e => {
+      if (e.target.dataset.remove) { removePlant(parseInt(e.target.dataset.remove)); return; }
+      if (mode !== 'plant') return;
+      onPlantMouseDown(e, parseInt(id), pos);
+    });
+    layer.appendChild(g);
+  });
+}
+
+function removePlant(id) {
+  delete plantPos[id];
+  renderPlants();
+  renderPanel();
+}
+
+function renderAll() { renderZones(); renderPlants(); renderPanel(); }
+
+/* =============================================
+   PANEL
    ============================================= */
 function renderPanel() {
   const list   = document.getElementById('panel-list');
-  const search = (document.getElementById('search').value || '').toLowerCase();
-
-  // Valeurs Ou acceptées pour la zone active
-  const ouAcceptes = zoneActive ? (ZONE_MAP[zoneActive] || [zoneActive]) : null;
+  const search = (document.getElementById('search').value||'').toLowerCase();
+  const ouOk   = zoneActive ? (ZONE_MAP[zoneActive]||[zoneActive]) : null;
 
   const filtered = records.filter(r => {
-    const nom = ((r.Nom || '') + ' ' + (r.Variete || '')).toLowerCase();
-    if (!nom.includes(search)) return false;
-    if (!ouAcceptes) return true;
-    // Vérifier si Ou contient une des valeurs acceptées
-    const ouVals = Array.isArray(r.Ou) ? r.Ou : (r.Ou ? [r.Ou] : []);
-    return ouVals.some(v => ouAcceptes.includes(v));
+    const txt = ((r.Nom||'') + ' ' + (r.Variete||'')).toLowerCase();
+    if (!txt.includes(search)) return false;
+    if (!ouOk) return true;
+    const vals = Array.isArray(r.Ou) ? r.Ou : (r.Ou ? [r.Ou] : []);
+    return vals.some(v => ouOk.includes(v));
   });
 
   list.innerHTML = '';
-  if (filtered.length === 0) {
-    list.innerHTML = '<div style="color:#aaa;font-size:10px;padding:8px;text-align:center">Aucune plante pour cette zone</div>';
+  if (!filtered.length) {
+    list.innerHTML = '<div style="color:#aaa;font-size:9px;padding:6px;text-align:center">Aucune plante</div>';
     return;
   }
 
   filtered.forEach(r => {
-    const placed = positions[r.id] !== undefined;
+    const placed = plantPos[r.id] !== undefined;
     const div = document.createElement('div');
     div.className = 'etiquette-item' + (placed ? ' placed' : '');
-    div.draggable = !placed;
     div.dataset.id = r.id;
-
-    const ouStr = Array.isArray(r.Ou) ? r.Ou.join(', ') : (r.Ou || '');
-    div.innerHTML = `
-      <div class="nom">${r.Nom || ''}</div>
-      <div class="variete">${r.Variete || ''}</div>
-      ${ouStr ? `<div class="ou">📍 ${ouStr}</div>` : ''}
-    `;
-
-    if (!placed) {
+    const ouStr = Array.isArray(r.Ou) ? r.Ou.join(', ') : (r.Ou||'');
+    div.innerHTML = `<div class="nom">${r.Nom||''}</div>
+      <div class="var">${r.Variete||''}</div>
+      ${ouStr?`<div class="ou">📍 ${ouStr}</div>`:''}`;
+    if (!placed && mode === 'plant') {
+      div.draggable = true;
       div.addEventListener('dragstart', e => {
-        draggedId = r.id;
-        isDraggingPlaced = false;
-        dragOffsetX = 0;
-        dragOffsetY = 0;
-        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('plantId', r.id);
       });
     }
     list.appendChild(div);
@@ -638,131 +621,195 @@ function renderPanel() {
 }
 
 /* =============================================
-   DROP
+   DRAG ZONES (mode edit)
    ============================================= */
-function dropOnPlan(event) {
-  event.preventDefault();
-  if (draggedId === null || isDraggingPlaced) return;
-  const svg  = document.getElementById('plan');
-  const rect = svg.getBoundingClientRect();
-  positions[draggedId] = {
-    x: Math.round(event.clientX - rect.left - 40),
-    y: Math.round(event.clientY - rect.top - 10)
-  };
-  draggedId = null;
-  renderPanel();
-  renderPlacedTags();
+function onZoneMouseDown(e, z) {
+  if (mode !== 'edit') {
+    // Mode view/plant → sélection de zone
+    zoneActive = z.label;
+    document.getElementById('zone-label').textContent = '📍 ' + z.label;
+    renderZones();
+    renderPanel();
+    return;
+  }
+  e.preventDefault();
+  e.stopPropagation();
+  // Clic sur poignée rotation ?
+  if (e.target.classList.contains('rot-handle')) {
+    rotateZone(z.id, 15);
+    return;
+  }
+  const st = getZoneState(z);
+  const svg = document.getElementById('plan');
+  const pt  = svgPoint(e, svg);
+  drag = { type:'zone', zid: z.id, startX: pt.x, startY: pt.y, origX: st.x, origY: st.y };
 }
 
-function dropOnZone(event, zoneName) {
-  event.preventDefault();
-  event.stopPropagation();
-  if (draggedId === null || isDraggingPlaced) return;
-  const svg  = document.getElementById('plan');
-  const rect = svg.getBoundingClientRect();
-  positions[draggedId] = {
-    x: Math.round(event.clientX - rect.left - 40),
-    y: Math.round(event.clientY - rect.top - 10)
-  };
-  draggedId = null;
-  renderPanel();
-  renderPlacedTags();
+function onPlantMouseDown(e, id, pos) {
+  if (mode !== 'plant') return;
+  e.preventDefault();
+  const svg = document.getElementById('plan');
+  const pt  = svgPoint(e, svg);
+  drag = { type:'plant', pid: id, startX: pt.x, startY: pt.y, origX: pos.x, origY: pos.y };
 }
 
 /* =============================================
-   ÉTIQUETTES PLACÉES
+   PAN + DRAG global
    ============================================= */
-function renderPlacedTags() {
-  const container = document.getElementById('placed-tags');
-  container.innerHTML = '';
+const svg = document.getElementById('plan');
+const vp  = document.getElementById('viewport');
 
-  Object.entries(positions).forEach(([id, pos]) => {
-    const r = records.find(x => x.id === parseInt(id));
-    if (!r) return;
+svg.addEventListener('mousemove', e => {
+  if (!drag) return;
+  const pt = svgPoint(e, svg);
+  const dx = pt.x - drag.startX, dy = pt.y - drag.startY;
+  if (drag.type === 'zone') {
+    const z = ZONES_DEF.find(x => x.id === drag.zid);
+    const st = getZoneState(z);
+    zonePos[drag.zid] = { ...st, x: drag.origX + dx, y: drag.origY + dy };
+    const g = document.getElementById('zg-' + drag.zid);
+    const nst = zonePos[drag.zid];
+    if (g) g.setAttribute('transform',
+      `translate(${nst.x},${nst.y}) rotate(${nst.rot},${nst.w/2},${nst.h/2})`);
+  } else if (drag.type === 'plant') {
+    plantPos[drag.pid] = { x: drag.origX + dx, y: drag.origY + dy };
+    renderPlants();
+  }
+});
 
-    const nom     = (r.Nom     || '').substring(0, 14);
-    const variete = (r.Variete || '').substring(0, 14);
-    const w = Math.max(nom.length, variete.length) * 5.2 + 16;
+svg.addEventListener('mouseup', () => { drag = null; });
+svg.addEventListener('mouseleave', () => { drag = null; });
 
-    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    g.classList.add('placed-tag');
-    g.dataset.id = id;
-    g.setAttribute('transform', `translate(${pos.x},${pos.y})`);
+// Drop depuis panel
+svg.addEventListener('dragover', e => { if (mode === 'plant') e.preventDefault(); });
+svg.addEventListener('drop', e => {
+  if (mode !== 'plant') return;
+  e.preventDefault();
+  const id = parseInt(e.dataTransfer.getData('plantId'));
+  if (!id) return;
+  const pt = svgPoint(e, svg);
+  plantPos[id] = { x: Math.round(pt.x), y: Math.round(pt.y) };
+  renderPlants();
+  renderPanel();
+});
 
-    g.innerHTML = `
-      <rect x="0" y="0" width="${w}" height="${variete ? 26 : 16}" rx="3"
-            fill="#fff9c4" stroke="#f9a825" stroke-width="1"/>
-      <text x="4" y="10" font-size="8" font-weight="bold" font-family="Arial" fill="#333">${nom}</text>
-      ${variete ? `<text x="4" y="20" font-size="7" font-style="italic" font-family="Arial" fill="#555">${variete}</text>` : ''}
-      <text x="${w-9}" y="9" font-size="10" fill="#c62828" font-family="Arial"
-            style="cursor:pointer" onclick="removeTag(${id})">×</text>
-    `;
+// Pan (milieu souris ou mode vue)
+vp.addEventListener('mousedown', e => {
+  if (drag) return;
+  if (mode !== 'view' && mode !== 'plant') return;
+  if (e.button !== 1 && mode === 'plant') return; // plant mode: pan seulement bouton milieu
+  pan.active = true;
+  pan.startX = e.clientX; pan.startY = e.clientY;
+  pan.ox = pan.x; pan.oy = pan.y;
+  vp.classList.add('grabbing');
+});
+// Pan en mode vue avec bouton gauche
+vp.addEventListener('mousedown', e => {
+  if (drag || mode !== 'view') return;
+  pan.active = true;
+  pan.startX = e.clientX; pan.startY = e.clientY;
+  pan.ox = pan.x; pan.oy = pan.y;
+  vp.classList.add('grabbing');
+});
+window.addEventListener('mousemove', e => {
+  if (!pan.active) return;
+  pan.x = pan.ox + e.clientX - pan.startX;
+  pan.y = pan.oy + e.clientY - pan.startY;
+  applyTransform();
+});
+window.addEventListener('mouseup', () => {
+  pan.active = false;
+  vp.classList.remove('grabbing');
+});
 
-    // Drag des étiquettes déjà placées
-    g.addEventListener('mousedown', e => {
-      if (e.target.tagName === 'text' && e.target.textContent === '×') return;
-      draggedId = parseInt(id);
-      isDraggingPlaced = true;
-      const svg  = document.getElementById('plan');
-      const rect = svg.getBoundingClientRect();
-      dragOffsetX = e.clientX - rect.left - pos.x;
-      dragOffsetY = e.clientY - rect.top  - pos.y;
-      e.preventDefault();
-    });
+// Zoom molette
+vp.addEventListener('wheel', e => {
+  e.preventDefault();
+  const delta = e.deltaY > 0 ? 0.9 : 1.1;
+  scale = Math.min(3, Math.max(0.2, scale * delta));
+  applyTransform();
+}, { passive: false });
 
-    container.appendChild(g);
-  });
-
-  // Drag souris sur le plan
-  const svg = document.getElementById('plan');
-  svg.onmousemove = e => {
-    if (!isDraggingPlaced || draggedId === null) return;
-    const rect = svg.getBoundingClientRect();
-    positions[draggedId] = {
-      x: Math.round(e.clientX - rect.left - dragOffsetX),
-      y: Math.round(e.clientY - rect.top  - dragOffsetY)
-    };
-    renderPlacedTags();
-  };
-  svg.onmouseup = () => {
-    if (isDraggingPlaced) { isDraggingPlaced = false; draggedId = null; }
-  };
+function applyTransform() {
+  svg.style.transform = `translate(${pan.x}px,${pan.y}px) scale(${scale})`;
 }
 
-function removeTag(id) {
-  delete positions[id];
-  renderPanel();
-  renderPlacedTags();
+function zoomIn()    { scale = Math.min(3, scale * 1.2); applyTransform(); }
+function zoomOut()   { scale = Math.max(0.2, scale * 0.8); applyTransform(); }
+function zoomReset() { scale = 1; pan.x = 0; pan.y = 0; applyTransform(); }
+
+function svgPoint(e, svgEl) {
+  const rect  = svgEl.getBoundingClientRect();
+  const factX = svgEl.viewBox?.baseVal?.width  ? svgEl.viewBox.baseVal.width  / rect.width  : 1;
+  const factY = svgEl.viewBox?.baseVal?.height ? svgEl.viewBox.baseVal.height / rect.height : 1;
+  return {
+    x: (e.clientX - rect.left) / scale,
+    y: (e.clientY - rect.top)  / scale,
+  };
 }
 
 /* =============================================
    SAUVEGARDE
    ============================================= */
 async function sauvegarder() {
-  document.getElementById('status').textContent = 'Sauvegarde...';
+  document.getElementById('status').textContent = 'Sauvegarde…';
   try {
-    const placedIds = Object.keys(positions).map(Number);
-    const actions = Object.entries(positions).map(([id, pos]) =>
-      ['UpdateRecord','Semis', parseInt(id), { Position_X: pos.x, Position_Y: pos.y }]
-    );
+    const actions = [];
+
+    // Positions zones → table Plan
+    ZONES_DEF.forEach(z => {
+      const st  = getZoneState(z);
+      const pr  = planRecords.find(p => p.Zone === z.label);
+      if (pr) {
+        actions.push(['UpdateRecord','Plan', pr.id, {
+          X: Math.round(st.x), Y: Math.round(st.y),
+          Rotation: st.rot, Largeur: st.w, Hauteur: st.h
+        }]);
+      } else {
+        actions.push(['AddRecord','Plan', null, {
+          Zone: z.label,
+          X: Math.round(st.x), Y: Math.round(st.y),
+          Rotation: st.rot, Largeur: st.w, Hauteur: st.h
+        }]);
+      }
+    });
+
+    // Positions plantes → table Semis
+    const placedIds = Object.keys(plantPos).map(Number);
+    Object.entries(plantPos).forEach(([id, pos]) => {
+      actions.push(['UpdateRecord','Semis', parseInt(id), {
+        Position_X: pos.x, Position_Y: pos.y
+      }]);
+    });
     records.forEach(r => {
       if (!placedIds.includes(r.id) && (r.Position_X || r.Position_Y)) {
         actions.push(['UpdateRecord','Semis', r.id, { Position_X: null, Position_Y: null }]);
       }
     });
+
     await grist.docApi.applyUserActions(actions);
-    document.getElementById('status').textContent = '✅ Positions sauvegardées !';
+    // Recharger planRecords
+    const planData = await grist.docApi.fetchTable('Plan');
+    planRecords = planData.id.map((id,i) => ({
+      id, Zone: planData.Zone?.[i]||'',
+      X: planData.X?.[i]||0, Y: planData.Y?.[i]||0,
+      Rotation: planData.Rotation?.[i]||0,
+      Largeur: planData.Largeur?.[i]||0,
+      Hauteur: planData.Hauteur?.[i]||0,
+    }));
+
+    document.getElementById('status').textContent = '✅ Sauvegardé !';
     setTimeout(() => document.getElementById('status').textContent = records.length + ' plantes', 2000);
-  } catch(e) {
-    document.getElementById('status').textContent = '❌ ' + e.message;
+  } catch(err) {
+    document.getElementById('status').textContent = '❌ ' + err.message;
   }
 }
 
-function resetPositions() {
-  if (!confirm('Réinitialiser toutes les positions ?')) return;
-  positions = {};
+function resetPlantes() {
+  if (!confirm('Réinitialiser les positions des plantes ?')) return;
+  plantPos = {};
+  renderPlants();
   renderPanel();
-  renderPlacedTags();
 }
 </script>
 </body>
