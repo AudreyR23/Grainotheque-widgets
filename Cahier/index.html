@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; background: white; font-size: 9px; }
+
+.controls {
+  display: flex; gap: 12px; margin-bottom: 1rem;
+  align-items: center; padding: 8px;
+}
+.btn {
+  padding: 6px 16px; border: 1px solid #ccc; border-radius: 4px;
+  background: transparent; cursor: pointer; font-size: 13px;
+}
+.btn:hover { background: #f5f5f5; }
+.info { font-size: 12px; color: #666; flex: 1; }
+
+/* =============================================
+   LARGEURS DES COLONNES
+   ============================================= */
+.col-type      { width: 7.5%; }
+.col-nom       { width: 12.5%; }
+.col-epingle   { width: 2.5%; }
+.col-nbep      { width: 2.5%; }
+.col-origine   { width: 5%; }
+.col-sachet    { width: 2.5%; }
+.col-annee     { width: 5%; }
+.col-s   { width: 2.5%; }
+.col-qtte      { width: 5%; }
+.col-germ      { width: 5%; }
+.col-profond   { width: 5%; }
+.col-germdur   { width: 5%; }
+.col-germtemp  { width: 5%; }
+.col-sa        { width: 10%; }
+.col-se        { width: 5%; }
+.col-vide1     { width: 5%; }
+.col-arrosage  { width: 5%; }
+.col-exposition{ width: 10%; }
+.col-ou        { width: 10%; }
+.col-vide2     { width: 5%; }
+
+/* =============================================
+   MISE EN PAGE A4 PAYSAGE
+   ============================================= */
+.page {
+  width: 297mm;
+  margin: 0 auto 20px auto;
+  background: white;
+  padding: 15mm 10mm 10mm 10mm;
+  border: 0.5px solid #ddd;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+thead th {
+  background: #e0e0e0;
+  color: #111;
+  font-size: 8px;
+  font-weight: 600;
+  text-align: center;
+  padding: 2px 1px;
+  border: 1px solid #999;
+  line-height: 1.1;
+  vertical-align: middle;
+}
+
+td {
+  border: 1px solid #aaa;
+  text-align: center;
+  vertical-align: middle;
+  padding: 1px 2px;
+  font-size: 9px;
+  color: #111;
+  overflow: hidden;
+  line-height: 1.2;
+}
+th, td {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Info en bas de cellule — données stables */
+td.info-bas {
+  vertical-align: bottom;
+  font-size: 7px;
+  color: #888;
+  padding-bottom: 2px;
+}
+/* Info Nb d'épingle — données stables */
+.info-gris {
+  color: #888;
+}
+
+/* Cellule Nom */
+td.nom-cell { text-align: center; vertical-align: middle; }
+td.nom-cell .nom  { font-weight: 700; font-size: 9px; display: block; }
+td.nom-cell .var  { font-size: 8px; font-weight: 400; display: block; }
+
+/* Multi-sachets */
+td.multi { vertical-align: top; padding: 0; }
+td.multi .sl {
+  display: flex; align-items: center; justify-content: center;
+  border-bottom: 1px solid #ddd; padding: 0 2px; min-height: 4mm;
+}
+td.multi .sl:last-child { border-bottom: none; }
+
+tr.graine-row td { height: 8mm; }
+
+@media print {
+  .controls { display: none; }
+  @page { size: A4 landscape; margin: 0; }
+  .page {
+    width: 100%; padding: 15mm 10mm 10mm 10mm;
+    margin: 0; border: none;
+  }
+  .page-last-of-group { page-break-after: always; break-after: page; }
+  .page:last-child {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+  tr { page-break-inside: avoid; break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <span class="info" id="info-count">Chargement...</span>
+  <button class="btn" onclick="window.print()">🖨️ Imprimer</button>
+</div>
+<div id="pages"></div>
+
+<script>
+/* =============================================
+   CONFIGURATION
+   ============================================= */
+const GRAINES_PAR_PAGE = 20;
+
+/* Abréviations mois — clés = valeurs exactes dans Grist */
+const MOIS = {
+  "Jan":"J","Fév":"F","Mar":"M","Avr":"A","Mai":"Ma",
+  "Jui":"Ju","Juil":"Jl","Aou":"Ao","Sep":"S","Oct":"O","Nov":"N","Déc":"D",
+  "Janvier":"J","Février":"F","Mars":"M","Avril":"A","Juin":"Ju",
+  "Juillet":"Jl","Août":"Ao","Septembre":"S","Octobre":"O",
+  "Novembre":"N","Décembre":"D"
+};
+
+/* =============================================
+   UTILITAIRES
+   ============================================= */
+function fmtAnnee(v) {
+  if (!v) return '';
+  return String(v).substring(0, 4);
+}
+
+function fmtMois(v) {
+  if (!v) return '';
+
+  let src = Array.isArray(v) ? [...v] : String(v).split(',').map(x => x.trim());
+
+  // Les Choice List Grist sont renvoyées sous la forme ["L", ...]
+  if (Array.isArray(src) && src[0] === 'L') {
+    src = src.slice(1);
+  }
+
+  return src.map(m => MOIS[m] || m).join(' ');
+}
+
+function fmtVal(v) {
+  if (!v) return '';
+
+  if (Array.isArray(v)) {
+    const vals = v[0] === 'L' ? v.slice(1) : v;
+    return vals.join(', ');
+  }
+
+  return String(v);
+}
+
+/* =============================================
+   EN-TÊTE DU TABLEAU
+   ============================================= */
+function makeHeader() {
+  return `<thead><tr>
+    <th class="col-type">Type</th>
+    <th class="col-nom">Nom-Variété</th>
+    <th class="col-epingle">Ép.</th>
+    <th class="col-nbep">Nb</th>
+    <th class="col-origine">Orig.</th>
+    <th class="col-sachet">Sac.</th>
+    <th class="col-annee">Millésime</th>
+    <th class="col-s">Sais.</th>
+    <th class="col-qtte">Qté</th>
+    <th class="col-germ">Germ.</th>
+    <th class="col-profond">Nb.gr</th>
+    <th class="col-germdur">Nb.go</th>
+    <th class="col-germtemp">Année.s</th>
+    <th class="col-sa">Date.s</th>
+    <th class="col-se">Germé</th>
+    <th class="col-vide1">Oups</th>
+    <th class="col-arrosage">Planté</th>
+    <th class="col-exposition">Date.p</th>
+    <th class="col-ou">Où</th>
+    <th class="col-vide2">Donné</th>
+  </tr></thead>`;
+}
+
+/* =============================================
+   CONSTRUCTION D'UNE LIGNE
+   Colonnes "par sachet" → multi-lignes si plusieurs millésimes
+   Colonnes "info-bas" → données stables depuis Varietes
+   ============================================= */
+function makeRow(g) {
+  const ss = g.sachets;
+  const nb = ss.length;
+
+  function mc(cls, vals) {
+    if (nb <= 1) return `<td class="${cls}">${vals[0] || ''}</td>`;
+    return `<td class="${cls} multi">${
+      vals.map(v => `<span class="sl">${v || ''}</span>`).join('')
+    }</td>`;
+  }
+
+  return `<tr class="graine-row">
+    <td class="col-type">${g.type || ''}</td>
+    <td class="col-nom nom-cell">
+      <span class="nom">${g.nom || ''}</span>
+      ${g.variete ? `<span class="var">${g.variete}</span>` : ''}
+    </td>
+    <td class="col-epingle">${g.num_epingle || ''}</td>
+    <td class="col-nbep info-gris">${g.nb_epingle || ''}</td>
+    ${mc('col-origine',   ss.map(s => fmtVal(s.origine)))}
+    ${mc('col-sachet',    ss.map(s => s.sachet))}
+    ${mc('col-annee',     ss.map(s => fmtAnnee(s.annee)))}
+    ${mc('col-saisons',   ss.map(s => s.Nb_saisons_mil))}
+    ${mc('col-qtte',      ss.map(s => s.qtte))}
+    ${mc('col-germ',      ss.map(s => s.germination))}
+    <td class="col-profond   info-bas">${g.profondeur  || ''}</td>
+    <td class="col-germdur   info-bas">${g.germ_duree  || ''}</td>
+    <td class="col-germtemp  info-bas">${g.germ_temp   || ''}</td>
+    <td class="col-sa        info-bas">${fmtMois(g.abri)}</td>
+    <td class="col-se        info-bas">${fmtMois(g.semis_ext)}</td>
+    <td class="col-vide1"></td>
+    <td class="col-arrosage  info-bas">${g.arrosage    || ''}</td>
+    <td class="col-exposition info-bas">${g.exposition  || ''}</td>
+    <td class="col-ou        info-bas">${fmtVal(g.ou)}</td>
+    <td class="col-vide2"></td>
+  </tr>`;
+}
+
+/* =============================================
+   RENDU DES PAGES
+   Tri : Type → Nom → Variété
+   Groupement par Type avec saut de page entre les groupes
+   ============================================= */
+function render(graines) {
+  document.getElementById('info-count').textContent = graines.length + ' variétés';
+  const pagesEl = document.getElementById('pages');
+  pagesEl.innerHTML = '';
+
+  graines.sort((a, b) => {
+    const t = (a.type || '').localeCompare(b.type || '', 'fr');
+    if (t) return t;
+    const n = (a.nom || '').localeCompare(b.nom || '', 'fr');
+    if (n) return n;
+    return (a.variete || '').localeCompare(b.variete || '', 'fr');
+  });
+
+  /* Grouper par type */
+  const parType = [];
+  let cur = null, grp = [];
+  graines.forEach(g => {
+    if (g.type !== cur) {
+      if (grp.length) parType.push(grp);
+      cur = g.type; grp = [g];
+    } else { grp.push(g); }
+  });
+  if (grp.length) parType.push(grp);
+
+  parType.forEach(groupe => {
+    const nb = Math.ceil(groupe.length / GRAINES_PAR_PAGE);
+    for (let p = 0; p < nb; p++) {
+      const slice = groupe.slice(p * GRAINES_PAR_PAGE, (p + 1) * GRAINES_PAR_PAGE);
+      const page  = document.createElement('div');
+      page.className = (p === nb - 1) ? 'page page-last-of-group' : 'page';
+      page.innerHTML = `<table>${makeHeader()}<tbody>${
+        slice.map(makeRow).join('')
+      }</tbody></table>`;
+      pagesEl.appendChild(page);
+    }
+  });
+}
+
+/* =============================================
+   CONSTRUCTION DE LA MAP DES GRAINES
+   - Widget lié à Millesimes (onRecords)
+   - r.NomVariete = texte complet "Nom\nVariété"
+     → sert de clé pour croiser avec varietesParNom
+   - Regroupement par variété, sachets agrégés
+   ============================================= */
+
+/* Stockage Varietes indexé par NomVariete (texte) */
+let varietesParNom = {};
+let derniersRecords = null;
+
+function buildGrainesMap(records) {
+  const map = new Map();
+
+  records
+    .filter(r => r.Sachets)                    /* uniquement les millésimes avec sachet */
+    .forEach(r => {
+      /* r.NomVariete = "Basilic\nGrand vert" ou "Tomate" */
+      const nomComplet = r.NomVariete || '';
+      const v = varietesParNom[nomComplet] || {};
+
+      /* Extraire Nom et Variété depuis le texte */
+      const parts   = nomComplet.split('\n');
+      const nom     = v.Nom     || parts[0] || '';
+      const variete = v.Variete || parts[1] || '';
+
+      const key = nomComplet || ('_' + r.id);
+
+      if (!map.has(key)) {
+        map.set(key, {
+          /* Depuis Varietes (via varietesParNom) */
+          type:        v.Type             || r.Type || '',
+          nom,
+          variete,
+          num_epingle: v.Num_epingle      || '',
+          nb_epingle:  v.Nb_epingle       || '',
+          profondeur:  v.Semis_profondeur || '',
+          germ_duree:  v.Duree_germ       || '',
+          germ_temp:   v.Temp_germ        || '',
+          abri:        fmtVal(v.Semis_sous_abris),
+          semis_ext:   fmtVal(v.Semis_pleine_terre),
+          arrosage:    v.Arrosage         || '',
+          exposition:  v.Exposition       || '',
+          ou:          fmtVal(v.Ou_cultiver),
+          sachets: []
+        });
+      }
+
+      /* Données par sachet/millésime depuis Millesimes */
+      map.get(key).sachets.push({
+        origine:     r.Origine     || '',
+        sachet:      r.Sachets     || '',
+        annee:       r.Millesime   || '',
+        saisons:     r.Nb_saisons  || '',
+        qtte:        r.Qtte_graines || '',
+        germination: r.Germination_affichee != null
+          ? Math.round(r.Germination_affichee * 100) + '%'
+          : ''
+      });
+    });
+
+  return map;
+}
+
+/* =============================================
+   INITIALISATION GRIST
+   Widget lié à Millesimes
+   Étape 1 : onRecords — reçoit les données de Millesimes
+   Étape 2 : fetchTable('Varietes') — charge les données stables
+   Le rendu n'a lieu que quand les deux sources sont prêtes
+   ============================================= */
+grist.ready({ requiredAccess: 'full' });
+
+/* Étape 1 : enregistrer onRecords EN PREMIER */
+grist.onRecords(function(records) {
+  derniersRecords = records;
+  /* Rendre seulement si Varietes est déjà chargé */
+  if (Object.keys(varietesParNom).length > 0) {
+    render([...buildGrainesMap(records).values()]);
+  }
+});
+
+/* Étape 2 : charger Varietes APRÈS onRecords */
+grist.docApi.fetchTable('Varietes').then(data => {
+  varietesParNom = {};
+  const ids = data.id || [];
+  ids.forEach((id, i) => {
+    /* Clé = NomVariete (texte complet), même valeur que r.NomVariete dans Millesimes */
+    const cle = data.NomVariete ? data.NomVariete[i] : '';
+    if (!cle) return;
+    varietesParNom[cle] = {
+      Type:               data.Type               ? data.Type[i]               : '',
+      Nom:                data.Nom                ? data.Nom[i]                : '',
+      Variete:            data.Variete             ? data.Variete[i]             : '',
+      Num_epingle:        data.Num_epingle         ? data.Num_epingle[i]         : '',
+      Nb_epingle:         data.Nb_epingle          ? data.Nb_epingle[i]          : '',
+      Semis_profondeur:   data.Semis_profondeur    ? data.Semis_profondeur[i]    : '',
+      Duree_germ:         data.Duree_germ          ? data.Duree_germ[i]          : '',
+      Temp_germ:          data.Temp_germ           ? data.Temp_germ[i]           : '',
+      Semis_sous_abris:   data.Semis_sous_abris    ? data.Semis_sous_abris[i]    : '',
+      Semis_pleine_terre: data.Semis_pleine_terre  ? data.Semis_pleine_terre[i]  : '',
+      Arrosage:           data.Arrosage            ? data.Arrosage[i]            : '',
+      Exposition:         data.Exposition          ? data.Exposition[i]          : '',
+      Ou_cultiver:        data.Ou_cultiver         ? data.Ou_cultiver[i]         : '',
+    };
+    console.log("Semis sous abris :", JSON.stringify(data.Semis_sous_abris[i]));
+    console.log("Semis pleine terre :", JSON.stringify(data.Semis_pleine_terre[i]));
+    console.log("Où cultiver :", JSON.stringify(data.Ou_cultiver[i]));
+  });
+
+  /* Si Millesimes déjà reçus → on peut rendre maintenant */
+  if (derniersRecords) {
+    render([...buildGrainesMap(derniersRecords).values()]);
+  }
+}).catch(err => console.error('Erreur fetchTable Varietes :', err));
+</script>
+</body>
+</html>
