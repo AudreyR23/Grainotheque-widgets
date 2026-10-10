@@ -114,19 +114,38 @@ td.multi .sl:last-child { border-bottom: none; }
 
 tr.graine-row td { height: 8mm; }
 
+/* Styles pour l'impression */
 @media print {
-  .controls { display: none; }
-  @page { size: A4 landscape; margin: 0; }
-  .page {
-    width: 100%; padding: 15mm 10mm 10mm 10mm;
-    margin: 0; border: none;
-  }
-  .page-last-of-group { page-break-after: always; break-after: page; }
-  .page:last-child {
-    page-break-after: avoid !important;
-    break-after: avoid !important;
-  }
-  tr { page-break-inside: avoid; break-inside: avoid; }
+    /* Masquer les éléments inutiles */
+    button, .no-print, .grist-button {
+        display: none !important;
+    }
+
+    /* Forcer l'affichage des couleurs de fond */
+    table, th, td {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        background-color: inherit !important;
+    }
+
+    /* Ajuster la taille de la police */
+    body, table {
+        font-size: 12pt !important;
+    }
+
+    /* Éviter les sauts de page intempestifs */
+    table {
+        page-break-inside: auto;
+    }
+    tr {
+        page-break-inside: avoid;
+        page-break-after: auto;
+    }
+
+    /* Ajuster les marges */
+    @page {
+        margin: 1cm;
+    }
 }
 </style>
 </head>
