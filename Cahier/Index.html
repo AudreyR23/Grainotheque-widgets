@@ -240,7 +240,7 @@ function makeRow(g) {
     ${mc('col-origine',   ss.map(s => fmtVal(s.origine)))}
     ${mc('col-sachet',    ss.map(s => s.sachet))}
     ${mc('col-annee',     ss.map(s => fmtAnnee(s.annee)))}
-    ${mc('col-s',   ss.map(s => s.Nb_saisons_manuel))}
+    ${mc('col-saisons',   ss.map(s => s.Nb_saisons_mil))}
     ${mc('col-qtte',      ss.map(s => s.qtte))}
     ${mc('col-germ',      ss.map(s => s.germination))}
     <td class="col-profond   info-bas">${g.profondeur  || ''}</td>
@@ -353,7 +353,7 @@ function buildGrainesMap(records) {
         origine:     r.Origine     || '',
         sachet:      r.Sachets     || '',
         annee:       r.Millesime   || '',
-        saisons:     r.Nb_saisons_manuel  || '',
+        saisons:     r.Nb_saisons  || '',
         qtte:        r.Qtte_graines || '',
         germination: r.Germination_affichee != null
           ? Math.round(r.Germination_affichee * 100) + '%'
