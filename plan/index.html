@@ -549,7 +549,7 @@ function renderPlants() {
     if (!r) return;
     const nom = (r.Nom||'').substring(0,16);
     const var_ = (r.Variete||'').substring(0,16);
-    const w = Math.max(nom.length, var_.length) * 6.5 + 20;
+    const w = Math.max(nom.length, var_.length) * 5.2 + 20;
     const h = var_ ? 26 : 16;
     const g = document.createElementNS('http://www.w3.org/2000/svg','g');
     g.classList.add('placed-label');
