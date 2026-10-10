@@ -1000,6 +1000,7 @@ async function creerMillesime() {
     Origine:      getMultiSelect('m-origine'),
     Sachets:      document.getElementById('m-sachet').value || null,
     Qtte_graines: parseFloat(document.getElementById('m-qtte').value) || null,
+    Germination_historique: null, // Forcer à null pour éviter les valeurs par défaut
   };
 
   try {
