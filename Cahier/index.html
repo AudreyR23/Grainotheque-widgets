@@ -228,18 +228,20 @@ function makeRow(g) {
       vals.map(v => `<span class="sl">${v || ''}</span>`).join('')
     }</td>`;
   }
+
   // Formater les saisons : "or." ou nombre
   const saisonsFormatted = ss.map(s => {
-    if (!s.Nb_saisons) return '';
-    const val = String(s.Nb_saisons).trim().toLowerCase();
+    if (!s.saisons) return '';
+    const val = String(s.saisons).trim().toLowerCase();
     if (val === 'or.' || val === 'or') {
       return 'or.';
     } else if (!isNaN(val)) {
       return parseInt(val);
     } else {
-      return s.Nb_saisons;
+      return s.saisons;
     }
   });
+
   return `<tr class="graine-row">
     <td class="col-type">${g.type || ''}</td>
     <td class="col-nom nom-cell">
@@ -251,7 +253,7 @@ function makeRow(g) {
     ${mc('col-origine',   ss.map(s => fmtVal(s.origine)))}
     ${mc('col-sachet',    ss.map(s => s.sachet))}
     ${mc('col-annee',     ss.map(s => fmtAnnee(s.annee)))}
-    ${mc('col-saisons',   ss.map(s => s.saisonsFormatted))}
+    ${mc('col-saisons',   saisonsFormatted)}  <!-- Utiliser saisonsFormatted -->
     ${mc('col-qtte',      ss.map(s => s.qtte))}
     ${mc('col-germ',      ss.map(s => s.germination))}
     <td class="col-profond   info-bas">${g.profondeur  || ''}</td>
@@ -266,7 +268,6 @@ function makeRow(g) {
     <td class="col-vide2"></td>
   </tr>`;
 }
-
 /* =============================================
    RENDU DES PAGES
    Tri : Type → Nom → Variété
@@ -326,49 +327,48 @@ function buildGrainesMap(records) {
   const map = new Map();
 
   records
-    .filter(r => r.Sachets)                    /* uniquement les millésimes avec sachet */
+    .filter(r => r.Sachets !== null && r.Sachets !== undefined && r.Sachets !== '')
     .forEach(r => {
-      /* r.NomVariete = "Basilic\nGrand vert" ou "Tomate" */
       const nomComplet = r.NomVariete || '';
       const v = varietesParNom[nomComplet] || {};
 
-      /* Extraire Nom et Variété depuis le texte */
-      const parts   = nomComplet.split('\n');
-      const nom     = v.Nom     || parts[0] || '';
+      const parts = nomComplet.split('\n');
+      const nom = v.Nom || parts[0] || '';
       const variete = v.Variete || parts[1] || '';
 
       const key = nomComplet || ('_' + r.id);
 
       if (!map.has(key)) {
         map.set(key, {
-          /* Depuis Varietes (via varietesParNom) */
-          type:        v.Type             || r.Type || '',
+          type: v.Type || r.Type || '',
           nom,
           variete,
-          num_epingle: v.Num_epingle      || '',
-          nb_epingle:  v.Nb_epingle       || '',
-          profondeur:  v.Semis_profondeur || '',
-          germ_duree:  v.Duree_germ       || '',
-          germ_temp:   v.Temp_germ        || '',
-          abri:        fmtVal(v.Semis_sous_abris),
-          semis_ext:   fmtVal(v.Semis_pleine_terre),
-          arrosage:    v.Arrosage         || '',
-          exposition:  v.Exposition       || '',
-          ou:          fmtVal(v.Ou_cultiver),
+          num_epingle: v.Num_epingle || '',
+          nb_epingle: v.Nb_epingle || '',
+          profondeur: v.Semis_profondeur || '',
+          germ_duree: v.Duree_germ || '',
+          germ_temp: v.Temp_germ || '',
+          abri: fmtVal(v.Semis_sous_abris),
+          semis_ext: fmtVal(v.Semis_pleine_terre),
+          arrosage: v.Arrosage || '',
+          exposition: v.Exposition || '',
+          ou: fmtVal(v.Ou_cultiver),
           sachets: []
         });
       }
 
-      /* Données par sachet/millésime depuis Millesimes */
+      // Utiliser Nb_saisons depuis Millesimes
+      const nbSaisons = r.Nb_saisons || '';
+
       map.get(key).sachets.push({
-        origine:     r.Origine     || '',
-        sachet:      r.Sachets     || '',
-        annee:       r.Millesime   || '',
-        saisons:     r.Nb_saisons  || '',
-        qtte:        r.Qtte_graines || '',
-        germination: (r.Germination_affichee != null && r.Germination_affichee !== 0)
-  ? Math.round(r.Germination_affichee * 100) + '%'
-  : ''
+        origine: r.Origine || '',
+        sachet: r.Sachets || '',
+        annee: r.Millesime || '',
+        saisons: nbSaisons, // Utiliser Nb_saisons directement
+        qtte: r.Qtte_graines || '',
+        germination: r.Germination_affichee != null
+          ? Math.round(r.Germination_affichee * 100) + '%'
+          : ''
       });
     });
 
