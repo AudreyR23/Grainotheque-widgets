@@ -28,7 +28,7 @@ body { font-family: Arial, sans-serif; background: white; font-size: 9px; }
 .col-origine   { width: 5%; }
 .col-sachet    { width: 2.5%; }
 .col-annee     { width: 5%; }
-.col-saisons   { width: 2.5%; }
+.col-s   { width: 2.5%; }
 .col-qtte      { width: 5%; }
 .col-germ      { width: 5%; }
 .col-profond   { width: 5%; }
@@ -197,7 +197,7 @@ function makeHeader() {
     <th class="col-origine">Orig.</th>
     <th class="col-sachet">Sac.</th>
     <th class="col-annee">Millésime</th>
-    <th class="col-saisons">Sais.</th>
+    <th class="col-s">Sais.</th>
     <th class="col-qtte">Qté</th>
     <th class="col-germ">Germ.</th>
     <th class="col-profond">Nb.gr</th>
@@ -240,7 +240,7 @@ function makeRow(g) {
     ${mc('col-origine',   ss.map(s => fmtVal(s.origine)))}
     ${mc('col-sachet',    ss.map(s => s.sachet))}
     ${mc('col-annee',     ss.map(s => fmtAnnee(s.annee)))}
-    ${mc('col-saisons',   ss.map(s => s.nb_saisons_manuel))}
+    ${mc('col-s',   ss.map(s => s.nb_saisons_manuel))}
     ${mc('col-qtte',      ss.map(s => s.qtte))}
     ${mc('col-germ',      ss.map(s => s.germination))}
     <td class="col-profond   info-bas">${g.profondeur  || ''}</td>
@@ -353,7 +353,7 @@ function buildGrainesMap(records) {
         origine:     r.Origine     || '',
         sachet:      r.Sachets     || '',
         annee:       r.Millesime   || '',
-        saisons:     r.Nb_saisons_mil  || '',
+        saisons:     r.Nb_saisons_manuel  || '',
         qtte:        r.Qtte_graines || '',
         germination: r.Germination_affichee != null
           ? Math.round(r.Germination_affichee * 100) + '%'
