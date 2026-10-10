@@ -366,9 +366,9 @@ function buildGrainesMap(records) {
         annee:       r.Millesime   || '',
         saisons:     r.Nb_saisons  || '',
         qtte:        r.Qtte_graines || '',
-        germination: r.Germination_affichee != null
-          ? Math.round(r.Germination_affichee * 100) + '%'
-          : ''
+        germination: (r.Germination_affichee != null && r.Germination_affichee !== 0)
+  ? Math.round(r.Germination_affichee * 100) + '%'
+  : ''
       });
     });
 
