@@ -28,19 +28,19 @@ body { font-family: Arial, sans-serif; background: white; font-size: 9px; }
 .col-origine   { width: 5%; }
 .col-sachet    { width: 2.5%; }
 .col-annee     { width: 5%; }
-.col-saison   { width: 2.5%; }
+.col-s   { width: 2.5%; }
 .col-qtte      { width: 5%; }
 .col-germ      { width: 5%; }
 .col-profond   { width: 5%; }
-.-germdur   { width: 5%; }
-.-germtemp  { width: 5%; }
-.-sa        { width: 10%; }
-.-se        { width: 5%; }
-.-vide1     { width: 5%; }
-.-arrosage  { width: 5%; }
-.-exposition{ width: 10%; }
-.-ou        { width: 10%; }
-.-vide2     { width: 5%; }
+.col-germdur   { width: 5%; }
+.col-germtemp  { width: 5%; }
+.col-sa        { width: 10%; }
+.col-se        { width: 5%; }
+.col-vide1     { width: 5%; }
+.col-arrosage  { width: 5%; }
+.col-exposition{ width: 10%; }
+.col-ou        { width: 10%; }
+.col-vide2     { width: 5%; }
 
 /* =============================================
    MISE EN PAGE A4 PAYSAGE
@@ -55,13 +55,13 @@ body { font-family: Arial, sans-serif; background: white; font-size: 9px; }
 
 table {
   width: 100%;
-  border-lapse: lapse;
+  border-collapse: collapse;
   table-layout: fixed;
 }
 
 thead th {
   background: #e0e0e0;
-  or: #111;
+  color: #111;
   font-size: 8px;
   font-weight: 600;
   text-align: center;
@@ -77,7 +77,7 @@ td {
   vertical-align: middle;
   padding: 1px 2px;
   font-size: 9px;
-  or: #111;
+  color: #111;
   overflow: hidden;
   line-height: 1.2;
 }
@@ -91,12 +91,12 @@ th, td {
 td.info-bas {
   vertical-align: bottom;
   font-size: 7px;
-  or: #888;
+  color: #888;
   padding-bottom: 2px;
 }
 /* Info Nb d'épingle — données stables */
 .info-gris {
-  or: #888;
+  color: #888;
 }
 
 /* Cellule Nom */
@@ -190,14 +190,14 @@ function fmtVal(v) {
    ============================================= */
 function makeHeader() {
   return `<thead><tr>
-    <th class="-type">Type</th>
-    <th class="-nom">Nom-Variété</th>
-    <th class="-epingle">Ép.</th>
-    <th class="-nbep">Nb</th>
-    <th class="-origine">Orig.</th>
-    <th class="-sachet">Sac.</th>
-    <th class="-annee">Millésime</th>
-    <th class="col-saison">Sais.</th>
+    <th class="col-type">Type</th>
+    <th class="col-nom">Nom-Variété</th>
+    <th class="col-epingle">Ép.</th>
+    <th class="col-nbep">Nb</th>
+    <th class="col-origine">Orig.</th>
+    <th class="col-sachet">Sac.</th>
+    <th class="col-annee">Millésime</th>
+    <th class="col-s">Sais.</th>
     <th class="col-qtte">Qté</th>
     <th class="col-germ">Germ.</th>
     <th class="col-profond">Nb.gr</th>
@@ -240,7 +240,7 @@ function makeRow(g) {
     ${mc('col-origine',   ss.map(s => fmtVal(s.origine)))}
     ${mc('col-sachet',    ss.map(s => s.sachet))}
     ${mc('col-annee',     ss.map(s => fmtAnnee(s.annee)))}
-    ${mc('col-saison',   ss.map(s => s.Nb_saisons_manuel))}
+    ${mc('col-s',   ss.map(s => s.Nb_saisons_manuel))}
     ${mc('col-qtte',      ss.map(s => s.qtte))}
     ${mc('col-germ',      ss.map(s => s.germination))}
     <td class="col-profond   info-bas">${g.profondeur  || ''}</td>
