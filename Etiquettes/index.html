@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Liberation Sans', cursive, sans-serif;
+  background: white;
+  color: #000;
+}
+
+.controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 8px;
+}
+.btn {
+  padding: 6px 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 13px;
+  color: #000;
+}
+.btn:hover { background: #f5f5f5; }
+.info { font-size: 12px; color: #666; flex: 1; }
+
+/* =============================================
+   PAGE A4 PAYSAGE
+   4 lignes par page, pas d'écart entre lignes
+   Hauteur dispo : 190mm / 4 = 47mm par étiquette
+   ============================================= */
+.page {
+  width: 297mm;
+  height: 210mm;
+  margin: 0 auto 20px auto;
+  background: white;
+  padding: 10mm 10.5mm;
+  border: 0.5px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow: hidden;
+}
+
+.ligne-etiquettes {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  height: 47mm;
+  margin: 0;
+  padding: 0;
+  /* Pas de margin entre les lignes */
+}
+
+/* =============================================
+   WRAPPER
+   Normales : 69mm
+   Inversées : margin négatif pour imbrication
+   ============================================= */
+.etiquette-wrapper {
+  width: 69mm;
+  height: 47mm;
+  position: relative;
+  flex: none;
+}
+
+.etiquette-wrapper.inverse {
+  margin-left: -17.25mm;
+  margin-right: -17.25mm;
+  z-index: 1;
+}
+
+.etiquette {
+  width: 69mm;
+  height: 47mm;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.etiquette svg.forme {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* =============================================
+   CONTENU
+   Nom + Variété en haut, plus grands
+   Saut de ligne, puis infos décalées vers le centre
+   ============================================= */
+.etiquette-content {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  padding: 5mm 15mm 4mm 15mm;
+}
+
+.etiquette.inverse .etiquette-content {
+  transform: rotate(180deg);
+  transform-origin: center center;
+}
+
+/* Nom — plus grand, pas de trait */
+.ligne-nom {
+  font-size: 14pt;
+  font-weight: bold;
+  text-align: center;
+  height: 6mm;
+  line-height: 6mm;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Variété — plus grand, pas de trait */
+.ligne-variete {
+  font-size: 12pt;
+  text-align: center;
+  height: 5.5mm;
+  line-height: 5.5mm;
+  overflow: visible;
+  white-space: nowrap;
+}
+
+/* Saut de ligne entre haut et infos */
+.spacer {
+  height: 5mm;
+  flex-shrink: 0;
+}
+/* Saut de ligne entre haut et infos */
+.spacer2 {
+  height: 2mm;
+  flex-shrink: 0;
+}
+
+/* Infos décalées vers le centre */
+.infos {
+  font-size: 9pt;
+  line-height: 1.5;
+  padding-left: 5mm;
+}
+
+.infos div {
+  display: flex;
+  gap: 3px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.infos .label { flex-shrink: 0; }
+.infos .valeur { font-weight: bold; overflow: hidden }
+
+.ligne-saisons {
+  font-size: 11pt;
+  padding-left: 10mm;
+}
+
+@media print {
+  body { margin: 0; }
+  .controls { display: none; }
+  @page { size: A4 landscape; margin: 0; }
+  .page {
+    width: 297mm;
+    height: 210mm;
+    padding: 10mm 10.5mm;
+    margin: 0;
+    border: none;
+    page-break-after: always;
+  }
+  .page:last-child { page-break-after: avoid; }
+}
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <span class="info" id="info-count">Chargement...</span>
+  <button class="btn" onclick="window.print()">🖨️ Imprimer</button>
+</div>
+
+<div id="pages"></div>
+
+<script>
+const PAR_LIGNE = 5;
+const LIGNES_PAR_PAGE = 4;
+const ETIQUETTES_PAR_PAGE = PAR_LIGNE * LIGNES_PAR_PAGE; // 20
+
+/* Année en cours — toujours à jour */
+const ANNEE_EN_COURS = new Date().getFullYear();
+
+const SVG_NORMALE = `
+  <svg class="forme" viewBox="0 0 690 470"
+       preserveAspectRatio="none"
+       xmlns="http://www.w3.org/2000/svg">
+    <polygon
+      points="0,0 690,0 517,470 173,470"
+      fill="none" stroke="#000" stroke-width="7"/>
+  </svg>
+`;
+
+const SVG_INVERSEE = `
+  <svg class="forme" viewBox="0 0 690 470"
+       preserveAspectRatio="none"
+       xmlns="http://www.w3.org/2000/svg">
+    <line x1="173" y1="4" x2="517" y2="4"
+          stroke="#000" stroke-width="7"/>
+    <line x1="0" y1="470" x2="690" y2="470"
+          stroke="#000" stroke-width="7"/>
+  </svg>
+`;
+
+function makeEtiquette(data, indexDansLigne) {
+  const inverse = (indexDansLigne === 1 || indexDansLigne === 3);
+  const svg = inverse ? SVG_INVERSEE : SVG_NORMALE;
+
+  const origine = (data.origine_or || '').replace('Monjardin', 'AR');
+const origineTexte = origine
+  ? (data.origine_locale ? `${origine} → AR` : origine)
+  : (data.origine_locale ? 'AR' : '');
+
+  // Nb saisons + 1
+  let saisons = '';
+if (data.nb_saisons !== null && data.nb_saisons !== undefined && data.nb_saisons !== '') {
+  const val = String(data.nb_saisons).trim().toLowerCase().replace('.', '');
+  if (val === 'or') {
+    saisons = data.graines_exterieures ? 'or.' : 1;
+  } else {
+    const n = parseInt(val);
+    saisons = isNaN(n) ? val : (n + 1);
+  }
+}
+
+  return `
+    <div class="etiquette-wrapper${inverse ? ' inverse' : ''}">
+      <div class="etiquette${inverse ? ' inverse' : ''}">
+        ${svg}
+        <div class="etiquette-content">
+          <div class="ligne-nom">${data.nom || ''}</div>
+          <div class="ligne-variete">${data.variete || ''}</div>
+          <div class="spacer"></div>
+          <div class="infos">
+            <div>
+              <span class="label">Récolte :</span>
+              <span class="valeur">🌱 ${ANNEE_EN_COURS}</span>
+            </div>
+            <div>
+              <span class="label">Origine :</span>
+              <span class="valeur">${origineTexte}</span>
+            </div>
+            <div>
+              <span class="label">Semis :</span>
+              <span class="valeur">${data.annee_semis || ''}</span>
+            </div>
+          <div class="spacer2"></div>
+             </div>
+          <div class="ligne-saisons">${saisons === 0 ? 'or.' : (saisons !== '' ? saisons + ' saison(s)' : '')}</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function makeLigne(etiquettes) {
+  return `
+    <div class="ligne-etiquettes">
+      ${etiquettes.map((e, i) => makeEtiquette(e, i)).join('')}
+    </div>
+  `;
+}
+
+function render(etiquettes) {
+  document.getElementById('info-count').textContent = etiquettes.length + ' étiquette(s)';
+  const pagesEl = document.getElementById('pages');
+  pagesEl.innerHTML = '';
+
+  for (let p = 0; p < Math.ceil(etiquettes.length / ETIQUETTES_PAR_PAGE); p++) {
+    const pageEtiquettes = etiquettes.slice(
+      p * ETIQUETTES_PAR_PAGE,
+      (p + 1) * ETIQUETTES_PAR_PAGE
+    );
+
+    const lignes = [];
+    for (let l = 0; l < LIGNES_PAR_PAGE; l++) {
+      const ligneEtiquettes = pageEtiquettes.slice(l * PAR_LIGNE, (l + 1) * PAR_LIGNE);
+      if (ligneEtiquettes.length > 0) lignes.push(ligneEtiquettes);
+    }
+
+    const page = document.createElement('div');
+    page.className = 'page';
+    page.innerHTML = lignes.map(makeLigne).join('');
+    pagesEl.appendChild(page);
+  }
+}
+
+grist.ready({ requiredAccess: 'read table' });
+
+grist.onRecords(function(records) {
+  const etiquettes = [];
+
+  records.forEach(r => {
+    if ((r.Nom || '').includes('Menthe')) {
+  console.log('Menthe:', r.Plante_mere, r.Annee_plantation_mil, r.Nb_saisons_mil);
+}
+    const nb = parseInt(r.Nb_etiquettes) || 0;
+    if (nb <= 0) return;
+
+    // Année de semis depuis Date_s
+    let annee_semis = '';
+if (r.Date_s) {
+  annee_semis = r.Date_s.getFullYear
+    ? r.Date_s.getFullYear()
+    : new Date(r.Date_s * 1000).getFullYear();
+} else if (r.Annee_plantation_mil) {
+  annee_semis = r.Annee_plantation_mil;
+}
+
+    const data = {
+      nom:            r.Nom || '',
+      variete:        r.Variete || '',
+      annee_semis:    annee_semis,
+      nb_saisons:     r.Nb_saisons_mil !== undefined ? r.Nb_saisons_mil : '',
+      origine_or:     r.Origine_or || '',
+      origine_locale: r.Origine_locale || false,
+      plante_mere:      r.Plante_mere || false,
+      annee_plantation: r.Annee_plantation_mil || null,
+      origine_millesime: r.Origine_millesime || '',
+      graines_exterieures: r.Graines_exterieures || false,
+    };
+
+    for (let i = 0; i < nb; i++) {
+      etiquettes.push(data);
+    }
+  });
+
+  render(etiquettes);
+});
+</script>
+</body>
+</html>
