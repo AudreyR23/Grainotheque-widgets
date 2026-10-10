@@ -240,7 +240,7 @@ function makeRow(g) {
     ${mc('col-origine',   ss.map(s => fmtVal(s.origine)))}
     ${mc('col-sachet',    ss.map(s => s.sachet))}
     ${mc('col-annee',     ss.map(s => fmtAnnee(s.annee)))}
-    ${mc('col-saisons',   ss.map(s => s.saisons))}
+    ${mc('col-saisons',   ss.map(s => s.nb_saisons_manuel))}
     ${mc('col-qtte',      ss.map(s => s.qtte))}
     ${mc('col-germ',      ss.map(s => s.germination))}
     <td class="col-profond   info-bas">${g.profondeur  || ''}</td>
