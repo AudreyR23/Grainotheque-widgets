@@ -359,16 +359,18 @@ function buildGrainesMap(records) {
 
       // Utiliser Nb_saisons depuis Millesimes
       const nbSaisons = r.Nb_saisons || '';
-
+     // Gérer germination : 0% si testé et pas germé, vide si jamais testé
+      const germinationValue = r.Germination_affichee !== null
+        ? (r.Germination_affichee === 0 ? '0%' : Math.round(r.Germination_affichee * 100) + '%')
+        : '';
+      
       map.get(key).sachets.push({
         origine: r.Origine || '',
         sachet: r.Sachets || '',
         annee: r.Millesime || '',
         saisons: nbSaisons, // Utiliser Nb_saisons directement
         qtte: r.Qtte_graines || '',
-        germination: r.Germination_affichee != null
-          ? Math.round(r.Germination_affichee * 100) + '%'
-          : ''
+        germination: germinationValue, // Utiliser la nouvelle logique
       });
     });
 
