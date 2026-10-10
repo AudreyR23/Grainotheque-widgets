@@ -386,6 +386,7 @@ grist.ready({ requiredAccess: 'full' });
 
 /* Étape 1 : enregistrer onRecords EN PREMIER */
 grist.onRecords(function(records) {
+  console.log("Première entrée Millesimes :", records[0]); // Vérifiez que Nb_saisons est présent
   derniersRecords = records;
   /* Rendre seulement si Varietes est déjà chargé */
   if (Object.keys(varietesParNom).length > 0) {
