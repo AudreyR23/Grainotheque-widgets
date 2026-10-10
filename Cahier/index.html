@@ -120,13 +120,26 @@ tr.graine-row td { height: 8mm; }
   .page {
     width: 100%; padding: 15mm 10mm 10mm 10mm;
     margin: 0; border: none;
+   page-break-inside: avoid; /* Évite de couper le contenu d'une page */
   }
-  .page-last-of-group { page-break-after: always; break-after: page; }
-  .page:last-child {
-    page-break-after: avoid !important;
+
+  /* Évite de couper les lignes du tableau */
+  tr {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Force l'affichage des couleurs et bordures */
+  body, table, th, td {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Désactive les sauts de page après les groupes (optionnel) */
+  .page-last-of-group {
+    page-break-after: avoid !important; /* Désactive le saut de page forcé */
     break-after: avoid !important;
   }
-  tr { page-break-inside: avoid; break-inside: avoid; }
 }
 </style>
 </head>
