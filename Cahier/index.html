@@ -230,14 +230,14 @@ function makeRow(g) {
   }
   // Formater les saisons : "or." ou nombre
   const saisonsFormatted = ss.map(s => {
-    if (!s.saisons) return '';
-    const val = String(s.saisons).trim().toLowerCase();
+    if (!s.Nb_saisons) return '';
+    const val = String(s.Nb_saisons).trim().toLowerCase();
     if (val === 'or.' || val === 'or') {
       return 'or.';
     } else if (!isNaN(val)) {
       return parseInt(val);
     } else {
-      return s.saisons;
+      return s.Nb_saisons;
     }
   });
   return `<tr class="graine-row">
