@@ -228,7 +228,18 @@ function makeRow(g) {
       vals.map(v => `<span class="sl">${v || ''}</span>`).join('')
     }</td>`;
   }
-
+  // Formater les saisons : "or." ou nombre
+  const saisonsFormatted = ss.map(s => {
+    if (!s.saisons) return '';
+    const val = String(s.saisons).trim().toLowerCase();
+    if (val === 'or.' || val === 'or') {
+      return 'or.';
+    } else if (!isNaN(val)) {
+      return parseInt(val);
+    } else {
+      return s.saisons;
+    }
+  });
   return `<tr class="graine-row">
     <td class="col-type">${g.type || ''}</td>
     <td class="col-nom nom-cell">
@@ -240,7 +251,7 @@ function makeRow(g) {
     ${mc('col-origine',   ss.map(s => fmtVal(s.origine)))}
     ${mc('col-sachet',    ss.map(s => s.sachet))}
     ${mc('col-annee',     ss.map(s => fmtAnnee(s.annee)))}
-    ${mc('col-saisons',   ss.map(s => s.Nb_saisons_mil))}
+    ${mc('col-saisons',   ss.map(s => s.saisonsFormatted))}
     ${mc('col-qtte',      ss.map(s => s.qtte))}
     ${mc('col-germ',      ss.map(s => s.germination))}
     <td class="col-profond   info-bas">${g.profondeur  || ''}</td>
@@ -353,7 +364,7 @@ function buildGrainesMap(records) {
         origine:     r.Origine     || '',
         sachet:      r.Sachets     || '',
         annee:       r.Millesime   || '',
-        saisons:     r.Nb_saisons_mil  || '',
+        saisons:     r.Nb_saisons  || '',
         qtte:        r.Qtte_graines || '',
         germination: r.Germination_affichee != null
           ? Math.round(r.Germination_affichee * 100) + '%'
