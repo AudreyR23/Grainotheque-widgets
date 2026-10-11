@@ -158,7 +158,6 @@ function render(graines) {
     return (a.variete || '').localeCompare(b.variete || '', 'fr');
   });
 
-  /* Grouper par type */
   const parType = [];
   let cur = null, grp = [];
   graines.forEach(g => {
@@ -169,35 +168,28 @@ function render(graines) {
   });
   if (grp.length) parType.push(grp);
 
-  function creerPage(graines, isLastOfGroup) {
-    const page = document.createElement('div');
-    page.className = isLastOfGroup ? 'page page-last-of-group' : 'page';
-    page.innerHTML = `<table>${makeHeader()}<tbody>${
-      graines.map(makeRow).join('')
-    }</tbody></table>`;
-    pagesEl.appendChild(page);
-  }
-
   parType.forEach(groupeType => {
     let pageGraines = [];
-    let lignesPage  = 0;
+    let lignesPage = 0;
+
+    function creerPage(gs, isLast) {
+      const page = document.createElement('div');
+      page.className = isLast ? 'page page-last-of-group' : 'page';
+      page.innerHTML = `<table>${makeHeader()}<tbody>${gs.map(makeRow).join('')}</tbody></table>`;
+      pagesEl.appendChild(page);
+    }
 
     groupeType.forEach(g => {
-      /* Nombre de lignes physiques que cette variété va occuper */
       const nbLignes = Math.max(1, g.sachets.length);
-
-      /* Si ça dépasse la capacité de la page → on crée la page et on repart */
       if (lignesPage + nbLignes > LIGNES_PAR_PAGE && pageGraines.length > 0) {
         creerPage(pageGraines, false);
         pageGraines = [];
-        lignesPage  = 0;
+        lignesPage = 0;
       }
-
       pageGraines.push(g);
       lignesPage += nbLignes;
     });
 
-    /* Dernière page du groupe */
     if (pageGraines.length > 0) creerPage(pageGraines, true);
   });
 }
