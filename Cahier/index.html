@@ -112,7 +112,10 @@ td.multi .sl {
 }
 td.multi .sl:last-child { border-bottom: none; }
 
-tr.graine-row td { height: 8mm; }
+tr.graine-row td {
+  min-height: 8mm; /* Hauteur minimale */
+  vertical-align: top; /* Alignement en haut pour éviter les espaces vides */
+}
 
 @media print {
   .controls { display: none; }
