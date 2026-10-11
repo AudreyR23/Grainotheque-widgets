@@ -146,8 +146,7 @@ tr.graine-row td {
 /* =============================================
    CONFIGURATION
    ============================================= */
-const HAUTEUR_PAGE_MM = 185; // 210mm (A4 paysage) - 25mm (marges)
-const HAUTEUR_LIGNE_BASE_MM = 8;
+const LIGNES_PAR_PAGE = 33;
 
 function render(graines) {
   document.getElementById('info-count').textContent = graines.length + ' variétés';
@@ -174,7 +173,7 @@ function render(graines) {
 
   parType.forEach(groupeType => {
     let pageGraines = [];
-    let hauteurPage = 0;
+    let lignesPage = 0;
 
     function creerPage(gs, isLast) {
       const page = document.createElement('div');
@@ -184,18 +183,14 @@ function render(graines) {
     }
 
     groupeType.forEach(g => {
-      // Calculer la hauteur de cette variété
-      const maxSachets = g.sachets.length;
-      const hauteurCellule = maxSachets * 4; // 4mm par <span class="sl">
-      const hauteurVariete = Math.max(HAUTEUR_LIGNE_BASE_MM, hauteurCellule);
-
-      if (hauteurPage + hauteurVariete > HAUTEUR_PAGE_MM && pageGraines.length > 0) {
+      const nbLignes = Math.max(1, g.sachets.length);
+      if (lignesPage + nbLignes > LIGNES_PAR_PAGE && pageGraines.length > 0) {
         creerPage(pageGraines, false);
         pageGraines = [];
-        hauteurPage = 0;
+        lignesPage = 0;
       }
       pageGraines.push(g);
-      hauteurPage += hauteurVariete;
+      lignesPage += nbLignes;
     });
 
     if (pageGraines.length > 0) creerPage(pageGraines, true);
