@@ -143,7 +143,65 @@ tr.graine-row td { height: 8mm; }
 /* =============================================
    CONFIGURATION
    ============================================= */
-const GRAINES_PAR_PAGE = 20;
+const LIGNES_PAR_PAGE = 60;
+
+function render(graines) {
+  document.getElementById('info-count').textContent = graines.length + ' variétés';
+  const pagesEl = document.getElementById('pages');
+  pagesEl.innerHTML = '';
+
+  graines.sort((a, b) => {
+    const t = (a.type || '').localeCompare(b.type || '', 'fr');
+    if (t) return t;
+    const n = (a.nom || '').localeCompare(b.nom || '', 'fr');
+    if (n) return n;
+    return (a.variete || '').localeCompare(b.variete || '', 'fr');
+  });
+
+  /* Grouper par type */
+  const parType = [];
+  let cur = null, grp = [];
+  graines.forEach(g => {
+    if (g.type !== cur) {
+      if (grp.length) parType.push(grp);
+      cur = g.type; grp = [g];
+    } else { grp.push(g); }
+  });
+  if (grp.length) parType.push(grp);
+
+  function creerPage(graines, isLastOfGroup) {
+    const page = document.createElement('div');
+    page.className = isLastOfGroup ? 'page page-last-of-group' : 'page';
+    page.innerHTML = `<table>${makeHeader()}<tbody>${
+      graines.map(makeRow).join('')
+    }</tbody></table>`;
+    pagesEl.appendChild(page);
+  }
+
+  parType.forEach(groupeType => {
+    let pageGraines = [];
+    let lignesPage  = 0;
+
+    groupeType.forEach(g => {
+      /* Nombre de lignes physiques que cette variété va occuper */
+      const nbLignes = Math.max(1, g.sachets.length);
+
+      /* Si ça dépasse la capacité de la page → on crée la page et on repart */
+      if (lignesPage + nbLignes > LIGNES_PAR_PAGE && pageGraines.length > 0) {
+        creerPage(pageGraines, false);
+        pageGraines = [];
+        lignesPage  = 0;
+      }
+
+      pageGraines.push(g);
+      lignesPage += nbLignes;
+    });
+
+    /* Dernière page du groupe */
+    if (pageGraines.length > 0) creerPage(pageGraines, true);
+  });
+}
+  const GRAINES_PAR_PAGE = 20;
   
 /* Abréviations mois — clés = valeurs exactes dans Grist */
 const MOIS = {
