@@ -356,9 +356,9 @@ function render(graines) {
   if (grp.length) parType.push(grp);
 
   parType.forEach(groupe => {
-    const nb = Math.ceil(groupe.length / GRAINES_PAR_PAGE);
+    const nb = Math.ceil(groupe.length / LIGNES_PAR_PAGE);
     for (let p = 0; p < nb; p++) {
-      const slice = groupe.slice(p * GRAINES_PAR_PAGE, (p + 1) * GRAINES_PAR_PAGE);
+      const slice = groupe.slice(p * LIGNES_PAR_PAGE, (p + 1) * LIGNES_PAR_PAGE);
       const page  = document.createElement('div');
       page.className = (p === nb - 1) ? 'page page-last-of-group' : 'page';
       page.innerHTML = `<table>${makeHeader()}<tbody>${
