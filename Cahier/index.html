@@ -347,17 +347,29 @@ function render(graines) {
   });
   if (grp.length) parType.push(grp);
 
-  parType.forEach(groupe => {
-    const nb = Math.ceil(groupe.length / LIGNES_PAR_PAGE);
-    for (let p = 0; p < nb; p++) {
-      const slice = groupe.slice(p * LIGNES_PAR_PAGE, (p + 1) * LIGNES_PAR_PAGE);
-      const page  = document.createElement('div');
-      page.className = (p === nb - 1) ? 'page page-last-of-group' : 'page';
-      page.innerHTML = `<table>${makeHeader()}<tbody>${
-        slice.map(makeRow).join('')
-      }</tbody></table>`;
+  parType.forEach(groupeType => {
+    let pageGraines = [];
+    let lignesPage = 0;
+
+    function creerPage(gs, isLast) {
+      const page = document.createElement('div');
+      page.className = isLast ? 'page page-last-of-group' : 'page';
+      page.innerHTML = `<table>${makeHeader()}<tbody>${gs.map(makeRow).join('')}</tbody></table>`;
       pagesEl.appendChild(page);
     }
+
+    groupeType.forEach(g => {
+      const nbLignes = Math.max(1, g.sachets.length);
+      if (lignesPage + nbLignes > LIGNES_PAR_PAGE && pageGraines.length > 0) {
+        creerPage(pageGraines, false);
+        pageGraines = [];
+        lignesPage = 0;
+      }
+      pageGraines.push(g);
+      lignesPage += nbLignes;
+    });
+
+    if (pageGraines.length > 0) creerPage(pageGraines, true);
   });
 }
 
