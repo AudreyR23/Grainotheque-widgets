@@ -4,57 +4,6 @@
 
 const LIGNES_PAR_PAGE = 26;
 const bouchonne = true; // <-- Ajoutez cette ligne pour activer le mode bouchon
-
-
-function render(graines) {
-  document.getElementById('info-count').textContent = graines.length + ' variétés';
-  const pagesEl = document.getElementById('pages');
-  pagesEl.innerHTML = '';
-
-  graines.sort((a, b) => {
-    const t = (a.type || '').localeCompare(b.type || '', 'fr');
-    if (t) return t;
-    const n = (a.nom || '').localeCompare(b.nom || '', 'fr');
-    if (n) return n;
-    return (a.variete || '').localeCompare(b.variete || '', 'fr');
-  });
-
-  const parType = [];
-  let cur = null, grp = [];
-  graines.forEach(g => {
-    if (g.type !== cur) {
-      if (grp.length) parType.push(grp);
-      cur = g.type; grp = [g];
-    } else { grp.push(g); }
-  });
-  if (grp.length) parType.push(grp);
-
-  parType.forEach(groupeType => {
-    let pageGraines = [];
-    let lignesPage = 0;
-
-    function creerPage(gs, isLast) {
-      const page = document.createElement('div');
-      page.className = isLast ? 'page page-last-of-group' : 'page';
-      page.innerHTML = `<table>${makeHeader()}<tbody>${gs.map(makeRow).join('')}</tbody></table>`;
-      pagesEl.appendChild(page);
-    }
-
-    groupeType.forEach(g => {
-      const nbLignes = Math.max(1, g.sachets.length);
-      if (lignesPage + nbLignes > LIGNES_PAR_PAGE ) {
-        creerPage(pageGraines, false);
-        pageGraines = [];
-        lignesPage = 0;
-      }
-      pageGraines.push(g);
-      lignesPage += nbLignes;
-    });
-
-    if (pageGraines.length > 0) creerPage(pageGraines, true);
-  });
-}
-
 let varietesParNom = {};
 
 /* Abréviations mois — clés = valeurs exactes dans Grist */
@@ -145,6 +94,7 @@ function makeRow(g) {
   const ss = g.sachets;
   const nb = ss.length;
 
+  // Fabrique cellule du tableau (mc = multi cellule)
   function mc(cls, vals) {
     if (nb <= 1) return `<td class="${cls}">${vals[0]}</td>`;
     return `<td class="${cls} multi">${
@@ -201,6 +151,7 @@ function render(graines) {
   const pagesEl = document.getElementById('pages');
   pagesEl.innerHTML = '';
 
+  
   graines.sort((a, b) => {
     const t = (a.type || '').localeCompare(b.type || '', 'fr');
     if (t) return t;
@@ -210,6 +161,7 @@ function render(graines) {
   });
 
   /* Grouper par type */
+  /** Decoupage liste graine en groupes de graines qui ont le meme type */
   const parType = [];
   let cur = null, grp = [];
   graines.forEach(g => {
@@ -237,6 +189,8 @@ function render(graines) {
   // Sinon → nombre de sachets (chaque sachet = 1 ligne)
   const nbLignes = g.sachets.length === 1 ? 2 : g.sachets.length;
 
+  /** Si nombre de ligne à ajouter > nombre de ligne restante => nouvelle page  */
+  /** Si premiere ligne ajouter, alors on ne va pas a la ligne (ex cas ou groupe > LIGNES_PAR_PAGE) */
   if (lignesPage + nbLignes > LIGNES_PAR_PAGE && pageGraines.length > 0) {
     creerPage(pageGraines, false);
     pageGraines = [];
