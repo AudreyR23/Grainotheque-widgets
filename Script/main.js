@@ -146,9 +146,9 @@ function makeRow(g) {
   const nb = ss.length;
 
   function mc(cls, vals) {
-    if (nb <= 1) return `<td class="${cls}">${vals[0] || ''}</td>`;
+    if (nb <= 1) return `<td class="${cls}">${vals[0]}</td>`;
     return `<td class="${cls} multi">${
-      vals.map(v => `<span class="sl">${v || ''}</span>`).join('')
+      vals.map(v => `<span class="sl">${v || '&nbsp'}</span>`).join('')
     }</td>`;
   }
 
