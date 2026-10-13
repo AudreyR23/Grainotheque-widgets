@@ -1,0 +1,317 @@
+[
+  {
+    "Zone": "Serre",
+    "X": 556,
+    "Y": 416,
+    "Rotation": 90,
+    "Largeur": 234,
+    "Hauteur": 312,
+    "Visible": false
+  },
+  {
+    "Zone": "Ext. Serre S",
+    "X": 519,
+    "Y": 694,
+    "Rotation": 0,
+    "Largeur": 312,
+    "Hauteur": 31,
+    "Visible": false
+  },
+  {
+    "Zone": "Ext. Serre E",
+    "X": 832,
+    "Y": 539,
+    "Rotation": 0,
+    "Largeur": 31,
+    "Hauteur": 184,
+    "Visible": false
+  },
+  {
+    "Zone": "Ext. Serre W",
+    "X": 482,
+    "Y": 456,
+    "Rotation": 0,
+    "Largeur": 31,
+    "Hauteur": 234,
+    "Visible": false
+  },
+  {
+    "Zone": "Ext. Serre Clô.",
+    "X": 238,
+    "Y": 456,
+    "Rotation": 0,
+    "Largeur": 234,
+    "Hauteur": 39,
+    "Visible": false
+  },
+  {
+    "Zone": "Ext. Serre Bulle",
+    "X": 905,
+    "Y": 588,
+    "Rotation": 105,
+    "Largeur": 160,
+    "Hauteur": 80,
+    "Visible": false
+  },
+  {
+    "Zone": "Ext. Serre Tipi",
+    "X": 296,
+    "Y": 540,
+    "Rotation": 0,
+    "Largeur": 80,
+    "Hauteur": 80,
+    "Visible": false
+  },
+  {
+    "Zone": "Pot.HN",
+    "X": 490,
+    "Y": 28,
+    "Rotation": 0,
+    "Largeur": 507,
+    "Hauteur": 78,
+    "Visible": false
+  },
+  {
+    "Zone": "Potager",
+    "X": 1659,
+    "Y": 1216,
+    "Rotation": 0,
+    "Largeur": 273,
+    "Hauteur": 351,
+    "Visible": false
+  },
+  {
+    "Zone": "Pot.Bulle",
+    "X": 511,
+    "Y": 154,
+    "Rotation": 90,
+    "Largeur": 150,
+    "Hauteur": 100,
+    "Visible": false
+  },
+  {
+    "Zone": "Pot.HE",
+    "X": 997,
+    "Y": 107,
+    "Rotation": 0,
+    "Largeur": 100,
+    "Hauteur": 273,
+    "Visible": false
+  },
+  {
+    "Zone": "Pot.HC",
+    "X": 665,
+    "Y": 383,
+    "Rotation": 0,
+    "Largeur": 296,
+    "Hauteur": 31,
+    "Visible": false
+  },
+  {
+    "Zone": "Pot.X-Y",
+    "X": 209,
+    "Y": 30,
+    "Rotation": 180,
+    "Largeur": 273,
+    "Hauteur": 350,
+    "Visible": false
+  },
+  {
+    "Zone": "Potager Bas",
+    "X": 8,
+    "Y": 31,
+    "Rotation": 0,
+    "Largeur": 195,
+    "Hauteur": 195,
+    "Visible": false
+  },
+  {
+    "Zone": "Pot.Table",
+    "X": 504,
+    "Y": 316,
+    "Rotation": 90,
+    "Largeur": 78,
+    "Hauteur": 117,
+    "Visible": false
+  },
+  {
+    "Zone": "Pot.Prunier",
+    "X": 728,
+    "Y": 175,
+    "Rotation": 0,
+    "Largeur": 200,
+    "Hauteur": 120,
+    "Visible": false
+  },
+  {
+    "Zone": "Bac C angle",
+    "X": 1679,
+    "Y": 505,
+    "Rotation": 0,
+    "Largeur": 125,
+    "Hauteur": 125,
+    "Visible": false
+  },
+  {
+    "Zone": "Bac R milieu",
+    "X": 1744,
+    "Y": 688,
+    "Rotation": 0,
+    "Largeur": 50,
+    "Hauteur": 140,
+    "Visible": false
+  },
+  {
+    "Zone": "Bac C milieu",
+    "X": 1467,
+    "Y": 674,
+    "Rotation": 90,
+    "Largeur": 160,
+    "Hauteur": 150,
+    "Visible": false
+  },
+  {
+    "Zone": "Bac R angle",
+    "X": 1479,
+    "Y": 525,
+    "Rotation": 90,
+    "Largeur": 117,
+    "Hauteur": 78,
+    "Visible": false
+  },
+  {
+    "Zone": "Bac terrasse",
+    "X": 1824,
+    "Y": 222,
+    "Rotation": 90,
+    "Largeur": 40,
+    "Hauteur": 117,
+    "Visible": false
+  },
+  {
+    "Zone": "Grand bac",
+    "X": 1544,
+    "Y": 866,
+    "Rotation": 0,
+    "Largeur": 218,
+    "Hauteur": 140,
+    "Visible": false
+  },
+  {
+    "Zone": "Cour",
+    "X": 221,
+    "Y": 976,
+    "Rotation": 0,
+    "Largeur": 320,
+    "Hauteur": 47,
+    "Visible": false
+  },
+  {
+    "Zone": "Cour tri.",
+    "X": 229,
+    "Y": 792,
+    "Rotation": 0,
+    "Largeur": 120,
+    "Hauteur": 93,
+    "Visible": false
+  },
+  {
+    "Zone": "C. Fosse",
+    "X": 47,
+    "Y": 790,
+    "Rotation": 0,
+    "Largeur": 160,
+    "Hauteur": 234,
+    "Visible": false
+  },
+  {
+    "Zone": "C. Terrasse",
+    "X": 50,
+    "Y": 1032,
+    "Rotation": 0,
+    "Largeur": 120,
+    "Hauteur": 100,
+    "Visible": false
+  },
+  {
+    "Zone": "Regard eau",
+    "X": 697,
+    "Y": 1118,
+    "Rotation": 90,
+    "Largeur": 320,
+    "Hauteur": 78,
+    "Visible": false
+  },
+  {
+    "Zone": "Séchoir H",
+    "X": 1585,
+    "Y": 30,
+    "Rotation": 15,
+    "Largeur": 120,
+    "Hauteur": 120,
+    "Visible": false
+  },
+  {
+    "Zone": "Séchoir B",
+    "X": 1594,
+    "Y": 119,
+    "Rotation": 180,
+    "Largeur": 100,
+    "Hauteur": 70,
+    "Visible": false
+  },
+  {
+    "Zone": "Murette",
+    "X": 548,
+    "Y": 792,
+    "Rotation": 0,
+    "Largeur": 273,
+    "Hauteur": 30,
+    "Visible": false
+  },
+  {
+    "Zone": "Tipi carré",
+    "X": 1378,
+    "Y": 558,
+    "Rotation": 0,
+    "Largeur": 31,
+    "Hauteur": 31,
+    "Visible": false
+  },
+  {
+    "Zone": "Fontaine",
+    "X": 1095,
+    "Y": 155,
+    "Rotation": 90,
+    "Largeur": 200,
+    "Hauteur": 100,
+    "Visible": false
+  },
+  {
+    "Zone": "Fig.J",
+    "X": 1199,
+    "Y": 487,
+    "Rotation": 0,
+    "Largeur": 60,
+    "Hauteur": 60,
+    "Visible": false
+  },
+  {
+    "Zone": "Murier",
+    "X": 1346,
+    "Y": 326,
+    "Rotation": 0,
+    "Largeur": 230,
+    "Hauteur": 80,
+    "Visible": false
+  },
+  {
+    "Zone": "En pot",
+    "X": 1788,
+    "Y": 316,
+    "Rotation": 0,
+    "Largeur": 120,
+    "Hauteur": 80,
+    "Visible": false
+  }
+]

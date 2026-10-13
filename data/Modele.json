@@ -1,0 +1,9447 @@
+[
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Agastache",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "0 cm",
+    "Duree_germ": 21,
+    "Temp_germ": "20-22°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais",
+      "léger"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Méllifère",
+      "Médicinale",
+      "Vivace",
+      "Aromatique"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Aneth",
+    "Conservation": 3,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 25,
+    "Temp_germ": "15-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère",
+      "terreau"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "léger",
+      "réchauffé"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Méllifère",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Arnica",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "0.2 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "10-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": null,
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "humifère",
+      "sableux"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "humide",
+      "meuble",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Méllifère",
+      "Médicinale",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Artemisia",
+    "Conservation": 3,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "20-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "léger",
+      "réchauffé"
+    ],
+    "Famille": [
+      "L",
+      "Médicinale",
+      "Aromatique"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Aspérule",
+    "Conservation": null,
+    "Infos": [
+      "L",
+      "Stratification 15 j à 6°"
+    ],
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 25,
+    "Temp_germ": "5-12°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Jan",
+      "Fév",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Déc"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "frais",
+      "humide"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Méllifère",
+      "Médicinale",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Basilic",
+    "Conservation": 8,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot",
+      "Serre"
+    ],
+    "Exposition": "☀️☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "caillouteux",
+      "humifère",
+      "sableux",
+      "terreau"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "léger",
+      "réchauffé"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Méllifère",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Basilic Tulsis",
+    "Conservation": 8,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot",
+      "Serre"
+    ],
+    "Exposition": "☀️☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "caillouteux",
+      "humifère",
+      "sableux",
+      "terreau"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "léger",
+      "réchauffé"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Méllifère",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Cannabis",
+    "Conservation": 3,
+    "Infos": null,
+    "Semis_profondeur": "2-3 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "18-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot",
+      "Serre"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Ciboulette",
+    "Conservation": 3,
+    "Infos": null,
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "15-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Oct",
+      "Nov",
+      "Déc"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "frais",
+      "meuble"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Coriandre",
+    "Conservation": 5,
+    "Infos": null,
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 30,
+    "Temp_germ": "15-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "humifère",
+      "terreau"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "léger",
+      "meuble"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Coriandre",
+    "Conservation": 4,
+    "Infos": null,
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 30,
+    "Temp_germ": "15-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "humifère",
+      "terreau"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "léger",
+      "meuble"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Cumin",
+    "Conservation": 3,
+    "Infos": null,
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 21,
+    "Temp_germ": "20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère"
+    ],
+    "Qualite_du_sol": null,
+    "Famille": [
+      "L",
+      "Florales",
+      "Aromatique",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Curcuma",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "5-10 cm",
+    "Duree_germ": 42,
+    "Temp_germ": "25°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Aromatique",
+      "Médicinale",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Epazote",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "0 cm",
+    "Duree_germ": 15,
+    "Temp_germ": "15-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "humide",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-feuilles",
+      "Aromatique",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Estragon",
+    "Conservation": 4,
+    "Infos": null,
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "18-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "caillouteux",
+      "humifère",
+      "terreau"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "réchauffé"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Estragon",
+    "Conservation": 4,
+    "Infos": null,
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "18-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "caillouteux",
+      "humifère",
+      "terreau"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "réchauffé"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Goji",
+    "Conservation": 5,
+    "Infos": null,
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 42,
+    "Temp_germ": "20-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "calcaire",
+      "sableux"
+    ],
+    "Qualite_du_sol": null,
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Guimauve",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 25,
+    "Temp_germ": "20-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧💧",
+    "Nature_du_sol": [
+      "L",
+      "calcaire",
+      "humifère",
+      "sableux"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "réchauffé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Médicinale",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Hélichryse",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": null,
+    "Temp_germ": "18°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Sep",
+      "Oct"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Jan",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Déc"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "calcaire"
+    ],
+    "Qualite_du_sol": null,
+    "Famille": [
+      "L",
+      "Aromatique"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Hélichrysum",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": null,
+    "Temp_germ": "18°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Mai",
+      "Sep",
+      "Oct"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "calcaire"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "sec"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Médicinale",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Hysope",
+    "Conservation": 3,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "18-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "sec"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Méllifère",
+      "Médicinale",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Hysope",
+    "Conservation": 3,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": null,
+    "Temp_germ": "",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Sep",
+      "Oct"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "Pot",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "sec"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Méllifère",
+      "Médicinale",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Lavande",
+    "Conservation": 2,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 90,
+    "Temp_germ": "20-25°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": null,
+    "Ou_cultiver": null,
+    "Exposition": "",
+    "Arrosage": "",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": null,
+    "Famille": null
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Marjolaine",
+    "Conservation": 3,
+    "Infos": null,
+    "Semis_profondeur": "0.5-1 cm",
+    "Duree_germ": null,
+    "Temp_germ": "",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": null,
+    "Ou_cultiver": null,
+    "Exposition": "",
+    "Arrosage": "",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": null,
+    "Famille": null
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Matricaire (Camomille)",
+    "Conservation": 3,
+    "Infos": null,
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 30,
+    "Temp_germ": "20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "meuble"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Méllifère",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Mélisse",
+    "Conservation": 4,
+    "Infos": null,
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 15,
+    "Temp_germ": "20°",
+    "Semis_sous_abris": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Médicinale",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Menthe",
+    "Conservation": 3,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "20°",
+    "Semis_sous_abris": [
+      "L",
+      "Jan",
+      "Fév",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧💧",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "léger"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Myrthe",
+    "Conservation": null,
+    "Infos": [
+      "L",
+      "H-24 tremper dans eau tiède"
+    ],
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 42,
+    "Temp_germ": "20-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Sep",
+      "Oct"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "calcaire"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Médicinale",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Origan",
+    "Conservation": 5,
+    "Infos": null,
+    "Semis_profondeur": "0.3 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "20-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "calcaire",
+      "humifère",
+      "sableux",
+      "terreau"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "riche",
+      "sec"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Méllifère",
+      "Médicinale",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Périllas",
+    "Conservation": 3,
+    "Infos": [
+      "L",
+      "H-24 tremper"
+    ],
+    "Semis_profondeur": "0.2 cm",
+    "Duree_germ": 28,
+    "Temp_germ": "20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot",
+      "Serre"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère",
+      "sableux",
+      "terreau"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "léger",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Persil",
+    "Conservation": 3,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 90,
+    "Temp_germ": "20°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "calcaire",
+      "humifère",
+      "terreau"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "frais",
+      "léger"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Plante champignon",
+    "Conservation": null,
+    "Infos": [
+      "L",
+      "A rentrer en hiver"
+    ],
+    "Semis_profondeur": "",
+    "Duree_germ": null,
+    "Temp_germ": "",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Sep",
+      "Oct"
+    ],
+    "Recolte_floraison": null,
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Poivrier",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "0.5-1 cm",
+    "Duree_germ": 60,
+    "Temp_germ": "20°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Oct",
+      "Nov"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "léger",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Réglisse",
+    "Conservation": 5,
+    "Infos": [
+      "L",
+      "H-24 tremper dans eau tiède"
+    ],
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 21,
+    "Temp_germ": "15-18°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais"
+    ],
+    "Famille": [
+      "L",
+      "/",
+      "Aromatique",
+      "Médicinale",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Romarin",
+    "Conservation": 3,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 28,
+    "Temp_germ": "15-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "calcaire"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "réchauffé"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Médicinale",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Sarriette",
+    "Conservation": 3,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "20-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "léger"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Méllifère",
+      "Médicinale",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Sauge",
+    "Conservation": 3,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "10-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "léger",
+      "riche",
+      "sec"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Méllifère",
+      "Médicinale",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Stevia",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "0 cm",
+    "Duree_germ": 21,
+    "Temp_germ": "20-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": [
+      "L",
+      "humide",
+      "réchauffé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Tabac",
+    "Conservation": 3,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "18-22°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Thé des jardins",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "0.2 cm",
+    "Duree_germ": 21,
+    "Temp_germ": "18-21°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": null,
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Aromatique",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Thym",
+    "Conservation": 3,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 21,
+    "Temp_germ": "20-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Jan",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Déc"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "caillouteux",
+      "calcaire"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "réchauffé",
+      "sec"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Méllifère",
+      "Médicinale",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Valériane",
+    "Conservation": 3,
+    "Infos": null,
+    "Semis_profondeur": "0.2 cm",
+    "Duree_germ": 45,
+    "Temp_germ": "10-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": null,
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Méllifère",
+      "Médicinale",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Verveine",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "0 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "10-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Jan",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Déc"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": [
+      "L",
+      "drainé"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Withania",
+    "Conservation": 5,
+    "Infos": null,
+    "Semis_profondeur": "0 cm",
+    "Duree_germ": 28,
+    "Temp_germ": "15-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "réchauffé"
+    ],
+    "Famille": [
+      "L",
+      "Tubercule-bulbe",
+      "Aromatique",
+      "Médicinale",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Agapanthe",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 21,
+    "Temp_germ": "18°",
+    "Semis_sous_abris": [
+      "L",
+      "Jan",
+      "Fév",
+      "Déc"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Recolte_floraison": null,
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Florales"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Ajuga Reptans",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "0.3 cm",
+    "Duree_germ": 21,
+    "Temp_germ": "10°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": null,
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Angélique",
+    "Conservation": 1,
+    "Infos": [
+      "L",
+      "J-120 au frigo puis J-60 au chaud"
+    ],
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 120,
+    "Temp_germ": "5°\n25-30°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr"
+    ],
+    "Recolte_floraison": null,
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅",
+    "Arrosage": "💧💧💧",
+    "Nature_du_sol": [
+      "L",
+      "calcaire",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais",
+      "léger"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Méllifère",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Asclepias",
+    "Conservation": null,
+    "Infos": [
+      "L",
+      "J-60 au frigo"
+    ],
+    "Semis_profondeur": "0.3 cm",
+    "Duree_germ": 90,
+    "Temp_germ": "13-23°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "calcaire",
+      "humifère",
+      "sableux",
+      "terreau"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "humide",
+      "léger"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Méllifère",
+      "Médicinale",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Astrance",
+    "Conservation": null,
+    "Infos": [
+      "L",
+      "J-42 au frigo"
+    ],
+    "Semis_profondeur": "0.3 cm",
+    "Duree_germ": 180,
+    "Temp_germ": "18-20\n2-4°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Sep",
+      "Oct"
+    ],
+    "Recolte_floraison": null,
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "calcaire",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "frais"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Méllifère",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Bleuet",
+    "Conservation": 3,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "18-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Méllifère",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Bleuet des champs",
+    "Conservation": 3,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "18-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Sep",
+      "Oct"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Méllifère",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Bourrache",
+    "Conservation": 2,
+    "Infos": null,
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 15,
+    "Temp_germ": "13°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Médicinale",
+      "Engrais vert"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Capucine Grimpante",
+    "Conservation": 4,
+    "Infos": null,
+    "Semis_profondeur": "2 cm",
+    "Duree_germ": 15,
+    "Temp_germ": "15-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "réchauffé"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Célosia",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 21,
+    "Temp_germ": "20-22°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Florales"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Centaurée Variée",
+    "Conservation": 3,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "18-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Mai",
+      "Jui",
+      "Aou",
+      "Sep"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "calcaire"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "frais",
+      "pauvre"
+    ],
+    "Famille": [
+      "L",
+      "Florales"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Cinéraire",
+    "Conservation": null,
+    "Infos": [
+      "L",
+      "Germ – pas de soleil direct"
+    ],
+    "Semis_profondeur": "0.3 cm",
+    "Duree_germ": 21,
+    "Temp_germ": "18-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou"
+    ],
+    "Ou_cultiver": null,
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Florales"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Consoude",
+    "Conservation": null,
+    "Infos": [
+      "L",
+      "J-15 congel"
+    ],
+    "Semis_profondeur": "1-2 cm",
+    "Duree_germ": 0.5,
+    "Temp_germ": "3-5°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Oct",
+      "Nov"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "frais",
+      "humide",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Engrais vert"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Coquelicot",
+    "Conservation": 2,
+    "Infos": null,
+    "Semis_profondeur": "0 cm",
+    "Duree_germ": 28,
+    "Temp_germ": "15-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mar",
+      "Aou",
+      "Sep"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Aou",
+      "Sep"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil"
+    ],
+    "Ou_cultiver": null,
+    "Exposition": "☀️☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Aromatique",
+      "Méllifère",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Coquelourde ",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "0 cm",
+    "Duree_germ": 25,
+    "Temp_germ": "18-24°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais",
+      "léger"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Méllifère",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Corbeille ",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "0.3 cm",
+    "Duree_germ": 15,
+    "Temp_germ": "18-24°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Oct",
+      "Nov"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "caillouteux",
+      "calcaire"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais",
+      "sec"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Cosmos",
+    "Conservation": 2,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 30,
+    "Temp_germ": "20-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "calcaire",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "réchauffé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Méllifère",
+      "Médicinale",
+      "Tinctoriale"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Coton",
+    "Conservation": 4,
+    "Infos": null,
+    "Semis_profondeur": "1-2 cm",
+    "Duree_germ": 21,
+    "Temp_germ": "20-22°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot",
+      "Serre"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "meuble",
+      "réchauffé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Florales"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Dahlia",
+    "Conservation": 3,
+    "Infos": null,
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "18-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "frais",
+      "meuble",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Vivace",
+      "Tinctoriale"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Fleurs des champs",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "",
+    "Duree_germ": null,
+    "Temp_germ": "",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": null,
+    "Ou_cultiver": null,
+    "Exposition": "",
+    "Arrosage": "",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": null,
+    "Famille": [
+      "L",
+      "Florales"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Gaillarde",
+    "Conservation": 4,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 14,
+    "Temp_germ": "18-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": null,
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "léger"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Méllifère",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Gazania",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "0.3 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "réchauffé"
+    ],
+    "Famille": [
+      "L",
+      "Florales"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Haricot",
+    "Conservation": 3,
+    "Infos": [
+      "L",
+      "H-24 tremper dans eau tiède"
+    ],
+    "Semis_profondeur": "3 cm",
+    "Duree_germ": 14,
+    "Temp_germ": "15-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère",
+      "sableux"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Florales"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Heuchère",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 15,
+    "Temp_germ": "18-22°",
+    "Semis_sous_abris": [
+      "L",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Sep",
+      "Oct"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "calcaire"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "frais"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Ipomée",
+    "Conservation": 4,
+    "Infos": null,
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "18-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère",
+      "sableux"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Méllifère"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Lin",
+    "Conservation": 6,
+    "Infos": null,
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "15°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère",
+      "sableux"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé"
+    ],
+    "Famille": [
+      "L",
+      "Florales"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Lobelia",
+    "Conservation": 4,
+    "Infos": null,
+    "Semis_profondeur": "2 cm",
+    "Duree_germ": 21,
+    "Temp_germ": "21-24°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Oct",
+      "Nov"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais",
+      "humide"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Médicinale",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Lotier",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 14,
+    "Temp_germ": "15-20°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Sep",
+      "Oct"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Méllifère",
+      "Médicinale",
+      "Vivace",
+      "Engrais vert"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Marguerite",
+    "Conservation": 2,
+    "Infos": null,
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 12,
+    "Temp_germ": "15-18°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Sep",
+      "Oct"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais",
+      "léger",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Méllifère",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Mauve",
+    "Conservation": 2,
+    "Infos": null,
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Méllifère"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Moutarde",
+    "Conservation": 4,
+    "Infos": null,
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 14,
+    "Temp_germ": "15-20°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jan",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Déc"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "humide"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Méllifère",
+      "Engrais vert"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Nigelle de Damas",
+    "Conservation": 2,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 30,
+    "Temp_germ": "18-22°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "réchauffé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Oeillet de Chine",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 14,
+    "Temp_germ": "18-22°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": null,
+    "Famille": [
+      "L",
+      "Florales",
+      "Médicinale",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Oeillet de Poète",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 14,
+    "Temp_germ": "20-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé"
+    ],
+    "Famille": null
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Onagre",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 30,
+    "Temp_germ": "20-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Sep",
+      "Oct"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "caillouteux",
+      "calcaire",
+      "humifère",
+      "sableux"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais",
+      "sec"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Pavot",
+    "Conservation": 4,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 21,
+    "Temp_germ": "15-18°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Sep",
+      "Oct"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "léger",
+      "sec"
+    ],
+    "Famille": [
+      "L",
+      "Florales"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Pavot",
+    "Conservation": 4,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 21,
+    "Temp_germ": "15-18°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Sep",
+      "Oct"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "léger",
+      "sec"
+    ],
+    "Famille": [
+      "L",
+      "Florales"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Perowskia",
+    "Conservation": null,
+    "Infos": [
+      "L",
+      "Bouture"
+    ],
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 42,
+    "Temp_germ": "3-5°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Fév",
+      "Mar",
+      "Sep",
+      "Oct"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "caillouteux",
+      "calcaire",
+      "sableux"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "pauvre",
+      "sec"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Phacélie ",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "1-2 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "10-25°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Sep",
+      "Oct"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "humide",
+      "meuble"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Méllifère",
+      "Engrais vert"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Pois de cœur",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé"
+    ],
+    "Famille": [
+      "L",
+      "Florales"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Rudbeckia",
+    "Conservation": null,
+    "Infos": [
+      "L",
+      "J-60 au frigo"
+    ],
+    "Semis_profondeur": "0 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "18-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Sep",
+      "Oct"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "calcaire",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Sainfoin",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "1-2 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "15°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Recolte_floraison": null,
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "calcaire"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "sec"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Méllifère",
+      "Engrais vert"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Salicaire",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "0 cm",
+    "Duree_germ": 28,
+    "Temp_germ": "15-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mai",
+      "Jui"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "frais"
+    ],
+    "Famille": [
+      "L",
+      "Florales"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Scabieuse",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "0.2 cm",
+    "Duree_germ": 21,
+    "Temp_germ": "15-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "calcaire",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "riche",
+      "sec"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Méllifère",
+      "Médicinale",
+      "Tinctoriale"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Sedum",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "0.3 cm",
+    "Duree_germ": 40,
+    "Temp_germ": "20-24°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☁️⛅☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "calcaire"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "léger",
+      "pauvre"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Silène",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "0.2 cm",
+    "Duree_germ": 21,
+    "Temp_germ": "15-22°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "caillouteux",
+      "calcaire"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "léger",
+      "pauvre"
+    ],
+    "Famille": null
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Souci",
+    "Conservation": 3,
+    "Infos": null,
+    "Semis_profondeur": "1-2 cm",
+    "Duree_germ": 7,
+    "Temp_germ": "20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "léger"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Méllifère",
+      "Médicinale",
+      "Tinctoriale"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Stachys",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "0.2 cm",
+    "Duree_germ": 21,
+    "Temp_germ": "10-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Sep"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "caillouteux",
+      "calcaire"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "meuble",
+      "sec"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Méllifère",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Tagète",
+    "Conservation": 3,
+    "Infos": null,
+    "Semis_profondeur": "0.5-1 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "18-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": null,
+    "Famille": [
+      "L",
+      "Florales"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Tournesol",
+    "Conservation": 3,
+    "Infos": null,
+    "Semis_profondeur": "3 cm",
+    "Duree_germ": 21,
+    "Temp_germ": "20-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "réchauffé"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Méllifère",
+      "Engrais vert"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Trèfle",
+    "Conservation": 4,
+    "Infos": null,
+    "Semis_profondeur": "1-3 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "15-20°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "frais"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Méllifère",
+      "Engrais vert"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Valériane",
+    "Conservation": 3,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 14,
+    "Temp_germ": "20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais",
+      "humide",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Méllifère",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Verveine",
+    "Conservation": 2,
+    "Infos": null,
+    "Semis_profondeur": "0.3 cm",
+    "Duree_germ": 30,
+    "Temp_germ": "18-20°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais",
+      "humide",
+      "léger"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Vesce",
+    "Conservation": 4,
+    "Infos": null,
+    "Semis_profondeur": "1-3 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "15-23°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Sep",
+      "Oct"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "calcaire",
+      "humifère",
+      "sableux"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Méllifère",
+      "Engrais vert"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Vesce ",
+    "Conservation": 4,
+    "Infos": null,
+    "Semis_profondeur": "1-3 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "4°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jan",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "calcaire",
+      "humifère",
+      "sableux"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Méllifère",
+      "Engrais vert"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Zinnia",
+    "Conservation": 5,
+    "Infos": null,
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 14,
+    "Temp_germ": "20-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "réchauffé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Méllifère",
+      "Tinctoriale"
+    ]
+  },
+  {
+    "Type": "Lég-feu. 🥬",
+    "Nom": "Amarante à Feuilles",
+    "Conservation": 8,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 15,
+    "Temp_germ": "21-24°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Serre"
+    ],
+    "Exposition": "",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "frais",
+      "meuble",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-feuilles"
+    ]
+  },
+  {
+    "Type": "Lég-feu. 🥬",
+    "Nom": "Arroche",
+    "Conservation": 6,
+    "Infos": null,
+    "Semis_profondeur": "0.1 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "15-30°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "réchauffé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-feuilles"
+    ]
+  },
+  {
+    "Type": "Lég-feu. 🥬",
+    "Nom": "Chénopodes",
+    "Conservation": 4,
+    "Infos": null,
+    "Semis_profondeur": "2 cm",
+    "Duree_germ": 15,
+    "Temp_germ": "20°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "frais",
+      "meuble",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-feuilles"
+    ]
+  },
+  {
+    "Type": "Lég-feu. 🥬",
+    "Nom": "Chou Brocolis",
+    "Conservation": 6,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "15-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Juil",
+      "Aou"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Aou",
+      "Sep"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jan",
+      "Fév",
+      "Mar",
+      "Oct",
+      "Nov",
+      "Déc"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "calcaire",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "humide"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-feuilles"
+    ]
+  },
+  {
+    "Type": "Lég-feu. 🥬",
+    "Nom": "Chou Cabus",
+    "Conservation": 6,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "20-22°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Aou",
+      "Sep"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jan",
+      "Fév",
+      "Mar",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Déc"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "calcaire",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais",
+      "humide",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-feuilles"
+    ]
+  },
+  {
+    "Type": "Lég-feu. 🥬",
+    "Nom": "Chou chinois",
+    "Conservation": 6,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "20-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Mai",
+      "Jui"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "calcaire",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "frais",
+      "meuble",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-feuilles"
+    ]
+  },
+  {
+    "Type": "Lég-feu. 🥬",
+    "Nom": "Chou de Bruxelles",
+    "Conservation": 6,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 7,
+    "Temp_germ": "21°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Jan",
+      "Fév",
+      "Mar",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Déc"
+    ],
+    "Ou_cultiver": null,
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "calcaire",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "frais",
+      "humide",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-feuilles"
+    ]
+  },
+  {
+    "Type": "Lég-feu. 🥬",
+    "Nom": "Côtes de Blette",
+    "Conservation": 6,
+    "Infos": null,
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "20-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Déc"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "calcaire",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "frais",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-feuilles"
+    ]
+  },
+  {
+    "Type": "Lég-feu. 🥬",
+    "Nom": "Cresson de Pará",
+    "Conservation": 5,
+    "Infos": null,
+    "Semis_profondeur": "0.2 cm",
+    "Duree_germ": 5,
+    "Temp_germ": "18°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot",
+      "Serre"
+    ],
+    "Exposition": "⛅",
+    "Arrosage": "💧💧💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "humide",
+      "léger"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-feuilles",
+      "Aromatique",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Lég-feu. 🥬",
+    "Nom": "Épinard",
+    "Conservation": 4,
+    "Infos": null,
+    "Semis_profondeur": "1-2 cm",
+    "Duree_germ": 15,
+    "Temp_germ": "16-18°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Oct",
+      "Nov",
+      "Déc"
+    ],
+    "Ou_cultiver": null,
+    "Exposition": "",
+    "Arrosage": "",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": null,
+    "Famille": [
+      "L",
+      "Légumes-feuilles"
+    ]
+  },
+  {
+    "Type": "Lég-feu. 🥬",
+    "Nom": "Fenouil",
+    "Conservation": 4,
+    "Infos": null,
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 15,
+    "Temp_germ": "12-15°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "caillouteux",
+      "humifère",
+      "sableux"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "frais",
+      "humide",
+      "meuble",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-feuilles",
+      "Méllifère"
+    ]
+  },
+  {
+    "Type": "Lég-feu. 🥬",
+    "Nom": "Laitue",
+    "Conservation": 5,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 8,
+    "Temp_germ": "10-18°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "humide",
+      "meuble"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-feuilles"
+    ]
+  },
+  {
+    "Type": "Lég-feu. 🥬",
+    "Nom": "Laitue à couper",
+    "Conservation": 5,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "10-18°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "humide",
+      "meuble"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-feuilles"
+    ]
+  },
+  {
+    "Type": "Lég-feu. 🥬",
+    "Nom": "Laitue pommée",
+    "Conservation": 5,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "10-18°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "humide",
+      "meuble"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-feuilles"
+    ]
+  },
+  {
+    "Type": "Lég-feu. 🥬",
+    "Nom": "Mâche",
+    "Conservation": 5,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "15-20°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jan",
+      "Fév",
+      "Mar",
+      "Oct",
+      "Nov",
+      "Déc"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☁️⛅",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-feuilles"
+    ]
+  },
+  {
+    "Type": "Lég-feu. 🥬",
+    "Nom": "Oseille",
+    "Conservation": 2,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "15-26°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "lourd",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-feuilles"
+    ]
+  },
+  {
+    "Type": "Lég-feu. 🥬",
+    "Nom": "Poireau",
+    "Conservation": 2,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 15,
+    "Temp_germ": "13-24°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jan",
+      "Fév",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Déc"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais",
+      "meuble"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-feuilles"
+    ]
+  },
+  {
+    "Type": "Lég-feu. 🥬",
+    "Nom": "Rhubarbe",
+    "Conservation": 2,
+    "Infos": null,
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 25,
+    "Temp_germ": "20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Serre"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais",
+      "humide"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-feuilles",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Lég-fru. 🍅",
+    "Nom": "Aubergine",
+    "Conservation": 5,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "25",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Serre"
+    ],
+    "Exposition": "☀️☀️",
+    "Arrosage": "💧💧💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "réchauffé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-fruits"
+    ]
+  },
+  {
+    "Type": "Lég-fru. 🍅",
+    "Nom": "Cornichon",
+    "Conservation": 10,
+    "Infos": [
+      "L",
+      "Ancienne",
+      "Mi-Saison"
+    ],
+    "Semis_profondeur": "2 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "22-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "humide",
+      "meuble"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-fruits"
+    ]
+  },
+  {
+    "Type": "Lég-fru. 🍅",
+    "Nom": "Courge ",
+    "Conservation": 8,
+    "Infos": null,
+    "Semis_profondeur": "2 cm",
+    "Duree_germ": 15,
+    "Temp_germ": "18-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "calcaire",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-fruits"
+    ]
+  },
+  {
+    "Type": "Lég-fru. 🍅",
+    "Nom": "Courge Lagenaria",
+    "Conservation": 8,
+    "Infos": null,
+    "Semis_profondeur": "2 cm",
+    "Duree_germ": 15,
+    "Temp_germ": "20°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": null,
+    "Ou_cultiver": null,
+    "Exposition": "",
+    "Arrosage": "",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": null,
+    "Famille": [
+      "L",
+      "Légumes-fruits"
+    ]
+  },
+  {
+    "Type": "Lég-fru. 🍅",
+    "Nom": "Courge Moschata",
+    "Conservation": 8,
+    "Infos": null,
+    "Semis_profondeur": "2 cm",
+    "Duree_germ": 15,
+    "Temp_germ": "18-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "frais",
+      "humide",
+      "meuble",
+      "réchauffé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-fruits"
+    ]
+  },
+  {
+    "Type": "Lég-fru. 🍅",
+    "Nom": "Courge Pepo",
+    "Conservation": 8,
+    "Infos": [
+      "L",
+      "Ancienne",
+      "Précoce"
+    ],
+    "Semis_profondeur": "2 cm",
+    "Duree_germ": 15,
+    "Temp_germ": "18-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-fruits"
+    ]
+  },
+  {
+    "Type": "Lég-fru. 🍅",
+    "Nom": "Courgette",
+    "Conservation": 5,
+    "Infos": [
+      "L",
+      "Précoce",
+      "Buisson."
+    ],
+    "Semis_profondeur": "2 cm",
+    "Duree_germ": 15,
+    "Temp_germ": "18-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Serre"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "lourd",
+      "meuble",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-fruits"
+    ]
+  },
+  {
+    "Type": "Lég-fru. 🍅",
+    "Nom": "Dolique",
+    "Conservation": 3,
+    "Infos": null,
+    "Semis_profondeur": "3 cm",
+    "Duree_germ": 14,
+    "Temp_germ": "20-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Avr"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "calcaire"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "réchauffé"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-fruits"
+    ]
+  },
+  {
+    "Type": "Lég-fru. 🍅",
+    "Nom": "Fève",
+    "Conservation": 5,
+    "Infos": null,
+    "Semis_profondeur": "3 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "15-20°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Oct",
+      "Nov"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "calcaire",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais",
+      "humide"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-fruits"
+    ]
+  },
+  {
+    "Type": "Lég-fru. 🍅",
+    "Nom": "Haricot",
+    "Conservation": 3,
+    "Infos": null,
+    "Semis_profondeur": "3 cm",
+    "Duree_germ": 12,
+    "Temp_germ": "16-25°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "réchauffé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-fruits"
+    ]
+  },
+  {
+    "Type": "Lég-fru. 🍅",
+    "Nom": "Haricot à écosser",
+    "Conservation": 3,
+    "Infos": [
+      "L",
+      "A Rames",
+      "Ancienne",
+      "Mi-Saison"
+    ],
+    "Semis_profondeur": "3 cm",
+    "Duree_germ": 12,
+    "Temp_germ": "16-25°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "réchauffé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-fruits"
+    ]
+  },
+  {
+    "Type": "Lég-fru. 🍅",
+    "Nom": "Haricot Mangetout ",
+    "Conservation": 3,
+    "Infos": [
+      "L",
+      "Nain",
+      "Ancienne",
+      "Mi-Saison"
+    ],
+    "Semis_profondeur": "3 cm",
+    "Duree_germ": 12,
+    "Temp_germ": "16-25°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "réchauffé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-fruits"
+    ]
+  },
+  {
+    "Type": "Lég-fru. 🍅",
+    "Nom": "Kiwano",
+    "Conservation": 8,
+    "Infos": [
+      "L",
+      "Ancienne",
+      "Mi-Saison"
+    ],
+    "Semis_profondeur": "2 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "22-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Serre"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "calcaire",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-fruits",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Lég-fru. 🍅",
+    "Nom": "Luffa",
+    "Conservation": 8,
+    "Infos": null,
+    "Semis_profondeur": "2 cm",
+    "Duree_germ": 15,
+    "Temp_germ": "18-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "réchauffé"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-fruits"
+    ]
+  },
+  {
+    "Type": "Lég-fru. 🍅",
+    "Nom": "Melon",
+    "Conservation": 5,
+    "Infos": [
+      "L",
+      "Ancienne",
+      "Précoce"
+    ],
+    "Semis_profondeur": "1.5 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "20-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Serre"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧💧",
+    "Nature_du_sol": [
+      "L",
+      "calcaire",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "léger",
+      "réchauffé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-fruits"
+    ]
+  },
+  {
+    "Type": "Lég-fru. 🍅",
+    "Nom": "Morelle de Balbis",
+    "Conservation": 5,
+    "Infos": [
+      "L",
+      "Mi-Saison"
+    ],
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 21,
+    "Temp_germ": "26-30°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅",
+    "Arrosage": "💧💧💧",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": null,
+    "Famille": null
+  },
+  {
+    "Type": "Lég-fru. 🍅",
+    "Nom": "Physalis",
+    "Conservation": null,
+    "Infos": [
+      "L",
+      "A rentrer en hiver",
+      "Ancienne",
+      "Mi-Saison"
+    ],
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 30,
+    "Temp_germ": "18-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Déc"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot",
+      "Serre"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "humide",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-fruits"
+    ]
+  },
+  {
+    "Type": "Lég-fru. 🍅",
+    "Nom": "Piment ",
+    "Conservation": 2,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 15,
+    "Temp_germ": "20-30",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot",
+      "Serre"
+    ],
+    "Exposition": "☀️☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "caillouteux",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "meuble",
+      "réchauffé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-fruits"
+    ]
+  },
+  {
+    "Type": "Lég-fru. 🍅",
+    "Nom": "Pois à écosser",
+    "Conservation": 3,
+    "Infos": [
+      "L",
+      "Précoce"
+    ],
+    "Semis_profondeur": "2-3 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "10-15°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "frais",
+      "léger",
+      "meuble"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-fruits"
+    ]
+  },
+  {
+    "Type": "Lég-fru. 🍅",
+    "Nom": "Poivron",
+    "Conservation": 6,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 15,
+    "Temp_germ": "20-30",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot",
+      "Serre"
+    ],
+    "Exposition": "☀️☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "caillouteux",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "meuble",
+      "réchauffé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-fruits"
+    ]
+  },
+  {
+    "Type": "Lég-fru. 🍅",
+    "Nom": "Soja Edamame",
+    "Conservation": 3,
+    "Infos": [
+      "L",
+      "Mi-Saison"
+    ],
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 14,
+    "Temp_germ": "12-20°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère",
+      "sableux"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "réchauffé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-fruits"
+    ]
+  },
+  {
+    "Type": "Lég-fru. 🍅",
+    "Nom": "Tomate",
+    "Conservation": 5,
+    "Infos": [
+      "L",
+      "Mi-Saison"
+    ],
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "20-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot",
+      "Serre"
+    ],
+    "Exposition": "☀️☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "réchauffé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-fruits"
+    ]
+  },
+  {
+    "Type": "Lég-gra. 🌾",
+    "Nom": "Amarante à grains",
+    "Conservation": 8,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 15,
+    "Temp_germ": "21-24°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Serre"
+    ],
+    "Exposition": "",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "frais",
+      "meuble",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes à grains"
+    ]
+  },
+  {
+    "Type": "Lég-gra. 🌾",
+    "Nom": "Blé",
+    "Conservation": 8,
+    "Infos": null,
+    "Semis_profondeur": "3 cm",
+    "Duree_germ": 15,
+    "Temp_germ": "4-10°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "calcaire",
+      "sableux"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "pauvre",
+      "réchauffé"
+    ],
+    "Famille": [
+      "L",
+      "Légumes à grains",
+      "Engrais vert"
+    ]
+  },
+  {
+    "Type": "Lég-gra. 🌾",
+    "Nom": "Lentille",
+    "Conservation": 5,
+    "Infos": null,
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "15-20°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "calcaire",
+      "sableux"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "léger",
+      "meuble"
+    ],
+    "Famille": [
+      "L",
+      "Légumes à grains",
+      "Engrais vert",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Lég-gra. 🌾",
+    "Nom": "Maïs Doux",
+    "Conservation": 2,
+    "Infos": null,
+    "Semis_profondeur": "2-3 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "17-20°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais",
+      "meuble"
+    ],
+    "Famille": [
+      "L",
+      "Légumes à grains"
+    ]
+  },
+  {
+    "Type": "Lég-gra. 🌾",
+    "Nom": "Millet",
+    "Conservation": 4,
+    "Infos": null,
+    "Semis_profondeur": "0.5-2 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "15-20°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "sableux"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "réchauffé",
+      "sec"
+    ],
+    "Famille": [
+      "L",
+      "Légumes à grains"
+    ]
+  },
+  {
+    "Type": "Lég-gra. 🌾",
+    "Nom": "Pois Chiche",
+    "Conservation": 3,
+    "Infos": null,
+    "Semis_profondeur": "4 cm",
+    "Duree_germ": 8,
+    "Temp_germ": "10-15°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": [
+      "L",
+      "drainé"
+    ],
+    "Famille": [
+      "L",
+      "Légumes à grains"
+    ]
+  },
+  {
+    "Type": "Lég-gra. 🌾",
+    "Nom": "Quinoa",
+    "Conservation": 8,
+    "Infos": null,
+    "Semis_profondeur": "0.2 cm",
+    "Duree_germ": 7,
+    "Temp_germ": "15-18°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "meuble"
+    ],
+    "Famille": [
+      "L",
+      "Légumes à grains"
+    ]
+  },
+  {
+    "Type": "Lég-gra. 🌾",
+    "Nom": "Sarrasin",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "2 cm",
+    "Duree_germ": 5,
+    "Temp_germ": "10-15°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "sec"
+    ],
+    "Famille": [
+      "L",
+      "Légumes à grains"
+    ]
+  },
+  {
+    "Type": "Lég-gra. 🌾",
+    "Nom": "Sorgho",
+    "Conservation": 4,
+    "Infos": null,
+    "Semis_profondeur": "1-2 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "15-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Avr"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "calcaire",
+      "humifère",
+      "sableux"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "réchauffé",
+      "sec"
+    ],
+    "Famille": [
+      "L",
+      "Légumes à grains",
+      "Engrais vert",
+      "Tinctoriale"
+    ]
+  },
+  {
+    "Type": "Lég-rac. 🥕",
+    "Nom": "Betterave",
+    "Conservation": 6,
+    "Infos": null,
+    "Semis_profondeur": "2 cm",
+    "Duree_germ": 15,
+    "Temp_germ": "15-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Déc"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais",
+      "léger"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-racines"
+    ]
+  },
+  {
+    "Type": "Lég-rac. 🥕",
+    "Nom": "Carotte",
+    "Conservation": 4,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 15,
+    "Temp_germ": "10-30°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "caillouteux",
+      "calcaire",
+      "sableux"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "pauvre",
+      "réchauffé",
+      "sec"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-racines"
+    ]
+  },
+  {
+    "Type": "Lég-rac. 🥕",
+    "Nom": "Chou Rutabaga",
+    "Conservation": 6,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "15-22°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jan",
+      "Fév",
+      "Mar",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Déc"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais",
+      "léger",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-racines"
+    ]
+  },
+  {
+    "Type": "Lég-rac. 🥕",
+    "Nom": "Panais",
+    "Conservation": 1,
+    "Infos": null,
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 30,
+    "Temp_germ": "20°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jan",
+      "Fév",
+      "Mar",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Déc"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "calcaire",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "frais",
+      "meuble",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-racines"
+    ]
+  },
+  {
+    "Type": "Lég-rac. 🥕",
+    "Nom": "Radis",
+    "Conservation": 5,
+    "Infos": null,
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 7,
+    "Temp_germ": "10-20°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "humifère",
+      "sableux"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais",
+      "meuble"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-racines"
+    ]
+  },
+  {
+    "Type": "Lég-rac. 🥕",
+    "Nom": "Radis d’Hiver",
+    "Conservation": 5,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 7,
+    "Temp_germ": "10-20°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jan",
+      "Fév",
+      "Mar",
+      "Oct",
+      "Nov",
+      "Déc"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "humifère",
+      "sableux"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais",
+      "meuble"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-racines"
+    ]
+  },
+  {
+    "Type": "Petits Fruits 🫐",
+    "Nom": "Cassissier",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "",
+    "Duree_germ": null,
+    "Temp_germ": "",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": null,
+    "Ou_cultiver": null,
+    "Exposition": "",
+    "Arrosage": "",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": null,
+    "Famille": null
+  },
+  {
+    "Type": "Petits Fruits 🫐",
+    "Nom": "Fraisier",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "",
+    "Duree_germ": null,
+    "Temp_germ": "",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": null,
+    "Ou_cultiver": null,
+    "Exposition": "",
+    "Arrosage": "",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": null,
+    "Famille": null
+  },
+  {
+    "Type": "Petits Fruits 🫐",
+    "Nom": "Groseillier",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "",
+    "Duree_germ": null,
+    "Temp_germ": "",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": null,
+    "Ou_cultiver": null,
+    "Exposition": "",
+    "Arrosage": "",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": null,
+    "Famille": null
+  },
+  {
+    "Type": "Petits Fruits 🫐",
+    "Nom": "Mûrier",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "",
+    "Duree_germ": null,
+    "Temp_germ": "",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": null,
+    "Ou_cultiver": null,
+    "Exposition": "",
+    "Arrosage": "",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": null,
+    "Famille": null
+  },
+  {
+    "Type": "Petits Fruits 🫐",
+    "Nom": "Myrtillier",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "",
+    "Duree_germ": null,
+    "Temp_germ": "",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": null,
+    "Ou_cultiver": null,
+    "Exposition": "",
+    "Arrosage": "",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": null,
+    "Famille": null
+  },
+  {
+    "Type": "Tub.bul. 🧅",
+    "Nom": "Ail",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "2 cm",
+    "Duree_germ": 28,
+    "Temp_germ": "15-18°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jan",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Déc"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère"
+    ],
+    "Qualite_du_sol": null,
+    "Famille": [
+      "L",
+      "Tubercule-bulbe",
+      "Florales",
+      "Aromatique",
+      "Vivace",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Tub.bul. 🧅",
+    "Nom": "Ail",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "2 cm",
+    "Duree_germ": null,
+    "Temp_germ": "",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Juil"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jan",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé"
+    ],
+    "Famille": [
+      "L",
+      "Tubercule-bulbe",
+      "Aromatique",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Tub.bul. 🧅",
+    "Nom": "Ail ",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "2 cm",
+    "Duree_germ": null,
+    "Temp_germ": "10°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Fév",
+      "Oct",
+      "Nov"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé"
+    ],
+    "Famille": [
+      "L",
+      "Tubercule-bulbe",
+      "Aromatique",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Tub.bul. 🧅",
+    "Nom": "Christophine ",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "10 cm",
+    "Duree_germ": null,
+    "Temp_germ": "",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": null,
+    "Famille": [
+      "L",
+      "Tubercule-bulbe"
+    ]
+  },
+  {
+    "Type": "Tub.bul. 🧅",
+    "Nom": "Echalote",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": null,
+    "Temp_germ": "",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Jan",
+      "Oct",
+      "Nov"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé"
+    ],
+    "Famille": [
+      "L",
+      "Tubercule-bulbe"
+    ]
+  },
+  {
+    "Type": "Tub.bul. 🧅",
+    "Nom": "Gingembre",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "",
+    "Duree_germ": null,
+    "Temp_germ": "",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé"
+    ],
+    "Famille": [
+      "L",
+      "Tubercule-bulbe"
+    ]
+  },
+  {
+    "Type": "Tub.bul. 🧅",
+    "Nom": "Oignon",
+    "Conservation": 1,
+    "Infos": null,
+    "Semis_profondeur": "2 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "15°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "léger",
+      "meuble"
+    ],
+    "Famille": [
+      "L",
+      "Tubercule-bulbe",
+      "Tinctoriale"
+    ]
+  },
+  {
+    "Type": "Tub.bul. 🧅",
+    "Nom": "Patate douce",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "",
+    "Duree_germ": null,
+    "Temp_germ": "",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": null,
+    "Ou_cultiver": null,
+    "Exposition": "",
+    "Arrosage": "",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": null,
+    "Famille": null
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Arnica",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "0.2 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "10-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "humifère",
+      "sableux"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "humide",
+      "meuble",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Méllifère",
+      "Médicinale",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Fenouil",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": null,
+    "Temp_germ": "",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère",
+      "sableux"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "léger",
+      "réchauffé"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Arom.Méd 🌿",
+    "Nom": "Pimprenelle",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "2-3 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Aou",
+      "Sep"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Aou",
+      "Sep"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "caillouteux",
+      "calcaire",
+      "sableux"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Aromatique",
+      "Méllifère",
+      "Médicinale",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Belles de Nuit",
+    "Conservation": null,
+    "Infos": [
+      "L",
+      "H-24 tremper dans eau tiède"
+    ],
+    "Semis_profondeur": "1",
+    "Duree_germ": 15,
+    "Temp_germ": "18-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère",
+      "littoral",
+      "sableux"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "réchauffé"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Médicinale",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Iberis",
+    "Conservation": null,
+    "Infos": [
+      "L",
+      "Couvrir d’un film plastique ou mini-serre"
+    ],
+    "Semis_profondeur": "0.3 cm",
+    "Duree_germ": 20,
+    "Temp_germ": "15°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "léger"
+    ],
+    "Famille": [
+      "L",
+      "Florales"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Larmes de Job",
+    "Conservation": 4,
+    "Infos": null,
+    "Semis_profondeur": "",
+    "Duree_germ": null,
+    "Temp_germ": "",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": null,
+    "Ou_cultiver": null,
+    "Exposition": "",
+    "Arrosage": "",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": null,
+    "Famille": [
+      "L",
+      "Florales",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Marguerite",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 12,
+    "Temp_germ": "15-18°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Sep",
+      "Oct"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais",
+      "léger",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Florales",
+      "Méllifère",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Lég-feu. 🥬",
+    "Nom": "Artichaut",
+    "Conservation": 7,
+    "Infos": null,
+    "Semis_profondeur": "1-2 cm",
+    "Duree_germ": 15,
+    "Temp_germ": "20-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Sep",
+      "Oct"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "frais",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-feuilles"
+    ]
+  },
+  {
+    "Type": "Lég-feu. 🥬",
+    "Nom": "Céleri à côtes blanches ",
+    "Conservation": 6,
+    "Infos": null,
+    "Semis_profondeur": "",
+    "Duree_germ": null,
+    "Temp_germ": "",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": null,
+    "Ou_cultiver": null,
+    "Exposition": "",
+    "Arrosage": "",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": null,
+    "Famille": null
+  },
+  {
+    "Type": "Lég-feu. 🥬",
+    "Nom": "Chou frisé",
+    "Conservation": 6,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": null,
+    "Temp_germ": "",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jan",
+      "Fév",
+      "Mar",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Déc"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "calcaire",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "frais",
+      "humide",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-feuilles"
+    ]
+  },
+  {
+    "Type": "Lég-feu. 🥬",
+    "Nom": "Chou-fleur",
+    "Conservation": 6,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "22°",
+    "Semis_sous_abris": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jan",
+      "Fév",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Déc"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Serre"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "calcaire",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "frais",
+      "humide",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-feuilles"
+    ]
+  },
+  {
+    "Type": "Lég-feu. 🥬",
+    "Nom": "Fenouil de Florence",
+    "Conservation": 4,
+    "Infos": null,
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 15,
+    "Temp_germ": "12-15°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "caillouteux",
+      "humifère",
+      "sableux"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "frais",
+      "humide",
+      "meuble",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-feuilles",
+      "Méllifère"
+    ]
+  },
+  {
+    "Type": "Lég-feu. 🥬",
+    "Nom": "Mertensia",
+    "Conservation": 3,
+    "Infos": null,
+    "Semis_profondeur": "",
+    "Duree_germ": null,
+    "Temp_germ": "",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Jan",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "sableux"
+    ],
+    "Qualite_du_sol": null,
+    "Famille": [
+      "L",
+      "Légumes-feuilles",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Lég-feu. 🥬",
+    "Nom": "Poireau Perpétuel",
+    "Conservation": 2,
+    "Infos": null,
+    "Semis_profondeur": "",
+    "Duree_germ": null,
+    "Temp_germ": "",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jan",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Nov",
+      "Déc"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais",
+      "meuble",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-feuilles",
+      "Aromatique",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Lég-fru. 🍅",
+    "Nom": "Concombre",
+    "Conservation": 10,
+    "Infos": [
+      "L",
+      "Mi-Saison"
+    ],
+    "Semis_profondeur": "2 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "22-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Serre"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère",
+      "sableux"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "réchauffé"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-fruits"
+    ]
+  },
+  {
+    "Type": "Lég-fru. 🍅",
+    "Nom": "Courge Maxima",
+    "Conservation": 8,
+    "Infos": [
+      "L",
+      "Ancienne",
+      "Mi-Saison"
+    ],
+    "Semis_profondeur": "2 cm",
+    "Duree_germ": 15,
+    "Temp_germ": "18-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "lourd",
+      "meuble",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-fruits"
+    ]
+  },
+  {
+    "Type": "Lég-fru. 🍅",
+    "Nom": "Pastèque ",
+    "Conservation": 5,
+    "Infos": [
+      "L",
+      "Précoce"
+    ],
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "25°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Serre"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère",
+      "sableux"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "réchauffé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-fruits"
+    ]
+  },
+  {
+    "Type": "Lég-fru. 🍅",
+    "Nom": "Pois gourmand",
+    "Conservation": 3,
+    "Infos": [
+      "L",
+      "Mi-Saison"
+    ],
+    "Semis_profondeur": "2-3 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "10-15°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "frais",
+      "léger",
+      "meuble"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-fruits"
+    ]
+  },
+  {
+    "Type": "Lég-fru. 🍅",
+    "Nom": "Tomate-cerise",
+    "Conservation": 4,
+    "Infos": [
+      "L",
+      "Ancienne",
+      "Précoce"
+    ],
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "20-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot",
+      "Serre"
+    ],
+    "Exposition": "☀️☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "réchauffé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes-fruits"
+    ]
+  },
+  {
+    "Type": "Lég-gra. 🌾",
+    "Nom": "Avoine",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "1-3 cm",
+    "Duree_germ": null,
+    "Temp_germ": "",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jui",
+      "Juil"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "caillouteux",
+      "sableux"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Légumes à grains",
+      "Engrais vert"
+    ]
+  },
+  {
+    "Type": "Lég-gra. 🌾",
+    "Nom": "Lentille",
+    "Conservation": 5,
+    "Infos": null,
+    "Semis_profondeur": "1 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "15-20°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "calcaire",
+      "sableux"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "léger",
+      "meuble"
+    ],
+    "Famille": [
+      "L",
+      "Légumes à grains",
+      "Engrais vert",
+      "Médicinale"
+    ]
+  },
+  {
+    "Type": "Lég-gra. 🌾",
+    "Nom": "Quinoa",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "0.2 cm",
+    "Duree_germ": 7,
+    "Temp_germ": "15-18°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "meuble"
+    ],
+    "Famille": [
+      "L",
+      "Légumes à grains"
+    ]
+  },
+  {
+    "Type": "Lég-gra. 🌾",
+    "Nom": "Riz",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "",
+    "Duree_germ": null,
+    "Temp_germ": "",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧💧",
+    "Nature_du_sol": [
+      "L",
+      "argileux",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "frais",
+      "humide",
+      "réchauffé"
+    ],
+    "Famille": [
+      "L",
+      "Légumes à grains"
+    ]
+  },
+  {
+    "Type": "Lég-gra. 🌾",
+    "Nom": "Tournesol à grains",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "1-2 cm",
+    "Duree_germ": 14,
+    "Temp_germ": "18-20°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "frais",
+      "meuble",
+      "réchauffé"
+    ],
+    "Famille": [
+      "L",
+      "Légumes à grains"
+    ]
+  },
+  {
+    "Type": "Lég-rac. 🥕",
+    "Nom": "Céleri Rave",
+    "Conservation": 6,
+    "Infos": null,
+    "Semis_profondeur": "",
+    "Duree_germ": null,
+    "Temp_germ": "",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": null,
+    "Ou_cultiver": null,
+    "Exposition": "",
+    "Arrosage": "",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": null,
+    "Famille": null
+  },
+  {
+    "Type": "Lég-rac. 🥕",
+    "Nom": "Salsifis",
+    "Conservation": 2,
+    "Infos": null,
+    "Semis_profondeur": "",
+    "Duree_germ": null,
+    "Temp_germ": "",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": null,
+    "Ou_cultiver": null,
+    "Exposition": "",
+    "Arrosage": "",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": null,
+    "Famille": null
+  },
+  {
+    "Type": "Tub.bul. 🧅",
+    "Nom": "Fenouil",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "",
+    "Duree_germ": null,
+    "Temp_germ": "",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": null,
+    "Ou_cultiver": null,
+    "Exposition": "",
+    "Arrosage": "",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": null,
+    "Famille": null
+  },
+  {
+    "Type": "Tub.bul. 🧅",
+    "Nom": "Glycine",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "",
+    "Duree_germ": null,
+    "Temp_germ": "",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Jan",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jan",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère",
+      "terreau"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé"
+    ],
+    "Famille": [
+      "L",
+      "Tubercule-bulbe"
+    ]
+  },
+  {
+    "Type": "Tub.bul. 🧅",
+    "Nom": "Igname",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "",
+    "Duree_germ": null,
+    "Temp_germ": "",
+    "Semis_sous_abris": [
+      "L",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Jan",
+      "Fév",
+      "Mar",
+      "Oct",
+      "Nov",
+      "Déc"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "frais",
+      "léger",
+      "meuble",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Tubercule-bulbe"
+    ]
+  },
+  {
+    "Type": "Tub.bul. 🧅",
+    "Nom": "Oignon",
+    "Conservation": 1,
+    "Infos": null,
+    "Semis_profondeur": "2 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "15°",
+    "Semis_sous_abris": [
+      "L",
+      "Fév",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "léger",
+      "meuble"
+    ],
+    "Famille": [
+      "L",
+      "Tubercule-bulbe",
+      "Tinctoriale"
+    ]
+  },
+  {
+    "Type": "Tub.bul. 🧅",
+    "Nom": "Poire de Terre",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "10 cm",
+    "Duree_germ": null,
+    "Temp_germ": "",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Oct",
+      "Nov"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Tubercule-bulbe"
+    ]
+  },
+  {
+    "Type": "Tub.bul. 🧅",
+    "Nom": "Pomme de Terre ",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "10 cm",
+    "Duree_germ": null,
+    "Temp_germ": "",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": null,
+    "Ou_cultiver": null,
+    "Exposition": "",
+    "Arrosage": "",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": null,
+    "Famille": null
+  },
+  {
+    "Type": "Petits Fruits 🫐",
+    "Nom": "Framboisier",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "",
+    "Duree_germ": null,
+    "Temp_germ": "",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": null,
+    "Ou_cultiver": null,
+    "Exposition": "",
+    "Arrosage": "",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": null,
+    "Famille": null
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Gaillarde",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": null,
+    "Duree_germ": null,
+    "Temp_germ": null,
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": null,
+    "Ou_cultiver": null,
+    "Exposition": null,
+    "Arrosage": null,
+    "Nature_du_sol": null,
+    "Qualite_du_sol": null,
+    "Famille": null
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Gueule de loup",
+    "Conservation": 5,
+    "Infos": null,
+    "Semis_profondeur": "0 cm",
+    "Duree_germ": 21,
+    "Temp_germ": "20-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Sep",
+      "Oct"
+    ],
+    "Semis_pleine_terre": null,
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère",
+      "argileux"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "léger",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Méllifère",
+      "Vivace"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Caméline",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "0.5 cm",
+    "Duree_germ": 10,
+    "Temp_germ": "20°",
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Jan",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Déc"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT",
+      "Pot"
+    ],
+    "Exposition": "☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "tout"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé"
+    ],
+    "Famille": [
+      "L",
+      "Méllifère",
+      "Engrais vert"
+    ]
+  },
+  {
+    "Type": "Fleurs 🌼",
+    "Nom": "Coreopsis",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": "0.2 cm",
+    "Duree_germ": 28,
+    "Temp_germ": "20-25°",
+    "Semis_sous_abris": [
+      "L",
+      "Mar",
+      "Avr",
+      "Mai"
+    ],
+    "Semis_pleine_terre": [
+      "L",
+      "Avr",
+      "Mai",
+      "Jui"
+    ],
+    "Recolte_floraison": [
+      "L",
+      "Mai",
+      "Jui",
+      "Juil",
+      "Aou",
+      "Sep",
+      "Oct"
+    ],
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "⛅☀️",
+    "Arrosage": "💧💧",
+    "Nature_du_sol": [
+      "L",
+      "humifère",
+      "sableux",
+      "caillouteux",
+      "calcaire"
+    ],
+    "Qualite_du_sol": [
+      "L",
+      "drainé",
+      "sec"
+    ],
+    "Famille": [
+      "L",
+      "Méllifère",
+      "Tinctoriale"
+    ]
+  },
+  {
+    "Type": "Tub.bul. 🧅",
+    "Nom": "Safran",
+    "Conservation": null,
+    "Infos": null,
+    "Semis_profondeur": null,
+    "Duree_germ": null,
+    "Temp_germ": null,
+    "Semis_sous_abris": null,
+    "Semis_pleine_terre": [
+      "L",
+      "Juil",
+      "Aou"
+    ],
+    "Recolte_floraison": null,
+    "Ou_cultiver": [
+      "L",
+      "PT"
+    ],
+    "Exposition": "☀️☀️",
+    "Arrosage": "💧",
+    "Nature_du_sol": null,
+    "Qualite_du_sol": [
+      "L",
+      "riche"
+    ],
+    "Famille": [
+      "L",
+      "Aromatique",
+      "Médicinale",
+      "Vivace"
+    ]
+  }
+]

@@ -79,7 +79,7 @@ td {
   font-size: 9px;
   color: #111;
   overflow: hidden;
-  line-height: 8mm;
+  line-height: 6mm;
 }
 th, td {
   overflow: hidden;
@@ -127,7 +127,7 @@ td.multi .sl:last-child { border-bottom: none; padding-bottom: 1px}
   }
   tr { page-break-inside: avoid; break-inside: avoid; }
   }
-}
+
 </style>
 </head>
 <body>
@@ -143,7 +143,9 @@ td.multi .sl:last-child { border-bottom: none; padding-bottom: 1px}
    CONFIGURATION
    ============================================= */
 // TODO a determiner
-const LIGNES_PAR_PAGE = 33;
+const LIGNES_PAR_PAGE = 24;
+const bouchonne = true; // <-- Ajoutez cette ligne pour activer le mode bouchon
+
 
 function render(graines) {
   document.getElementById('info-count').textContent = graines.length + ' variétés';
@@ -401,6 +403,16 @@ const MOIS = {
    ============================================= */
 function fmtAnnee(v) {
   if (!v) return '';
+  // Si v est un timestamp Unix (en secondes)
+  if (typeof v === 'number') {
+    const date = new Date(v * 1000); // Convertir en millisecondes
+    return date.getFullYear().toString();
+  }
+  // Si v est un objet Date
+  if (v instanceof Date) {
+    return v.getFullYear().toString();
+  }
+  // Si v est une chaîne (ex: "2024-05-20")
   return String(v).substring(0, 4);
 }
 
@@ -552,7 +564,10 @@ function render(graines) {
     }
 
     groupeType.forEach(g => {
-      const nbLignes = Math.max(1, g.sachets.length);
+      let nbLignes = Math.max(1, g.sachets.length);
+      if(g.sachets.length == 1) {
+        nbLignes = 2;
+      }
       if (lignesPage + nbLignes > LIGNES_PAR_PAGE && pageGraines.length > 0) {
         creerPage(pageGraines, false);
         pageGraines = [];
@@ -575,7 +590,7 @@ function render(graines) {
    ============================================= */
 
 /* Stockage Varietes indexé par NomVariete (texte) */
-let derniersRecords = null;
+let derniersRecords = [];
 
 function buildGrainesMap(records) {
   const map = new Map();
@@ -638,9 +653,117 @@ function buildGrainesMap(records) {
    Étape 2 : fetchTable('Varietes') — charge les données stables
    Le rendu n'a lieu que quand les deux sources sont prêtes
    ============================================= */
+// Fonction pour charger les données locales depuis un fichier JSON
+async function chargerDonneesLocales(nomFichier) {
+  try {
+    // Utilisez "../data/" pour remonter d'un niveau depuis Cahier/
+    const response = await fetch(`../data/${nomFichier}.json`);
+    if (!response.ok) {
+      throw new Error(`Fichier ${nomFichier}.json introuvable.`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(`Erreur lors du chargement de ${nomFichier}.json :`, error);
+    return [];
+  }
+}
+
+// Fonction pour initialiser les données locales
+async function initialiserDonneesLocales() {
+  try {
+    // 1. Charger Varietes.json
+    const varietesData = await chargerDonneesLocales("Varietes");
+    if (!varietesData || !Array.isArray(varietesData)) {
+      console.error("varietesData n'est pas un tableau valide !");
+      return;
+    }
+
+    // 2. Construire varietesParNom avec Nom + Variete
+    varietesParNom = {};
+    varietesData.forEach((v) => {
+      if (!v.Nom || !v.Variete) {
+        console.warn("Donnée Varietes incomplète :", v);
+        return;
+      }
+      const nomComplet = `${v.Nom}\n${v.Variete}`;
+      varietesParNom[nomComplet] = v;
+    });
+    console.log(`varietesParNom chargé avec ${Object.keys(varietesParNom).length} entrées.`);
+
+    // 3. Charger Millesimes.json
+    const millesimesData = await chargerDonneesLocales("Millesimes");
+    if (!millesimesData || !Array.isArray(millesimesData)) {
+      console.error("millesimesData n'est pas un tableau valide !");
+      return;
+    }
+
+    // 4. Transformer les données pour correspondre au format attendu
+    derniersRecords = millesimesData.map(record => {
+      // 1. Construire NomVariete à partir de Nom + Variete
+      const nomVariete = `${record.Nom}\n${record.Variete}`;
+
+      // 2. Convertir Millesime (timestamp) en date lisible (YYYY-MM-DD)
+      const millesimeDate = record.Millesime ? new Date(record.Millesime * 1000).toISOString().split('T')[0] : '';
+
+      // 3. Gérer Germination_affichee
+      const germinationAffichee = record.Germination_affichee !== null
+        ? record.Germination_affichee
+        : (record.Germination_historique !== null ? record.Germination_historique : null);
+
+      // 4. Convertir Sachets (ex: "1" → "Sachet 1")
+      const sachets = record.Sachets ? `Sachet ${record.Sachets}` : '';
+
+      // 5. Nettoyer Origine (enlever "L" si présent)
+      const origine = Array.isArray(record.Origine)
+        ? record.Origine.filter(item => item !== 'L')
+        : [];
+
+      // 6. Créer un tableau sachets pour makeRow
+      return {
+        ...record,
+        NomVariete: nomVariete,
+        Sachets: sachets,
+        Millesime: millesimeDate,
+        Germination_affichee: germinationAffichee,
+        Nb_saisons: record.Nb_saisons || record.Nb_saisons_manuel || '',
+        Origine: origine,
+        sachets: [{
+          origine: origine,
+          sachet: sachets,
+          annee: fmtAnnee(record.Millesime),
+          saisons: record.Nb_saisons || record.Nb_saisons_manuel || '',
+          qtte: record.Qtte_graines || '',
+          germination: germinationAffichee !== null
+            ? (germinationAffichee === 0 ? '0%' : Math.round(germinationAffichee * 100) + '%')
+            : '',
+        }]
+      };
+    });
+
+    console.log("derniersRecords transformé (2 premiers) :", derniersRecords.slice(0, 2));
+
+    // 5. Vérifier les correspondances entre Millesimes et Varietes
+    derniersRecords.forEach(r => {
+      if (!r.NomVariete) {
+        console.warn("Entrée Millesimes sans NomVariete :", r);
+      }
+      if (!varietesParNom[r.NomVariete]) {
+        console.warn(`Aucune correspondance pour NomVariete: "${r.NomVariete}"`);
+      }
+    });
+
+    // 6. Appeler render
+    if (derniersRecords.length > 0) {
+      render([...buildGrainesMap(derniersRecords).values()]);
+    }
+  } catch (error) {
+    console.error("Erreur dans initialiserDonneesLocales :", error);
+  }
+}
+   
 if(!bouchonne) {
   console.log(" GRIST ");
-   grist.ready({ requiredAccess: 'full' });
+  grist.ready({ requiredAccess: 'full' });
 
 /* Étape 1 : enregistrer onRecords EN PREMIER */
 grist.onRecords(function(records) {
@@ -648,10 +771,7 @@ grist.onRecords(function(records) {
   derniersRecords = records;
   /* Rendre seulement si Varietes est déjà chargé */
   if (Object.keys(varietesParNom).length > 0) {
-    if(bouchonne) {
-      records = recordsJdd;
-    }
-    render([...buildGrainesMap(records).values()]);
+      render([...buildGrainesMap(records).values()]);
   }
 });
 
@@ -690,14 +810,8 @@ grist.docApi.fetchTable('Varietes').then(data => {
 }).catch(err => console.error('Erreur fetchTable Varietes :', err));
 
 } else {
-
-  console.log(" No GRIST ");
-  document.addEventListener('DOMContentLoaded', () => {
-    // Simuler le chargement des données
-    const graines = [...buildGrainesMap(recordsJdd).values()];
-    render(graines);
-  });
-
+  console.log("Mode BOUCHON : chargement des données locales depuis JSON");
+  document.addEventListener('DOMContentLoaded', initialiserDonneesLocales);
 }
 </script>
 </body>
