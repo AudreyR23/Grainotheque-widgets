@@ -3,7 +3,7 @@
    ============================================= */
 
 const LIGNES_PAR_PAGE = 26;
-const bouchonne = false; // <-- Ajoutez cette ligne pour activer le mode bouchon
+const bouchonne = true; // <-- Ajoutez cette ligne pour activer le mode bouchon
 
 
 function render(graines) {
