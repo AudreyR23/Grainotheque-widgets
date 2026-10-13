@@ -3,7 +3,7 @@
    ============================================= */
 
 const LIGNES_PAR_PAGE = 26;
-const bouchonne = true; // <-- Ajoutez cette ligne pour activer le mode bouchon
+const bouchonne = false; // <-- Ajoutez cette ligne pour activer le mode bouchon
 let varietesParNom = {};
 
 /* Abréviations mois — clés = valeurs exactes dans Grist */
