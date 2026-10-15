@@ -1,114 +1,18 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
-<style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: Arial, sans-serif; background: white; }
-.controls { display: flex; gap: 12px; margin-bottom: 1rem; align-items: center; padding: 8px; }
-.btn { padding: 6px 16px; border: 1px solid #ccc; border-radius: 4px; background: transparent; cursor: pointer; font-size: 13px; }
-.btn:hover { background: #f5f5f5; }
-.info { font-size: 12px; color: #666; flex: 1; }
-.page {
-  width: 297mm;
-  margin: 0 auto 20px auto;
-  background: white;
-  display: flex;
-  gap: 10mm;
-  padding: 20mm 10mm 10mm 10mm;
-  border: 0.5px solid #ddd;
-}
-.half { flex: 1; border-left: 1px solid #333; border-top: 1px solid #333; }
-.entry { display: grid; grid-template-columns: 75px 1fr 40px; border-right: 1px solid #333; border-bottom: 1px solid #333; height: 9.2mm; }
-.cell { display: flex; align-items: center; justify-content: center; padding: 1px 4px; overflow: hidden; }
-.cell-type { font-size: 9px; color: #111; border-right: 1px solid #333; text-align: center; line-height: 1.2; word-break: break-word; }
-.cell-name { flex-direction: column; border-right: 1px solid #333; text-align: center; }
-.cell-name .nom { font-size: 12px; font-weight: 700; color: #111; line-height: 1.2; }
-.cell-name .variete { font-size: 12px; font-weight: 400; color: #111; line-height: 1.2; }
-.cell-num { font-size: 9px; font-weight: 500; color: #111; }
-@media print {
-  .controls { display: none; }
-  @page { size: A4 landscape; margin: 0; }
-  .page { width: 100%; padding: 15mm 10mm 10mm 10mm; margin: 0; border: none; page-break-after: always; break-after: page; }
-  .page:last-child { page-break-after: avoid; break-after: avoid; }
-}
-</style>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="../Styles/main.css">
+  <title>Grainothèque - Numéros d'épingles</title>
 </head>
 <body>
+  <div class="controls">
+    <span class="info" id="info-count">Chargement...</span>
+    <button class="btn" onclick="window.print()">🖨️ Imprimer</button>
+  </div>
+  <div id="pages"></div>
 
-<div class="controls">
-  <span class="info" id="info-count">Chargement...</span>
-  <button class="btn" onclick="window.print()">🖨️ Imprimer</button>
-</div>
-<div id="pages"></div>
-
-<script>
-const ROWS_PER_COL = 20;
-const PER_PAGE = ROWS_PER_COL * 2;
-
-function makeEntry(g) {
-  const div = document.createElement('div');
-  div.className = 'entry';
-  div.innerHTML = `
-    <div class="cell cell-type">${g.type || ''}</div>
-    <div class="cell cell-name">
-      <span class="nom">${g.nom || ''}</span>
-      ${g.variete ? `<span class="variete">${g.variete}</span>` : ''}
-    </div>
-    <div class="cell cell-num">${g.num}</div>
-  `;
-  return div;
-}
-
-function render(data) {
-  const sorted = data
-    .filter(r => r.num && r.num > 0)
-    .sort((a, b) => a.num - b.num);
-
-  document.getElementById('info-count').textContent = sorted.length + ' graines avec numéro d\'épingle';
-
-  const pagesEl = document.getElementById('pages');
-  pagesEl.innerHTML = '';
-
-  for (let p = 0; p < Math.ceil(sorted.length / PER_PAGE); p++) {
-    const pageData = sorted.slice(p * PER_PAGE, (p + 1) * PER_PAGE);
-    const page = document.createElement('div');
-    page.className = 'page';
-
-    const leftHalf = document.createElement('div');
-    leftHalf.className = 'half';
-    pageData.slice(0, ROWS_PER_COL).forEach(g => leftHalf.appendChild(makeEntry(g)));
-
-    const rightHalf = document.createElement('div');
-    rightHalf.className = 'half';
-    pageData.slice(ROWS_PER_COL).forEach(g => rightHalf.appendChild(makeEntry(g)));
-
-    page.appendChild(leftHalf);
-    page.appendChild(rightHalf);
-    pagesEl.appendChild(page);
-  }
-}
-
-grist.ready({ requiredAccess: 'read table' });
-
-grist.onRecords(function(records) {
-  const seen = new Set();
-  const data = records
-    .filter(r => r.Num_epingle && r.Num_epingle > 0)
-    .filter(r => {
-      if (seen.has(r.Num_epingle)) return false;
-      seen.add(r.Num_epingle);
-      return true;
-    })
-    .map(r => ({
-      type: r.Type || '',
-      nom: r.Nom || '',
-      variete: r.Variete || '',
-      num: r.Num_epingle,
-    }));
-  render(data);
-});
-</script>
+  <!-- Chargement du script externe -->
+  <script src="../Script/main_numero.js"></script>
 </body>
 </html>

@@ -1,0 +1,8210 @@
+[
+  {
+    "id": 1,
+    "NomVariete": 2,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 2,
+    "NomVariete": 1,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 3,
+    "NomVariete": 1,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 500
+  },
+  {
+    "id": 4,
+    "NomVariete": 3,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 2
+  },
+  {
+    "id": 5,
+    "NomVariete": 5,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 60
+  },
+  {
+    "id": 6,
+    "NomVariete": 4,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2025,
+    "Origine": "AR’AN",
+    "Nb_saisons": "2",
+    "Qtte_graines": null
+  },
+  {
+    "id": 7,
+    "NomVariete": 6,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2024,
+    "Origine": "AJC B.",
+    "Nb_saisons": "3",
+    "Qtte_graines": null
+  },
+  {
+    "id": 8,
+    "NomVariete": 7,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 9,
+    "NomVariete": 8,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 10,
+    "NomVariete": 9,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2024,
+    "Origine": "AJC B.",
+    "Nb_saisons": "3",
+    "Qtte_graines": null
+  },
+  {
+    "id": 11,
+    "NomVariete": 7,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 12,
+    "NomVariete": 11,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2023,
+    "Origine": "AR'AN",
+    "Nb_saisons": "4",
+    "Qtte_graines": null
+  },
+  {
+    "id": 13,
+    "NomVariete": 12,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 14,
+    "NomVariete": 12,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 15,
+    "NomVariete": 13,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 16,
+    "NomVariete": 13,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 80
+  },
+  {
+    "id": 17,
+    "NomVariete": 13,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 18,
+    "NomVariete": 14,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "LFAS",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 19,
+    "NomVariete": 15,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 20,
+    "NomVariete": 15,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 21,
+    "NomVariete": 15,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 22,
+    "NomVariete": 15,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "2",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 23,
+    "NomVariete": 16,
+    "Sachets": "Sachet 1",
+    "Millesime": 1900,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 24,
+    "NomVariete": 16,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 25,
+    "NomVariete": 16,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 26,
+    "NomVariete": 17,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 27,
+    "NomVariete": 18,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 28,
+    "NomVariete": 17,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 60
+  },
+  {
+    "id": 29,
+    "NomVariete": 19,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 30,
+    "NomVariete": 19,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "SC",
+    "Nb_saisons": "1",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 31,
+    "NomVariete": 20,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 32,
+    "NomVariete": 21,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 33,
+    "NomVariete": 20,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 80
+  },
+  {
+    "id": 34,
+    "NomVariete": 20,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 35,
+    "NomVariete": 21,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 36,
+    "NomVariete": 463,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 37,
+    "NomVariete": 22,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 38,
+    "NomVariete": 22,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 39,
+    "NomVariete": 22,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 40,
+    "NomVariete": 464,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 41,
+    "NomVariete": 465,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 42,
+    "NomVariete": 23,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 43,
+    "NomVariete": 23,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 44,
+    "NomVariete": 24,
+    "Sachets": "Sachet 2",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 45,
+    "NomVariete": 24,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 46,
+    "NomVariete": 25,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "?",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 47,
+    "NomVariete": 25,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 48,
+    "NomVariete": 25,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "La fab.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 49,
+    "NomVariete": 25,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "5",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 50,
+    "NomVariete": 26,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 150
+  },
+  {
+    "id": 51,
+    "NomVariete": 27,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2025,
+    "Origine": "AR’AN",
+    "Nb_saisons": "2",
+    "Qtte_graines": null
+  },
+  {
+    "id": 52,
+    "NomVariete": 28,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 400
+  },
+  {
+    "id": 53,
+    "NomVariete": 29,
+    "Sachets": "Sachet 3rhi.",
+    "Millesime": 2022,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 54,
+    "NomVariete": 26,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 55,
+    "NomVariete": 30,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 800
+  },
+  {
+    "id": 56,
+    "NomVariete": 31,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 1000
+  },
+  {
+    "id": 57,
+    "NomVariete": 30,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 800
+  },
+  {
+    "id": 58,
+    "NomVariete": 32,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 59,
+    "NomVariete": 466,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 60,
+    "NomVariete": 32,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2025,
+    "Origine": "AR'AN",
+    "Nb_saisons": "2",
+    "Qtte_graines": null
+  },
+  {
+    "id": 61,
+    "NomVariete": 33,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 62,
+    "NomVariete": 34,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 63,
+    "NomVariete": 35,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "AR'AN",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 64,
+    "NomVariete": 36,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2025,
+    "Origine": "AJC B.",
+    "Nb_saisons": "2",
+    "Qtte_graines": null
+  },
+  {
+    "id": 65,
+    "NomVariete": 37,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 300
+  },
+  {
+    "id": 66,
+    "NomVariete": 38,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2025,
+    "Origine": "AR’AN",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 67,
+    "NomVariete": 33,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2023,
+    "Origine": "FDSM",
+    "Nb_saisons": "4",
+    "Qtte_graines": null
+  },
+  {
+    "id": 68,
+    "NomVariete": 39,
+    "Sachets": "Sachet 3p.",
+    "Millesime": 2023,
+    "Origine": "GV",
+    "Nb_saisons": "4",
+    "Qtte_graines": null
+  },
+  {
+    "id": 69,
+    "NomVariete": 40,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2025,
+    "Origine": "AR’AN",
+    "Nb_saisons": "2",
+    "Qtte_graines": null
+  },
+  {
+    "id": 70,
+    "NomVariete": 39,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2024,
+    "Origine": "Bioc.",
+    "Nb_saisons": "3",
+    "Qtte_graines": null
+  },
+  {
+    "id": 71,
+    "NomVariete": 41,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 72,
+    "NomVariete": 42,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "",
+    "Nb_saisons": "2",
+    "Qtte_graines": 150
+  },
+  {
+    "id": 73,
+    "NomVariete": 41,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 74,
+    "NomVariete": 41,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2025,
+    "Origine": "AR'AN",
+    "Nb_saisons": "2",
+    "Qtte_graines": null
+  },
+  {
+    "id": 75,
+    "NomVariete": 43,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 60
+  },
+  {
+    "id": 76,
+    "NomVariete": 43,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 77,
+    "NomVariete": 45,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "AR'AN",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 78,
+    "NomVariete": 46,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2025,
+    "Origine": "AR'AN",
+    "Nb_saisons": "2",
+    "Qtte_graines": null
+  },
+  {
+    "id": 79,
+    "NomVariete": 45,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 80,
+    "NomVariete": 47,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2023,
+    "Origine": "AR'AN",
+    "Nb_saisons": "4",
+    "Qtte_graines": null
+  },
+  {
+    "id": 81,
+    "NomVariete": 48,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2024,
+    "Origine": "AJC B.",
+    "Nb_saisons": "3",
+    "Qtte_graines": null
+  },
+  {
+    "id": 82,
+    "NomVariete": 49,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2025,
+    "Origine": "AJC B.",
+    "Nb_saisons": "2",
+    "Qtte_graines": null
+  },
+  {
+    "id": 83,
+    "NomVariete": 47,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 84,
+    "NomVariete": 50,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2021,
+    "Origine": "FDSM",
+    "Nb_saisons": "6",
+    "Qtte_graines": null
+  },
+  {
+    "id": 85,
+    "NomVariete": 50,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 86,
+    "NomVariete": 50,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 87,
+    "NomVariete": 51,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 800
+  },
+  {
+    "id": 88,
+    "NomVariete": 52,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2023,
+    "Origine": "PK",
+    "Nb_saisons": "4",
+    "Qtte_graines": null
+  },
+  {
+    "id": 89,
+    "NomVariete": 51,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 90,
+    "NomVariete": 53,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2021,
+    "Origine": "FDSM",
+    "Nb_saisons": "6",
+    "Qtte_graines": null
+  },
+  {
+    "id": 91,
+    "NomVariete": 54,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2025,
+    "Origine": "AJC B.",
+    "Nb_saisons": "2",
+    "Qtte_graines": null
+  },
+  {
+    "id": 92,
+    "NomVariete": 53,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 93,
+    "NomVariete": 53,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "4",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 94,
+    "NomVariete": 55,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "AR'AN",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 95,
+    "NomVariete": 55,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 96,
+    "NomVariete": 44,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2023,
+    "Origine": "PK",
+    "Nb_saisons": "4",
+    "Qtte_graines": null
+  },
+  {
+    "id": 97,
+    "NomVariete": 56,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2022,
+    "Origine": "YR",
+    "Nb_saisons": "5",
+    "Qtte_graines": null
+  },
+  {
+    "id": 98,
+    "NomVariete": 44,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 99,
+    "NomVariete": 58,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 600
+  },
+  {
+    "id": 100,
+    "NomVariete": 467,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 101,
+    "NomVariete": 58,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "5",
+    "Qtte_graines": null
+  },
+  {
+    "id": 102,
+    "NomVariete": 59,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2021,
+    "Origine": "?",
+    "Nb_saisons": "6",
+    "Qtte_graines": null
+  },
+  {
+    "id": 103,
+    "NomVariete": 59,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 104,
+    "NomVariete": 60,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2023,
+    "Origine": "AR'AN",
+    "Nb_saisons": "4",
+    "Qtte_graines": null
+  },
+  {
+    "id": 105,
+    "NomVariete": 61,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2020,
+    "Origine": "EN",
+    "Nb_saisons": "7",
+    "Qtte_graines": null
+  },
+  {
+    "id": 106,
+    "NomVariete": 62,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2023,
+    "Origine": "AR'AN",
+    "Nb_saisons": "4",
+    "Qtte_graines": null
+  },
+  {
+    "id": 107,
+    "NomVariete": 60,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 108,
+    "NomVariete": 63,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 109,
+    "NomVariete": 63,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "5",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 110,
+    "NomVariete": 64,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 80
+  },
+  {
+    "id": 111,
+    "NomVariete": 64,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 112,
+    "NomVariete": 65,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 113,
+    "NomVariete": 468,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 114,
+    "NomVariete": 66,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "AR'AN",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 115,
+    "NomVariete": 67,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2025,
+    "Origine": "AR'AN",
+    "Nb_saisons": "2",
+    "Qtte_graines": null
+  },
+  {
+    "id": 116,
+    "NomVariete": 68,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 117,
+    "NomVariete": 65,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 910
+  },
+  {
+    "id": 118,
+    "NomVariete": 68,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "4",
+    "Qtte_graines": null
+  },
+  {
+    "id": 119,
+    "NomVariete": 69,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 80
+  },
+  {
+    "id": 120,
+    "NomVariete": 70,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "AR'AN",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 121,
+    "NomVariete": 56,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 122,
+    "NomVariete": 71,
+    "Sachets": "Sachet 5p.",
+    "Millesime": 2025,
+    "Origine": "JD",
+    "Nb_saisons": "2",
+    "Qtte_graines": null
+  },
+  {
+    "id": 123,
+    "NomVariete": 72,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2023,
+    "Origine": "AR'AN",
+    "Nb_saisons": "4",
+    "Qtte_graines": null
+  },
+  {
+    "id": 124,
+    "NomVariete": 69,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "5",
+    "Qtte_graines": null
+  },
+  {
+    "id": 125,
+    "NomVariete": 69,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 126,
+    "NomVariete": 69,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "4",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 127,
+    "NomVariete": 73,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 150
+  },
+  {
+    "id": 128,
+    "NomVariete": 73,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 150
+  },
+  {
+    "id": 129,
+    "NomVariete": 74,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2024,
+    "Origine": "AJC B.",
+    "Nb_saisons": "3",
+    "Qtte_graines": null
+  },
+  {
+    "id": 130,
+    "NomVariete": 75,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2023,
+    "Origine": "AR'AN",
+    "Nb_saisons": "4",
+    "Qtte_graines": null
+  },
+  {
+    "id": 131,
+    "NomVariete": 76,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "AR'AN",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 132,
+    "NomVariete": 77,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 500
+  },
+  {
+    "id": 133,
+    "NomVariete": 469,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 134,
+    "NomVariete": 78,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 135,
+    "NomVariete": 79,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Sothys",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 136,
+    "NomVariete": 79,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2025,
+    "Origine": "Sothys",
+    "Nb_saisons": "2",
+    "Qtte_graines": null
+  },
+  {
+    "id": 137,
+    "NomVariete": 80,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 15
+  },
+  {
+    "id": 138,
+    "NomVariete": 80,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2021,
+    "Origine": "Monjardin",
+    "Nb_saisons": "6",
+    "Qtte_graines": null
+  },
+  {
+    "id": 139,
+    "NomVariete": 81,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2023,
+    "Origine": "AR'AN",
+    "Nb_saisons": "4",
+    "Qtte_graines": null
+  },
+  {
+    "id": 140,
+    "NomVariete": 82,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2023,
+    "Origine": "AR'AN",
+    "Nb_saisons": "4",
+    "Qtte_graines": null
+  },
+  {
+    "id": 141,
+    "NomVariete": 83,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "4",
+    "Qtte_graines": null
+  },
+  {
+    "id": 142,
+    "NomVariete": 74,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 143,
+    "NomVariete": 90,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 144,
+    "NomVariete": 83,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 145,
+    "NomVariete": 83,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 146,
+    "NomVariete": 84,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 400
+  },
+  {
+    "id": 147,
+    "NomVariete": 85,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 400
+  },
+  {
+    "id": 148,
+    "NomVariete": 86,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 149,
+    "NomVariete": 87,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 400
+  },
+  {
+    "id": 150,
+    "NomVariete": 88,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 400
+  },
+  {
+    "id": 151,
+    "NomVariete": 89,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 400
+  },
+  {
+    "id": 152,
+    "NomVariete": 91,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 153,
+    "NomVariete": 92,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2023,
+    "Origine": "AR'AN",
+    "Nb_saisons": "4",
+    "Qtte_graines": null
+  },
+  {
+    "id": 154,
+    "NomVariete": 94,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2025,
+    "Origine": "AR'AN",
+    "Nb_saisons": "2",
+    "Qtte_graines": null
+  },
+  {
+    "id": 155,
+    "NomVariete": 93,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2025,
+    "Origine": "AR'AN",
+    "Nb_saisons": "2",
+    "Qtte_graines": null
+  },
+  {
+    "id": 156,
+    "NomVariete": 95,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2020,
+    "Origine": "YR",
+    "Nb_saisons": "7",
+    "Qtte_graines": null
+  },
+  {
+    "id": 157,
+    "NomVariete": 96,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2023,
+    "Origine": "AR'AN",
+    "Nb_saisons": "4",
+    "Qtte_graines": null
+  },
+  {
+    "id": 158,
+    "NomVariete": 97,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2020,
+    "Origine": "?",
+    "Nb_saisons": "7",
+    "Qtte_graines": null
+  },
+  {
+    "id": 159,
+    "NomVariete": 98,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2023,
+    "Origine": "AR'AN",
+    "Nb_saisons": "4",
+    "Qtte_graines": null
+  },
+  {
+    "id": 160,
+    "NomVariete": 99,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2023,
+    "Origine": "AR'AN",
+    "Nb_saisons": "4",
+    "Qtte_graines": null
+  },
+  {
+    "id": 161,
+    "NomVariete": 90,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 162,
+    "NomVariete": 100,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "Bioc.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 163,
+    "NomVariete": 100,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "Bioc.",
+    "Nb_saisons": "1",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 164,
+    "NomVariete": 102,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 165,
+    "NomVariete": 101,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2023,
+    "Origine": "AR'AN",
+    "Nb_saisons": "4",
+    "Qtte_graines": null
+  },
+  {
+    "id": 166,
+    "NomVariete": 470,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "AJC B.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 167,
+    "NomVariete": 103,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 0
+  },
+  {
+    "id": 168,
+    "NomVariete": 102,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 169,
+    "NomVariete": 102,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 600
+  },
+  {
+    "id": 170,
+    "NomVariete": 104,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 5
+  },
+  {
+    "id": 171,
+    "NomVariete": 106,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2025,
+    "Origine": "AJC B.",
+    "Nb_saisons": "2",
+    "Qtte_graines": null
+  },
+  {
+    "id": 172,
+    "NomVariete": 107,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2025,
+    "Origine": "AJC B.",
+    "Nb_saisons": "2",
+    "Qtte_graines": null
+  },
+  {
+    "id": 173,
+    "NomVariete": 108,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 2021
+  },
+  {
+    "id": 174,
+    "NomVariete": 109,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 2021
+  },
+  {
+    "id": 175,
+    "NomVariete": 110,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Sothys",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 176,
+    "NomVariete": 471,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Vay",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 177,
+    "NomVariete": 104,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "Village",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 178,
+    "NomVariete": 105,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2020,
+    "Origine": "JD",
+    "Nb_saisons": "7",
+    "Qtte_graines": null
+  },
+  {
+    "id": 179,
+    "NomVariete": 105,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 180,
+    "NomVariete": 105,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 181,
+    "NomVariete": 111,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 182,
+    "NomVariete": 111,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 183,
+    "NomVariete": 111,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 184,
+    "NomVariete": 113,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 3
+  },
+  {
+    "id": 185,
+    "NomVariete": 112,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Vay",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 4
+  },
+  {
+    "id": 186,
+    "NomVariete": 113,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 187,
+    "NomVariete": 114,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 188,
+    "NomVariete": 113,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": null
+  },
+  {
+    "id": 189,
+    "NomVariete": 114,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 190,
+    "NomVariete": 115,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2022,
+    "Origine": "JD",
+    "Nb_saisons": "5",
+    "Qtte_graines": null
+  },
+  {
+    "id": 191,
+    "NomVariete": 116,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 192,
+    "NomVariete": 115,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 193,
+    "NomVariete": 117,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "6",
+    "Qtte_graines": null
+  },
+  {
+    "id": 194,
+    "NomVariete": 117,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 80
+  },
+  {
+    "id": 195,
+    "NomVariete": 118,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 0
+  },
+  {
+    "id": 196,
+    "NomVariete": 118,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "4",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 197,
+    "NomVariete": 119,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "VILM.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 198,
+    "NomVariete": 119,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 199,
+    "NomVariete": 119,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "4",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 200,
+    "NomVariete": 120,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 201,
+    "NomVariete": 120,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 60
+  },
+  {
+    "id": 202,
+    "NomVariete": 121,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 203,
+    "NomVariete": 121,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 204,
+    "NomVariete": 122,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 205,
+    "NomVariete": 122,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 206,
+    "NomVariete": 122,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 207,
+    "NomVariete": 123,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 208,
+    "NomVariete": 124,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Fréhel",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 400
+  },
+  {
+    "id": 209,
+    "NomVariete": 125,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2023,
+    "Origine": "AR'AN",
+    "Nb_saisons": "4",
+    "Qtte_graines": null
+  },
+  {
+    "id": 210,
+    "NomVariete": 126,
+    "Sachets": "Sachet 3p.",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "5",
+    "Qtte_graines": null
+  },
+  {
+    "id": 211,
+    "NomVariete": 127,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 212,
+    "NomVariete": 128,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "DB",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 213,
+    "NomVariete": 129,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2024,
+    "Origine": "JB",
+    "Nb_saisons": "3",
+    "Qtte_graines": null
+  },
+  {
+    "id": 214,
+    "NomVariete": 123,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 15
+  },
+  {
+    "id": 215,
+    "NomVariete": 123,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 216,
+    "NomVariete": 130,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 217,
+    "NomVariete": 130,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 218,
+    "NomVariete": 130,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 219,
+    "NomVariete": 131,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 220,
+    "NomVariete": 131,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 221,
+    "NomVariete": 132,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 222,
+    "NomVariete": 133,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 223,
+    "NomVariete": 134,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 224,
+    "NomVariete": 132,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 225,
+    "NomVariete": 134,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": null
+  },
+  {
+    "id": 226,
+    "NomVariete": 135,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "AMJ",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 227,
+    "NomVariete": 136,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 10
+  },
+  {
+    "id": 228,
+    "NomVariete": 137,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 229,
+    "NomVariete": 137,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": null
+  },
+  {
+    "id": 230,
+    "NomVariete": 138,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 231,
+    "NomVariete": 140,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Sothys",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 232,
+    "NomVariete": 141,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 233,
+    "NomVariete": 135,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 234,
+    "NomVariete": 135,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": null
+  },
+  {
+    "id": 235,
+    "NomVariete": 142,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 1
+  },
+  {
+    "id": 236,
+    "NomVariete": 143,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2025,
+    "Origine": "AJC B.",
+    "Nb_saisons": "2",
+    "Qtte_graines": null
+  },
+  {
+    "id": 237,
+    "NomVariete": 472,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 238,
+    "NomVariete": 142,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": null
+  },
+  {
+    "id": 239,
+    "NomVariete": 142,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 3
+  },
+  {
+    "id": 240,
+    "NomVariete": 142,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 6
+  },
+  {
+    "id": 241,
+    "NomVariete": 144,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 242,
+    "NomVariete": 144,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2024,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 243,
+    "NomVariete": 145,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 244,
+    "NomVariete": 145,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2024,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 245,
+    "NomVariete": 146,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 246,
+    "NomVariete": 146,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2024,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 247,
+    "NomVariete": 147,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 248,
+    "NomVariete": 147,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2024,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 249,
+    "NomVariete": 147,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "2",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 250,
+    "NomVariete": 148,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 251,
+    "NomVariete": 473,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 252,
+    "NomVariete": 149,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 5000
+  },
+  {
+    "id": 253,
+    "NomVariete": 474,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 254,
+    "NomVariete": 475,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 255,
+    "NomVariete": 150,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 400
+  },
+  {
+    "id": 256,
+    "NomVariete": 151,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 1000
+  },
+  {
+    "id": 257,
+    "NomVariete": 148,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2024,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 258,
+    "NomVariete": 152,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Sothys",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 259,
+    "NomVariete": 153,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Sothys",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 260,
+    "NomVariete": 476,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "PK",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 261,
+    "NomVariete": 154,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 262,
+    "NomVariete": 155,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Vay",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 263,
+    "NomVariete": 152,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 264,
+    "NomVariete": 156,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 500
+  },
+  {
+    "id": 265,
+    "NomVariete": 157,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 266,
+    "NomVariete": 158,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 267,
+    "NomVariete": 156,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 500
+  },
+  {
+    "id": 268,
+    "NomVariete": 159,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 80
+  },
+  {
+    "id": 269,
+    "NomVariete": 160,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "ML",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 500
+  },
+  {
+    "id": 270,
+    "NomVariete": 161,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 300
+  },
+  {
+    "id": 271,
+    "NomVariete": 159,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "3",
+    "Qtte_graines": 150
+  },
+  {
+    "id": 272,
+    "NomVariete": 163,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "PK",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 273,
+    "NomVariete": 162,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 274,
+    "NomVariete": 164,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2025,
+    "Origine": "AJC B.",
+    "Nb_saisons": "2",
+    "Qtte_graines": 0
+  },
+  {
+    "id": 275,
+    "NomVariete": 163,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 276,
+    "NomVariete": 165,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 1000
+  },
+  {
+    "id": 277,
+    "NomVariete": 165,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 400
+  },
+  {
+    "id": 278,
+    "NomVariete": 166,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 6
+  },
+  {
+    "id": 279,
+    "NomVariete": 167,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 300
+  },
+  {
+    "id": 280,
+    "NomVariete": 168,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 1000
+  },
+  {
+    "id": 281,
+    "NomVariete": 169,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "Charente",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 1000
+  },
+  {
+    "id": 282,
+    "NomVariete": 166,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 283,
+    "NomVariete": 166,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 284,
+    "NomVariete": 170,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 35
+  },
+  {
+    "id": 285,
+    "NomVariete": 171,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2024,
+    "Origine": "JB",
+    "Nb_saisons": "3",
+    "Qtte_graines": null
+  },
+  {
+    "id": 286,
+    "NomVariete": 172,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Rilhac",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 287,
+    "NomVariete": 173,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "PK",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 0
+  },
+  {
+    "id": 288,
+    "NomVariete": 170,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 289,
+    "NomVariete": 173,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "PK",
+    "Nb_saisons": "1",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 290,
+    "NomVariete": 174,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 291,
+    "NomVariete": 174,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 292,
+    "NomVariete": 175,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 150
+  },
+  {
+    "id": 293,
+    "NomVariete": 176,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 294,
+    "NomVariete": 175,
+    "Sachets": "Sachet 2",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 295,
+    "NomVariete": 176,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 296,
+    "NomVariete": 177,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 150
+  },
+  {
+    "id": 297,
+    "NomVariete": 177,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 298,
+    "NomVariete": 178,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 150
+  },
+  {
+    "id": 299,
+    "NomVariete": 477,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "Bretagne",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 300,
+    "NomVariete": 178,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 15
+  },
+  {
+    "id": 301,
+    "NomVariete": 178,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 15
+  },
+  {
+    "id": 302,
+    "NomVariete": 179,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 303,
+    "NomVariete": 179,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 304,
+    "NomVariete": 180,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 305,
+    "NomVariete": 180,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 306,
+    "NomVariete": 181,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 307,
+    "NomVariete": 181,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 400
+  },
+  {
+    "id": 308,
+    "NomVariete": 182,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 309,
+    "NomVariete": 182,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 310,
+    "NomVariete": 183,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "AMJ",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 80
+  },
+  {
+    "id": 311,
+    "NomVariete": 183,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 312,
+    "NomVariete": 184,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 313,
+    "NomVariete": 184,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 314,
+    "NomVariete": 185,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 315,
+    "NomVariete": 186,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 316,
+    "NomVariete": 185,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 317,
+    "NomVariete": 188,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 318,
+    "NomVariete": 187,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "Co.Mam",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 319,
+    "NomVariete": 187,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": null
+  },
+  {
+    "id": 320,
+    "NomVariete": 187,
+    "Sachets": "Sachet 2",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": null
+  },
+  {
+    "id": 321,
+    "NomVariete": 189,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 322,
+    "NomVariete": 190,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 323,
+    "NomVariete": 188,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": null
+  },
+  {
+    "id": 324,
+    "NomVariete": 189,
+    "Sachets": "Sachet 2",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 80
+  },
+  {
+    "id": 325,
+    "NomVariete": 191,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 326,
+    "NomVariete": 191,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 327,
+    "NomVariete": 192,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 328,
+    "NomVariete": 192,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 329,
+    "NomVariete": 193,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 330,
+    "NomVariete": 194,
+    "Sachets": "Sachet 2p.",
+    "Millesime": 2020,
+    "Origine": "JD",
+    "Nb_saisons": "7",
+    "Qtte_graines": null
+  },
+  {
+    "id": 331,
+    "NomVariete": 195,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2023,
+    "Origine": "PK",
+    "Nb_saisons": "4",
+    "Qtte_graines": null
+  },
+  {
+    "id": 332,
+    "NomVariete": 196,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 333,
+    "NomVariete": 197,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 1000
+  },
+  {
+    "id": 334,
+    "NomVariete": 197,
+    "Sachets": "Sachet 2",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 335,
+    "NomVariete": 197,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 336,
+    "NomVariete": 198,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 337,
+    "NomVariete": 198,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 338,
+    "NomVariete": 198,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 339,
+    "NomVariete": 199,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 75
+  },
+  {
+    "id": 340,
+    "NomVariete": 199,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 341,
+    "NomVariete": 200,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 75
+  },
+  {
+    "id": 342,
+    "NomVariete": 201,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 75
+  },
+  {
+    "id": 343,
+    "NomVariete": 200,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 10
+  },
+  {
+    "id": 344,
+    "NomVariete": 200,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 25
+  },
+  {
+    "id": 345,
+    "NomVariete": 202,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 75
+  },
+  {
+    "id": 346,
+    "NomVariete": 203,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 75
+  },
+  {
+    "id": 347,
+    "NomVariete": 138,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 348,
+    "NomVariete": 139,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "Champoivre",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 349,
+    "NomVariete": 204,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 300
+  },
+  {
+    "id": 350,
+    "NomVariete": 205,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 500
+  },
+  {
+    "id": 351,
+    "NomVariete": 207,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 300
+  },
+  {
+    "id": 352,
+    "NomVariete": 206,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Revelen",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 300
+  },
+  {
+    "id": 353,
+    "NomVariete": 208,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Revelen",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 300
+  },
+  {
+    "id": 354,
+    "NomVariete": 478,
+    "Sachets": "Sachet 2p.",
+    "Millesime": 2024,
+    "Origine": "NM",
+    "Nb_saisons": "3",
+    "Qtte_graines": null
+  },
+  {
+    "id": 355,
+    "NomVariete": 479,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "PK",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 356,
+    "NomVariete": 209,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 400
+  },
+  {
+    "id": 357,
+    "NomVariete": 480,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 358,
+    "NomVariete": 202,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 359,
+    "NomVariete": 202,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 25
+  },
+  {
+    "id": 360,
+    "NomVariete": 210,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 500
+  },
+  {
+    "id": 361,
+    "NomVariete": 481,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 362,
+    "NomVariete": 211,
+    "Sachets": "Sachet 1",
+    "Millesime": 2018,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 150
+  },
+  {
+    "id": 363,
+    "NomVariete": 212,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 250
+  },
+  {
+    "id": 364,
+    "NomVariete": 213,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 365,
+    "NomVariete": 214,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 366,
+    "NomVariete": 482,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 367,
+    "NomVariete": 483,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 368,
+    "NomVariete": 215,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 369,
+    "NomVariete": 216,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 370,
+    "NomVariete": 217,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 371,
+    "NomVariete": 484,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "PK",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 372,
+    "NomVariete": 218,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 373,
+    "NomVariete": 210,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "SC",
+    "Nb_saisons": "1",
+    "Qtte_graines": 500
+  },
+  {
+    "id": 374,
+    "NomVariete": 219,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 375,
+    "NomVariete": 219,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 300
+  },
+  {
+    "id": 376,
+    "NomVariete": 220,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 377,
+    "NomVariete": 221,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "D. Dekarz",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 378,
+    "NomVariete": 485,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "PK",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 379,
+    "NomVariete": 222,
+    "Sachets": "Sachet 2",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 300
+  },
+  {
+    "id": 380,
+    "NomVariete": 486,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 381,
+    "NomVariete": 223,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 500
+  },
+  {
+    "id": 382,
+    "NomVariete": 224,
+    "Sachets": "Sachet 1",
+    "Millesime": 2016,
+    "Origine": "SC",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 383,
+    "NomVariete": 225,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 500
+  },
+  {
+    "id": 384,
+    "NomVariete": 220,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 385,
+    "NomVariete": 226,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 300
+  },
+  {
+    "id": 386,
+    "NomVariete": 487,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 387,
+    "NomVariete": 227,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 850
+  },
+  {
+    "id": 388,
+    "NomVariete": 228,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 389,
+    "NomVariete": 228,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 500
+  },
+  {
+    "id": 390,
+    "NomVariete": 229,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 391,
+    "NomVariete": 230,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 15
+  },
+  {
+    "id": 392,
+    "NomVariete": 231,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 400
+  },
+  {
+    "id": 393,
+    "NomVariete": 232,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 10
+  },
+  {
+    "id": 394,
+    "NomVariete": 488,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "FDSM",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 395,
+    "NomVariete": 231,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 1000
+  },
+  {
+    "id": 396,
+    "NomVariete": 233,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 300
+  },
+  {
+    "id": 397,
+    "NomVariete": 233,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 600
+  },
+  {
+    "id": 398,
+    "NomVariete": 234,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 399,
+    "NomVariete": 235,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 400,
+    "NomVariete": 235,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 500
+  },
+  {
+    "id": 401,
+    "NomVariete": 236,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 3000
+  },
+  {
+    "id": 402,
+    "NomVariete": 236,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "GERM.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 403,
+    "NomVariete": 489,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "FDSM",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 404,
+    "NomVariete": 237,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "GONDIAN",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 405,
+    "NomVariete": 238,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 406,
+    "NomVariete": 239,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 407,
+    "NomVariete": 240,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 408,
+    "NomVariete": 240,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 409,
+    "NomVariete": 490,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 410,
+    "NomVariete": 241,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 411,
+    "NomVariete": 242,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2026,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": null
+  },
+  {
+    "id": 412,
+    "NomVariete": 244,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 413,
+    "NomVariete": 245,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 414,
+    "NomVariete": 243,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2026,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": null
+  },
+  {
+    "id": 415,
+    "NomVariete": 241,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 416,
+    "NomVariete": 491,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 417,
+    "NomVariete": 245,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "2",
+    "Qtte_graines": null
+  },
+  {
+    "id": 418,
+    "NomVariete": 246,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "FDSM",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 419,
+    "NomVariete": 234,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 1000
+  },
+  {
+    "id": 420,
+    "NomVariete": 246,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 421,
+    "NomVariete": 247,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 1
+  },
+  {
+    "id": 422,
+    "NomVariete": 492,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 423,
+    "NomVariete": 247,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 424,
+    "NomVariete": 248,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 5
+  },
+  {
+    "id": 425,
+    "NomVariete": 249,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 426,
+    "NomVariete": 248,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 427,
+    "NomVariete": 250,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 4
+  },
+  {
+    "id": 428,
+    "NomVariete": 251,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "SC",
+    "Nb_saisons": "",
+    "Qtte_graines": 0
+  },
+  {
+    "id": 429,
+    "NomVariete": 250,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 430,
+    "NomVariete": 252,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 5
+  },
+  {
+    "id": 431,
+    "NomVariete": 252,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 432,
+    "NomVariete": 252,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 10
+  },
+  {
+    "id": 433,
+    "NomVariete": 253,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 434,
+    "NomVariete": 253,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 435,
+    "NomVariete": 253,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 436,
+    "NomVariete": 253,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 437,
+    "NomVariete": 254,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "SB",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 10
+  },
+  {
+    "id": 438,
+    "NomVariete": 255,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 439,
+    "NomVariete": 255,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "FDSM",
+    "Nb_saisons": "1",
+    "Qtte_graines": 15
+  },
+  {
+    "id": 440,
+    "NomVariete": 255,
+    "Sachets": "Sachet 1",
+    "Millesime": 2018,
+    "Origine": "FDSM",
+    "Nb_saisons": "",
+    "Qtte_graines": 0
+  },
+  {
+    "id": 441,
+    "NomVariete": 256,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 442,
+    "NomVariete": 258,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": 12
+  },
+  {
+    "id": 443,
+    "NomVariete": 258,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "JD",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 444,
+    "NomVariete": 259,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 10
+  },
+  {
+    "id": 445,
+    "NomVariete": 259,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 446,
+    "NomVariete": 260,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "Co.Mam",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 447,
+    "NomVariete": 261,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 10
+  },
+  {
+    "id": 448,
+    "NomVariete": 261,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 449,
+    "NomVariete": 262,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "Co.Mam",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 450,
+    "NomVariete": 254,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 10
+  },
+  {
+    "id": 451,
+    "NomVariete": 263,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 452,
+    "NomVariete": 263,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 10
+  },
+  {
+    "id": 453,
+    "NomVariete": 263,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 15
+  },
+  {
+    "id": 454,
+    "NomVariete": 493,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 455,
+    "NomVariete": 264,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 12
+  },
+  {
+    "id": 456,
+    "NomVariete": 265,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 15
+  },
+  {
+    "id": 457,
+    "NomVariete": 263,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 458,
+    "NomVariete": 265,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "JD",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 459,
+    "NomVariete": 266,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": 10
+  },
+  {
+    "id": 460,
+    "NomVariete": 266,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": 10
+  },
+  {
+    "id": 461,
+    "NomVariete": 494,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 462,
+    "NomVariete": 267,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 463,
+    "NomVariete": 267,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": 10
+  },
+  {
+    "id": 464,
+    "NomVariete": 495,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 465,
+    "NomVariete": 257,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 466,
+    "NomVariete": 269,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 12
+  },
+  {
+    "id": 467,
+    "NomVariete": 266,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 468,
+    "NomVariete": 270,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 6
+  },
+  {
+    "id": 469,
+    "NomVariete": 271,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 3
+  },
+  {
+    "id": 470,
+    "NomVariete": 271,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "JD",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 471,
+    "NomVariete": 272,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 472,
+    "NomVariete": 270,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 473,
+    "NomVariete": 272,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 474,
+    "NomVariete": 273,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 3
+  },
+  {
+    "id": 475,
+    "NomVariete": 273,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 25
+  },
+  {
+    "id": 476,
+    "NomVariete": 273,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 25
+  },
+  {
+    "id": 477,
+    "NomVariete": 274,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 1
+  },
+  {
+    "id": 478,
+    "NomVariete": 275,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "KOK.",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 479,
+    "NomVariete": 274,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 10
+  },
+  {
+    "id": 480,
+    "NomVariete": 275,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 481,
+    "NomVariete": 276,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 8
+  },
+  {
+    "id": 482,
+    "NomVariete": 277,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 483,
+    "NomVariete": 276,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 484,
+    "NomVariete": 276,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 18
+  },
+  {
+    "id": 485,
+    "NomVariete": 277,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 486,
+    "NomVariete": 278,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 487,
+    "NomVariete": 496,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 488,
+    "NomVariete": 279,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 12
+  },
+  {
+    "id": 489,
+    "NomVariete": 280,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 4
+  },
+  {
+    "id": 490,
+    "NomVariete": 278,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 15
+  },
+  {
+    "id": 491,
+    "NomVariete": 281,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 492,
+    "NomVariete": 282,
+    "Sachets": "Sachet 2",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 12
+  },
+  {
+    "id": 493,
+    "NomVariete": 283,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2026,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": null
+  },
+  {
+    "id": 494,
+    "NomVariete": 284,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 12
+  },
+  {
+    "id": 495,
+    "NomVariete": 497,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 496,
+    "NomVariete": 281,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 25
+  },
+  {
+    "id": 497,
+    "NomVariete": 285,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2026,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": null
+  },
+  {
+    "id": 498,
+    "NomVariete": 286,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 12
+  },
+  {
+    "id": 499,
+    "NomVariete": 287,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 10
+  },
+  {
+    "id": 500,
+    "NomVariete": 288,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 501,
+    "NomVariete": 289,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 12
+  },
+  {
+    "id": 502,
+    "NomVariete": 290,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 503,
+    "NomVariete": 291,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 504,
+    "NomVariete": 292,
+    "Sachets": "Sachet 1",
+    "Millesime": 2017,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 505,
+    "NomVariete": 498,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 506,
+    "NomVariete": 293,
+    "Sachets": "Sachet 1",
+    "Millesime": 2017,
+    "Origine": "SC",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 507,
+    "NomVariete": 292,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 4
+  },
+  {
+    "id": 508,
+    "NomVariete": 499,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "PK",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 509,
+    "NomVariete": 294,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 510,
+    "NomVariete": 500,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "PK",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 511,
+    "NomVariete": 287,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 512,
+    "NomVariete": 287,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 10
+  },
+  {
+    "id": 513,
+    "NomVariete": 295,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 120
+  },
+  {
+    "id": 514,
+    "NomVariete": 501,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 515,
+    "NomVariete": 502,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 516,
+    "NomVariete": 295,
+    "Sachets": "Sachet 2",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 517,
+    "NomVariete": 296,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 120
+  },
+  {
+    "id": 518,
+    "NomVariete": 503,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "PK",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 519,
+    "NomVariete": 298,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 5
+  },
+  {
+    "id": 520,
+    "NomVariete": 296,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 80
+  },
+  {
+    "id": 521,
+    "NomVariete": 296,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 522,
+    "NomVariete": 299,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 2
+  },
+  {
+    "id": 523,
+    "NomVariete": 299,
+    "Sachets": "Sachet 2",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 524,
+    "NomVariete": 299,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 525,
+    "NomVariete": 299,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 526,
+    "NomVariete": 300,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 6
+  },
+  {
+    "id": 527,
+    "NomVariete": 504,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 528,
+    "NomVariete": 300,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 529,
+    "NomVariete": 300,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 10
+  },
+  {
+    "id": 530,
+    "NomVariete": 302,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 531,
+    "NomVariete": 298,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 532,
+    "NomVariete": 505,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 533,
+    "NomVariete": 302,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 534,
+    "NomVariete": 302,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 10
+  },
+  {
+    "id": 535,
+    "NomVariete": 297,
+    "Sachets": "Sachet 1",
+    "Millesime": 2018,
+    "Origine": "GV",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 536,
+    "NomVariete": 301,
+    "Sachets": "Sachet 1",
+    "Millesime": 2017,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 5
+  },
+  {
+    "id": 537,
+    "NomVariete": 301,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 3
+  },
+  {
+    "id": 538,
+    "NomVariete": 304,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 2
+  },
+  {
+    "id": 539,
+    "NomVariete": 305,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 5
+  },
+  {
+    "id": 540,
+    "NomVariete": 305,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 541,
+    "NomVariete": 506,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 542,
+    "NomVariete": 306,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 10
+  },
+  {
+    "id": 543,
+    "NomVariete": 304,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": null
+  },
+  {
+    "id": 544,
+    "NomVariete": 307,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 545,
+    "NomVariete": 308,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 546,
+    "NomVariete": 307,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 547,
+    "NomVariete": 307,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 548,
+    "NomVariete": 308,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": null
+  },
+  {
+    "id": 549,
+    "NomVariete": 309,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Bioc.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 550,
+    "NomVariete": 507,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "Bioc.",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 551,
+    "NomVariete": 309,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 25
+  },
+  {
+    "id": 552,
+    "NomVariete": 310,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 553,
+    "NomVariete": 508,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "PK",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 554,
+    "NomVariete": 311,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 10
+  },
+  {
+    "id": 555,
+    "NomVariete": 310,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 556,
+    "NomVariete": 310,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 10
+  },
+  {
+    "id": 557,
+    "NomVariete": 311,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 558,
+    "NomVariete": 314,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 35
+  },
+  {
+    "id": 559,
+    "NomVariete": 313,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 560,
+    "NomVariete": 312,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 561,
+    "NomVariete": 312,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "NM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 562,
+    "NomVariete": 312,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2025,
+    "Origine": "AR’AN",
+    "Nb_saisons": "2",
+    "Qtte_graines": null
+  },
+  {
+    "id": 563,
+    "NomVariete": 313,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 564,
+    "NomVariete": 315,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 35
+  },
+  {
+    "id": 565,
+    "NomVariete": 509,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 566,
+    "NomVariete": 315,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 567,
+    "NomVariete": 317,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 568,
+    "NomVariete": 510,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 569,
+    "NomVariete": 317,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 25
+  },
+  {
+    "id": 570,
+    "NomVariete": 317,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 571,
+    "NomVariete": 318,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 572,
+    "NomVariete": 318,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 25
+  },
+  {
+    "id": 573,
+    "NomVariete": 318,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 10
+  },
+  {
+    "id": 574,
+    "NomVariete": 319,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 575,
+    "NomVariete": 319,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 15
+  },
+  {
+    "id": 576,
+    "NomVariete": 319,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 577,
+    "NomVariete": 319,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": null
+  },
+  {
+    "id": 578,
+    "NomVariete": 319,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": null
+  },
+  {
+    "id": 579,
+    "NomVariete": 322,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 580,
+    "NomVariete": 322,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2025,
+    "Origine": "Pont Mahé",
+    "Nb_saisons": "2",
+    "Qtte_graines": null
+  },
+  {
+    "id": 581,
+    "NomVariete": 549,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 582,
+    "NomVariete": 324,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 25
+  },
+  {
+    "id": 583,
+    "NomVariete": 325,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 25
+  },
+  {
+    "id": 584,
+    "NomVariete": 549,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": null
+  },
+  {
+    "id": 585,
+    "NomVariete": 326,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 586,
+    "NomVariete": 327,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 25
+  },
+  {
+    "id": 587,
+    "NomVariete": 328,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 588,
+    "NomVariete": 328,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 589,
+    "NomVariete": 329,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 25
+  },
+  {
+    "id": 590,
+    "NomVariete": 330,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 25
+  },
+  {
+    "id": 591,
+    "NomVariete": 322,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Pont Mahé",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 592,
+    "NomVariete": 322,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 593,
+    "NomVariete": 331,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 594,
+    "NomVariete": 331,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 595,
+    "NomVariete": 331,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 596,
+    "NomVariete": 332,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Mar.AC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 597,
+    "NomVariete": 333,
+    "Sachets": "Sachet 2",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 598,
+    "NomVariete": 332,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 4
+  },
+  {
+    "id": 599,
+    "NomVariete": 333,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 600,
+    "NomVariete": 334,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 601,
+    "NomVariete": 334,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 602,
+    "NomVariete": 334,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 603,
+    "NomVariete": 334,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 604,
+    "NomVariete": 335,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 35
+  },
+  {
+    "id": 605,
+    "NomVariete": 336,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 606,
+    "NomVariete": 336,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 607,
+    "NomVariete": 336,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "Co.Mam",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 608,
+    "NomVariete": 512,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 609,
+    "NomVariete": 338,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 610,
+    "NomVariete": 338,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 611,
+    "NomVariete": 339,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "SC",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 612,
+    "NomVariete": 340,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "Co.Mam",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 613,
+    "NomVariete": 341,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 614,
+    "NomVariete": 342,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 15
+  },
+  {
+    "id": 615,
+    "NomVariete": 343,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 616,
+    "NomVariete": 344,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "Co.Mam",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 617,
+    "NomVariete": 513,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "JD",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 618,
+    "NomVariete": 346,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 619,
+    "NomVariete": 347,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 620,
+    "NomVariete": 348,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 621,
+    "NomVariete": 349,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 622,
+    "NomVariete": 349,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 623,
+    "NomVariete": 350,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 624,
+    "NomVariete": 345,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 35
+  },
+  {
+    "id": 625,
+    "NomVariete": 514,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 626,
+    "NomVariete": 351,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 627,
+    "NomVariete": 352,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 35
+  },
+  {
+    "id": 628,
+    "NomVariete": 353,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 629,
+    "NomVariete": 354,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 630,
+    "NomVariete": 355,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "Golo",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 631,
+    "NomVariete": 356,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 10
+  },
+  {
+    "id": 632,
+    "NomVariete": 515,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "Bretagne",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 633,
+    "NomVariete": 357,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 634,
+    "NomVariete": 357,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "Co.Mam",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 635,
+    "NomVariete": 358,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 636,
+    "NomVariete": 359,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "FD4S",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 637,
+    "NomVariete": 360,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 638,
+    "NomVariete": 361,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 639,
+    "NomVariete": 362,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 640,
+    "NomVariete": 362,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 641,
+    "NomVariete": 363,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "Co.Mam",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 642,
+    "NomVariete": 363,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 643,
+    "NomVariete": 364,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 644,
+    "NomVariete": 365,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 645,
+    "NomVariete": 365,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "Co.Mam",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 646,
+    "NomVariete": 366,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "KOK.",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 647,
+    "NomVariete": 367,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 648,
+    "NomVariete": 368,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 10
+  },
+  {
+    "id": 649,
+    "NomVariete": 368,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 650,
+    "NomVariete": 369,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 651,
+    "NomVariete": 370,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 652,
+    "NomVariete": 371,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "YR",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 653,
+    "NomVariete": 516,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "JD",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 654,
+    "NomVariete": 372,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 655,
+    "NomVariete": 373,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "Co.Mam",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 656,
+    "NomVariete": 517,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 657,
+    "NomVariete": 374,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 658,
+    "NomVariete": 374,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Co.Mam",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 659,
+    "NomVariete": 375,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 400
+  },
+  {
+    "id": 660,
+    "NomVariete": 337,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 661,
+    "NomVariete": 337,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 662,
+    "NomVariete": 337,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "4",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 663,
+    "NomVariete": 338,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 664,
+    "NomVariete": 340,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 665,
+    "NomVariete": 340,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 35
+  },
+  {
+    "id": 666,
+    "NomVariete": 341,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 667,
+    "NomVariete": 341,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 668,
+    "NomVariete": 342,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 669,
+    "NomVariete": 342,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 670,
+    "NomVariete": 343,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 671,
+    "NomVariete": 343,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 672,
+    "NomVariete": 344,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 673,
+    "NomVariete": 344,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "4",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 674,
+    "NomVariete": 346,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 675,
+    "NomVariete": 346,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 676,
+    "NomVariete": 348,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 60
+  },
+  {
+    "id": 677,
+    "NomVariete": 348,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 10
+  },
+  {
+    "id": 678,
+    "NomVariete": 350,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 679,
+    "NomVariete": 351,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 680,
+    "NomVariete": 351,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 681,
+    "NomVariete": 353,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 682,
+    "NomVariete": 353,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 683,
+    "NomVariete": 354,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 684,
+    "NomVariete": 354,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 685,
+    "NomVariete": 355,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 686,
+    "NomVariete": 355,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 687,
+    "NomVariete": 358,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 688,
+    "NomVariete": 358,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 689,
+    "NomVariete": 359,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 690,
+    "NomVariete": 359,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 691,
+    "NomVariete": 360,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 692,
+    "NomVariete": 360,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 693,
+    "NomVariete": 361,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 694,
+    "NomVariete": 361,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 695,
+    "NomVariete": 366,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 696,
+    "NomVariete": 366,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 697,
+    "NomVariete": 366,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 698,
+    "NomVariete": 367,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 699,
+    "NomVariete": 367,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 700,
+    "NomVariete": 368,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 701,
+    "NomVariete": 369,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 702,
+    "NomVariete": 369,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 25
+  },
+  {
+    "id": 703,
+    "NomVariete": 371,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 704,
+    "NomVariete": 371,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 705,
+    "NomVariete": 372,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "SC",
+    "Nb_saisons": "2",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 706,
+    "NomVariete": 372,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "SC",
+    "Nb_saisons": "3",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 707,
+    "NomVariete": 373,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 708,
+    "NomVariete": 373,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 709,
+    "NomVariete": 374,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 710,
+    "NomVariete": 376,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 400
+  },
+  {
+    "id": 711,
+    "NomVariete": 377,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": 2000
+  },
+  {
+    "id": 712,
+    "NomVariete": 378,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 400
+  },
+  {
+    "id": 713,
+    "NomVariete": 379,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 400
+  },
+  {
+    "id": 714,
+    "NomVariete": 380,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 400
+  },
+  {
+    "id": 715,
+    "NomVariete": 518,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 716,
+    "NomVariete": 381,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 1000
+  },
+  {
+    "id": 717,
+    "NomVariete": 382,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 2000
+  },
+  {
+    "id": 718,
+    "NomVariete": 519,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 719,
+    "NomVariete": 383,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 720,
+    "NomVariete": 384,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 721,
+    "NomVariete": 385,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 722,
+    "NomVariete": 385,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 723,
+    "NomVariete": 386,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 724,
+    "NomVariete": 520,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 725,
+    "NomVariete": 387,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 726,
+    "NomVariete": 388,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 727,
+    "NomVariete": 389,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 728,
+    "NomVariete": 390,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 729,
+    "NomVariete": 391,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 730,
+    "NomVariete": 392,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 731,
+    "NomVariete": 393,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 1000
+  },
+  {
+    "id": 732,
+    "NomVariete": 394,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 733,
+    "NomVariete": 395,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 734,
+    "NomVariete": 396,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 735,
+    "NomVariete": 397,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 736,
+    "NomVariete": 398,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 737,
+    "NomVariete": 400,
+    "Sachets": "Sachet 2",
+    "Millesime": 2021,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 738,
+    "NomVariete": 399,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Revelen",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 739,
+    "NomVariete": 521,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 740,
+    "NomVariete": 401,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 741,
+    "NomVariete": 402,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 742,
+    "NomVariete": 403,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 743,
+    "NomVariete": 404,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 744,
+    "NomVariete": 405,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 745,
+    "NomVariete": 406,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 746,
+    "NomVariete": 407,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 747,
+    "NomVariete": 408,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 748,
+    "NomVariete": 522,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 749,
+    "NomVariete": 409,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 750,
+    "NomVariete": 410,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 400
+  },
+  {
+    "id": 751,
+    "NomVariete": 411,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 800
+  },
+  {
+    "id": 752,
+    "NomVariete": 412,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 800
+  },
+  {
+    "id": 753,
+    "NomVariete": 413,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 800
+  },
+  {
+    "id": 754,
+    "NomVariete": 414,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 755,
+    "NomVariete": 415,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 800
+  },
+  {
+    "id": 756,
+    "NomVariete": 416,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 757,
+    "NomVariete": 417,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 758,
+    "NomVariete": 418,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 759,
+    "NomVariete": 523,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 760,
+    "NomVariete": 420,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": 150
+  },
+  {
+    "id": 761,
+    "NomVariete": 524,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "KOK.",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 762,
+    "NomVariete": 419,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 763,
+    "NomVariete": 421,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 764,
+    "NomVariete": 422,
+    "Sachets": "Sachet Mél.",
+    "Millesime": 2019,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 10
+  },
+  {
+    "id": 765,
+    "NomVariete": 423,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 15
+  },
+  {
+    "id": 766,
+    "NomVariete": 376,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": 1500
+  },
+  {
+    "id": 767,
+    "NomVariete": 424,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 25
+  },
+  {
+    "id": 768,
+    "NomVariete": 425,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 25
+  },
+  {
+    "id": 769,
+    "NomVariete": 426,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 770,
+    "NomVariete": 525,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "PK",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 771,
+    "NomVariete": 427,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 772,
+    "NomVariete": 428,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 300
+  },
+  {
+    "id": 773,
+    "NomVariete": 428,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "PK",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 774,
+    "NomVariete": 526,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "PK",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 775,
+    "NomVariete": 429,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "VILM.",
+    "Nb_saisons": "1",
+    "Qtte_graines": 400
+  },
+  {
+    "id": 776,
+    "NomVariete": 430,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "FERME",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 500
+  },
+  {
+    "id": 777,
+    "NomVariete": 431,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 778,
+    "NomVariete": 527,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "PK",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 779,
+    "NomVariete": 528,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "PK",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 780,
+    "NomVariete": 529,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "PK",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 781,
+    "NomVariete": 432,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 782,
+    "NomVariete": 530,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "PK",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 783,
+    "NomVariete": 433,
+    "Sachets": "Sachet 1",
+    "Millesime": 2018,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 784,
+    "NomVariete": 531,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "PK",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 785,
+    "NomVariete": 400,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 786,
+    "NomVariete": 434,
+    "Sachets": "Sachet 1",
+    "Millesime": 2015,
+    "Origine": "VILM.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 1000
+  },
+  {
+    "id": 787,
+    "NomVariete": 435,
+    "Sachets": "Sachet 1",
+    "Millesime": 2015,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 788,
+    "NomVariete": 436,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 400
+  },
+  {
+    "id": 789,
+    "NomVariete": 437,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 790,
+    "NomVariete": 532,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "PK",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 791,
+    "NomVariete": 451,
+    "Sachets": "Sachet 3b.",
+    "Millesime": 2021,
+    "Origine": "FDSM",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 792,
+    "NomVariete": 452,
+    "Sachets": "Sachet 3b.",
+    "Millesime": 2024,
+    "Origine": "FDSM",
+    "Nb_saisons": "3",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 793,
+    "NomVariete": 453,
+    "Sachets": "Sachet 2c.",
+    "Millesime": 2022,
+    "Origine": "FDSM",
+    "Nb_saisons": "1",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 794,
+    "NomVariete": 454,
+    "Sachets": "Sachet 2p.",
+    "Millesime": 2024,
+    "Origine": "Bioc.",
+    "Nb_saisons": "3",
+    "Qtte_graines": null
+  },
+  {
+    "id": 795,
+    "NomVariete": 455,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "FDSM",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 796,
+    "NomVariete": 533,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 797,
+    "NomVariete": 456,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2024,
+    "Origine": "Bioc.",
+    "Nb_saisons": "3",
+    "Qtte_graines": null
+  },
+  {
+    "id": 798,
+    "NomVariete": 457,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2023,
+    "Origine": "AR'AN",
+    "Nb_saisons": "4",
+    "Qtte_graines": null
+  },
+  {
+    "id": 799,
+    "NomVariete": 534,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "FDSM",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 800,
+    "NomVariete": 535,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 801,
+    "NomVariete": 458,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 802,
+    "NomVariete": 536,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "SC",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 803,
+    "NomVariete": 459,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 350
+  },
+  {
+    "id": 804,
+    "NomVariete": 460,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 180
+  },
+  {
+    "id": 805,
+    "NomVariete": 461,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 150
+  },
+  {
+    "id": 806,
+    "NomVariete": 462,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Bioc.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 1
+  },
+  {
+    "id": 807,
+    "NomVariete": 537,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "FDSM",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 808,
+    "NomVariete": 538,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 809,
+    "NomVariete": 539,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 810,
+    "NomVariete": 438,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2018,
+    "Origine": "AJC B.",
+    "Nb_saisons": "9",
+    "Qtte_graines": null
+  },
+  {
+    "id": 811,
+    "NomVariete": 439,
+    "Sachets": "Sachet 10p.",
+    "Millesime": 2024,
+    "Origine": "AJC B.",
+    "Nb_saisons": "3",
+    "Qtte_graines": null
+  },
+  {
+    "id": 812,
+    "NomVariete": 440,
+    "Sachets": "Sachet 6p.",
+    "Millesime": 2023,
+    "Origine": "",
+    "Nb_saisons": "4",
+    "Qtte_graines": null
+  },
+  {
+    "id": 813,
+    "NomVariete": 441,
+    "Sachets": "Sachet 3p.",
+    "Millesime": 2024,
+    "Origine": "KOK.",
+    "Nb_saisons": "3",
+    "Qtte_graines": null
+  },
+  {
+    "id": 814,
+    "NomVariete": 442,
+    "Sachets": "Sachet 2p.",
+    "Millesime": 2024,
+    "Origine": "KOK.",
+    "Nb_saisons": "3",
+    "Qtte_graines": null
+  },
+  {
+    "id": 815,
+    "NomVariete": 446,
+    "Sachets": "Sachet 2p.",
+    "Millesime": 2024,
+    "Origine": "KOK.",
+    "Nb_saisons": "3",
+    "Qtte_graines": null
+  },
+  {
+    "id": 816,
+    "NomVariete": 443,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2022,
+    "Origine": "PK",
+    "Nb_saisons": "5",
+    "Qtte_graines": null
+  },
+  {
+    "id": 817,
+    "NomVariete": 444,
+    "Sachets": "Sachet 6p.",
+    "Millesime": 2025,
+    "Origine": "SC",
+    "Nb_saisons": "2",
+    "Qtte_graines": null
+  },
+  {
+    "id": 818,
+    "NomVariete": 445,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2022,
+    "Origine": "AC",
+    "Nb_saisons": "5",
+    "Qtte_graines": null
+  },
+  {
+    "id": 819,
+    "NomVariete": 447,
+    "Sachets": "Sachet 2p.",
+    "Millesime": 2026,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": null
+  },
+  {
+    "id": 820,
+    "NomVariete": 448,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2018,
+    "Origine": "AJC B.",
+    "Nb_saisons": "9",
+    "Qtte_graines": null
+  },
+  {
+    "id": 821,
+    "NomVariete": 450,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2018,
+    "Origine": "AJC B.",
+    "Nb_saisons": "9",
+    "Qtte_graines": null
+  },
+  {
+    "id": 822,
+    "NomVariete": 449,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2018,
+    "Origine": "AJC B.",
+    "Nb_saisons": "9",
+    "Qtte_graines": null
+  },
+  {
+    "id": 823,
+    "NomVariete": 2,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 824,
+    "NomVariete": 2,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 825,
+    "NomVariete": 2,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 1000
+  },
+  {
+    "id": 826,
+    "NomVariete": 2,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "4",
+    "Qtte_graines": 1000
+  },
+  {
+    "id": 827,
+    "NomVariete": 424,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 828,
+    "NomVariete": 425,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 829,
+    "NomVariete": 426,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 830,
+    "NomVariete": 429,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "VILM.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 831,
+    "NomVariete": 429,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "VILM.",
+    "Nb_saisons": "2",
+    "Qtte_graines": 400
+  },
+  {
+    "id": 832,
+    "NomVariete": 431,
+    "Sachets": "Sachet 1",
+    "Millesime": 1792087997,
+    "Origine": "PK",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 833,
+    "NomVariete": 431,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 500
+  },
+  {
+    "id": 834,
+    "NomVariete": 301,
+    "Sachets": "Sachet 1",
+    "Millesime": 2017,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 5
+  },
+  {
+    "id": 835,
+    "NomVariete": 382,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "FDSM",
+    "Nb_saisons": "1",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 836,
+    "NomVariete": 383,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 837,
+    "NomVariete": 385,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "KOK.",
+    "Nb_saisons": "",
+    "Qtte_graines": null
+  },
+  {
+    "id": 838,
+    "NomVariete": 387,
+    "Sachets": "Sachet 2",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 839,
+    "NomVariete": 388,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": 80
+  },
+  {
+    "id": 840,
+    "NomVariete": 389,
+    "Sachets": "Sachet 2",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 841,
+    "NomVariete": 392,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": 15
+  },
+  {
+    "id": 842,
+    "NomVariete": 433,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 600
+  },
+  {
+    "id": 843,
+    "NomVariete": 400,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "SC",
+    "Nb_saisons": "1",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 844,
+    "NomVariete": 434,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 600
+  },
+  {
+    "id": 845,
+    "NomVariete": 435,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 846,
+    "NomVariete": 410,
+    "Sachets": "Sachet 2",
+    "Millesime": 2023,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": 250
+  },
+  {
+    "id": 847,
+    "NomVariete": 411,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": 300
+  },
+  {
+    "id": 848,
+    "NomVariete": 411,
+    "Sachets": "Sachet 2",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": 300
+  },
+  {
+    "id": 849,
+    "NomVariete": 412,
+    "Sachets": "Sachet 2",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": 300
+  },
+  {
+    "id": 850,
+    "NomVariete": 414,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "1",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 851,
+    "NomVariete": 490,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 852,
+    "NomVariete": 495,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 12
+  },
+  {
+    "id": 853,
+    "NomVariete": 496,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 12
+  },
+  {
+    "id": 854,
+    "NomVariete": 496,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 12
+  },
+  {
+    "id": 855,
+    "NomVariete": 288,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 12
+  },
+  {
+    "id": 856,
+    "NomVariete": 251,
+    "Sachets": "Sachet 1",
+    "Millesime": 2020,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 25
+  },
+  {
+    "id": 857,
+    "NomVariete": 347,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 35
+  },
+  {
+    "id": 858,
+    "NomVariete": 347,
+    "Sachets": "Sachet 1",
+    "Millesime": 2019,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 35
+  },
+  {
+    "id": 859,
+    "NomVariete": 260,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 12
+  },
+  {
+    "id": 860,
+    "NomVariete": 249,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 25
+  },
+  {
+    "id": 861,
+    "NomVariete": 509,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 400
+  },
+  {
+    "id": 862,
+    "NomVariete": 505,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 180
+  },
+  {
+    "id": 863,
+    "NomVariete": 103,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 864,
+    "NomVariete": 542,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 865,
+    "NomVariete": 541,
+    "Sachets": "Sachet 1",
+    "Millesime": 2022,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 35
+  },
+  {
+    "id": 866,
+    "NomVariete": 540,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 600
+  },
+  {
+    "id": 867,
+    "NomVariete": 543,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 500
+  },
+  {
+    "id": 868,
+    "NomVariete": 544,
+    "Sachets": "Sachet 1",
+    "Millesime": 2024,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 869,
+    "NomVariete": 545,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 200
+  },
+  {
+    "id": 870,
+    "NomVariete": 546,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 1000
+  },
+  {
+    "id": 871,
+    "NomVariete": 547,
+    "Sachets": "Sachet 1",
+    "Millesime": 2021,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 872,
+    "NomVariete": 548,
+    "Sachets": "Sachet 3b.",
+    "Millesime": 2026,
+    "Origine": "KOK.",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 873,
+    "NomVariete": 312,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 25
+  },
+  {
+    "id": 874,
+    "NomVariete": 328,
+    "Sachets": "Sachet 1p.",
+    "Millesime": 2025,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": null
+  },
+  {
+    "id": 875,
+    "NomVariete": 328,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "4",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 876,
+    "NomVariete": 318,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 877,
+    "NomVariete": 123,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 878,
+    "NomVariete": 300,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 879,
+    "NomVariete": 34,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 880,
+    "NomVariete": 1,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 881,
+    "NomVariete": 44,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "4",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 882,
+    "NomVariete": 179,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "4",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 883,
+    "NomVariete": 240,
+    "Sachets": "Sachet 1",
+    "Millesime": 2025,
+    "Origine": "KOK.",
+    "Nb_saisons": "2",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 884,
+    "NomVariete": 243,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 885,
+    "NomVariete": 253,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 15
+  },
+  {
+    "id": 886,
+    "NomVariete": 373,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "4",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 887,
+    "NomVariete": 368,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 888,
+    "NomVariete": 350,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 889,
+    "NomVariete": 357,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 890,
+    "NomVariete": 353,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 891,
+    "NomVariete": 69,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "5",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 892,
+    "NomVariete": 367,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "4",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 893,
+    "NomVariete": 372,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "4",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 894,
+    "NomVariete": 174,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "4",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 895,
+    "NomVariete": 154,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "4",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 896,
+    "NomVariete": 134,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 897,
+    "NomVariete": 51,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "4",
+    "Qtte_graines": 50
+  },
+  {
+    "id": 898,
+    "NomVariete": 549,
+    "Sachets": "Sachet 1",
+    "Millesime": 2023,
+    "Origine": "SC",
+    "Nb_saisons": "or.",
+    "Qtte_graines": null
+  },
+  {
+    "id": 899,
+    "NomVariete": 111,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "4",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 900,
+    "NomVariete": 112,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 901,
+    "NomVariete": 20,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 902,
+    "NomVariete": 16,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 100
+  },
+  {
+    "id": 903,
+    "NomVariete": 17,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 75
+  },
+  {
+    "id": 904,
+    "NomVariete": 115,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "5",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 905,
+    "NomVariete": 306,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 906,
+    "NomVariete": 549,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 907,
+    "NomVariete": 319,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 908,
+    "NomVariete": 242,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "1",
+    "Qtte_graines": 40
+  },
+  {
+    "id": 909,
+    "NomVariete": 250,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 20
+  },
+  {
+    "id": 910,
+    "NomVariete": 355,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 911,
+    "NomVariete": 369,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "2",
+    "Qtte_graines": 30
+  },
+  {
+    "id": 912,
+    "NomVariete": 343,
+    "Sachets": "Sachet 1",
+    "Millesime": 2026,
+    "Origine": "Monjardin",
+    "Nb_saisons": "3",
+    "Qtte_graines": 30
+  }
+]

@@ -1,0 +1,209 @@
+Type,Nom,Conservation,Infos,Semis_profondeur,Duree_germ,Temp_germ,Semis_sous_abris,Semis_pleine_terre,Recolte_floraison,Ou_cultiver,Exposition,Arrosage,Nature_du_sol,Qualite_du_sol,Famille
+Arom.Méd 🌿,Agastache,,,0 cm,21,20-22°,"Mar, Avr, Mai",,"Jui, Juil, Aou, Sep","PT, Pot",⛅☀️,💧,tout,"drainé, frais, léger","Aromatique, Méllifère, Médicinale, Vivace, Aromatique"
+Arom.Méd 🌿,Aneth,3,,0.5 cm,25,15-20°,"Mar, Avr, Mai","Avr, Mai, Jui, Juil","Jui, Juil, Aou, Sep, Oct","PT, Pot",☀️,💧💧,"humifère, terreau","drainé, léger, réchauffé","Aromatique, Méllifère, Médicinale"
+Arom.Méd 🌿,Arnica,,,0.2 cm,20,10-20°,"Mar, Avr, Mai",,"Mai, Jui, Juil, Aou, Sep",,☀️,💧💧,"argileux, humifère, sableux","drainé, humide, meuble, riche","Méllifère, Médicinale, Vivace"
+Arom.Méd 🌿,Arnica,,,0.2 cm,20,10-20°,"Mar, Avr, Mai",,"Mai, Jui, Juil, Aou, Sep",PT,⛅☀️,💧💧,"argileux, humifère, sableux","drainé, humide, meuble, riche","Méllifère, Médicinale, Vivace"
+Arom.Méd 🌿,Artemisia,3,,0.5 cm,20,20-25°,"Mar, Avr, Mai",,"Mai, Jui, Juil, Aou, Sep","PT, Pot",☀️,💧,tout,"drainé, léger, réchauffé","Médicinale, Aromatique"
+Arom.Méd 🌿,Aspérule,,Stratification 15 j à 6°,0.5 cm,25,5-12°,,"Jan, Fév, Sep, Oct, Nov, Déc","Avr, Mai, Jui",PT,⛅,💧💧,tout,"frais, humide","Aromatique, Méllifère, Médicinale, Vivace"
+Arom.Méd 🌿,Basilic,8,,0.5 cm,10,20°,"Mar, Avr, Mai, Jui",,"Jui, Juil, Aou, Sep, Oct","PT, Pot, Serre",☀️☀️,💧💧,"caillouteux, humifère, sableux, terreau","drainé, léger, réchauffé","Aromatique, Méllifère, Médicinale"
+Arom.Méd 🌿,Basilic Tulsis,8,,0.5 cm,10,20°,"Mar, Avr, Mai, Jui",,"Jui, Juil, Aou, Sep, Oct","PT, Pot, Serre",☀️☀️,💧💧,"caillouteux, humifère, sableux, terreau","drainé, léger, réchauffé","Aromatique, Méllifère, Médicinale"
+Arom.Méd 🌿,Cannabis,3,,2-3 cm,10,18-25°,"Mar, Avr","Avr, Mai, Jui, Juil","Juil, Aou, Sep, Oct","PT, Pot, Serre",☀️,💧💧,,"drainé, riche","Aromatique, Médicinale"
+Arom.Méd 🌿,Ciboulette,3,,1 cm,10,15-20°,"Mar, Avr, Mai, Oct, Nov, Déc","Avr, Mai, Jui, Juil","Mai, Jui, Juil, Aou, Sep, Oct, Nov","PT, Pot",⛅☀️,💧💧,tout,"frais, meuble","Aromatique, Vivace"
+Arom.Méd 🌿,Coriandre,5,,1 cm,30,15-20°,"Mar, Avr","Avr, Mai, Jui, Juil, Aou","Jui, Juil, Aou, Sep, Oct","PT, Pot",☀️,💧💧,"argileux, humifère, terreau","drainé, léger, meuble","Aromatique, Médicinale"
+Arom.Méd 🌿,Coriandre,4,,1 cm,30,15-20°,"Mar, Avr","Avr, Mai, Jui, Juil, Aou","Jui, Juil, Aou, Sep, Oct","PT, Pot",☀️,💧💧,"argileux, humifère, terreau","drainé, léger, meuble","Aromatique, Médicinale"
+Arom.Méd 🌿,Cumin,3,,1 cm,21,20°,"Mar, Avr, Mai",,"Juil, Aou, Sep",PT,☀️,💧,humifère,,"Florales, Aromatique, Médicinale"
+Arom.Méd 🌿,Curcuma,,,5-10 cm,42,25°,"Fév, Mar, Avr, Mai",,Sep,Pot,☀️,💧💧,tout,"drainé, riche","Florales, Aromatique, Médicinale, Vivace"
+Arom.Méd 🌿,Epazote,,,0 cm,15,15-20°,"Mar, Avr, Mai","Avr, Mai, Jui","Mai, Jui, Juil, Aou, Sep, Oct","PT, Pot",☀️,💧💧,tout,"drainé, humide, riche","Légumes-feuilles, Aromatique, Médicinale"
+Arom.Méd 🌿,Estragon,4,,1 cm,20,18-20°,"Mar, Avr, Mai","Avr, Mai, Jui","Jui, Juil, Aou, Sep, Oct","PT, Pot",☀️,💧,"argileux, caillouteux, humifère, terreau","drainé, réchauffé","Aromatique, Médicinale"
+Arom.Méd 🌿,Estragon,4,,1 cm,20,18-20°,"Mar, Avr, Mai","Avr, Mai, Jui","Jui, Juil, Aou, Sep, Oct","PT, Pot",☀️,💧,"argileux, caillouteux, humifère, terreau","drainé, réchauffé","Aromatique, Médicinale"
+Arom.Méd 🌿,Goji,5,,1 cm,42,20-25°,"Mar, Avr, Mai, Jui",,"Juil, Aou, Sep","PT, Pot",⛅☀️,💧,"calcaire, sableux",,"Aromatique, Médicinale"
+Arom.Méd 🌿,Guimauve,,,0.5 cm,25,20-25°,"Mar, Avr, Mai, Jui, Juil","Mai, Jui, Juil","Jui, Juil, Aou, Sep, Oct, Nov","PT, Pot",☀️,💧💧💧,"calcaire, humifère, sableux","drainé, réchauffé, riche","Aromatique, Médicinale, Vivace"
+Arom.Méd 🌿,Hélichryse,,,0.5 cm,,18°,"Mar, Avr, Mai, Sep, Oct",,"Jan, Fév, Mar, Avr, Mai, Jui, Juil, Aou, Sep, Oct, Nov, Déc",PT,☀️☀️,💧,calcaire,,Aromatique
+Arom.Méd 🌿,Hélichrysum,,,0.5 cm,,18°,"Mar, Avr","Mai, Sep, Oct","Mai, Jui, Juil, Aou, Sep, Oct, Nov","PT, Pot",☀️,💧💧,calcaire,"drainé, sec","Aromatique, Médicinale, Vivace"
+Arom.Méd 🌿,Hysope,3,,0.5 cm,20,18-20°,"Mar, Avr, Mai",,"Mai, Jui, Juil, Aou, Sep, Oct","PT, Pot",⛅☀️,💧💧,tout,"drainé, sec","Aromatique, Méllifère, Médicinale, Vivace"
+Arom.Méd 🌿,Hysope,3,,0.5 cm,,,,"Mar, Avr, Mai, Jui, Sep, Oct","Mai, Jui, Juil, Aou, Sep, Oct","Pot, PT",☀️,💧💧,tout,"drainé, sec","Aromatique, Méllifère, Médicinale, Vivace"
+Arom.Méd 🌿,Lavande,2,,0.5 cm,90,20-25°,,,,,,,,,
+Arom.Méd 🌿,Marjolaine,3,,0.5-1 cm,,,,,,,,,,,
+Arom.Méd 🌿,Matricaire (Camomille),3,,1 cm,30,20°,"Mar, Avr, Mai",,"Jui, Juil, Aou, Sep","PT, Pot",☀️,💧💧,tout,"drainé, meuble","Aromatique, Méllifère, Médicinale"
+Arom.Méd 🌿,Mélisse,4,,1 cm,15,20°,"Avr, Mai, Jui",,"Mai, Jui, Juil, Aou, Sep, Oct","PT, Pot",⛅☀️,💧💧,tout,"drainé, riche","Aromatique, Médicinale, Vivace"
+Arom.Méd 🌿,Menthe,3,,0.5 cm,20,20°,"Jan, Fév, Mar, Avr",,"Mai, Jui, Juil, Aou, Sep, Oct","PT, Pot",⛅☀️,💧💧💧,,"drainé, léger",Aromatique
+Arom.Méd 🌿,Myrthe,,H-24 tremper dans eau tiède,0.5 cm,42,20-25°,"Mar, Avr, Mai","Sep, Oct","Jui, Juil, Aou","PT, Pot",☀️☀️,💧,calcaire,"drainé, riche","Aromatique, Médicinale, Vivace"
+Arom.Méd 🌿,Origan,5,,0.3 cm,20,20-25°,"Mar, Avr, Mai, Jui, Sep, Oct, Nov",,"Jui, Juil, Aou, Sep, Oct","PT, Pot",☀️,💧💧,"calcaire, humifère, sableux, terreau","drainé, riche, sec","Aromatique, Méllifère, Médicinale, Vivace"
+Arom.Méd 🌿,Périllas,3,H-24 tremper,0.2 cm,28,20°,"Mar, Avr, Mai, Jui",,"Jui, Juil, Aou, Sep, Oct","PT, Pot, Serre",☀️,💧💧,"humifère, sableux, terreau","drainé, léger, riche","Aromatique, Médicinale"
+Arom.Méd 🌿,Persil,3,,0.5 cm,90,20°,"Fév, Mar, Avr, Mai, Jui","Mar, Avr, Mai, Jui, Juil","Mai, Jui, Juil, Aou, Sep, Oct, Nov","PT, Pot",⛅☀️,💧💧,"calcaire, humifère, terreau","frais, léger","Aromatique, Médicinale"
+Arom.Méd 🌿,Plante champignon,,A rentrer en hiver,,,,,"Avr, Mai, Jui, Sep, Oct",,"PT, Pot",⛅☀️,💧💧,tout,"drainé, riche","Aromatique, Vivace"
+Arom.Méd 🌿,Poivrier,,,0.5-1 cm,60,20°,,"Mar, Avr","Oct, Nov",PT,☀️,💧💧,,"drainé, léger, riche",Aromatique
+Arom.Méd 🌿,Réglisse,5,H-24 tremper dans eau tiède,1 cm,21,15-18°,"Mar, Avr, Mai, Aou, Sep, Oct",,"Jui, Juil, Aou, Sep, Oct, Nov",PT,⛅☀️,💧💧💧,tout,"drainé, frais","/, Aromatique, Médicinale, Vivace"
+Arom.Méd 🌿,Romarin,3,,0.5 cm,28,15-20°,"Avr, Mai","Avr, Mai","Avr, Mai, Jui, Juil, Aou, Sep, Oct","PT, Pot",☀️,💧,calcaire,"drainé, réchauffé","Aromatique, Médicinale, Vivace"
+Arom.Méd 🌿,Sarriette,3,,0.5 cm,10,20-25°,"Mar, Avr, Mai",,"Jui, Juil, Aou, Sep, Oct","PT, Pot",☀️,💧,tout,"drainé, léger","Aromatique, Méllifère, Médicinale, Vivace"
+Arom.Méd 🌿,Sauge,3,,0.5 cm,20,10-20°,"Fév, Mar, Avr","Avr, Mai, Jui","Mai, Jui, Juil, Aou, Sep, Oct","PT, Pot",☀️,💧,tout,"drainé, léger, riche, sec","Aromatique, Méllifère, Médicinale, Vivace"
+Arom.Méd 🌿,Stevia,,,0 cm,21,20-25°,"Fév, Mar, Avr",,"Jui, Juil, Aou, Sep","PT, Pot",☀️,,,"humide, réchauffé, riche","Aromatique, Médicinale"
+Arom.Méd 🌿,Tabac,3,,0.5 cm,20,18-22°,"Mar, Avr, Mai",,"Jui, Juil, Aou, Sep","PT, Pot",☀️,💧💧,humifère,"drainé, frais, riche","Aromatique, Médicinale"
+Arom.Méd 🌿,Thé des jardins,,,0.2 cm,21,18-21°,"Mar, Avr, Mai",,,"PT, Pot",☀️,💧💧,tout,drainé,"Florales, Aromatique, Médicinale"
+Arom.Méd 🌿,Thym,3,,0.5 cm,21,20-25°,"Mar, Avr, Mai",,"Jan, Fév, Mar, Avr, Mai, Jui, Juil, Aou, Sep, Oct, Nov, Déc","PT, Pot",☀️,💧,"caillouteux, calcaire","drainé, réchauffé, sec","Aromatique, Méllifère, Médicinale, Vivace"
+Arom.Méd 🌿,Valériane,3,,0.2 cm,45,10-20°,"Avr, Mai",,"Mai, Jui, Juil",PT,☀️,💧💧💧,tout,,"Aromatique, Méllifère, Médicinale, Vivace"
+Arom.Méd 🌿,Verveine,,,0 cm,20,10-20°,"Mar, Avr",,"Jan, Fév, Mar, Avr, Mai, Jui, Juil, Aou, Sep, Oct, Nov, Déc",PT,☀️,💧,,drainé,"Aromatique, Vivace"
+Arom.Méd 🌿,Withania,5,,0 cm,28,15-20°,"Fév, Mar, Avr, Mai",,"Juil, Aou, Sep, Oct","PT, Pot",☀️,💧💧,tout,"drainé, réchauffé","Tubercule-bulbe, Aromatique, Médicinale, Vivace"
+Fleurs 🌼,Agapanthe,,,0.5 cm,21,18°,"Jan, Fév, Déc","Sep, Oct, Nov",,PT,☀️,💧💧,tout,"drainé, riche",Florales
+Fleurs 🌼,Ajuga Reptans,,,0.3 cm,21,10°,,"Mar, Avr","Avr, Mai, Jui, Juil, Aou, Sep, Oct",,⛅☀️,💧,humifère,"drainé, frais","Florales, Vivace"
+Fleurs 🌼,Angélique,1,J-120 au frigo puis J-60 au chaud,0.5 cm,120,"5°
+25-30°","Fév, Mar","Mar, Avr",,PT,⛅,💧💧💧,"calcaire, humifère","drainé, frais, léger","Florales, Méllifère, Médicinale"
+Fleurs 🌼,Asclepias,,J-60 au frigo,0.3 cm,90,13-23°,"Fév, Mar, Avr, Sep, Oct, Nov",,"Jui, Juil, Aou, Sep","PT, Pot",☀️,💧,"calcaire, humifère, sableux, terreau","drainé, humide, léger","Florales, Méllifère, Médicinale, Vivace"
+Fleurs 🌼,Astrance,,J-42 au frigo,0.3 cm,180,"18-20
+2-4°","Mar, Avr","Sep, Oct",,PT,⛅☀️,💧💧,"argileux, calcaire, humifère",frais,"Florales, Méllifère, Vivace"
+Fleurs 🌼,Bleuet,3,,0.5 cm,20,18-25°,"Mar, Avr","Avr, Mai","Jui, Juil, Aou, Sep, Oct","PT, Pot",☀️,💧,tout,drainé,"Florales, Méllifère, Médicinale"
+Fleurs 🌼,Bleuet des champs,3,,0.5 cm,20,18-25°,"Mar, Avr","Avr, Mai, Sep, Oct","Jui, Juil, Aou, Sep, Oct","PT, Pot",☀️,💧,tout,drainé,"Florales, Méllifère, Médicinale"
+Fleurs 🌼,Bourrache,2,,1 cm,15,13°,"Fév, Mar, Avr, Mai","Mar, Avr, Mai, Jui","Avr, Mai, Jui, Juil, Aou, Sep, Oct, Nov","PT, Pot",⛅☀️,💧💧,tout,"drainé, riche","Florales, Médicinale, Engrais vert"
+Fleurs 🌼,Capucine Grimpante,4,,2 cm,15,15-25°,"Mar, Avr, Mai","Avr, Mai, Jui, Juil","Jui, Juil, Aou, Sep, Oct, Nov","PT, Pot",☀️,💧,tout,"drainé, réchauffé","Florales, Médicinale"
+Fleurs 🌼,Célosia,,,0.5 cm,21,20-22°,"Mar, Avr, Mai",,"Jui, Juil, Aou, Sep, Oct","PT, Pot",☀️,💧💧,,"drainé, frais, riche",Florales
+Fleurs 🌼,Centaurée Variée,3,,0.5 cm,20,18-25°,"Mar, Avr","Mai, Jui, Aou, Sep","Avr, Mai, Jui, Juil, Aou, Sep, Oct",PT,⛅☀️,💧💧,calcaire,"frais, pauvre",Florales
+Fleurs 🌼,Cinéraire,,Germ – pas de soleil direct,0.3 cm,21,18-25°,"Mar, Avr",,"Juil, Aou",,☀️,💧,tout,"drainé, riche",Florales
+Fleurs 🌼,Consoude,,J-15 congel,1-2 cm,"0,5",3-5°,,"Fév, Mar, Avr, Oct, Nov","Mai, Jui, Juil","PT, Pot",⛅☀️,💧💧,tout,"frais, humide, riche","Florales, Engrais vert"
+Fleurs 🌼,Coquelicot,2,,0 cm,28,15-20°,"Mar, Avr, Mar, Aou, Sep","Avr, Mai, Aou, Sep","Mai, Jui, Juil",,☀️☀️,💧,tout,"drainé, frais","Florales, Aromatique, Méllifère, Médicinale"
+Fleurs 🌼,Coquelourde ,,,0 cm,25,18-24°,"Mar, Avr","Avr, Mai","Jui, Juil, Aou, Sep","PT, Pot",⛅☀️,💧💧,tout,"drainé, frais, léger","Florales, Méllifère, Vivace"
+Fleurs 🌼,Corbeille ,,,0.3 cm,15,18-24°,"Fév, Mar, Avr, Oct, Nov",,"Avr, Mai, Jui, Juil",PT,☀️,💧,"caillouteux, calcaire","drainé, frais, sec","Florales, Vivace"
+Fleurs 🌼,Cosmos,2,,0.5 cm,30,20-25°,"Mar, Avr","Avr, Mai, Jui","Jui, Juil, Aou, Sep, Oct, Nov","PT, Pot",☀️,💧,"argileux, calcaire, humifère","drainé, réchauffé, riche","Florales, Méllifère, Médicinale, Tinctoriale"
+Fleurs 🌼,Coton,4,,1-2 cm,21,20-22°,"Mar, Avr, Mai",,"Aou, Sep, Oct","PT, Pot, Serre",☀️,💧💧,tout,"meuble, réchauffé, riche",Florales
+Fleurs 🌼,Dahlia,3,,1 cm,20,18-20°,"Mar, Avr, Mai","Avr, Mai, Jui","Jui, Juil, Aou, Sep, Oct","PT, Pot",☀️,💧💧💧,tout,"frais, meuble, riche","Florales, Vivace, Tinctoriale"
+Fleurs 🌼,Fleurs des champs,,,,,,,,,,,,,,Florales
+Fleurs 🌼,Gaillarde,4,,0.5 cm,14,18-20°,"Fév, Mar, Avr, Mai","Mai, Jui","Jui, Juil, Aou, Sep",,☀️,💧,,"drainé, léger","Florales, Méllifère, Vivace"
+Fleurs 🌼,Gazania,,,0.3 cm,20,20°,"Mar, Avr, Mai",,"Jui, Juil, Aou, Sep, Oct","PT, Pot",☀️,💧,tout,"drainé, réchauffé",Florales
+Fleurs 🌼,Haricot,3,H-24 tremper dans eau tiède,3 cm,14,15-20°,"Avr, Mai","Avr, Mai, Jui","Jui, Juil, Aou, Sep, Oct",PT,☀️☀️,💧💧,"humifère, sableux","drainé, riche",Florales
+Fleurs 🌼,Heuchère,,,0.5 cm,15,18-22°,"Avr, Mai","Sep, Oct","Jui, Juil, Aou","PT, Pot",⛅☀️,💧,calcaire,frais,"Florales, Vivace"
+Fleurs 🌼,Ipomée,4,,1 cm,20,18-20°,"Mar, Avr, Mai","Avr, Mai, Jui","Jui, Juil, Aou, Sep, Oct","PT, Pot",☀️,💧💧💧,"humifère, sableux","drainé, riche","Florales, Méllifère"
+Fleurs 🌼,Lin,6,,1 cm,20,15°,"Fév, Mar, Avr, Mai","Fév, Mar, Avr, Mai, Jui","Jui, Juil, Aou, Sep","PT, Pot",☀️,💧💧,"humifère, sableux",drainé,Florales
+Fleurs 🌼,Lobelia,4,,2 cm,21,21-24°,"Fév, Mar, Oct, Nov",,"Jui, Juil, Aou, Sep, Oct","PT, Pot",⛅☀️,💧💧💧,humifère,"drainé, frais, humide","Florales, Médicinale, Vivace"
+Fleurs 🌼,Lotier,,,1 cm,14,15-20°,,"Avr, Mai, Jui, Sep, Oct","Mai, Jui, Juil, Aou, Sep, Oct","PT, Pot",☀️,💧💧,tout,drainé,"Florales, Méllifère, Médicinale, Vivace, Engrais vert"
+Fleurs 🌼,Marguerite,2,,1 cm,12,15-18°,"Mar, Avr, Mai, Sep, Oct","Avr, Mai, Jui","Juil, Aou, Sep, Oct","PT, Pot",⛅☀️,,tout,"drainé, frais, léger, riche","Florales, Méllifère, Vivace"
+Fleurs 🌼,Mauve,2,,1 cm,20,20°,"Mar, Avr","Mai, Jui","Juil, Aou, Sep, Oct","PT, Pot",⛅,💧💧,tout,"drainé, frais","Florales, Méllifère"
+Fleurs 🌼,Moutarde,4,,1 cm,14,15-20°,,"Mar, Avr, Mai, Jui, Juil, Aou, Sep, Oct","Jan, Fév, Mar, Avr, Mai, Jui, Juil, Aou, Sep, Oct, Nov, Déc",PT,⛅☀️,💧💧,tout,"drainé, humide","Florales, Méllifère, Engrais vert"
+Fleurs 🌼,Nigelle de Damas,2,,0.5 cm,30,18-22°,,"Avr, Mai, Jui","Jui, Juil, Aou, Sep","PT, Pot",⛅☀️,💧💧,tout,"drainé, réchauffé, riche","Florales, Médicinale"
+Fleurs 🌼,Oeillet de Chine,,,0.5 cm,14,18-22°,"Fév, Mar, Avr",,"Jui, Juil, Aou, Sep","PT, Pot",⛅☀️,💧💧,,,"Florales, Médicinale, Vivace"
+Fleurs 🌼,Oeillet de Poète,,,1 cm,14,20-25°,"Avr, Mai, Jui","Mai, Jui","Mai, Jui, Juil, Aou","PT, Pot",☀️,💧,tout,drainé,
+Fleurs 🌼,Onagre,,,0.5 cm,30,20-25°,"Mar, Avr, Mai","Sep, Oct","Jui, Juil, Aou, Sep, Oct","PT, Pot",☀️,💧,"caillouteux, calcaire, humifère, sableux","drainé, frais, sec","Florales, Vivace"
+Fleurs 🌼,Pavot,4,,0.5 cm,21,15-18°,"Mar, Avr","Avr, Mai, Sep, Oct","Mai, Jui, Juil, Aou","PT, Pot",☀️,💧💧,tout,"drainé, léger, sec",Florales
+Fleurs 🌼,Pavot,4,,0.5 cm,21,15-18°,"Mar, Avr","Avr, Mai, Sep, Oct","Mai, Jui, Juil, Aou","PT, Pot",☀️,💧💧,tout,"drainé, léger, sec",Florales
+Fleurs 🌼,Perowskia,,Bouture,0.5 cm,42,3-5°,,"Fév, Mar, Sep, Oct","Aou, Sep, Oct",PT,☀️☀️,💧,"argileux, caillouteux, calcaire, sableux","pauvre, sec","Florales, Vivace"
+Fleurs 🌼,Phacélie ,,,1-2 cm,10,10-25°,,"Mar, Avr, Mai, Jui, Sep, Oct","Mai, Jui, Juil, Aou, Sep, Oct, Nov",PT,⛅☀️,💧💧,tout,"drainé, humide, meuble","Florales, Méllifère, Engrais vert"
+Fleurs 🌼,Pois de cœur,,,0.5 cm,10,20°,"Mar, Avr",,"Jui, Juil, Aou, Sep",PT,☀️,💧💧,tout,drainé,Florales
+Fleurs 🌼,Rudbeckia,,J-60 au frigo,0 cm,20,18-20°,"Fév, Mar, Avr, Sep, Oct","Sep, Oct, Nov","Juil, Aou, Sep, Oct","PT, Pot",⛅☀️,💧💧,"argileux, calcaire, humifère","drainé, riche","Florales, Médicinale"
+Fleurs 🌼,Sainfoin,,,1-2 cm,20,15°,,"Mar, Avr, Mai, Jui, Juil, Aou, Sep",,PT,☀️,💧,calcaire,"drainé, sec","Florales, Méllifère, Engrais vert"
+Fleurs 🌼,Salicaire,,,0 cm,28,15-20°,"Mai, Jui",,"Sep, Oct",PT,⛅☀️,💧💧,humifère,frais,Florales
+Fleurs 🌼,Scabieuse,,,0.2 cm,21,15-20°,"Mar, Avr","Avr, Mai, Jui","Mai, Jui, Juil, Aou, Sep, Oct","PT, Pot",☀️,💧💧,"argileux, calcaire, humifère","drainé, riche, sec","Florales, Méllifère, Médicinale, Tinctoriale"
+Fleurs 🌼,Sedum,,,0.3 cm,40,20-24°,"Mar, Avr","Mai, Jui","Juil, Aou, Sep, Oct","PT, Pot",☁️⛅☀️,💧,calcaire,"drainé, léger, pauvre","Florales, Vivace"
+Fleurs 🌼,Silène,,,0.2 cm,21,15-22°,"Mar, Avr, Mai",,"Avr, Mai, Jui, Juil, Aou, Sep, Oct",PT,⛅☀️,💧,"caillouteux, calcaire","drainé, léger, pauvre",
+Fleurs 🌼,Souci,3,,1-2 cm,7,20°,Mar,"Mar, Avr, Mai, Jui, Juil","Mai, Jui, Juil, Aou, Sep, Oct, Nov","PT, Pot",⛅☀️,💧💧,tout,"drainé, léger","Florales, Méllifère, Médicinale, Tinctoriale"
+Fleurs 🌼,Stachys,,,0.2 cm,21,10-20°,"Fév, Mar, Avr, Sep",,"Juil, Aou, Sep",PT,⛅☀️,💧,"caillouteux, calcaire","drainé, meuble, sec","Florales, Méllifère, Vivace"
+Fleurs 🌼,Tagète,3,,0.5-1 cm,20,18-20°,"Fév, Mar, Avr, Mai",,"Avr, Mai, Jui, Juil, Aou, Sep","PT, Pot",⛅☀️,💧💧,,,Florales
+Fleurs 🌼,Tournesol,3,,3 cm,21,20-25°,"Mar, Avr, Mai","Avr, Mai, Jui","Juil, Aou, Sep, Oct",PT,☀️,💧💧,tout,"drainé, réchauffé","Florales, Méllifère, Engrais vert"
+Fleurs 🌼,Trèfle,4,,1-3 cm,10,15-20°,,"Mar, Avr, Mai, Jui, Juil, Aou, Sep","Avr, Mai, Jui, Juil, Aou, Sep, Oct","PT, Pot",☀️,💧💧,tout,frais,"Florales, Méllifère, Engrais vert"
+Fleurs 🌼,Valériane,3,,0.5 cm,14,20°,"Mar, Avr, Mai",,"Mai, Jui, Juil, Aou, Sep, Oct","PT, Pot",⛅☀️,💧💧,tout,"drainé, frais, humide, riche","Florales, Méllifère, Médicinale"
+Fleurs 🌼,Verveine,2,,0.3 cm,30,18-20°,,"Mar, Avr","Jui, Juil, Aou, Sep",PT,☀️,💧💧,tout,"drainé, frais, humide, léger","Florales, Vivace"
+Fleurs 🌼,Vesce,4,,1-3 cm,20,15-23°,,"Mar, Avr, Mai, Sep, Oct","Mai, Jui, Juil",PT,⛅☀️,💧,"argileux, calcaire, humifère, sableux","drainé, frais","Florales, Méllifère, Engrais vert"
+Fleurs 🌼,Vesce ,4,,1-3 cm,20,4°,,"Aou, Sep, Oct","Jan, Fév, Mar, Avr, Mai",PT,⛅☀️,💧,"argileux, calcaire, humifère, sableux","drainé, frais","Florales, Méllifère, Engrais vert"
+Fleurs 🌼,Zinnia,5,,1 cm,14,20-25°,"Mar, Avr, Mai","Avr, Mai, Jui","Juil, Aou, Sep, Oct","PT, Pot",☀️,💧,tout,"drainé, réchauffé, riche","Florales, Méllifère, Tinctoriale"
+Lég-feu. 🥬,Amarante à Feuilles,8,,0.5 cm,15,21-24°,"Mar, Avr, Mai","Avr, Mai, Jui","Jui, Juil, Aou, Sep","PT, Serre",,💧,tout,"frais, meuble, riche",Légumes-feuilles
+Lég-feu. 🥬,Arroche,6,,0.1 cm,20,15-30°,,"Mar, Avr, Mai, Jui, Juil, Aou, Sep","Mai, Jui, Juil, Aou, Sep, Oct, Nov","PT, Pot",⛅☀️,💧💧,"argileux, humifère","drainé, réchauffé, riche",Légumes-feuilles
+Lég-feu. 🥬,Chénopodes,4,,2 cm,15,20°,,"Avr, Mai, Jui","Jui, Juil, Aou, Sep, Oct",PT,⛅☀️,💧💧,"argileux, humifère","frais, meuble, riche",Légumes-feuilles
+Lég-feu. 🥬,Chou Brocolis,6,,0.5 cm,20,15-20°,"Juil, Aou","Aou, Sep","Jan, Fév, Mar, Oct, Nov, Déc",PT,⛅☀️,💧💧💧,"argileux, calcaire, humifère","drainé, humide",Légumes-feuilles
+Lég-feu. 🥬,Chou Cabus,6,,0.5 cm,10,20-22°,"Fév, Mar, Avr, Aou, Sep","Avr, Mai, Jui","Jan, Fév, Mar, Juil, Aou, Sep, Oct, Nov, Déc",PT,⛅☀️,💧💧,"argileux, calcaire, humifère","drainé, frais, humide, riche",Légumes-feuilles
+Lég-feu. 🥬,Chou chinois,6,,0.5 cm,20,20-25°,"Mai, Jui","Jui, Juil, Aou","Aou, Sep, Oct, Nov",PT,⛅☀️,💧💧,"argileux, calcaire, humifère","frais, meuble, riche",Légumes-feuilles
+Lég-feu. 🥬,Chou de Bruxelles,6,,0.5 cm,7,21°,"Fév, Mar, Avr",,"Jan, Fév, Mar, Sep, Oct, Nov, Déc",,⛅☀️,💧💧,"argileux, calcaire, humifère","frais, humide, riche",Légumes-feuilles
+Lég-feu. 🥬,Côtes de Blette,6,,1 cm,10,20-25°,"Mar, Avr, Mai","Avr, Mai, Jui, Juil","Jui, Juil, Aou, Sep, Oct, Nov, Déc","PT, Pot",⛅☀️,💧💧,"argileux, calcaire, humifère","frais, riche",Légumes-feuilles
+Lég-feu. 🥬,Cresson de Pará,5,,0.2 cm,5,18°,"Mar, Avr, Mai","Avr, Mai, Jui","Jui, Juil, Aou, Sep, Oct","PT, Pot, Serre",⛅,💧💧💧,humifère,"humide, léger","Légumes-feuilles, Aromatique, Médicinale"
+Lég-feu. 🥬,Épinard,4,,1-2 cm,15,16-18°,,"Fév, Mar, Avr, Aou, Sep, Oct","Mai, Jui, Juil, Oct, Nov, Déc",,,,,,Légumes-feuilles
+Lég-feu. 🥬,Fenouil,4,,1 cm,15,12-15°,,"Avr, Mai, Jui","Juil, Aou, Sep, Oct",PT,⛅☀️,💧,"caillouteux, humifère, sableux","frais, humide, meuble, riche","Légumes-feuilles, Méllifère"
+Lég-feu. 🥬,Laitue,5,,0.5 cm,8,10-18°,"Fév, Mar, Avr, Mai","Mar, Avr, Mai, Jui","Avr, Mai, Jui, Juil, Aou, Sep",PT,⛅☀️,💧💧,humifère,"drainé, humide, meuble",Légumes-feuilles
+Lég-feu. 🥬,Laitue à couper,5,,0.5 cm,10,10-18°,"Fév, Mar, Avr, Mai","Mar, Avr, Mai, Jui, Juil, Aou, Sep","Avr, Mai, Jui, Juil, Aou, Sep, Oct, Nov","PT, Pot",⛅☀️,💧💧,humifère,"drainé, humide, meuble",Légumes-feuilles
+Lég-feu. 🥬,Laitue pommée,5,,0.5 cm,10,10-18°,"Fév, Mar, Avr, Mai","Mar, Avr, Mai, Jui","Avr, Mai, Jui, Juil, Aou, Sep","PT, Pot",⛅☀️,💧💧,humifère,"drainé, humide, meuble",Légumes-feuilles
+Lég-feu. 🥬,Mâche,5,,0.5 cm,10,15-20°,,"Aou, Sep, Oct","Jan, Fév, Mar, Oct, Nov, Déc",PT,☁️⛅,💧💧,"argileux, humifère","drainé, frais",Légumes-feuilles
+Lég-feu. 🥬,Oseille,2,,0.5 cm,20,15-26°,"Fév, Mar, Avr, Mai","Mar, Avr, Mai, Jui","Mai, Jui, Juil, Aou, Sep, Oct, Nov","PT, Pot",⛅☀️,💧💧,"argileux, humifère","lourd, riche",Légumes-feuilles
+Lég-feu. 🥬,Poireau,2,,0.5 cm,15,13-24°,"Fév, Mar, Avr","Mar, Avr, Mai, Jui","Jan, Fév, Jui, Juil, Aou, Sep, Oct, Nov, Déc",PT,⛅☀️,💧💧,tout,"drainé, frais, meuble",Légumes-feuilles
+Lég-feu. 🥬,Rhubarbe,2,,1 cm,25,20°,"Mar, Avr, Mai, Sep, Oct, Nov",,"Mai, Jui, Juil, Aou, Sep, Oct","PT, Serre",⛅☀️,💧💧💧,"argileux, humifère","drainé, frais, humide","Légumes-feuilles, Vivace"
+Lég-fru. 🍅,Aubergine,5,,0.5 cm,20,25,"Fév, Mar, Avr",,"Juil, Aou, Sep, Oct","PT, Serre",☀️☀️,💧💧💧,humifère,"drainé, réchauffé, riche",Légumes-fruits
+Lég-fru. 🍅,Cornichon,10,"Ancienne, Mi-Saison",2 cm,10,22-25°,"Mar, Avr, Mai","Avr, Mai, Jui","Jui, Juil, Aou, Sep, Oct","PT, Pot",☀️,💧💧,humifère,"humide, meuble",Légumes-fruits
+Lég-fru. 🍅,Courge ,8,,2 cm,15,18-20°,"Fév, Mar, Avr","Mar, Avr, Mai","Jui, Juil, Aou, Sep, Oct",PT,☀️,💧💧,"argileux, calcaire, humifère","drainé, riche",Légumes-fruits
+Lég-fru. 🍅,Courge Lagenaria,8,,2 cm,15,20°,,,,,,,,,Légumes-fruits
+Lég-fru. 🍅,Courge Moschata,8,,2 cm,15,18-20°,"Fév, Mar, Avr, Mai","Mar, Avr, Mai, Jui","Juil, Aou, Sep, Oct, Nov",PT,☀️,💧💧💧,tout,"frais, humide, meuble, réchauffé, riche",Légumes-fruits
+Lég-fru. 🍅,Courge Pepo,8,"Ancienne, Précoce",2 cm,15,18-20°,"Fév, Mar, Avr, Mai","Mar, Avr, Mai, Jui","Jui, Juil, Aou, Sep, Oct, Nov",PT,☀️,💧💧💧,humifère,"drainé, riche",Légumes-fruits
+Lég-fru. 🍅,Courgette,5,"Précoce, Buisson.",2 cm,15,18-20°,"Fév, Mar, Avr, Mai","Mar, Avr, Mai, Jui","Mai, Jui, Juil, Aou, Sep, Oct","PT, Serre",☀️,💧💧,humifère,"lourd, meuble, riche",Légumes-fruits
+Lég-fru. 🍅,Dolique,3,,3 cm,14,20-25°,Avr,"Mai, Jui","Aou, Sep, Oct",PT,☀️,💧💧,"argileux, calcaire","drainé, réchauffé",Légumes-fruits
+Lég-fru. 🍅,Fève,5,,3 cm,20,15-20°,,"Fév, Mar, Avr, Oct, Nov","Mai, Jui, Juil",PT,☀️,💧💧,"argileux, calcaire, humifère","drainé, frais, humide",Légumes-fruits
+Lég-fru. 🍅,Haricot,3,,3 cm,12,16-25°,,"Avr, Mai, Jui, Juil","Jui, Juil, Aou, Sep, Oct",PT,⛅☀️,💧💧💧,tout,"drainé, réchauffé, riche",Légumes-fruits
+Lég-fru. 🍅,Haricot à écosser,3,"A Rames, Ancienne, Mi-Saison",3 cm,12,16-25°,,"Avr, Mai, Jui, Juil","Jui, Juil, Aou, Sep, Oct",PT,⛅☀️,💧💧💧,tout,"drainé, réchauffé, riche",Légumes-fruits
+Lég-fru. 🍅,Haricot Mangetout ,3,"Nain, Ancienne, Mi-Saison",3 cm,12,16-25°,,"Avr, Mai, Jui, Juil","Jui, Juil, Aou, Sep, Oct",PT,⛅☀️,💧💧💧,tout,"drainé, réchauffé, riche",Légumes-fruits
+Lég-fru. 🍅,Kiwano,8,"Ancienne, Mi-Saison",2 cm,10,22-25°,"Fév, Mar, Avr","Avr, Mai","Jui, Juil, Aou, Sep, Oct","PT, Serre",☀️,💧💧,"calcaire, humifère","drainé, frais, riche","Légumes-fruits, Médicinale"
+Lég-fru. 🍅,Luffa,8,,2 cm,15,18-20°,"Mar, Avr",,"Juil, Aou, Sep, Oct, Nov",PT,☀️,,,"drainé, réchauffé",Légumes-fruits
+Lég-fru. 🍅,Melon,5,"Ancienne, Précoce",1.5 cm,10,20-25°,"Mar, Avr, Mai","Avr, Mai","Juil, Aou, Sep, Oct","PT, Serre",☀️,💧💧💧,"calcaire, humifère","drainé, léger, réchauffé, riche",Légumes-fruits
+Lég-fru. 🍅,Morelle de Balbis,5,Mi-Saison,0.5 cm,21,26-30°,"Mar, Avr, Mai",,"Jui, Juil, Aou, Sep","PT, Pot",⛅,💧💧💧,,,
+Lég-fru. 🍅,Physalis,,"A rentrer en hiver, Ancienne, Mi-Saison",1 cm,30,18-20°,"Mar, Avr, Mai",,"Jui, Juil, Aou, Sep, Oct, Nov, Déc","PT, Pot, Serre",⛅☀️,💧💧,tout,"drainé, humide, riche",Légumes-fruits
+Lég-fru. 🍅,Piment ,2,,0.5 cm,15,20-30,"Fév, Mar, Avr, Mai",,"Jui, Juil, Aou, Sep, Oct","PT, Pot, Serre",☀️☀️,💧💧,"caillouteux, humifère","drainé, meuble, réchauffé, riche",Légumes-fruits
+Lég-fru. 🍅,Pois à écosser,3,Précoce,2-3 cm,10,10-15°,,"Fév, Mar, Avr, Mai","Avr, Mai, Jui, Juil",PT,⛅☀️,💧💧,humifère,"frais, léger, meuble",Légumes-fruits
+Lég-fru. 🍅,Poivron,6,,0.5 cm,15,20-30,"Fév, Mar, Avr, Mai",,"Jui, Juil, Aou, Sep, Oct","PT, Pot, Serre",☀️☀️,💧💧,"caillouteux, humifère","drainé, meuble, réchauffé, riche",Légumes-fruits
+Lég-fru. 🍅,Soja Edamame,3,Mi-Saison,1 cm,14,12-20°,,"Avr, Mai, Jui","Juil, Aou, Sep, Oct",PT,☀️,💧💧,"humifère, sableux","drainé, réchauffé, riche",Légumes-fruits
+Lég-fru. 🍅,Tomate,5,Mi-Saison,1 cm,10,20-25°,"Fév, Mar, Avr",,"Jui, Juil, Aou, Sep, Oct","PT, Pot, Serre",☀️☀️,💧💧,tout,"drainé, réchauffé, riche",Légumes-fruits
+Lég-gra. 🌾,Amarante à grains,8,,0.5 cm,15,21-24°,"Mar, Avr, Mai","Avr, Mai, Jui","Juil, Aou, Sep","PT, Serre",,💧,tout,"frais, meuble, riche",Légumes à grains
+Lég-gra. 🌾,Blé,8,,3 cm,15,4-10°,,"Sep, Oct, Nov","Jui, Juil, Aou",PT,☀️,💧💧,"argileux, calcaire, sableux","pauvre, réchauffé","Légumes à grains, Engrais vert"
+Lég-gra. 🌾,Lentille,5,,1 cm,10,15-20°,,"Mar, Avr","Juil, Aou, Sep",PT,☀️,💧,"calcaire, sableux","drainé, léger, meuble","Légumes à grains, Engrais vert, Médicinale"
+Lég-gra. 🌾,Maïs Doux,2,,2-3 cm,10,17-20°,,"Mar, Avr, Mai, Jui","Juil, Aou, Sep, Oct",PT,☀️,💧💧,tout,"drainé, frais, meuble",Légumes à grains
+Lég-gra. 🌾,Millet,4,,0.5-2 cm,10,15-20°,,"Avr, Mai, Jui","Aou, Sep, Oct",PT,☀️,💧,sableux,"drainé, réchauffé, sec",Légumes à grains
+Lég-gra. 🌾,Pois Chiche,3,,4 cm,8,10-15°,,"Mar, Avr","Juil, Aou, Sep",PT,☀️,💧,,drainé,Légumes à grains
+Lég-gra. 🌾,Quinoa,8,,0.2 cm,7,15-18°,"Mar, Avr, Mai","Avr, Mai, Jui","Juil, Aou, Sep, Oct",PT,☀️,💧,humifère,"drainé, meuble",Légumes à grains
+Lég-gra. 🌾,Sarrasin,,,2 cm,5,10-15°,,"Mar, Avr, Mai, Jui","Jui, Juil, Aou, Sep, Oct",PT,☀️,💧💧,tout,"drainé, sec",Légumes à grains
+Lég-gra. 🌾,Sorgho,4,,1-2 cm,20,15-20°,Avr,"Avr, Mai, Jui","Aou, Sep, Oct",PT,☀️,💧,"argileux, calcaire, humifère, sableux","réchauffé, sec","Légumes à grains, Engrais vert, Tinctoriale"
+Lég-rac. 🥕,Betterave,6,,2 cm,15,15-20°,"Mar, Avr, Mai","Avr, Mai, Jui, Juil","Juil, Aou, Sep, Oct, Nov, Déc",PT,⛅☀️,💧💧,tout,"drainé, frais, léger",Légumes-racines
+Lég-rac. 🥕,Carotte,4,,0.5 cm,15,10-30°,,"Fév, Mar, Avr, Mai, Jui, Juil","Jui, Juil, Aou, Sep, Oct, Nov",PT,☀️,💧💧,"caillouteux, calcaire, sableux","drainé, pauvre, réchauffé, sec",Légumes-racines
+Lég-rac. 🥕,Chou Rutabaga,6,,0.5 cm,10,15-22°,"Mar, Avr, Mai","Avr, Mai, Jui","Jan, Fév, Mar, Sep, Oct, Nov, Déc",PT,⛅☀️,💧💧,"argileux, humifère","drainé, frais, léger, riche",Légumes-racines
+Lég-rac. 🥕,Panais,1,,1 cm,30,20°,"Fév, Mar, Avr","Fév, Mar, Avr, Mai, Jui","Jan, Fév, Mar, Juil, Aou, Sep, Oct, Nov, Déc",PT,☀️,💧💧,"argileux, calcaire, humifère","frais, meuble, riche",Légumes-racines
+Lég-rac. 🥕,Radis,5,,1 cm,7,10-20°,,"Fév, Mar, Avr, Mai, Jui, Juil, Aou, Sep, Oct","Mar, Avr, Mai, Jui, Juil, Aou, Sep, Oct, Nov",PT,⛅☀️,💧💧💧,"argileux, humifère, sableux","drainé, frais, meuble",Légumes-racines
+Lég-rac. 🥕,Radis d’Hiver,5,,0.5 cm,7,10-20°,,"Juil, Aou, Sep","Jan, Fév, Mar, Oct, Nov, Déc","PT, Pot",⛅☀️,💧💧💧,"argileux, humifère, sableux","drainé, frais, meuble",Légumes-racines
+Petits Fruits 🫐,Cassissier,,,,,,,,,,,,,,
+Petits Fruits 🫐,Fraisier,,,,,,,,,,,,,,
+Petits Fruits 🫐,Framboisier,,,,,,,,,,,,,,
+Petits Fruits 🫐,Groseillier,,,,,,,,,,,,,,
+Petits Fruits 🫐,Mûrier,,,,,,,,,,,,,,
+Petits Fruits 🫐,Myrtillier,,,,,,,,,,,,,,
+Tub.bul. 🧅,Ail,,,2 cm,28,15-18°,,"Sep, Oct, Nov","Jan, Fév, Mar, Avr, Mai, Jui, Juil, Aou, Sep, Oct, Nov, Déc",PT,⛅,💧💧,humifère,,"Tubercule-bulbe, Florales, Aromatique, Vivace, Médicinale"
+Tub.bul. 🧅,Ail,,,2 cm,,,,Juil,"Jan, Mar, Avr, Mai, Jui, Juil, Aou, Sep, Oct",PT,☀️,💧,tout,drainé,"Tubercule-bulbe, Aromatique, Vivace"
+Tub.bul. 🧅,Ail ,,,2 cm,,10°,,"Fév, Oct, Nov","Aou, Sep",PT,☀️,💧,tout,drainé,"Tubercule-bulbe, Aromatique, Vivace"
+Tub.bul. 🧅,Christophine ,,,10 cm,,,,"Mar, Avr, Mai","Sep, Oct, Nov",PT,⛅☀️,💧💧,tout,,Tubercule-bulbe
+Tub.bul. 🧅,Echalote,,,1 cm,,,,"Jan, Oct, Nov","Jui, Juil, Aou",PT,☀️,💧,tout,drainé,Tubercule-bulbe
+Tub.bul. 🧅,Gingembre,,,,,,"Mar, Avr",,"Aou, Sep",PT,☀️,💧💧,tout,drainé,Tubercule-bulbe
+Tub.bul. 🧅,Oignon,1,,2 cm,10,15°,"Fév, Mar, Avr","Mar, Avr, Mai","Avr, Mai, Jui, Juil, Aou, Sep, Oct",PT,☀️,💧,humifère,"drainé, léger, meuble","Tubercule-bulbe, Tinctoriale"
+Tub.bul. 🧅,Patate douce,,,,,,,,,,,,,,
+Arom.Méd 🌿,Fenouil,,,1 cm,,,"Mar, Avr, Mai","Avr, Mai, Jui, Aou, Sep, Oct","Jui, Juil, Aou, Sep, Oct",PT,☀️,💧,"humifère, sableux","drainé, léger, réchauffé","Aromatique, Médicinale"
+Arom.Méd 🌿,Pimprenelle,,,2-3 cm,20,20°,"Mar, Avr, Mai, Aou, Sep","Mar, Avr, Mai, Aou, Sep","Avr, Mai, Jui, Juil, Aou, Sep, Oct, Nov","PT, Pot",⛅☀️,💧💧,"caillouteux, calcaire, sableux","drainé, frais, riche","Florales, Aromatique, Méllifère, Médicinale, Vivace"
+Fleurs 🌼,Belles de Nuit,,H-24 tremper dans eau tiède,1,15,18-20°,"Mar, Avr","Mai, Jui","Jui, Juil, Aou, Sep, Oct","PT, Pot",⛅☀️,💧💧,"humifère, littoral, sableux","drainé, réchauffé","Florales, Médicinale, Vivace"
+Fleurs 🌼,Iberis,,Couvrir d’un film plastique ou mini-serre,0.3 cm,20,15°,"Mar, Avr, Mai","Aou, Sep, Oct","Mai, Jui, Juil, Aou, Sep","PT, Pot",☀️,💧💧,,"drainé, léger",Florales
+Fleurs 🌼,Larmes de Job,4,,,,,,,,,,,,,"Florales, Vivace"
+Fleurs 🌼,Marguerite,,,1 cm,12,15-18°,"Mar, Avr, Mai, Sep, Oct","Avr, Mai, Jui","Juil, Aou, Sep, Oct","PT, Pot",⛅☀️,,tout,"drainé, frais, léger, riche","Florales, Méllifère, Vivace"
+Lég-feu. 🥬,Artichaut,7,,1-2 cm,15,20-25°,"Fév, Mar, Avr, Sep, Oct",,"Avr, Mai, Jui, Aou, Sep, Oct",PT,☀️,💧💧,humifère,"frais, riche",Légumes-feuilles
+Lég-feu. 🥬,Céleri à côtes blanches ,6,,,,,,,,,,,,,
+Lég-feu. 🥬,Chou frisé,6,,0.5 cm,,,"Mar, Avr, Mai","Avr, Mai, Jui","Jan, Fév, Mar, Aou, Sep, Oct, Nov, Déc",PT,⛅☀️,💧💧,"argileux, calcaire, humifère","frais, humide, riche",Légumes-feuilles
+Lég-feu. 🥬,Chou-fleur,6,,0.5 cm,10,22°,"Jui, Juil, Aou, Sep","Juil, Aou, Sep, Oct","Jan, Fév, Sep, Oct, Nov, Déc","PT, Serre",⛅☀️,💧💧💧,"argileux, calcaire, humifère","frais, humide, riche",Légumes-feuilles
+Lég-feu. 🥬,Fenouil de Florence,4,,1 cm,15,12-15°,,"Avr, Mai, Jui","Juil, Aou, Sep, Oct",PT,⛅☀️,💧,"caillouteux, humifère, sableux","frais, humide, meuble, riche","Légumes-feuilles, Méllifère"
+Lég-feu. 🥬,Mertensia,3,,,,,"Mar, Avr, Mai",,"Jan, Mar, Avr, Mai, Jui, Juil, Aou, Sep, Oct, Nov","PT, Pot",⛅☀️,💧💧,sableux,,"Légumes-feuilles, Vivace"
+Lég-feu. 🥬,Poireau Perpétuel,2,,,,,,"Aou, Sep, Oct","Jan, Fév, Mar, Avr, Mai, Jui, Nov, Déc","PT, Pot",⛅☀️,💧,tout,"drainé, frais, meuble, riche","Légumes-feuilles, Aromatique, Vivace"
+Lég-fru. 🍅,Concombre,10,Mi-Saison,2 cm,10,22-25°,"Mar, Avr, Mai","Avr, Mai, Jui","Juil, Aou, Sep, Oct","PT, Serre",☀️,💧💧,"humifère, sableux","drainé, réchauffé",Légumes-fruits
+Lég-fru. 🍅,Courge Maxima,8,"Ancienne, Mi-Saison",2 cm,15,18-20°,"Fév, Mar, Avr, Mai","Mar, Avr, Mai, Jui","Juil, Aou, Sep, Oct, Nov",PT,☀️,💧💧💧,humifère,"lourd, meuble, riche",Légumes-fruits
+Lég-fru. 🍅,Pastèque ,5,Précoce,1 cm,10,25°,"Fév, Mar, Avr","Mar, Avr, Mai","Juil, Aou, Sep, Oct","PT, Serre",☀️,💧💧,"humifère, sableux","drainé, réchauffé, riche",Légumes-fruits
+Lég-fru. 🍅,Pois gourmand,3,Mi-Saison,2-3 cm,10,10-15°,,"Fév, Mar, Avr, Mai","Avr, Mai, Jui, Juil",PT,⛅☀️,💧💧,humifère,"frais, léger, meuble",Légumes-fruits
+Lég-fru. 🍅,Tomate-cerise,4,"Ancienne, Précoce",1 cm,10,20-25°,"Fév, Mar, Avr",,"Jui, Juil, Aou, Sep, Oct","PT, Pot, Serre",☀️☀️,💧💧,tout,"drainé, réchauffé, riche",Légumes-fruits
+Lég-gra. 🌾,Avoine,,,1-3 cm,,,,"Mar, Avr, Mai, Sep, Oct, Nov","Jui, Juil",PT,☀️,💧,"argileux, caillouteux, sableux","drainé, riche","Légumes à grains, Engrais vert"
+Lég-gra. 🌾,Lentille,5,,1 cm,10,15-20°,,"Mar, Avr","Juil, Aou, Sep",PT,☀️,💧,"calcaire, sableux","drainé, léger, meuble","Légumes à grains, Engrais vert, Médicinale"
+Lég-gra. 🌾,Quinoa,,,0.2 cm,7,15-18°,"Mar, Avr, Mai","Avr, Mai, Jui","Juil, Aou, Sep, Oct",PT,☀️,💧,humifère,"drainé, meuble",Légumes à grains
+Lég-gra. 🌾,Riz,,,,,,,"Mar, Avr, Mai","Juil, Aou, Sep",PT,☀️,💧💧💧,"argileux, humifère","frais, humide, réchauffé",Légumes à grains
+Lég-gra. 🌾,Tournesol à grains,,,1-2 cm,14,18-20°,"Mar, Avr, Mai","Avr, Mai, Jui","Juil, Aou, Sep, Oct",PT,☀️,💧💧,tout,"drainé, frais, meuble, réchauffé",Légumes à grains
+Lég-rac. 🥕,Céleri Rave,6,,,,,,,,,,,,,
+Lég-rac. 🥕,Salsifis,2,,,,,,,,,,,,,
+Tub.bul. 🧅,Fenouil,,,,,,,,,,,,,,
+Tub.bul. 🧅,Glycine,,,,,,,"Jan, Mar, Avr, Mai","Jan, Mar, Avr, Mai, Jui, Juil, Aou, Sep, Oct, Nov",PT,⛅☀️,💧,"humifère, terreau",drainé,Tubercule-bulbe
+Tub.bul. 🧅,Igname,,,,,,"Avr, Mai",,"Jan, Fév, Mar, Oct, Nov, Déc",PT,☀️,💧💧,tout,"frais, léger, meuble, riche",Tubercule-bulbe
+Tub.bul. 🧅,Oignon,1,,2 cm,10,15°,"Fév, Mar, Avr","Mar, Avr, Mai","Avr, Mai, Jui, Juil, Aou, Sep, Oct",PT,☀️,💧,humifère,"drainé, léger, meuble","Tubercule-bulbe, Tinctoriale"
+Tub.bul. 🧅,Poire de Terre,,,10 cm,,,"Mar, Avr",,"Oct, Nov",PT,☀️,💧💧,humifère,"drainé, riche",Tubercule-bulbe
+Tub.bul. 🧅,Pomme de Terre ,,,10 cm,,,,,,,,,,,
+Fleurs 🌼,Gaillarde,,,,,,,,,,,,,,
+Fleurs 🌼,Gueule de loup,5,,0 cm,21,20-25°,"Mar, Avr, Mai, Sep, Oct",,"Mai, Jui, Juil, Aou, Sep","PT, Pot",☀️,💧💧,"humifère, argileux","drainé, léger, riche","Méllifère, Vivace"
+Fleurs 🌼,Caméline,,,0.5 cm,10,20°,,"Mar, Avr, Mai, Jui, Juil, Aou, Sep, Oct","Jan, Fév, Mar, Avr, Mai, Jui, Juil, Aou, Sep, Oct, Nov, Déc","PT, Pot",☀️,💧💧,tout,drainé,"Méllifère, Engrais vert"
+Fleurs 🌼,Coreopsis,,,0.2 cm,28,20-25°,"Mar, Avr, Mai","Avr, Mai, Jui","Mai, Jui, Juil, Aou, Sep, Oct",PT,⛅☀️,💧💧,"humifère, sableux, caillouteux, calcaire","drainé, sec","Méllifère, Tinctoriale"
+Tub.bul. 🧅,Safran,,,,,,,"Juil, Aou",,PT,☀️☀️,💧,,riche,"Aromatique, Médicinale, Vivace"

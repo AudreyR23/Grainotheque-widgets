@@ -1,0 +1,817 @@
+NomVariete,Nb_godets,Type,Nb_graines,Graines_exterieures,Annee_plantation_mil,Plante_mere,Millesime,Origine_millesime,Date.s,Germés,Graines_semees,Plantés,Oups,Info_germination,Date.p,Où,Don.p,Jours_ecoules,Germination_durée,Reste_a_planter,Position_X,Position_Y,Germination_annee,A produire,Nb_etiquettes,Nom,Variete,Annee_graine,Nb_saisons_mil,Origine_or,Origine_locale,Date_creation,Date_modif
+"Artemisia
+Annua",1,Arom.Méd 🌿,40,false,0,false,2019,KOK.,2026-03-21,0,40,,,NG,,C. Fosse,0,207,20,0,0,0,0 %,false,0,Artemisia,Annua,2019,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Basilic
+Cannelle",8,Arom.Méd 🌿,3,false,0,false,2023,Monjardin,2026-03-21,0,24,,,NG,,,0,207,10,0,0,0,9 %,false,3,Basilic,Cannelle,2023,1,KOK.,true,2026-10-10,2026-10-10 12:01pm
+"Basilic
+Cannelle",7,Arom.Méd 🌿,3,false,0,false,2023,Monjardin,2026-04-16,4,21,0,4,OK,,,0,181,10,0,0,0,9 %,false,0,Basilic,Cannelle,2023,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Basilic
+Grand vert",8,Arom.Méd 🌿,3,false,0,false,2025,KOK.,2026-03-21,17,24,13,1,OK,16-05-2026,Pot.HE,3,207,10,0,0,0,71 %,true,2,Basilic,Grand vert,2025,2,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Basilic
+Grec",8,Arom.Méd 🌿,3,false,0,false,2025,Monjardin,2026-03-21,0,24,,,NG,,,,207,10,0,0,0,38 %,true,0,Basilic,Grec,2025,2,SC,true,2026-10-10,2026-10-10 12:00am
+"Basilic Tulsis
+Kali",7,Arom.Méd 🌿,3,false,0,false,2023,Monjardin,2026-03-21,2,21,2,,OK,16-05-2026,Pot.3-3,,207,10,0,0,0,6 %,true,0,Basilic Tulsis,Kali,2023,2,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Basilic Tulsis
+Kali",4,Arom.Méd 🌿,3,false,0,false,2023,Monjardin,2026-04-16,0,12,,,NG,,,,181,10,0,0,0,6 %,false,4,Basilic Tulsis,Kali,2023,2,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Basilic Tulsis
+Kapura",8,Arom.Méd 🌿,3,false,0,false,2023,Monjardin,2026-03-21,2,24,,2,OK,,,,207,10,0,0,0,8 %,false,0,Basilic Tulsis,Kapura,2023,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Basilic Tulsis
+Mtulé",8,Arom.Méd 🌿,3,false,0,false,2023,Monjardin,2026-03-21,0,24,,,NG,,,,207,10,0,0,0,6 %,false,0,Basilic Tulsis,Mtulé,2023,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Basilic Tulsis
+Mtulé",4,Arom.Méd 🌿,3,false,0,false,2023,Monjardin,2026-04-16,2,12,,2,OK,,,,181,10,0,0,0,6 %,false,0,Basilic Tulsis,Mtulé,2023,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Basilic
+Citron vert",8,Arom.Méd 🌿,3,false,0,false,2025,Monjardin,2026-03-21,14,24,14,,OK,25-05-2026,Pot.HC,0,207,10,0,0,0,58 %,true,2,Basilic,Citron vert,2025,1,FDSM,true,2026-10-10,2026-10-10 12:00am
+"Basilic Tulsis
+Sacré",8,Arom.Méd 🌿,3,false,0,false,2022,Monjardin,2026-03-21,1,24,,1,OK,,,,207,10,0,0,0,6 %,false,2,Basilic Tulsis,Sacré,2022,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Basilic Tulsis
+Sacré",4,Arom.Méd 🌿,3,false,0,false,2022,Monjardin,2026-04-16,1,12,1,,OK,12-05-2026,SerreW,,181,10,0,0,0,6 %,true,0,Basilic Tulsis,Sacré,2022,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Cannabis
+Carmagnola CBD",1,Arom.Méd 🌿,22,false,0,false,2023,Monjardin,2026-03-21,19,22,13,6,OK,26-04-2026,"Séchoir H, Ext. Serre W, Saule, Kiwi",,207,10,0,0,0,86 %,true,3,Cannabis,Carmagnola CBD,2023,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Coriandre
+Coriandrum Sativum",1,Arom.Méd 🌿,24,false,0,false,2022,KOK.,2026-03-21,15,24,,,OK,,Ext. Serre Bulle,,207,30,15,0,0,63 %,false,0,Coriandre,Coriandrum Sativum,2022,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Cumin
+",1,Arom.Méd 🌿,22,false,0,false,2021,FDSM,2026-03-21,0,22,,,NG,,,,207,21,0,0,0,0 %,false,0,Cumin,,2021,0,FDSM,false,2026-10-10,2026-10-10 12:00am
+"Estragon
+Du Mexique",8,Arom.Méd 🌿,2,false,0,false,2019,SC,2026-03-21,1,16,,1,OK,,,,207,20,0,0,0,3 %,false,0,Estragon,Du Mexique,2019,0,SC,false,2026-10-10,2026-10-10 12:00am
+"Estragon
+Du Mexique",7,Arom.Méd 🌿,2,false,0,false,2019,SC,2026-04-17,0,14,,,NG,,,,180,20,0,0,0,3 %,false,0,Estragon,Du Mexique,2019,0,SC,false,2026-10-10,2026-10-10 12:00am
+"Guimauve
+Althea Officinalis",8,Arom.Méd 🌿,2,false,0,false,2021,KOK.,2026-03-21,9,16,,7,OK,,Ext. Serre S,2,207,25,0,0,0,56 %,false,0,Guimauve,Althea Officinalis,2021,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Hysope
+Officinale",8,Arom.Méd 🌿,2,false,0,false,2023,KOK.,2026-03-21,0,16,,,NG,,,,207,20,0,0,0,3 %,false,0,Hysope,Officinale,2023,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Hysope
+Officinale",8,Arom.Méd 🌿,3,false,0,false,2023,KOK.,2026-04-17,1,24,,1,OK,,,,180,20,0,0,0,3 %,false,0,Hysope,Officinale,2023,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Matricaire (Camomille)
+Zloty Lan",8,Arom.Méd 🌿,3,false,0,false,2022,KOK.,2026-04-17,0,24,,,NG,,Pot.HE,,180,30,0,0,0,0 %,false,0,Matricaire (Camomille),Zloty Lan,2022,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Périllas
+De Corée",8,Arom.Méd 🌿,2,false,0,false,2021,KOK.,2026-03-21,0,16,,,NG,,,,207,28,0,0,0,3 %,false,0,Périllas,De Corée,2021,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Périllas
+De Corée",8,Arom.Méd 🌿,2,false,0,false,2021,KOK.,2026-04-17,1,16,,1,OK,,,,180,28,0,0,0,3 %,false,0,Périllas,De Corée,2021,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Persil
+Simple/Plat",8,Arom.Méd 🌿,2,false,0,false,2025,KOK.,2026-05-15,7,16,5,2,OK,,Pot.1-4,,152,90,0,0,0,44 %,false,0,Persil,Simple/Plat,2025,0,SC,false,2026-10-10,2026-10-10 1:49pm
+"Sarriette
+Commune",8,Arom.Méd 🌿,3,false,0,false,2019,KOK.,2026-03-21,1,24,,,OK,,,,207,10,1,0,0,2 %,false,0,Sarriette,Commune,2019,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Sarriette
+Commune",8,Arom.Méd 🌿,3,false,0,false,2019,KOK.,2026-04-17,0,24,,,NG,,,,180,10,0,0,0,2 %,false,0,Sarriette,Commune,2019,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Sauge
+Des marais",8,Arom.Méd 🌿,2,false,0,false,2021,SC,2026-04-17,0,16,,,NG,,,,180,25,0,0,0,0 %,false,0,Sauge,Des marais,2021,0,SC,false,2026-10-10,2026-10-10 12:00am
+"Sauge
+Des marais",5,Arom.Méd 🌿,1,false,0,false,2021,SC,2026-04-17,0,5,,,NG,,,,180,25,0,0,0,0 %,false,0,Sauge,Des marais,2021,0,SC,false,2026-10-10,2026-10-10 12:00am
+"Sauge
+Des prés",8,Arom.Méd 🌿,2,false,0,false,2024,Sothys,2026-03-21,3,16,,,OK,,,,207,25,3,0,0,19 %,false,0,Sauge,Des prés,2024,0,Sothys,false,2026-10-10,2026-10-10 12:00am
+"Sauge
+Des prés",0,Arom.Méd 🌿,0,false,2025,true,2025,Sothys,2025-01-01,3,0,,,OK,,Séchoir H,,651,25,3,0,0,,false,0,Sauge,Des prés,2025,0,Sothys,false,2026-10-10,2026-10-10 12:00am
+"Sauge
+Officinale",5,Arom.Méd 🌿,2,false,0,false,2021,SC,2026-02-28,0,10,,,NG,,,,228,25,0,0,0,0 %,false,0,Sauge,Officinale,2021,0,SC,false,2026-10-10,2026-10-10 12:00am
+"Stevia
+Rebaudiana",8,Arom.Méd 🌿,3,false,2023,true,2023,Monjardin,2023-01-01,0,24,,,NG,,C. Terrasse,,1382,21,0,0,0,0 %,false,0,Stevia,Rebaudiana,2023,0,Monjardin,false,2026-10-10,2026-10-10 12:00am
+"Basilic
+Genovèse",3,Arom.Méd 🌿,6,false,0,false,2025,LFAS,2026-04-16,9,18,9,,OK,13-06-2026,Pot.1-2,0,181,10,0,0,0,50 %,true,0,Basilic,Genovèse,2025,0,LFAS,false,2026-10-10,2026-10-10 12:00am
+"Stevia
+Rebaudiana",8,Arom.Méd 🌿,3,false,0,false,2023,Monjardin,2026-03-21,0,24,,,NG,,,,207,21,0,0,0,0 %,false,0,Stevia,Rebaudiana,2023,1,Monjardin,true,2026-10-10,2026-10-10 12:00am
+"Stevia
+Rebaudiana",8,Arom.Méd 🌿,3,false,0,false,2023,Monjardin,2026-04-17,0,24,,,NG,,,,180,21,0,0,0,0 %,false,0,Stevia,Rebaudiana,2023,1,Monjardin,true,2026-10-10,2026-10-10 12:00am
+"Tabac
+Green Brior",8,Arom.Méd 🌿,5,false,0,false,2023,KOK.,2026-04-17,0,40,,,NG,,,,180,20,0,0,0,0 %,false,0,Tabac,Green Brior,2023,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Thé des jardins
+",8,Arom.Méd 🌿,3,false,0,false,2023,KOK.,2026-03-21,6,24,6,,OK,24-05-2026,Cour 2,,207,21,0,0,0,25 %,false,0,Thé des jardins,,2023,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Withania
+Ashwagandha",5,Arom.Méd 🌿,1,false,0,false,2019,KOK.,2026-04-17,1,5,,,OK,,,,180,28,1,0,0,20 %,false,0,Withania,Ashwagandha,2019,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Angélique
+Officinale",8,Fleurs 🌼,1,false,0,false,2021,KOK.,2026-03-21,0,8,,,NG,,,,207,120,0,0,0,0 %,false,0,Angélique,Officinale,2021,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Astrance
+Grande",8,Fleurs 🌼,1,false,0,false,2024,Sothys,2026-03-21,0,8,,,NG,,,,207,180,0,0,0,0 %,false,0,Astrance,Grande,2024,0,Sothys,false,2026-10-10,2026-10-10 12:00am
+"Astrance
+Grande",8,Fleurs 🌼,1,false,0,false,2024,Sothys,2026-04-17,0,8,,,NG,,,,180,180,0,0,0,0 %,false,0,Astrance,Grande,2024,0,Sothys,false,2026-10-10,2026-10-10 12:00am
+"Belles de Nuit
+À Fleurs Fuschia",6,Fleurs 🌼,1,false,0,false,2024,Vay,2026-04-17,6,6,5,1,OK,,"Regard eau, Ext. Serre W, Ext. Serre Clô.",,180,15,0,0,0,100 %,true,2,Belles de Nuit,À Fleurs Fuschia,2024,0,Vay,false,2026-10-10,2026-10-10 12:00am
+"Belles de Nuit
+À Fleurs Roses",6,Fleurs 🌼,1,false,0,false,2024,Vay,2026-04-17,3,6,,1,OK,,Regard eau,,180,15,2,0,0,50 %,false,2,Belles de Nuit,À Fleurs Roses,2024,0,Vay,false,2026-10-10,2026-10-10 12:00am
+"Bleuet
+À Fleurs Blanches",8,Fleurs 🌼,3,false,0,false,2023,Monjardin,2026-05-31,10,24,,5,OK,,,,136,20,5,0,0,23 %,false,0,Bleuet,À Fleurs Blanches,2023,2,SC,true,2026-10-10,2026-10-10 12:00am
+"Bleuet
+À Fleurs Blanches",1,Fleurs 🌼,20,false,0,false,2023,Monjardin,2026-05-31,,20,,,116,,,,136,20,0,0,0,23 %,false,0,Bleuet,À Fleurs Blanches,2023,2,SC,true,2026-10-10,2026-10-10 12:00am
+"Bleuet des champs
+Sweet sultan en mélange",8,Fleurs 🌼,2,false,0,false,2022,KOK.,2026-03-21,16,16,11,5,OK,23-05-2026,"Pot.Prunier, Cour 1",,207,20,0,0,0,100 %,true,0,Bleuet des champs,Sweet sultan en mélange,2022,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Célosia
+Century Mix",8,Fleurs 🌼,3,false,0,false,2023,KOK.,2026-04-17,11,24,11,,OK,01-06-2026,Pot. 1-1,,180,21,0,"347,8431759544","325,4357319975",46 %,false,0,Célosia,Century Mix,2023,0,KOK.,false,2026-10-10,2026-10-10 2:10pm
+"Cosmos
+Candy Stripe",12,Fleurs 🌼,2,false,0,false,2024,Monjardin,2026-08-03,0,24,,,NG,,,,72,30,0,0,0,2 %,false,0,Cosmos,Candy Stripe,2024,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Cosmos
+Ladybird",18,Fleurs 🌼,1,false,0,false,2023,KOK.,2026-08-03,7,18,5,2,OK,31-05-2026,Pot.HE,,72,30,0,0,0,21 %,true,3,Cosmos,Ladybird,2023,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Cosmos
+Ladybird",15,Fleurs 🌼,1,false,0,false,2023,KOK.,2026-04-16,0,15,,,NG,,,,181,30,0,0,0,21 %,false,0,Cosmos,Ladybird,2023,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Cosmos
+Orange",20,Fleurs 🌼,1,false,0,false,2024,Monjardin,2026-03-08,5,20,5,,OK,23-05-2026,Cour 2,,220,30,0,0,0,13 %,true,0,Cosmos,Orange,2024,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Cosmos
+Versailles",12,Fleurs 🌼,1,false,0,false,2024,Monjardin,2026-08-03,0,12,,,NG,,,,72,30,0,0,0,0 %,false,0,Cosmos,Versailles,2024,2,AMJ,true,2026-10-10,2026-10-10 12:00am
+"Coton
+Nankeen",3,Fleurs 🌼,1,false,0,false,2025,KOK.,2026-05-21,3,3,2,1,OK,06-06-2026,Serre Tipi,,146,21,0,0,0,100 %,true,0,Coton,Nankeen,2025,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Coquelicot
+",1,Fleurs 🌼,100,false,0,false,2023,SC,2026-05-31,,100,,,108,,,,136,28,0,0,0,0 %,false,0,Coquelicot,,2023,0,SC,false,2026-10-10,2026-10-10 12:00am
+"Dahlia
+Harlequin Mix",6,Fleurs 🌼,1,false,0,false,2022,Monjardin,2026-08-03,0,6,,,NG,,,,72,20,0,0,0,0 %,false,0,Dahlia,Harlequin Mix,2022,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Dahlia
+Harlequin Mix",2,Fleurs 🌼,1,false,0,false,2022,Monjardin,2026-04-16,0,2,,,NG,,,,181,20,0,0,0,0 %,false,0,Dahlia,Harlequin Mix,2022,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Dahlia
+Harlequin Mix",1,Fleurs 🌼,6,false,0,false,2022,Monjardin,2026-05-31,,6,,,116,,,,136,20,0,0,0,0 %,false,0,Dahlia,Harlequin Mix,2022,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Dahlia
+Mélange à Fleur de Cactus",6,Fleurs 🌼,2,false,0,false,2021,KOK.,2026-08-03,0,12,,,NG,,,,72,20,0,0,0,0 %,false,0,Dahlia,Mélange à Fleur de Cactus,2021,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Dahlia
+Mélange à Fleur de Cactus",5,Fleurs 🌼,2,false,0,false,2021,KOK.,2026-04-16,0,10,,,NG,,,,181,20,0,0,0,0 %,false,0,Dahlia,Mélange à Fleur de Cactus,2021,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Dahlia
+Mélange à Fleur de Cactus",1,Fleurs 🌼,30,false,0,false,2021,KOK.,2026-05-31,,30,,,116,,,,136,20,0,0,0,0 %,false,0,Dahlia,Mélange à Fleur de Cactus,2021,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Gazania
+Big Kiss Yellow Flames",6,Fleurs 🌼,5,false,0,false,2021,KOK.,2026-04-16,1,30,,,OK,,,,181,20,1,0,0,3 %,false,0,Gazania,Big Kiss Yellow Flames,2021,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Haricot
+d’Espagne",3,Fleurs 🌼,1,false,0,false,2023,Monjardin,2026-04-16,3,3,3,,OK,24-05-2026,Ext. Serre Bulle,,181,14,0,0,0,100 %,true,0,Haricot,d’Espagne,2023,1,FDSM,true,2026-10-10,2026-10-10 12:00am
+"Ipomée
+Carnival di Venezia",24,Fleurs 🌼,1,false,0,false,2023,KOK.,2026-04-17,20,24,10,2,OK,17-05-2026,"Ext. Serre Tipi, Bac C angle",8,180,20,0,0,0,83 %,false,0,Ipomée,Carnival di Venezia,2023,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Lobelia
+Syphilitica",8,Fleurs 🌼,4,false,0,false,2023,,2026-04-17,0,32,,,NG,,,,180,21,0,0,0,0 %,false,0,Lobelia,Syphilitica,2023,0,,false,2026-10-10,2026-10-10 12:00am
+"Marguerite
+Blanche",1,Fleurs 🌼,20,false,0,false,2024,Sothys,2026-05-31,,20,,,124,,,,136,12,0,0,0,0 %,false,0,Marguerite,Blanche,2024,0,Sothys,false,2026-10-10,2026-10-10 12:00am
+"Marguerite
+De la Saint Michel",1,Fleurs 🌼,30,false,0,false,2024,Sothys,2026-05-31,,30,,,124,,,,136,12,0,0,0,2 %,false,0,Marguerite,De la Saint Michel,2024,0,Sothys,false,2026-10-10,2026-10-10 12:00am
+"Marguerite
+Du Cap",1,Fleurs 🌼,20,false,0,false,2023,SC,2026-05-31,,20,,,124,,,,136,12,0,0,0,0 %,false,0,Marguerite,Du Cap,2023,0,SC,false,2026-10-10,2026-10-10 12:00am
+"Marguerite
+De la Saint Michel",3,Fleurs 🌼,6,false,0,false,2024,Sothys,2026-04-16,1,18,,,OK,,,,181,12,1,0,0,2 %,false,0,Marguerite,De la Saint Michel,2024,0,Sothys,false,2026-10-10,2026-10-10 12:00am
+"Nigelle de Damas
+Miss Jekyll Dark Blue",1,Fleurs 🌼,40,false,0,false,2023,KOK.,2026-05-31,,40,,,106,,Bac C milieu,,136,30,0,0,0,0 %,false,0,Nigelle de Damas,Miss Jekyll Dark Blue,2023,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Nigelle de Damas
+Miss Jekyll White",1,Fleurs 🌼,20,false,0,false,2021,KOK.,2026-05-31,,20,,,106,,Bac R angle,,136,30,0,0,0,0 %,false,0,Nigelle de Damas,Miss Jekyll White,2021,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Oeillet de Poète
+",6,Fleurs 🌼,5,false,0,false,2024,ML,2026-04-16,17,30,,,OK,,,,181,14,17,0,0,57 %,false,0,Oeillet de Poète,,2024,0,ML,false,2026-10-10,2026-10-10 12:00am
+"Onagre
+",8,Fleurs 🌼,3,false,0,false,2024,SC,2026-04-17,13,24,11,2,OK,14-06-2026,En pot,,180,30,0,0,0,54 %,false,0,Onagre,,2024,0,SC,false,2026-10-10,2026-10-10 12:00am
+"Pavot
+D’Islande",8,Fleurs 🌼,2,false,0,false,2025,KOK.,2026-05-22,13,16,,,OK,,,,145,21,13,0,0,81 %,false,0,Pavot,D’Islande,2025,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Rudbeckia
+Cappuccino",8,Fleurs 🌼,2,false,0,false,2022,KOK.,2026-04-17,1,16,,,OK,,,,180,20,1,0,0,6 %,false,0,Rudbeckia,Cappuccino,2022,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Silène
+Blanc",8,Fleurs 🌼,5,false,0,false,2024,Rilhac,2026-04-17,10,40,,10,OK,,,,180,21,0,0,0,25 %,false,0,Silène,Blanc,2024,0,Rilhac,false,2026-10-10,2026-10-10 12:00am
+"Souci
+Solar Flashback Mix",6,Fleurs 🌼,3,false,0,false,2023,KOK.,2026-04-16,2,18,,2,OK,,Grand bac,,181,7,0,0,0,11 %,false,0,Souci,Solar Flashback Mix,2023,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+,1,Fleurs 🌼,75,false,0,false,,,2026-05-31,,75,,,,,Séchoir B,,136,0,0,0,0,0 %,false,0,,,,0,,true,2026-10-10,2026-10-10 12:00am
+"Tagète
+Rose d’Inde jaune",6,Fleurs 🌼,3,false,0,false,2024,AMJ,2026-04-17,3,18,,,OK,,,,180,20,3,0,0,17 %,false,0,Tagète,Rose d’Inde jaune,2024,0,AMJ,false,2026-10-10,2026-10-10 12:00am
+"Tagète
+Tururu",6,Fleurs 🌼,3,false,0,false,2023,KOK.,2026-04-16,9,18,7,2,OK,13-06-2026,"Pot.2-3, Pot.1-4",,181,20,0,0,0,50 %,true,0,Tagète,Tururu,2023,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Tournesol
+Ring Of Fire",1,Fleurs 🌼,43,false,0,false,2023,KOK.,2026-03-21,34,43,20,5,OK,25-05-2026,"Pot.Prunier, Kiwi, Ext. Serre Tipi, Pot.HE",9,207,21,0,0,0,79 %,false,0,Tournesol,Ring Of Fire,2023,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Amarante à Feuilles
+Queue de Renard",6,Lég-feu. 🥬,3,false,0,false,2022,KOK.,2026-03-29,4,18,,3,OK,,,,199,15,1,0,0,21 %,false,0,Amarante à Feuilles,Queue de Renard,2022,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Zinnia
+Scarlet Flame",3,Fleurs 🌼,3,false,0,false,2023,KOK.,2026-04-16,5,9,5,,OK,30-05-2026,Pot.3-4,0,181,14,0,0,0,56 %,false,0,Zinnia,Scarlet Flame,2023,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Amarante à Feuilles
+Queue de Renard",8,Lég-feu. 🥬,2,false,0,false,2022,KOK.,2026-05-22,3,16,,,OK,,,,145,15,3,0,0,21 %,false,0,Amarante à Feuilles,Queue de Renard,2022,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Arroche
+Rouge",1,Lég-feu. 🥬,3,false,0,false,2019,FDSM,2026-05-08,0,3,,,NG,,,,159,20,0,0,0,0 %,false,0,Arroche,Rouge,2019,0,FDSM,false,2026-10-10,2026-10-10 12:00am
+"Chénopodes
+Épinard Fraise",6,Lég-feu. 🥬,4,false,0,false,2021,KOK.,2026-03-29,0,24,,,NG,,,,199,15,0,0,0,0 %,false,0,Chénopodes,Épinard Fraise,2021,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Chénopodes
+Épinard Fraise",8,Lég-feu. 🥬,2,false,0,false,2021,KOK.,2026-05-22,0,16,,,NG,,,,145,15,0,0,0,0 %,false,0,Chénopodes,Épinard Fraise,2021,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Chou Brocolis
+Romanesco",5,Lég-feu. 🥬,3,false,0,false,2022,SC,2026-02-28,3,15,,,OK,,Ext. Serre Clô.,,228,20,3,0,0,20 %,false,0,Chou Brocolis,Romanesco,2022,0,SC,false,2026-10-10,2026-10-10 12:00am
+"Chou Cabus
+Acre d’or",5,Lég-feu. 🥬,3,false,0,false,2018,KOK.,2026-02-28,0,15,,,NG,,,,228,10,0,0,0,0 %,false,0,Chou Cabus,Acre d’or,2018,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Chou chinois
+Pak Choy",8,Lég-feu. 🥬,1,false,0,false,2023,KOK.,2026-05-15,7,8,,7,OK,,,,152,20,0,0,0,94 %,false,0,Chou chinois,Pak Choy,2023,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Chou chinois
+Pak Choy",8,Lég-feu. 🥬,1,false,0,false,2023,KOK.,2026-05-21,8,8,,7,OK,,,,146,20,1,0,0,94 %,false,0,Chou chinois,Pak Choy,2023,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Chou chinois
+Tatsoi Spoon",16,Lég-feu. 🥬,1,false,0,false,2019,KOK.,2026-05-15,0,16,,,NG,,,,152,20,0,0,0,0 %,false,0,Chou chinois,Tatsoi Spoon,2019,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Chou-fleur
+Goodman",5,Lég-feu. 🥬,3,false,0,false,2020,KOK.,2026-02-28,4,15,,4,OK,,"Pot.HN, Pot.Prunier, Pot.3-4, Pot.HE",,228,10,0,0,0,27 %,false,0,Chou-fleur,Goodman,2020,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Chou-fleur
+Neckarperle",5,Lég-feu. 🥬,3,false,0,false,2020,KOK.,2026-02-28,6,15,,4,OK,,Pot.HE,,228,10,2,0,0,40 %,false,0,Chou-fleur,Neckarperle,2020,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Chou-fleur
+Purple Cape",5,Lég-feu. 🥬,3,false,0,false,2020,KOK.,2026-02-28,4,15,,,OK,,Pot.B,,228,10,4,0,0,27 %,false,0,Chou-fleur,Purple Cape,2020,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Côtes de Blette
+À Cardes Rouges",16,Lég-feu. 🥬,1,false,0,false,2019,FDSM,2026-05-21,16,16,,,OK,,,,146,10,16,0,0,100 %,false,0,Côtes de Blette,À Cardes Rouges,2019,0,FDSM,false,2026-10-10,2026-10-10 12:00am
+"Côtes de Blette
+Bright Lights",16,Lég-feu. 🥬,1,false,0,false,2019,FDSM,2026-05-21,8,16,,,OK,,,,146,10,8,0,0,50 %,false,0,Côtes de Blette,Bright Lights,2019,0,FDSM,false,2026-10-10,2026-10-10 12:00am
+"Côtes de Blette
+Verte à Cardes Blanches",16,Lég-feu. 🥬,1,false,0,false,2021,D. Dekarz,2026-05-08,7,16,,,OK,,,,159,10,7,0,0,44 %,false,0,Côtes de Blette,Verte à Cardes Blanches,2021,0,D. Dekarz,false,2026-10-10,2026-10-10 12:00am
+"Cresson de Pará
+Lemon Drops",16,Lég-feu. 🥬,2,false,0,false,2023,KOK.,2026-05-08,5,32,,,OK,,,,159,5,5,0,0,16 %,false,0,Cresson de Pará,Lemon Drops,2023,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Épinard
+Gamma",32,Lég-feu. 🥬,1,false,0,false,2020,KOK.,2026-01-03,1,32,,1,OK,,Pot.HE,,284,15,0,0,0,2 %,false,0,Épinard,Gamma,2020,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Épinard
+Gamma",32,Lég-feu. 🥬,1,false,0,false,2020,KOK.,2026-04-16,0,32,,,NG,,,,181,15,0,0,0,2 %,false,0,Épinard,Gamma,2020,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Épinard
+Géant de Viroflay",21,Lég-feu. 🥬,1,false,0,false,2016,SC,2026-04-16,0,21,,,NG,,,,181,15,0,0,0,0 %,false,0,Épinard,Géant de Viroflay,2016,0,,true,2026-10-10,2026-10-10 12:00am
+"Épinard
+Géant de Viroflay",21,Lég-feu. 🥬,1,false,0,false,2016,SC,2026-04-16,0,21,,,NG,,,,181,15,0,0,0,0 %,false,0,Épinard,Géant de Viroflay,2016,0,,true,2026-10-10,2026-10-10 12:00am
+"Épinard
+Verdil",32,Lég-feu. 🥬,1,false,0,false,2020,KOK.,2026-01-03,2,32,,2,OK,,Pot.Prunier,,284,15,0,0,0,3 %,false,0,Épinard,Verdil,2020,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Épinard
+Verdil",32,Lég-feu. 🥬,1,false,0,false,2020,KOK.,2026-04-16,0,32,,,NG,,,,181,15,0,0,0,3 %,false,0,Épinard,Verdil,2020,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Fenouil
+de Florence Di Sarno",16,Lég-feu. 🥬,1,false,0,false,2021,KOK.,2026-05-21,0,16,,,NG,,,,146,15,0,0,0,0 %,false,0,Fenouil,de Florence Di Sarno,2021,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+,6,Lég-feu. 🥬,3,false,0,false,,,2026-03-29,0,18,,,,,,,199,0,0,0,0,0 %,false,0,,,,0,,true,2026-10-10,2026-10-10 12:00am
+"Laitue pommée
+Reine de Mai",12,Lég-feu. 🥬,1,false,0,false,2022,KOK.,2026-05-08,0,12,,,NG,,,,159,10,0,0,0,0 %,false,0,Laitue pommée,Reine de Mai,2022,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Poireau
+Electra",24,Lég-feu. 🥬,1,false,0,false,2021,Monjardin,2026-03-08,0,24,,,NG,,,,220,15,0,0,0,11 %,false,0,Poireau,Electra,2021,1,GERM.,true,2026-10-10,2026-10-10 12:00am
+"Poireau
+Electra",16,Lég-feu. 🥬,2,false,0,false,2021,Monjardin,2026-05-22,6,32,,2,OK,,,,145,15,4,0,0,11 %,false,0,Poireau,Electra,2021,1,GERM.,true,2026-10-10,2026-10-10 12:00am
+"Rhubarbe
+Victoria",8,Lég-feu. 🥬,2,false,0,false,2022,KOK.,2026-04-17,8,16,5,,OK,,"Pot.B, Pot.1-3, Pot.4-3",,180,25,3,123,183,50 %,false,0,Rhubarbe,Victoria,2022,0,KOK.,false,2026-10-10,2026-10-10 2:06pm
+"Aubergine
+Antigua",3,Lég-fru. 🍅,1,false,0,false,2024,KOK.,2026-02-28,0,3,,,NG,,,,228,30,0,0,0,50 %,false,0,Aubergine,Antigua,2024,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Aubergine
+Antigua",3,Lég-fru. 🍅,1,false,0,false,2024,KOK.,2026-04-23,3,3,,1,OK,,,,174,30,2,0,0,50 %,false,0,Aubergine,Antigua,2024,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Aubergine
+Apple Green",3,Lég-fru. 🍅,3,false,0,false,2023,Monjardin,2026-04-23,0,9,,,NG,,,,174,30,0,0,0,0 %,false,6,Aubergine,Apple Green,2023,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Aubergine
+Bianca Oval",3,Lég-fru. 🍅,2,false,0,false,2023,Monjardin,2026-02-28,0,6,,,NG,,,,228,30,0,0,0,0 %,false,0,Aubergine,Bianca Oval,2023,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Aubergine
+Bianca Oval",3,Lég-fru. 🍅,3,false,0,false,2023,Monjardin,2026-04-23,0,9,,,NG,,,,174,30,0,0,0,0 %,false,0,Aubergine,Bianca Oval,2023,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Aubergine
+Diamond",0,Lég-fru. 🍅,0,false,2026,true,2026,KOK.,,0,0,1,0,,,SerreN,0,,30,-1,0,0,,false,8,Aubergine,Diamond,2026,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Aubergine
+Longue Violette Hâtive",3,Lég-fru. 🍅,2,false,0,false,2023,Monjardin,2026-04-23,0,6,,,NG,,,,174,30,0,0,0,0 %,false,0,Aubergine,Longue Violette Hâtive,2023,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Concombre
+Lemon",1,Lég-fru. 🍅,1,false,0,false,2019,KOK.,2026-05-14,1,1,,1,OK,,,,153,10,0,0,0,33 %,false,0,Concombre,Lemon,2019,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Aubergine
+Longue Violette Hâtive",3,Lég-fru. 🍅,3,false,0,false,2023,Monjardin,2026-04-23,0,9,,,NG,,,,174,30,0,0,0,0 %,false,0,Aubergine,Longue Violette Hâtive,2023,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Concombre
+Sikkim",5,Lég-fru. 🍅,1,false,0,false,2025,Monjardin,2026-03-29,5,5,1,,OK,15-05-2026,Pot.HC,4,199,10,0,0,0,100 %,false,0,Concombre,Sikkim,2025,2,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Cornichon
+Amélioré de Bourbonne",5,Lég-fru. 🍅,1,false,0,false,2024,Monjardin,2026-03-29,5,5,3,,OK,18-05-2026,Ext. Serre Tipi,2,199,10,0,0,0,100 %,false,0,Cornichon,Amélioré de Bourbonne,2024,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Courge 
+De Siam",4,Lég-fru. 🍅,1,false,0,false,2018,FDSM,2026-03-29,0,4,,,NG,,,,199,15,0,0,0,0 %,false,0,Courge ,De Siam,2018,0,FDSM,true,2026-10-10,2026-10-10 12:00am
+"Courge Maxima
+Giraumon Galeux d’Eysines",1,Lég-fru. 🍅,1,false,0,false,2025,KOK.,2026-05-14,0,1,,,NG,,,,153,15,0,0,0,0 %,false,0,Courge Maxima,Giraumon Galeux d’Eysines,2025,1,,true,2026-10-10,2026-10-10 12:00am
+"Courge Maxima
+Potimarron (Hokkhaido) Vert",3,Lég-fru. 🍅,1,false,0,false,2024,Monjardin,2026-03-29,0,3,,,NG,,,,199,15,0,0,0,0 %,false,0,Courge Maxima,Potimarron (Hokkhaido) Vert,2024,0,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Courge Maxima
+Potimarron Red Kuri",1,Lég-fru. 🍅,1,false,0,false,2025,KOK.,2026-05-14,0,1,,,NG,,,,153,15,0,0,0,0 %,false,0,Courge Maxima,Potimarron Red Kuri,2025,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Courge Maxima
+Potiron Bleu de Hongrie",3,Lég-fru. 🍅,1,false,0,false,2020,Monjardin,2026-05-14,1,3,,,OK,,,,153,15,1,0,0,33 %,false,0,Courge Maxima,Potiron Bleu de Hongrie,2020,1,JD,true,2026-10-10,2026-10-10 12:00am
+"Courge Maxima
+Silver Bell",2,Lég-fru. 🍅,1,false,0,false,2019,KOK.,2026-03-29,1,2,1,,OK,17-05-2026,Bac C angle,,199,15,0,0,0,50 %,false,0,Courge Maxima,Silver Bell,2019,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Courge Moschata
+Butternut",5,Lég-fru. 🍅,1,false,0,false,,,2026-03-29,0,5,,,NG,,,,199,15,0,0,0,0 %,false,0,Courge Moschata,Butternut,,0,,true,2026-10-10,2026-10-10 12:00am
+"Courge Pepo
+Baby Boo",2,Lég-fru. 🍅,1,false,0,false,2024,Monjardin,2026-03-29,2,2,2,,OK,17-05-2026,Bac C milieu,,199,15,0,0,0,100 %,false,0,Courge Pepo,Baby Boo,2024,1,SC,true,2026-10-10,2026-10-10 12:00am
+"Courge Pepo
+Baby Pam",2,Lég-fru. 🍅,1,false,0,false,2020,KOK.,2026-03-29,0,2,,,NG,,,,199,15,0,0,0,0 %,false,0,Courge Pepo,Baby Pam,2020,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Courge Pepo
+Lemon",1,Lég-fru. 🍅,1,false,0,false,2019,KOK.,2026-03-29,0,1,,,NG,,,,199,15,0,0,0,0 %,false,0,Courge Pepo,Lemon,2019,0,,true,2026-10-10,2026-10-10 12:00am
+"Courge Moschata
+Butternut Nutterbutter",2,Lég-fru. 🍅,1,false,0,false,2025,KOK.,2026-05-14,0,2,,,NG,,,,153,15,0,0,0,0 %,false,0,Courge Moschata,Butternut Nutterbutter,2025,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Courge Pepo
+Spaghetti Végétal",3,Lég-fru. 🍅,1,false,0,false,2019,KOK.,2026-03-29,2,3,1,1,OK,20-05-2026,Ext. Serre Clô.,,199,15,0,0,0,67 %,true,0,Courge Pepo,Spaghetti Végétal,2019,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Courgette
+Bolognese",1,Lég-fru. 🍅,1,false,0,false,2023,KOK.,2026-05-08,0,1,,,NG,,,,159,15,0,0,0,0 %,false,0,Courgette,Bolognese,2023,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Courge Moschata
+Sucrine du Berry",3,Lég-fru. 🍅,1,false,0,false,2022,Monjardin,2026-03-29,1,3,1,,OK,25-05-2026,Pot.Prunier,,199,15,0,0,0,33 %,false,0,Courge Moschata,Sucrine du Berry,2022,1,JD,true,2026-10-10,2026-10-10 12:00am
+"Courgette
+Bou Tozzina",3,Lég-fru. 🍅,1,false,0,false,2019,KOK.,2026-03-29,1,3,1,,OK,17-05-2026,Grand bac,,199,15,0,0,0,33 %,true,0,Courgette,Bou Tozzina,2019,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Courgette
+Nimba",2,Lég-fru. 🍅,1,false,0,false,2023,KOK.,2026-05-08,0,2,,,NG,,,,159,15,0,0,0,0 %,false,0,Courgette,Nimba,2023,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Courgette
+Ronde de Nice",2,Lég-fru. 🍅,1,false,0,false,,,2026-03-29,0,2,1,,NG,,Pot.HN,,199,15,-1,0,0,0 %,true,0,Courgette,Ronde de Nice,,0,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Courge Pepo
+Jack Be Little",5,Lég-fru. 🍅,1,false,0,false,2022,Monjardin,2026-03-29,0,5,,,NG,,,,199,15,0,0,0,0 %,false,0,Courge Pepo,Jack Be Little,2022,1,FDSM,true,2026-10-10,2026-10-10 12:00am
+"Courgette
+Ronde de Piacenza",1,Lég-fru. 🍅,1,false,0,false,,,2026-03-29,0,1,,,NG,,,,199,15,0,0,0,0 %,false,0,Courgette,Ronde de Piacenza,,0,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Courgette
+Verte de Milan/Black Beauty",2,Lég-fru. 🍅,2,false,0,false,2023,KOK.,2026-03-29,0,4,,,NG,,,,199,15,0,0,0,0 %,false,0,Courgette,Verte de Milan/Black Beauty,2023,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Courgette 
+Sélection Sativa",4,Lég-fru. 🍅,2,false,0,false,,,2026-03-29,0,8,,,NG,,,,199,15,0,0,0,0 %,false,0,Courgette ,Sélection Sativa,,0,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Courgette 
+Sélection Sativa",2,Lég-fru. 🍅,1,false,0,false,2025,KOK.,2026-05-14,1,2,1,,OK,06-06-2026,Bac terrasse,,153,15,0,0,0,50 %,false,0,Courgette ,Sélection Sativa,2025,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Dolique
+Asperge Rouge Taïwan",9,Lég-fru. 🍅,1,false,0,false,2022,FDSM,2026-05-01,7,9,7,,OK,01-06-2026,Pot.4-4,,166,14,0,"210,4183619278","64,5751859734",78 %,false,0,Dolique,Asperge Rouge Taïwan,2022,0,FDSM,false,2026-10-10,2026-10-10 2:11pm
+"Fève
+« Revelen »",15,Lég-fru. 🍅,1,false,0,false,2023,SC,2026-05-01,0,15,,,NG,,,,166,20,0,0,0,0 %,false,0,Fève,« Revelen »,2023,0,SC,false,2026-10-10,2026-10-10 12:00am
+"Fève
+« Revelen »",5,Lég-fru. 🍅,1,false,0,false,2023,SC,2026-05-01,0,5,,,NG,,,,166,20,0,0,0,0 %,false,0,Fève,« Revelen »,2023,0,SC,false,2026-10-10,2026-10-10 12:00am
+"Courgette
+Striato Pugliese",5,Lég-fru. 🍅,1,false,0,false,2023,Monjardin,2026-03-29,4,5,1,1,OK,12-05-2026,Séchoir H,2,199,15,0,,,80 %,false,0,Courgette,Striato Pugliese,2023,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Haricot
+Azuki rouge",6,Lég-fru. 🍅,1,false,0,false,2017,FDSM,2026-05-01,0,6,,,NG,,,,166,12,0,0,0,0 %,false,0,Haricot,Azuki rouge,2017,0,FDSM,false,2026-10-10,2026-10-10 12:00am
+"Haricot à écosser
+Tarbais",6,Lég-fru. 🍅,1,false,0,false,2017,SC,2026-05-01,0,6,,,NG,,,,166,12,0,0,0,0 %,false,0,Haricot à écosser,Tarbais,2017,0,,true,2026-10-10,2026-10-10 12:00am
+"Haricot à écosser 
+Comtesse de Chambord",6,Lég-fru. 🍅,2,false,0,false,2020,KOK.,2026-05-01,1,12,,1,OK,,,,166,12,0,0,0,8 %,false,0,Haricot à écosser ,Comtesse de Chambord,2020,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Haricot à écosser 
+Midnight Black Turtle",6,Lég-fru. 🍅,2,false,0,false,2021,KOK.,2026-05-01,8,12,8,,OK,13-06-2026,Pot.2-1,,166,12,0,0,0,67 %,false,0,Haricot à écosser ,Midnight Black Turtle,2021,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Haricot Mangetout
+Blauhilde",6,Lég-fru. 🍅,2,false,0,false,2020,KOK.,2026-05-01,10,12,10,,OK,17-05-2026,Bac R angle,,166,12,0,0,0,83 %,false,0,Haricot Mangetout,Blauhilde,2020,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Haricot Mangetout
+Coktel",5,Lég-fru. 🍅,3,false,0,false,2018,GV,2026-05-01,0,15,,,NG,,,,166,12,0,0,0,0 %,false,0,Haricot Mangetout,Coktel,2018,0,GV,false,2026-10-10,2026-10-10 12:00am
+"Haricot Mangetout
+Cupidon",6,Lég-fru. 🍅,1,false,0,false,2025,Monjardin,2026-05-01,6,6,6,,OK,25-05-2026,Ext. Serre Tipi,,166,12,0,0,0,100 %,false,0,Haricot Mangetout,Cupidon,2025,2,SC,true,2026-10-10,2026-10-10 12:00am
+,5,Lég-fru. 🍅,4,false,0,false,,,2026-05-01,0,20,,,,,,,166,0,0,0,0,0 %,false,0,,,,0,,true,2026-10-10,2026-10-10 12:00am
+"Haricot Mangetout
+La Victoire",6,Lég-fru. 🍅,2,false,0,false,2023,Monjardin,2026-05-01,11,12,11,,OK,24-05-2026,Bac R angle,,166,12,0,0,0,92 %,false,0,Haricot Mangetout,La Victoire,2023,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Haricot Mangetout
+Major",6,Lég-fru. 🍅,2,false,0,false,2025,Monjardin,2026-05-01,12,12,11,1,OK,31-05-2026,Serre,,166,12,0,0,0,100 %,false,0,Haricot Mangetout,Major,2025,2,SC,true,2026-10-10,2026-10-10 12:00am
+,6,Lég-fru. 🍅,3,false,0,false,,,2026-05-01,0,18,,,,,,,166,0,0,0,0,0 %,false,0,,,,0,,true,2026-10-10,2026-10-10 12:00am
+"Haricot Mangetout
+Purple Queen",5,Lég-fru. 🍅,1,false,0,false,2025,Monjardin,2026-05-01,5,5,4,1,OK,28-05-2026,Pot.HE,,166,12,0,0,0,100 %,false,0,Haricot Mangetout,Purple Queen,2025,1,SC,true,2026-10-10,2026-10-10 12:00am
+"Haricot Mangetout
+Roi des Belges",5,Lég-fru. 🍅,2,false,0,false,2020,KOK.,2026-05-01,2,10,1,1,OK,23-05-2026,SerreN,,166,12,0,0,0,20 %,false,0,Haricot Mangetout,Roi des Belges,2020,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Physalis
+Aunt Molly",6,Lég-fru. 🍅,3,false,0,false,2022,Monjardin,2026-03-29,0,18,,,NG,,,,199,30,0,0,0,0 %,false,0,Physalis,Aunt Molly,2022,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Morelle de Balbis
+Tomate Litchi",6,Lég-fru. 🍅,1,false,0,false,2023,KOK.,2026-03-29,1,6,1,,OK,,Pot. 1-1,,199,21,0,0,0,17 %,false,0,Morelle de Balbis,Tomate Litchi,2023,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Kiwano
+Concombre cornu d'Afrique",5,Lég-fru. 🍅,1,false,0,false,2023,Monjardin,2026-03-29,4,5,2,,OK,10-06-2026,Serre Tipi,2,199,10,0,0,0,80 %,false,0,Kiwano,Concombre cornu d'Afrique,2023,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Luffa
+Cylindrica",5,Lég-fru. 🍅,1,false,0,false,2023,Monjardin,2026-03-29,2,5,1,1,OK,23-05-2026,SerreN,,199,15,0,0,0,40 %,false,0,Luffa,Cylindrica,2023,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Physalis
+Pruinosa",6,Lég-fru. 🍅,3,false,0,false,2022,Monjardin,2026-03-29,0,18,,,NG,,,,199,30,0,0,0,0 %,false,0,Physalis,Pruinosa,2022,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Physalis
+Goldie",6,Lég-fru. 🍅,1,false,0,false,2023,KOK.,2026-03-29,0,6,,,NG,,,,199,30,0,0,0,0 %,false,0,Physalis,Goldie,2023,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Piment 
+Petit jaune/orange",3,Lég-fru. 🍅,2,false,0,false,,,2026-02-28,0,6,,,NG,,,,228,15,0,0,0,0 %,false,0,Piment ,Petit jaune/orange,,0,,true,2026-10-10,2026-10-10 12:00am
+"Pois à écosser
+Merveilles de Kelvedon",12,Lég-fru. 🍅,3,false,0,false,2022,KOK.,2026-03-21,28,36,28,,OK,01-05-2026,"Pot.HC, Pot.3-2",,207,10,0,0,0,78 %,false,0,Pois à écosser,Merveilles de Kelvedon,2022,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Poivron
+(Chocolat)",3,Lég-fru. 🍅,1,false,0,false,2025,Monjardin,2026-02-28,2,3,1,,OK,,,,228,15,1,0,0,67 %,false,0,Poivron,(Chocolat),2025,2,SC,true,2026-10-10,2026-10-10 12:00am
+"Poivron
+(Crème)",3,Lég-fru. 🍅,4,false,0,false,,,2026-02-28,0,12,,,NG,,,,228,15,0,0,0,0 %,false,0,Poivron,(Crème),,0,,true,2026-10-10,2026-10-10 12:00am
+"Pois gourmand
+Géant Suisse",12,Lég-fru. 🍅,3,false,0,false,2022,KOK.,2026-03-21,34,36,34,,OK,24-04-2026,"Pot.HN, Pot.HC",,207,10,0,0,0,94 %,false,0,Pois gourmand,Géant Suisse,2022,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Poivron
+(Crème)",3,Lég-fru. 🍅,15,false,0,false,,,2026-04-23,0,45,,,NG,,,,174,15,0,0,0,0 %,false,0,Poivron,(Crème),,0,,true,2026-10-10,2026-10-10 12:00am
+"Concombre
+à Confire",5,Lég-fru. 🍅,3,false,0,false,2024,FDSM,2026-03-29,3,15,2,1,OK,16-05-2026,Pot.3-3,,199,10,0,0,0,20 %,false,0,Concombre,à Confire,2024,1,FDSM,true,2026-10-10,2026-10-10 12:00am
+"Concombre
+Arménien",5,Lég-fru. 🍅,1,false,0,false,2020,KOK.,2026-03-29,3,5,1,1,OK,25-05-2026,SerreW,1,199,10,0,0,0,60 %,true,0,Concombre,Arménien,2020,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Poivron
+(Jaune)",3,Lég-fru. 🍅,2,false,0,false,,,2026-02-28,0,6,,,NG,,,,228,15,0,0,0,0 %,false,0,Poivron,(Jaune),,0,,true,2026-10-10,2026-10-10 12:00am
+"Poivron
+(Jaune)",1,Lég-fru. 🍅,5,false,0,false,,,2026-04-23,0,5,,,NG,,,,174,15,0,0,0,0 %,false,0,Poivron,(Jaune),,0,,true,2026-10-10,2026-10-10 12:00am
+"Poivron
+(Rouge)",3,Lég-fru. 🍅,2,false,0,false,2025,Monjardin,2026-02-28,2,6,,1,OK,,,,228,15,1,0,0,33 %,false,0,Poivron,(Rouge),2025,2,,true,2026-10-10,2026-10-10 12:00am
+"Poivron
+Caviar Calabrais (Rouge)",3,Lég-fru. 🍅,2,false,0,false,,,2026-02-28,0,6,,,NG,,,,228,15,0,0,0,0 %,false,0,Poivron,Caviar Calabrais (Rouge),,0,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Poivron
+Caviar Calabrais (Rouge)",3,Lég-fru. 🍅,2,false,0,false,,,2026-04-23,0,6,,,NG,,,,174,15,0,0,0,0 %,false,0,Poivron,Caviar Calabrais (Rouge),,0,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Poivron
+Corne de Taureau",0,Lég-fru. 🍅,0,false,2025,true,2023,Monjardin,2026-04-23,0,0,,,NG,,,,174,15,0,0,0,,false,6,Poivron,Corne de Taureau,2023,1,SC,true,2026-10-10,2026-10-10 12:00am
+"Concombre
+Le Généreux",5,Lég-fru. 🍅,1,false,0,false,2025,Monjardin,2026-03-29,5,5,2,1,OK,25-05-2026,"Bac C milieu, Pot.Prunier",2,199,10,0,0,0,100 %,false,0,Concombre,Le Généreux,2025,2,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Concombre
+Poona Kheera",5,Lég-fru. 🍅,1,false,0,false,2024,Monjardin,2026-03-29,1,5,1,,OK,17-05-2026,Bac C angle,,199,10,0,0,0,20 %,false,1,Concombre,Poona Kheera,2024,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Concombre
+Lemon",5,Lég-fru. 🍅,1,false,0,false,2019,KOK.,2026-03-29,1,5,,1,OK,,,,199,10,0,0,0,33 %,false,0,Concombre,Lemon,2019,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Concombre
+Satsuki Madori",5,Lég-fru. 🍅,1,false,0,false,2022,SC,2026-03-29,0,5,,,NG,,,,199,10,0,0,0,0 %,false,0,Concombre,Satsuki Madori,2022,0,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Poivron
+Miniature Red Bell",3,Lég-fru. 🍅,1,false,0,false,2024,Monjardin,2026-02-28,0,3,,,NG,,,,228,15,0,0,0,0 %,false,0,Poivron,Miniature Red Bell,2024,2,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Poivron
+Miniature Red Bell",0,Lég-fru. 🍅,0,false,2025,true,2025,Monjardin,2025-01-01,0,0,1,,NG,,Serre Tipi,,651,15,-1,0,0,,false,0,Poivron,Miniature Red Bell,2025,3,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Poivron
+Petit Marseillais (Jaune)",3,Lég-fru. 🍅,2,false,0,false,2022,Monjardin,2026-02-28,0,6,,,NG,,,,228,15,0,0,0,0 %,false,0,Poivron,Petit Marseillais (Jaune),2022,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Poivron
+Petit Marseillais (Jaune)",3,Lég-fru. 🍅,2,false,0,false,2022,Monjardin,2026-04-23,0,6,,,NG,,,,174,15,0,0,0,0 %,false,0,Poivron,Petit Marseillais (Jaune),2022,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+,3,Lég-fru. 🍅,2,false,0,false,,,2026-02-28,0,6,,,,,,,228,0,0,0,0,0 %,false,0,,,,0,,true,2026-10-10,2026-10-10 12:00am
+"Aubergine
+Apple Green",3,Lég-fru. 🍅,2,false,0,false,2023,Monjardin,2026-02-28,0,6,,,NG,,,,228,30,0,0,0,0 %,false,0,Aubergine,Apple Green,2023,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Poivron
+Tendre de Châteaurenard (Rouge)",6,Lég-fru. 🍅,1,false,0,false,2023,Monjardin,2026-02-28,0,6,,,NG,,,,228,15,0,0,0,0 %,false,0,Poivron,Tendre de Châteaurenard (Rouge),2023,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Poivron
+Tendre de Châteaurenard (Rouge)",6,Lég-fru. 🍅,1,false,0,false,2023,Monjardin,2026-02-28,0,6,,,NG,,,,228,15,0,0,0,0 %,false,0,Poivron,Tendre de Châteaurenard (Rouge),2023,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Soja Edamame
+Sayamusume",9,Lég-fru. 🍅,1,false,0,false,2021,KOK.,2026-03-21,3,9,2,1,OK,25-05-2026,Pot.Prunier,,207,14,0,0,0,33 %,false,0,Soja Edamame,Sayamusume,2021,0,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Soja Edamame
+Sayamusume",9,Lég-fru. 🍅,1,false,0,false,2022,Monjardin,2026-05-01,2,9,2,,OK,13-06-2026,Pot.Prunier,,166,14,0,0,0,22 %,false,0,Soja Edamame,Sayamusume,2022,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Tomate
+Absinthe (Verte)",3,Lég-fru. 🍅,2,false,0,false,,,2026-03-21,0,6,,,NG,,,,207,10,0,0,0,0 %,false,0,Tomate,Absinthe (Verte),,0,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Tomate
+Cornue des Andes",3,Lég-fru. 🍅,2,false,0,false,2024,KOK.,2026-03-21,6,6,2,,OK,25-05-2026,"Pot.3-1, SerreN",4,207,10,0,0,0,100 %,false,3,Tomate,Cornue des Andes,2024,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Tomate
+Esmeralda Golosina (Verte)",3,Lég-fru. 🍅,2,false,0,false,2024,Monjardin,2026-03-21,6,6,1,,OK,02-05-2026,Séchoir H,5,207,10,0,,,100 %,false,0,Tomate,Esmeralda Golosina (Verte),2024,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Tomate-cerise
+Gold Nugget",3,Lég-fru. 🍅,2,false,0,false,2025,Monjardin,2026-03-21,4,6,1,3,OK,18-05-2026,Ext. Serre Clô.,,207,10,0,0,0,67 %,false,0,Tomate-cerise,Gold Nugget,2025,3,SC,true,2026-10-10,2026-10-10 12:00am
+"Tomate
+Absinthe (Verte)",3,Lég-fru. 🍅,5,false,0,false,2021,SC,2026-04-14,0,15,,,NG,,,,183,10,0,0,0,0 %,false,0,Tomate,Absinthe (Verte),2021,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Tomate
+Ananas (Bigarée)",3,Lég-fru. 🍅,2,false,0,false,2024,Monjardin,2026-04-14,6,6,2,,OK,23-05-2026,"SerreS, Pot.4-1",4,183,10,0,0,0,100 %,false,0,Tomate,Ananas (Bigarée),2024,3,Co.Mam,true,2026-10-10,2026-10-10 12:00am
+"Tomate-cerise
+Grosses rouges",3,Lég-fru. 🍅,2,false,0,false,2023,Monjardin,2026-03-21,2,6,2,,OK,25-05-2026,Pot.Prunier,,207,10,0,0,0,33 %,false,0,Tomate-cerise,Grosses rouges,2023,1,Co.Mam,true,2026-10-10,2026-10-10 12:00am
+"Tomate-cerise
+Isis Candy Cherry (Bigarée)",3,Lég-fru. 🍅,2,false,0,false,2025,Monjardin,2026-03-21,6,6,2,1,OK,25-05-2026,"Pot.HC, Pot.4-3",3,207,10,0,0,0,100 %,false,1,Tomate-cerise,Isis Candy Cherry (Bigarée),2025,3,SC,true,2026-10-10,2026-10-10 12:00am
+"Tomate-cerise
+Jaune-noire",3,Lég-fru. 🍅,2,false,0,false,2024,Monjardin,2026-03-21,6,6,2,,OK,16-05-2026,"Pot.3-2, Pot.HN",4,207,10,0,0,0,100 %,false,0,Tomate-cerise,Jaune-noire,2024,1,SC,true,2026-10-10,2026-10-10 12:00am
+"Tomate-cerise
+Madagascar (Bigarée)",3,Lég-fru. 🍅,2,false,0,false,2025,Monjardin,2026-03-21,6,6,2,,OK,17-05-2026,"Bac C angle, Pot.HE",4,207,10,0,0,0,100 %,false,2,Tomate-cerise,Madagascar (Bigarée),2025,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Tomate-cerise
+Miel du Mexique",3,Lég-fru. 🍅,2,false,0,false,2020,SC,2026-03-21,0,6,,,NG,,,,207,10,0,0,0,0 %,false,0,Tomate-cerise,Miel du Mexique,2020,0,SC,false,2026-10-10,2026-10-10 12:00am
+"Tomate
+Green Zebra",3,Lég-fru. 🍅,2,false,0,false,2025,Monjardin,2026-03-21,5,6,2,,OK,17-05-2026,Grand bac,3,207,10,0,0,0,83 %,false,0,Tomate,Green Zebra,2025,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Tomate-cerise
+Trilly",3,Lég-fru. 🍅,2,false,0,false,2023,Monjardin,2026-03-21,4,6,2,2,OK,23-05-2026,"Pot.HN, SerreN",,207,10,0,0,0,67 %,false,0,Tomate-cerise,Trilly,2023,3,Co.Mam,true,2026-10-10,2026-10-10 12:00am
+"Amarante à grains
+Aurelia Verde",16,Lég-gra. 🌾,7,false,0,false,2023,KOK.,2026-04-12,68,112,20,48,OK,25-05-2026,Pot.HN,,185,15,0,0,0,61 %,false,0,Amarante à grains,Aurelia Verde,2023,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Amarante à grains
+Green Cascade",8,Lég-gra. 🌾,5,false,0,false,2021,KOK.,2026-04-12,0,40,,,NG,,,,185,15,0,0,0,0 %,false,0,Amarante à grains,Green Cascade,2021,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Maïs Doux
+Candy Mountain",10,Lég-gra. 🌾,3,false,0,false,2023,KOK.,2026-04-12,16,30,9,,OK,16-05-2026,Pot.3-3,7,185,10,0,0,0,53 %,false,0,Maïs Doux,Candy Mountain,2023,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Maïs Doux
+Paiute",6,Lég-gra. 🌾,3,false,0,false,2021,KOK.,2026-04-12,0,18,,,NG,,,,185,10,0,0,0,0 %,false,0,Maïs Doux,Paiute,2021,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Maïs Doux
+Puget Gold",6,Lég-gra. 🌾,3,false,0,false,2021,KOK.,2026-04-12,4,18,4,,OK,23-05-2026,Ext. Serre S,,185,10,0,0,0,22 %,false,0,Maïs Doux,Puget Gold,2021,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Millet
+Hell’s Canyon",8,Lég-gra. 🌾,4,false,0,false,2021,KOK.,2026-04-12,0,32,,,NG,,,,185,10,0,0,0,0 %,false,0,Millet,Hell’s Canyon,2021,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Millet
+Japonais",1,Lég-gra. 🌾,75,false,0,false,2023,KOK.,2026-04-12,0,75,,,NG,,,,185,10,0,0,0,0 %,false,0,Millet,Japonais,2023,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Quinoa
+Mint Vanilla",16,Lég-gra. 🌾,5,false,0,false,2023,KOK.,2026-04-12,0,80,,,NG,,,,185,7,0,0,0,0 %,false,0,Quinoa,Mint Vanilla,2023,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Sarrasin
+Fagopyrum esculentum",16,Lég-gra. 🌾,2,false,0,false,2022,KOK.,2026-04-12,8,32,5,3,OK,15-05-2026,Ext. Serre E,,185,5,0,0,0,25 %,false,0,Sarrasin,Fagopyrum esculentum,2022,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Sorgho
+Tarahumara Popping",16,Lég-gra. 🌾,3,false,0,false,2022,KOK.,2026-04-12,28,48,,17,OK,,,,185,20,11,0,0,58 %,false,0,Sorgho,Tarahumara Popping,2022,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Tournesol à grains
+Issanka",5,Lég-gra. 🌾,7,false,0,false,2023,KOK.,2026-04-12,28,35,9,8,OK,17-05-2026,Bac C angle,8,185,14,3,0,0,80 %,false,0,Tournesol à grains,Issanka,2023,0,,true,2026-10-10,2026-10-10 12:00am
+"Betterave
+3 Root Grex",24,Lég-rac. 🥕,1,false,0,false,2020,SC,2026-05-21,0,24,,,NG,,,,146,15,0,0,0,0 %,false,0,Betterave,3 Root Grex,2020,0,SC,false,2026-10-10,2026-10-10 12:00am
+"Betterave
+Covent Garden",24,Lég-rac. 🥕,1,false,0,false,2019,FDSM,2026-05-21,20,24,,,OK,,,,146,15,20,0,0,83 %,false,0,Betterave,Covent Garden,2019,0,FDSM,false,2026-10-10,2026-10-10 12:00am
+"Betterave
+Crapaudine",8,Lég-rac. 🥕,1,false,0,false,2019,FDSM,2026-05-22,7,8,,,OK,,,,145,15,7,0,0,88 %,false,0,Betterave,Crapaudine,2019,0,FDSM,false,2026-10-10,2026-10-10 12:00am
+"Betterave
+Golden Grex (Orange)",24,Lég-rac. 🥕,1,false,0,false,2020,KOK.,2026-05-22,8,24,,,OK,,,,145,15,8,0,0,33 %,false,0,Betterave,Golden Grex (Orange),2020,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Betterave
+Noire Plate d’Egypte",8,Lég-rac. 🥕,1,false,0,false,2020,KOK.,2026-05-22,4,8,,,OK,,,,145,15,4,0,0,50 %,false,0,Betterave,Noire Plate d’Egypte,2020,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Carotte
+De Colmar à coeur rouge",24,Lég-rac. 🥕,1,false,0,false,2021,KOK.,2026-05-22,1,24,,,OK,,,,145,15,1,0,0,4 %,false,0,Carotte,De Colmar à coeur rouge,2021,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Carotte
+de Kuttingen (Blanche)",24,Lég-rac. 🥕,1,false,0,false,2021,Monjardin,2026-08-03,0,24,,,NG,,,,72,15,0,0,0,0 %,false,0,Carotte,de Kuttingen (Blanche),2021,1,PK,true,2026-10-10,2026-10-10 12:00am
+"Carotte
+de Kuttingen (Blanche)",24,Lég-rac. 🥕,1,false,0,false,2021,Monjardin,2026-05-22,0,24,,,NG,,,,145,15,0,0,0,0 %,false,0,Carotte,de Kuttingen (Blanche),2021,1,PK,true,2026-10-10,2026-10-10 12:00am
+"Carotte
+Eskimo",24,Lég-rac. 🥕,1,false,0,false,2022,VILM.,2026-08-03,6,24,,,OK,,,,72,15,6,0,0,25 %,false,0,Carotte,Eskimo,2022,1,VILM.,true,2026-10-10,2026-10-10 12:00am
+"Carotte
+Eskimo",24,Lég-rac. 🥕,1,false,0,false,2022,VILM.,2026-05-22,6,24,,,OK,,,,145,15,6,0,0,25 %,false,0,Carotte,Eskimo,2022,1,VILM.,true,2026-10-10,2026-10-10 12:00am
+"Carotte
+Longue Rouge Sang",24,Lég-rac. 🥕,1,false,0,false,2021,FERME,2026-08-03,5,24,,,OK,,,,72,15,5,0,0,21 %,false,0,Carotte,Longue Rouge Sang,2021,0,FERME,false,2026-10-10,2026-10-10 12:00am
+"Carotte
+Longue Rouge Sang",24,Lég-rac. 🥕,1,false,0,false,2021,FERME,2026-05-21,5,24,,,OK,,,,146,15,5,0,0,21 %,false,0,Carotte,Longue Rouge Sang,2021,0,FERME,false,2026-10-10,2026-10-10 12:00am
+"Carotte
+Noire d’Espagne (Violette)",24,Lég-rac. 🥕,1,false,0,false,2022,Monjardin,2026-08-03,0,24,,,NG,,,,72,15,0,0,0,0 %,false,0,Carotte,Noire d’Espagne (Violette),2022,1,PK,true,2026-10-10,2026-10-10 12:00am
+"Carotte
+Noire d’Espagne (Violette)",24,Lég-rac. 🥕,1,false,0,false,2022,Monjardin,2026-05-22,0,24,,,NG,,,,145,15,0,0,0,0 %,false,0,Carotte,Noire d’Espagne (Violette),2022,1,PK,true,2026-10-10,2026-10-10 12:00am
+"Chou Rutabaga
+Joan",5,Lég-rac. 🥕,3,false,0,false,2019,KOK.,2026-02-28,4,15,,,OK,,,,228,10,4,0,0,27 %,false,0,Chou Rutabaga,Joan,2019,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Radis
+Sora",8,Lég-rac. 🥕,1,false,0,false,2015,KOK.,2026-05-22,5,8,,,OK,,,,145,7,5,0,0,63 %,false,0,Radis,Sora,2015,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Radis
+Zlata",8,Lég-rac. 🥕,1,false,0,false,2020,FDSM,2026-05-22,8,8,,,OK,,,,145,7,8,0,0,100 %,false,0,Radis,Zlata,2020,0,FDSM,false,2026-10-10,2026-10-10 12:00am
+"Carotte
+De Colmar à coeur rouge",24,Lég-rac. 🥕,1,false,0,false,2021,KOK.,2026-08-03,1,24,,,OK,,,,72,15,1,0,0,4 %,false,0,Carotte,De Colmar à coeur rouge,2021,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Agastache
+A fleurs blanches",8,Arom.Méd 🌿,3,false,0,false,2024,Monjardin,2026-03-21,2,24,2,,OK,,Ext. Serre W,,207,21,0,0,0,8 %,true,0,Agastache,A fleurs blanches,2024,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Basilic
+Grec",8,Arom.Méd 🌿,3,false,0,false,2025,Monjardin,2026-04-16,18,24,18,,OK,31-05-2026,"SerreS, Pot.2-4",,181,10,0,0,0,38 %,true,2,Basilic,Grec,2025,2,SC,true,2026-10-10,2026-10-10 12:00am
+"Basilic
+Mammoth",8,Arom.Méd 🌿,3,false,0,false,2024,Monjardin,2026-03-21,10,24,10,,OK,14-05-2026,Serre Tipi,,207,10,0,0,0,42 %,true,4,Basilic,Mammoth,2024,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Basilic
+Osmin",8,Arom.Méd 🌿,3,false,0,false,2022,KOK.,2026-03-21,7,24,7,,OK,14-05-2026,SerreN,0,207,10,0,0,0,29 %,true,2,Basilic,Osmin,2022,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Basilic
+Thym",8,Arom.Méd 🌿,3,false,0,false,2024,SC,2026-03-21,22,24,16,2,OK,16-05-2026,Pot.Table,4,207,10,0,0,0,92 %,true,0,Basilic,Thym,2024,1,SC,true,2026-10-10,2026-10-10 12:00am
+"Basilic Tulsis
+Kapura",4,Arom.Méd 🌿,3,false,0,false,2023,Monjardin,2026-04-16,1,12,,1,OK,,,,181,10,0,0,0,8 %,false,0,Basilic Tulsis,Kapura,2023,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Persil
+Simple/Plat",8,Arom.Méd 🌿,2,false,0,false,2023,SC,2026-04-17,0,16,,,NG,,,,180,90,0,0,0,0 %,false,0,Persil,Simple/Plat,2023,0,SC,false,2026-10-10,2026-10-10 12:00am
+"Réglisse
+Yunnanensis",8,Arom.Méd 🌿,1,false,0,false,2021,KOK.,2026-04-17,3,8,3,,OK,13-06-2026,,,180,21,0,0,0,38 %,true,0,Réglisse,Yunnanensis,2021,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Sarriette
+Des Montagnes",8,Arom.Méd 🌿,"4,5",false,0,false,2025,Monjardin,2026-04-17,8,36,,,OK,,,,180,10,8,0,0,22 %,false,0,Sarriette,Des Montagnes,2025,2,AJC B.,true,2026-10-10,2026-10-10 12:00am
+"Sauge
+Chia",8,Arom.Méd 🌿,3,false,0,false,2020,FDSM,2026-04-17,2,24,2,,OK,31-05-2026,Serre Tipi,,180,20,0,0,0,8 %,true,0,Sauge,Chia,2020,0,FDSM,false,2026-10-10,2026-10-10 12:00am
+"Verveine
+Officinale",8,Arom.Méd 🌿,10,false,0,false,2022,Monjardin,2026-04-17,0,80,,,NG,,,,180,20,0,0,0,0 %,false,0,Verveine,Officinale,2022,2,SC,true,2026-10-10,2026-10-10 12:00am
+"Belles de nuit
+À Fleurs Jaunes",6,Fleurs 🌼,1,false,0,false,2025,Monjardin,2026-04-17,6,6,2,,OK,31-05-2026,Regard eau,,180,15,4,0,0,100 %,false,3,Belles de nuit,À Fleurs Jaunes,2025,3,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Belles de Nuit
+À Fleurs Rouges",4,Fleurs 🌼,1,false,0,false,2025,Monjardin,2026-04-17,1,4,,,OK,,Regard eau,,180,15,1,0,0,25 %,false,2,Belles de Nuit,À Fleurs Rouges,2025,1,SC,true,2026-10-10,2026-10-10 12:00am
+"Capucine Grimpante
+de Lobb variée",12,Fleurs 🌼,1,false,0,false,2024,Monjardin,2026-03-08,11,12,2,9,OK,26-04-2026,Figuier,,220,15,0,0,0,92 %,false,0,Capucine Grimpante,de Lobb variée,2024,4,VILM.,true,2026-10-10,2026-10-10 12:00am
+"Centaurée Variée
+Classic Fantastic",6,Fleurs 🌼,3,false,0,false,2025,Monjardin,2026-03-08,6,18,6,,OK,15-04-2026,Pot.Bulle,,220,20,0,0,0,33 %,true,0,Centaurée Variée,Classic Fantastic,2025,1,FDSM,true,2026-10-10,2026-10-10 12:00am
+"Cosmos
+Alex Orange à Rouge",12,Fleurs 🌼,1,false,0,false,2025,Monjardin,2026-08-03,5,12,2,3,OK,17-05-2026,Bac C milieu,,72,30,0,0,0,20 %,true,0,Cosmos,Alex Orange à Rouge,2025,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Cosmos
+Alex Orange à Rouge",9,Fleurs 🌼,1,false,0,false,2025,Monjardin,2026-04-16,3,9,3,,OK,31-05-2026,Regard eau,,181,30,0,0,0,20 %,false,0,Cosmos,Alex Orange à Rouge,2025,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Cosmos
+Alex Orange à Rouge",1,Fleurs 🌼,20,false,0,false,2025,Monjardin,2026-05-31,,20,,,106,,,,136,30,0,0,0,20 %,false,0,Cosmos,Alex Orange à Rouge,2025,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Cosmos
+Blanc Pur",12,Fleurs 🌼,1,false,0,false,2024,Monjardin,2026-08-03,2,12,,2,OK,,,,72,30,0,0,0,8 %,false,0,Cosmos,Blanc Pur,2024,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Cosmos
+Blanc Pur",10,Fleurs 🌼,1,false,0,false,2024,Monjardin,2026-04-16,1,10,1,,OK,,,,181,30,0,0,0,8 %,false,0,Cosmos,Blanc Pur,2024,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Cosmos
+Blanc Pur",1,Fleurs 🌼,15,false,0,false,2024,Monjardin,2026-05-31,,15,,,106,,,,136,30,0,0,0,8 %,false,0,Cosmos,Blanc Pur,2024,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Cosmos
+Candy Stripe",12,Fleurs 🌼,1,false,0,false,2024,Monjardin,2026-04-16,1,12,,1,OK,,Bac R angle,,181,30,0,0,0,2 %,false,0,Cosmos,Candy Stripe,2024,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Cosmos
+Candy Stripe",1,Fleurs 🌼,20,false,0,false,2024,Monjardin,2026-05-31,,20,,,106,,,,136,30,0,0,0,2 %,false,0,Cosmos,Candy Stripe,2024,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Cosmos
+Orange",20,Fleurs 🌼,1,false,0,false,2024,Monjardin,2026-04-16,0,20,,,NG,,,,181,30,0,0,0,13 %,false,0,Cosmos,Orange,2024,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Cosmos
+Versailles",12,Fleurs 🌼,1,false,0,false,2024,Monjardin,2026-04-16,0,12,,,NG,,,,181,30,0,0,0,0 %,false,0,Cosmos,Versailles,2024,2,AMJ,true,2026-10-10,2026-10-10 12:00am
+"Cosmos
+Versailles",1,Fleurs 🌼,25,false,0,false,2024,Monjardin,2026-05-31,,25,,,106,,,,136,30,0,0,0,0 %,false,0,Cosmos,Versailles,2024,2,AMJ,true,2026-10-10,2026-10-10 12:00am
+"Pois de cœur
+Coeur des Indes",8,Fleurs 🌼,1,false,0,false,2022,Monjardin,2026-03-21,8,8,3,2,OK,25-05-2026,"Pot.HC, Cour 2",3,207,10,0,0,0,100 %,false,0,Pois de cœur,Coeur des Indes,2022,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Cornichon
+Vert petit de Paris",5,Lég-fru. 🍅,1,false,0,false,2020,SB,2026-03-29,2,5,2,,OK,16-05-2026,Pot.2-3,,199,10,0,0,0,40 %,true,0,Cornichon,Vert petit de Paris,2020,0,SB,false,2026-10-10,2026-10-10 12:00am
+"Courge Lagenaria
+Serpent de Sicile",5,Lég-fru. 🍅,1,false,0,false,2025,,2026-03-29,0,5,,,NG,,,,199,15,0,0,0,0 %,false,0,Courge Lagenaria,Serpent de Sicile,2025,0,,false,2026-10-10,2026-10-10 12:00am
+"Courge Maxima
+Giraumon Galeux d’Eysines",5,Lég-fru. 🍅,1,false,0,false,2020,JD,2026-03-29,0,5,,,NG,,,,199,15,0,0,0,0 %,false,0,Courge Maxima,Giraumon Galeux d’Eysines,2020,0,,true,2026-10-10,2026-10-10 12:00am
+"Courge Maxima
+Jaune Gros de Paris",2,Lég-fru. 🍅,1,false,0,false,2020,Co.Mam,2026-03-29,0,2,,,NG,,,,199,15,0,0,0,0 %,false,0,Courge Maxima,Jaune Gros de Paris,2020,0,Co.Mam,false,2026-10-10,2026-10-10 12:00am
+"Courge Maxima
+Potimarron",5,Lég-fru. 🍅,1,false,0,false,2021,Co.Mam,2026-03-29,2,5,2,,OK,15-05-2026,Prairie murier,,199,15,0,0,0,40 %,false,0,Courge Maxima,Potimarron,2021,0,Co.Mam,false,2026-10-10,2026-10-10 12:00am
+"Courge Pepo
+Pomme d’Or",2,Lég-fru. 🍅,1,false,0,false,2019,KOK.,2026-03-29,0,2,,,NG,,,,199,15,0,0,0,0 %,false,0,Courge Pepo,Pomme d’Or,2019,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Courge Maxima
+Hubbard Vert",3,Lég-fru. 🍅,1,false,0,false,2022,Monjardin,2026-03-29,2,3,1,1,OK,25-05-2026,Pot.HN,,199,15,0,0,0,67 %,false,0,Courge Maxima,Hubbard Vert,2022,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Melon
+Petit Gris de Rennes",6,Lég-fru. 🍅,2,false,0,false,2019,KOK.,2026-03-21,8,12,3,3,OK,25-05-2026,"SerreE, Serre Tipi",2,207,10,0,0,0,67 %,true,10,Melon,Petit Gris de Rennes,2019,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Melon
+Vert d’Espagne",3,Lég-fru. 🍅,2,false,0,false,2025,Monjardin,2026-03-21,1,6,1,,OK,23-05-2026,SerreN,,207,10,0,0,0,17 %,false,0,Melon,Vert d’Espagne,2025,1,FDSM,true,2026-10-10,2026-10-10 12:00am
+"Pastèque
+Early Moon Beam",3,Lég-fru. 🍅,1,false,0,false,2023,Monjardin,2026-03-21,0,3,,,NG,,,,207,10,0,0,0,0 %,false,0,Pastèque,Early Moon Beam,2023,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Physalis
+Coqueret du Pérou",,Lég-fru. 🍅,,false,2025,true,2025,AR’AN,2025-01-01,17,0,,12,OK,,En pot,,651,30,5,0,0,,false,0,Physalis,Coqueret du Pérou,2025,0,AR’AN,false,2026-10-10,2026-10-10 12:00am
+"Physalis
+Purple Milpa",6,Lég-fru. 🍅,1,false,0,false,2023,KOK.,2026-03-29,6,6,5,1,OK,,"Serre, Bac C angle, Bac C milieu, Pot.4-2",,199,30,0,0,0,100 %,false,0,Physalis,Purple Milpa,2023,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Piment 
+Petit jaune/orange",3,Lég-fru. 🍅,3,false,0,false,,,2026-04-23,0,9,,,NG,,,,174,15,0,0,0,0 %,false,0,Piment ,Petit jaune/orange,,0,,true,2026-10-10,2026-10-10 12:00am
+"Poivron
+(Chocolat)",0,Lég-fru. 🍅,0,false,2024,true,2024,Monjardin,2024-01-01,2,0,1,,OK,,Serre Tipi,,1017,15,1,0,0,,false,0,Poivron,(Chocolat),2024,1,SC,true,2026-10-10,2026-10-10 12:00am
+"Poivron
+(Orange)",3,Lég-fru. 🍅,2,false,0,false,2025,Monjardin,2026-02-28,3,6,1,,OK,,,,228,15,2,0,0,50 %,false,0,Poivron,(Orange),2025,2,Pont Mahé,true,2026-10-10,2026-10-10 12:00am
+,3,Lég-fru. 🍅,2,false,0,false,,,2026-04-23,0,6,,,,,,,174,0,0,0,0,0 %,false,0,,,,0,,true,2026-10-10,2026-10-10 12:00am
+"Poivron
+De-Mi Corne de Taureau (Jaune)",3,Lég-fru. 🍅,1,false,0,false,2023,KOK.,2026-04-23,0,3,,,NG,,,,174,15,0,0,0,0 %,false,0,Poivron,De-Mi Corne de Taureau (Jaune),2023,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Poivron
+De-Mi Corne de Taureau (Jaune)",3,Lég-fru. 🍅,1,false,0,false,2023,KOK.,2026-02-28,0,3,,,NG,,,,228,15,0,0,0,0 %,false,0,Poivron,De-Mi Corne de Taureau (Jaune),2023,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Poivron
+Snacky (Rouge)",3,Lég-fru. 🍅,1,false,0,false,2024,Monjardin,2026-02-28,0,3,,,NG,,,,228,15,0,0,0,0 %,false,0,Poivron,Snacky (Rouge),2024,1,Mar.AC,true,2026-10-10,2026-10-10 12:00am
+"Poivron
+Snacky (Rouge)",3,Lég-fru. 🍅,1,false,0,false,2024,Monjardin,2026-04-23,0,3,,,NG,,,,174,15,0,0,0,0 %,false,0,Poivron,Snacky (Rouge),2024,1,Mar.AC,true,2026-10-10,2026-10-10 12:00am
+"Tomate
+Bosque Blue",3,Lég-fru. 🍅,2,false,0,false,2025,Monjardin,2026-03-21,6,6,3,,OK,17-05-2026,"Séchoir B, Pot.B",3,207,10,0,"63,5175262285","34,8859592008",100 %,false,1,Tomate,Bosque Blue,2025,4,SC,true,2026-10-10,2026-10-10 2:10pm
+"Tomate
+Caro Rich (Orange)",3,Lég-fru. 🍅,2,false,0,false,2024,Monjardin,2026-03-21,4,6,2,,OK,19-05-2026,Ext. Serre Tipi,2,207,10,0,0,0,67 %,false,0,Tomate,Caro Rich (Orange),2024,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Tomate
+Coeur de bœuf",3,Lég-fru. 🍅,2,false,0,false,2020,SC,2026-03-21,0,6,,,NG,,,,207,10,0,0,0,0 %,false,0,Tomate,Coeur de bœuf,2020,0,,true,2026-10-10,2026-10-10 12:00am
+"Tomate
+Coeur de bœuf",3,Lég-fru. 🍅,4,false,0,false,2020,SC,2026-04-14,0,12,,,NG,,,,183,10,0,0,0,0 %,false,0,Tomate,Coeur de bœuf,2020,0,,true,2026-10-10,2026-10-10 12:00am
+"Tomate
+Orange Bourgois",3,Lég-fru. 🍅,5,false,0,false,2020,SC,2026-04-14,0,15,,,NG,,,,183,10,0,0,0,0 %,false,0,Tomate,Orange Bourgois,2020,0,SC,false,2026-10-10,2026-10-10 12:00am
+"Tomate
+Pêche Blanche",3,Lég-fru. 🍅,2,false,0,false,2023,Monjardin,2026-03-21,6,6,3,3,OK,23-05-2026,"Séchoir B, Pot.B, Pot.HN",,207,10,0,0,0,100 %,false,0,Tomate,Pêche Blanche,2023,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Tomate
+Pêche Rose (Fuzzy)",3,Lég-fru. 🍅,2,false,0,false,2023,Monjardin,2026-03-21,6,6,2,,OK,17-05-2026,Bac C milieu,4,207,10,0,0,0,100 %,false,0,Tomate,Pêche Rose (Fuzzy),2023,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Tomate
+Russe",3,Lég-fru. 🍅,2,false,0,false,2025,Monjardin,2026-03-21,4,6,2,2,OK,13-06-2026,"SerreN, Pot.2-2",,207,10,0,0,0,67 %,false,0,Tomate,Russe,2025,3,SC,true,2026-10-10,2026-10-10 12:00am
+"Tomate
+Yellow perfection",3,Lég-fru. 🍅,2,false,0,false,2025,Monjardin,2026-03-21,6,6,1,,OK,16-05-2026,Pot.Prunier,5,207,10,0,0,0,100 %,false,0,Tomate,Yellow perfection,2025,1,SC,true,2026-10-10,2026-10-10 12:00am
+"Tomate-cerise
+Dattorange",3,Lég-fru. 🍅,2,false,0,false,2025,Monjardin,2026-03-21,4,6,2,,OK,,Ext. Serre S,2,207,10,0,0,0,67 %,false,0,Tomate-cerise,Dattorange,2025,2,FD4S,true,2026-10-10,2026-10-10 12:00am
+"Tomate-cerise
+Gardener´s Delight",3,Lég-fru. 🍅,2,false,0,false,2023,Monjardin,2026-03-21,4,6,2,,OK,17-05-2026,Bac R milieu,2,207,10,0,0,0,67 %,false,0,Tomate-cerise,Gardener´s Delight,2023,2,FDSM,true,2026-10-10,2026-10-10 12:00am
+"Tomate-cerise
+Black Cherry",3,Lég-fru. 🍅,2,false,0,false,2025,Monjardin,2026-03-21,6,6,2,,OK,25-05-2026,"Pot.HE, Pot.BC",4,207,10,0,0,0,100 %,false,0,Tomate-cerise,Black Cherry,2025,2,SC,true,2026-10-10,2026-10-10 12:00am
+"Tomate-cerise
+Green Doctors Frosted",3,Lég-fru. 🍅,2,false,0,false,2019,KOK.,2026-03-21,0,6,,,NG,,,,207,10,0,0,0,0 %,false,0,Tomate-cerise,Green Doctors Frosted,2019,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Tomate
+Petite coeur de bœuf",3,Lég-fru. 🍅,2,false,0,false,2025,Monjardin,2026-03-21,6,6,2,1,OK,25-05-2026,"Pot.HN, Serre Tipi",3,207,10,0,0,0,100 %,false,0,Tomate,Petite coeur de bœuf,2025,1,SC,true,2026-10-10,2026-10-10 12:00am
+"Tomate-cerise
+Blush Tiger (Bigarée)",3,Lég-fru. 🍅,2,false,0,false,2024,Monjardin,2026-03-21,5,6,1,2,OK,23-05-2026,SerreN,2,207,10,0,0,0,83 %,false,0,Tomate-cerise,Blush Tiger (Bigarée),2024,1,Golo,true,2026-10-10,2026-10-10 12:00am
+"Tomate-cerise
+Grosses oranges",3,Lég-fru. 🍅,2,false,0,false,2022,SC,2026-03-21,3,6,1,2,OK,17-05-2026,Grand bac,,207,10,0,0,0,50 %,false,0,Tomate-cerise,Grosses oranges,2022,0,SC,false,2026-10-10,2026-10-10 12:00am
+"Tomate-cerise
+Brown Berry",3,Lég-fru. 🍅,2,false,0,false,2021,SC,2026-03-21,0,6,,,NG,,,,207,10,0,0,0,0 %,false,0,Tomate-cerise,Brown Berry,2021,0,SC,false,2026-10-10,2026-10-10 12:00am
+"Tomate-cerise
+Green Doctors Frosted",3,Lég-fru. 🍅,2,false,0,false,2022,Monjardin,2026-04-14,6,6,3,3,OK,30-05-2026,"Pot.4-4, Pot.B",,183,10,0,"71,7894870938","155,0877019154",100 %,false,0,Tomate-cerise,Green Doctors Frosted,2022,1,KOK.,true,2026-10-10,2026-10-10 2:06pm
+"Tomate-cerise
+Helsing Junction Blues",3,Lég-fru. 🍅,1,false,0,false,2019,KOK.,2026-03-21,0,3,1,1,NG,01-06-2026,Pot.B,,207,10,-2,0,0,0 %,false,0,Tomate-cerise,Helsing Junction Blues,2019,0,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Tomate-cerise
+Helsing Junction Blues",3,Lég-fru. 🍅,2,false,0,false,2025,Monjardin,2026-04-14,4,6,1,1,OK,01-06-2026,Pot,,183,10,2,0,0,67 %,false,3,Tomate-cerise,Helsing Junction Blues,2025,2,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Tomate-cerise
+Miel du Mexique",3,Lég-fru. 🍅,4,false,0,false,2020,SC,2026-04-14,0,12,,,NG,,,,183,10,0,0,0,0 %,false,0,Tomate-cerise,Miel du Mexique,2020,0,SC,false,2026-10-10,2026-10-10 12:00am
+"Tomate-cerise
+Olivette",3,Lég-fru. 🍅,2,false,0,false,2025,Monjardin,2026-03-21,6,6,2,4,OK,31-05-2026,Pot.1-4,,207,10,0,0,0,100 %,false,0,Tomate-cerise,Olivette,2025,2,YR,true,2026-10-10,2026-10-10 12:00am
+"Tomate-cerise
+Brown Berry",3,Lég-fru. 🍅,5,false,0,false,2021,SC,2026-04-14,0,15,,,NG,,,,183,10,0,0,0,0 %,false,0,Tomate-cerise,Brown Berry,2021,0,SC,false,2026-10-10,2026-10-10 12:00am
+"Tomate
+Noire de Crimée",3,Lég-fru. 🍅,2,false,0,false,2025,Monjardin,2026-03-21,6,6,2,,OK,17-05-2026,Bac C angle,4,207,10,0,0,0,100 %,false,0,Tomate,Noire de Crimée,2025,2,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Tomate-cerise
+Cocktail",3,Lég-fru. 🍅,2,false,0,false,2023,Monjardin,2026-03-21,6,6,1,,OK,25-05-2026,Pot.HN,5,207,10,0,0,0,100 %,false,0,Tomate-cerise,Cocktail,2023,2,Co.Mam,true,2026-10-10,2026-10-10 12:00am
+"Tomate
+Grégori Altaï (Rose)",3,Lég-fru. 🍅,2,false,0,false,2025,Monjardin,2026-03-21,6,6,1,,OK,12-05-2026,SerreS,5,207,10,0,0,0,100 %,false,0,Tomate,Grégori Altaï (Rose),2025,2,SC,true,2026-10-10,2026-10-10 12:00am
+"Tomate-cerise
+Piennolo Del Vesuvio",3,Lég-fru. 🍅,2,false,0,false,2025,SC,2026-03-21,6,6,2,,OK,20-05-2026,"Pot.1-3, Ext. Serre W",4,207,10,0,0,0,100 %,false,0,Tomate-cerise,Piennolo Del Vesuvio,2025,3,SC,true,2026-10-10,2026-10-10 12:00am
+"Tomate-cerise
+Cocktail Clémentine",3,Lég-fru. 🍅,2,false,0,false,2025,Monjardin,2026-03-21,6,6,2,,OK,17-05-2026,Bac R angle,4,207,10,0,0,0,100 %,false,0,Tomate-cerise,Cocktail Clémentine,2025,3,FDSM,true,2026-10-10,2026-10-10 12:00am
+"Tomate-cerise
+Poire Jaune",3,Lég-fru. 🍅,2,false,0,false,2025,Monjardin,2026-03-21,5,6,1,2,OK,23-05-2026,Serre Tipi,2,207,10,0,0,0,83 %,false,0,Tomate-cerise,Poire Jaune,2025,3,Co.Mam,true,2026-10-10,2026-10-10 12:00am
+"Tomate
+Indigo Apple",3,Lég-fru. 🍅,2,false,0,false,2025,Monjardin,2026-03-21,6,6,2,,OK,15-05-2026,Pot.Bulle,4,207,10,0,0,0,100 %,false,0,Tomate,Indigo Apple,2025,4,Co.Mam,true,2026-10-10,2026-10-10 12:00am
+"Tomate
+Orange Bourgois",3,Lég-fru. 🍅,2,false,0,false,2020,SC,2026-03-21,0,6,,,NG,,,,207,10,0,0,0,0 %,false,0,Tomate,Orange Bourgois,2020,0,SC,false,2026-10-10,2026-10-10 12:00am
+"Maïs Doux
+Arc En Ciel Inca",10,Lég-gra. 🌾,3,false,0,false,2023,KOK.,2026-04-12,25,30,13,,OK,01-05-2026,Séchoir HB,12,185,10,0,,,83 %,false,0,Maïs Doux,Arc En Ciel Inca,2023,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Maïs Doux
+Country Gentleman",10,Lég-gra. 🌾,3,false,0,false,2024,KOK.,2026-04-12,24,30,,,OK,,,6,185,10,18,0,0,80 %,false,0,Maïs Doux,Country Gentleman,2024,0,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Maïs Doux
+Triple play",10,Lég-gra. 🌾,3,false,0,false,2023,KOK.,2026-04-12,21,30,15,,OK,16-05-2026,Pot.Bulle,6,185,10,0,0,0,70 %,false,0,Maïs Doux,Triple play,2023,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Sorgho
+Black Amber Cane",8,Lég-gra. 🌾,3,false,0,false,2025,KOK.,2026-04-12,2,24,,,OK,,,,185,20,2,0,0,8 %,false,0,Sorgho,Black Amber Cane,2025,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Sorgho
+Dwarf Mayo",8,Lég-gra. 🌾,3,false,0,false,2025,KOK.,2026-04-12,44,24,,22,OK,,,,185,20,22,0,0,183 %,false,0,Sorgho,Dwarf Mayo,2025,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Aubergine
+Imperial Black Beauty",0,Lég-fru. 🍅,0,false,2026,true,2026,KOK.,,0,0,1,0,,,SerreS,0,,30,-1,0,0,,false,0,Aubergine,Imperial Black Beauty,2026,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Arnica
+Américaine",0,Arom.Méd 🌿,0,false,2025,true,2025,AR’AN,2025-01-01,0,0,1,0,NG,,Tipi carré,0,651,20,-1,0,0,,false,0,Arnica,Américaine,2025,0,AR’AN,false,2026-10-10,2026-10-10 12:00am
+"Artemisia
+Absinthe",0,Arom.Méd 🌿,0,false,2024,true,2024,AJC B.,2024-01-01,0,0,1,0,NG,,Regard eau,0,1017,20,-1,0,0,,false,0,Artemisia,Absinthe,2024,0,AJC B.,false,2026-10-10,2026-10-10 12:00am
+"Artemisia
+Cola",0,Arom.Méd 🌿,0,false,2024,true,2024,AJC B.,2024-01-01,0,0,1,0,NG,,Regard eau,0,1017,20,-1,0,0,,false,0,Artemisia,Cola,2024,0,AJC B.,false,2026-10-10,2026-10-10 12:00am
+"Aspérule
+Odorante",0,Arom.Méd 🌿,0,false,2023,true,2023,AR'AN,2023-01-01,0,0,1,0,NG,,Ext. Serre E,0,1382,25,-1,0,0,,false,0,Aspérule,Odorante,2023,0,AR'AN,false,2026-10-10,2026-10-10 12:00am
+"Coriandre
+Vietnamienne",0,Arom.Méd 🌿,0,false,2025,true,2025,AR’AN,2025-01-01,0,0,1,0,NG,,Ext. Serre Bulle,0,651,30,-1,0,0,,false,0,Coriandre,Vietnamienne,2025,0,AR’AN,false,2026-10-10,2026-10-10 12:00am
+"Estragon
+Du Mexique",0,Arom.Méd 🌿,0,false,2025,true,2025,AR'AN,2025-01-01,0,0,1,0,NG,,En pot,0,651,20,-1,0,0,,false,0,Estragon,Du Mexique,2025,0,SC,false,2026-10-10,2026-10-10 12:00am
+"Goji
+Barbarum",0,Arom.Méd 🌿,0,false,2023,true,2023,FDSM,2023-01-01,0,0,1,0,NG,,Tipi carré,0,1382,42,-1,0,0,,false,0,Goji,Barbarum,2023,0,FDSM,false,2026-10-10,2026-10-10 12:00am
+"Hélichrysum
+Plante à curry",0,Arom.Méd 🌿,0,false,2025,true,2025,AJC B.,2025-01-01,0,0,1,0,,,Regard eau,0,651,,-1,0,0,,false,0,Hélichrysum,Plante à curry,2025,0,AJC B.,false,2026-10-10,2026-10-10 12:00am
+"Lavande
+Officinale",0,Arom.Méd 🌿,0,false,2023,true,2023,GV,2023-01-01,0,0,3,0,NG,,C. Fosse,0,1382,90,-3,0,0,,false,0,Lavande,Officinale,2023,0,GV,false,2026-10-10,2026-10-10 12:00am
+"Lavande
+Officinale",0,Arom.Méd 🌿,0,false,2024,true,2024,Bioc.,2024-01-01,0,0,1,0,NG,,C. Fosse,0,1017,90,-1,0,0,,false,0,Lavande,Officinale,2024,0,GV,false,2026-10-10,2026-10-10 12:00am
+"Marjolaine
+commune",0,Arom.Méd 🌿,0,false,2025,true,2025,AR’AN,2025-01-01,0,0,1,0,,,Murette,0,651,,-1,0,0,,false,0,Marjolaine,commune,2025,0,AR’AN,false,2026-10-10,2026-10-10 12:00am
+"Matricaire (Camomille)
+Zloty Lan",0,Arom.Méd 🌿,0,false,2025,true,2025,AR'AN,2025-01-01,0,0,1,0,NG,,Pot.HE,0,651,30,-1,0,0,,false,0,Matricaire (Camomille),Zloty Lan,2025,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Menthe
+« Pauline »",0,Arom.Méd 🌿,0,false,2023,true,2023,PK,2023-01-01,0,0,1,0,NG,,C. Fosse,0,1382,20,-1,0,0,,false,1,Menthe,« Pauline »,2023,0,PK,false,2026-10-10,2026-10-10 12:00am
+"Menthe
+Aquatique",0,Arom.Méd 🌿,0,false,2025,true,2025,AR'AN,2025-01-01,0,0,1,0,NG,,Fontaine,0,651,20,-1,0,0,,false,1,Menthe,Aquatique,2025,0,AR'AN,false,2026-10-10,2026-10-10 12:00am
+"Menthe
+Cassis",0,Arom.Méd 🌿,0,false,2023,true,2023,AR'AN,2023-01-01,0,0,1,0,NG,,Cour 2,0,1382,20,-1,0,0,,false,1,Menthe,Cassis,2023,0,AR'AN,false,2026-10-10,2026-10-10 12:00am
+"Menthe
+Chocolat",0,Arom.Méd 🌿,0,false,2024,true,2024,AJC B.,2024-01-01,0,0,1,0,NG,,En pot,0,1017,20,-1,0,0,,false,1,Menthe,Chocolat,2024,0,AJC B.,false,2026-10-10,2026-10-10 12:00am
+"Menthe
+Citron",0,Arom.Méd 🌿,0,false,2025,true,2025,AJC B.,2025-01-01,0,0,1,0,NG,,Ext. Serre Tipi,0,651,20,-1,0,0,,false,1,Menthe,Citron,2025,0,AJC B.,false,2026-10-10,2026-10-10 12:00am
+"Menthe
+Fraise",0,Arom.Méd 🌿,0,false,2021,true,2021,FDSM,2021-01-01,0,0,1,0,NG,,Cour triangle,0,2112,20,-1,0,0,,false,1,Menthe,Fraise,2021,0,FDSM,false,2026-10-10,2026-10-10 12:00am
+"Menthe
+Hollywood / coq",0,Arom.Méd 🌿,0,false,2023,true,2023,PK,2023-01-01,0,0,1,0,NG,,Grand bac,0,1382,20,-1,0,0,,false,1,Menthe,Hollywood / coq,2023,0,PK,false,2026-10-10,2026-10-10 12:00am
+"Menthe
+Marocaine",0,Arom.Méd 🌿,0,false,2021,true,2021,FDSM,2021-01-01,0,0,1,0,NG,,Bac C milieu,0,2112,20,-1,0,0,,false,1,Menthe,Marocaine,2021,0,FDSM,false,2026-10-10,2026-10-10 12:00am
+"Menthe
+Mojito",0,Arom.Méd 🌿,0,false,2025,true,2025,AJC B.,2025-01-01,0,0,1,0,NG,,Pot.HE,0,651,20,-1,0,0,,false,1,Menthe,Mojito,2025,0,AJC B.,false,2026-10-10,2026-10-10 12:00am
+"Menthe
+Poivrée",0,Arom.Méd 🌿,0,false,2022,true,2022,YR,2022-01-01,0,0,1,0,NG,,,0,1747,20,-1,0,0,,false,1,Menthe,Poivrée,2022,0,YR,false,2026-10-10,2026-10-10 12:00am
+"Menthe
+Pomme",0,Arom.Méd 🌿,0,false,2022,true,2022,Monjardin,2022-01-01,0,0,1,0,NG,,C. Terrasse,0,1747,20,-1,0,0,,false,1,Menthe,Pomme,2022,1,FDSM,true,2026-10-10,2026-10-10 12:00am
+"Menthe
+Sauvage",0,Arom.Méd 🌿,0,false,2021,true,2021,?,2021-01-01,0,0,1,0,NG,,Bac R angle,0,2112,20,-1,0,0,,false,1,Menthe,Sauvage,2021,0,?,false,2026-10-10,2026-10-10 12:00am
+"Menthe
+Vanille",0,Arom.Méd 🌿,0,false,2023,true,2023,AR'AN,2023-01-01,0,0,1,0,NG,,Cour 1,0,1382,20,-1,0,0,,false,1,Menthe,Vanille,2023,0,AR'AN,false,2026-10-10,2026-10-10 12:00am
+"Menthe
+Verte",0,Arom.Méd 🌿,0,false,2020,true,2020,EN,2020-01-01,0,0,1,0,NG,,Ext. Serre Bulle,0,2478,20,-1,0,0,,false,1,Menthe,Verte,2020,0,EN,false,2026-10-10,2026-10-10 12:00am
+"Myrthe
+Commun",0,Arom.Méd 🌿,0,false,2023,true,2023,AR'AN,2023-01-01,0,0,1,0,NG,,Bac R angle,0,1382,42,-1,0,0,,false,0,Myrthe,Commun,2023,0,AR'AN,false,2026-10-10,2026-10-10 12:00am
+"Poivrier
+Du Sichuan",0,Arom.Méd 🌿,0,false,2025,true,2025,AR'AN,2025-01-01,0,0,1,0,NG,,Prairie murier,0,651,60,-1,0,0,,false,0,Poivrier,Du Sichuan,2025,0,AR'AN,false,2026-10-10,2026-10-10 12:00am
+"Réglisse
+Glabra",0,Arom.Méd 🌿,0,false,2023,true,2023,Monjardin,2023-01-01,0,0,1,0,NG,,Bac C angle,0,1382,21,-1,0,0,,false,0,Réglisse,Glabra,2023,0,FDSM,false,2026-10-10,2026-10-10 12:00am
+"Réglisse
+Yunnanensis",0,Arom.Méd 🌿,0,false,2022,true,2022,Monjardin,2026-04-17,3,0,1,,OK,13-06-2026,Cour 1,,180,21,2,0,0,,true,0,Réglisse,Yunnanensis,2022,0,KOK.,false,2026-10-10,2026-10-10 12:04pm
+"Romarin
+Officinale",0,Arom.Méd 🌿,0,false,2025,true,2025,JD,2025-01-01,0,0,5,0,NG,,,0,651,28,-5,0,0,,false,0,Romarin,Officinale,2025,0,JD,false,2026-10-10,2026-10-10 12:00am
+"Romarin
+Rampant de Corse",0,Arom.Méd 🌿,0,false,2023,true,2023,AR'AN,2023-01-01,0,0,1,0,NG,,Murette,0,1382,28,-1,0,0,,false,0,Romarin,Rampant de Corse,2023,0,AR'AN,false,2026-10-10,2026-10-10 12:00am
+"Sarriette
+Des Montagnes",0,Arom.Méd 🌿,0,false,2024,true,2024,AJC B.,2024-01-01,0,0,1,0,NG,,C. Terrasse,0,1017,10,-1,0,0,,false,0,Sarriette,Des Montagnes,2024,0,AJC B.,false,2026-10-10,2026-10-10 12:00am
+"Sauge
+Ananas",0,Arom.Méd 🌿,0,false,2023,true,2023,AR'AN,2023-01-01,0,0,1,0,NG,,C. Fosse,0,1382,20,-1,0,0,,false,0,Sauge,Ananas,2023,0,AR'AN,false,2026-10-10,2026-10-10 12:00am
+"Sauge
+Officinale",0,Arom.Méd 🌿,0,false,2021,true,2021,Monjardin,2021-01-01,0,0,,,NG,,C. Fosse,,2112,25,0,0,0,,false,0,Sauge,Officinale,2021,0,SC,false,2026-10-10,2026-10-10 12:00am
+"Sauge
+Orange",0,Arom.Méd 🌿,0,false,2023,true,2023,AR'AN,2023-01-01,0,0,1,0,NG,,,0,1382,25,-1,0,0,,false,0,Sauge,Orange,2023,0,AR'AN,false,2026-10-10,2026-10-10 12:00am
+"Sauge
+Sclarée",0,Arom.Méd 🌿,0,false,2023,true,2023,AR'AN,2023-01-01,0,0,1,0,NG,,Ext. Serre S,0,1382,25,-1,0,0,,false,0,Sauge,Sclarée,2023,0,AR'AN,false,2026-10-10,2026-10-10 12:00am
+"Thym
+À Linalol",0,Arom.Méd 🌿,0,false,0,false,,,2023-01-01,0,0,1,0,NG,,,0,1382,21,-1,0,0,,false,0,Thym,À Linalol,,0,AR'AN,true,2026-10-10,2026-10-10 12:00am
+"Thym
+À Thuyanol",0,Arom.Méd 🌿,0,false,0,false,,,2025-01-01,0,0,1,0,NG,,,0,651,21,-1,0,0,,false,0,Thym,À Thuyanol,,0,AR'AN,true,2026-10-10,2026-10-10 12:00am
+"Thym
+À Thymol",0,Arom.Méd 🌿,0,false,0,false,,,2025-01-01,0,0,1,0,NG,,,0,651,21,-1,0,0,,false,0,Thym,À Thymol,,0,AR'AN,true,2026-10-10,2026-10-10 12:00am
+"Thym
+Citron",0,Arom.Méd 🌿,0,false,0,false,,,2020-01-01,0,0,1,0,NG,,,0,2478,21,-1,0,0,,false,0,Thym,Citron,,0,YR,true,2026-10-10,2026-10-10 12:00am
+"Thym
+Luisant",0,Arom.Méd 🌿,0,false,0,false,,,2023-01-01,0,0,1,0,NG,,,0,1382,21,-1,0,0,,false,0,Thym,Luisant,,0,AR'AN,true,2026-10-10,2026-10-10 12:00am
+"Thym
+Officinale",0,Arom.Méd 🌿,0,false,0,false,,,2020-01-01,0,0,1,0,NG,,,0,2478,21,-1,0,0,,false,0,Thym,Officinale,,0,?,true,2026-10-10,2026-10-10 12:00am
+"Thym
+Orange",0,Arom.Méd 🌿,0,false,0,false,,,2023-01-01,0,0,1,0,NG,,,0,1382,21,-1,0,0,,false,0,Thym,Orange,,0,AR'AN,true,2026-10-10,2026-10-10 12:00am
+"Thym
+Serpolet",0,Arom.Méd 🌿,0,false,0,false,,,2023-01-01,0,0,1,0,NG,,,0,1382,21,-1,0,0,,false,0,Thym,Serpolet,,0,AR'AN,true,2026-10-10,2026-10-10 12:00am
+"Verveine
+Odorante",0,Arom.Méd 🌿,0,false,0,false,,,2023-01-01,0,0,1,0,NG,,,0,1382,20,-1,0,0,,false,0,Verveine,Odorante,,0,AR'AN,true,2026-10-10,2026-10-10 12:00am
+"Agapanthe
+Bleue",0,Fleurs 🌼,0,false,0,false,,,2020-01-01,0,0,1,0,NG,,,0,2478,21,-1,0,0,,false,0,Agapanthe,Bleue,,0,JD,true,2026-10-10,2026-10-10 12:00am
+"Ajuga Reptans
+Panaché",0,Fleurs 🌼,0,false,0,false,,,2025-01-01,0,0,1,0,NG,,,0,651,21,-1,0,0,,false,0,Ajuga Reptans,Panaché,,0,AJC B.,true,2026-10-10,2026-10-10 12:00am
+"Ajuga Reptans
+Pourpre",0,Fleurs 🌼,0,false,0,false,,,2025-01-01,0,0,1,0,NG,,,0,651,21,-1,0,0,,false,0,Ajuga Reptans,Pourpre,,0,AJC B.,true,2026-10-10,2026-10-10 12:00am
+"Bleuet
+Centaure Cyanus",0,Fleurs 🌼,0,false,2022,true,2022,JD,2022-01-01,0,0,1,0,NG,,,0,1747,20,-1,0,0,,false,3,Bleuet,Centaure Cyanus,2022,0,JD,false,2026-10-10,2026-10-10 12:00am
+"Bourrache
+À Fleurs Blanches",0,Fleurs 🌼,0,false,0,false,,,2021-01-01,0,0,1,0,NG,,,0,2112,15,-1,0,0,,false,0,Bourrache,À Fleurs Blanches,,0,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Consoude
+A grandes fleurs",0,Fleurs 🌼,0,false,0,false,,,2023-01-01,0,0,1,0,NG,,,0,1382,"0,5",-1,0,0,,false,0,Consoude,A grandes fleurs,,0,AR'AN,true,2026-10-10,2026-10-10 12:00am
+"Consoude
+Bocking 14",0,Fleurs 🌼,0,false,0,false,,,2022-01-01,0,0,3,0,NG,,,0,1747,"0,5",-3,0,0,,false,0,Consoude,Bocking 14,,0,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Corbeille 
+D’argent",0,Fleurs 🌼,0,false,0,false,,,2024-01-01,0,0,1,0,NG,,,0,1017,15,-1,0,0,,false,0,Corbeille ,D’argent,,0,JB,true,2026-10-10,2026-10-10 12:00am
+"Heuchère
+Pourpre",0,Fleurs 🌼,0,false,0,false,,,2025-01-01,0,0,1,0,NG,,,0,651,15,-1,0,0,,false,0,Heuchère,Pourpre,,0,AJC B.,true,2026-10-10,2026-10-10 12:00am
+"Perowskia
+",0,Fleurs 🌼,0,false,0,false,,,2025-01-01,0,0,1,0,NG,,,0,651,42,-1,0,0,,false,0,Perowskia,,,0,AJC B.,true,2026-10-10,2026-10-10 12:00am
+"Sedum
+Glaucum",0,Fleurs 🌼,0,false,0,false,,,2024-01-01,0,0,1,0,NG,,,0,1017,40,-1,0,0,,false,0,Sedum,Glaucum,,0,JB,true,2026-10-10,2026-10-10 12:00am
+"Valériane
+Des jardins",0,Fleurs 🌼,0,false,0,false,,,2020-01-01,0,0,2,0,NG,,,0,2478,14,-2,0,0,,false,0,Valériane,Des jardins,,0,,true,2026-10-10,2026-10-10 12:00am
+"Verveine
+De Buenos Aires",0,Fleurs 🌼,0,false,0,false,,,2023-01-01,0,0,1,0,NG,,,0,1382,30,-1,0,0,,false,0,Verveine,De Buenos Aires,,0,PK,true,2026-10-10,2026-10-10 12:00am
+"Artichaut
+Imperial Star",0,Lég-feu. 🥬,0,false,0,false,,,,0,0,2,0,,,,0,,15,-2,0,0,,false,0,Artichaut,Imperial Star,,0,NM,true,2026-10-10,2026-10-10 12:00am
+"Aubergine
+Diamond",0,Lég-fru. 🍅,0,false,0,false,,,2026-01-01,0,0,1,0,NG,,,0,286,30,-1,0,0,,false,0,Aubergine,Diamond,,0,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Aubergine
+Imperial Black Beauty",0,Lég-fru. 🍅,0,false,0,false,,,2026-01-01,0,0,1,0,NG,,,0,286,30,-1,0,0,,false,0,Aubergine,Imperial Black Beauty,,0,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Aubergine
+Longue Violette Hâtive",0,Lég-fru. 🍅,0,false,0,false,,,,0,0,1,0,,,,0,,30,-1,0,0,,false,0,Aubergine,Longue Violette Hâtive,,0,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Courgette
+Noire maraîchère",0,Lég-fru. 🍅,0,false,0,false,,,2026-01-01,0,0,1,0,NG,,,0,286,15,-1,0,0,,false,0,Courgette,Noire maraîchère,,0,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Courgette
+Ronde de Nice",0,Lég-fru. 🍅,0,false,0,false,,,2026-01-01,0,0,1,0,NG,,,0,286,15,-1,0,0,0 %,false,0,Courgette,Ronde de Nice,,0,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Physalis
+Coqueret du Pérou",0,Lég-fru. 🍅,0,false,0,false,,,2025-01-01,0,0,1,0,NG,,,0,651,30,-1,0,0,,false,0,Physalis,Coqueret du Pérou,,0,AR’AN,true,2026-10-10,2026-10-10 12:00am
+"Cassissier
+Andega",0,Petits Fruits 🫐,0,false,0,false,,,2018-01-01,0,0,1,0,,,,0,3208,,-1,0,0,,false,0,Cassissier,Andega,,0,,true,2026-10-10,2026-10-10 12:00am
+"Fraisier
+Cijosée",0,Petits Fruits 🫐,0,false,0,false,,,2024-01-01,0,0,10,0,,,,0,1017,,-10,0,0,,false,0,Fraisier,Cijosée,,0,,true,2026-10-10,2026-10-10 12:00am
+"Fraisier
+Gariguette",0,Petits Fruits 🫐,0,false,0,false,,,2023-01-01,0,0,6,0,,,,0,1382,,-6,0,0,,false,0,Fraisier,Gariguette,,0,,true,2026-10-10,2026-10-10 12:00am
+"Fraisier
+Mara des bois",0,Petits Fruits 🫐,0,false,0,false,,,2024-01-01,0,0,3,0,,,,0,1017,,-3,0,0,,false,0,Fraisier,Mara des bois,,0,,true,2026-10-10,2026-10-10 12:00am
+"Framboisier
+Augustred",0,Petits Fruits 🫐,0,false,0,false,,,2024-01-01,0,0,2,0,,,,0,1017,,-2,0,0,,false,0,Framboisier,Augustred,,0,,true,2026-10-10,2026-10-10 12:00am
+"Framboisier
+Blanc",0,Petits Fruits 🫐,0,false,0,false,,,2022-01-01,0,0,1,0,,,,0,1747,,-1,0,0,,false,0,Framboisier,Blanc,,0,,true,2026-10-10,2026-10-10 12:00am
+"Framboisier
+Breton",0,Petits Fruits 🫐,0,false,0,false,,,2025-01-01,0,0,6,0,,,,0,651,,-6,0,0,,false,0,Framboisier,Breton,,0,,true,2026-10-10,2026-10-10 12:00am
+"Framboisier
+Grand-Pierre",0,Petits Fruits 🫐,0,false,0,false,,,2022-01-01,0,0,1,0,,,,0,1747,,-1,0,0,,false,0,Framboisier,Grand-Pierre,,0,,true,2026-10-10,2026-10-10 12:00am
+"Framboisier
+Héritage",0,Petits Fruits 🫐,0,false,0,false,,,2024-01-01,0,0,2,0,,,,0,1017,,-2,0,0,,false,0,Framboisier,Héritage,,0,,true,2026-10-10,2026-10-10 12:00am
+"Framboisier
+September",0,Petits Fruits 🫐,0,false,0,false,,,2026-01-01,0,0,2,0,,,,0,286,,-2,0,0,,false,0,Framboisier,September,,0,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Groseillier
+Junifer",0,Petits Fruits 🫐,0,false,0,false,,,2018-01-01,0,0,1,0,,,,0,3208,,-1,0,0,,false,0,Groseillier,Junifer,,0,,true,2026-10-10,2026-10-10 12:00am
+"Mûrier
+Triple Crown",0,Petits Fruits 🫐,0,false,0,false,,,2018-01-01,0,0,1,0,,,,0,3208,,-1,0,0,,false,0,Mûrier,Triple Crown,,0,,true,2026-10-10,2026-10-10 12:00am
+"Myrtillier
+Collins",0,Petits Fruits 🫐,0,false,0,false,,,2018-01-01,0,0,1,0,,,,0,3208,,-1,0,0,,false,0,Myrtillier,Collins,,0,,true,2026-10-10,2026-10-10 12:00am
+"Christophine 
+Chayotte Verte",0,Tub.bul. 🧅,0,false,0,false,,,2024-01-01,0,0,2,0,,,,0,1017,,-2,0,0,,false,0,Christophine ,Chayotte Verte,,0,,true,2026-10-10,2026-10-10 12:00am
+"Gingembre
+",0,Tub.bul. 🧅,0,false,0,false,,,2024-01-01,0,0,1,0,,,,0,1017,,-1,0,0,,false,0,Gingembre,,,0,Bioc.,true,2026-10-10,2026-10-10 12:00am
+"Gingembre
+Thaï",0,Tub.bul. 🧅,0,false,0,false,,,2023-01-01,0,0,1,0,,,,0,1382,,-1,0,0,,false,0,Gingembre,Thaï,,0,AR'AN,true,2026-10-10,2026-10-10 12:00am
+"Poivron
+(Orange)",0,Lég-fru. 🍅,0,false,2025,true,2025,Pont Mahé,2025-01-01,0,0,1,0,NG,,,0,651,15,-1,0,0,,false,3,Poivron,(Orange),2025,2,Pont Mahé,true,2026-10-10,2026-10-10 12:00am
+"Onagre
+",8,Fleurs 🌼,3,false,0,false,2024,SC,2026-04-17,13,24,11,2,OK,14-06-2026,En pot,,180,30,0,0,0,54 %,false,0,Onagre,,2024,0,SC,false,2026-10-10,2026-10-10 12:00am
+"Morelle de Balbis
+Tomate Litchi",6,Lég-fru. 🍅,1,false,2025,true,2025,Monjardin,2025-01-01,1,6,1,,OK,,Serre Tipi,,651,21,0,0,0,17 %,false,0,Morelle de Balbis,Tomate Litchi,2025,1,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Morelle de Balbis
+Tomate Litchi",6,Lég-fru. 🍅,1,false,0,false,2023,KOK.,2026-03-29,1,6,1,,OK,,,,199,21,0,0,0,17 %,false,0,Morelle de Balbis,Tomate Litchi,2023,0,KOK.,false,2026-10-10,2026-10-10 12:00am
+"Physalis
+Coqueret du Pérou",6,Lég-fru. 🍅,3,false,0,false,2024,Monjardin,2026-03-29,17,18,1,12,OK,,,,199,30,4,0,0,94 %,false,0,Physalis,Coqueret du Pérou,2024,2,AR’AN,true,2026-10-10,2026-10-10 12:00am
+"Poivron
+(Chocolat)",0,Lég-fru. 🍅,0,false,2025,true,2025,Monjardin,2025-01-01,2,0,1,,OK,,En pot,,651,15,1,0,0,,false,5,Poivron,(Chocolat),2025,2,SC,true,2026-10-10,2026-10-10 12:00am
+"Poivron
+Miniature Red Bell",3,Lég-fru. 🍅,1,false,0,false,2024,Monjardin,2026-02-28,0,3,,,NG,,,,228,15,0,0,0,0 %,false,0,Poivron,Miniature Red Bell,2024,2,KOK.,true,2026-10-10,2026-10-10 12:00am
+"Poivron
+Miniature Red Bell",3,Lég-fru. 🍅,2,false,0,false,2024,Monjardin,2026-04-23,0,6,,,NG,,,,174,15,0,0,0,0 %,false,0,Poivron,Miniature Red Bell,2024,2,KOK.,true,2026-10-10,2026-10-10 12:00am

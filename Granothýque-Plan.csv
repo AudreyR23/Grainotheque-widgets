@@ -1,0 +1,36 @@
+Zone,X,Y,Rotation,Largeur,Hauteur,Visible
+Serre,556,416,90,234,312,false
+Ext. Serre S,519,694,0,312,31,false
+Ext. Serre E,832,539,0,31,184,false
+Ext. Serre W,482,456,0,31,234,false
+Ext. Serre Clô.,238,456,0,234,39,false
+Ext. Serre Bulle,905,588,105,160,80,false
+Ext. Serre Tipi,296,540,0,80,80,false
+Pot.HN,490,28,0,507,78,false
+Potager,1659,1216,0,273,351,false
+Pot.Bulle,511,154,90,150,100,false
+Pot.HE,997,107,0,100,273,false
+Pot.HC,665,383,0,296,31,false
+Pot.X-Y,209,30,180,273,350,false
+Potager Bas,8,31,0,195,195,false
+Pot.Table,504,316,90,78,117,false
+Pot.Prunier,728,175,0,200,120,false
+Bac C angle,1679,505,0,125,125,false
+Bac R milieu,1744,688,0,50,140,false
+Bac C milieu,1467,674,90,160,150,false
+Bac R angle,1479,525,90,117,78,false
+Bac terrasse,1824,222,90,40,117,false
+Grand bac,1544,866,0,218,140,false
+Cour,221,976,0,320,47,false
+Cour tri.,229,792,0,120,93,false
+C. Fosse,47,790,0,160,234,false
+C. Terrasse,50,1032,0,120,100,false
+Regard eau,697,1118,90,320,78,false
+Séchoir H,1585,30,15,120,120,false
+Séchoir B,1594,119,180,100,70,false
+Murette,548,792,0,273,30,false
+Tipi carré,1378,558,0,31,31,false
+Fontaine,1095,155,90,200,100,false
+Fig.J,1199,487,0,60,60,false
+Murier,1346,326,0,230,80,false
+En pot,1788,316,0,120,80,false
