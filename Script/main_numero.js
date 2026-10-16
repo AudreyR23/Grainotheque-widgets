@@ -4,7 +4,7 @@
    const ROWS_PER_COL = 20; // Nombre de lignes par colonne (inchangé)
 const COLS_PER_PAGE = 3; // Nombre de colonnes par page (3 au lieu de 2)
 const PER_PAGE = ROWS_PER_COL * COLS_PER_PAGE; // 20 lignes × 3 colonnes = 60 lignes par page
-    const bouchonne = true; // Passez à false pour le mode Grist
+    const bouchonne = false; // Passez à false pour le mode Grist
 
     // =============================================
     // FONCTIONS POUR L'AFFICHAGE DES ÉPINGLES
