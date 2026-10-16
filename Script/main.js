@@ -2,7 +2,7 @@
    CONFIGURATION
    ============================================= */
 const LIGNES_PAR_PAGE = 26;
-const bouchonne = true; // Passez à false pour le mode Grist
+const bouchonne = false; // Passez à false pour le mode Grist
 let varietesParNom = {};
 let derniersRecords = [];
 
