@@ -168,19 +168,44 @@ async function chargerDonneesGrist() {
 // =============================================
 // INITIALISATION
 // =============================================
-if (bouchonne) {
-  console.log("Mode BOUCHON : chargement des données locales depuis JSON");
-  document.addEventListener('DOMContentLoaded', initialiserDonneesLocales);
-} else {
+if (!bouchonne) {
   console.log("Mode GRIST : Chargement des données depuis Grist.");
   grist.ready({ requiredAccess: 'read table' });
-  grist.docApi.fetchTable('Millesimes').then(() => {
-    chargerDonneesGrist().then(({ varietesParNom, derniersRecords }) => {
-      if (varietesParNom && derniersRecords) {
-        const grainesMap = buildGrainesMap(derniersRecords);
-        const graines = [...grainesMap.values()];
-        render(graines);
+
+  // Vérifiez que grist.docApi est disponible
+  console.log("grist.docApi disponible ?", typeof grist.docApi !== 'undefined');
+
+  // Chargez les données depuis Grist
+  Promise.all([
+    grist.docApi.fetchTable('Varietes'),
+    grist.docApi.fetchTable('Millesimes')
+  ]).then(([varietesData, millesimesData]) => {
+    console.log("Données Varietes reçues :", varietesData);
+    console.log("Données Millesimes reçues :", millesimesData);
+
+    // Vérifiez que les données ne sont pas vides
+    if (!varietesData || !millesimesData) {
+      console.error("❌ Une des tables est vide ou introuvable !");
+      return;
+    }
+
+    // Transformez les données pour l'affichage
+    const data = [];
+    const ids = varietesData.id || [];
+    for (let i = 0; i < ids.length; i++) {
+      if (varietesData.Num_epingle && varietesData.Num_epingle[i] > 0) {
+        data.push({
+          type: varietesData.Type ? varietesData.Type[i] : '',
+          nom: varietesData.Nom ? varietesData.Nom[i] : '',
+          variete: varietesData.Variete ? varietesData.Variete[i] : '',
+          num: varietesData.Num_epingle[i],
+        });
       }
-    });
+    }
+
+    console.log("Données transformées pour l'affichage :", data);
+    render(data);
+  }).catch(error => {
+    console.error("❌ Erreur lors du chargement des données depuis Grist :", error);
   });
 }
