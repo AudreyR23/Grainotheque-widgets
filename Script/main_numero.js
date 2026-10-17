@@ -120,22 +120,33 @@ const PER_PAGE = ROWS_PER_COL * COLS_PER_PAGE; // 20 lignes × 3 colonnes = 60 l
       grist.ready({ requiredAccess: 'read table' });
 
       grist.onRecords(function(records) {
-        const seen = new Set();
-        const data = records
-          .filter(r => r.Num_epingle && r.Num_epingle > 0)
-          .filter(r => {
-            if (seen.has(r.Num_epingle)) return false;
-            seen.add(r.Num_epingle);
-            return true;
-          })
-          .map(r => ({
-            type: r.Type || '',
-            nom: r.Nom || '',
-            variete: r.Variete || '',
-            num: r.Num_epingle,
-          }));
-        render(data);
-      });
+  const seen = new Set();
+  const data = records
+    .map(r => {
+      // Extraire les champs depuis r.fields (Grist stocke les données dans r.fields)
+      const fields = r.fields || r;
+      return {
+        Type: fields.Type || '',
+        Nom: fields.Nom || '',
+        Variete: fields.Variete || '',
+        Num_epingle: fields.Num_epingle || '',
+        fields: fields // Conserver l'objet fields pour débogage si besoin
+      };
+    })
+    .filter(r => r.Num_epingle && r.Num_epingle > 0)
+    .filter(r => {
+      if (seen.has(r.Num_epingle)) return false;
+      seen.add(r.Num_epingle);
+      return true;
+    })
+    .map(r => ({
+      type: r.Type || '',
+      nom: r.Nom || '',
+      variete: r.Variete || '',
+      num: r.Num_epingle,
+    }));
+  render(data);
+});
     } else {
       console.log("Mode BOUCHON : chargement des données locales depuis JSON");
       document.addEventListener('DOMContentLoaded', initialiserDonneesLocales);
