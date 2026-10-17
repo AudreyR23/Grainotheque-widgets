@@ -1,29 +1,35 @@
-   // =============================================
-    // CONFIGURATION
-    // =============================================
-   const ROWS_PER_COL = 20; // Nombre de lignes par colonne (inchangé)
-const COLS_PER_PAGE = 3; // Nombre de colonnes par page (3 au lieu de 2)
-const PER_PAGE = ROWS_PER_COL * COLS_PER_PAGE; // 20 lignes × 3 colonnes = 60 lignes par page
-    const bouchonne = false; // Passez à false pour le mode Grist
+ // =============================================
+// CONFIGURATION
+// =============================================
+const ROWS_PER_COL = 20;
+const COLS_PER_PAGE = 3;
+const PER_PAGE = ROWS_PER_COL * COLS_PER_PAGE;
 
-    // =============================================
-    // FONCTIONS POUR L'AFFICHAGE DES ÉPINGLES
-    // =============================================
-    function makeEntry(g) {
-      const div = document.createElement('div');
-      div.className = 'entry';
-      div.innerHTML = `
-        <div class="cell cell-type">${g.type || ''}</div>
-        <div class="cell cell-name">
-          <span class="nom">${g.nom || ''}</span>
-          ${g.variete ? `<span class="variete">${g.variete}</span>` : ''}
-        </div>
-        <div class="cell cell-num">${g.num}</div>
-      `;
-      return div;
-    }
+// 🔹 Détection automatique (à utiliser plus tard)
+// const bouchonne = typeof grist === 'undefined';
 
-    function render(data) {
+// 🔹 Pour l'instant, forcez le mode Grist
+const bouchonne = false; // Mode Grist activé
+
+  
+// =============================================
+// FONCTIONS POUR L'AFFICHAGE DES ÉPINGLES
+// =============================================
+function makeEntry(g) {
+  const div = document.createElement('div');
+  div.className = 'entry';
+  div.innerHTML = `
+    <div class="cell cell-type">${g.type || ''}</div>
+    <div class="cell cell-name">
+      <span class="nom">${g.nom || ''}</span>
+      ${g.variete ? `<span class="variete">${g.variete}</span>` : ''}
+    </div>
+    <div class="cell cell-num">${g.num}</div>
+  `;
+  return div;
+}
+
+function render(data) {
   const sorted = data
     .filter(r => r.num && r.num > 0)
     .sort((a, b) => a.num - b.num);
@@ -33,121 +39,148 @@ const PER_PAGE = ROWS_PER_COL * COLS_PER_PAGE; // 20 lignes × 3 colonnes = 60 l
   const pagesEl = document.getElementById('pages');
   pagesEl.innerHTML = '';
 
-  // Calculer le nombre de pages nécessaires
   for (let p = 0; p < Math.ceil(sorted.length / PER_PAGE); p++) {
     const pageData = sorted.slice(p * PER_PAGE, (p + 1) * PER_PAGE);
-
-    // Créer une page
     const page = document.createElement('div');
     page.className = 'page-epingles';
 
-    // Créer les 3 colonnes
     for (let col = 0; col < COLS_PER_PAGE; col++) {
       const column = document.createElement('div');
-      column.className = 'column'; // Nouvelle classe pour les colonnes
-
-      // Récupérer les données pour cette colonne
+      column.className = 'column';
       const startIndex = col * ROWS_PER_COL;
       const endIndex = startIndex + ROWS_PER_COL;
       const columnData = pageData.slice(startIndex, endIndex);
-
-      // Ajouter les entrées à la colonne
       columnData.forEach(g => column.appendChild(makeEntry(g)));
-
-      // Ajouter la colonne à la page
       page.appendChild(column);
     }
-
-    // Ajouter la page au conteneur
     pagesEl.appendChild(page);
   }
 }
 
-    // =============================================
-    // CHARGEMENT DES DONNÉES LOCALES (Mode Bouchon)
-    // =============================================
-    async function chargerDonneesLocales(nomFichier) {
-      try {
-        const response = await fetch(`/Grainotheque-widgets/data/${nomFichier}.json`);
-        if (!response.ok) {
-          throw new Error(`Fichier /Grainotheque-widgets/data/${nomFichier}.json introuvable. Statut: ${response.status}`);
-        }
-        return await response.json();
-      } catch (error) {
-        console.error(`Erreur lors du chargement de /Grainotheque-widgets/data/${nomFichier}.json :`, error);
-        return null;
-      }
+// =============================================
+// CHARGEMENT DES DONNÉES LOCALES (Mode Bouchon)
+// =============================================
+async function chargerDonneesLocales(nomFichier) {
+  try {
+    // En local (Codium + Live Server) : utilisez un chemin relatif
+    const response = await fetch(`../data/${nomFichier}.json`);
+    if (!response.ok) {
+      throw new Error(`Fichier ../data/${nomFichier}.json introuvable. Statut: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(`Erreur lors du chargement de ../data/${nomFichier}.json :`, error);
+    return null;
+  }
+}
+
+async function initialiserDonneesLocales() {
+  try {
+    const varietesData = await chargerDonneesLocales("Varietes");
+    if (!varietesData || typeof varietesData !== 'object') {
+      console.error("❌ ../data/Varietes.json est introuvable ou invalide !");
+      return;
     }
 
-    async function initialiserDonneesLocales() {
-      try {
-        const varietesData = await chargerDonneesLocales("Varietes");
-        if (!varietesData || typeof varietesData !== 'object') {
-          console.error("❌ /Grainotheque-widgets/data/Varietes.json est introuvable ou invalide !");
-          return;
-        }
+    const varietesArray = Object.values(varietesData);
+    const seen = new Set();
+    const filteredData = varietesArray
+      .filter(r => r.Num_epingle && r.Num_epingle > 0)
+      .filter(r => {
+        if (seen.has(r.Num_epingle)) return false;
+        seen.add(r.Num_epingle);
+        return true;
+      })
+      .map(r => ({
+        type: r.Type || '',
+        nom: r.Nom || '',
+        variete: r.Variete || '',
+        num: r.Num_epingle,
+      }));
 
-        // Convertir l'objet en tableau avec Object.values()
-        const varietesArray = Object.values(varietesData);
+    render(filteredData);
+  } catch (error) {
+    console.error("Erreur dans initialiserDonneesLocales :", error);
+  }
+}
 
-        // Filtrer et transformer les données pour l'affichage des épingles
-        const seen = new Set();
-        const filteredData = varietesArray
-          .filter(r => r.Num_epingle && r.Num_epingle > 0)
-          .filter(r => {
-            if (seen.has(r.Num_epingle)) return false;
-            seen.add(r.Num_epingle);
-            return true;
-          })
-          .map(r => ({
-            type: r.Type || '',
-            nom: r.Nom || '',
-            variete: r.Variete || '',
-            num: r.Num_epingle,
-          }));
-
-        render(filteredData);
-      } catch (error) {
-        console.error("Erreur dans initialiserDonneesLocales :", error);
-      }
+// =============================================
+// CHARGEMENT DES DONNÉES DEPUIS GRIST
+// =============================================
+async function chargerDonneesGrist() {
+  try {
+    // Charger la table Varietes depuis Grist
+    const varietesData = await grist.docApi.fetchTable('Varietes');
+    if (!varietesData || !varietesData.id) {
+      console.error("❌ La table Varietes est introuvable dans Grist !");
+      return null;
     }
 
-    // =============================================
-    // INITIALISATION
-    // =============================================
-    if (!bouchonne) {
-      console.log("Mode GRIST : Connexion à l'API Grist.");
-      grist.ready({ requiredAccess: 'read table' });
+    // Convertir les données de Grist en objet varietesParNom
+    const varietesParNom = {};
+    const ids = varietesData.id || [];
+    for (let i = 0; i < ids.length; i++) {
+      const nom = varietesData.Nom ? varietesData.Nom[i] : '';
+      const variete = varietesData.Variete ? varietesData.Variete[i] : '';
+      const nomComplet = `${nom}\n${variete}`.trim();
+      if (!nomComplet) continue;
 
-      grist.onRecords(function(records) {
-  const seen = new Set();
-  const data = records
-    .map(r => {
-      // Extraire les champs depuis r.fields (Grist stocke les données dans r.fields)
-      const fields = r.fields || r;
-      return {
-        Type: fields.Type || '',
-        Nom: fields.Nom || '',
-        Variete: fields.Variete || '',
-        Num_epingle: fields.Num_epingle || '',
-        fields: fields // Conserver l'objet fields pour débogage si besoin
+      varietesParNom[nomComplet] = {
+        Type: varietesData.Type ? varietesData.Type[i] : '',
+        Nom: nom,
+        Variete: variete,
+        Num_epingle: varietesData.Num_epingle ? varietesData.Num_epingle[i] : '',
       };
-    })
-    .filter(r => r.Num_epingle && r.Num_epingle > 0)
-    .filter(r => {
-      if (seen.has(r.Num_epingle)) return false;
-      seen.add(r.Num_epingle);
-      return true;
-    })
-    .map(r => ({
-      type: r.Type || '',
-      nom: r.Nom || '',
-      variete: r.Variete || '',
-      num: r.Num_epingle,
-    }));
-  render(data);
-});
-    } else {
-      console.log("Mode BOUCHON : chargement des données locales depuis JSON");
-      document.addEventListener('DOMContentLoaded', initialiserDonneesLocales);
     }
+
+    // Charger la table Millesimes depuis Grist
+    const millesimesData = await grist.docApi.fetchTable('Millesimes');
+    if (!millesimesData || !millesimesData.id) {
+      console.error("❌ La table Millesimes est introuvable dans Grist !");
+      return null;
+    }
+
+    // Transformer les données pour buildGrainesMap
+    const derniersRecords = [];
+    const nbEntries = millesimesData.id ? millesimesData.id.length : 0;
+    for (let i = 0; i < nbEntries; i++) {
+      derniersRecords.push({
+        id: millesimesData.id[i],
+        Type: millesimesData.Type ? millesimesData.Type[i] : '',
+        Nom: millesimesData.Nom ? millesimesData.Nom[i] : '',
+        Variete: millesimesData.Variete ? millesimesData.Variete[i] : '',
+        NomVariete: millesimesData.NomVariete ? millesimesData.NomVariete[i] : `${millesimesData.Nom[i]}\n${millesimesData.Variete[i]}`,
+        Origine: millesimesData.Origine ? millesimesData.Origine[i] : '',
+        Sachets: millesimesData.Sachets ? millesimesData.Sachets[i] : '',
+        Millesime: millesimesData.Millesime ? millesimesData.Millesime[i] : '',
+        Nb_saisons: millesimesData.Nb_saisons ? millesimesData.Nb_saisons[i] : millesimesData.Nb_saisons_manuel ? millesimesData.Nb_saisons_manuel[i] : '',
+        Qtte_graines: millesimesData.Qtte_graines ? millesimesData.Qtte_graines[i] : '',
+      });
+    }
+
+    return { varietesParNom, derniersRecords };
+  } catch (error) {
+    console.error("❌ Erreur lors du chargement des données depuis Grist :", error);
+    return null;
+  }
+}
+
+// =============================================
+// INITIALISATION
+// =============================================
+if (bouchonne) {
+  console.log("Mode BOUCHON : chargement des données locales depuis JSON");
+  document.addEventListener('DOMContentLoaded', initialiserDonneesLocales);
+} else {
+  console.log("Mode GRIST : Chargement des données depuis Grist.");
+  grist.ready({ requiredAccess: 'read table' });
+  grist.docApi.fetchTable('Millesimes').then(() => {
+    chargerDonneesGrist().then(({ varietesParNom, derniersRecords }) => {
+      if (varietesParNom && derniersRecords) {
+        const grainesMap = buildGrainesMap(derniersRecords);
+        const graines = [...grainesMap.values()];
+        render(graines);
+      }
+    });
+  });
+}
