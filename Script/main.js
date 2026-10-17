@@ -292,6 +292,9 @@ if (!bouchonne) {
     grist.docApi.fetchTable('Varietes'),
     grist.docApi.fetchTable('Millesimes')
   ]).then(([varietesData, millesimesData]) => {
+    console.log("Données Varietes reçues :", varietesData);
+    console.log("Données Millesimes reçues :", millesimesData);
+
     // Charger Varietes
     varietesParNom = {};
     const varietesIds = varietesData.id || [];
@@ -343,7 +346,4 @@ if (!bouchonne) {
   }).catch(error => {
     console.error("❌ Erreur lors du chargement des données Grist :", error);
   });
-} else {
-  console.log("Mode BOUCHON : Chargement des données locales.");
-  document.addEventListener('DOMContentLoaded', initialiserDonneesLocales);
 }
