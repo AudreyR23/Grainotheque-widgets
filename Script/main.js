@@ -247,7 +247,7 @@ function buildGrainesMap(records) {
    ============================================= */
 async function chargerDonneesLocales(nomFichier) {
   try {
-    const response = await fetch(`/Grainotheque-widgets/data/${nomFichier}.json`);
+    const response = await fetch(`../data/${nomFichier}.json`);
     if (!response.ok) throw new Error(`Fichier introuvable: ${response.status}`);
     return await response.json();
   } catch (error) {
@@ -282,7 +282,7 @@ async function initialiserDonneesLocales() {
 }
 
 /* =============================================
-   INITIALISATION (Mode Grist)
+   INITIALISATION
    ============================================= */
 if (!bouchonne) {
   console.log("Mode GRIST : Chargement des données depuis Grist.");
@@ -317,7 +317,7 @@ if (!bouchonne) {
         Semis_pleine_terre: varietesData.Semis_pleine_terre ? varietesData.Semis_pleine_terre[i] : '',
         Arrosage: varietesData.Arrosage ? varietesData.Arrosage[i] : '',
         Exposition: varietesData.Exposition ? varietesData.Exposition[i] : '',
-        Ou_cultiver: varietesData.Ou_cultiver ? varietesData.Ou_cultiver[i] : '',
+        Ou_cultiver: varietesParNom.Ou_cultiver ? varietesData.Ou_cultiver[i] : '',
       };
     });
 
@@ -346,4 +346,7 @@ if (!bouchonne) {
   }).catch(error => {
     console.error("❌ Erreur lors du chargement des données Grist :", error);
   });
+} else {
+  console.log("Mode BOUCHON : Chargement des données locales.");
+  document.addEventListener('DOMContentLoaded', initialiserDonneesLocales);
 }
