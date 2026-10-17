@@ -6,7 +6,7 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  font-family: 'Liberation Sans', cursive, sans-serif;
+  font-family: Arial, 'Liberation Sans', Helvetica, sans-serif;
   background: white;
   color: #000;
 }
@@ -88,6 +88,7 @@ body {
   inset: 0;
   width: 100%;
   height: 100%;
+  overflow: visible;
 }
 
 /* =============================================
@@ -120,6 +121,7 @@ body {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  margin: 0 -10mm;
 }
 
 /* Variété — plus grand, pas de trait */
@@ -130,6 +132,7 @@ body {
   line-height: 5.5mm;
   overflow: visible;
   white-space: nowrap;
+  margin: 0 -10mm;
 }
 
 /* Saut de ligne entre haut et infos */
@@ -203,7 +206,7 @@ const SVG_NORMALE = `
        preserveAspectRatio="none"
        xmlns="http://www.w3.org/2000/svg">
     <polygon
-      points="0,0 690,0 517,470 173,470"
+      points="0,0 690,0 517.5,470 172.5,470"
       fill="none" stroke="#000" stroke-width="7"/>
   </svg>
 `;
@@ -212,7 +215,7 @@ const SVG_INVERSEE = `
   <svg class="forme" viewBox="0 0 690 470"
        preserveAspectRatio="none"
        xmlns="http://www.w3.org/2000/svg">
-    <line x1="173" y1="4" x2="517" y2="4"
+    <line x1="172.5" y1="0" x2="517.5" y2="0"
           stroke="#000" stroke-width="7"/>
     <line x1="0" y1="470" x2="690" y2="470"
           stroke="#000" stroke-width="7"/>
@@ -263,7 +266,7 @@ if (data.nb_saisons !== null && data.nb_saisons !== undefined && data.nb_saisons
             </div>
           <div class="spacer2"></div>
              </div>
-          <div class="ligne-saisons">${saisons === 0 ? 'or.' : (saisons !== '' ? saisons + ' saison(s)' : '')}</div>
+          <div class="ligne-saisons">${saisons === 'or.' ? 'or.' : (saisons !== '' ? saisons + ' saison(s)' : '')}</div>
         </div>
       </div>
     </div>

@@ -2,9 +2,14 @@
    CONFIGURATION
    ============================================= */
 const LIGNES_PAR_PAGE = 26;
-const bouchonne = false; // Mode Grist activé
 let varietesParNom = {};
+let varietesParId = {};
 let derniersRecords = [];
+
+// Ne garde que les textes (une référence Grist arrive sous forme de nombre)
+function txt(v) {
+  return typeof v === 'string' ? v : '';
+}
 
 /* Abréviations mois */
 const MOIS = {
@@ -18,6 +23,11 @@ const MOIS = {
 /* =============================================
    UTILITAIRES
    ============================================= */
+// Lit la valeur d'une colonne pour la ligne i (renvoie def si la colonne n'existe pas)
+function col(table, nom, i, def = '') {
+  return table[nom] ? table[nom][i] : def;
+}
+
 function fmtAnnee(v) {
   if (!v) return '';
   if (typeof v === 'number') return new Date(v * 1000).getFullYear().toString();
@@ -90,9 +100,6 @@ function makeRow(g) {
 
   const germinationFormatted = ss.map(s => {
     if (s.germination === null || s.germination === undefined || s.germination === '') return '';
-    if (typeof s.germination === 'number') {
-      return s.germination === 0 ? '0%' : `${Math.round(s.germination * 100)}%`;
-    }
     return s.germination;
   });
 
@@ -107,7 +114,7 @@ function makeRow(g) {
     ${mc('col-origine', ss.map(s => s.origine || ''))}
     ${mc('col-sachet', ss.map(s => s.sachet || ''))}
     ${mc('col-annee', ss.map(s => fmtAnnee(s.annee)))}
-    ${mc('col-saisons', saisonsFormatted)}
+    ${mc('col-s', saisonsFormatted)}
     ${mc('col-qtte', ss.map(s => s.qtte || ''))}
     ${mc('col-germ', germinationFormatted)}
     <td class="col-profond info-bas">${g.profondeur || ''}</td>
@@ -164,9 +171,9 @@ function render(graines) {
     let pageGraines = [];
     let lignesPage = 0;
 
-    function creerPage(gs, isLast) {
+    function creerPage(gs) {
       const page = document.createElement('div');
-      page.className = isLast ? 'page-tableau page-last-of-group' : 'page-tableau';
+      page.className = 'page-tableau';
       page.innerHTML = `<table>${makeHeader()}<tbody>${gs.map(makeRow).join('')}</tbody></table>`;
       pagesEl.appendChild(page);
     }
@@ -174,7 +181,7 @@ function render(graines) {
     groupeType.forEach(g => {
       const nbLignes = g.sachets.length === 1 ? 2 : g.sachets.length;
       if (lignesPage + nbLignes > LIGNES_PAR_PAGE && pageGraines.length > 0) {
-        creerPage(pageGraines, false);
+        creerPage(pageGraines);
         pageGraines = [];
         lignesPage = 0;
       }
@@ -182,7 +189,7 @@ function render(graines) {
       lignesPage += nbLignes;
     });
 
-    if (pageGraines.length > 0) creerPage(pageGraines, true);
+    if (pageGraines.length > 0) creerPage(pageGraines);
   });
 }
 
@@ -193,47 +200,52 @@ function buildGrainesMap(records) {
   const map = new Map();
 
   records.forEach(r => {
-    const nomComplet = r.NomVariete || `${r.Nom}\n${r.Variete}`.trim();
-    const v = varietesParNom[nomComplet] || {};
+    // 1) Si NomVariete, Variete ou Nom est une référence (nombre), on retrouve la ligne de Varietes
+    const refId = [r.NomVariete, r.Variete, r.Nom].find(x => typeof x === 'number' && varietesParId[x]);
+    let v = refId ? varietesParId[refId] : {};
+
+    // 2) Sinon, on cherche par texte
+    let nomComplet = refId ? v.NomComplet : (txt(r.NomVariete) || `${txt(r.Nom)}\n${txt(r.Variete)}`.trim());
+    if (!refId) v = varietesParNom[nomComplet] || {};
 
     const parts = nomComplet.split('\n');
-    const nom = v.Nom || parts[0] || r.Nom || '';
-    const variete = v.Variete || (parts.length > 1 ? parts[1] : '') || r.Variete || '';
+    const nom = txt(v.Nom) || parts[0] || '';
+    const variete = txt(v.Variete) || (parts.length > 1 ? parts[1] : '') || '';
 
     const key = nomComplet || ('_' + r.id);
 
     if (!map.has(key)) {
       map.set(key, {
-        type: v.Type || r.Type || '',
+        type: v.Type || txt(r.Type) || '',
         nom,
         variete,
-        num_epingle: v.Num_epingle || r.Num_epingle || '',
-        nb_epingle: v.Nb_epingle || r.Nb_epingle || '',
-        profondeur: v.Semis_profondeur || r.Semis_profondeur || '',
-        germ_duree: v.Duree_germ || r.Duree_germ || '',
-        germ_temp: v.Temp_germ || r.Temp_germ || '',
-        abri: fmtVal(v.Semis_sous_abris || r.Semis_sous_abris),
-        semis_ext: fmtVal(v.Semis_pleine_terre || r.Semis_pleine_terre),
-        arrosage: v.Arrosage || r.Arrosage || '',
-        exposition: v.Exposition || r.Exposition || '',
-        ou: fmtVal(v.Ou_cultiver || r.Ou_cultiver),
+        num_epingle: v.Num_epingle || '',
+        nb_epingle: v.Nb_epingle || '',
+        profondeur: v.Semis_profondeur || '',
+        germ_duree: v.Duree_germ || '',
+        germ_temp: v.Temp_germ || '',
+        abri: fmtVal(v.Semis_sous_abris),
+        semis_ext: fmtVal(v.Semis_pleine_terre),
+        arrosage: v.Arrosage || '',
+        exposition: v.Exposition || '',
+        ou: fmtVal(v.Ou_cultiver),
         sachets: []
       });
     }
 
-    const origine = Array.isArray(r.Origine) ? r.Origine.filter(item => item !== 'L').join(', ') : r.Origine || '';
-    const sachet = r.Sachets ? String(r.Sachets) : '';
-    const millesime = fmtAnnee(r.Millesime);
-    const nbSaisons = r.Nb_saisons || r.Nb_saisons_manuel || '';
-    const germinationValue = r.Germination_affichee !== null && r.Germination_affichee !== undefined
-      ? (r.Germination_affichee === 0 ? '0%' : Math.round(r.Germination_affichee * 100) + '%')
+    const origine = Array.isArray(r.Origine)
+      ? r.Origine.filter(item => item !== 'L').join(', ')
+      : r.Origine || '';
+    const germ = r.Germination_affichee;
+    const germinationValue = (germ !== null && germ !== undefined && germ !== '')
+      ? (germ === 0 ? '0%' : Math.round(germ * 100) + '%')
       : '';
 
     map.get(key).sachets.push({
       origine: origine,
-      sachet: sachet,
-      annee: millesime,
-      saisons: nbSaisons,
+      sachet: r.Sachets ? String(r.Sachets) : '',
+      annee: fmtAnnee(r.Millesime),
+      saisons: r.Nb_saisons || r.Nb_saisons_manuel || '',
       qtte: r.Qtte_graines || '',
       germination: germinationValue
     });
@@ -243,110 +255,74 @@ function buildGrainesMap(records) {
 }
 
 /* =============================================
-   CHARGEMENT DES DONNÉES LOCALES (Mode Bouchon)
+   INITIALISATION (données via l'API widget de Grist)
    ============================================= */
-async function chargerDonneesLocales(nomFichier) {
-  try {
-    const response = await fetch(`../data/${nomFichier}.json`);
-    if (!response.ok) throw new Error(`Fichier introuvable: ${response.status}`);
-    return await response.json();
-  } catch (error) {
-    console.error(`Erreur chargement ${nomFichier}.json:`, error);
-    return null;
-  }
-}
+const dansGrist = window.self !== window.top;
 
-async function initialiserDonneesLocales() {
-  try {
-    const varietesData = await chargerDonneesLocales("Varietes");
-    if (!varietesData) return;
-
-    varietesParNom = {};
-    Object.entries(varietesData).forEach(([nomVariete, data]) => {
-      varietesParNom[nomVariete] = data;
-    });
-
-    const millesimesData = await chargerDonneesLocales("Millesimes");
-    if (!millesimesData || !Array.isArray(millesimesData)) return;
-
-    derniersRecords = millesimesData.map(record => ({
-      ...record,
-      id: record.id || Math.random().toString(36).substring(2, 9)
-    }));
-
-    const grainesMap = buildGrainesMap(derniersRecords);
-    render([...grainesMap.values()]);
-  } catch (error) {
-    console.error("Erreur initialiserDonneesLocales:", error);
-  }
-}
-
-/* =============================================
-   INITIALISATION
-   ============================================= */
-if (!bouchonne) {
-  console.log("Mode GRIST : Chargement des données depuis Grist.");
-  grist.ready({ requiredAccess: 'read table' });
+if (dansGrist) {
+  grist.ready({ requiredAccess: 'full' });
 
   Promise.all([
     grist.docApi.fetchTable('Varietes'),
     grist.docApi.fetchTable('Millesimes')
-  ]).then(([varietesData, millesimesData]) => {
-    console.log("Données Varietes reçues :", varietesData);
-    console.log("Données Millesimes reçues :", millesimesData);
-
-    // Charger Varietes
+  ]).then(([vd, md]) => {
+    // --- Varietes ---
     varietesParNom = {};
-    const varietesIds = varietesData.id || [];
-    varietesIds.forEach((id, i) => {
-      const nom = varietesData.Nom ? varietesData.Nom[i] : '';
-      const variete = varietesData.Variete ? varietesData.Variete[i] : '';
+    vd.id.forEach((id, i) => {
+      const nom = col(vd, 'Nom', i);
+      const variete = col(vd, 'Variete', i);
       const nomComplet = `${nom}\n${variete}`.trim();
       if (!nomComplet) return;
 
       varietesParNom[nomComplet] = {
-        Type: varietesData.Type ? varietesData.Type[i] : '',
+        Id: id,
+        NomComplet: nomComplet,
+        Type: col(vd, 'Type', i),
         Nom: nom,
         Variete: variete,
-        Num_epingle: varietesData.Num_epingle ? varietesData.Num_epingle[i] : '',
-        Nb_epingle: varietesData.Nb_epingle ? varietesData.Nb_epingle[i] : '',
-        Semis_profondeur: varietesData.Semis_profondeur ? varietesData.Semis_profondeur[i] : '',
-        Duree_germ: varietesData.Duree_germ ? varietesData.Duree_germ[i] : '',
-        Temp_germ: varietesData.Temp_germ ? varietesData.Temp_germ[i] : '',
-        Semis_sous_abris: varietesData.Semis_sous_abris ? varietesData.Semis_sous_abris[i] : '',
-        Semis_pleine_terre: varietesData.Semis_pleine_terre ? varietesData.Semis_pleine_terre[i] : '',
-        Arrosage: varietesData.Arrosage ? varietesData.Arrosage[i] : '',
-        Exposition: varietesData.Exposition ? varietesData.Exposition[i] : '',
-        Ou_cultiver: varietesParNom.Ou_cultiver ? varietesData.Ou_cultiver[i] : '',
+        Num_epingle: col(vd, 'Num_epingle', i),
+        Nb_epingle: col(vd, 'Nb_epingle', i),
+        Semis_profondeur: col(vd, 'Semis_profondeur', i),
+        Duree_germ: col(vd, 'Duree_germ', i),
+        Temp_germ: col(vd, 'Temp_germ', i),
+        Semis_sous_abris: col(vd, 'Semis_sous_abris', i),
+        Semis_pleine_terre: col(vd, 'Semis_pleine_terre', i),
+        Arrosage: col(vd, 'Arrosage', i),
+        Exposition: col(vd, 'Exposition', i),
+        Ou_cultiver: col(vd, 'Ou_cultiver', i),
       };
     });
 
-    // Charger Millesimes
-    derniersRecords = [];
-    const millesimesIds = millesimesData.id || [];
-    millesimesIds.forEach((id, i) => {
-      derniersRecords.push({
+    varietesParId = {};
+    Object.values(varietesParNom).forEach(x => { varietesParId[x.Id] = x; });
+
+    // --- Millesimes ---
+    derniersRecords = md.id.map((id, i) => {
+      const nom = col(md, 'Nom', i);
+      const variete = col(md, 'Variete', i);
+      return {
         id: id,
-        Type: millesimesData.Type ? millesimesData.Type[i] : '',
-        Nom: millesimesData.Nom ? millesimesData.Nom[i] : '',
-        Variete: millesimesData.Variete ? millesimesData.Variete[i] : '',
-        NomVariete: millesimesData.NomVariete ? millesimesData.NomVariete[i] : `${millesimesData.Nom[i]}\n${millesimesData.Variete[i]}`,
-        Origine: millesimesData.Origine ? millesimesData.Origine[i] : '',
-        Sachets: millesimesData.Sachets ? millesimesData.Sachets[i] : '',
-        Millesime: millesimesData.Millesime ? millesimesData.Millesime[i] : '',
-        Nb_saisons: millesimesData.Nb_saisons ? millesimesData.Nb_saisons[i] : millesimesData.Nb_saisons_manuel ? millesimesData.Nb_saisons_manuel[i] : '',
-        Qtte_graines: millesimesData.Qtte_graines ? millesimesData.Qtte_graines[i] : '',
-        Germination_affichee: millesimesData.Germination_affichee ? millesimesData.Germination_affichee[i] : null,
-      });
+        Type: col(md, 'Type', i),
+        Nom: nom,
+        Variete: variete,
+        NomVariete: col(md, 'NomVariete', i) || `${nom}\n${variete}`.trim(),
+        Origine: col(md, 'Origine', i),
+        Sachets: col(md, 'Sachets', i),
+        Millesime: col(md, 'Millesime', i),
+        Nb_saisons: col(md, 'Nb_saisons', i),
+        Nb_saisons_manuel: col(md, 'Nb_saisons_manuel', i),
+        Qtte_graines: col(md, 'Qtte_graines', i),
+        Germination_affichee: col(md, 'Germination_affichee', i, null),
+      };
     });
 
-    // Construire la map et afficher
-    const grainesMap = buildGrainesMap(derniersRecords);
-    render([...grainesMap.values()]);
+    render([...buildGrainesMap(derniersRecords).values()]);
   }).catch(error => {
-    console.error("❌ Erreur lors du chargement des données Grist :", error);
+    console.error('❌ Erreur lors du chargement des données Grist :', error);
+    const info = document.getElementById('info-count');
+    if (info) info.textContent = 'Erreur de chargement (voir la console)';
   });
 } else {
-  console.log("Mode BOUCHON : Chargement des données locales.");
-  document.addEventListener('DOMContentLoaded', initialiserDonneesLocales);
+  const info = document.getElementById('info-count');
+  if (info) info.textContent = 'Page ouverte hors Grist : utilise cette URL comme widget Custom.';
 }
