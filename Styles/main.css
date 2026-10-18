@@ -1,5 +1,5 @@
 /* =============================================
-   STYLES COMMUNS (ÉPINGLES + TABLEAU)
+   STYLES COMMUNS (ÉPINGLES + TABLEAU + ÉTIQUETTES)
    ============================================= */
 * {
   box-sizing: border-box;
@@ -8,7 +8,7 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: Arial, 'Liberation Sans', Helvetica, sans-serif;
   background: white;
   font-size: 9px;
 }
@@ -29,6 +29,7 @@ body {
   background: transparent;
   cursor: pointer;
   font-size: 13px;
+  color: #000;
 }
 
 .btn:hover {
@@ -165,11 +166,11 @@ td.multi .sl:last-child {
    ============================================= */
 .page-epingles {
   width: 297mm;
-  margin: 0 auto 20px auto;
+  margin: 0 auto;
   background: white;
   display: flex;
   gap: 5mm; /* Espace entre les colonnes */
-  padding: 20mm 10mm 10mm 10mm;
+  padding: 15mm 10mm 10mm 10mm;
   border: 0.5px solid #ddd;
 }
 
@@ -235,11 +236,152 @@ td.multi .sl:last-child {
   font-weight: 500;
   color: #111;
 }
+/* =============================================
+   STYLES SPÉCIFIQUES AUX ÉTIQUETTES
+   4 lignes par page, pas d'écart entre lignes
+   Hauteur dispo : 190mm / 4 = 47mm par étiquette
+   ============================================= */
+.page-etiquettes {
+  width: 297mm;
+  margin: 0 auto;
+  background: white;
+  padding: 10mm 10mm 10mm 10mm;
+  border: 0.5px solid #ddd;
+  /*display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow: hidden;*/
+}
+.ligne-etiquettes {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  height: 47mm; /*hauteur ligne étiquette*/
+  margin: 0mm;
+}
 
+/* =============================================
+   WRAPPER
+   Normales : 69mm
+   Inversées : margin négatif pour imbrication
+   ============================================= */
+.etiquette-wrapper {
+  width: 69mm;
+  height: 47mm;
+  position: relative;
+}
+
+.etiquette-wrapper.inverse {
+  margin-left: -17.25mm;
+  margin-right: -17.25mm;
+  z-index: 0;
+}
+
+.etiquette {
+  width: 69mm;
+  height: 47mm;
+  position: relative;
+}
+
+.etiquette svg.forme {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* =============================================
+   CONTENU
+   Nom + Variété en haut, plus grands
+   Saut de ligne, puis infos décalées vers le centre
+   ============================================= */
+.etiquette-content {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  padding: 5mm 15mm 4mm 15mm;
+}
+
+.etiquette.inverse .etiquette-content {
+  transform: rotate(180deg);
+  transform-origin: center center;
+}
+
+/* Nom — plus grand, pas de trait */
+.ligne-nom {
+  font-size: 14pt;
+  font-weight: bold;
+  text-align: center;
+  height: 6mm;
+  line-height: 6mm;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin: 0 -10mm;
+}
+
+/* Variété — plus grand, pas de trait */
+.ligne-variete {
+  font-size: 12pt;
+  text-align: center;
+  height: 5.5mm;
+  line-height: 5.5mm;
+  overflow: visible;
+  white-space: nowrap;
+  margin: 0 -10mm;
+}
+
+/* Saut de ligne entre haut et infos */
+.spacer {
+  height: 5mm;
+  flex-shrink: 0;
+}
+/* Saut de ligne entre haut et infos */
+.spacer2 {
+  height: 2mm;
+  flex-shrink: 0;
+}
+
+/* Infos décalées vers le centre */
+.infos {
+  font-size: 9pt;
+  line-height: 1.5;
+  padding-left: 5mm;
+}
+
+.infos div {
+  display: flex;
+  gap: 3px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.infos .label { flex-shrink: 0; }
+.infos .valeur { font-weight: bold; overflow: hidden }
+
+.ligne-saisons {
+  font-size: 11pt;
+  padding-left: 10mm;
+}
+
+/*@media print {
+  .controls { display: none; }
+  @page { size: A4 landscape; margin: 0; }
+  .page-etiquettes {
+    width: 100%;
+    padding: 15mm 10mm 10mm 10mm;
+    margin: 0;
+    border: none;
+    page-break-after: always;
+  }
+  .page:last-child { page-break-after: avoid; }
+}
 /* =============================================
    STYLES D'IMPRESSION POUR LES ÉPINGLES (3 COLONNES)
    ============================================= */
-@media print {
+/*@media print {
   .page-epingles {
     width: 100%;
     padding: 15mm 10mm 10mm 10mm;
@@ -280,11 +422,12 @@ td.multi .sl:last-child {
 
   /* Style pour les pages (tableau ET épingles) */
   .page-tableau,
-  .page-epingles {
+  .page-epingles,
+  .page-etiquettes {
     width: 100%;
-    padding: 15mm 10mm 10mm 10mm;
+    padding: auto;
     margin: 0;
-    border: none !important;
+    border: none;
     page-break-after: always;
     break-after: page;
   }
@@ -298,7 +441,10 @@ td.multi .sl:last-child {
 
   /* Éviter les sauts de page après la dernière page */
   .page-tableau:last-child,
-  .page-epingles:last-child {
+  .page-epingles:last-child,
+  .page-etiquettes:last-child
+
+   {
     page-break-after: avoid !important;
     break-after: avoid !important;
   }
