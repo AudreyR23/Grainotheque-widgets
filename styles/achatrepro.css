@@ -1,0 +1,219 @@
+/* =============================================
+   DESIGN — tons terre, vert jardin, typographie nette
+   ============================================= */
+:root {
+  --vert:       #2d6a4f;
+  --vert-clair: #52b788;
+  --vert-bg:    #d8f3dc;
+  --terre:      #8b5e3c;
+  --fond:       #f7f4ef;
+  --blanc:      #ffffff;
+  --gris:       #e8e4dc;
+  --gris-texte: #6b6560;
+  --rouge:      #c0392b;
+  --texte:      #2c2a27;
+  --radius:     8px;
+  --shadow:     0 2px 8px rgba(0,0,0,0.08);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: var(--fond);
+  color: var(--texte);
+  font-size: 13px;
+  min-height: 100vh;
+}
+
+/* Navigation */
+.nav {
+  padding: 10px 12px 0;
+  border-bottom: 2px solid var(--vert);
+  background: var(--blanc);
+}
+.nav-tabs { display: flex; flex-wrap: wrap; gap: 4px; }
+.nav-btn {
+  padding: 7px 14px;
+  border: none;
+  border-radius: var(--radius) var(--radius) 0 0;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--gris);
+  color: var(--gris-texte);
+  transition: all 0.15s;
+}
+.nav-btn.active {
+  background: var(--vert);
+  color: white;
+}
+.nav-btn:hover:not(.active) {
+  background: var(--vert-bg);
+  color: var(--vert);
+}
+
+/* Toggle enchainement */
+.chain-toggle-row {
+  padding: 6px 12px;
+  background: var(--vert-bg);
+  border-bottom: 1px solid var(--vert-clair);
+}
+.chain-toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--vert);
+  user-select: none;
+  cursor: pointer;
+}
+.chain-toggle input { cursor: pointer; }
+
+/* Panneaux */
+.panel { display: none; padding: 14px 12px; }
+.panel.active { display: block; }
+
+/* Bandeau info enchainement */
+.chain-banner {
+  display: none;
+  background: var(--vert-bg);
+  color: var(--vert);
+  border: 1px solid var(--vert-clair);
+  border-radius: var(--radius);
+  padding: 8px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.chain-banner.show { display: block; }
+
+/* Titre panneau */
+.panel-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--vert);
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--gris);
+}
+
+/* Formulaire */
+.form-group { margin-bottom: 10px; }
+.form-group label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--gris-texte);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-bottom: 3px;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid var(--gris);
+  border-radius: var(--radius);
+  font-size: 13px;
+  background: var(--blanc);
+  color: var(--texte);
+  transition: border-color 0.15s;
+}
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--vert-clair);
+}
+
+/* Grille 2 colonnes */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+/* Choix multiples (mois) */
+.choice-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.choice-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border: 1px solid var(--gris);
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 11px;
+  background: var(--blanc);
+  user-select: none;
+  transition: all 0.12s;
+}
+.choice-pill input[type=checkbox] { display: none; }
+.choice-pill.checked {
+  background: var(--vert-bg);
+  border-color: var(--vert-clair);
+  color: var(--vert);
+  font-weight: 600;
+}
+
+/* Boutons */
+.btn-row { display: flex; gap: 8px; margin-top: 14px; }
+.btn {
+  padding: 8px 18px;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.15s;
+}
+.btn-primary { background: var(--vert); color: white; }
+.btn-primary:hover { background: #1f4f38; }
+.btn-primary:disabled { background: var(--gris); color: var(--gris-texte); cursor: not-allowed; }
+.btn-secondary { background: var(--gris); color: var(--texte); }
+.btn-secondary:hover { background: #d5d0c8; }
+
+/* Séparateur */
+.sep {
+  border: none;
+  border-top: 1px dashed var(--gris);
+  margin: 12px 0;
+}
+
+/* Messages */
+.msg {
+  padding: 8px 10px;
+  border-radius: var(--radius);
+  font-size: 12px;
+  margin-top: 10px;
+  display: none;
+}
+.msg.ok  { background: var(--vert-bg); color: var(--vert); display: block; }
+.msg.err { background: #fce4e4; color: var(--rouge); display: block; }
+
+/* Chargement */
+.loading {
+  color: var(--gris-texte);
+  font-style: italic;
+  font-size: 12px;
+  padding: 20px 0;
+  text-align: center;
+}
+
+/* Tag info */
+.badge {
+  display: inline-block;
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 10px;
+  background: var(--vert-bg);
+  color: var(--vert);
+  font-weight: 600;
+  margin-left: 4px;
+}
