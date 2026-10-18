@@ -1,23 +1,20 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>Gestion des graines</title>
+  <head>
+    <meta charset="UTF-8">
+    <title>Gestion des graines</title>
   
-  <!-- Lien vers le CSS externe -->
-  <link rel="stylesheet" href="../styles/main.css">
-  
-  <!-- Script Grist (à garder si nécessaire) -->
-  <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
-</head>
-<body>
-  <div class="controls">
-    <span class="info" id="info-count">Chargement...</span>
-    <button class="btn" onclick="window.print()">🖨️ Imprimer</button>
-  </div>
-  <div id="pages"></div>
+    <link rel="stylesheet" href="../styles/main.css">
 
-  <!-- Lien vers le JS externe -->
-  <script src="../script/main_cahier.js"></script>
-</body>
+  </head>
+  <body>
+    <div class="controls">
+      <span class="info" id="info-count">Chargement...</span>
+      <button class="btn" onclick="window.print()">🖨️ Imprimer</button>
+    </div>
+    <div id="pages"></div>
+  
+    <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
+    <script src="../script/main_cahier.js"></script>
+  </body>
 </html>
