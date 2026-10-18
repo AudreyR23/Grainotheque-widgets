@@ -1,0 +1,218 @@
+/* =============================================
+   STYLES SPÉCIFIQUES AU CALENDRIER
+   À charger après main.css (qui fournit .controls, .btn, .info
+   et la règle @page A4 paysage)
+   6 mois par page : 3 colonnes x 2 lignes
+   ============================================= */
+
+/* Page A4 paysage */
+.page-calendrier {
+  width: 297mm;
+  margin: 0 auto 20px auto;
+  background: white;
+  padding: 15mm 10mm 10mm 10mm;
+  border: 0.5px solid #ddd;
+}
+
+.page-calendrier h1 {
+  font-size: 16px;
+  color: #2d6a4f;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.legende {
+  text-align: center;
+  font-size: 9px;
+  color: #777;
+  margin-bottom: 5px;
+}
+
+/* Grille : 6 mois = 3 colonnes x 2 lignes
+   (si MOIS_PAR_PAGE change dans le script, adapter ici) */
+.calendrier {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+/* Carte d'un mois */
+.mois-card {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #d0e8d0;
+  overflow: hidden;
+}
+
+.mois-titre {
+  background: #2d6a4f;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  padding: 4px 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Mention "(suite)" sur les pages suivantes */
+.mois-suite {
+  font-weight: normal;
+  font-size: 9px;
+  text-transform: none;
+}
+
+.mois-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  min-height: 60px;
+}
+
+.col-abri,
+.col-terre {
+  padding: 4px 6px;
+}
+
+.col-abri {
+  background: #f0f8f0;
+}
+
+.col-terre {
+  background: #f7e8e7;
+}
+
+.col-label {
+  font-size: 9px;
+  font-weight: bold;
+  color: #2d6a4f;
+  margin-bottom: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.variete-tag {
+  display: block;
+  font-size: 10px;
+  color: #333;
+  padding: 1px 0;
+  border-top: 1px solid white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.variete-tag:last-child {
+  border-bottom: none;
+}
+
+.vide {
+  font-size: 10px;
+  color: #aaa;
+  font-style: italic;
+}
+
+/* Mois courant mis en évidence (écran) */
+.mois-card.actuel .mois-titre {
+  background: #e94560;
+}
+
+.mois-card.actuel {
+  border-color: #e94560;
+  box-shadow: 0 0 0 2px #e9456044;
+}
+
+.ligne-alerte {
+  color: #333;
+  cursor: pointer;
+}
+
+.ligne-alerte:hover {
+  color: #e94560;
+}
+
+/* Pop-in détails */
+.popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border: 2px solid #2d6a4f;
+  border-radius: 10px;
+  padding: 12px;
+  width: 260px;
+  max-height: 300px;
+  overflow: auto;
+  box-shadow: 0 5px 20px #0004;
+  z-index: 100;
+  font-size: 11px;
+}
+
+.popup h2 {
+  font-size: 13px;
+  color: #2d6a4f;
+  margin-bottom: 8px;
+}
+
+.popup-close {
+  float: right;
+  cursor: pointer;
+  color: #e94560;
+  font-weight: bold;
+}
+
+.popup-ligne {
+  margin-bottom: 8px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+}
+
+/* =============================================
+   IMPRESSION
+   ============================================= */
+@media print {
+  .page-calendrier {
+    width: 100%;
+    margin: 0;
+    padding: 10mm;
+    border: none !important;
+    page-break-after: always;
+    break-after: page;
+  }
+
+  .page-calendrier:last-child {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  /* Garder les couleurs des titres et des colonnes */
+  .mois-card,
+  .mois-titre,
+  .col-abri,
+  .col-terre {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Une carte ne se coupe pas entre deux pages */
+  .mois-card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Pas de mise en évidence du mois courant sur papier */
+  .mois-card.actuel {
+    border-color: #d0e8d0;
+    box-shadow: none;
+  }
+
+  .mois-card.actuel .mois-titre {
+    background: #2d6a4f;
+  }
+
+  .popup {
+    display: none !important;
+  }
+}
