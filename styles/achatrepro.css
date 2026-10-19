@@ -127,6 +127,16 @@ body {
   outline: none;
   border-color: var(--vert-clair);
 }
+.form-group input[type="checkbox"] {
+  width: auto;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.form-group-check {
+  align-self: end;
+  padding-bottom: 6px;
+}
 
 /* Grille 2 colonnes */
 .form-row {

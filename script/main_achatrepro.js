@@ -368,6 +368,8 @@ function resetMillesime() {
   document.getElementById('m-sachet').value = '';
   [...document.querySelectorAll('#m-origine option')].forEach(o => o.selected = false);
   hideChainBanner('millesime');
+  document.getElementById('m-plante-mere').checked = false;
+  document.getElementById('m-annee-plantation').value = '';
 }
 
 /* =============================================
@@ -443,17 +445,24 @@ async function creerVariete() {
 
 /* =============================================
    PANNEAU 2 — Créer un millésime
+   Remplace toute l'ancienne fonction creerMillesime(),
+   y compris le bloc commenté /* try { ... } qui la suit.
    ============================================= */
 async function creerMillesime() {
   const varId   = parseInt(document.getElementById('m-variete').value);
   const annee   = parseInt(document.getElementById('m-millesime').value);
+  const planteMere = document.getElementById('m-plante-mere').checked;
+  const anneePlantation = parseInt(document.getElementById('m-annee-plantation').value) || null;
+
   if (!varId) { showMsg('msg-millesime', 'Choisir une variété.', 'err'); return; }
-  if (!annee)  { showMsg('msg-millesime', 'Indiquer une année.', 'err'); return; }
+  if (!annee) { showMsg('msg-millesime', 'Indiquer une année.', 'err'); return; }
   const origineChoisie = getMultiSelect('m-origine').length > 1; // getMultiSelect renvoie toujours ["L", ...] même vide
   if (!origineChoisie) { showMsg('msg-millesime', "L'origine est obligatoire.", 'err'); return; }
 
   /* Grist stocke les dates en secondes depuis epoch — 1er janvier de l'année */
   const dateTs = Math.floor(new Date(annee + '-01-01T00:00:00Z').getTime() / 1000);
+
+  const v = varietes.find(x => x.id === varId);
 
   const row = {
     NomVariete:   varId,
@@ -464,20 +473,50 @@ async function creerMillesime() {
     Sachets:      document.getElementById('m-sachet').value || null,
     Qtte_graines: parseFloat(document.getElementById('m-qtte').value) || null,
     Germination_historique: null, // Forcer à null pour éviter les valeurs par défaut
+    Plante_mere: planteMere,
+    Annee_plantation: anneePlantation,
   };
 
+  /* 1) Création du millésime */
+  let newMillesimeId = null;
   try {
-    await grist.docApi.applyUserActions([
+    const result = await grist.docApi.applyUserActions([
       ['AddRecord', 'Millesimes', null, row]
     ]);
-    const v = varietes.find(x => x.id === varId);
-    showMsg('msg-millesime', '✅ Millésime ' + annee + ' créé pour ' + (v ? v.Nom : ''), 'ok');
-    resetMillesime();
-  } catch(e) {
+    newMillesimeId = result && result.retValues ? result.retValues[0] : null;
+  } catch (e) {
     showMsg('msg-millesime', '❌ Erreur : ' + e.message, 'err');
+    return;
   }
-}
 
+  /* 2) Plante mère : on crée aussi sa ligne dans Semis */
+  if (planteMere && newMillesimeId) {
+    const anneeP = anneePlantation || annee;
+    const dateP = Math.floor(new Date(anneeP + '-01-01T00:00:00Z').getTime() / 1000);
+
+    try {
+      await grist.docApi.applyUserActions([
+        ['AddRecord', 'Semis', null, {
+          NomVariete: varId,
+          Millesime: newMillesimeId,
+          Date_s: dateP,
+          Type: document.getElementById('m-type').value || null,
+          Plantes: 1,
+          Nb_etiquettes: 0,
+        }]
+      ]);
+    } catch (e) {
+      showMsg('msg-millesime',
+        '⚠️ Millésime créé, mais la ligne Semis a échoué : ' + e.message, 'err');
+      return;
+    }
+  }
+
+  showMsg('msg-millesime',
+    '✅ Millésime ' + annee + ' créé pour ' + (v ? v.Nom : '') +
+    (planteMere ? ' (ajouté aussi dans Semis)' : ''), 'ok');
+  resetMillesime();
+}
 /* =============================================
    PANNEAU 3 — Créer un modèle (espèce)
    ============================================= */
