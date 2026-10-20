@@ -111,6 +111,9 @@ body {
 .etiquette-item .var { font-style: italic; color: #666; font-size: 8px; }
 .etiquette-item .ou  { font-size: 8px; color: #2d6a4f; }
 
+.taille-etiq { display: flex; align-items: center; gap: 4px; font-size: 11px; }
+.taille-etiq input { width: 90px; }
+
 /* PLAN */
 .plan-wrap {
   flex: 1;

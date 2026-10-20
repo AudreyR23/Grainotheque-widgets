@@ -20,6 +20,11 @@
   <button class="btn" onclick="zoomOut()">🔍−</button>
   <button class="btn" onclick="zoomReset()">⊡</button>
   <div class="sep"></div>
+  <div class="sep"></div>
+<label class="taille-etiq" title="Taille des étiquettes">🏷️
+  <input type="range" id="taille-etiq" min="50" max="150" step="5" value="100"
+         oninput="changerTaille(this.value)" onchange="sauverTaille(this.value)">
+</label>
   <span class="status" id="status">Chargement…</span>
 </div>
 

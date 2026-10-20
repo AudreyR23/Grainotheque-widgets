@@ -136,7 +136,15 @@ let drag = null;
 let pan = { active:false, startX:0, startY:0, ox:0, oy:0, x:0, y:0 };
 let scale = 1;
 
-/* =============================================
+/* ---------------------------------------------
+   1) À AJOUTER avec les autres variables d'état
+      (près de "let scale = 1;")
+   --------------------------------------------- */
+const NB_CAR_MAX = 12;        // longueur maximale du nom et de la variété
+let tailleEtiquettes = 1;     // facteur de taille commun à toutes les étiquettes
+                              // (ne pas l'appeler "scale" : c'est le zoom du plan)
+ 
+ /* =============================================
    GRIST
    ============================================= */
 grist.ready({ requiredAccess: 'full' });
@@ -311,9 +319,9 @@ function renderPlants() {
   Object.entries(plantPos).forEach(([id, pos]) => {
     const r = records.find(x => x.id === parseInt(id));
     if (!r) return;
-    const nom = (r.Nom||'').substring(0,15);
-    const var_ = (r.Variete||'').substring(0,15);
-    const w = Math.max(nom.length, var_.length) * 4.5 + 15;
+    const nom  = (r.Nom||'').substring(0, NB_CAR_MAX);
+    const var_ = (r.Variete||'').substring(0, NB_CAR_MAX);
+    const w = Math.max(nom.length, var_.length) * 5.2 + 10;
     const h = var_ ? 26 : 16;
     const g = document.createElementNS('http://www.w3.org/2000/svg','g');
     g.classList.add('placed-label');
@@ -321,7 +329,7 @@ function renderPlants() {
     g.style.setProperty('--fond', c.fond);
     g.style.setProperty('--bord', c.bord);
     g.dataset.id = id;
-    g.setAttribute('transform',`translate(${pos.x},${pos.y})`);
+    g.setAttribute('transform', `translate(${pos.x},${pos.y}) scale(${tailleEtiquettes})`);
     g.innerHTML = `
       <rect x="0" y="0" width="${w}" height="${h}" rx="2"
             fill="#fff9c4" stroke="#f9a825" stroke-width="1"/>
@@ -507,6 +515,27 @@ function applyTransform() {
 function zoomIn()    { scale = Math.min(3, scale * 1.2); applyTransform(); }
 function zoomOut()   { scale = Math.max(0.2, scale * 0.8); applyTransform(); }
 function zoomReset() { scale = 1; pan.x = 0; pan.y = 0; applyTransform(); }
+
+// Pendant le glissement du curseur : redessine seulement
+function changerTaille(valeur) {
+  tailleEtiquettes = valeur / 100;
+  renderPlants();
+}
+ 
+// Quand on relâche le curseur : mémorise la taille dans les options du widget Grist
+function sauverTaille(valeur) {
+  grist.setOption('tailleEtiquettes', valeur / 100);
+}
+ 
+// Au chargement : relit la taille mémorisée
+grist.onOptions(function (options) {
+  if (options && options.tailleEtiquettes) {
+    tailleEtiquettes = options.tailleEtiquettes;
+    const curseur = document.getElementById('taille-etiq');
+    if (curseur) curseur.value = Math.round(tailleEtiquettes * 100);
+    renderPlants();
+  }
+});
 
 function svgPoint(e, svgEl) {
   const rect  = svgEl.getBoundingClientRect();
