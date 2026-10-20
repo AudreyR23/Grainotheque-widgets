@@ -13,11 +13,10 @@ const ZONE_MAP = {
   'Pot.HE':           ['Pot.HE'],
   'Pot.HC':           ['Pot.HC'],
   'Pot.Bulle':        ['Pot.Bulle'],
-  'Potager':          ['Pot.Bulle','Pot.HE','Pot.HC'],
   'Pot.X-Y':          ['Pot.1-1','Pot.1-2','Pot.1-3','Pot.1-4',
                        'Pot.2-1','Pot.2-2','Pot.2-3','Pot.2-4',
                        'Pot.3-1','Pot.3-2','Pot.3-3','Pot.3-4',
-                       'Pot.4-1','Pot.4-2','Pot.4-3','Pot.4-4','Pot. 1-1'],
+                       'Pot.4-1','Pot.4-2','Pot.4-3','Pot.4-4'],
   'Potager Bas':      ['Pot.B','Pot.BC'],
   'Pot.Table':        ['Pot.Table'],
   'Pot.Prunier':      ['Pot.Prunier'],
@@ -27,8 +26,9 @@ const ZONE_MAP = {
   'Bac R angle':      ['Bac R angle'],
   'Bac terrasse':     ['Bac terrasse'],
   'Grand bac':        ['Grand bac'],
-  'Cour':             ['Cour 1','Cour 2'],
-  'Cour tri.':        ['Cour 1','Cour 2'],
+  'Cour 1':           ['Cour 1'],
+  'Cour 2':           ['Cour 2'],
+  'C. tri.':        ['C. Triangle'],
   'C. Fosse':         ['C. Fosse'],
   'C. Terrasse':      ['C. Terrasse'],
   'Regard eau':       ['Regard eau'],
@@ -59,11 +59,10 @@ const ZONES_DEF = [
   { id:'ext-serre-tipi',  label:'Ext. Serre Tipi',  shape:'circle',      w:80,  h:80,  fill:'#dcedc8', stroke:'#558b2f', x:600, y:100 },
   // Potager
   { id:'pot-hn',          label:'Pot.HN',            shape:'rect',        w:507, h:78,  fill:'#ffe0b2', stroke:'#e65100', x:600, y:30  },
-  { id:'potager',         label:'Potager',           shape:'rect',        w:273, h:351, fill:'#fff9c4', stroke:'#f9a825', x:600, y:108 },
   { id:'pot-bulle',       label:'Pot.Bulle',         shape:'ellipse',     w:150, h:100, fill:'#ffcc80', stroke:'#fb8c00', x:660, y:250 },
   { id:'pot-he',          label:'Pot.HE',            shape:'rect',        w:218, h:273, fill:'#ffe0b2', stroke:'#e65100', x:873, y:108 },
   { id:'pot-hc',          label:'Pot.HC',            shape:'rect',        w:296, h:31,  fill:'#ffe0b2', stroke:'#e65100', x:600, y:459 },
-  { id:'potager-grille',  label:'Pot.X-Y',           shape:'grid',        w:273, h:273, fill:'#fffde7', stroke:'#f9a825', x:600, y:500 },
+  { id:'potager-grille',  label:'Pot.X-Y',           shape:'grid',        w:273, h:350, fill:'#fffde7', stroke:'#f9a825', x:600, y:500 },
   { id:'potager-bas',     label:'Potager Bas',       shape:'rect',        w:195, h:195, fill:'#dcedc8', stroke:'#558b2f', x:900, y:400 },
   { id:'pot-table',       label:'Pot.Table',         shape:'rect',        w:78,  h:117, fill:'#f8bbd0', stroke:'#c2185b', x:900, y:600 },
   { id:'pot-prunier',     label:'Pot.Prunier',       shape:'ellipse',     w:200, h:120, fill:'#ce93d8', stroke:'#7b1fa2', x:1000, y:600 },
@@ -75,7 +74,8 @@ const ZONES_DEF = [
   { id:'bac-terrasse',    label:'Bac terrasse',      shape:'rect',        w:234, h:117, fill:'#b3e5fc', stroke:'#0277bd', x:1150, y:470 },
   { id:'grand-bac',       label:'Grand bac',         shape:'trapeze2',    w:218, h:140, fill:'#81d4fa', stroke:'#0277bd', x:1150, y:600 },
   // Cour & alentours
-  { id:'cour',            label:'Cour',              shape:'rect',        w:320, h:47,  fill:'#d7ccc8', stroke:'#795548', x:50,  y:500 },
+  { id:'cour1',           label:'Cour 1',            shape:'rect',        w:160, h:47,  fill:'#d7ccc8', stroke:'#795548', x:50,  y:500 },
+  { id:'cour2',           label:'Cour 2',            shape:'rect',        w:160, h:47,  fill:'#d7ccc8', stroke:'#795548', x:50,  y:550 },
   { id:'cour-tri',        label:'Cour tri.',         shape:'triangle',    w:120, h:93,  fill:'#bcaaa4', stroke:'#795548', x:50,  y:547 },
   { id:'c-fosse',         label:'C. Fosse',          shape:'rect',        w:160, h:234, fill:'#bcaaa4', stroke:'#795548', x:50,  y:650 },
   { id:'c-terrasse',      label:'C. Terrasse',       shape:'rect',        w:155, h:234, fill:'#bcaaa4', stroke:'#795548', x:215, y:650 },
@@ -91,7 +91,33 @@ const ZONES_DEF = [
   { id:'murier',          label:'Murier',            shape:'ellipse',     w:230, h:80,  fill:'#ce93d8', stroke:'#6a1b9a', x:1380, y:300 },
   { id:'en-pot',          label:'En pot',            shape:'rect',        w:120, h:80,  fill:'#f5f5f5', stroke:'#999',    x:1400, y:500 },
 ];
+/* =============================================
+   COULEURS DES ÉTIQUETTES SELON LE TYPE DE CULTURE
+   À coller dans main_plan.js, après le bloc ZONES_DEF
+   et avant le bloc « ÉTAT ».
+   Le type est reconnu grâce à son emoji, ce qui évite les
+   problèmes d'espaces ou d'accents dans le texte du type.
+   fond = pastel, bord = même teinte plus foncée
+   ============================================= */
+const COULEURS_TYPE = [
+  { emoji: '🌼', nom: 'Fleurs',        fond: '#fff59d', bord: '#f9a825' }, // jaune
+  { emoji: '🥬', nom: 'Lég-feu.',      fond: '#c8e6c9', bord: '#388e3c' }, // vert
+  { emoji: '🌿', nom: 'Arom.Méd',      fond: '#bbdefb', bord: '#1976d2' }, // bleu
+  { emoji: '🍅', nom: 'Lég-fru.',      fond: '#ffcdd2', bord: '#d32f2f' }, // rouge
+  { emoji: '🌾', nom: 'Lég-gra.',      fond: '#ffe0b2', bord: '#f57c00' }, // orange
+  { emoji: '🥕', nom: 'Lég-rac.',      fond: '#e1bee7', bord: '#8e24aa' }, // violet
+  { emoji: '🫐', nom: 'Petits Fruits', fond: '#f8bbd0', bord: '#dd437b' }, // rose
+  { emoji: '🧅', nom: 'Tub.bul.',      fond: '#d7ccc8', bord: '#6d4c41' }  // marron
+];
 
+// Pas de type, ou type inconnu : gris
+const COULEUR_DEFAUT = { fond: '#eeeeee', bord: '#9e9e9e' };
+
+function couleurType(type) {
+  if (!type) return COULEUR_DEFAUT;
+  const t = String(type);
+  return COULEURS_TYPE.find(c => t.includes(c.emoji)) || COULEUR_DEFAUT;
+}
 /* =============================================
    ÉTAT
    ============================================= */
@@ -228,7 +254,7 @@ function makeGrid(z, st) {
     lines += `<line x1="0" y1="${i*ch}" x2="${st.w}" y2="${i*ch}" stroke="${z.stroke}" stroke-width="0.7" opacity="0.5"/>`;
   }
   // Labels
-  const cols=['1','2','3','4'], rows=['1','2','3','4'];
+  const cols=['1','2','3','4'], rows=['4','3','2','1'];
   for(let r=0;r<4;r++) for(let c=0;c<4;c++) {
     lines += `<text x="${c*cw+3}" y="${r*ch+12}" font-size="7" fill="#bbb" font-family="Arial">${cols[c]}-${rows[r]}</text>`;
   }
@@ -285,12 +311,15 @@ function renderPlants() {
   Object.entries(plantPos).forEach(([id, pos]) => {
     const r = records.find(x => x.id === parseInt(id));
     if (!r) return;
-    const nom = (r.Nom||'').substring(0,16);
-    const var_ = (r.Variete||'').substring(0,16);
-    const w = Math.max(nom.length, var_.length) * 5.2 + 20;
+    const nom = (r.Nom||'').substring(0,15);
+    const var_ = (r.Variete||'').substring(0,15);
+    const w = Math.max(nom.length, var_.length) * 4.5 + 15;
     const h = var_ ? 26 : 16;
     const g = document.createElementNS('http://www.w3.org/2000/svg','g');
     g.classList.add('placed-label');
+    const c = couleurType(r.Type);
+    g.style.setProperty('--fond', c.fond);
+    g.style.setProperty('--bord', c.bord);
     g.dataset.id = id;
     g.setAttribute('transform',`translate(${pos.x},${pos.y})`);
     g.innerHTML = `
@@ -343,6 +372,9 @@ function renderPanel() {
     const placed = plantPos[r.id] !== undefined;
     const div = document.createElement('div');
     div.className = 'etiquette-item' + (placed ? ' placed' : '');
+    const c = couleurType(r.Type);
+    div.style.setProperty('--fond', c.fond);
+    div.style.setProperty('--bord', c.bord);
     div.dataset.id = r.id;
     const ouStr = Array.isArray(r.Ou) ? r.Ou.join(', ') : (r.Ou||'');
     div.innerHTML = `<div class="nom">${r.Nom||''}</div>
