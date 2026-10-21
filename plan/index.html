@@ -9,9 +9,10 @@
 <div class="toolbar">
   <span class="mode-badge mode-view" id="mode-badge">VUE</span>
   <div class="sep"></div>
-  <button class="btn btn-edit"  onclick="setMode('edit')" title="Déplacer et pivoter les zones">✏️ Éditer zones</button>
-  <button class="btn btn-lock"  onclick="setMode('plant')" title="Placer les plantes">🌱 Placer plantes</button>
-  <button class="btn"           onclick="setMode('view')" title="Vue normale">👁 Vue</button>
+  <button class="btn btn-edit"    onclick="setMode('edit')" title="Déplacer et pivoter les zones">✏️ Éditer zones</button>
+  <button class="btn btn-lock"    onclick="setMode('plant')" title="Placer les plantes">🌱 Placer plantes</button>
+  <button class="btn btn-select"  onclick="setMode('select')" title="Sélectionner une surface et la déplacer">⬚ Sélection</button>
+  <button class="btn"             onclick="setMode('view')" title="Vue normale">👁 Vue</button>
   <div class="sep"></div>
   <button class="btn btn-primary" onclick="sauvegarder()">💾 Sauvegarder</button>
   <button class="btn" onclick="resetPlantes()">↩ Réinit. plantes</button>
@@ -25,13 +26,15 @@
   <input type="range" id="taille-etiq" min="50" max="150" step="5" value="100"
          oninput="changerTaille(this.value)" onchange="sauverTaille(this.value)">
 </label>
+  <button class="btn" onclick="toggleCoupures()">✂️ Coupures A3</button>
+  <button class="btn" onclick="imprimerA3()">🖨️ Imprimer A3</button>
   <span class="status" id="status">Chargement…</span>
 </div>
 
 <div class="app">
   <!-- Panel gauche -->
   <div class="panel" id="panel">
-    <div class="panel-title">🌱 Plantes</div>
+    <div class="panel-title">🪏 Plan</div>
     <div class="panel-zone-label" id="zone-label">Cliquer sur une zone</div>
     <div class="panel-filter">
       <input type="text" id="search" placeholder="🔍 Rechercher…" oninput="renderPanel()">
@@ -54,8 +57,10 @@
         </text>
         <!-- Zones générées par JS -->
         <g id="zones-layer"></g>
+        <g id="cuts-layer"></g>
         <!-- Étiquettes plantes -->
         <g id="plants-layer"></g>
+        <g id="selection-layer"></g>
       </svg>
     </div>
     <div class="zoom-controls">
@@ -66,6 +71,7 @@
   </div>
 </div>
 
+<div id="print-root"></div>
 <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
     <script src="../script/main_plan.js"></script>
 </body>

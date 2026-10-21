@@ -28,7 +28,7 @@ body {
   border-radius: 4px;
   background: white;
   cursor: pointer;
-  font-size: 11px;
+  font-size: 11px; color: #2c2a27;
   white-space: nowrap;
 }
 .btn:hover { background: #f0ebe3; }
@@ -37,6 +37,7 @@ body {
 .btn-edit { background: #e65100; color: white; border-color: #e65100; }
 .btn-edit:hover { background: #bf360c; }
 .btn-lock { background: #1565c0; color: white; border-color: #1565c0; }
+.btn-select { background: #9015c0; color: white; border-color: #9015c0; }
 .sep { width: 1px; height: 20px; background: #d4c5b0; margin: 0 2px; }
 .status { color: #666; flex: 1; font-size: 10px; }
 .mode-badge {
@@ -48,6 +49,7 @@ body {
 .mode-view  { background: #e8f5e9; color: #2d6a4f; }
 .mode-edit  { background: #fff3e0; color: #e65100; }
 .mode-plant { background: #e3f2fd; color: #1565c0; }
+.mode-select { background: #ede7f6; color: #9015c0; }
 
 /* LAYOUT */
 .app { display: flex; flex: 1; overflow: hidden; }
@@ -197,3 +199,101 @@ svg#plan {
   box-shadow: 0 1px 3px rgba(0,0,0,0.15);
 }
 .zoom-btn:hover { background: #f0ebe3; }
+/* =============================================
+   À AJOUTER À LA FIN DE plan.css
+   ============================================= */
+ 
+/* Lignes de coupe A3 (écran seulement) */
+.coupure {
+  stroke: #e53935;
+  stroke-width: 1.5;
+  stroke-dasharray: 8, 6;
+  pointer-events: none;
+}
+ 
+.coupure-label {
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+  fill: #e53935;
+  pointer-events: none;
+}
+ 
+/* Compteur d'étiquettes posées dans la liste de gauche */
+.etiquette-item .compteur {
+  float: right;
+  font-weight: normal;
+  font-size: 8px;
+  color: #555;
+}
+ 
+/* Contenu d'impression A3 : caché à l'écran */
+#print-root {
+  display: none;
+}
+ 
+@media print {
+  /* Le plan a une hauteur fixe et un overflow caché à l'écran :
+     on les neutralise pour que plusieurs pages puissent s'imprimer */
+  body.imprimer-a3 {
+    display: block;
+    height: auto;
+    overflow: visible;
+    background: white;
+  }
+ 
+  body.imprimer-a3 .toolbar,
+  body.imprimer-a3 .app {
+    display: none !important;
+  }
+ 
+  body.imprimer-a3 #print-root {
+    display: block;
+  }
+ 
+  .page-a3 {
+    width: 400mm;
+    height: 276mm;
+    overflow: hidden;
+    page-break-after: always;
+    break-after: page;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+ 
+  .page-a3:last-child {
+    page-break-after: auto;
+    break-after: auto;
+  }
+ 
+  .page-a3 svg {
+    display: block;
+  }
+}
+
+/*Sélection groupée*/
+
+.rect-selection {
+  fill: rgba(21, 101, 192, 0.10);
+  stroke: #1565c0;
+  stroke-width: 1.5;
+  stroke-dasharray: 6, 4;
+  pointer-events: none;
+}
+ 
+.boite-selection {
+  fill: none;
+  stroke: #1565c0;
+  stroke-width: 1.5;
+  stroke-dasharray: 6, 4;
+  pointer-events: none;
+}
+ 
+.zone-group.en-selection .zone-shape {
+  stroke: #1565c0;
+  stroke-width: 3;
+}
+ 
+.placed-label.en-selection rect {
+  stroke: #1565c0;
+  stroke-width: 2;
+}
