@@ -123,9 +123,11 @@ function couleurType(type) {
 let mode         = 'view';   // 'view' | 'edit' | 'plant'
 let zoneActive   = null;
 let records      = [];
+let recordsParId = new Map();   // id de la ligne Semis → enregistrement
 let placements = [];             // [{ uid, pid, x, y }]  pid = id de la ligne Semis
 let nextUid = 1;
 let modifie = false;      // vrai tant que des changements ne sont pas sauvegardés
+let etiquetteChoisie = null;   // id de la ligne Semis choisie dans le panneau (pose en 2 touches)
 let messageJusqua = 0;   // tant que Date.now() est inférieur, un message temporaire reste affiché
 
 function majStatut() {
@@ -152,7 +154,7 @@ function resteAPlacer(r) {
 // Double-clic sur une étiquette : change son nombre de pieds
 function modifierNombre(uid) {
   const p = placements.find(x => x.uid === uid);
-  const r = p && records.find(x => x.id === p.pid);
+  const r = p && recordsParId.get(p.pid);
   if (!r) return;
   const max = maxPlacements(r) - (piedsPlaces(p.pid) - pieds(p));  // quota dispo pour cette étiquette
   const rep = prompt('Nombre de pieds pour cette étiquette' +
@@ -215,6 +217,8 @@ grist.ready({ requiredAccess: 'full' });
 grist.onRecords(async function(recs) {
   // Charger les plantes depuis Semis
   records = recs.filter(r => (r.Plantes > 0) || r.A_produire);
+  records = recs.filter(r => (r.Plantes > 0) || r.A_produire);
+  recordsParId = new Map(records.map(r => [r.id, r]));
 
   if (!modifie) {   // on ne touche pas aux étiquettes ni aux zones tant que tout n'est pas sauvegardé
     placements = [];
@@ -283,6 +287,7 @@ function setMode(m) {
     document.getElementById('zone-label').textContent = 'Cliquer sur une zone';
   }
   if (m !== 'select') { selection.zones.clear(); selection.plants.clear(); }
+  if (m !== 'plant') etiquetteChoisie = null;
   renderAll();
 }
 
@@ -375,7 +380,7 @@ function renderZones() {
 
     layer.appendChild(g);
     });
-    renderNoms();
+    renderNoms(majStatut());
 }
 
 function rotateZone(zid, deg) {
@@ -408,6 +413,9 @@ function renderNoms() {
   majStatut()
 }
 
+function transformEtiquette(p) {
+  return `translate(${p.x},${p.y}) scale(${tailleEtiquettes / FACTEUR_PLAN})`;
+}
 
 /* =============================================
    RENDU PLANTES
@@ -417,7 +425,7 @@ function renderPlants() {
   layer.innerHTML = '';
  
   placements.forEach(p => {
-    const r = records.find(x => x.id === p.pid);
+    const r = recordsParId.get(p.pid);
     if (!r) return;
  
     const { nom, var_, w, h } = dimensionsEtiquette(r);
@@ -429,7 +437,7 @@ function renderPlants() {
     g.style.setProperty('--fond', c.fond);
     g.style.setProperty('--bord', c.bord);
     g.dataset.uid = p.uid;
-    g.setAttribute('transform', `translate(${p.x},${p.y}) scale(${tailleEtiquettes / FACTEUR_PLAN})`);
+    g.setAttribute('transform', transformEtiquette(p));
  
     g.innerHTML = `
       <title>${echapper(r.Nom)} — ${echapper(r.Variete)}</title>
@@ -499,6 +507,12 @@ const complet  = resteAPlacer(r) <= 0;
     div.style.setProperty('--fond', c.fond);
     div.style.setProperty('--bord', c.bord);
     div.dataset.id = r.id;
+    if (r.id === etiquetteChoisie) div.classList.add('choisie');
+div.addEventListener('click', () => {
+  if (mode !== 'plant' || complet) return;
+  etiquetteChoisie = (etiquetteChoisie === r.id) ? null : r.id;   // re-toucher = désélectionner
+  renderPanel();
+});
  
     const ouStr = Array.isArray(r.Ou) ? r.Ou.join(', ') : (r.Ou || '');
     const compteur = (Number.isFinite(nbMax) && nbMax > 1)
@@ -523,6 +537,7 @@ const complet  = resteAPlacer(r) <= 0;
    DRAG ZONES (mode edit)
    ============================================= */
 function onZoneMouseDown(e, z) {
+  if (mode === 'plant' && etiquetteChoisie) return;
   if (mode === 'select') { demarrerDeplacementSelection(e, 'zone', z.id); return; }
   if (mode !== 'edit') {
     // Mode view/plant → sélection de zone
@@ -562,34 +577,45 @@ const vp  = document.getElementById('viewport');
 
 // Drop depuis panel
 svg.addEventListener('dragover', e => { if (mode === 'plant') e.preventDefault(); });
+function poserEtiquette(id, pt) {
+  const r = records.find(x => x.id === id);
+  if (!r) return;
+  const reste = resteAPlacer(r);
+  if (reste <= 0) return;
+
+  const np = { uid: nextUid++, pid: id, x: Math.round(pt.x), y: Math.round(pt.y), n: 1 };
+  placements.push(np);
+  limiterAuPlan(np);
+
+  if (reste > 1) {
+    const info = Number.isFinite(reste) ? ' (reste ' + reste + ')' : '';
+    const n = parseInt(prompt('Combien de pieds à cet endroit ?' + info, 1));
+    if (n >= 1) np.n = Number.isFinite(reste) ? Math.min(n, reste) : n;
+  }
+  modifie = true;
+  renderPlants();
+  renderPanel();
+}
 svg.addEventListener('drop', e => {
   if (mode !== 'plant') return;
   e.preventDefault();
   const id = parseInt(e.dataTransfer.getData('plantId'));
   if (!id) return;
-  const r = records.find(x => x.id === id);
-if (!r) return;
-const reste = resteAPlacer(r);
-if (reste <= 0) return;
-
-const pt = svgPoint(e, svg);
-const np = { uid: nextUid++, pid: id, x: Math.round(pt.x), y: Math.round(pt.y), n: 1 };
-placements.push(np);
-limiterAuPlan(np);
-
-if (reste > 1) {
-  const n = parseInt(prompt('Combien de pieds à cet endroit ? (reste ' + reste + ')', 1));
-  if (n >= 1) np.n = Math.min(n, reste);
-}
-modifie = true;
-renderPlants();
-renderPanel();
+  poserEtiquette(id, svgPoint(e, svg));
+});
+svg.addEventListener('click', e => {
+  if (mode !== 'plant' || !etiquetteChoisie) return;
+  if (e.target.closest('.placed-label')) return;   // un clic sur une étiquette ne pose rien
+  poserEtiquette(etiquetteChoisie, svgPoint(e, svg));
+  const r = records.find(x => x.id === etiquetteChoisie);
+  if (!r || resteAPlacer(r) <= 0) etiquetteChoisie = null;   // quota atteint : on désélectionne
+  renderPanel();
 });
 
 
 // Pan (milieu souris ou mode vue)
 vp.addEventListener('pointerdown', e => {
-  if (drag) return;
+  if (drag || pointeurs.size >= 2) return;
   if (e.button !== 1 && mode !== 'view') return;  if (e.button !== 1 && mode === 'plant') return; // plant mode: pan seulement bouton milieu
   pan.active = true;
   pan.startX = e.clientX; pan.startY = e.clientY;
@@ -597,7 +623,7 @@ vp.addEventListener('pointerdown', e => {
   vp.classList.add('grabbing');
 });
 window.addEventListener('pointermove', e => {
-  if (!pan.active) return;
+  if (!pan.active || pincement) return;
   pan.x = pan.ox + e.clientX - pan.startX;
   pan.y = pan.oy + e.clientY - pan.startY;
   applyTransform();
@@ -966,7 +992,7 @@ function dimensionsEtiquette(r) {
 }
  
 function tailleEtiquette(p) {
-  const r = records.find(x => x.id === p.pid);
+  const r = recordsParId.get(p.pid);
   const d = r ? dimensionsEtiquette(r) : { w: 60, h: 26 };
   const k = tailleEtiquettes / FACTEUR_PLAN;
   return { w: d.w * k, h: d.h * k };
@@ -1124,19 +1150,28 @@ function deplacerGroupe(dx, dy) {
   // Tout le groupe reste dans la surface de travail
   dx = Math.min(Math.max(dx, -b.x0), PLAN_W - b.x1);
   dy = Math.min(Math.max(dy, -b.y0), PLAN_H - b.y1);
- 
+
   drag.zones.forEach(z => {
-    zonePos[z.zid] = { ...z.st, x: z.st.x + dx, y: z.st.y + dy };
+    const s = { ...z.st, x: z.st.x + dx, y: z.st.y + dy };
+    zonePos[z.zid] = s;
+    const g = document.getElementById('zg-' + z.zid);
+    if (g) g.setAttribute('transform',
+      `translate(${s.x},${s.y}) rotate(${s.rot},${s.w / 2},${s.h / 2})`);
   });
+
   drag.plants.forEach(q => {
     const p = placements.find(x => x.uid === q.uid);
-    if (p) { p.x = q.x + dx; p.y = q.y + dy; }
+    if (!p) return;
+    p.x = q.x + dx;
+    p.y = q.y + dy;
+    const g = document.querySelector(`#plants-layer [data-uid="${p.uid}"]`);
+    if (g) g.setAttribute('transform', transformEtiquette(p));
   });
-  if (drag.plants.length) modifie = true;
- 
-  renderZones();
-  renderPlants();
-  renderSelection();
+
+  if (drag.plants.length || drag.zones.length) modifie = true;
+
+  renderNoms();        // les noms suivent les zones (appelle aussi majStatut)
+  renderSelection();   // la boîte de sélection suit le groupe
 }
  
 function finDeplacement() {
@@ -1185,15 +1220,19 @@ window.addEventListener('pointermove', e => {
       `translate(${nst.x},${nst.y}) rotate(${nst.rot},${nst.w / 2},${nst.h / 2})`);
     renderNoms();
 
-  } else if (drag.type === 'plant') {
-      const p = placements.find(x => x.uid === drag.uid);
+    } else if (drag.type === 'plant') {
+    const p = placements.find(x => x.uid === drag.uid);
     if (p) {
       p.x = drag.origX + dx;
       p.y = drag.origY + dy;
       limiterAuPlan(p);          // l'étiquette reste entièrement dans la surface
       modifie = true;
+      const g = document.querySelector(`#plants-layer [data-uid="${p.uid}"]`);
+      if (g) g.setAttribute('transform', transformEtiquette(p));
+      majStatut();
     }
-    renderPlants();
+
+  } else if (drag.type === 'groupe') {
  
   } else if (drag.type === 'groupe') {
     deplacerGroupe(dx, dy);
