@@ -1220,12 +1220,12 @@ window.addEventListener('pointermove', e => {
       `translate(${nst.x},${nst.y}) rotate(${nst.rot},${nst.w / 2},${nst.h / 2})`);
     renderNoms();
 
-    } else if (drag.type === 'plant') {
+      } else if (drag.type === 'plant') {
     const p = placements.find(x => x.uid === drag.uid);
     if (p) {
       p.x = drag.origX + dx;
       p.y = drag.origY + dy;
-      limiterAuPlan(p);          // l'étiquette reste entièrement dans la surface
+      limiterAuPlan(p);
       modifie = true;
       const g = document.querySelector(`#plants-layer [data-uid="${p.uid}"]`);
       if (g) g.setAttribute('transform', transformEtiquette(p));
@@ -1233,10 +1233,8 @@ window.addEventListener('pointermove', e => {
     }
 
   } else if (drag.type === 'groupe') {
- 
-  } else if (drag.type === 'groupe') {
     deplacerGroupe(dx, dy);
- 
+
   } else if (drag.type === 'rectangle') {
     rectSel.x1 = Math.min(Math.max(pt.x, 0), PLAN_W);
     rectSel.y1 = Math.min(Math.max(pt.y, 0), PLAN_H);
