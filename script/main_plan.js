@@ -615,6 +615,51 @@ vp.addEventListener('wheel', e => {
   applyTransform();
 }, { passive: false });
 
+const pointeurs = new Map();   // doigts posés : id → {x, y}
+let pincement = null;          // état du geste à deux doigts
+
+function mesurerDoigts() {
+  const [a, b] = [...pointeurs.values()];
+  return { cx: (a.x + b.x) / 2, cy: (a.y + b.y) / 2,
+           d: Math.hypot(a.x - b.x, a.y - b.y) || 1 };
+}
+
+// true : cet écouteur passe AVANT les autres (certains font stopPropagation)
+vp.addEventListener('pointerdown', e => {
+  if (e.pointerType !== 'touch') return;
+  pointeurs.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  if (pointeurs.size === 2) {
+    const m = mesurerDoigts();
+    pincement = { d: m.d, cx: m.cx, cy: m.cy, scale, px: pan.x, py: pan.y };
+    drag = null;                 // le 2e doigt annule un glissement en cours
+    pan.active = false;
+    vp.classList.remove('grabbing');
+  }
+}, true);
+
+window.addEventListener('pointermove', e => {
+  if (!pointeurs.has(e.pointerId)) return;
+  pointeurs.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  if (!pincement || pointeurs.size < 2) return;
+
+  const m = mesurerDoigts();
+  const r = vp.getBoundingClientRect();
+  const s = Math.min(3, Math.max(0.2, pincement.scale * m.d / pincement.d));
+  const k = s / pincement.scale;
+  // le point du plan qui était sous les doigts y reste
+  pan.x = (m.cx - r.left) - ((pincement.cx - r.left) - pincement.px) * k;
+  pan.y = (m.cy - r.top)  - ((pincement.cy - r.top)  - pincement.py) * k;
+  scale = s;
+  applyTransform();
+});
+
+function finDoigt(e) {
+  pointeurs.delete(e.pointerId);
+  if (pointeurs.size < 2) pincement = null;
+}
+window.addEventListener('pointerup', finDoigt);
+window.addEventListener('pointercancel', finDoigt);
+
 function applyTransform() {
   svg.style.transform = `translate(${pan.x}px,${pan.y}px) scale(${scale})`;
 }
@@ -1111,7 +1156,7 @@ svg.addEventListener('pointerdown', e => {
 });
  
 window.addEventListener('pointermove', e => {
-  if (!drag) return;
+  if (!drag || pincement) return;
   if (e.buttons === 0) { finDeplacement(); return; }   // bouton relâché hors de la fenêtre
  
   const pt = svgPoint(e, svg);
