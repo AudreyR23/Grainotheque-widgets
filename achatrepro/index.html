@@ -42,12 +42,12 @@
 
   <div class="form-row">
     <div class="form-group">
-      <label>Nom (ex: Tomate)</label>
+      <label>Nom</label>
       <input type="text" id="v-nom" placeholder="Tomate">
     </div>
     <div class="form-group">
-      <label>Variété (ex: Orange Bouroin)</label>
-      <input type="text" id="v-variete" placeholder="Orange Bouroin">
+      <label>Variété </label>
+      <input type="text" id="v-variete" placeholder="Orange Bourgoin">
     </div>
   </div>
 
@@ -157,25 +157,22 @@
   <div class="panel-title">📦 Nouveau millésime</div>
   <div class="chain-banner" id="chain-banner-millesime"></div>
 
-  <div class="form-group">
-    <label>Variété</label>
-    <select id="m-variete" onchange="chargerTypeMillesime()">
-      <option value="">— Choisir une variété —</option>
-    </select>
-  </div>
-
-  <div class="form-group">
-   <label>Type</label>
-   <input type="text" id="m-type" readonly>
-  </div>
-
   <div class="form-row">
     <div class="form-group">
-      <label>Millésime (année)</label>
-      <input type="number" id="m-millesime" min="1900" max="2100">
+    <label>Variété</label>
+      <select id="m-variete" onchange="chargerTypeMillesime()">
+      <option value="">— Choisir une variété —</option>
+    </select>
     </div>
     <div class="form-group">
-      <label>Nb saisons</label>
+    <label>Type</label>
+      <input type="text" id="m-type" readonly>
+      </div>
+    </div>
+  
+ <div class="form-row">
+    <div class="form-group">
+    <label>Nb saisons</label>
       <select id="m-nb-saisons">
         <option value="or.">or. (original)</option>
         <option value="1">1</option>
@@ -188,28 +185,34 @@
         <option value="8">8</option>
       </select>
     </div>
-  </div>
-
-  <div class="form-row">
+    <div class="form-group">
+      <label>Millésime (année)</label>
+      <input type="number" id="m-millesime" min="1900" max="2100">
+    </div>
+    </div>
+ 
+  <div class="form-group">
     <div class="form-group">
       <label>Origine <span class="badge" style="background:#fce4e4;color:var(--rouge)">obligatoire</span></label>
       <select id="m-origine" multiple style="height:60px"></select>
     </div>
+  </div>
+
+  <div class="form-row">
     <div class="form-group">
       <label>Sachet</label>
       <select id="m-sachet"></select>
     </div>
-  </div>
-
-  <div class="form-group">
-    <label>Quantité de graines</label>
-    <input type="number" id="m-qtte" min="0" placeholder="ex: 50">
+    <div class="form-group form-group-check">
+  <label><input type="checkbox" id="m-plante-mere"> Plante mère </label>
+</div>
   </div>
   
   <div class="form-row">
-  <div class="form-group form-group-check">
-  <label><input type="checkbox" id="m-plante-mere"> Plante mère (vivace)</label>
-</div>
+<div class="form-group">
+    <label>Quantité de graines</label>
+    <input type="number" id="m-qtte" min="0" placeholder="ex: 50">
+  </div>
   <div class="form-group">
     <label>Année de plantation</label>
     <input type="number" id="m-annee-plantation" min="1900" max="2100">

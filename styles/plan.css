@@ -37,7 +37,9 @@ body {
 .btn-edit { background: #e65100; color: white; border-color: #e65100; }
 .btn-edit:hover { background: #bf360c; }
 .btn-lock { background: #1565c0; color: white; border-color: #1565c0; }
+.btn-lock:hover { background: #0c3c72; }
 .btn-select { background: #9015c0; color: white; border-color: #9015c0; }
+.btn-select:hover { background: #580a77; }
 .sep { width: 1px; height: 20px; background: #d4c5b0; margin: 0 2px; }
 .status { color: #666; flex: 1; font-size: 10px; }
 .mode-badge {
@@ -144,12 +146,12 @@ svg#plan {
   stroke-width: 1.5;
   transition: opacity 0.1s;
 }
-.zone-label {
+/*.zone-label {
   font-family: Arial, sans-serif;
   font-size: 9px;
   font-weight: bold;
   pointer-events: none;
-}
+}*/
 .zone-group { cursor: pointer; }
 .zone-group.selected .zone-shape {
   stroke-width: 3 !important;
@@ -296,4 +298,8 @@ svg#plan {
 .placed-label.en-selection rect {
   stroke: #1565c0;
   stroke-width: 2;
+}
+.status.non-sauve { color: #c62828; font-weight: bold; }
+
+{ touch-action: none;
 }

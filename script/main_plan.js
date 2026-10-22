@@ -28,7 +28,7 @@ const ZONE_MAP = {
   'Grand bac':        ['Grand bac'],
   'Cour 1':           ['Cour 1'],
   'Cour 2':           ['Cour 2'],
-  'C. tri.':        ['C. Triangle'],
+  'C. Triangle':      ['C. Triangle'],
   'C. Fosse':         ['C. Fosse'],
   'C. Terrasse':      ['C. Terrasse'],
   'Regard eau':       ['Regard eau'],
@@ -62,7 +62,7 @@ const ZONES_DEF = [
   { id:'pot-bulle',       label:'Pot.Bulle',         shape:'ellipse',     w:150, h:100, fill:'#fffde7', stroke:'#fd9c00', x:660, y:250 },
   { id:'pot-he',          label:'Pot.HE',            shape:'rect',        w:218, h:273, fill:'#fffde7', stroke:'#fd9c00', x:873, y:108 },
   { id:'pot-hc',          label:'Pot.HC',            shape:'rect',        w:296, h:31,  fill:'#fffde7', stroke:'#fd9c00', x:600, y:459 },
-  { id:'potager-grille',  label:'Pot.X-Y',           shape:'grid',        w:273, h:350, fill:'#fffde7', stroke:'#fd9c00', x:600, y:500 },
+  { id:'potager-grille',  label:'Pot.X-Y',           shape:'grid',        w:350, h:273, fill:'#fffde7', stroke:'#fd9c00', x:600, y:500 },
   { id:'potager-bas',     label:'Potager Bas',       shape:'rect',        w:195, h:195, fill:'#fffde7', stroke:'#fd9c00', x:900, y:400 },
   { id:'pot-table',       label:'Pot.Table',         shape:'rect',        w:78,  h:117, fill:'#fffde7', stroke:'#fd9c00', x:900, y:600 },
   { id:'pot-prunier',     label:'Pot.Prunier',       shape:'ellipse',     w:200, h:120, fill:'#fffde7', stroke:'#fd9c00', x:1000, y:600 },
@@ -71,7 +71,7 @@ const ZONES_DEF = [
   { id:'bac-r-milieu',    label:'Bac R milieu',      shape:'trapeze',     w:50,  h:140, fill:'#81d4fa', stroke:'#029ef8', x:1150, y:230 },
   { id:'bac-c-milieu',    label:'Bac C milieu',      shape:'trapeze',     w:160, h:150, fill:'#81d4fa', stroke:'#029ef8', x:1210, y:230 },
   { id:'bac-r-angle',     label:'Bac R angle',       shape:'rect',        w:117, h:78,  fill:'#81d4fa', stroke:'#029ef8', x:1150, y:385 },
-  { id:'grand-bac',       label:'Grand bac',         shape:'trapeze',     w:218, h:150, fill:'#81d4fa', stroke:'#029ef8', x:1150, y:600 },
+  { id:'grand-bac',       label:'Grand bac',         shape:'trapeze',     w:318, h:150, fill:'#81d4fa', stroke:'#029ef8', x:1150, y:600 },
   // Cour & alentours
   { id:'cour1',           label:'Cour 1',            shape:'rect',        w:160, h:47,  fill:'#bcaaa4', stroke:'#795548', x:50,  y:500 },
   { id:'cour2',           label:'Cour 2',            shape:'rect',        w:160, h:47,  fill:'#bcaaa4', stroke:'#795548', x:50,  y:550 },
@@ -125,11 +125,45 @@ let zoneActive   = null;
 let records      = [];
 let placements = [];             // [{ uid, pid, x, y }]  pid = id de la ligne Semis
 let nextUid = 1;
-let modifie = false;             // vrai tant que des changements ne sont pas sauvegardés
+let modifie = false;      // vrai tant que des changements ne sont pas sauvegardés
+let messageJusqua = 0;   // tant que Date.now() est inférieur, un message temporaire reste affiché
+
+function majStatut() {
+  if (Date.now() < messageJusqua) return;
+  const el = document.getElementById('status');
+  el.textContent = (modifie ? '● Non sauvegardé — ' : '') + records.length + ' plantes';
+  el.classList.toggle('non-sauve', modifie);
+}             
 const LIMITE_PAR_PLANTES = true; // false = autant d'étiquettes qu'on veut par ligne
  
 function placementsDe(pid) {
   return placements.filter(p => p.pid === pid);
+}
+function pieds(p) { return Math.max(1, parseInt(p.n) || 1); }
+
+function piedsPlaces(pid) {
+  return placementsDe(pid).reduce((s, p) => s + pieds(p), 0);
+}
+
+function resteAPlacer(r) {
+  return maxPlacements(r) - piedsPlaces(r.id);
+}
+
+// Double-clic sur une étiquette : change son nombre de pieds
+function modifierNombre(uid) {
+  const p = placements.find(x => x.uid === uid);
+  const r = p && records.find(x => x.id === p.pid);
+  if (!r) return;
+  const max = maxPlacements(r) - (piedsPlaces(p.pid) - pieds(p));  // quota dispo pour cette étiquette
+  const rep = prompt('Nombre de pieds pour cette étiquette' +
+                     (Number.isFinite(max) ? ' (max ' + max + ')' : '') + ' :', pieds(p));
+  if (rep === null) return;
+  const n = parseInt(rep);
+  if (!(n >= 1)) return;
+  p.n = Number.isFinite(max) ? Math.min(n, Math.max(1, max)) : n;
+  modifie = true;
+  renderPlants();
+  renderPanel();
 }
  
 function maxPlacements(r) {
@@ -146,12 +180,11 @@ function lirePositions(r) {
       if (Array.isArray(j)) {
         liste = j.filter(p => p && isFinite(p.x) && isFinite(p.y));
       }
-    } catch (e) { /* texte invalide : on ignore */ }
+    } catch (e) {
+      console.warn('Positions illisibles, ligne', r.id, e);
+    }
   }
-  if (!liste.length && r.Position_X && r.Position_Y) {
-    liste = [{ x: r.Position_X, y: r.Position_Y }];
-  }
-  return liste;
+    return liste;
 }
  
 function echapper(s) {
@@ -165,16 +198,11 @@ let planRecords  = [];       // lignes de la table Plan
 
 // Drag état
 let drag = null;
-// {type:'zone'|'plant', id, startX, startY, origX, origY}
 
 // Pan état
 let pan = { active:false, startX:0, startY:0, ox:0, oy:0, x:0, y:0 };
 let scale = 1;
 
-/* ---------------------------------------------
-   1) À AJOUTER avec les autres variables d'état
-      (près de "let scale = 1;")
-   --------------------------------------------- */
 const NB_CAR_MAX = 12;        // longueur maximale du nom et de la variété
 let tailleEtiquettes = 1;     // facteur de taille commun à toutes les étiquettes
                               // (ne pas l'appeler "scale" : c'est le zoom du plan)
@@ -187,42 +215,43 @@ grist.ready({ requiredAccess: 'full' });
 grist.onRecords(async function(recs) {
   // Charger les plantes depuis Semis
   records = recs.filter(r => (r.Plantes > 0) || r.A_produire);
-    if (!modifie) {   // on ne touche pas aux étiquettes tant que tout n'est pas sauvegardé
+
+  if (!modifie) {   // on ne touche pas aux étiquettes ni aux zones tant que tout n'est pas sauvegardé
     placements = [];
     records.forEach(r => {
       lirePositions(r).forEach(p => {
-        placements.push({ uid: nextUid++, pid: r.id, x: p.x, y: p.y });
+        placements.push({ uid: nextUid++, pid: r.id, x: p.x, y: p.y, n: p.n });
       });
     });
+
+    // Charger les positions des zones depuis Plan
+    try {
+      const planData = await grist.docApi.fetchTable('Plan');
+      planRecords = planData.id.map((id, i) => ({
+        id, Zone: planData.Zone?.[i] || '',
+        X: planData.X?.[i] || 0, Y: planData.Y?.[i] || 0,
+        Rotation: planData.Rotation?.[i] || 0,
+        Largeur: planData.Largeur?.[i] || 0,
+        Hauteur: planData.Hauteur?.[i] || 0,
+      }));
+      // Appliquer les positions sauvegardées
+      planRecords.forEach(pr => {
+        const z = ZONES_DEF.find(z => z.label === pr.Zone);
+        if (!z) return;
+        zonePos[z.id] = {
+          x: pr.X || z.x, y: pr.Y || z.y,
+          rot: pr.Rotation || 0,
+          w: pr.Largeur || z.w,
+          h: pr.Hauteur || z.h,
+        };
+      });
+    } catch (e) {
+      console.warn('Table Plan non trouvée, utilisation des positions par défaut');
+    }
   }
 
-  // Charger les positions des zones depuis Plan
-  try {
-    const planData = await grist.docApi.fetchTable('Plan');
-    planRecords = planData.id.map((id,i) => ({
-      id, Zone: planData.Zone?.[i]||'',
-      X: planData.X?.[i]||0, Y: planData.Y?.[i]||0,
-      Rotation: planData.Rotation?.[i]||0,
-      Largeur: planData.Largeur?.[i]||0,
-      Hauteur: planData.Hauteur?.[i]||0,
-    }));
-    // Appliquer les positions sauvegardées
-    planRecords.forEach(pr => {
-      const z = ZONES_DEF.find(z => z.label === pr.Zone);
-      if (!z) return;
-      zonePos[z.id] = {
-        x: pr.X || z.x, y: pr.Y || z.y,
-        rot: pr.Rotation || 0,
-        w: pr.Largeur || z.w,
-        h: pr.Hauteur || z.h,
-      };
-    });
-  } catch(e) {
-    console.warn('Table Plan non trouvée, utilisation des positions par défaut');
-  }
-
-  document.getElementById('status').textContent = records.length + ' plantes';
-  renderAll();
+  majStatut()/*document.getElementById('status').textContent = records.length + ' plantes';
+  */renderAll();
 });
 
 /* =============================================
@@ -281,11 +310,11 @@ function makeShape(z, st) {
       // trapèze : angles droits en haut, incliné en bas
       return `<polygon points="0,0 ${st.w},0 ${st.w},${st.h} 0,${st.h*0.85}"
                 fill="${z.fill}" stroke="${z.stroke}" stroke-width="1.5" class="zone-shape"/>`;
-    case 'trapeze2':
+    /*case 'trapeze2':
       // trapèze : grande base en haut, petite en bas
       const off = Math.round((st.w - st.w*0.75)/2);
       return `<polygon points="0,0 ${st.w},0 ${st.w-off},${st.h} ${off},${st.h}"
-                fill="${z.fill}" stroke="${z.stroke}" stroke-width="1.5" class="zone-shape"/>`;
+                fill="${z.fill}" stroke="${z.stroke}" stroke-width="1.5" class="zone-shape"/>`;*/
     case 'triangle':
       return `<polygon points="0,0 ${st.w},0 0,${st.h}"
                 fill="${z.fill}" stroke="${z.stroke}" stroke-width="1.5" class="zone-shape"/>`;
@@ -326,26 +355,27 @@ function renderZones() {
     if (sel) g.classList.add('selected');
     if (mode === 'edit') g.classList.add('edit-handle');
     if (selection.zones.has(z.id)) g.classList.add('en-selection');
+  
 
     g.setAttribute('transform',
       `translate(${st.x},${st.y}) rotate(${st.rot},${st.w/2},${st.h/2})`);
 
-    g.innerHTML = makeShape(z, st) + makeGrid(z, st) +
-      `<text x="4" y="13" class="zone-label" fill="${z.stroke}">${z.label}</text>`;
+    g.innerHTML = makeShape(z, st) + makeGrid(z, st);
 
     // Poignée de rotation (visible en mode edit)
     if (mode === 'edit') {
       g.innerHTML += `
         <circle class="rot-handle" cx="${st.w}" cy="0" r="6"
-          data-id="${z.id}" title="Pivoter"/>`;
+          data-id="${z.id}" <title>Pivoter</title>`;
     }
 
     // Événements
-    g.addEventListener('mousedown', e => onZoneMouseDown(e, z));
+    g.addEventListener('pointerdown', e => onZoneMouseDown(e, z));
     g.addEventListener('contextmenu', e => { e.preventDefault(); rotateZone(z.id, 15); });
 
     layer.appendChild(g);
-  });
+    });
+    renderNoms();
 }
 
 function rotateZone(zid, deg) {
@@ -353,8 +383,31 @@ function rotateZone(zid, deg) {
   const z  = ZONES_DEF.find(x => x.id === zid);
   const st = getZoneState(z);
   zonePos[zid] = { ...st, rot: (st.rot + deg) % 360 };
+  modifie = true
   renderZones();
 }
+
+const TAILLE_NOM = 9;             // en unités du plan (≈ 14 px à l'écran à zoom 100 %)
+const ALIGNEMENT_NOM = 'gauche';  // 'gauche' | 'centre'
+
+function renderNoms() {
+  const layer = document.getElementById('names-layer');
+  if (!layer) return;
+  let html = '';
+  ZONES_DEF.forEach(z => {
+    const b = boiteZone(z.id);
+    const centre = ALIGNEMENT_NOM === 'centre';
+    const x = centre ? (b.x0 + b.x1) / 2 : b.x0;
+    const y = Math.max(TAILLE_NOM, b.y0 - 3);   // jamais en dehors du haut du plan
+    html += `<text x="${x}" y="${y}" font-size="${TAILLE_NOM}" font-weight="bold"
+      font-family="Arial" text-anchor="${centre ? 'middle' : 'start'}"
+      fill="${z.stroke}" stroke="#fff" stroke-width="3" stroke-linejoin="round"
+      paint-order="stroke">${echapper(z.label)}</text>`;
+  });
+  layer.innerHTML = html;
+  majStatut()
+}
+
 
 /* =============================================
    RENDU PLANTES
@@ -384,16 +437,23 @@ function renderPlants() {
       <text x="3" y="10" font-size="8" font-weight="bold" font-family="Arial" fill="#333">${echapper(nom)}</text>
       ${var_ ? `<text x="3" y="20" font-size="7" font-style="italic" font-family="Arial" fill="#555">${echapper(var_)}</text>` : ''}
       <text x="${w - 9}" y="9" font-size="11" fill="#c62828" font-family="Arial"
-            style="cursor:pointer" data-remove="${p.uid}">×</text>`;
+            style="cursor:pointer" data-remove="${p.uid}">×</text>
+            ${pieds(p) > 1 ? `
+  <circle cx="${w}" cy="${h}" r="7" fill="#000000"/>
+  <text x="${w}" y="${h + 3}" font-size="8" font-weight="bold" font-family="Arial"
+        fill="#fff" text-anchor="middle" pointer-events="none">${pieds(p)}</text>` : ''}`; 
+            
  
-    g.addEventListener('mousedown', e => {
+    g.addEventListener('pointerdown', e => {
       if (e.target.dataset.remove) { removePlacement(parseInt(e.target.dataset.remove)); return; }
       if (mode === 'select') { demarrerDeplacementSelection(e, 'plant', p.uid); return; }
       if (mode !== 'plant') return;
       onPlantMouseDown(e, p.uid);
     });
+    g.addEventListener('dblclick', () => { if (mode === 'plant') modifierNombre(p.uid); });
     layer.appendChild(g);
   });
+  majStatut()
 }
 
 
@@ -429,9 +489,9 @@ function renderPanel() {
   }
  
   filtered.forEach(r => {
-    const nbPlaces = placementsDe(r.id).length;
-    const nbMax    = maxPlacements(r);
-    const complet  = nbPlaces >= nbMax;
+    const nbPlaces = piedsPlaces(r.id);
+const nbMax    = maxPlacements(r);
+const complet  = resteAPlacer(r) <= 0;
  
     const div = document.createElement('div');
     div.className = 'etiquette-item' + (complet ? ' placed' : '');
@@ -480,7 +540,6 @@ function onZoneMouseDown(e, z) {
     return;
   }
   const st = getZoneState(z);
-  const svg = document.getElementById('plan');
   const pt  = svgPoint(e, svg);
   drag = { type:'zone', zid: z.id, startX: pt.x, startY: pt.y, origX: st.x, origY: st.y };
 }
@@ -490,7 +549,7 @@ function onPlantMouseDown(e, uid) {
   e.preventDefault();
   const p = placements.find(x => x.uid === uid);
   if (!p) return;
-  const pt = svgPoint(e, document.getElementById('plan'));
+  const pt  = svgPoint(e, svg);
   drag = { type: 'plant', uid, startX: pt.x, startY: pt.y, origX: p.x, origY: p.y };
 }
 
@@ -509,18 +568,27 @@ svg.addEventListener('drop', e => {
   const id = parseInt(e.dataTransfer.getData('plantId'));
   if (!id) return;
   const r = records.find(x => x.id === id);
-  if (!r || placementsDe(id).length >= maxPlacements(r)) return;
-  const pt = svgPoint(e, svg);
-  placements.push({ uid: nextUid++, pid: id, x: Math.round(pt.x), y: Math.round(pt.y) });
-  limiterAuPlan(placements[placements.length - 1]);
-  modifie = true;
-  renderPlants();
-  renderPanel();
+if (!r) return;
+const reste = resteAPlacer(r);
+if (reste <= 0) return;
+
+const pt = svgPoint(e, svg);
+const np = { uid: nextUid++, pid: id, x: Math.round(pt.x), y: Math.round(pt.y), n: 1 };
+placements.push(np);
+limiterAuPlan(np);
+
+if (reste > 1) {
+  const n = parseInt(prompt('Combien de pieds à cet endroit ? (reste ' + reste + ')', 1));
+  if (n >= 1) np.n = Math.min(n, reste);
+}
+modifie = true;
+renderPlants();
+renderPanel();
 });
 
 
 // Pan (milieu souris ou mode vue)
-vp.addEventListener('mousedown', e => {
+vp.addEventListener('pointerdown', e => {
   if (drag) return;
   if (e.button !== 1 && mode !== 'view') return;  if (e.button !== 1 && mode === 'plant') return; // plant mode: pan seulement bouton milieu
   pan.active = true;
@@ -528,21 +596,13 @@ vp.addEventListener('mousedown', e => {
   pan.ox = pan.x; pan.oy = pan.y;
   vp.classList.add('grabbing');
 });
-// Pan en mode vue avec bouton gauche
-vp.addEventListener('mousedown', e => {
-  if (drag || mode !== 'view') return;
-  pan.active = true;
-  pan.startX = e.clientX; pan.startY = e.clientY;
-  pan.ox = pan.x; pan.oy = pan.y;
-  vp.classList.add('grabbing');
-});
-window.addEventListener('mousemove', e => {
+window.addEventListener('pointermove', e => {
   if (!pan.active) return;
   pan.x = pan.ox + e.clientX - pan.startX;
   pan.y = pan.oy + e.clientY - pan.startY;
   applyTransform();
 });
-window.addEventListener('mouseup', () => {
+window.addEventListener('pointerup', () => {
   pan.active = false;
   vp.classList.remove('grabbing');
 });
@@ -601,6 +661,8 @@ function svgPoint(e, svgEl) {
    ============================================= */
 async function sauvegarder() {
   document.getElementById('status').textContent = 'Sauvegarde…';
+  document.getElementById('status').textContent = 'Sauvegarde…';
+messageJusqua = Infinity;
   try {
     const actions = [];
 
@@ -622,28 +684,25 @@ async function sauvegarder() {
       }
     });
 
-    // Positions plantes → table Semis
-        // Étiquettes des plantes → table Semis (colonne Positions + 1re position dans Position_X/Y)
+    // Étiquettes des plantes → table Semis (colonne Positions)
     const parPlante = {};
     placements.forEach(p => {
-      (parPlante[p.pid] = parPlante[p.pid] || []).push({ x: Math.round(p.x), y: Math.round(p.y) });
+      (parPlante[p.pid] = parPlante[p.pid] || []).push({
+  x: Math.round(p.x), y: Math.round(p.y), n: pieds(p)
+});
     });
  
     Object.entries(parPlante).forEach(([id, liste]) => {
       actions.push(['UpdateRecord', 'Semis', parseInt(id), {
-        Positions: JSON.stringify(liste),
-        Position_X: liste[0].x,
-        Position_Y: liste[0].y
+    Positions: JSON.stringify(liste)
       }]);
     });
  
     records.forEach(r => {
-      if (!parPlante[r.id] && (r.Positions || r.Position_X || r.Position_Y)) {
-        actions.push(['UpdateRecord', 'Semis', r.id, {
-          Positions: null, Position_X: null, Position_Y: null
-        }]);
-      }
-    });
+  if (!parPlante[r.id] && r.Positions) {
+    actions.push(['UpdateRecord', 'Semis', r.id, { Positions: null }]);
+  }
+});
 
 
     await grist.docApi.applyUserActions(actions);
@@ -658,13 +717,14 @@ async function sauvegarder() {
       Hauteur: planData.Hauteur?.[i]||0,
     }));
 
-    document.getElementById('status').textContent = '✅ Sauvegardé !';
-    setTimeout(() => document.getElementById('status').textContent = records.length + ' plantes', 2000);
-  } catch(err) {
+        document.getElementById('status').textContent = '✅ Sauvegardé !';
+    messageJusqua = Date.now() + 2000;
+    setTimeout(majStatut, 2100);
+  } catch (err) {
     document.getElementById('status').textContent = '❌ ' + err.message;
+    messageJusqua = Date.now() + 8000;
   }
 }
-
 function resetPlantes() {
   if (!confirm('Réinitialiser les positions des plantes ?')) return;
   placements = [];
@@ -674,8 +734,6 @@ function resetPlantes() {
 }
 /* =============================================
    IMPRESSION A3 PAYSAGE + LIGNES DE COUPE
-   À coller dans main_plan.js (par exemple à la fin du fichier).
- 
    Échelle 100 % = taille de l'écran (96 px par pouce).
    Zone utile d'une feuille : 400 x 276 mm (A3 moins 10 mm de marge,
    1 mm de sécurité en hauteur pour éviter une page blanche).
@@ -798,14 +856,13 @@ function imprimerA3() {
       s.setAttribute('viewBox', `${x0} ${y0} ${TUILE_W} ${TUILE_H}`);
  
       // Copie des zones et des étiquettes, sans les poignées ni les croix de suppression
-      ['zones-layer', 'plants-layer'].forEach(idCalque => {
-        const copie = document.getElementById(idCalque).cloneNode(true);
+      ['zones-layer', 'plants-layer', 'names-layer'].forEach(idCalque => {        const copie = document.getElementById(idCalque).cloneNode(true);
         copie.removeAttribute('id');
         copie.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
         copie.querySelectorAll('.rot-handle, [data-remove]').forEach(el => el.remove());
-        copie.querySelectorAll('.selected, .edit-handle').forEach(el => {
-          el.classList.remove('selected', 'edit-handle');
-        });
+        copie.querySelectorAll('.selected, .edit-handle, .en-selection').forEach(el => {
+  el.classList.remove('selected', 'edit-handle', 'en-selection');
+});
         s.appendChild(copie);
       });
  
@@ -1047,13 +1104,13 @@ function finDeplacement() {
    quand la souris sort de la surface, plus de "lâcher" au bord)
    --------------------------------------------- */
 // Clic sur le fond en mode Sélection : début du rectangle
-svg.addEventListener('mousedown', e => {
+svg.addEventListener('pointerdown', e => {
   if (mode !== 'select') return;
   if (e.target.closest('.zone-group, .placed-label')) return;  // géré par la zone / l'étiquette
   demarrerRectangle(e);
 });
  
-window.addEventListener('mousemove', e => {
+window.addEventListener('pointermove', e => {
   if (!drag) return;
   if (e.buttons === 0) { finDeplacement(); return; }   // bouton relâché hors de la fenêtre
  
@@ -1061,17 +1118,30 @@ window.addEventListener('mousemove', e => {
   const dx = pt.x - drag.startX;
   const dy = pt.y - drag.startY;
  
-  if (drag.type === 'zone') {
-    const z = ZONES_DEF.find(x => x.id === drag.zid);
+    if (drag.type === 'zone') {
+    const z  = ZONES_DEF.find(x => x.id === drag.zid);
     const st = getZoneState(z);
     zonePos[drag.zid] = { ...st, x: drag.origX + dx, y: drag.origY + dy };
-    const g = document.getElementById('zg-' + drag.zid);
+
+    // Garde la zone (tournée comprise) dans la surface de travail
+    const b = boiteZone(drag.zid);
+    let cx = 0, cy = 0;
+    if (b.x0 < 0)      cx = -b.x0;
+    if (b.x1 > PLAN_W) cx = PLAN_W - b.x1;
+    if (b.y0 < 0)      cy = -b.y0;
+    if (b.y1 > PLAN_H) cy = PLAN_H - b.y1;
+    zonePos[drag.zid].x += cx;
+    zonePos[drag.zid].y += cy;
+    modifie = true;
+
     const nst = zonePos[drag.zid];
+    const g = document.getElementById('zg-' + drag.zid);
     if (g) g.setAttribute('transform',
       `translate(${nst.x},${nst.y}) rotate(${nst.rot},${nst.w / 2},${nst.h / 2})`);
- 
+    renderNoms();
+
   } else if (drag.type === 'plant') {
-    const p = placements.find(x => x.uid === drag.uid);
+      const p = placements.find(x => x.uid === drag.uid);
     if (p) {
       p.x = drag.origX + dx;
       p.y = drag.origY + dy;
@@ -1090,4 +1160,5 @@ window.addEventListener('mousemove', e => {
   }
 });
  
-window.addEventListener('mouseup', finDeplacement);
+window.addEventListener('pointerup', finDeplacement);
+window.addEventListener('pointercancel', finDeplacement);
