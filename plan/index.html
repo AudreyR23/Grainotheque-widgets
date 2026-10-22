@@ -25,6 +25,8 @@
   <input type="range" id="taille-etiq" min="50" max="150" step="5" value="100"
          oninput="changerTaille(this.value)" onchange="sauverTaille(this.value)">
 </label>
+  <div class="sep"></div>
+  <button class="btn" id="btn-tablette" onclick="changerModeTablette()" title="Interface tactile">🖐 Auto</button>
   <button class="btn" onclick="toggleCoupures()">✂️ Coupures A3</button>
   <button class="btn" onclick="imprimerA3()">🖨️ Imprimer A3</button>
   <span class="status" id="status">Chargement…</span>

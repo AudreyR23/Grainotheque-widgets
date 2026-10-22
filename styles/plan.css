@@ -302,6 +302,13 @@ svg#plan {
 }
 .status.non-sauve { color: #c62828; font-weight: bold; }
 
-.plan-viewport.edit-mode.tablette
-{ touch-action: none;
+#viewport, #plan, #plan *, .plan-wrap {
+  touch-action: none;
 }
+
+/* Mode tablette : cibles plus grandes */
+body[data-tablette="oui"] .etiquette-item { padding: 10px 8px; font-size: 13px; }
+body[data-tablette="oui"] .panel { min-width: 200px; }
+body[data-tablette="oui"] .btn { padding: 10px 12px; font-size: 14px; }
+body[data-tablette="oui"] .zoom-btn { width: 44px; height: 44px; font-size: 20px; }
+body[data-tablette="oui"] [data-remove] rect { width: 28px; height: 26px; }
