@@ -204,26 +204,26 @@
     <select id="m-origine-autre" style="margin-top:6px" onchange="verifierDoublonEnDirect()"></select>
   </div>
 
-  <div class="form-row">
-    <div class="form-group">
-      <label>Sachet</label>
-      <select id="m-sachet"></select>
-    </div>
+    <div class="form-row">
     <div class="form-group form-group-check">
-  <label><input type="checkbox" id="m-plante-mere"> Plante mère </label>
-</div>
+      <label><input type="checkbox" id="m-sachet-check" checked onchange="majChampsMillesime('sachet')"> Sachet</label>
+    <div class="form-group" id="bloc-qtte">
+      <label>Quantité de graines</label>
+      <input type="number" id="m-qtte" min="0" placeholder="ex: 50">
+    </div>
+    </div>
+    
   </div>
-  
+
   <div class="form-row">
-<div class="form-group">
-    <label>Quantité de graines</label>
-    <input type="number" id="m-qtte" min="0" placeholder="ex: 50">
+    <div class="form-group form-group-check">
+      <label><input type="checkbox" id="m-plante-mere" onchange="majChampsMillesime('mere')"> Plante mère</label>
+    </div>
+    <div class="form-group cache" id="bloc-plantation">
+      <label>Année de plantation</label>
+      <input type="number" id="m-annee-plantation" min="1900" max="2100">
+    </div>
   </div>
-  <div class="form-group">
-    <label>Année de plantation</label>
-    <input type="number" id="m-annee-plantation" min="1900" max="2100">
-  </div>
-</div>
 
   <div class="btn-row">
     <button class="btn btn-primary" onclick="creerMillesime()">✅ Créer le millésime</button>

@@ -297,3 +297,5 @@ body {
 @media (max-width: 600px) {
   .form-row { grid-template-columns: 1fr; }
 }
+/* Case si sachet ou plante mère)*/
+.cache { display: none !important; }

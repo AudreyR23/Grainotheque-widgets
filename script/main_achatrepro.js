@@ -133,6 +133,27 @@ function getOrigines() {
   return ['L', ...favs, ...(autre ? [autre] : [])];
 }
 
+/* Sachet : valeur enregistrée dans la colonne Sachets */
+const VALEUR_SACHET = '1';
+
+/* Montre ou cache Quantité / Année de plantation selon les cases cochées */
+function majChampsMillesime(source) {
+  const caseSachet = document.getElementById('m-sachet-check');
+  const caseMere   = document.getElementById('m-plante-mere');
+
+  /* Exclusion mutuelle : cocher l'un décoche l'autre */
+  if (source === 'sachet' && caseSachet.checked) caseMere.checked = false;
+  if (source === 'mere'   && caseMere.checked)   caseSachet.checked = false;
+
+  const sachet = caseSachet.checked;
+  const mere   = caseMere.checked;
+  document.getElementById('bloc-qtte').classList.toggle('cache', !sachet);
+  document.getElementById('bloc-plantation').classList.toggle('cache', !mere);
+  if (!sachet) document.getElementById('m-qtte').value = '';
+  if (!mere)   document.getElementById('m-annee-plantation').value = '';
+  verifierDoublonEnDirect();
+}
+
 /* =============================================
    DÉTECTION DE DOUBLONS — MILLÉSIME
    ============================================= */
@@ -146,13 +167,14 @@ function cleOrigine(liste) {
 }
 
 /* Renvoie les millésimes existants de même variété + année + origine */
-async function trouverDoublonsMillesime(varId, annee, origine) {
+async function trouverDoublonsMillesime(varId, annee, origine, planteMere = false) {
   const data = await grist.docApi.fetchTable('Millesimes');
   const cleCherchee = cleOrigine(origine);
   const doublons = [];
 
   data.id.forEach((id, i) => {
     if (data.NomVariete[i] !== varId) return;
+    if (!!data.Plante_mere[i] !== !!planteMere) return;
 
     const ts = data.Millesime[i];
     if (!ts) return;
@@ -193,6 +215,7 @@ async function verifierDoublonEnDirect() {
   const varId  = parseInt(document.getElementById('m-variete').value);
   const annee  = parseInt(document.getElementById('m-millesime').value);
   const origine = getOrigines();
+  const planteMere = document.getElementById('m-plante-mere').checked;
 
   if (!varId || !annee || origine.length < 2) {
     cacherAlerteDoublon();
@@ -202,8 +225,7 @@ async function verifierDoublonEnDirect() {
   /* Évite qu'une ancienne réponse écrase une plus récente */
   const numero = ++verifEnCours;
   try {
-    const doublons = await trouverDoublonsMillesime(varId, annee, origine);
-    if (numero !== verifEnCours) return;
+    const doublons = await trouverDoublonsMillesime(varId, annee, origine, planteMere);    if (numero !== verifEnCours) return;
     if (doublons.length) afficherAlerteDoublon(doublons);
     else cacherAlerteDoublon();
   } catch (e) {
@@ -393,7 +415,6 @@ async function init() {
     const QUALITE = metaChoix['Qualite_du_sol']  || [];
     const OU      = metaChoix['Ou_cultiver']     || [];
     const ORIG    = metaChoix['Origine']         || [];
-    const SACHET  = metaChoix['Sachets']         || [];
     const INFOS = metaChoix['Infos'] || metaChoix['Info_supp'] || [];
     const SEMIS_GPT = metaChoix['Semis_GPT'] || [];
 
@@ -418,7 +439,6 @@ async function init() {
     fillSelect('m-origine-autre', ORIG.slice(NB_FAVORIS));
     document.getElementById('m-origine-autre').options[0].textContent = 'Autres origines…';
     document.getElementById('m-origine-fav').addEventListener('change', verifierDoublonEnDirect);
-    fillSelect('m-sachet', SACHET);
     document.getElementById('m-millesime').value = new Date().getFullYear();
 
     /* Panneau 3 — Modèle */
@@ -525,12 +545,13 @@ function resetMillesime() {
   document.getElementById('m-millesime').value = new Date().getFullYear();
   document.getElementById('m-nb-saisons').value = 'or.';
   document.getElementById('m-qtte').value = '';
-  document.getElementById('m-sachet').value = '';
+  document.getElementById('m-sachet-check').checked = true;
   setPills('m-origine-fav', []);
   document.getElementById('m-origine-autre').value = '';
   hideChainBanner('millesime');
   document.getElementById('m-plante-mere').checked = false;
   document.getElementById('m-annee-plantation').value = '';
+  majChampsMillesime();
   cacherAlerteDoublon();
 }
 
@@ -628,12 +649,17 @@ async function creerMillesime(forcer = false) {
   if (!annee) { showMsg('msg-millesime', 'Indiquer une année.', 'err'); return; }
   const origineChoisie = getOrigines().length > 1; // getMultiSelect renvoie toujours ["L", ...] même vide
   if (!origineChoisie) { showMsg('msg-millesime', "L'origine est obligatoire.", 'err'); return; }
-    /* Détection de doublon (sauf si l'utilisateur a déjà confirmé) */
+    const sachet = document.getElementById('m-sachet-check').checked;
+  const qtte   = parseFloat(document.getElementById('m-qtte').value) || null;
+  if (!sachet && !planteMere) { showMsg('msg-millesime', 'Cocher Sachet et/ou Plante mère.', 'err'); return; }
+  if (sachet && !qtte) { showMsg('msg-millesime', 'Indiquer la quantité de graines.', 'err'); return; }
+  if (planteMere && !anneePlantation) { showMsg('msg-millesime', "Indiquer l'année de plantation.", 'err'); return; }
+  /* Détection de doublon (sauf si l'utilisateur a déjà confirmé) */
   if (!forcer) {
     let doublons = [];
     try {
       doublons = await trouverDoublonsMillesime(varId, annee, getOrigines());
-    } catch (e) {
+        } catch (e) {
       showMsg('msg-millesime', '⚠️ Détection impossible : ' + e.message, 'err');
       return;
     }
@@ -659,8 +685,8 @@ async function creerMillesime(forcer = false) {
     Millesime:    dateTs,
     Nb_saisons_manuel: document.getElementById('m-nb-saisons').value || null,
     Origine:      getOrigines(),
-    Sachets:      document.getElementById('m-sachet').value || null,
-    Qtte_graines: parseFloat(document.getElementById('m-qtte').value) || null,
+    Sachets:      planteMere ? '1p.' : (sachet ? VALEUR_SACHET : null),
+    Qtte_graines: sachet ? qtte : null,
     Germination_historique: null, // Forcer à null pour éviter les valeurs par défaut
     Plante_mere: planteMere,
     Annee_plantation: anneePlantation,
