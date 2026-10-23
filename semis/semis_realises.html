@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Semis réalisés (dev)</title>
+  <link rel="stylesheet" href="../styles/semis_realises.css">
+  <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Semis réalisés <span class="badge-dev">DEV</span></h1>
+    <span id="statut" class="statut">Chargement…</span>
+  </header>
+    <main>
+    <section id="fiche">
+      <label for="rechercheVariete">Variété</label>
+      <div class="champ-recherche">
+        <input id="rechercheVariete" type="search" placeholder="Taper pour chercher…" autocomplete="off">
+        <ul id="listeVarietes" class="liste-choix" hidden></ul>
+      </div>
+      <div id="infoVariete" class="info" hidden></div>
+      <div id="derniersSemis" class="derniers" hidden></div>
+            <label for="selectMillesime">Millésime</label>
+      <select id="selectMillesime" disabled></select>
+          <label for="dateSemis">Date du semis</label>
+      <input id="dateSemis" type="date">
+
+      <div class="deux-colonnes">
+        <div>
+          <label for="nbGodets">Nb de godets</label>
+          <input id="nbGodets" type="number" min="1" step="1" inputmode="numeric">
+        </div>
+        <div>
+          <label for="nbGraines">Nb de graines</label>
+          <input id="nbGraines" type="number" min="1" step="1" inputmode="numeric">
+        </div>
+      </div>
+
+      <label for="selectType">Type</label>
+      <select id="selectType"></select>
+
+      <label for="rechercheOu">Où (facultatif)</label>
+      <div id="pastillesOu" class="pastilles"></div>
+      <div class="champ-recherche">
+        <input id="rechercheOu" type="search" placeholder="Chercher un emplacement…" autocomplete="off">
+        <ul id="listeOu" class="liste-choix" hidden></ul>
+      </div>
+            <p id="erreurFiche" class="erreur" hidden></p>
+      <button id="btnAjouter" type="button" class="btn-principal">Ajouter à la liste</button>
+    </section>
+        <p id="messageSucces" class="succes" hidden></p>
+        <section id="brouillons">
+      <h2 id="titreBrouillons" hidden></h2>
+      <ul id="listeBrouillons" class="liste-brouillons"></ul>
+            <p id="erreurEnregistrement" class="erreur" hidden></p>
+      <button id="btnEnregistrer" type="button" class="btn-principal btn-enregistrer" hidden>Enregistrer tout</button>
+    </section>
+    <p id="message"></p>
+  </main>
+  <script src="../script/main_semis_realises.js"></script>
+</body>
+</html>
