@@ -126,6 +126,161 @@ function getMultiSelect(id) {
   return ["L", ...vals];
 }
 
+/* Origines : étiquettes favorites + menu "autres", au format ["L", ...] */
+function getOrigines() {
+  const favs  = getPills('m-origine-fav').filter(v => v !== 'L');
+  const autre = document.getElementById('m-origine-autre').value;
+  return ['L', ...favs, ...(autre ? [autre] : [])];
+}
+
+/* =============================================
+   DÉTECTION DE DOUBLONS — MILLÉSIME
+   ============================================= */
+
+/* Transforme ["L","Achat","Don"] en "Achat|Don" (sans "L", trié) pour comparer */
+function cleOrigine(liste) {
+  return (Array.isArray(liste) ? liste : [])
+    .filter(v => v && v !== 'L')
+    .sort()
+    .join('|');
+}
+
+/* Renvoie les millésimes existants de même variété + année + origine */
+async function trouverDoublonsMillesime(varId, annee, origine) {
+  const data = await grist.docApi.fetchTable('Millesimes');
+  const cleCherchee = cleOrigine(origine);
+  const doublons = [];
+
+  data.id.forEach((id, i) => {
+    if (data.NomVariete[i] !== varId) return;
+
+    const ts = data.Millesime[i];
+    if (!ts) return;
+    if (new Date(ts * 1000).getUTCFullYear() !== annee) return;
+
+    if (cleOrigine(data.Origine[i]) !== cleCherchee) return;
+
+    doublons.push({
+      id,
+      annee,
+      origine: cleOrigine(data.Origine[i]).replace(/\|/g, ', '),
+      qtte: data.Qtte_graines[i],
+      sachets: data.Sachets[i],
+    });
+  });
+
+  return doublons;
+}
+function afficherAlerteDoublon(doublons) {
+  const d = doublons[0];
+  const nb = doublons.length;
+  const details = 'année ' + d.annee +
+    ', origine : ' + (d.origine || '—') +
+    ', quantité : ' + (d.qtte ?? '—');
+  document.getElementById('doublon-texte').textContent =
+    '⚠️ ' + (nb > 1 ? nb + ' millésimes existent déjà' : 'Un millésime existe déjà') +
+    ' (' + details + '). Créer quand même ?';
+  document.getElementById('doublon-millesime').classList.add('show');
+}
+
+function cacherAlerteDoublon() {
+  document.getElementById('doublon-millesime').classList.remove('show');
+}
+/* Alerte en direct : vérifie dès que variété + année + origine sont remplies */
+let verifEnCours = 0;
+
+async function verifierDoublonEnDirect() {
+  const varId  = parseInt(document.getElementById('m-variete').value);
+  const annee  = parseInt(document.getElementById('m-millesime').value);
+  const origine = getOrigines();
+
+  if (!varId || !annee || origine.length < 2) {
+    cacherAlerteDoublon();
+    return;
+  }
+
+  /* Évite qu'une ancienne réponse écrase une plus récente */
+  const numero = ++verifEnCours;
+  try {
+    const doublons = await trouverDoublonsMillesime(varId, annee, origine);
+    if (numero !== verifEnCours) return;
+    if (doublons.length) afficherAlerteDoublon(doublons);
+    else cacherAlerteDoublon();
+  } catch (e) {
+    console.error('Vérification en direct impossible :', e);
+  }
+}
+/* =============================================
+   DÉTECTION DE DOUBLONS — VARIÉTÉ
+   ============================================= */
+
+/* "Orange  Bourgoin" et "orange bourgoin" deviennent identiques ; accents ignorés */
+function normaliser(txt) {
+  return (txt || '').toString()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function trouverDoublonsVariete(nom, variete) {
+  const cle = normaliser(nom) + '|' + normaliser(variete);
+  return varietes.filter(v => normaliser(v.Nom) + '|' + normaliser(v.Variete) === cle);
+}
+
+function afficherAlerteDoublonVariete(doublons) {
+  const d = doublons[0];
+  document.getElementById('doublon-variete-texte').textContent =
+    '⚠️ ' + (doublons.length > 1 ? doublons.length + ' variétés existent déjà' : 'Une variété existe déjà') +
+    ' : ' + d.Nom + (d.Variete ? ' — ' + d.Variete : '') + '. Créer quand même ?';
+  document.getElementById('doublon-variete').classList.add('show');
+}
+
+function cacherAlerteDoublonVariete() {
+  document.getElementById('doublon-variete').classList.remove('show');
+}
+
+/* Alerte en direct : appelée à chaque frappe dans Nom ou Variété */
+function verifierDoublonVarieteEnDirect() {
+  const nom     = document.getElementById('v-nom').value;
+  const variete = document.getElementById('v-variete').value;
+  if (!nom.trim()) { cacherAlerteDoublonVariete(); return; }
+
+  const doublons = trouverDoublonsVariete(nom, variete);
+  if (doublons.length) afficherAlerteDoublonVariete(doublons);
+  else cacherAlerteDoublonVariete();
+}
+
+/* =============================================
+   DÉTECTION DE DOUBLONS — ESPÈCE (MODÈLE)
+   ============================================= */
+
+function trouverDoublonsModele(nom) {
+  const cle = normaliser(nom);
+  return modeles.filter(m => normaliser(m.Nom) === cle);
+}
+
+function afficherAlerteDoublonModele(doublons) {
+  document.getElementById('doublon-modele-texte').textContent =
+    '⚠️ ' + (doublons.length > 1 ? doublons.length + ' espèces existent déjà' : 'Une espèce existe déjà') +
+    ' : ' + doublons[0].Nom + '. Créer quand même ?';
+  document.getElementById('doublon-modele').classList.add('show');
+}
+
+function cacherAlerteDoublonModele() {
+  document.getElementById('doublon-modele').classList.remove('show');
+}
+
+/* Alerte en direct : appelée à chaque frappe dans le nom de l'espèce */
+function verifierDoublonModeleEnDirect() {
+  const nom = document.getElementById('e-nom').value;
+  if (!nom.trim()) { cacherAlerteDoublonModele(); return; }
+
+  const doublons = trouverDoublonsModele(nom);
+  if (doublons.length) afficherAlerteDoublonModele(doublons);
+  else cacherAlerteDoublonModele();
+}
+
 /* =============================================
    AFFICHER UN MESSAGE
    ============================================= */
@@ -258,8 +413,13 @@ async function init() {
     fillMultiSelect('v-semis-gpt', SEMIS_GPT);
 
     /* Panneau 2 — Millésime */
-    fillMultiSelect('m-origine', ORIG);
+        const NB_FAVORIS = 6;
+    buildPills('m-origine-fav', ORIG.slice(0, NB_FAVORIS));
+    fillSelect('m-origine-autre', ORIG.slice(NB_FAVORIS));
+    document.getElementById('m-origine-autre').options[0].textContent = 'Autres origines…';
+    document.getElementById('m-origine-fav').addEventListener('change', verifierDoublonEnDirect);
     fillSelect('m-sachet', SACHET);
+    document.getElementById('m-millesime').value = new Date().getFullYear();
 
     /* Panneau 3 — Modèle */
     fillSelect('e-type', TYPE);
@@ -366,19 +526,27 @@ function resetMillesime() {
   document.getElementById('m-nb-saisons').value = 'or.';
   document.getElementById('m-qtte').value = '';
   document.getElementById('m-sachet').value = '';
-  [...document.querySelectorAll('#m-origine option')].forEach(o => o.selected = false);
+  setPills('m-origine-fav', []);
+  document.getElementById('m-origine-autre').value = '';
   hideChainBanner('millesime');
   document.getElementById('m-plante-mere').checked = false;
   document.getElementById('m-annee-plantation').value = '';
+  cacherAlerteDoublon();
 }
 
 /* =============================================
    PANNEAU 1 — Créer une variété
    ============================================= */
-async function creerVariete() {
+async function creerVariete(forcer = false) {
   const nom     = document.getElementById('v-nom').value.trim();
   const variete = document.getElementById('v-variete').value.trim();
   if (!nom) { showMsg('msg-variete', 'Le nom est obligatoire.', 'err'); return; }
+  /* Détection de doublon (sauf si l'utilisateur a déjà confirmé) */
+  if (!forcer) {
+    const doublons = trouverDoublonsVariete(nom, variete);
+    if (doublons.length) { afficherAlerteDoublonVariete(doublons); return; }
+  }
+  cacherAlerteDoublonVariete();
 
   /* NomVariete = "Nom\nVariété" ou "Nom" si pas de variété */
   const nomVariete = variete ? nom + '\n' + variete : nom;
@@ -430,12 +598,14 @@ async function creerVariete() {
     });
 
     resetVariete();
+    cacherAlerteDoublonVariete();
 
     /* Enchainement vers le millésime avec la variété pré-sélectionnée */
     if (chainEnabled() && newVarieteId) {
       document.getElementById('m-variete').value = newVarieteId;
-      chargerTypeMillesime();
+            chargerTypeMillesime();
       goToPanel('millesime');
+      document.getElementById('m-origine').focus();
       showChainBanner('millesime', '🔗 Variété "' + nomVariete + '" créée — complétez maintenant son millésime.');
     }
   } catch(e) {
@@ -448,7 +618,7 @@ async function creerVariete() {
    Remplace toute l'ancienne fonction creerMillesime(),
    y compris le bloc commenté /* try { ... } qui la suit.
    ============================================= */
-async function creerMillesime() {
+async function creerMillesime(forcer = false) {
   const varId   = parseInt(document.getElementById('m-variete').value);
   const annee   = parseInt(document.getElementById('m-millesime').value);
   const planteMere = document.getElementById('m-plante-mere').checked;
@@ -456,8 +626,27 @@ async function creerMillesime() {
 
   if (!varId) { showMsg('msg-millesime', 'Choisir une variété.', 'err'); return; }
   if (!annee) { showMsg('msg-millesime', 'Indiquer une année.', 'err'); return; }
-  const origineChoisie = getMultiSelect('m-origine').length > 1; // getMultiSelect renvoie toujours ["L", ...] même vide
+  const origineChoisie = getOrigines().length > 1; // getMultiSelect renvoie toujours ["L", ...] même vide
   if (!origineChoisie) { showMsg('msg-millesime', "L'origine est obligatoire.", 'err'); return; }
+    /* Détection de doublon (sauf si l'utilisateur a déjà confirmé) */
+  if (!forcer) {
+    let doublons = [];
+    try {
+      doublons = await trouverDoublonsMillesime(varId, annee, getOrigines());
+    } catch (e) {
+      showMsg('msg-millesime', '⚠️ Détection impossible : ' + e.message, 'err');
+      return;
+    }
+    if (doublons.length) {
+      try {
+        afficherAlerteDoublon(doublons);
+      } catch (e) {
+        showMsg('msg-millesime', '⚠️ Affichage du bandeau impossible : ' + e.message, 'err');
+      }
+      return;
+    }
+  }
+  cacherAlerteDoublon();
 
   /* Grist stocke les dates en secondes depuis epoch — 1er janvier de l'année */
   const dateTs = Math.floor(new Date(annee + '-01-01T00:00:00Z').getTime() / 1000);
@@ -469,7 +658,7 @@ async function creerMillesime() {
     Type: document.getElementById('m-type').value || null,
     Millesime:    dateTs,
     Nb_saisons_manuel: document.getElementById('m-nb-saisons').value || null,
-    Origine:      getMultiSelect('m-origine'),
+    Origine:      getOrigines(),
     Sachets:      document.getElementById('m-sachet').value || null,
     Qtte_graines: parseFloat(document.getElementById('m-qtte').value) || null,
     Germination_historique: null, // Forcer à null pour éviter les valeurs par défaut
@@ -520,10 +709,15 @@ async function creerMillesime() {
 /* =============================================
    PANNEAU 3 — Créer un modèle (espèce)
    ============================================= */
-async function creerModele() {
+async function creerModele(forcer = false) {
   const nom = document.getElementById('e-nom').value.trim();
   if (!nom) { showMsg('msg-modele', 'Le nom est obligatoire.', 'err'); return; }
-
+  /* Détection de doublon (sauf si l'utilisateur a déjà confirmé) */
+  if (!forcer) {
+    const doublons = trouverDoublonsModele(nom);
+    if (doublons.length) { afficherAlerteDoublonModele(doublons); return; }
+  }
+  cacherAlerteDoublonModele();
   const row = {
     Nom:                nom,
     Type:               document.getElementById('e-type').value || null,
@@ -580,18 +774,20 @@ async function creerModele() {
       });
     });
     resetModele();
+    cacherAlerteDoublonModele();
 
     /* Enchainement vers la variété avec le modèle pré-sélectionné et pré-rempli */
     if (chainEnabled() && newModeleId) {
-      document.getElementById('v-modele').value = newModeleId;
+            document.getElementById('v-modele').value = newModeleId;
       chargerModele();
+      document.getElementById('v-nom').value = nom;
       goToPanel('variete');
+      document.getElementById('v-variete').focus();
       showChainBanner('variete', '🔗 Espèce "' + nom + '" créée — complétez maintenant sa première variété.');
     }
   } catch(e) {
     showMsg('msg-modele', '❌ Erreur : ' + e.message, 'err');
   }
 }
-
 /* Lancement */
 init();
