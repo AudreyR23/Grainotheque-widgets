@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Semis à gérer</title>
+<link rel="stylesheet" href="../styles/semis_gestion.css">
+<script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
+</head>
+<body>
+<header>
+<h1>Semis à gérer <span id="compteurs" class="compteurs"></span></h1>
+<span id="statut" class="statut">Chargement…</span>
+</header>
+<main>
+<input id="recherche" type="search" placeholder="Filtrer par nom de variété…" autocomplete="off">    
+<h2 id="titreVerifier"></h2>
+<ul id="listeVerifier" class="liste-semis"></ul>
+<h2 id="titrePlanter"></h2>
+<label for="datePlantation">Date de plantation</label>
+<input id="datePlantation" type="date">
+<ul id="listePlanter" class="liste-semis"></ul>
+<p id="messageSucces" class="succes" hidden></p>
+<p id="erreurEnregistrement" class="erreur" hidden></p>
+<button id="btnEnregistrer" type="button" class="btn-principal" hidden>Enregistrer tout</button>
+<p id="message"></p>
+</main>
+<script src="../script/main_semis_gestion.js"></script>
+</body>
+</html>

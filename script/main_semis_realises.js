@@ -518,7 +518,8 @@ async function enregistrerTout() {
     Nb_godets: brouillons.map(b => b.godets),
     Nb_graines: brouillons.map(b => b.graines),
     Type: brouillons.map(b => b.type),
-    Ou: brouillons.map(b => b.ou.length ? ['L', ...b.ou] : null)
+    Ou: brouillons.map(b => b.ou.length ? ['L', ...b.ou] : null),
+    Germes: brouillons.map(() => null)
   };
 
    try {

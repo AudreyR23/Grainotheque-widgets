@@ -34,11 +34,11 @@ Saisir rapidement les semis d'une journée dans la table **Semis** à partir d'u
 | `_grist_Tables`, `_grist_Tables_column` | tables système : choix des colonnes `Semis.Type` et `Semis.Ou` |
 
 ### Écrites
-**Table `Semis`** (via `BulkAddRecord`) : `NomVariete`, `Millesime`, `Date_s`, `Nb_godets`, `Nb_graines`, `Type`, `Ou`.
+**Table `Semis`** (via `BulkAddRecord`) : `NomVariete`, `Millesime`, `Date_s`, `Nb_godets`, `Nb_graines`, `Type`, `Ou`,`Germes` = vide explicite.
 
 **Table `Millesimes`** (via `UpdateRecord`, uniquement si « Sachet vidé » est coché) : `Qtte_graines` = vide, `Sachets` = vide. Même `applyUserActions` que les semis : un seul Ctrl+Z.
 
-**Jamais envoyées** : `Positions`, `A_produire`, `Nb_etiquettes`, `Graines_exterieures`, `Germes`, `Plantes`, `Oups`, `Date_p`, `Don_p`, `Date_creation`, `Date_modif` (les `_default` Grist se remplissent seuls, vérifié).
+**Jamais envoyées** : `Positions`, `A_produire`, `Nb_etiquettes`, `Graines_exterieures`, `Plantes`, `Oups`, `Date_p`, `Don_p`, `Date_creation`, `Date_modif` (les `_default` Grist se remplissent seuls, vérifié).
 
 ## 4. Fonctionnalités
 
