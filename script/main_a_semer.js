@@ -175,6 +175,13 @@ function afficher() {
       badges.appendChild(b);
     }
 
+        const bouton = document.createElement('button');
+    bouton.type = 'button';
+    bouton.className = 'btn-semer';
+    bouton.textContent = 'Semer';
+    bouton.dataset.id = v.id;
+    li.appendChild(bouton);
+
     li.append(nom, badges, detail);
     liste.appendChild(li);
   }
@@ -222,6 +229,11 @@ function initialiserFiltres() {
 // 'full' est nécessaire pour lire plusieurs tables avec docApi.fetchTable, même si on n'écrit rien.
 grist.ready({ requiredAccess: 'full' });
 
+document.getElementById('liste').addEventListener('pointerdown', e => {
+  const btn = e.target.closest('.btn-semer');
+  if (!btn) return;
+  grist.setCursorPos({ rowId: Number(btn.dataset.id) });
+});
 document.getElementById('btnActualiser').addEventListener('click', actualiser);
 initialiserFiltres();
 actualiser();

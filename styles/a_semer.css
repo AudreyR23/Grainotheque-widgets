@@ -17,6 +17,9 @@ button:focus-visible { outline: 2px solid #3f7d4e; outline-offset: 2px; }
 /*Filtres mois*/
 #filtres { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin-bottom: 10px; font-size: .9rem; }
 #filtres select { font: inherit; padding: 4px 6px; }
-/**/
+/*Encart dejà semé*/
 .carte.deja-semee { opacity: .6; border-left-color: #aaa; }
 .badge.deja-semee { background: #e6e6e6; color: #555; }
+/**/
+.carte { position: relative; }
+.btn-semer { position: absolute; top: 8px; right: 10px; }
