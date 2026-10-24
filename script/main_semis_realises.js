@@ -7,6 +7,8 @@ let brouillons = [];       // lignes en attente d'enregistrement
 let prochainIdBrouillon = 1;
 let enregistrementEnCours = false;
 let sourceChoix = 'liste de secours (lecture Grist non faite)';
+let donneesChargees = false;
+let varietePendante = null;   // variété reçue avant la fin du chargement
 
 let TYPES = [
   'Arom.Méd 🌿', 'Fleurs 🌼', 'Lég-feu. 🥬', 'Lég-fru. 🍅', 'Lég-gra. 🌾',
@@ -597,15 +599,29 @@ async function chargerChoix() {
   }
 }
 
+// ===== Variété envoyée par « À semer » =====
+function varieteDemandee(id) {
+  if (!id) return;
+  if (!donneesChargees) { varietePendante = id; return; }
+  if (recordsParId.varietes.has(id)) choisirVariete(id);
+}
+
 // ===== Initialisation =====
 grist.ready({
   requiredAccess: 'full'
 });
 
+grist.onRecord(rec => varieteDemandee(rec && rec.id));
+
 chargerDonnees()
   .then(chargerSemis)
   .then(chargerChoix)
-  .then(() => { afficherControle(); initialiserSelecteurVariete(); initialiserSelecteurMillesime(); initialiserFiche(); initialiserBrouillons(); majStatut(); }).catch(err => {
+  .then(() => {
+    afficherControle(); initialiserSelecteurVariete(); initialiserSelecteurMillesime();
+    initialiserFiche(); initialiserBrouillons(); majStatut();
+    donneesChargees = true;
+    if (varietePendante) varieteDemandee(varietePendante);
+    }).catch(err => {
     console.error(err);
     document.getElementById('message').textContent = 'Erreur de chargement : ' + err.message;
   });
