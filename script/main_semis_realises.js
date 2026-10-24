@@ -196,11 +196,12 @@ function initialiserSelecteurVariete() {
   });
   champ.addEventListener('focus', () => champ.select());
 
-  // pointerdown : fonctionne souris + tactile, et se déclenche avant la perte de focus du champ
-  liste.addEventListener('pointerdown', e => {
+  // mousedown bloqué : le champ garde le focus, la liste reste ouverte jusqu'au click.
+  // click (et non pointerdown) : un défilement tactile ne déclenche pas de sélection.
+  liste.addEventListener('mousedown', e => e.preventDefault());
+  liste.addEventListener('click', e => {
     const li = e.target.closest('li[data-id]');
     if (!li) return;
-    e.preventDefault();
     choisirVariete(Number(li.dataset.id));
   });
 }
@@ -318,17 +319,17 @@ function initialiserOu() {
   champ.addEventListener('focus', afficherResultatsOu);
   champ.addEventListener('blur', () => { liste.hidden = true; });
 
-  liste.addEventListener('pointerdown', e => {
+    liste.addEventListener('mousedown', e => e.preventDefault());
+  liste.addEventListener('click', e => {
     const li = e.target.closest('li[data-lieu]');
     if (!li) return;
-    e.preventDefault();
     ouChoisis.push(li.dataset.lieu);
     champ.value = '';
     afficherPastilles();
     afficherResultatsOu();
   });
 
-  zone.addEventListener('pointerdown', e => {
+  zone.addEventListener('click', e => {
     const p = e.target.closest('.pastille');
     if (!p) return;
     ouChoisis = ouChoisis.filter(l => l !== p.dataset.lieu);
@@ -435,7 +436,7 @@ function afficherBrouillons() {
 function initialiserBrouillons() {
   document.getElementById('btnAjouter').addEventListener('click', ajouterBrouillon);
     document.getElementById('btnEnregistrer').addEventListener('click', enregistrerTout);
-  document.getElementById('listeBrouillons').addEventListener('pointerdown', e => {
+  document.getElementById('listeBrouillons').addEventListener('click', e => {
     const btn = e.target.closest('.btn-suppr');
     if (!btn) return;
     brouillons = brouillons.filter(b => b.idBrouillon !== Number(btn.dataset.id));

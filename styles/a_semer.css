@@ -34,3 +34,5 @@ button:focus-visible { outline: 2px solid #3f7d4e; outline-offset: 2px; }
 .carte { position: relative; }
 .btn-semer { position: absolute; top: 8px; right: 10px; color: #fff;
   background: #2e7d32;}
+
+.badge.plant { background: #dcebf5; color: #1f4e6b; }

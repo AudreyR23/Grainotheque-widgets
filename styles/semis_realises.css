@@ -150,3 +150,9 @@ label { display: block; font-weight: 600; margin-bottom: 4px; }
 .derniers-titre { font-weight: 600; margin-bottom: 2px; }
 .derniers-ligne { color: #444; padding: 1px 0; }
 .derniers-alerte { color: #b26a00; font-weight: 600; margin-top: 4px; }
+
+.liste-choix {
+  touch-action: pan-y;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
