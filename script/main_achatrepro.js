@@ -193,6 +193,17 @@ async function trouverDoublonsMillesime(varId, annee, origine, planteMere = fals
 
   return doublons;
 }
+
+/* Renvoie les ids des lignes Semis de cette variété dont "A produire" est coché */
+async function trouverSemisAProduire(varId) {
+  const data = await grist.docApi.fetchTable('Semis');
+  const ids = [];
+  data.id.forEach((id, i) => {
+    if (data.NomVariete[i] === varId && data.A_produire[i]) ids.push(id);
+  });
+  return ids;
+}
+
 function afficherAlerteDoublon(doublons) {
   const d = doublons[0];
   const nb = doublons.length;
@@ -703,6 +714,22 @@ async function creerMillesime(forcer = false) {
     showMsg('msg-millesime', '❌ Erreur : ' + e.message, 'err');
     return;
   }
+  /* 1b) Décocher "A produire" sur les Semis de cette variété */
+  let nbDecoches = 0;
+  try {
+    const idsADecocher = await trouverSemisAProduire(varId);
+    if (idsADecocher.length) {
+      await grist.docApi.applyUserActions([
+        ['BulkUpdateRecord', 'Semis', idsADecocher,
+          { A_produire: idsADecocher.map(() => false) }]
+      ]);
+      nbDecoches = idsADecocher.length;
+    }
+  } catch (e) {
+    showMsg('msg-millesime',
+      '⚠️ Millésime créé, mais le décochage de "A produire" a échoué : ' + e.message, 'err');
+    return;
+  }
 
   /* 2) Plante mère : on crée aussi sa ligne dans Semis */
   if (planteMere && newMillesimeId) {
@@ -727,9 +754,10 @@ async function creerMillesime(forcer = false) {
     }
   }
 
-  showMsg('msg-millesime',
+   showMsg('msg-millesime',
     '✅ Millésime ' + annee + ' créé pour ' + (v ? v.Nom : '') +
-    (planteMere ? ' (ajouté aussi dans Semis)' : ''), 'ok');
+    (planteMere ? ' (ajouté aussi dans Semis)' : '') +
+    (nbDecoches ? ' · "À produire" décoché sur ' + nbDecoches + ' semis' : ''), 'ok');
   resetMillesime();
 }
 /* =============================================
