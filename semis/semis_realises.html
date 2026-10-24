@@ -14,6 +14,10 @@
   </header>
     <main>
     <section id="fiche">
+            <div id="basculeMode" class="bascule">
+        <button type="button" data-mode="godets" class="actif">Godets</button>
+        <button type="button" data-mode="pleine_terre">Pleine terre</button>
+      </div>
       <label for="rechercheVariete">Variété</label>
       <div class="champ-recherche">
         <input id="rechercheVariete" type="search" placeholder="Taper pour chercher…" autocomplete="off">
@@ -26,13 +30,13 @@
           <label for="dateSemis">Date du semis</label>
       <input id="dateSemis" type="date">
 
-      <div class="deux-colonnes">
-        <div>
+   <div class="deux-colonnes">
+        <div id="blocGodets">
           <label for="nbGodets">Nb de godets</label>
           <input id="nbGodets" type="number" min="1" step="1" inputmode="numeric">
         </div>
         <div>
-          <label for="nbGraines">Nb de graines</label>
+          <label id="labelGraines" for="nbGraines">Graines par godet</label>
           <input id="nbGraines" type="number" min="1" step="1" inputmode="numeric">
         </div>
       </div>
@@ -40,12 +44,15 @@
       <label for="selectType">Type</label>
       <select id="selectType"></select>
 
-      <label for="rechercheOu">Où (facultatif)</label>
-      <div id="pastillesOu" class="pastilles"></div>
-      <div class="champ-recherche">
-        <input id="rechercheOu" type="search" placeholder="Chercher un emplacement…" autocomplete="off">
-        <ul id="listeOu" class="liste-choix" hidden></ul>
+            <div id="blocOu" hidden>
+        <label for="rechercheOu">Où</label>
+        <div id="pastillesOu" class="pastilles"></div>
+        <div class="champ-recherche">
+          <input id="rechercheOu" type="search" placeholder="Chercher un emplacement…" autocomplete="off">
+          <ul id="listeOu" class="liste-choix" hidden></ul>
+        </div>
       </div>
+            <label class="case"><input id="caseSachetVide" type="checkbox"> Sachet vidé (millésime épuisé)</label>
             <p id="erreurFiche" class="erreur" hidden></p>
       <button id="btnAjouter" type="button" class="btn-principal">Ajouter à la liste</button>
     </section>

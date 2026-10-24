@@ -6,6 +6,7 @@ let ouChoisis = [];   // valeurs de « Ou » sélectionnées
 let brouillons = [];       // lignes en attente d'enregistrement
 let prochainIdBrouillon = 1;
 let enregistrementEnCours = false;
+let modeSemis = 'godets';   // 'godets' ou 'pleine_terre'
 let sourceChoix = 'liste de secours (lecture Grist non faite)';
 let donneesChargees = false;
 let varietePendante = null;   // variété reçue avant la fin du chargement
@@ -108,7 +109,10 @@ async function chargerDonnees() {
       annee: anneeDepuisDate(m.Millesime),
       origine: listeChoix(m.Origine),
       saisonsManuel: m.Nb_saisons_manuel || '',
-      estOriginal: m.Nb_saisons_manuel === 'or.'
+      estOriginal: m.Nb_saisons_manuel === 'or.',
+            estOriginal: m.Nb_saisons_manuel === 'or.',
+      planteMere: !!m.Plante_mere,
+      anneePlantation: m.Annee_plantation || null
     });
   }
 }
@@ -337,11 +341,39 @@ function initialiserOu() {
   });
 }
 
+// --- Mode godets / pleine terre ---
+function appliquerMode(mode) {
+  modeSemis = mode;
+  const pleineTerre = mode === 'pleine_terre';
+  document.querySelectorAll('#basculeMode button').forEach(b =>
+    b.classList.toggle('actif', b.dataset.mode === mode));
+  document.getElementById('blocGodets').hidden = pleineTerre;
+  document.getElementById('blocOu').hidden = !pleineTerre;
+  document.getElementById('labelGraines').textContent = pleineTerre ? 'Nb de graines' : 'Graines par godet';
+  document.querySelector('#fiche .deux-colonnes').classList.toggle('une-colonne', pleineTerre);
+
+  ouChoisis = [];
+  afficherPastilles();
+  document.getElementById('rechercheOu').value = '';
+  document.getElementById('listeOu').hidden = true;
+  afficherErreur('');
+}
+
+function initialiserBascule() {
+  document.getElementById('basculeMode').addEventListener('click', e => {
+    const b = e.target.closest('button[data-mode]');
+    if (!b || b.dataset.mode === modeSemis) return;
+    appliquerMode(b.dataset.mode);
+  });
+  appliquerMode('godets');
+}
+
 function initialiserFiche() {
   document.getElementById('dateSemis').value = dateDuJour();
   remplirTypes();
   initialiserOu();
     document.getElementById('dateSemis').addEventListener('change', afficherDerniersSemis);
+    initialiserBascule();
 }
 // ===== Brouillons =====
 function afficherErreur(texte) {
@@ -351,14 +383,17 @@ function afficherErreur(texte) {
 }
 
 function lireFiche() {
+  const pleineTerre = modeSemis === 'pleine_terre';
   return {
+    mode: modeSemis,
     varieteId: varieteChoisieId,
     millesimeId: millesimeChoisiId,
     date: document.getElementById('dateSemis').value,
-    godets: Number(document.getElementById('nbGodets').value),
+    godets: pleineTerre ? 1 : Number(document.getElementById('nbGodets').value),
     graines: Number(document.getElementById('nbGraines').value),
     type: document.getElementById('selectType').value,
-    ou: [...ouChoisis]
+    ou: pleineTerre ? [...ouChoisis] : [],
+    sachetVide: document.getElementById('caseSachetVide').checked
   };
 }
 
@@ -368,6 +403,7 @@ function validerFiche(f) {
   if (!f.date) return 'Renseigne la date du semis.';
   if (!(f.godets > 0)) return 'Renseigne le nombre de godets.';
   if (!(f.graines > 0)) return 'Renseigne le nombre de graines.';
+  if (f.mode === 'pleine_terre' && f.ou.length === 0) return 'Choisis au moins un emplacement (Où) pour un semis en pleine terre.';
   return '';
 }
 
@@ -390,6 +426,7 @@ function ajouterBrouillon() {
   ouChoisis = [];
   afficherPastilles();
   document.getElementById('rechercheOu').value = '';
+  document.getElementById('caseSachetVide').checked = false;
 
   afficherBrouillons();
   majStatut();
@@ -416,9 +453,13 @@ function afficherBrouillons() {
     ligne1.textContent = v ? libelleVariete(v) : '(variété inconnue)';
     const ligne2 = document.createElement('div');
     ligne2.className = 'brouillon-detail';
+        const quantite = b.mode === 'pleine_terre'
+      ? `pleine terre · ${b.graines} graines`
+      : `${b.godets} godets × ${b.graines} graines`;
     ligne2.textContent =
-      `${m ? libelleMillesime(m) : '?'} · ${b.date} · ${b.godets} godets × ${b.graines} graines · ${b.type}` +
-      (b.ou.length ? ' · ' + b.ou.join(', ') : '');
+      `${m ? libelleMillesime(m) : '?'} · ${b.date} · ${quantite} · ${b.type}` +
+      (b.ou.length ? ' · ' + b.ou.join(', ') : '') +
+      (b.sachetVide ? ' · sachet vidé' : '');
     texte.append(ligne1, ligne2);
 
     const bouton = document.createElement('button');
@@ -481,9 +522,12 @@ async function enregistrerTout() {
   };
 
    try {
-    await grist.docApi.applyUserActions([
-      ['BulkAddRecord', 'Semis', new Array(n).fill(null), colonnes]
-    ]);
+        const actions = [['BulkAddRecord', 'Semis', new Array(n).fill(null), colonnes]];
+    const millesimesVides = [...new Set(brouillons.filter(b => b.sachetVide).map(b => b.millesimeId))];
+    for (const id of millesimesVides) {
+      actions.push(['UpdateRecord', 'Millesimes', id, { Qtte_graines: null, Sachets: '' }]);
+    }
+    await grist.docApi.applyUserActions(actions);
     brouillons = [];
     afficherBrouillons();
     majStatut();
@@ -539,6 +583,15 @@ function afficherDerniersSemis() {
     ? `Déjà semé en ${annee} (${semis.length}) :`
     : `Pas encore semé en ${annee}.`;
   zone.appendChild(titre);
+    const meres = [...recordsParId.millesimes.values()]
+    .filter(m => m.varieteId === varieteChoisieId && m.planteMere);
+  if (meres.length) {
+    const annees = meres.map(m => m.anneePlantation).filter(a => a).sort();
+    const div = document.createElement('div');
+    div.className = 'derniers-mere';
+    div.textContent = '🌱 Plante mère en place' + (annees.length ? ` (plantée en ${annees.join(', ')})` : '');
+    zone.appendChild(div);
+  }
 
   for (const s of semis.slice(0, 5)) {
     const m = recordsParId.millesimes.get(s.millesimeId);

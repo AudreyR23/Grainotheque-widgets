@@ -156,3 +156,23 @@ label { display: block; font-weight: 600; margin-bottom: 4px; }
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
 }
+
+.bascule { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+.bascule button {
+  padding: 14px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2e7d32;
+  background: #fff;
+  border: 2px solid #8bc58b;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.bascule button.actif { color: #fff; background: #2e7d32; }
+.deux-colonnes.une-colonne { grid-template-columns: 1fr; }
+#blocOu { margin-top: 12px; }
+
+.derniers-mere { color: #1b5e20; font-weight: 600; padding: 2px 0; }
+
+.case { display: flex; align-items: center; gap: 10px; margin-top: 14px; font-weight: 600; }
+.case input { width: 24px; height: 24px; }
