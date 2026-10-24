@@ -228,6 +228,7 @@ function initialiserFiltres() {
 // ===== Initialisation =====
 // 'full' est nécessaire pour lire plusieurs tables avec docApi.fetchTable, même si on n'écrit rien.
 grist.ready({ requiredAccess: 'full' });
+grist.onRecord(rec => console.log('Curseur :', rec && rec.id));
 
 document.getElementById('liste').addEventListener('pointerdown', e => {
   const btn = e.target.closest('.btn-semer');
