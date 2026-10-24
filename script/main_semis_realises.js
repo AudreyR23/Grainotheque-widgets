@@ -601,9 +601,7 @@ async function chargerChoix() {
 
 // ===== Variété envoyée par « À semer » =====
 function varieteDemandee(id) {
-  console.log('semis_realises reçoit :', id, '| données chargées :', donneesChargees);
-  if (!id) return;
-  if (!donneesChargees) { varietePendante = id; return; }
+  if (!id || !donneesChargees) return;
   if (recordsParId.varietes.has(id)) choisirVariete(id);
 }
 
@@ -612,7 +610,8 @@ grist.ready({
   requiredAccess: 'full'
 });
 
-grist.onRecord(rec => varieteDemandee(rec && rec.id));
+const canal = new BroadcastChannel('granotheque-semer');
+canal.onmessage = e => varieteDemandee(e.data && e.data.varieteId);
 
 chargerDonnees()
   .then(chargerSemis)
