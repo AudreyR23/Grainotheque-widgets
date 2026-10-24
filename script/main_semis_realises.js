@@ -601,6 +601,7 @@ async function chargerChoix() {
 
 // ===== Variété envoyée par « À semer » =====
 function varieteDemandee(id) {
+  console.log('semis_realises reçoit :', id, '| données chargées :', donneesChargees);
   if (!id) return;
   if (!donneesChargees) { varietePendante = id; return; }
   if (recordsParId.varietes.has(id)) choisirVariete(id);
