@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Numérotation des variétés</title>
+  <link rel="stylesheet" href="../styles/numerotation.css">
+  <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Numérotation des variétés</h1>
+    <span id="statut" class="statut"></span>
+  </header>
+  <main>
+    <p id="resume">Chargement…</p>
+    <details id="bloc-analyse">
+      <summary><span id="alerte-titre"></span><span>Détail de l'analyse (max, trous, doublons, invalides)</span></summary>      <div id="analyse"></div>
+    </details>
+    <section id="en-attente">
+      <h2>Attributions en attente</h2>
+      <ul id="attentes"></ul>
+      <button id="annuler-tout" type="button">Tout annuler</button>
+      <button id="sauvegarder" type="button">Sauvegarder dans Grist</button>
+      <p id="message" class="info"></p>    </section>
+
+    <section id="attribution">
+      <h2>Variétés sans numéro</h2>
+      <p id="prochain" class="prochain"></p>
+      <input id="recherche" type="search" placeholder="Rechercher une variété…" autocomplete="off">
+      <p id="compteur" class="info"></p>
+      <ul id="liste"></ul>
+    </section>
+  </main>
+  <script src="../script/main_numerotation.js"></script>
+</body>
+</html>

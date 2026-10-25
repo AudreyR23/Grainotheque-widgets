@@ -72,7 +72,7 @@ function makeHeader() {
     <th class="col-arrosage">Planté</th>
     <th class="col-exposition">Date.p</th>
     <th class="col-ou">Où</th>
-    <th class="col-vide2">Donné</th>
+    <th class="col-conservation">Donné</th>
   </tr></thead>`;
 }
 
@@ -126,7 +126,7 @@ function makeRow(g) {
     <td class="col-arrosage info-bas">${g.arrosage || ''}</td>
     <td class="col-exposition info-bas">${g.exposition || ''}</td>
     <td class="col-ou info-bas">${fmtVal(g.ou)}</td>
-    <td class="col-vide2"></td>
+    <td class="col-conservation info-bas">${g.conservation || ''}</td>
   </tr>`;
 }
 
@@ -229,6 +229,7 @@ function buildGrainesMap(records) {
         arrosage: v.Arrosage || '',
         exposition: v.Exposition || '',
         ou: fmtVal(v.Ou_cultiver),
+        conservation: v.Conservation || '',
         sachets: []
       });
     }
@@ -290,6 +291,7 @@ if (dansGrist) {
         Arrosage: col(vd, 'Arrosage', i),
         Exposition: col(vd, 'Exposition', i),
         Ou_cultiver: col(vd, 'Ou_cultiver', i),
+        Conservation: col(vd, 'Conservation', i)
       };
     });
 

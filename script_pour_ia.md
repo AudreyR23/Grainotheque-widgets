@@ -12,6 +12,9 @@ Rien n'est encore créé- Accès demandé dans grist.ready : à définir
 - Usage : PC et tablette, pas d'impression , volume de données : inconnu
 ## Tables et colonnes - Code Python de la ou des tables :
 
+## Ce que j'attends de toi
+Avant de proposer du code, dis-moi les possibilités ou ce dont tu as besoin. Ensuite guide-moi étape par étape, avec un test après chaque étape.
+
 # pour outil existant :
 
 # Granothèque Grist : outil « [NOM DE L'OUTIL] »

@@ -1,0 +1,212 @@
+body {
+  font-family: system-ui, sans-serif;
+  margin: 0;
+  padding: 12px;
+  color: #222;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+h1 {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.statut {
+  font-size: 0.85rem;
+  color: #2e7d32;
+}
+
+.statut.non-sauvegarde {
+  color: #c62828;
+  font-weight: bold;
+}
+
+#analyse p {
+  margin: 6px 0;
+}
+
+#analyse .titre {
+  font-weight: bold;
+  margin-top: 14px;
+}
+
+#analyse .alerte {
+  color: #c62828;
+}
+
+#analyse .info {
+  color: #555;
+  font-size: 0.9rem;
+  word-break: break-word;
+}
+
+#attribution h2 {
+  font-size: 1.05rem;
+  margin: 20px 0 8px;
+}
+
+.prochain {
+  background: #e8f5e9;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin: 0 0 10px;
+  font-weight: bold;
+}
+
+#recherche {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+}
+
+#compteur {
+  color: #555;
+  font-size: 0.85rem;
+  margin: 6px 0;
+}
+
+#liste {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 55vh;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+#liste li {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+#liste li:last-child {
+  border-bottom: none;
+}
+
+#liste li:hover {
+  background: #f5f5f5;
+}
+
+#liste li.selection {
+  background: #fff3cd;
+  font-weight: bold;
+}
+
+#liste li.vide {
+  cursor: default;
+  color: #777;
+  text-align: center;
+}
+
+#en-attente h2 {
+  font-size: 1.05rem;
+  margin: 20px 0 8px;
+}
+
+#attentes {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+#attentes li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-bottom: 1px solid #eee;
+  background: #fff3cd;
+}
+
+#attentes li:last-child {
+  border-bottom: none;
+}
+
+#attentes li.vide {
+  background: none;
+  color: #777;
+  justify-content: center;
+}
+
+#attentes button,
+#annuler-tout {
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+#sauvegarder {
+  padding: 8px 14px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  border: 1px solid #2e7d32;
+  border-radius: 6px;
+  background: #2e7d32;
+  color: #fff;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+#sauvegarder:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+#message {
+  margin: 8px 0;
+  font-size: 0.9rem;
+}
+
+#message.erreur {
+  color: #c62828;
+  font-weight: bold;
+}
+
+#message.ok {
+  color: #2e7d32;
+}
+
+#bloc-analyse {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0 12px;
+  margin: 8px 0;
+}
+
+#bloc-analyse summary {
+  padding: 10px 0;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #555;
+  touch-action: manipulation;
+}
+
+#bloc-analyse[open] summary {
+  border-bottom: 1px solid #eee;
+  margin-bottom: 6px;
+}
+
+#alerte-titre {
+  color: #c62828;
+  font-weight: bold;
+  margin-right: 8px;
+}

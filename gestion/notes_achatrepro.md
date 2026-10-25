@@ -7,7 +7,7 @@ Outil lié : **Étiquettes sur sachets** (`main_etiquettes.js`), adapté en dev 
 
 Ajouter rapidement des sachets de graines et des plantes mères vivaces dans la table `Millesimes`. L'entrée la plus utilisée est l'onglet **Millésime**. Les onglets **Variété** et **Espèce** servent à créer ce qui manque en amont, avec enchaînement automatique.
 
-Depuis le 25/10/2026, l'onglet Millésime sait aussi **reprendre les sachets étiquetés** (étiquettes déjà imprimées, sachets pas encore ajoutés dans `Millesimes`).
+L'onglet Millésime sait aussi **reprendre les sachets étiquetés** (étiquettes déjà imprimées, sachets pas encore ajoutés dans `Millesimes`).
 
 Usage : PC et tablette. Pas d'impression depuis cet outil.
 
@@ -20,7 +20,7 @@ Usage : PC et tablette. Pas d'impression depuis cet outil.
 | `../styles/achatrepro.css` | Styles + bloc tactile |
 
 Accès demandé : `grist.ready({ requiredAccess: 'full' })`.
-Tables utilisées : `Modele`, `Varietes`, `Millesimes`, `Semis` (lecture + écriture + suppression de lignes), plus les métadonnées `_grist_Tables` et `_grist_Tables_column`.
+Tables utilisées : `Modele`, `Varietes`, `Millesimes`, `Semis` (lecture, écriture, suppression de lignes), plus les métadonnées `_grist_Tables` et `_grist_Tables_column`.
 
 **Colonnes ajoutées dans `Semis` (à créer dans Grist, sans formule) :**
 
@@ -34,7 +34,7 @@ Tables utilisées : `Modele`, `Varietes`, `Millesimes`, `Semis` (lecture + écri
 ### Onglet Millésime
 - Choix de la variété (le Type se charge tout seul, champ en lecture seule).
 - Année du millésime **préremplie avec l'année en cours**, modifiable.
-- **Origine** obligatoire : 6 étiquettes cliquables (les 6 premiers choix de la colonne `Origine` dans Grist) + un menu « Autres origines… » (une seule origine rare).
+- **Origine** obligatoire, **une seule au total** : 6 étiquettes cliquables (les 6 premiers choix de la colonne `Origine` dans Grist) + un menu « Autres origines… ». Cliquer sur une étiquette décoche les autres et vide le menu ; choisir dans le menu décoche les étiquettes ; recliquer sur l'étiquette cochée la décoche.
 - Cases **Sachet** (cochée par défaut) et **Plante mère**, exclusives l'une de l'autre.
   - Sachet : champ *Quantité de graines* visible et obligatoire. `Sachets` = `1`.
   - Plante mère : champ *Année de plantation* visible et obligatoire. `Sachets` = `1p.`. Une ligne est aussi créée dans `Semis`.
@@ -44,23 +44,23 @@ Tables utilisées : `Modele`, `Varietes`, `Millesimes`, `Semis` (lecture + écri
 ### Décochage automatique de « À produire »
 À la création d'un millésime, toutes les lignes `Semis` de la **même variété** dont `A_produire` est coché sont décochées (le besoin de produire est satisfait).
 
-- S'applique à **tous les types de millésime** (achat, don, récolte perso, plante mère…). Pas de filtre par origine (cas C non demandé).
+- S'applique à **tous les types de millésime** (achat, don, récolte perso, plante mère…). Pas de filtre par origine.
 - Conséquence : `Varietes.En_production` repasse à faux si plus aucune ligne Semis de la variété n'est cochée.
 - Message : `· "À produire" décoché sur N semis` (uniquement si N > 0).
 - Ne s'exécute **que si la création du millésime a réussi**.
 - La ligne Semis d'une plante mère est créée **après** le décochage, donc jamais concernée.
 
-### « Issu de mes étiquettes » (ajouté le 25/10/2026)
+### « Issu de mes étiquettes »
 
 **Principe.** Tu récoltes, tu remplis `Nb_etiquettes` dans Semis, tu imprimes, tu colles les étiquettes sur les sachets, **puis** tu ajoutes les sachets comme millésimes (un pour toi, le reste en `Don`). La case « Issu de mes étiquettes » (décochée = fonctionnement habituel pour les achats et réceptions) liste les lignes Semis dont `Etiq_en_attente` > 0.
 
-**Trois types de lignes en attente :**
+**Quatre types de lignes en attente :**
 
-| Type de ligne | Reconnaissance | Variété | Origine préremplie | Nb saisons préparé |
+| Type de ligne | Reconnaissance | Variété | Origine préremplie (une seule) | Nb saisons préparé |
 |---|---|---|---|---|
 | Plante mère | millésime lié avec `Plante_mere` | verrouillée | `Monjardin` | année en cours − année de plantation + 1 |
 | Vrai semis | `Date_s` renseignée | verrouillée | `Monjardin` | saisons du millésime source + 1 |
-| Récupération hors sachet, variété connue | pas de `Date_s`, variété renseignée | verrouillée | origine du millésime « or. » de la variété | `or.` |
+| Récupération hors sachet, variété connue | pas de `Date_s`, variété renseignée | verrouillée | première origine du millésime « or. » de la variété | `or.` |
 | **Graines à identifier** | **pas de variété** | **libre** | **aucune (à choisir)** | `or.` |
 
 Le nouveau millésime créé est toujours un **sachet** (jamais une nouvelle plante mère). Nb saisons est borné entre 1 et 8.
@@ -78,7 +78,7 @@ Pendant ce trajet (`parcoursLigne = true`) l'enchaînement est **forcé**, même
 2. La ligne est **supprimée** seulement si c'est une ligne de transit : ni `Date_s`, ni `Nb_graines`, ni `Nb_godets`, ni `Germes`, ni `Plantes`, et `Nb_etiquettes` ≤ 0.
 3. Un vrai semis ou la ligne d'une plante mère n'est **jamais supprimé**, seulement vidé de `Etiq_en_attente`.
 
-La case reste cochée après une création pour enchaîner plusieurs lignes ; la liste est rechargée.
+**Après une création** : la case reste cochée (pour enchaîner plusieurs lignes) et le menu des lignes en attente est **resynchronisé à chaque reset** (visible, liste à jour) par `rafraichirModeEtiquettes()`, appelée à la fin de `resetMillesime()`.
 
 ### Détection de doublons (3 onglets)
 Bandeau orange **en direct** + **confirmation** (« Créer quand même » / « Annuler ») au clic sur Créer.
@@ -104,6 +104,7 @@ Bloc `@media (pointer: coarse)` : cibles d'environ 44 px, police de 16 px (évit
 - **Données** : `modeles` et `varietes` chargés au démarrage (`init`). `Millesimes` et `Semis` sont relus par `fetchTable` à chaque besoin (doublons, décochage, étiquettes en attente), donc toujours à jour.
 - **Choix des listes** : lus dans les métadonnées Grist (`widgetOptions.choices`). Réordonner les choix dans Grist change l'affichage sans toucher au code (c'est ainsi qu'on choisit les 6 origines favorites).
 - **Format ChoiceList** : Grist attend `["L", ...valeurs]`. `getMultiSelect`, `getPills` et `getOrigines` ajoutent toujours le `"L"`. `cleOrigine()` le retire pour comparer.
+- **Origine unique** : la colonne `Origine` reste une ChoiceList, mais avec une seule valeur (`["L", valeur]`). `origineFavChoisie(e)` et `origineAutreChoisie()` garantissent l'unicité côté formulaire ; `appliquerOrigines(liste)` ne garde que `liste[0]`.
 - **Dates** : `Millesime` et `Date_s` en secondes depuis epoch, au 1er janvier en UTC. Comparaison avec `getUTCFullYear()`.
 - **Bandeau plutôt que `confirm()`** : les fenêtres natives peuvent être bloquées dans l'iframe d'un widget Grist.
 - **Détection en échec** : un échec de lecture (`fetchTable`) affiche un message rouge et **bloque** la création.
@@ -140,7 +141,7 @@ Si tu modifies l'un des deux outils, vérifie ce contrat : c'est lui qui évite 
 5. **1b)** Décochage de `A_produire`. Erreur : message rouge + `return`.
 6. **1c)** Nettoyage de la ligne d'étiquettes en attente. Erreur : message rouge + `return`.
 7. **2)** Si plante mère : création de la ligne dans `Semis`.
-8. Message de succès (`nbDecoches`, Don) + `resetMillesime()` + rechargement de la liste si mode étiquettes.
+8. Message de succès (`nbDecoches`, Don) + `resetMillesime()`. Le rechargement de la liste des étiquettes en attente se fait dans le reset (`rafraichirModeEtiquettes()`), pas dans `creerMillesime`.
 
 ### Code : décochage de « À produire »
 
@@ -177,6 +178,40 @@ Bloc dans `creerMillesime()`, après la création du millésime :
       '⚠️ Millésime créé, mais le décochage de "A produire" a échoué : ' + e.message, 'err');
     return;
   }
+```
+
+### Code : origine unique
+
+HTML : le menu des autres origines.
+
+```html
+<select id="m-origine-autre" style="margin-top:6px" onchange="origineAutreChoisie()"></select>
+```
+
+JS, après `getOrigines()` :
+
+```js
+/* Une seule origine au total : étiquette cochée → on vide le menu et on décoche les autres */
+function origineFavChoisie(e) {
+  const cb = e.target;
+  if (cb.checked) {
+    setPills('m-origine-fav', [cb.value]);
+    document.getElementById('m-origine-autre').value = '';
+  }
+  verifierDoublonEnDirect();
+}
+
+/* Menu "autres" choisi → on décoche les étiquettes */
+function origineAutreChoisie() {
+  if (document.getElementById('m-origine-autre').value) setPills('m-origine-fav', []);
+  verifierDoublonEnDirect();
+}
+```
+
+Dans `init()` :
+
+```js
+document.getElementById('m-origine-fav').addEventListener('change', origineFavChoisie);
 ```
 
 ### Code : HTML des étiquettes en attente (`Achat_repro.html`, panneau Millésime)
@@ -314,12 +349,26 @@ async function majModeEtiquettes() {
   }
 }
 
-/* Origines → étiquettes favorites + menu "autres" */
+/* Resynchronise le mode étiquettes avec la case (appelée à la fin de resetMillesime).
+   Silencieuse si la liste est vide, pour ne pas écraser le message de succès. */
+async function rafraichirModeEtiquettes() {
+  const actif = document.getElementById('m-issu-etiquettes').checked;
+  document.getElementById('bloc-attente').classList.toggle('cache', !actif);
+  if (!actif) return;
+  try {
+    await chargerSemisEnAttente();
+    remplirListeAttente();
+  } catch (e) {
+    console.error('Rafraîchissement des étiquettes en attente impossible :', e);
+  }
+}
+
+/* Origine unique : on garde la première de la liste */
 function appliquerOrigines(liste) {
   const favs = [...document.querySelectorAll('#m-origine-fav input')].map(i => i.value);
-  setPills('m-origine-fav', liste.filter(o => favs.includes(o)));
-  const autres = liste.filter(o => !favs.includes(o));
-  document.getElementById('m-origine-autre').value = autres[0] || '';
+  const o = liste[0] || '';
+  setPills('m-origine-fav', favs.includes(o) ? [o] : []);
+  document.getElementById('m-origine-autre').value = (o && !favs.includes(o)) ? o : '';
 }
 
 /* Nb de saisons du nouveau millésime, même règle que l'étiquette */
@@ -408,4 +457,225 @@ function chargerLigneAttente() {
 
 /* Ligne sans variété → panneau Variété (la note préremplit le Nom, modifiable) */
 function allerCreerVariete() {
-  if (!ligneAttenteChoisie
+  if (!ligneAttenteChoisie || ligneAttenteChoisie.varId) return;
+  parcoursLigne = true;
+  goToPanel('variete');
+  const champ = document.getElementById('v-nom');
+  if (!champ.value.trim() && ligneAttenteChoisie.note) {
+    champ.value = ligneAttenteChoisie.note;
+    verifierDoublonVarieteEnDirect();
+  }
+  showChainBanner('variete', '🔗 Graines à identifier (' + ligneAttenteChoisie.nb +
+    ' étiquette(s)) : crée la variété, tu reviendras au millésime ensuite.');
+  champ.focus();
+}
+
+/* Ligne sans variété → panneau Espèce, puis la chaîne continue */
+function allerCreerEspece() {
+  if (!ligneAttenteChoisie || ligneAttenteChoisie.varId) return;
+  parcoursLigne = true;
+  goToPanel('modele');
+  const champ = document.getElementById('e-nom');
+  if (!champ.value.trim() && ligneAttenteChoisie.note) {
+    champ.value = ligneAttenteChoisie.note;
+    verifierDoublonModeleEnDirect();
+  }
+  champ.focus();
+}
+
+/* Vide Etiq_en_attente ; supprime la ligne si c'est une ligne de transit.
+   Renvoie 'supprimee', 'videe' ou 'absente'. */
+async function nettoyerLigneAttente(ligne) {
+  const data = await grist.docApi.fetchTable('Semis');
+  const i = data.id.indexOf(ligne.id);
+  if (i === -1) return 'absente';
+
+  const transit = !data.Date_s[i] && !data.Nb_graines[i] && !data.Nb_godets[i]
+               && !data.Germes[i] && !data.Plantes[i] && !(data.Nb_etiquettes[i] > 0);
+
+  if (transit) {
+    await grist.docApi.applyUserActions([['RemoveRecord', 'Semis', ligne.id]]);
+    return 'supprimee';
+  }
+  await grist.docApi.applyUserActions([
+    ['UpdateRecord', 'Semis', ligne.id, { Etiq_en_attente: null }]
+  ]);
+  return 'videe';
+}
+```
+
+### Code : modifications dans les fonctions existantes
+
+**`majChampsMillesime`**, juste avant le `verifierDoublonEnDirect();` final :
+
+```js
+  const reelsVisible = !!ligneAttenteChoisie && sachet;
+  document.getElementById('bloc-sachets-reels').classList.toggle('cache', !reelsVisible);
+  if (!reelsVisible) {
+    document.getElementById('m-sachets-reels').value = '';
+    majInfoDon();
+  }
+```
+
+**`resetMillesime`**, au début :
+
+```js
+  ligneAttenteChoisie = null;
+  parcoursLigne = false;
+  document.getElementById('m-variete').disabled = false;
+  document.getElementById('m-attente').value = '';
+  document.getElementById('bloc-sans-variete').classList.add('cache');
+  document.getElementById('m-sachets-reels').value = '';
+  majInfoDon();
+```
+
+**`resetMillesime`**, à la toute fin :
+
+```js
+  rafraichirModeEtiquettes();
+```
+
+**`creerMillesime`**, après le contrôle `if (planteMere && !anneePlantation) {...}` :
+
+```js
+  const issuEtiquettes = document.getElementById('m-issu-etiquettes').checked;
+  if (issuEtiquettes && !ligneAttenteChoisie) {
+    showMsg('msg-millesime', 'Choisir une ligne d\'étiquettes, ou décocher "Issu de mes étiquettes".', 'err');
+    return;
+  }
+  let sachetsReels = null;
+  if (ligneAttenteChoisie && sachet) {
+    sachetsReels = parseInt(document.getElementById('m-sachets-reels').value);
+    if (!(sachetsReels >= 1)) {
+      showMsg('msg-millesime', 'Indiquer le nombre de sachets réels (au moins 1).', 'err');
+      return;
+    }
+  }
+```
+
+**`creerMillesime`**, juste après la définition de `const row = { ... };` :
+
+```js
+  /* Don = sachets réels - 1 */
+  if (sachetsReels && sachetsReels > 1) row.Don = sachetsReels - 1;
+```
+
+**`creerMillesime`**, après le bloc 1b, avant « 2) Plante mère » :
+
+```js
+  /* 1c) Ligne d'étiquettes en attente : vidée, ou supprimée si ligne de transit */
+  if (ligneAttenteChoisie) {
+    try {
+      await nettoyerLigneAttente(ligneAttenteChoisie);
+    } catch (e) {
+      showMsg('msg-millesime',
+        '⚠️ Millésime créé, mais le nettoyage de la ligne d\'étiquettes a échoué : ' + e.message, 'err');
+      return;
+    }
+  }
+```
+
+**`creerMillesime`**, message de succès final (c'est la fin de la fonction) :
+
+```js
+  showMsg('msg-millesime',
+    '✅ Millésime ' + annee + ' créé pour ' + (v ? v.Nom : '') +
+    (planteMere ? ' (ajouté aussi dans Semis)' : '') +
+    (nbDecoches ? ' · "À produire" décoché sur ' + nbDecoches + ' semis' : '') +
+    (sachetsReels > 1 ? ' · Don : ' + (sachetsReels - 1) + ' sachet(s)' : ''), 'ok');
+  resetMillesime();
+```
+
+**`creerModele`** : condition d'enchaînement vers la variété :
+
+```js
+    if ((chainEnabled() || parcoursLigne) && newModeleId) {
+```
+
+**`creerVariete`** : bloc d'enchaînement vers le millésime :
+
+```js
+    if ((chainEnabled() || parcoursLigne) && newVarieteId) {
+      document.getElementById('m-variete').value = newVarieteId;
+      chargerTypeMillesime();
+      goToPanel('millesime');
+      if (parcoursLigne && ligneAttenteChoisie) {
+        parcoursLigne = false;
+        preremplirLigneSansVariete(ligneAttenteChoisie);
+        showChainBanner('millesime', '🔗 Variété "' + nomVariete +
+          '" créée — choisis l\'origine et la quantité de tes graines.');
+      } else {
+        showChainBanner('millesime', '🔗 Variété "' + nomVariete + '" créée — complétez maintenant son millésime.');
+      }
+      document.getElementById('m-origine-autre').focus();
+    }
+```
+
+### Fonctions principales (main_achatrepro.js)
+`showPanel`, `goToPanel`, `buildPills`, `getPills`, `setPills`, `fillSelect`, `fillMultiSelect`, `getMultiSelect`, `getOrigines`, `origineFavChoisie`, `origineAutreChoisie`, `majChampsMillesime`, `cleOrigine`, `trouverDoublonsMillesime`, `trouverSemisAProduire`, `chargerSemisEnAttente`, `libelleAttente`, `remplirListeAttente`, `annulerLigneAttente`, `majModeEtiquettes`, `rafraichirModeEtiquettes`, `appliquerOrigines`, `saisonsPourLigne`, `majInfoDon`, `preremplirLigneSansVariete`, `chargerLigneAttente`, `allerCreerVariete`, `allerCreerEspece`, `nettoyerLigneAttente`, `afficherAlerteDoublon`, `cacherAlerteDoublon`, `verifierDoublonEnDirect`, `normaliser`, `trouverDoublonsVariete`, `trouverDoublonsModele` (+ leurs `afficher…`, `cacher…`, `verifier…EnDirect`), `creerVariete(forcer)`, `creerMillesime(forcer)`, `creerModele(forcer)`, `reset…`, `init`.
+
+### Branchements HTML à ne pas perdre
+- `m-variete` : `onchange="chargerTypeMillesime(); verifierDoublonEnDirect()"`
+- `m-millesime` : `oninput="verifierDoublonEnDirect()"`
+- `m-origine-fav` : écouteur `change` → `origineFavChoisie`, ajouté dans `init`
+- `m-origine-autre` : `onchange="origineAutreChoisie()"`
+- `m-sachet-check` : `onchange="majChampsMillesime('sachet')"`
+- `m-plante-mere` : `onchange="majChampsMillesime('mere')"`
+- `m-issu-etiquettes` : `onchange="majModeEtiquettes()"`
+- `m-attente` : `onchange="chargerLigneAttente()"`
+- `m-sachets-reels` : `oninput="majInfoDon()"`
+- Boutons de `bloc-sans-variete` : `allerCreerVariete()` et `allerCreerEspece()`
+- `v-nom`, `v-variete` : `oninput="verifierDoublonVarieteEnDirect()"`
+- `e-nom` : `oninput="verifierDoublonModeleEnDirect()"`
+- Bandeaux : `#doublon-millesime`, `#doublon-variete`, `#doublon-modele`, chacun **dans son propre panneau**, juste avant son `btn-row`.
+
+### Dépendances avec les formules Grist
+- `Varietes.En_production` = `any(Semis.lookupRecords(NomVariete=rec.id).A_produire)` : bascule après le décochage.
+- Colonnes de `Semis` lues : `NomVariete`, `A_produire`, `Etiq_en_attente`, `Note_attente`, `Nb_etiquettes`, `Date_s`, `Nb_graines`, `Nb_godets`, `Germes`, `Plantes`, `Millesime`.
+- Colonnes de `Semis` écrites : `A_produire`, `Etiq_en_attente` ; suppression de ligne de transit ; création de la ligne plante mère (`NomVariete`, `Millesime`, `Date_s`, `Type`, `Plantes`, `Nb_etiquettes`).
+- Colonnes de `Millesimes` lues pour les étiquettes : `Nb_saisons_manuel`, `Plante_mere`, `Annee_plantation`, `NomVariete`, `Origine`. Colonne écrite en plus des champs habituels : `Don`.
+- Une ligne Semis sans `Date_s` ne perturbe pas `Germination_2026`, `Annees_sans_test`, `Dernier_semis`, `Deja_seme_cette_annee` ni `En_production` (vérifié par lecture des formules et à l'usage).
+
+## 5. Pièges rencontrés
+
+- Un bandeau placé dans le mauvais panneau reste invisible sans erreur.
+- Les listes multiples ont `height:60px` en ligne : seul `!important` dans le CSS tactile peut le surcharger.
+- Les messages RPC de la console Grist sont du bruit. Pour déboguer sans console, afficher un diagnostic dans `msg-millesime`. Pour la console, choisir l'iframe du widget dans le menu « top ».
+- Si `init()` plante (par exemple référence à un élément HTML supprimé comme l'ancien `m-sachet`), toutes les listes restent vides.
+- Un Type vide lors d'un test d'enchaînement donne l'impression que le transfert ne marche pas.
+- Si le décochage de `A_produire` ou le nettoyage de la ligne d'étiquettes échoue, le millésime est **déjà créé** et le `return` empêche la création de la ligne Semis d'une plante mère. Il faudrait alors l'ajouter à la main.
+- Ancienne erreur corrigée : `document.getElementById('m-origine').focus()` dans `creerVariete` visait un élément qui n'existe plus, ce qui bloquait le bandeau d'enchaînement. Remplacé par `m-origine-autre`.
+- **Les deux outils sont liés** : si « Marquer comme imprimées » est modifié dans l'outil d'étiquettes (suppression, remise à 0 sans copie vers `Etiq_en_attente`), les sachets en attente disparaissent. Relire le contrat de la section 4.
+- `ORIGINE_PRODUCTION = 'Monjardin'` doit correspondre exactement à un choix de la colonne `Origine`. Sinon le message « Origine non reconnue » apparaît et l'origine est à choisir à la main.
+- `parcoursLigne` force l'enchaînement tant qu'il est vrai ; il est remis à faux dans `annulerLigneAttente`, `resetMillesime`, `chargerLigneAttente` et à l'arrivée dans Millésime. Un parcours abandonné n'impose donc rien à la création suivante.
+- Mode étiquettes : le menu des lignes était vidé par le reset sans être rechargé de façon fiable après une création. Corrigé en centralisant dans `rafraichirModeEtiquettes()`, appelée à la fin de `resetMillesime()`. Ne pas remettre un rechargement séparé dans `creerMillesime`.
+- Pense à retirer toute ligne `console.log` de test avant la prod.
+
+## 6. Procédure de passage en prod
+
+1. Sauvegarder les fichiers prod actuels des **deux outils** (achatrepro : HTML, JS, CSS ; étiquettes : JS).
+2. Vérifier que les colonnes `Etiq_en_attente` (Numérique) et `Note_attente` (Texte) existent dans la table `Semis` du document **de prod** (si dev et prod ne partagent pas le même document).
+3. Vérifier qu'il ne reste aucun `DIAG` ni `console.log` de test dans les JS.
+4. Copier les fichiers dev vers prod pour **les deux outils en même temps** (le contrat les lie).
+5. Tester en prod :
+   - un sachet, une plante mère, un enchaînement espèce → variété → millésime, le décochage de `A_produire` ;
+   - origine unique : cliquer sur plusieurs étiquettes, puis sur le menu « Autres origines… » ;
+   - cas A : ligne sans variété (note + `Nb_etiquettes`), impression, « Marquer comme imprimées » (la ligne reste, `Etiq_en_attente` rempli), création via « Créer l'espèce » puis « Créer la variété », `Don` correct, ligne de transit supprimée ;
+   - cas B : vrai semis, la ligne reste et `Etiq_en_attente` est vidé ;
+   - cas C : plante mère, `Nb saisons` correct ;
+   - cas D : deux impressions successives, `Etiq_en_attente` additionné ;
+   - plusieurs créations de suite avec la case « Issu de mes étiquettes » cochée : le menu reste visible et à jour.
+6. Supprimer les lignes de test dans Grist.
+
+## 7. Reste à faire / idées
+
+- [ ] Passage en prod (voir section 6).
+- [ ] Décocher `A_produire` seulement pour certaines origines (par exemple pas pour un don ou un achat) ? Actuellement : toujours.
+- [ ] Doublons de plante mère : comparer sur l'**année de plantation** plutôt que l'année du millésime, si l'usage le demande.
+- [ ] Autres listes multiples (Famille, Nature du sol, Qualité du sol, Où cultiver, Infos, Semis GPT) : à transformer en étiquettes si la sélection au doigt devient pénible.
+- [ ] Supprimer la constante `SACHET` devenue inutile dans `init()`.
+- [ ] Colonne `Sachets` : valeurs `1` et `1p.` (nom éventuellement à revoir). Garder `1p.` évite que `Epuise` marque une plante mère comme épuisée.
+- [ ] Étiquette : le texte « Récolte : » affiche toujours l'année en cours, pas l'année du millésime saisi. Correct pour une récolte de l'année, trompeur pour un millésime ancien.
+- [ ] Graines à identifier : l'origine n'est jamais devinée ; envisager une origine par défaut (par exemple `Monjardin`) si ces graines viennent toujours de ton jardin.
+- Abandonné : fusionner la quantité dans un millésime existant (deux sachets = deux lignes, le second va à la boîte à dons).
+- Abandonné : plusieurs origines par millésime (une seule, décision du 25/10/2026).

@@ -132,6 +132,21 @@ function getOrigines() {
   const autre = document.getElementById('m-origine-autre').value;
   return ['L', ...favs, ...(autre ? [autre] : [])];
 }
+/* Une seule origine au total : étiquette cochée → on vide le menu et on décoche les autres */
+function origineFavChoisie(e) {
+  const cb = e.target;
+  if (cb.checked) {
+    setPills('m-origine-fav', [cb.value]);
+    document.getElementById('m-origine-autre').value = '';
+  }
+  verifierDoublonEnDirect();
+}
+
+/* Menu "autres" choisi → on décoche les étiquettes */
+function origineAutreChoisie() {
+  if (document.getElementById('m-origine-autre').value) setPills('m-origine-fav', []);
+  verifierDoublonEnDirect();
+}
 
 /* Sachet : valeur enregistrée dans la colonne Sachets */
 const VALEUR_SACHET = '1';
@@ -305,12 +320,25 @@ async function majModeEtiquettes() {
   }
 }
 
-/* Origines → étiquettes favorites + menu "autres" */
+/* Resynchronise l'affichage du mode étiquettes avec la case (appelée après chaque reset) */
+async function rafraichirModeEtiquettes() {
+  const actif = document.getElementById('m-issu-etiquettes').checked;
+  document.getElementById('bloc-attente').classList.toggle('cache', !actif);
+  if (!actif) return;
+  try {
+    await chargerSemisEnAttente();
+    remplirListeAttente();
+  } catch (e) {
+    console.error('Rafraîchissement des étiquettes en attente impossible :', e);
+  }
+}
+
+/* Origine unique : on garde la première de la liste */
 function appliquerOrigines(liste) {
   const favs = [...document.querySelectorAll('#m-origine-fav input')].map(i => i.value);
-  setPills('m-origine-fav', liste.filter(o => favs.includes(o)));
-  const autres = liste.filter(o => !favs.includes(o));
-  document.getElementById('m-origine-autre').value = autres[0] || '';
+  const o = liste[0] || '';
+  setPills('m-origine-fav', favs.includes(o) ? [o] : []);
+  document.getElementById('m-origine-autre').value = (o && !favs.includes(o)) ? o : '';
 }
 
 /* Nb de saisons du nouveau millésime, même règle que l'étiquette */
@@ -690,8 +718,7 @@ async function init() {
     buildPills('m-origine-fav', ORIG.slice(0, NB_FAVORIS));
     fillSelect('m-origine-autre', ORIG.slice(NB_FAVORIS));
     document.getElementById('m-origine-autre').options[0].textContent = 'Autres origines…';
-    document.getElementById('m-origine-fav').addEventListener('change', verifierDoublonEnDirect);
-    document.getElementById('m-millesime').value = new Date().getFullYear();
+document.getElementById('m-origine-fav').addEventListener('change', origineFavChoisie);    document.getElementById('m-millesime').value = new Date().getFullYear();
 
     /* Panneau 3 — Modèle */
     fillSelect('e-type', TYPE);
@@ -812,6 +839,7 @@ function resetMillesime() {
   document.getElementById('m-annee-plantation').value = '';
   majChampsMillesime();
   cacherAlerteDoublon();
+  rafraichirModeEtiquettes();
 }
 
 /* =============================================
@@ -1039,11 +1067,6 @@ async function creerMillesime(forcer = false) {
     (nbDecoches ? ' · "À produire" décoché sur ' + nbDecoches + ' semis' : '') +
     (sachetsReels > 1 ? ' · Don : ' + (sachetsReels - 1) + ' sachet(s)' : ''), 'ok');
   resetMillesime();
-
-  /* Mode étiquettes : on rafraîchit la liste pour enchaîner la ligne suivante */
-  if (issuEtiquettes) {
-    try { await chargerSemisEnAttente(); remplirListeAttente(); } catch (e) { console.error(e); }
-  }
 }
 /* =============================================
    PANNEAU 3 — Créer un modèle (espèce)
