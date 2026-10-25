@@ -114,6 +114,8 @@ Bloc `@media (pointer: coarse)` : cibles d'environ 44 px, police de 16 px (évit
 - **Affichage conditionnel** : classe CSS `.cache` (`display:none !important`).
 - **Favoris d'origine** : `NB_FAVORIS = 6` dans `init()`.
 - **Origine de production** : constante `ORIGINE_PRODUCTION = 'Monjardin'` (choix stocké dans `Origine`, affiché « AR » sur l'étiquette par `.replace('Monjardin', 'AR')`).
+À la création d’une variété, Num_epingle est envoyé explicitement à null (vide, pas 0). Si valeur saisie, recopier     Type:               document.getElementById('v-type').value || null,
+    Num_epingle:        null,   // vide, pas 0 en l'adaptant.
 
 ### Contrat entre les deux outils (achatrepro ↔ étiquettes)
 

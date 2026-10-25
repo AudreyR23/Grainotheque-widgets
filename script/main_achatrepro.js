@@ -862,7 +862,7 @@ async function creerVariete(forcer = false) {
   const row = {
     NomVariete:         nomVariete,
     Type:               document.getElementById('v-type').value || null,
-    Conservation:       parseFloat(document.getElementById('v-conservation').value) || null,
+    Num_epingle:        null,   // vide, pas 0    Conservation:       parseFloat(document.getElementById('v-conservation').value) || null,
     Semis_profondeur:   document.getElementById('v-profondeur').value || null,
     Duree_germ:         parseFloat(document.getElementById('v-duree-germ').value) || null,
     Temp_germ:          document.getElementById('v-temp-germ').value || null,
@@ -878,6 +878,7 @@ async function creerVariete(forcer = false) {
     Infos:              getMultiSelect('v-infos'),
     Description:        document.getElementById('v-description').value.trim() || null,
     Semis_GPT:          getMultiSelect('v-semis-gpt'),
+
   };
 
   try {
