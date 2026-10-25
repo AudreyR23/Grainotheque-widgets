@@ -126,7 +126,7 @@ function makeRow(g) {
     <td class="col-arrosage info-bas">${g.arrosage || ''}</td>
     <td class="col-exposition info-bas">${g.exposition || ''}</td>
     <td class="col-ou info-bas">${fmtVal(g.ou)}</td>
-    <td class="col-conservation info-bas">${g.conservation || ''}</td>
+    <td class="col-conservation">${g.conservation || ''}</td>
   </tr>`;
 }
 
@@ -237,10 +237,7 @@ function buildGrainesMap(records) {
     const origine = Array.isArray(r.Origine)
       ? r.Origine.filter(item => item !== 'L').join(', ')
       : r.Origine || '';
-    const germ = r.Germination_affichee;
-    const germinationValue = (germ !== null && germ !== undefined && germ !== '')
-      ? (germ === 0 ? '0%' : Math.round(germ * 100) + '%')
-      : '';
+    const germinationValue = txt(r.Germination_cahier);
 
     map.get(key).sachets.push({
       origine: origine,
@@ -291,8 +288,7 @@ if (dansGrist) {
         Arrosage: col(vd, 'Arrosage', i),
         Exposition: col(vd, 'Exposition', i),
         Ou_cultiver: col(vd, 'Ou_cultiver', i),
-        Conservation: col(vd, 'Conservation', i)
-      };
+   Conservation: col(vd, 'Conservation', i)      };
     });
 
     varietesParId = {};
@@ -314,7 +310,7 @@ if (dansGrist) {
         Nb_saisons: col(md, 'Nb_saisons', i),
         Nb_saisons_manuel: col(md, 'Nb_saisons_manuel', i),
         Qtte_graines: col(md, 'Qtte_graines', i),
-        Germination_affichee: col(md, 'Germination_affichee', i, null),
+        Germination_cahier: col(md, 'Germination_cahier', i, ''),
       };
     });
 
