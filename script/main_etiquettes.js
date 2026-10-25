@@ -118,27 +118,21 @@ async function marquerImprimees() {
   const aTraiter = lignes.filter(r => parseInt(r.Nb_etiquettes) > 0);
   if (!aTraiter.length) return;
 
-  // Pas de semis (Date_s vide) et aucune donnée de culture : on supprime
-  const aSupprimer = aTraiter.filter(r =>
-    !r.Date_s && !r.Nb_graines && !r.Nb_godets && !r.Germes && !r.Plantes
-  );
-  const idsSuppr = new Set(aSupprimer.map(r => r.id));
-  const aRemettreA0 = aTraiter.filter(r => !idsSuppr.has(r.id));
-
   const msg =
-    `${aSupprimer.length} ligne(s) SUPPRIMÉE(S) (étiquettes sans semis)\n` +
-    `${aRemettreA0.length} ligne(s) remise(s) à 0 (semis conservés)\n\nConfirmer ?`;
+    `${aTraiter.length} ligne(s) transférée(s) vers Etiq_en_attente\n\nConfirmer ?`;
   if (!confirm(msg)) return;
 
   const table = grist.getTable();
-  if (aRemettreA0.length) {
-    await table.update(
-      aRemettreA0.map(r => ({ id: r.id, fields: { Nb_etiquettes: 0 } }))
-    );
-  }
-  if (aSupprimer.length) {
-    await table.destroy(aSupprimer.map(r => r.id));
-  }
+
+  await table.update(
+    aTraiter.map(r => ({
+      id: r.id,
+      fields: {
+        Etiq_en_attente: (parseFloat(r.Etiq_en_attente) || 0) + (parseInt(r.Nb_etiquettes) || 0),
+        Nb_etiquettes: 0
+      }
+    }))
+  );
 }
 let lignes = [];
 grist.ready({ requiredAccess: 'full' });
@@ -148,9 +142,6 @@ grist.onRecords(function(records) {
   const etiquettes = [];
 
   records.forEach(r => {
-    if ((r.Nom || '').includes('Menthe')) {
-  console.log('Menthe:', r.Plante_mere, r.Annee_plantation_mil, r.Nb_saisons_mil);
-}
     const nb = parseInt(r.Nb_etiquettes) || 0;
     if (nb <= 0) return;
 

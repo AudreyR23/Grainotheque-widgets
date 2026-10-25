@@ -393,7 +393,8 @@ function lireFiche() {
     graines: Number(document.getElementById('nbGraines').value),
     type: document.getElementById('selectType').value,
     ou: pleineTerre ? [...ouChoisis] : [],
-    sachetVide: document.getElementById('caseSachetVide').checked
+    sachetVide: document.getElementById('caseSachetVide').checked,
+    aProduire: document.getElementById('caseAProduire').checked
   };
 }
 
@@ -427,6 +428,7 @@ function ajouterBrouillon() {
   afficherPastilles();
   document.getElementById('rechercheOu').value = '';
   document.getElementById('caseSachetVide').checked = false;
+  document.getElementById('caseAProduire').checked = false;
 
   afficherBrouillons();
   majStatut();
@@ -456,10 +458,11 @@ function afficherBrouillons() {
         const quantite = b.mode === 'pleine_terre'
       ? `pleine terre · ${b.graines} graines`
       : `${b.godets} godets × ${b.graines} graines`;
-    ligne2.textContent =
+       ligne2.textContent =
       `${m ? libelleMillesime(m) : '?'} · ${b.date} · ${quantite} · ${b.type}` +
       (b.ou.length ? ' · ' + b.ou.join(', ') : '') +
-      (b.sachetVide ? ' · sachet vidé' : '');
+      (b.sachetVide ? ' · sachet vidé' : '') +
+      (b.aProduire ? ' · à reproduire' : '');
     texte.append(ligne1, ligne2);
 
     const bouton = document.createElement('button');
@@ -519,7 +522,8 @@ async function enregistrerTout() {
     Nb_graines: brouillons.map(b => b.graines),
     Type: brouillons.map(b => b.type),
     Ou: brouillons.map(b => b.ou.length ? ['L', ...b.ou] : null),
-    Germes: brouillons.map(() => null)
+    Germes: brouillons.map(() => null),
+    A_produire: brouillons.map(b => !!b.aProduire)
   };
 
    try {
