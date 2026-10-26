@@ -48,6 +48,15 @@ function fmtVal(v) {
   return String(v);
 }
 
+// Ajoute une unité après un nombre (affichage uniquement, Grist n'est pas modifié)
+// avecUnite(7, 'j') -> "7 j" ; avecUnite(2, 'an', 'ans') -> "2 ans"
+function avecUnite(v, singulier, pluriel = singulier) {
+  if (v === null || v === undefined || v === '' || v === 0) return '';
+  if (typeof v !== 'number') return String(v);   // texte inattendu : affiché tel quel, sans unité
+  const nombre = String(v).replace('.', ',');    // 1.5 -> "1,5"
+  return `${nombre}\u00A0${v < 2 ? singulier : pluriel}`;  // \u00A0 = espace insécable
+}
+
 /* =============================================
    EN-TÊTE DU TABLEAU
    ============================================= */
@@ -118,7 +127,7 @@ function makeRow(g) {
     ${mc('col-qtte', ss.map(s => s.qtte || ''))}
     ${mc('col-germ', germinationFormatted)}
     <td class="col-profond info-bas">${g.profondeur || ''}</td>
-    <td class="col-germdur info-bas">${g.germ_duree || ''}</td>
+    <td class="col-germdur info-bas">${avecUnite(g.germ_duree, 'j')}</td>
     <td class="col-germtemp info-bas">${g.germ_temp || ''}</td>
     <td class="col-sa info-bas">${fmtMois(g.abri)}</td>
     <td class="col-se info-bas">${fmtMois(g.semis_ext)}</td>
@@ -126,7 +135,7 @@ function makeRow(g) {
     <td class="col-arrosage info-bas">${g.arrosage || ''}</td>
     <td class="col-exposition info-bas">${g.exposition || ''}</td>
     <td class="col-ou info-bas">${fmtVal(g.ou)}</td>
-    <td class="col-conservation">${g.conservation || ''}</td>
+    <td class="col-conservation info-bas">${avecUnite(g.conservation, 'an', 'ans')}</td>
   </tr>`;
 }
 
@@ -288,7 +297,8 @@ if (dansGrist) {
         Arrosage: col(vd, 'Arrosage', i),
         Exposition: col(vd, 'Exposition', i),
         Ou_cultiver: col(vd, 'Ou_cultiver', i),
-   Conservation: col(vd, 'Conservation', i)      };
+        Conservation: col(vd, 'Conservation', i)
+      };
     });
 
     varietesParId = {};

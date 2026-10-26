@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Générateur boîte à dons</title>
+  <link rel="stylesheet" href="../styles/generateur_dons.css">
+  <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
+</head>
+<body>
+  <div id="barre">
+    <button id="btnGenerer">Générer</button>
+    <button id="btnTelecharger" disabled>Télécharger dons.json</button>
+    <span id="statut">Prêt</span>
+  </div>
+  <div id="resume"></div>
+  <textarea id="apercu" readonly placeholder="L'aperçu du JSON apparaîtra ici"></textarea>
+  <script src="../script/generateur_dons.js"></script>
+</body>
+</html>
