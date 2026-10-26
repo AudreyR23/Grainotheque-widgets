@@ -1,0 +1,5516 @@
+{
+  "genere_le": "2026-10-26T13:30:21.695Z",
+  "varietes": [
+    {
+      "id": 104,
+      "nom": "Agapanthe",
+      "variete": "Bleue",
+      "description": "Caduque, rustique et surprenante, cette agapanthe de stature moyenne (80-90 cm en fleurs) porte en été des ombelles de fleurs sphériques d'un bleu soutenu sur de longues tiges presque noires. C'est une plante sans soucis, superbe en bordure de terrasse ou de massif, mais aussi en bac sur la terrasse ou le balcon.",
+      "type": "Fleurs 🌼",
+      "famille": [
+        "Florales"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Jan",
+        "Fév",
+        "Déc"
+      ],
+      "semis_pleine_terre": [
+        "Sep",
+        "Oct",
+        "Nov"
+      ],
+      "recolte_floraison": [],
+      "semis_profondeur": "0.5 cm",
+      "duree_germ": 21,
+      "temp_germ": "18°",
+      "conservation": null,
+      "millesimes": [
+        {
+          "annee": 2020,
+          "origine": [
+            "JD"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 103,
+      "nom": "Agapanthe",
+      "variete": "Blanche",
+      "description": "Venu tout droit d’Afrique du Sud, il s’agit d’une plante vivace qui se démarque grâce à son élégance et sa couleur blanche étincelante. Ces plantes d’extérieur disposent de longues tiges, ainsi que de feuilles épaisses avec un ruban vert foncé. Elles sont florissantes dans les zones tempérées durant les saisons estivales, c’est-à-dire entre le mois de juillet et août. Leur hauteur peut aller même jusqu’à 60 à 70 centimètres.",
+      "type": "Fleurs 🌼",
+      "famille": [
+        "Florales"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Jan",
+        "Fév",
+        "Déc"
+      ],
+      "semis_pleine_terre": [
+        "Sep",
+        "Oct",
+        "Nov"
+      ],
+      "recolte_floraison": [],
+      "semis_profondeur": "0.5 cm",
+      "duree_germ": 21,
+      "temp_germ": "18°",
+      "conservation": null,
+      "millesimes": [
+        {
+          "annee": 2026,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        },
+        {
+          "annee": 2026,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 4
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "nom": "Agastache",
+      "variete": "Rugosa/Menthe Coréenne",
+      "description": "Cette espèce est l’une des 50 plantes les plus essentielles de la pharmacopée Chinoise traditionnelle. Elle produit un feuillage fin de couleur argentée ainsi que des tiges dressées portant des fleurs mauves très mellifères. Elle est utilisée dans le traitement des diarrhées, problèmes gastriques, nausées, vomissements, fièvres et refroidissements.",
+      "type": "Arom.Méd 🌿",
+      "famille": [
+        "Méllifère",
+        "Médicinale",
+        "Vivace",
+        "Aromatique"
+      ],
+      "exposition": "⛅☀️",
+      "arrosage": "💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "frais",
+        "léger"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep"
+      ],
+      "semis_profondeur": "0 cm",
+      "duree_germ": 21,
+      "temp_germ": "20-22°",
+      "conservation": null,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 2
+        },
+        {
+          "annee": 2024,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        },
+        {
+          "annee": 2021,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 2
+        },
+        {
+          "annee": null,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 2
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "nom": "Agastache",
+      "variete": "A fleurs blanches",
+      "description": "Cette variété résistante au gel, sélectionnée pour ses fleurs blanches, peut atteindre 1,20 m de hauteur et produit une abondance d’épis floraux très mellifères. Son feuillage possède un puissant parfum aromatique.",
+      "type": "Arom.Méd 🌿",
+      "famille": [
+        "Aromatique",
+        "Méllifère",
+        "Médicinale",
+        "Vivace",
+        "Aromatique"
+      ],
+      "exposition": "⛅☀️",
+      "arrosage": "💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "frais",
+        "léger"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep"
+      ],
+      "semis_profondeur": "0 cm",
+      "duree_germ": 21,
+      "temp_germ": "20-22°",
+      "conservation": null,
+      "millesimes": [
+        {
+          "annee": 2024,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 456,
+      "nom": "Ail ",
+      "variete": "Eléphant",
+      "description": " Variété d´ail nettement plus grosse que l´ail ordinaire, entre l´ail et le poireau. Le bulbe qui donnera une tête de 4 à 5 caïeux est nettement plus gros que l´ail ordinaire. \nUtilisation identique à l´ail ordinaire, cru en assaisonnement, confit dans le vinaigre, ou cuit pour parfumer viandes, farces, sauces, soupes, légumes...    ",
+      "type": "Tub.bul. 🧅",
+      "famille": [
+        "Tubercule-bulbe",
+        "Aromatique",
+        "Vivace"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé"
+      ],
+      "ou_cultiver": [
+        "PT"
+      ],
+      "infos": [],
+      "semis_sous_abris": [],
+      "semis_pleine_terre": [
+        "Fév",
+        "Oct",
+        "Nov"
+      ],
+      "recolte_floraison": [
+        "Aou",
+        "Sep"
+      ],
+      "semis_profondeur": "2 cm",
+      "duree_germ": null,
+      "temp_germ": "10°",
+      "conservation": null,
+      "millesimes": [
+        {
+          "annee": 2026,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 8
+        },
+        {
+          "annee": 2026,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 4
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "nom": "Basilic",
+      "variete": "Grec",
+      "description": "Cette variété ancienne forme une boule de feuilles extrêmement fines et aromatiques, très parfumées. La floraison commence en début ou milieu d’automne, lorsque toutes les autres variétés sont déjà en graines.",
+      "type": "Arom.Méd 🌿",
+      "famille": [
+        "Aromatique",
+        "Méllifère",
+        "Médicinale"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "caillouteux",
+        "humifère",
+        "sableux",
+        "terreau"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "léger",
+        "réchauffé"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Mar",
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "0.5 cm",
+      "duree_germ": 10,
+      "temp_germ": "20°",
+      "conservation": 8,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 2
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "nom": "Basilic",
+      "variete": "Osmin",
+      "description": "Cette variété de basilic très décorative, à feuilles dentelées et pourpres, offre un parfum particulièrement prononcé, une saveur anisée et des fleurs mauves.",
+      "type": "Arom.Méd 🌿",
+      "famille": [
+        "Aromatique",
+        "Méllifère",
+        "Médicinale"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "caillouteux",
+        "humifère",
+        "sableux",
+        "terreau"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "léger",
+        "réchauffé"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Mar",
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "0.5 cm",
+      "duree_germ": 10,
+      "temp_germ": "20°",
+      "conservation": 8,
+      "millesimes": [
+        {
+          "annee": 2026,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 2
+        }
+      ]
+    },
+    {
+      "id": 110,
+      "nom": "Belles de Nuit",
+      "variete": "À Fleurs Jaunes",
+      "description": "Cette variété peut atteindre 50 cm de hauteur et produit, pendant plusieurs semaines, une abondance de fleurs de diverses couleurs, s’épanouissant en soirée et offrant un puissant parfum.",
+      "type": "Fleurs 🌼",
+      "famille": [
+        "Florales",
+        "Médicinale",
+        "Vivace"
+      ],
+      "exposition": "⛅☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "humifère",
+        "littoral",
+        "sableux"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1",
+      "duree_germ": 15,
+      "temp_germ": "18-20°",
+      "conservation": 3,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        },
+        {
+          "annee": 2024,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        },
+        {
+          "annee": 2019,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 2
+        }
+      ]
+    },
+    {
+      "id": 114,
+      "nom": "Bleuet",
+      "variete": "Centaure Cyanus",
+      "description": "Cette espèce messicole et mellifère offre une abondance de magnifiques fleurs bleues, comestibles et médicinales. Elle devient malheureusement de plus en plus rare dans les champs.",
+      "type": "Fleurs 🌼",
+      "famille": [
+        "Florales",
+        "Méllifère",
+        "Médicinale"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [
+        "Avr",
+        "Mai"
+      ],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "0.5 cm",
+      "duree_germ": 20,
+      "temp_germ": "18-25°",
+      "conservation": 3,
+      "millesimes": [
+        {
+          "annee": 2022,
+          "origine": [
+            "JD"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 116,
+      "nom": "Bourrache",
+      "variete": "À Fleurs Blanches",
+      "description": "Cette variété aux tiges et au feuillage recouvert de poils produit une abondance de fleurs blanches. Les feuilles fraîches, crues ou cuites, se consomment comme condiment. Séchées, feuilles et fleurs s’emploient en infusions.\nL’apparition de tâches sur les sachets est due à l’huile contenue dans les graines.",
+      "type": "Fleurs 🌼",
+      "famille": [
+        "Florales",
+        "Médicinale",
+        "Engrais vert"
+      ],
+      "exposition": "⛅☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [
+        "Mar",
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Avr",
+        "Mai",
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct",
+        "Nov"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 15,
+      "temp_germ": "13°",
+      "conservation": 2,
+      "millesimes": [
+        {
+          "annee": 2021,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 117,
+      "nom": "Bourrache",
+      "variete": "À Fleurs Bleues",
+      "description": "Cette espèce mellifère, aux tiges et au feuillage recouverts de poils, produit une abondance de fleurs bleues. Les feuilles et les fleurs, crues ou cuites, se consomment comme condiment ou séchées, en infusions.\nL’apparition de tâches sur les sachets est due à l’huile contenue dans les graines.",
+      "type": "Fleurs 🌼",
+      "famille": [
+        "Florales",
+        "Médicinale",
+        "Engrais vert"
+      ],
+      "exposition": "⛅☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [
+        "Mar",
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Avr",
+        "Mai",
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct",
+        "Nov"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 15,
+      "temp_germ": "13°",
+      "conservation": 2,
+      "millesimes": [
+        {
+          "annee": 2021,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 118,
+      "nom": "Capucine Grimpante",
+      "variete": "de Lobb variée",
+      "description": "Cette capucine très vigoureuse est une plante annuelle pouvant atteindre 4 à 5 m de hauteur en peu de temps. Très florifère, elle offre des coloris vifs et variés. Elle est de culture très facile. La capucine est une plante comestible, notamment ses fleurs à la saveur doucement piquante, qui colore les salades. Elle a aussi la particularité d'attirer les pucerons.",
+      "type": "Fleurs 🌼",
+      "famille": [
+        "Florales",
+        "Médicinale"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [
+        "Avr",
+        "Mai",
+        "Jui",
+        "Juil"
+      ],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct",
+        "Nov"
+      ],
+      "semis_profondeur": "2 cm",
+      "duree_germ": 15,
+      "temp_germ": "15-25°",
+      "conservation": 4,
+      "millesimes": [
+        {
+          "annee": 2019,
+          "origine": [
+            "VILM."
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 432,
+      "nom": "Carotte",
+      "variete": "de Kuttingen (Blanche)",
+      "description": "Cette très ancienne variété produit des racines blanches dont la chair fine offre une saveur aromatique et douce, moins sucrée que les autres carottes. Elle est de grande vigueur.\nCette variété rustique présente une croissance rapide et vigoureuse.",
+      "type": "Lég-rac. 🥕",
+      "famille": [
+        "Légumes-racines"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "caillouteux",
+        "calcaire",
+        "sableux"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "pauvre",
+        "réchauffé",
+        "sec"
+      ],
+      "ou_cultiver": [
+        "PT"
+      ],
+      "infos": [],
+      "semis_sous_abris": [],
+      "semis_pleine_terre": [
+        "Fév",
+        "Mar",
+        "Avr",
+        "Mai",
+        "Jui",
+        "Juil"
+      ],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct",
+        "Nov"
+      ],
+      "semis_profondeur": "0.5 cm",
+      "duree_germ": 15,
+      "temp_germ": "10-30°",
+      "conservation": 4,
+      "millesimes": [
+        {
+          "annee": 2021,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 433,
+      "nom": "Carotte",
+      "variete": "Eskimo",
+      "description": "Variété d'origine nantaise, très résistante au gel, qui offre de belles racines de 16 à 18 cm de long. Semis de juin à octobre pour une récolte de novembre à avril. La carotte est appréciée pour sa saveur douce et sucrée ainsi que ses multiples utilisations : râpée, en potage ou en accompagnement de viandes et de poissons.",
+      "type": "Lég-rac. 🥕",
+      "famille": [
+        "Légumes-racines"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "caillouteux",
+        "calcaire",
+        "sableux"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "pauvre",
+        "réchauffé",
+        "sec"
+      ],
+      "ou_cultiver": [
+        "PT"
+      ],
+      "infos": [],
+      "semis_sous_abris": [],
+      "semis_pleine_terre": [
+        "Fév",
+        "Mar",
+        "Avr",
+        "Mai",
+        "Jui",
+        "Juil"
+      ],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct",
+        "Nov"
+      ],
+      "semis_profondeur": "0.5 cm",
+      "duree_germ": 15,
+      "temp_germ": "10-30°",
+      "conservation": 4,
+      "millesimes": [
+        {
+          "annee": 2024,
+          "origine": [
+            "VILM."
+          ],
+          "sachets": 2
+        },
+        {
+          "annee": 2019,
+          "origine": [
+            "VILM."
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 249,
+      "nom": "Concombre",
+      "variete": "Le Généreux",
+      "description": "Cette variété ancienne produit une abondance de fruits verts et assez épais, de forme cylindrique et pouvant atteindre 20 cm de long. Ils offrent une saveur douce et sans amertume. Ils peuvent être cueillis petits et consommés comme des cornichons.\nCette variété présente une croissance vigoureuse.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "humifère",
+        "sableux"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Serre"
+      ],
+      "infos": [
+        "Ancienne",
+        "Précoce"
+      ],
+      "semis_sous_abris": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "2 cm",
+      "duree_germ": 10,
+      "temp_germ": "22-25°",
+      "conservation": 10,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 2
+        },
+        {
+          "annee": 2019,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 251,
+      "nom": "Concombre",
+      "variete": "Poona Kheera",
+      "description": "Cette variété ancienne produit une abondance de fruits de la forme d’une pomme de terre et de couleur vert-crème, brunissant à maturité complète. Ils sont croquants et offrent une chair juteuse et douce.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "humifère",
+        "sableux"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Serre"
+      ],
+      "infos": [
+        "Ancienne",
+        "Mi-Saison"
+      ],
+      "semis_sous_abris": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "2 cm",
+      "duree_germ": 10,
+      "temp_germ": "22-25°",
+      "conservation": 10,
+      "millesimes": [
+        {
+          "annee": 2024,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 2
+        },
+        {
+          "annee": 2020,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 253,
+      "nom": "Concombre",
+      "variete": "Sikkim",
+      "description": "Cette ancienne variété produit des fruits ovales à la peau épaisse, brune et brodée à maturité complète. Dans de bonnes conditions de conservation, ils offrent une chair sans acidité plusieurs mois après la récolte.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "humifère",
+        "sableux"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Serre"
+      ],
+      "infos": [
+        "Ancienne",
+        "Mi-Saison"
+      ],
+      "semis_sous_abris": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "2 cm",
+      "duree_germ": 10,
+      "temp_germ": "22-25°",
+      "conservation": 10,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        },
+        {
+          "annee": 2024,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 11
+        },
+        {
+          "annee": 2020,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 247,
+      "nom": "Concombre",
+      "variete": "à Confire",
+      "description": "Cette espèce, aux dénominations multiples, offre des plantes grimpantes garnies de nombreux petits fruits. Ressemblant à de toutes petites pastèques, ils se dégustent crus, en rondelles dans les salades composées, à la croque, dès la récolte, ou encore au vinaigre à la manière des cornichons !",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "humifère",
+        "sableux"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Serre"
+      ],
+      "infos": [
+        "Précoce"
+      ],
+      "semis_sous_abris": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "2 cm",
+      "duree_germ": 10,
+      "temp_germ": "25°",
+      "conservation": 10,
+      "millesimes": [
+        {
+          "annee": 2020,
+          "origine": [
+            "FDSM"
+          ],
+          "sachets": 2
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "nom": "Coriandre",
+      "variete": "Coriandrum Sativum",
+      "description": "Cette variété produit de petites fleurs blanches ou rose pâle ainsi qu’un feuillage vert, arrondi et dentelé, offrant une saveur très aromatique.\nLa coriandre est très appréciée et utilisée dans la cuisine asiatique.",
+      "type": "Arom.Méd 🌿",
+      "famille": [
+        "Aromatique",
+        "Médicinale"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "argileux",
+        "humifère",
+        "terreau"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "léger",
+        "meuble"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [
+        "Avr",
+        "Mai",
+        "Jui",
+        "Juil",
+        "Aou"
+      ],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 30,
+      "temp_germ": "15-20°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2022,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 2
+        }
+      ]
+    },
+    {
+      "id": 254,
+      "nom": "Cornichon",
+      "variete": "Amélioré de Bourbonne",
+      "description": "Cette variété ancienne produit des fruits verts, longs et fins, et légèrement velus. Ils se récoltent en grand nombre et s’utilisent en conserves s’ils sont cueillis dès formation ou peuvent aussi être consommés en concombres à maturité complète.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "humifère"
+      ],
+      "qualite_du_sol": [
+        "humide",
+        "meuble"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot"
+      ],
+      "infos": [
+        "Ancienne",
+        "Mi-Saison"
+      ],
+      "semis_sous_abris": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "2 cm",
+      "duree_germ": 10,
+      "temp_germ": "22-25°",
+      "conservation": 10,
+      "millesimes": [
+        {
+          "annee": 2024,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 134,
+      "nom": "Cosmos",
+      "variete": "Versailles",
+      "description": "Cette variété est particulièrement adaptée aux bouquets grâce à ses tiges robustes. Elle est hâtive et vigoureuse. Elle offre des couleurs variées : rose, blanc pur, rouge carmin.\nCette espèce est très appréciée des oiseaux. On peut laisser sécher les fleurs à l’automne pour qu’ils se nourrissent des graines.",
+      "type": "Fleurs 🌼",
+      "famille": [
+        "Florales",
+        "Méllifère",
+        "Médicinale",
+        "Tinctoriale"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧",
+      "nature_du_sol": [
+        "argileux",
+        "calcaire",
+        "humifère"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct",
+        "Nov"
+      ],
+      "semis_profondeur": "0.5 cm",
+      "duree_germ": 30,
+      "temp_germ": "20-25°",
+      "conservation": 2,
+      "millesimes": [
+        {
+          "annee": 2021,
+          "origine": [
+            "AMJ"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 219,
+      "nom": "Côtes de Blette",
+      "variete": "Bright Lights",
+      "description": "Cette variété, résistante aux maladies, offre des blettes à cardes or, roses, orange, rouges, blanches et encore d’autres variations lumineuses avec des feuilles vertes ou bronze.",
+      "type": "Lég-feu. 🥬",
+      "famille": [
+        "Légumes-feuilles"
+      ],
+      "exposition": "⛅☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "argileux",
+        "calcaire",
+        "humifère"
+      ],
+      "qualite_du_sol": [
+        "frais",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [
+        "Avr",
+        "Mai",
+        "Jui",
+        "Juil"
+      ],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Déc"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 10,
+      "temp_germ": "20-25°",
+      "conservation": 6,
+      "millesimes": [
+        {
+          "annee": 2024,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 5
+        }
+      ]
+    },
+    {
+      "id": 260,
+      "nom": "Courge Maxima",
+      "variete": "Hubbard Vert",
+      "description": "Cette très ancienne variété offre de nombreux fruits en forme de fuseau pouvant atteindre 25 cm et peser jusqu'à 10 kg. Leur épiderme est vert-bronze et leur chair orange, épaisse et sèche offre une saveur douce. \nLes fruits peuvent se conserver presque 1 an.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧💧💧",
+      "nature_du_sol": [
+        "humifère"
+      ],
+      "qualite_du_sol": [
+        "lourd",
+        "meuble",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT"
+      ],
+      "infos": [
+        "Ancienne",
+        "Tardive"
+      ],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [
+        "Mar",
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct",
+        "Nov"
+      ],
+      "semis_profondeur": "2 cm",
+      "duree_germ": 15,
+      "temp_germ": "18-20°",
+      "conservation": 8,
+      "millesimes": [
+        {
+          "annee": 2022,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 263,
+      "nom": "Courge Maxima",
+      "variete": "Potimarron",
+      "description": "",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧💧💧",
+      "nature_du_sol": [
+        "humifère"
+      ],
+      "qualite_du_sol": [
+        "lourd",
+        "meuble",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [
+        "Mar",
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct",
+        "Nov"
+      ],
+      "semis_profondeur": "2 cm",
+      "duree_germ": 15,
+      "temp_germ": "18-20°",
+      "conservation": 8,
+      "millesimes": [
+        {
+          "annee": 2021,
+          "origine": [
+            "Co.Mam"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 258,
+      "nom": "Courge Maxima",
+      "variete": "(Mystère sucré)",
+      "description": "",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "frais",
+        "humide",
+        "meuble",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [
+        "Mar",
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct",
+        "Nov"
+      ],
+      "semis_profondeur": "2 cm",
+      "duree_germ": 15,
+      "temp_germ": "18-20°",
+      "conservation": 8,
+      "millesimes": [
+        {
+          "annee": 2024,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 4
+        }
+      ]
+    },
+    {
+      "id": 264,
+      "nom": "Courge Maxima",
+      "variete": "Potimarron (Hokkhaido) Vert",
+      "description": "Cette variété ancienne offre de 1 à 3 fruits ronds, légèrement côtelés, pouvant atteindre 15 cm de diamètre et peser jusqu’à 2,5 kg. Ils se conservent presque 1 an. Leur chair jaune est sèche, peu fibreuse et douce.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧💧💧",
+      "nature_du_sol": [
+        "humifère"
+      ],
+      "qualite_du_sol": [
+        "lourd",
+        "meuble",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT"
+      ],
+      "infos": [
+        "Ancienne",
+        "Mi-Saison"
+      ],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [
+        "Mar",
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct",
+        "Nov"
+      ],
+      "semis_profondeur": "2 cm",
+      "duree_germ": 15,
+      "temp_germ": "18-20°",
+      "conservation": 8,
+      "millesimes": [
+        {
+          "annee": 2024,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 5
+        },
+        {
+          "annee": 2022,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 2
+        }
+      ]
+    },
+    {
+      "id": 274,
+      "nom": "Courge Pepo",
+      "variete": "Baby Pam",
+      "description": "Cette variété produit des fruits sphériques pouvant atteindre 10 cm de diamètre et peser jusqu’à 2 kg. Leur épiderme orange très légèrement côtelé renferme une chair douce et sèche appréciée en pâtisserie.\nLa variété est souvent utilisée pour sculpter et peindre mais aussi pour les pâtisseries.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧💧💧",
+      "nature_du_sol": [
+        "humifère"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT"
+      ],
+      "infos": [
+        "Mi-Saison"
+      ],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [
+        "Mar",
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct",
+        "Nov"
+      ],
+      "semis_profondeur": "2 cm",
+      "duree_germ": 15,
+      "temp_germ": "18-20°",
+      "conservation": 8,
+      "millesimes": [
+        {
+          "annee": 2024,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 3
+        }
+      ]
+    },
+    {
+      "id": 275,
+      "nom": "Courge Pepo",
+      "variete": "Jack Be Little",
+      "description": "Cette variété, aussi appelée Pomarine, est une variété coureuse, productive (8 à 20 fruits par pied). Elle produit des mini-citrouilles de 5 à 8 cm de diamètre sur 2 à 3 cm de hauteur, entre 100 et 300 g de chair jaune orangé, farineuse, sucrée avec un goût de châtaigne.\nA consommer farcie ou comme des pommes de terre sautées. ",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧💧💧",
+      "nature_du_sol": [
+        "humifère"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT"
+      ],
+      "infos": [
+        "Mi-Saison"
+      ],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [
+        "Mar",
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct",
+        "Nov"
+      ],
+      "semis_profondeur": "2 cm",
+      "duree_germ": 15,
+      "temp_germ": "18-20°",
+      "conservation": 8,
+      "millesimes": [
+        {
+          "annee": 2022,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 277,
+      "nom": "Courge Pepo",
+      "variete": "Melonnette Jaspee de Vendee",
+      "description": "Une variété coureuse offrant 5 à 7 fruits par pied, de 15 cm de diamètre, 1 à 3 kg. Sa chair est orange, épaisse, très sucrée et d'excellente qualité gustative. Bonne conservation. Elle se bonifie au niveau gustatif avec le temps.\nUtilisations : crue râpée en vinaigrette ou rémoulade. Cuite : en purée, potage, tarte, flan, beignets.  ",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧💧💧",
+      "nature_du_sol": [
+        "humifère"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT"
+      ],
+      "infos": [
+        "Ancienne",
+        "Mi-Saison"
+      ],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [
+        "Mar",
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct",
+        "Nov"
+      ],
+      "semis_profondeur": "2 cm",
+      "duree_germ": 15,
+      "temp_germ": "18-20°",
+      "conservation": 8,
+      "millesimes": [
+        {
+          "annee": 2022,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 279,
+      "nom": "Courge Pepo",
+      "variete": "Spaghetti Végétal",
+      "description": "Cette variété ancienne produit 2 à 5 fruits blancs devenant ambrés à maturité. Il peuvent atteindre 30 cm de long et peser jusqu’à 3kg. Ils se conservent de 6 à 12 mois. Leur chair jaune-orangé a peu de calories et se défait, à la cuisson, en filaments comme des spaghettis.\nCette variété présente une croissance très vigoureuse.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧💧💧",
+      "nature_du_sol": [
+        "humifère"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT"
+      ],
+      "infos": [
+        "Ancienne",
+        "Précoce"
+      ],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [
+        "Mar",
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct",
+        "Nov"
+      ],
+      "semis_profondeur": "2 cm",
+      "duree_germ": 15,
+      "temp_germ": "18-20°",
+      "conservation": 8,
+      "millesimes": [
+        {
+          "annee": 2021,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 2
+        }
+      ]
+    },
+    {
+      "id": 273,
+      "nom": "Courge Pepo",
+      "variete": "Baby Boo",
+      "description": "Cette variété, très décorative, produit de nombreux petits fruits blancs, jaunes à maturité complète, aplatis et côtelés. Leur chair également blanche, dense et sucrée, offre une saveur de châtaigne.\nLes fruits peuvent se conserver pendant plus d’une année.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧💧💧",
+      "nature_du_sol": [
+        "humifère"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT"
+      ],
+      "infos": [
+        "Mi-Saison"
+      ],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [
+        "Mar",
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct",
+        "Nov"
+      ],
+      "semis_profondeur": "2 cm",
+      "duree_germ": 15,
+      "temp_germ": "18-20°",
+      "conservation": 8,
+      "millesimes": [
+        {
+          "annee": 2024,
+          "origine": [
+            "SC"
+          ],
+          "sachets": 3
+        }
+      ]
+    },
+    {
+      "id": 287,
+      "nom": "Courgette",
+      "variete": "Ronde de Piacenza",
+      "description": "Cette variété produit des fruits ronds très proches de la “Ronde de Nice” mais de couleur un peu plus foncée. Ils sont légèrement côtelés, de couleur vert clair rayée de vert foncé et se consomment quand ils ont la taille d’une balle de tennis.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "humifère"
+      ],
+      "qualite_du_sol": [
+        "lourd",
+        "meuble",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Serre"
+      ],
+      "infos": [
+        "Mi-Saison",
+        "Buisson."
+      ],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [
+        "Mar",
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Mai",
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "2 cm",
+      "duree_germ": 15,
+      "temp_germ": "18-20°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 3
+        }
+      ]
+    },
+    {
+      "id": 282,
+      "nom": "Courgette",
+      "variete": "Bou Tozzina",
+      "description": "Cette variété ancienne produit des fruits cylindriques pouvant atteindre 25 cm de longueur et peser jusqu'à 500 g. Leur épiderme vert clair renferme une chair ferme, douce et fruitée.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "humifère"
+      ],
+      "qualite_du_sol": [
+        "lourd",
+        "meuble",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Serre"
+      ],
+      "infos": [
+        "Mi-Saison",
+        "Buisson."
+      ],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [
+        "Mar",
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Mai",
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "2 cm",
+      "duree_germ": 15,
+      "temp_germ": "18-20°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2023,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 290,
+      "nom": "Courgette ",
+      "variete": "Sélection Sativa",
+      "description": "Cette variété précoce, non coureuse et à port ouvert, offre de longs fruits jaunes et lisses à la chair très fine et tendre.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "humifère"
+      ],
+      "qualite_du_sol": [
+        "lourd",
+        "meuble",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Serre"
+      ],
+      "infos": [
+        "Précoce",
+        "Buisson."
+      ],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [
+        "Mar",
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Mai",
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "2 cm",
+      "duree_germ": 15,
+      "temp_germ": "18-20°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 296,
+      "nom": "Haricot à écosser ",
+      "variete": "Midnight Black Turtle",
+      "description": "Cette ancienne variété, adaptée aux régions à l'automne pluvieux, offre une abondance de petits grains noirs à consommer mi-secs ou secs. Très populaires en Amérique latine, ils sont parfaits pour la confection de soupe.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "⛅☀️",
+      "arrosage": "💧💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT"
+      ],
+      "infos": [
+        "Nain",
+        "Ancienne",
+        "Mi-Saison"
+      ],
+      "semis_sous_abris": [],
+      "semis_pleine_terre": [
+        "Avr",
+        "Mai",
+        "Jui",
+        "Juil"
+      ],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "3 cm",
+      "duree_germ": 12,
+      "temp_germ": "16-25°",
+      "conservation": 3,
+      "millesimes": [
+        {
+          "annee": 2021,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 305,
+      "nom": "Haricot Mangetout",
+      "variete": "Roi des Belges",
+      "description": "Cette ancienne variété, au port buissonnant et aux fleurs violettes, produit une abondance de longues gousses droites et vertes contenant de petits grains noirs. Il est conseillé de les cueillir lorsqu'elles sont jeunes.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "⛅☀️",
+      "arrosage": "💧💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT"
+      ],
+      "infos": [
+        "Nain",
+        "Ancienne",
+        "Précoce"
+      ],
+      "semis_sous_abris": [],
+      "semis_pleine_terre": [
+        "Avr",
+        "Mai",
+        "Jui",
+        "Juil"
+      ],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "3 cm",
+      "duree_germ": 12,
+      "temp_germ": "16-25°",
+      "conservation": 3,
+      "millesimes": [
+        {
+          "annee": 2020,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 2
+        }
+      ]
+    },
+    {
+      "id": 297,
+      "nom": "Haricot Mangetout",
+      "variete": "Blauhilde",
+      "description": "Cette variété offre une abondance de gousses cylindriques d'environ 25 cm de long, de couleur bleu-violet devenant vertes à la cuisson. Les grains sont blancs.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "⛅☀️",
+      "arrosage": "💧💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT"
+      ],
+      "infos": [
+        "A Rames",
+        "Précoce"
+      ],
+      "semis_sous_abris": [],
+      "semis_pleine_terre": [
+        "Avr",
+        "Mai",
+        "Jui",
+        "Juil"
+      ],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "3 cm",
+      "duree_germ": 12,
+      "temp_germ": "16-25°",
+      "conservation": 3,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        },
+        {
+          "annee": 2023,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 2
+        }
+      ]
+    },
+    {
+      "id": 391,
+      "nom": "Maïs Doux",
+      "variete": "Martian Purple",
+      "description": "Cette variété unique produit des tiges, des feuilles et des soies de couleur rouge sombre ainsi que des épis, de 20 cm de long, contenant des graines rouge foncé presque noires.",
+      "type": "Lég-gra. 🌾",
+      "famille": [
+        "Légumes à grains"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "frais",
+        "meuble"
+      ],
+      "ou_cultiver": [
+        "PT"
+      ],
+      "infos": [],
+      "semis_sous_abris": [],
+      "semis_pleine_terre": [
+        "Mar",
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "2-3 cm",
+      "duree_germ": 10,
+      "temp_germ": "17-20°",
+      "conservation": 2,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 2
+        }
+      ]
+    },
+    {
+      "id": 393,
+      "nom": "Maïs Doux",
+      "variete": "Puget Gold",
+      "description": "Cette ancienne variété est adaptée aux régions humides ou à saisons courtes et produit de petits épis contenant des graines de couleur jaune.",
+      "type": "Lég-gra. 🌾",
+      "famille": [
+        "Légumes à grains"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "frais",
+        "meuble"
+      ],
+      "ou_cultiver": [
+        "PT"
+      ],
+      "infos": [],
+      "semis_sous_abris": [],
+      "semis_pleine_terre": [
+        "Mar",
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "2-3 cm",
+      "duree_germ": 10,
+      "temp_germ": "17-20°",
+      "conservation": 2,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "nom": "Mélisse",
+      "variete": "Orange",
+      "description": "Plante aromatique dont les feuilles, au parfum d´orange, sont consommées en tisane, en salade ou pour aromatiser les liqueurs par exemple. La mélisse possède aussi des vertus sédatives et digestives. Les feuilles fraîches permettent de soulager les piqûres d´insectes.",
+      "type": "Arom.Méd 🌿",
+      "famille": [
+        "Aromatique",
+        "Médicinale",
+        "Vivace"
+      ],
+      "exposition": "⛅☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Mai",
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 15,
+      "temp_germ": "20°",
+      "conservation": 4,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 3
+        }
+      ]
+    },
+    {
+      "id": 310,
+      "nom": "Melon",
+      "variete": "Vert d’Espagne",
+      "description": "Le piel de sapo est une variété très ancienne à peau verte tachetée aux fruits ovales, à chair blanche très sucrée et savoureuse au parfum intense.\nLes fruits d´environ 2 kg, sont récoltés à partir de septembre, et stockés à l´abri du gel, jusqu´à Noël. La teneur en sucre des melons augmentera avec la conservation. ",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧💧💧",
+      "nature_du_sol": [
+        "calcaire",
+        "humifère"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "léger",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Serre"
+      ],
+      "infos": [
+        "Ancienne",
+        "Tardive"
+      ],
+      "semis_sous_abris": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [
+        "Avr",
+        "Mai"
+      ],
+      "recolte_floraison": [
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1.5 cm",
+      "duree_germ": 10,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 2
+        }
+      ]
+    },
+    {
+      "id": 566,
+      "nom": "menthe",
+      "variete": "test",
+      "description": "",
+      "type": "Arom.Méd 🌿",
+      "famille": [
+        "Aromatique"
+      ],
+      "exposition": "⛅☀️",
+      "arrosage": "💧💧💧",
+      "nature_du_sol": [],
+      "qualite_du_sol": [
+        "drainé",
+        "léger"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Jan",
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Mai",
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "0.5 cm",
+      "duree_germ": 20,
+      "temp_germ": "20°",
+      "conservation": 3,
+      "millesimes": [
+        {
+          "annee": 2026,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 2
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "nom": "Menthe",
+      "variete": "Fraise",
+      "description": "La menthe fraise est une variété de menthe incroyable au délicieux parfum de bonbon à la fraise. La menthe fraise s'utilisera en infusions, accompagnant le thé, des salades de fruits, crèmes, sorbets mais aussi dans des sauces pour des plats sucrés salés. \nLa menthe possède des vertus digestives et antispasmodiques. ",
+      "type": "Arom.Méd 🌿",
+      "famille": [
+        "Aromatique"
+      ],
+      "exposition": "⛅☀️",
+      "arrosage": "💧💧💧",
+      "nature_du_sol": [],
+      "qualite_du_sol": [
+        "drainé",
+        "léger"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Jan",
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Mai",
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "0.5 cm",
+      "duree_germ": 20,
+      "temp_germ": "20°",
+      "conservation": 3,
+      "millesimes": [
+        {
+          "annee": 2024,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 158,
+      "nom": "Oeillet de Chine",
+      "variete": "Siberian Blues",
+      "description": "Cette espèce, de 30 cm de hauteur et d’amplitude, offre des fleurs simples, qui exhalent un parfum exquis, d’un bleu violet assez rare pour cette espèce d’Œillet de Chine. La Médecine Traditionnelle Chinoise la prescrit pour traiter les problèmes gastro-intestinaux, fortifier le flux sanguin, harmoniser la menstruation, comme diurétique (dysurie, hématurie, douleurs, cystite, gonorrhée, infections…) et pour éliminer les furoncles.",
+      "type": "Fleurs 🌼",
+      "famille": [
+        "Florales",
+        "Médicinale",
+        "Vivace"
+      ],
+      "exposition": "⛅☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [],
+      "qualite_du_sol": [],
+      "ou_cultiver": [
+        "PT",
+        "Pot"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep"
+      ],
+      "semis_profondeur": "0.5 cm",
+      "duree_germ": 14,
+      "temp_germ": "18-22°",
+      "conservation": null,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 62,
+      "nom": "Origan",
+      "variete": "Commun",
+      "description": "Cette espèce herbacée et vivace de 80 cm de haut produit des fleurs roses ou pourpres groupées en panicules ainsi que des feuilles vertes très aromatiques utilisées comme condiment se mariant bien au basilic ainsi qu'à d'autres herbes.",
+      "type": "Arom.Méd 🌿",
+      "famille": [
+        "Aromatique",
+        "Méllifère",
+        "Médicinale",
+        "Vivace"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "calcaire",
+        "humifère",
+        "sableux",
+        "terreau"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "riche",
+        "sec"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Mar",
+        "Avr",
+        "Mai",
+        "Jui",
+        "Sep",
+        "Oct",
+        "Nov"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "0.3 cm",
+      "duree_germ": 20,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 4
+        }
+      ]
+    },
+    {
+      "id": 437,
+      "nom": "Panais",
+      "variete": "De Guernesey",
+      "description": "Cette variété ancienne produit des racines assez trapues, de forme conique et au collet assez plat. Elles sont charnues, peuvent atteindre 15 cm de longueur et offrent un épiderme blanc et lisse.",
+      "type": "Lég-rac. 🥕",
+      "famille": [
+        "Légumes-racines"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "argileux",
+        "calcaire",
+        "humifère"
+      ],
+      "qualite_du_sol": [
+        "frais",
+        "meuble",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [
+        "Fév",
+        "Mar",
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Jan",
+        "Fév",
+        "Mar",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Déc"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 30,
+      "temp_germ": "20°",
+      "conservation": 1,
+      "millesimes": [
+        {
+          "annee": 2022,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 315,
+      "nom": "Physalis",
+      "variete": "Coqueret du Pérou",
+      "description": "Au goût de groseille à maquereau. En confiture, ou dans une salade de fruits. ",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "⛅☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "humide",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [
+        "A rentrer en hiver",
+        "Tardive"
+      ],
+      "semis_sous_abris": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Déc"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 30,
+      "temp_germ": "18-20°",
+      "conservation": null,
+      "millesimes": [
+        {
+          "annee": 2024,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 318,
+      "nom": "Physalis",
+      "variete": "Purple Milpa",
+      "description": "",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "⛅☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "humide",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [
+        "A rentrer en hiver",
+        "Ancienne",
+        "Mi-Saison"
+      ],
+      "semis_sous_abris": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Déc"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 30,
+      "temp_germ": "18-20°",
+      "conservation": null,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 2
+        }
+      ]
+    },
+    {
+      "id": 404,
+      "nom": "Pois Chiche",
+      "variete": "Pascia",
+      "description": "Le pois-chiche est l´ingrédient indispensable des paëllas, houmous, panisse et autres plats orientaux. Variété trapue, hauteur 40-50 cm, porte une gousse jaune qui contient 1-2 graines beige.\nSe consomme sec et entier, il entre dans la composition de la paëlla, du houmous ou de la panisse, plat traditionnel marseillais. ",
+      "type": "Lég-gra. 🌾",
+      "famille": [
+        "Légumes à grains"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧",
+      "nature_du_sol": [],
+      "qualite_du_sol": [
+        "drainé"
+      ],
+      "ou_cultiver": [
+        "PT"
+      ],
+      "infos": [],
+      "semis_sous_abris": [],
+      "semis_pleine_terre": [
+        "Mar",
+        "Avr"
+      ],
+      "recolte_floraison": [
+        "Juil",
+        "Aou",
+        "Sep"
+      ],
+      "semis_profondeur": "4 cm",
+      "duree_germ": 8,
+      "temp_germ": "10-15°",
+      "conservation": 3,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "SC"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 165,
+      "nom": "Pois de cœur",
+      "variete": "Coeur des Indes",
+      "description": "Cette variété grimpante peut atteindre 2 à 3 m de hauteur. Elle offre des petites fleurs blanches. Ses graines noires de la taille d’un pois portent une tache blanche en forme de cœur. Elles lui ont donné son nom de “Cardiospermum” (“graines à cœur”). \nNon comestibles, elles sont très décoratives.",
+      "type": "Fleurs 🌼",
+      "famille": [
+        "Florales"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé"
+      ],
+      "ou_cultiver": [
+        "PT"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep"
+      ],
+      "semis_profondeur": "0.5 cm",
+      "duree_germ": 10,
+      "temp_germ": "20°",
+      "conservation": null,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 565,
+      "nom": "Poivron",
+      "variete": "Corne de Taureau",
+      "description": "Cette variété ancienne, vigoureuse, offre une abondance de fruits en forme de cornes. Ils mûrissent de vert à rouge brillant et renferment une chair juteuse, à la saveur très appréciée, parfaite à farcir.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "humifère",
+        "caillouteux"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "meuble",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [
+        "Ancienne"
+      ],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "0.5 cm",
+      "duree_germ": 15,
+      "temp_germ": "20-30",
+      "conservation": 6,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 322,
+      "nom": "Poivron",
+      "variete": "(Chocolat)",
+      "description": "",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "caillouteux",
+        "humifère"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "meuble",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "0.5 cm",
+      "duree_germ": 15,
+      "temp_germ": "20-30",
+      "conservation": 6,
+      "millesimes": [
+        {
+          "annee": 2024,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 325,
+      "nom": "Poivron",
+      "variete": "(Orange)",
+      "description": "",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "caillouteux",
+        "humifère"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "meuble",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "0.5 cm",
+      "duree_germ": 15,
+      "temp_germ": "20-30",
+      "conservation": 6,
+      "millesimes": [
+        {
+          "annee": 2026,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 4
+        },
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 2
+        }
+      ]
+    },
+    {
+      "id": 68,
+      "nom": "Réglisse",
+      "variete": "Yunnanensis",
+      "description": "Cette espèce vivace de Réglisse est originaire du Yunnan, en Chine. Les gousses de graines sont très ornementales et de couleur rouge. Les fleurs lilas s’épanouissent sur des plantes de plus d’1 mètre de hauteur.\nC’est une plante très réputée dans la Pharmacopée Chinoise Traditionnelle.",
+      "type": "Arom.Méd 🌿",
+      "famille": [
+        "/",
+        "Aromatique",
+        "Médicinale",
+        "Vivace"
+      ],
+      "exposition": "⛅☀️",
+      "arrosage": "💧💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "frais"
+      ],
+      "ou_cultiver": [
+        "PT"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Mar",
+        "Avr",
+        "Mai",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct",
+        "Nov"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 21,
+      "temp_germ": "15-18°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 4
+        },
+        {
+          "annee": 2024,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        },
+        {
+          "annee": 2022,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 169,
+      "nom": "Scabieuse",
+      "variete": "Black Knight",
+      "description": "Cette variété offre des fleurs très sombres de couleur violette sur des plantes de 60 à 90 cm de hauteur.",
+      "type": "Fleurs 🌼",
+      "famille": [
+        "Florales",
+        "Méllifère",
+        "Médicinale",
+        "Tinctoriale"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "argileux",
+        "calcaire",
+        "humifère"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "riche",
+        "sec"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Mai",
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "0.2 cm",
+      "duree_germ": 21,
+      "temp_germ": "15-20°",
+      "conservation": null,
+      "millesimes": [
+        {
+          "annee": 2022,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 415,
+      "nom": "Sorgho",
+      "variete": "Black Amber Cane",
+      "description": "Cette ancienne variété très précoce atteint 3 m de hauteur et produit des grains noirs. Ses cannes sont utilisées pour confectionner de la mélasse.\nSorghum bicolor est une plante tinctoriale dont l’usage est assez répandu en Afrique. Ce sont les gaines des feuilles, souvent colorées de rouge que l’on utilise pour le teneur en anthocyane.",
+      "type": "Lég-gra. 🌾",
+      "famille": [
+        "Légumes à grains",
+        "Engrais vert",
+        "Tinctoriale"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧",
+      "nature_du_sol": [
+        "argileux",
+        "calcaire",
+        "humifère",
+        "sableux"
+      ],
+      "qualite_du_sol": [
+        "réchauffé",
+        "sec"
+      ],
+      "ou_cultiver": [
+        "PT"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Avr"
+      ],
+      "semis_pleine_terre": [
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1-2 cm",
+      "duree_germ": 20,
+      "temp_germ": "15-20°",
+      "conservation": 4,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 6
+        }
+      ]
+    },
+    {
+      "id": 416,
+      "nom": "Sorgho",
+      "variete": "Dwarf Mayo",
+      "description": "Cette variété précoce offre, sur des plantes d’1 mètre de hauteur ou légèrement plus, des têtes aux couleurs riches d’un brun rouge profond.\nSorghum bicolor est une plante tinctoriale dont l’usage est assez répandu en Afrique. Ce sont les gaines des feuilles, souvent colorées de rouge que l’on utilise pour le teneur en anthocyane.",
+      "type": "Lég-gra. 🌾",
+      "famille": [
+        "Légumes à grains",
+        "Engrais vert",
+        "Tinctoriale"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧",
+      "nature_du_sol": [
+        "argileux",
+        "calcaire",
+        "humifère",
+        "sableux"
+      ],
+      "qualite_du_sol": [
+        "réchauffé",
+        "sec"
+      ],
+      "ou_cultiver": [
+        "PT"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Avr"
+      ],
+      "semis_pleine_terre": [
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1-2 cm",
+      "duree_germ": 20,
+      "temp_germ": "15-20°",
+      "conservation": 4,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 418,
+      "nom": "Sorgho",
+      "variete": "Tarahumara Popping",
+      "description": "Cette ancienne variété vigoureuse originaire du Mexique de 3 m de haut produit de belles panicules abondantes de graines blanches utilisées comme pop-corn.\nSorghum bicolor est une plante tinctoriale dont l’usage est assez répandu en Afrique. Ce sont les gaines des feuilles, souvent colorées de rouge que l’on utilise pour le teneur en anthocyane.",
+      "type": "Lég-gra. 🌾",
+      "famille": [
+        "Légumes à grains",
+        "Engrais vert",
+        "Tinctoriale"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧",
+      "nature_du_sol": [
+        "argileux",
+        "calcaire",
+        "humifère",
+        "sableux"
+      ],
+      "qualite_du_sol": [
+        "réchauffé",
+        "sec"
+      ],
+      "ou_cultiver": [
+        "PT"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Avr"
+      ],
+      "semis_pleine_terre": [
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1-2 cm",
+      "duree_germ": 20,
+      "temp_germ": "15-20°",
+      "conservation": 4,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 173,
+      "nom": "Souci",
+      "variete": "Calendula officinalis",
+      "description": "Cette variété offre, du printemps à l’automne, des fleurs de couleur orange et jaune, mellifères, tinctoriales et aux nombreuses vertus médicinales.\nElle est la plus connue des Calendula officinalis. L'origine du nom \"Calendula\" provient du fait qu'elle fleurit toute l'année, durant les calendes (1er jour du mois chez les Romains) de chaque mois.",
+      "type": "Fleurs 🌼",
+      "famille": [
+        "Florales",
+        "Méllifère",
+        "Médicinale",
+        "Tinctoriale"
+      ],
+      "exposition": "⛅☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "léger"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Mar"
+      ],
+      "semis_pleine_terre": [
+        "Mar",
+        "Avr",
+        "Mai",
+        "Jui",
+        "Juil"
+      ],
+      "recolte_floraison": [
+        "Mai",
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct",
+        "Nov"
+      ],
+      "semis_profondeur": "1-2 cm",
+      "duree_germ": 7,
+      "temp_germ": "20°",
+      "conservation": 3,
+      "millesimes": [
+        {
+          "annee": 2024,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 174,
+      "nom": "Souci",
+      "variete": "Flashback Mix",
+      "description": "Cette variété au feuillage allongé et buissonnant produit une abondance de fleurs doubles de 3 à 5 cm de diamètre offrant une diversité de couleurs allant de pêche à abricot, en passant par orange et jaune citron ou doré. C’est une des plantes les plus réputées de la pharmacopée. Elle possède des propriétés antivirales, antitumorales, anti-inflammatoire et antioxydante.",
+      "type": "Fleurs 🌼",
+      "famille": [
+        "Florales",
+        "Méllifère",
+        "Médicinale",
+        "Tinctoriale"
+      ],
+      "exposition": "⛅☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "léger"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Mar"
+      ],
+      "semis_pleine_terre": [
+        "Mar",
+        "Avr",
+        "Mai",
+        "Jui",
+        "Juil"
+      ],
+      "recolte_floraison": [
+        "Mai",
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct",
+        "Nov"
+      ],
+      "semis_profondeur": "1-2 cm",
+      "duree_germ": 7,
+      "temp_germ": "20°",
+      "conservation": 3,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 178,
+      "nom": "Stachys",
+      "variete": "Byzantina",
+      "description": "Plante vivace tapissante et dense, formant rapidement un couvre-sol aussi agréable à regarder qu'à toucher: ses grandes feuilles, persistantes, grises et laineuses, extrêmement douces, lui ont valu son nom d'oreille d'ours ou de lapin. Les inflorescences estivales, toutes aussi grises et laineuses, portent de toutes petites fleurs rose-violacé. ",
+      "type": "Fleurs 🌼",
+      "famille": [
+        "Florales",
+        "Méllifère",
+        "Vivace"
+      ],
+      "exposition": "⛅☀️",
+      "arrosage": "💧",
+      "nature_du_sol": [
+        "caillouteux",
+        "calcaire"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "meuble",
+        "sec"
+      ],
+      "ou_cultiver": [
+        "PT"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr",
+        "Sep"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Juil",
+        "Aou",
+        "Sep"
+      ],
+      "semis_profondeur": "0.2 cm",
+      "duree_germ": 21,
+      "temp_germ": "10-20°",
+      "conservation": null,
+      "millesimes": [
+        {
+          "annee": 2024,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 2
+        },
+        {
+          "annee": 2019,
+          "origine": [
+            "SC"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 182,
+      "nom": "Tagète",
+      "variete": "Jack’s Crakers",
+      "description": "Cette variété à croissance rapide offre, tout au long de l’été et du début d’automne, de grosses fleurs doubles, à l’allure de pompons éclatants, aux nuances de jaune et d’orange.",
+      "type": "Fleurs 🌼",
+      "famille": [
+        "Florales"
+      ],
+      "exposition": "⛅☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [],
+      "qualite_du_sol": [],
+      "ou_cultiver": [
+        "PT",
+        "Pot"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Avr",
+        "Mai",
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep"
+      ],
+      "semis_profondeur": "0.5-1 cm",
+      "duree_germ": 20,
+      "temp_germ": "18-20°",
+      "conservation": 3,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 183,
+      "nom": "Tagète",
+      "variete": "Rose d’Inde jaune",
+      "description": "",
+      "type": "Fleurs 🌼",
+      "famille": [
+        "Florales",
+        "Méllifère",
+        "Médicinale",
+        "Tinctoriale"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧",
+      "nature_du_sol": [
+        "argileux",
+        "calcaire",
+        "humifère",
+        "terreau"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "0.5-1 cm",
+      "duree_germ": 20,
+      "temp_germ": "18-20°",
+      "conservation": 3,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 184,
+      "nom": "Tagète",
+      "variete": "Shades Of Gold Mix",
+      "description": "Cette variété offre de grosses fleurs doubles, allant du jaune pâle à l'orange vif, de près de 10 cm de large sur des plantes allant jusqu'à 1,5 m de haut. Idéales pour la création de bouquets fleuris, ces dernières égayeront votre maison tout l'hiver de leurs couleurs éclatantes !",
+      "type": "Fleurs 🌼",
+      "famille": [
+        "Florales"
+      ],
+      "exposition": "⛅☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [],
+      "qualite_du_sol": [],
+      "ou_cultiver": [
+        "PT",
+        "Pot"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Avr",
+        "Mai",
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep"
+      ],
+      "semis_profondeur": "0.5-1 cm",
+      "duree_germ": 20,
+      "temp_germ": "18-20°",
+      "conservation": 3,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 185,
+      "nom": "Tagète",
+      "variete": "Sparkler Marigold",
+      "description": "Cette variété buissonnante peut atteindre 1,2 m de hauteur et offre une profusion de magnifiques fleurs doubles aux pétales rouge-brun bordés de jaune d’or. L’odeur dégagée par les feuilles repousse certains insectes nuisibles comme les pucerons et en attire d’autres, plus utiles comme les papillons et les syrphes. La racine, quant à elle, sécrète une substance qui aurait un effet inhibiteur sur les nématodes et les aleurodes.",
+      "type": "Fleurs 🌼",
+      "famille": [
+        "Florales"
+      ],
+      "exposition": "⛅☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [],
+      "qualite_du_sol": [],
+      "ou_cultiver": [
+        "PT",
+        "Pot"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Avr",
+        "Mai",
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep"
+      ],
+      "semis_profondeur": "0.5-1 cm",
+      "duree_germ": 20,
+      "temp_germ": "18-20°",
+      "conservation": 3,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 5
+        }
+      ]
+    },
+    {
+      "id": 345,
+      "nom": "Tomate",
+      "variete": "Esmeralda Golosina (Verte)",
+      "description": "Cette variété vigoureuse et très résistante offre de gros fruits de couleur verte de saveur complexe, sucrée et très riche. Les plantes atteignent 1m50 de hauteur.\nC’est une nouvelle variété sélectionnée par Lee Goodwin au Nouveau-Mexique.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [
+        "Mi-Saison"
+      ],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 10,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2024,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        },
+        {
+          "annee": 2023,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 2
+        },
+        {
+          "annee": null,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 346,
+      "nom": "Tomate",
+      "variete": "Green Zebra",
+      "description": "Cette variété, vigoureuse et très productive, offre de nombreux petits fruits ronds d’environ 90 g, verts zébrés de jaune vert clair, à la chair vert émeraude de saveur douce et relevée à la fois.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [
+        "Mi-Saison"
+      ],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 10,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2022,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 348,
+      "nom": "Tomate",
+      "variete": "Indigo Apple",
+      "description": "Cette variété produit des fruits bien ronds de 60 à 120 g, de couleur rouge se teintant de bleu violet au soleil sous l’action des antioxydants anthocyanes. Ils sont peu sensibles à l’éclatement, aux brûlures du soleil et sont de bonne conservation.\nCette variété est peu sensible aux maladies.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [
+        "Mi-Saison"
+      ],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 10,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2024,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 2
+        },
+        {
+          "annee": null,
+          "origine": [
+            "Co.Mam"
+          ],
+          "sachets": 2
+        }
+      ]
+    },
+    {
+      "id": 350,
+      "nom": "Tomate",
+      "variete": "Noire de Crimée",
+      "description": "Cette variété vigoureuse produit une abondance de fruits ronds, à la chair dense d'un rouge-brun qui fonce avec le soleil. Elle offre un goût très doux.\nLa variété est très peu sensible à la sécheresse.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [
+        "Ancienne",
+        "Mi-Saison"
+      ],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 10,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        },
+        {
+          "annee": null,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 355,
+      "nom": "Tomate",
+      "variete": "Russe",
+      "description": "De couleurs et de formes différentes, elles feront de votre potager un lieu de curiosité. Leur parfum et saveur vous feront découvrir le plaisir du goût retrouvé.\nLa tomate Russe est une tomate tardive, à très gros fruit de 350 à 600 g en moyenne (observée jusqu'à 1 kg). Chair dense, tendre, sucrée juteuse, très parfumée au goût musqué, à farcir, en sauce, purée.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 10,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": null,
+          "origine": [
+            "SC"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 357,
+      "nom": "Tomate",
+      "variete": "Yellow perfection",
+      "description": "Cette très ancienne variété offre une abondance de petits fruits lisses et ronds, d’environ 5 cm de diamètre et de couleur jaune brillant. Leur peau fine renferme une chair juteuse très appréciée. Le feuillage rappelle celui de la pomme de terre.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [
+        "Ancienne",
+        "Mi-Saison"
+      ],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 10,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2024,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 2
+        },
+        {
+          "annee": null,
+          "origine": [
+            "SC"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 340,
+      "nom": "Tomate",
+      "variete": "Ananas (Bigarée)",
+      "description": "Cette très ancienne variété offre des fruits de type “chair de bœuf”, pouvant atteindre 1 kg. Leur épiderme jaune marbré de rouge renferme une chair très ferme rappelant celle de l’ananas.\nLes fruits contiennent peu de graines et leur saveur est riche et douce avec une légère acidité. Le feuillage rappelle celui de la pomme de terre.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [
+        "Ancienne",
+        "Tardive"
+      ],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 10,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2024,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 342,
+      "nom": "Tomate",
+      "variete": "Caro Rich (Orange)",
+      "description": "Cette variété offre des fruits rouge-orange avec une teneur en vitamine A 10 fois plus élevée que la plupart des autres variétés. Ses fruits ronds, légèrement aplatis et de bonne saveur, pèsent de 120 à 150 g.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [
+        "Mi-Saison"
+      ],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 10,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2024,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 2
+        },
+        {
+          "annee": null,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 347,
+      "nom": "Tomate",
+      "variete": "Grégori Altaï (Rose)",
+      "description": "Cette variété produit des fruits de 240 à 300 g à la saveur très appréciée. Le cœur très dense permet de couper des tranches très fines.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [
+        "Précoce"
+      ],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 10,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        },
+        {
+          "annee": null,
+          "origine": [
+            "SC"
+          ],
+          "sachets": 2
+        }
+      ]
+    },
+    {
+      "id": 354,
+      "nom": "Tomate",
+      "variete": "Petite coeur de bœuf",
+      "description": "",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 10,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 344,
+      "nom": "Tomate",
+      "variete": "Cornue des Andes",
+      "description": "Cette variété est une des plus appréciées. Elle offre des fruits de type “tomate-piment” pouvant atteindre 15 à 18 cm de long. Ils sont très charnus et contiennent très peu de graines et de jus.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [
+        "Mi-Saison",
+        "Ancienne"
+      ],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 10,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": null,
+          "origine": [
+            "Co.Mam"
+          ],
+          "sachets": 2
+        }
+      ]
+    },
+    {
+      "id": 352,
+      "nom": "Tomate",
+      "variete": "Pêche Blanche",
+      "description": "Cette variété offre des fruits blanc-crème de la taille d’une pêche, à l’épiderme légèrement duveteux. La saveur est très douce.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [
+        "Ancienne",
+        "Mi-Saison"
+      ],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 10,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2022,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 358,
+      "nom": "Tomate-cerise",
+      "variete": "Black Cherry",
+      "description": "Cette variété productive offre, sur une longue période, des grappes de “tomates-cerises” d’environ 20 g, de couleur pourpre foncé à noire. Elles dévoilent une saveur douce très appréciée. Cette variété présente une croissance vigoureuse.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [
+        "Mi-Saison"
+      ],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 10,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": null,
+          "origine": [
+            "SC"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 361,
+      "nom": "Tomate-cerise",
+      "variete": "Cocktail",
+      "description": "",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 10,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2023,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 2
+        },
+        {
+          "annee": null,
+          "origine": [
+            "Co.Mam"
+          ],
+          "sachets": 2
+        }
+      ]
+    },
+    {
+      "id": 362,
+      "nom": "Tomate-cerise",
+      "variete": "Cocktail Clémentine",
+      "description": "Fruits fermes, juteux, sucrés, d'excellente qualité pour apéritifs, brochettes, garniture, confiture. ",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 10,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 2
+        },
+        {
+          "annee": null,
+          "origine": [
+            "FDSM"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 363,
+      "nom": "Tomate-cerise",
+      "variete": "Dattorange",
+      "description": "Ce plant de tomate cerise allongée orange se distingue par sa forme rappelant une datte et sa saveur équilibrée entre sucre et acidité. C’est une variété vigoureuse, à haut rendement qui donne ses premiers fruits mûrs relativement tôt. Elle forme de belles grappes ramifiées. Variété adaptée pour les cultures de jardin, d’abri et en grands pots pour terrasse et balcon.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 10,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        },
+        {
+          "annee": null,
+          "origine": [
+            "FD4S"
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 365,
+      "nom": "Tomate-cerise",
+      "variete": "Gold Nugget",
+      "description": "Cette variété à port compact offre de nombreuses “tomates-cerises” légèrement ovales, de couleur or et pesant environ 10 g. Elles contiennent peu de graines et leur saveur est douce et riche.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [
+        "Précoce"
+      ],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 10,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": null,
+          "origine": [
+            "SC"
+          ],
+          "sachets": 2
+        }
+      ]
+    },
+    {
+      "id": 366,
+      "nom": "Tomate-cerise",
+      "variete": "Green Doctors Frosted",
+      "description": "Cette variété très vigoureuse offre des “tomates-cerises” de couleur vert clair à l’épiderme transparent et à la saveur très riche.\nC’est une mutation de la variété de tomate-cerise “Green Doctors”, elle-même une mutation de la variété “Dr. Carolyn”.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [
+        "Mi-Saison"
+      ],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 10,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2019,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 371,
+      "nom": "Tomate-cerise",
+      "variete": "Isis Candy Cherry (Bigarée)",
+      "description": "Cette variété offre, durant toute la saison, une abondance de grappes de “tomates-cerises” rondes et ovales, marbrées de rouge et de jaune et mesurant 2,5 cm de diamètre. La chair, également rouge et jaune, est riche et fruitée.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [
+        "Ancienne",
+        "Précoce"
+      ],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 10,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 2
+        },
+        {
+          "annee": null,
+          "origine": [
+            "SC"
+          ],
+          "sachets": 2
+        }
+      ]
+    },
+    {
+      "id": 373,
+      "nom": "Tomate-cerise",
+      "variete": "Madagascar (Bigarée)",
+      "description": "Cette variété offre des ”tomates-cerises” ovoïdes, de 30 à 50 g, de couleur rouge-rosé nuancée de jaune-orange. Elles sont de bonne conservation. La chair est très ferme, sucrée et parfumée.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [
+        "Mi-Saison"
+      ],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 10,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 3
+        },
+        {
+          "annee": 2024,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 2
+        },
+        {
+          "annee": null,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 375,
+      "nom": "Tomate-cerise",
+      "variete": "Olivette",
+      "description": "La tomate olivette est une variété vigoureuse, productive et résistante aux maladies. Ses petits fruits rouges sont allongés et résistants à l'éclatement. Leur chair ferme est très savoureuse.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 10,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2023,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 3
+        },
+        {
+          "annee": null,
+          "origine": [
+            "YR"
+          ],
+          "sachets": 2
+        }
+      ]
+    },
+    {
+      "id": 377,
+      "nom": "Tomate-cerise",
+      "variete": "Poire Jaune",
+      "description": "Cette très ancienne variété vigoureuse offre, jusqu’aux gelées, une abondance de “tomates-cerises” en grappes, en forme de petites poires, à la saveur douce.\nÀ l’automne, on peut arracher tout le pied et le pendre dans un endroit sec afin de faire sécher les tomates.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [
+        "Ancienne",
+        "Mi-Saison"
+      ],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 10,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 2
+        },
+        {
+          "annee": null,
+          "origine": [
+            "Co.Mam"
+          ],
+          "sachets": 2
+        }
+      ]
+    },
+    {
+      "id": 359,
+      "nom": "Tomate-cerise",
+      "variete": "Blush Tiger (Bigarée)",
+      "description": "Variété de mi-saison et au port indeterminé. Ses fruits de type cerise sont allongés de couleur jaune virant au rose à maturité. Sa saveur est très douce et fruitée.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [
+        "Mi-Saison"
+      ],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 10,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2024,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 2
+        }
+      ]
+    },
+    {
+      "id": 370,
+      "nom": "Tomate-cerise",
+      "variete": "Helsing Junction Blues",
+      "description": "Cette variété aux tiges bleutées offre des “tomates-cerises” rondes d’environ 2,5 cm de diamètre. Elles prennent une teinte bleu-violet au soleil sous l’action de leurs anthocyanes, de puissants antioxydants.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [
+        "Mi-Saison"
+      ],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 10,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 2
+        },
+        {
+          "annee": 2024,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 2
+        },
+        {
+          "annee": 2021,
+          "origine": [
+            "KOK."
+          ],
+          "sachets": 1
+        }
+      ]
+    },
+    {
+      "id": 378,
+      "nom": "Tomate-cerise",
+      "variete": "Trilly",
+      "description": "Petits fruits allongées, bien rouge. Type mini San Marzano. Qualité gustative exceptionnelle, d'une saveur douce, fondante, et acidulée. Plante vigoureuse et facile à cultiver.",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 10,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2024,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 2
+        }
+      ]
+    },
+    {
+      "id": 369,
+      "nom": "Tomate-cerise",
+      "variete": "Grosses rouges",
+      "description": "",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 10,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": null,
+          "origine": [
+            "Co.Mam"
+          ],
+          "sachets": 2
+        }
+      ]
+    },
+    {
+      "id": 372,
+      "nom": "Tomate-cerise",
+      "variete": "Jaune-noire",
+      "description": "",
+      "type": "Lég-fru. 🍅",
+      "famille": [
+        "Légumes-fruits"
+      ],
+      "exposition": "☀️☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot",
+        "Serre"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Fév",
+        "Mar",
+        "Avr"
+      ],
+      "semis_pleine_terre": [],
+      "recolte_floraison": [
+        "Jui",
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 10,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2024,
+          "origine": [
+            "SC"
+          ],
+          "sachets": 2
+        }
+      ]
+    },
+    {
+      "id": 187,
+      "nom": "Tournesol",
+      "variete": "",
+      "description": "",
+      "type": "Fleurs 🌼",
+      "famille": [
+        "Florales",
+        "Méllifère",
+        "Engrais vert"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé"
+      ],
+      "ou_cultiver": [
+        "PT"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "3 cm",
+      "duree_germ": 21,
+      "temp_germ": "20-25°",
+      "conservation": 3,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 6
+        }
+      ]
+    },
+    {
+      "id": 197,
+      "nom": "Vesce ",
+      "variete": "d’Hiver",
+      "description": "Cette espèce est un excellent engrais vert ainsi qu'une plante fourragère d'hiver. Elle retient l'azote et s'enracine en profondeur tout en laissant une très bonne structure de sol.",
+      "type": "Fleurs 🌼",
+      "famille": [
+        "Florales",
+        "Méllifère",
+        "Engrais vert"
+      ],
+      "exposition": "⛅☀️",
+      "arrosage": "💧",
+      "nature_du_sol": [
+        "argileux",
+        "calcaire",
+        "humifère",
+        "sableux"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "frais"
+      ],
+      "ou_cultiver": [
+        "PT"
+      ],
+      "infos": [],
+      "semis_sous_abris": [],
+      "semis_pleine_terre": [
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "recolte_floraison": [
+        "Jan",
+        "Fév",
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_profondeur": "1-3 cm",
+      "duree_germ": 20,
+      "temp_germ": "4°",
+      "conservation": 4,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 4
+        }
+      ]
+    },
+    {
+      "id": 198,
+      "nom": "Zinnia",
+      "variete": "Élégant double varié",
+      "description": "Annuelle produisant des grandes fleurs aux tons vifs : rose, jaune, violet, orange, rouge. Convient aux massifs et aux bordures. Fleurs très nectarifères qui attirent les papillons.",
+      "type": "Fleurs 🌼",
+      "famille": [
+        "Florales",
+        "Méllifère",
+        "Tinctoriale"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 14,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 3
+        }
+      ]
+    },
+    {
+      "id": 202,
+      "nom": "Zinnia",
+      "variete": "Red Spider",
+      "description": "Cette variété offre des plantes de taille moyenne aux fleurs rouges très simples avec des pétales bien détachés les uns des autres.",
+      "type": "Fleurs 🌼",
+      "famille": [
+        "Florales",
+        "Méllifère",
+        "Tinctoriale"
+      ],
+      "exposition": "☀️",
+      "arrosage": "💧",
+      "nature_du_sol": [
+        "tout"
+      ],
+      "qualite_du_sol": [
+        "drainé",
+        "réchauffé",
+        "riche"
+      ],
+      "ou_cultiver": [
+        "PT",
+        "Pot"
+      ],
+      "infos": [],
+      "semis_sous_abris": [
+        "Mar",
+        "Avr",
+        "Mai"
+      ],
+      "semis_pleine_terre": [
+        "Avr",
+        "Mai",
+        "Jui"
+      ],
+      "recolte_floraison": [
+        "Juil",
+        "Aou",
+        "Sep",
+        "Oct"
+      ],
+      "semis_profondeur": "1 cm",
+      "duree_germ": 14,
+      "temp_germ": "20-25°",
+      "conservation": 5,
+      "millesimes": [
+        {
+          "annee": 2025,
+          "origine": [
+            "Monjardin"
+          ],
+          "sachets": 1
+        }
+      ]
+    }
+  ]
+}
