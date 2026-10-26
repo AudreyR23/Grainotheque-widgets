@@ -15,3 +15,43 @@ header h1 { margin: 4px 0; font-size: 22px; }
 
 .millesimes { list-style: none; margin: 8px 0 0; padding: 0; font-size: 13px; color: #cfd6ee; }
 .millesimes li { padding: 4px 0; border-top: 1px solid #1f4f8f; }
+
+#pastilles { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.pastille { background: #16213e; color: #e6e6e6; border: 1px solid #1f4f8f; border-radius: 16px; padding: 6px 12px; font-size: 13px; cursor: pointer; }
+.pastille.active { background: #e94560; border-color: #e94560; color: #fff; }
+
+.fiche { margin-top: 10px; }
+.fiche summary { cursor: pointer; font-size: 13px; color: #9aa4bf; padding: 6px 0; }
+.bloc { background: #12122a; border-radius: 8px; padding: 10px; margin-top: 8px; }
+.bloc-titre { margin: 0 0 8px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #e94560; }
+.bloc-grille { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+.champ-libelle { font-size: 10px; text-transform: uppercase; color: #9aa4bf; margin-bottom: 4px; }
+.champ-valeur { display: flex; flex-wrap: wrap; gap: 4px; min-height: 22px; }
+.champ-valeur .etiquette { background: #0f3460; }
+
+body { padding-bottom: 80px; }
+.selecteur { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+.btn-demande { background: #e94560; color: #fff; border: 0; border-radius: 16px; padding: 8px 14px; font-size: 13px; cursor: pointer; }
+.btn-quantite { width: 36px; height: 36px; border-radius: 50%; background: #16213e; color: #fff; border: 1px solid #1f4f8f; font-size: 18px; cursor: pointer; }
+.btn-quantite:disabled { opacity: .35; cursor: default; }
+.quantite { min-width: 24px; text-align: center; font-weight: 600; }
+.selecteur .champ-libelle { margin: 0; }
+#barreSelection { position: fixed; left: 0; right: 0; bottom: 0; background: #0f3460; border-top: 2px solid #e94560; padding: 14px; text-align: center; font-size: 14px; }
+
+#barreSelection { position: fixed; left: 0; right: 0; bottom: 0; background: #0f3460; border-top: 2px solid #e94560; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 14px; }
+#barreSelection[hidden] { display: none; }
+
+#panneau { width: min(92vw, 520px); background: #16213e; color: #e6e6e6; border: 1px solid #1f4f8f; border-radius: 12px; padding: 16px; }
+#panneau::backdrop { background: rgba(0, 0, 0, .6); }
+#panneau h2 { margin: 0 0 8px; font-size: 18px; }
+#listeSelection { margin: 0 0 12px; padding-left: 18px; font-size: 14px; line-height: 1.6; }
+#panneau label { display: block; font-size: 12px; color: #9aa4bf; margin-top: 10px; }
+#panneau input, #panneau textarea { display: block; width: 100%; margin-top: 4px; background: #12122a; color: #e6e6e6; border: 1px solid #2a2a4a; border-radius: 6px; padding: 8px; font: inherit; font-size: 14px; }
+.panneau-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.btn-secondaire { background: #0f3460; color: #fff; border: 1px solid #1f4f8f; border-radius: 16px; padding: 8px 14px; font-size: 13px; cursor: pointer; }
+.aide { font-size: 12px; color: #9aa4bf; margin: 8px 0 0; min-height: 16px; }
+
+#outils { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+#recherche { flex: 1 1 180px; background: #12122a; color: #e6e6e6; border: 1px solid #2a2a4a; border-radius: 16px; padding: 8px 12px; font: inherit; font-size: 14px; }
+#selectMois { background: #16213e; color: #e6e6e6; border: 1px solid #1f4f8f; border-radius: 16px; padding: 7px 12px; font: inherit; font-size: 13px; }
+#selectMois.active { background: #e94560; border-color: #e94560; color: #fff; }

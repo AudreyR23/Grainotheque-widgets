@@ -11,7 +11,34 @@
     <h1>Boîte à dons</h1>
     <p id="sousTitre">Chargement…</p>
   </header>
+  <div id="outils">
+    <input id="recherche" type="search" placeholder="Rechercher…" autocomplete="off">
+    <select id="selectMois"></select>
+  </div>
+  <nav id="pastilles"></nav>
   <main id="liste"></main>
+  <div id="barreSelection" hidden>
+    <span id="resumeSelection"></span>
+    <button type="button" id="btnVoirSelection" class="btn-demande">Voir ma sélection</button>
+  </div>
+
+  <dialog id="panneau">
+    <h2>Ma sélection</h2>
+    <ul id="listeSelection"></ul>
+    <label>Ton prénom
+      <input id="prenom" type="text" autocomplete="given-name">
+    </label>
+    <label>Message à m'envoyer
+      <textarea id="message" rows="8"></textarea>
+    </label>
+    <p class="aide">Copie le message et envoie-le-moi par le moyen habituel.</p>
+    <div class="panneau-actions">
+      <button type="button" id="btnCopier" class="btn-demande">Copier le message</button>
+      <button type="button" id="btnPartager" class="btn-secondaire" hidden>Partager</button>
+      <button type="button" id="btnFermer" class="btn-secondaire">Fermer</button>
+    </div>
+    <p id="retourCopie" class="aide"></p>
+  </dialog>
   <script src="../script/main_boite_a_dons.js"></script>
 </body>
 </html>

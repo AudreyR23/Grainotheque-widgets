@@ -13,12 +13,6 @@ function nettoyerListe(valeur) {
   return valeur[0] === 'L' ? valeur.slice(1) : valeur;
 }
 
-// Les dates arrivent en secondes depuis 1970
-function anneeDe(valeur) {
-  if (typeof valeur !== 'number') return null;
-  return new Date(valeur * 1000).getUTCFullYear();
-}
-
 // fetchTable renvoie des colonnes ; on les transforme en lignes
 function enLignes(table) {
   const cles = Object.keys(table);
@@ -50,8 +44,6 @@ async function generer() {
     if (!variete) continue;
     if (!donsParVariete.has(variete.id)) donsParVariete.set(variete.id, []);
     donsParVariete.get(variete.id).push({
-      annee: anneeDe(m.Millesime),
-      origine: nettoyerListe(m.Origine),
       sachets: m.Don
     });
   }
@@ -59,7 +51,6 @@ async function generer() {
   const liste = [];
   for (const [id, millesimes] of donsParVariete) {
     const v = varietesParId.get(id);
-    millesimes.sort((a, b) => (b.annee || 0) - (a.annee || 0));
     liste.push({
       id: id,
       nom: v.Nom || '',

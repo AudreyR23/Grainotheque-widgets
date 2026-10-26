@@ -1,5 +1,5 @@
 {
-  "genere_le": "2026-10-26T13:30:21.695Z",
+  "genere_le": "2026-10-26T14:32:13.563Z",
   "varietes": [
     {
       "id": 104,
@@ -40,10 +40,6 @@
       "conservation": null,
       "millesimes": [
         {
-          "annee": 2020,
-          "origine": [
-            "JD"
-          ],
           "sachets": 1
         }
       ]
@@ -87,17 +83,9 @@
       "conservation": null,
       "millesimes": [
         {
-          "annee": 2026,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 1
         },
         {
-          "annee": 2026,
-          "origine": [
-            "KOK."
-          ],
           "sachets": 4
         }
       ]
@@ -147,86 +135,16 @@
       "conservation": null,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 2
         },
         {
-          "annee": 2024,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 1
         },
         {
-          "annee": 2021,
-          "origine": [
-            "KOK."
-          ],
           "sachets": 2
         },
         {
-          "annee": null,
-          "origine": [
-            "KOK."
-          ],
           "sachets": 2
-        }
-      ]
-    },
-    {
-      "id": 1,
-      "nom": "Agastache",
-      "variete": "A fleurs blanches",
-      "description": "Cette variété résistante au gel, sélectionnée pour ses fleurs blanches, peut atteindre 1,20 m de hauteur et produit une abondance d’épis floraux très mellifères. Son feuillage possède un puissant parfum aromatique.",
-      "type": "Arom.Méd 🌿",
-      "famille": [
-        "Aromatique",
-        "Méllifère",
-        "Médicinale",
-        "Vivace",
-        "Aromatique"
-      ],
-      "exposition": "⛅☀️",
-      "arrosage": "💧",
-      "nature_du_sol": [
-        "tout"
-      ],
-      "qualite_du_sol": [
-        "drainé",
-        "frais",
-        "léger"
-      ],
-      "ou_cultiver": [
-        "PT",
-        "Pot"
-      ],
-      "infos": [],
-      "semis_sous_abris": [
-        "Mar",
-        "Avr",
-        "Mai"
-      ],
-      "semis_pleine_terre": [],
-      "recolte_floraison": [
-        "Jui",
-        "Juil",
-        "Aou",
-        "Sep"
-      ],
-      "semis_profondeur": "0 cm",
-      "duree_germ": 21,
-      "temp_germ": "20-22°",
-      "conservation": null,
-      "millesimes": [
-        {
-          "annee": 2024,
-          "origine": [
-            "Monjardin"
-          ],
-          "sachets": 1
         }
       ]
     },
@@ -269,17 +187,9 @@
       "conservation": null,
       "millesimes": [
         {
-          "annee": 2026,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 8
         },
         {
-          "annee": 2026,
-          "origine": [
-            "KOK."
-          ],
           "sachets": 4
         }
       ]
@@ -334,10 +244,6 @@
       "conservation": 8,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 2
         }
       ]
@@ -392,10 +298,6 @@
       "conservation": 8,
       "millesimes": [
         {
-          "annee": 2026,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 2
         }
       ]
@@ -448,25 +350,13 @@
       "conservation": 3,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
-          "sachets": 1
-        },
-        {
-          "annee": 2024,
-          "origine": [
-            "Monjardin"
-          ],
-          "sachets": 1
-        },
-        {
-          "annee": 2019,
-          "origine": [
-            "KOK."
-          ],
           "sachets": 2
+        },
+        {
+          "sachets": 1
+        },
+        {
+          "sachets": 1
         }
       ]
     },
@@ -515,10 +405,6 @@
       "conservation": 3,
       "millesimes": [
         {
-          "annee": 2022,
-          "origine": [
-            "JD"
-          ],
           "sachets": 1
         }
       ]
@@ -576,10 +462,6 @@
       "conservation": 2,
       "millesimes": [
         {
-          "annee": 2021,
-          "origine": [
-            "KOK."
-          ],
           "sachets": 1
         }
       ]
@@ -637,10 +519,6 @@
       "conservation": 2,
       "millesimes": [
         {
-          "annee": 2021,
-          "origine": [
-            "KOK."
-          ],
           "sachets": 1
         }
       ]
@@ -694,10 +572,6 @@
       "conservation": 4,
       "millesimes": [
         {
-          "annee": 2019,
-          "origine": [
-            "VILM."
-          ],
           "sachets": 1
         }
       ]
@@ -751,10 +625,6 @@
       "conservation": 4,
       "millesimes": [
         {
-          "annee": 2021,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 1
         }
       ]
@@ -808,17 +678,9 @@
       "conservation": 4,
       "millesimes": [
         {
-          "annee": 2024,
-          "origine": [
-            "VILM."
-          ],
           "sachets": 2
         },
         {
-          "annee": 2019,
-          "origine": [
-            "VILM."
-          ],
           "sachets": 1
         }
       ]
@@ -872,18 +734,10 @@
       "conservation": 10,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
-          "sachets": 2
+          "sachets": 1
         },
         {
-          "annee": 2019,
-          "origine": [
-            "KOK."
-          ],
-          "sachets": 1
+          "sachets": 2
         }
       ]
     },
@@ -936,18 +790,10 @@
       "conservation": 10,
       "millesimes": [
         {
-          "annee": 2024,
-          "origine": [
-            "Monjardin"
-          ],
-          "sachets": 2
+          "sachets": 1
         },
         {
-          "annee": 2020,
-          "origine": [
-            "KOK."
-          ],
-          "sachets": 1
+          "sachets": 2
         }
       ]
     },
@@ -1000,24 +846,12 @@
       "conservation": 10,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 1
         },
         {
-          "annee": 2024,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 11
         },
         {
-          "annee": 2020,
-          "origine": [
-            "KOK."
-          ],
           "sachets": 1
         }
       ]
@@ -1070,10 +904,6 @@
       "conservation": 10,
       "millesimes": [
         {
-          "annee": 2020,
-          "origine": [
-            "FDSM"
-          ],
           "sachets": 2
         }
       ]
@@ -1129,10 +959,6 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2022,
-          "origine": [
-            "KOK."
-          ],
           "sachets": 2
         }
       ]
@@ -1186,10 +1012,6 @@
       "conservation": 10,
       "millesimes": [
         {
-          "annee": 2024,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 1
         }
       ]
@@ -1246,10 +1068,6 @@
       "conservation": 2,
       "millesimes": [
         {
-          "annee": 2021,
-          "origine": [
-            "AMJ"
-          ],
           "sachets": 1
         }
       ]
@@ -1305,10 +1123,6 @@
       "conservation": 6,
       "millesimes": [
         {
-          "annee": 2024,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 5
         }
       ]
@@ -1364,10 +1178,6 @@
       "conservation": 8,
       "millesimes": [
         {
-          "annee": 2022,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 1
         }
       ]
@@ -1420,10 +1230,6 @@
       "conservation": 8,
       "millesimes": [
         {
-          "annee": 2021,
-          "origine": [
-            "Co.Mam"
-          ],
           "sachets": 1
         }
       ]
@@ -1478,10 +1284,6 @@
       "conservation": 8,
       "millesimes": [
         {
-          "annee": 2024,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 4
         }
       ]
@@ -1537,17 +1339,9 @@
       "conservation": 8,
       "millesimes": [
         {
-          "annee": 2024,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 5
         },
         {
-          "annee": 2022,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 2
         }
       ]
@@ -1602,10 +1396,6 @@
       "conservation": 8,
       "millesimes": [
         {
-          "annee": 2024,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 3
         }
       ]
@@ -1660,10 +1450,6 @@
       "conservation": 8,
       "millesimes": [
         {
-          "annee": 2022,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 1
         }
       ]
@@ -1719,10 +1505,6 @@
       "conservation": 8,
       "millesimes": [
         {
-          "annee": 2022,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 1
         }
       ]
@@ -1778,10 +1560,6 @@
       "conservation": 8,
       "millesimes": [
         {
-          "annee": 2021,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 2
         }
       ]
@@ -1836,10 +1614,6 @@
       "conservation": 8,
       "millesimes": [
         {
-          "annee": 2024,
-          "origine": [
-            "SC"
-          ],
           "sachets": 3
         }
       ]
@@ -1897,10 +1671,6 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "KOK."
-          ],
           "sachets": 3
         }
       ]
@@ -1958,10 +1728,6 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2023,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 1
         }
       ]
@@ -2019,10 +1785,6 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "KOK."
-          ],
           "sachets": 1
         }
       ]
@@ -2074,10 +1836,6 @@
       "conservation": 3,
       "millesimes": [
         {
-          "annee": 2021,
-          "origine": [
-            "KOK."
-          ],
           "sachets": 1
         }
       ]
@@ -2129,10 +1887,6 @@
       "conservation": 3,
       "millesimes": [
         {
-          "annee": 2020,
-          "origine": [
-            "KOK."
-          ],
           "sachets": 2
         }
       ]
@@ -2183,17 +1937,9 @@
       "conservation": 3,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 1
         },
         {
-          "annee": 2023,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 2
         }
       ]
@@ -2240,10 +1986,6 @@
       "conservation": 2,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "KOK."
-          ],
           "sachets": 2
         }
       ]
@@ -2290,10 +2032,6 @@
       "conservation": 2,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "KOK."
-          ],
           "sachets": 1
         }
       ]
@@ -2343,10 +2081,6 @@
       "conservation": 4,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 3
         }
       ]
@@ -2401,10 +2135,6 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 2
         }
       ]
@@ -2451,10 +2181,6 @@
       "conservation": 3,
       "millesimes": [
         {
-          "annee": 2026,
-          "origine": [
-            "KOK."
-          ],
           "sachets": 2
         }
       ]
@@ -2501,10 +2227,6 @@
       "conservation": 3,
       "millesimes": [
         {
-          "annee": 2024,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 1
         }
       ]
@@ -2547,10 +2269,6 @@
       "conservation": null,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "KOK."
-          ],
           "sachets": 1
         }
       ]
@@ -2608,10 +2326,6 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 4
         }
       ]
@@ -2670,10 +2384,6 @@
       "conservation": 1,
       "millesimes": [
         {
-          "annee": 2022,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 1
         }
       ]
@@ -2727,10 +2437,6 @@
       "conservation": null,
       "millesimes": [
         {
-          "annee": 2024,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 1
         }
       ]
@@ -2785,10 +2491,6 @@
       "conservation": null,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 2
         }
       ]
@@ -2828,10 +2530,6 @@
       "conservation": 3,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "SC"
-          ],
           "sachets": 1
         }
       ]
@@ -2874,10 +2572,6 @@
       "conservation": null,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 1
         }
       ]
@@ -2931,10 +2625,6 @@
       "conservation": 6,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 1
         }
       ]
@@ -2986,10 +2676,6 @@
       "conservation": 6,
       "millesimes": [
         {
-          "annee": 2024,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 1
         }
       ]
@@ -3041,18 +2727,10 @@
       "conservation": 6,
       "millesimes": [
         {
-          "annee": 2026,
-          "origine": [
-            "Monjardin"
-          ],
-          "sachets": 4
+          "sachets": 2
         },
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
-          "sachets": 2
+          "sachets": 4
         }
       ]
     },
@@ -3104,24 +2782,12 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
-          "sachets": 4
-        },
-        {
-          "annee": 2024,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 1
         },
         {
-          "annee": 2022,
-          "origine": [
-            "Monjardin"
-          ],
+          "sachets": 4
+        },
+        {
           "sachets": 1
         }
       ]
@@ -3178,10 +2844,6 @@
       "conservation": null,
       "millesimes": [
         {
-          "annee": 2022,
-          "origine": [
-            "KOK."
-          ],
           "sachets": 1
         }
       ]
@@ -3232,10 +2894,6 @@
       "conservation": 4,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "KOK."
-          ],
           "sachets": 6
         }
       ]
@@ -3286,10 +2944,6 @@
       "conservation": 4,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "KOK."
-          ],
           "sachets": 1
         }
       ]
@@ -3340,10 +2994,6 @@
       "conservation": 4,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "KOK."
-          ],
           "sachets": 1
         }
       ]
@@ -3399,10 +3049,6 @@
       "conservation": 3,
       "millesimes": [
         {
-          "annee": 2024,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 1
         }
       ]
@@ -3458,10 +3104,6 @@
       "conservation": 3,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "KOK."
-          ],
           "sachets": 1
         }
       ]
@@ -3510,18 +3152,10 @@
       "conservation": null,
       "millesimes": [
         {
-          "annee": 2024,
-          "origine": [
-            "Monjardin"
-          ],
-          "sachets": 2
+          "sachets": 1
         },
         {
-          "annee": 2019,
-          "origine": [
-            "SC"
-          ],
-          "sachets": 1
+          "sachets": 2
         }
       ]
     },
@@ -3564,10 +3198,6 @@
       "conservation": 3,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 1
         }
       ]
@@ -3624,10 +3254,6 @@
       "conservation": 3,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 1
         }
       ]
@@ -3671,10 +3297,6 @@
       "conservation": 3,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 1
         }
       ]
@@ -3718,10 +3340,6 @@
       "conservation": 3,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 5
         }
       ]
@@ -3772,24 +3390,12 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2024,
-          "origine": [
-            "Monjardin"
-          ],
-          "sachets": 1
-        },
-        {
-          "annee": 2023,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 2
         },
         {
-          "annee": null,
-          "origine": [
-            "KOK."
-          ],
+          "sachets": 1
+        },
+        {
           "sachets": 1
         }
       ]
@@ -3840,10 +3446,6 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2022,
-          "origine": [
-            "KOK."
-          ],
           "sachets": 1
         }
       ]
@@ -3894,17 +3496,9 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2024,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 2
         },
         {
-          "annee": null,
-          "origine": [
-            "Co.Mam"
-          ],
           "sachets": 2
         }
       ]
@@ -3956,17 +3550,9 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 1
         },
         {
-          "annee": null,
-          "origine": [
-            "KOK."
-          ],
           "sachets": 1
         }
       ]
@@ -4015,10 +3601,6 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": null,
-          "origine": [
-            "SC"
-          ],
           "sachets": 1
         }
       ]
@@ -4070,18 +3652,10 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2024,
-          "origine": [
-            "Monjardin"
-          ],
-          "sachets": 2
+          "sachets": 1
         },
         {
-          "annee": null,
-          "origine": [
-            "SC"
-          ],
-          "sachets": 1
+          "sachets": 2
         }
       ]
     },
@@ -4132,10 +3706,6 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2024,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 1
         }
       ]
@@ -4186,17 +3756,9 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2024,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 2
         },
         {
-          "annee": null,
-          "origine": [
-            "KOK."
-          ],
           "sachets": 1
         }
       ]
@@ -4247,17 +3809,9 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 1
         },
         {
-          "annee": null,
-          "origine": [
-            "SC"
-          ],
           "sachets": 2
         }
       ]
@@ -4306,10 +3860,6 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 1
         }
       ]
@@ -4361,10 +3911,6 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": null,
-          "origine": [
-            "Co.Mam"
-          ],
           "sachets": 2
         }
       ]
@@ -4416,10 +3962,6 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2022,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 1
         }
       ]
@@ -4470,10 +4012,6 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": null,
-          "origine": [
-            "SC"
-          ],
           "sachets": 1
         }
       ]
@@ -4522,17 +4060,9 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2023,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 2
         },
         {
-          "annee": null,
-          "origine": [
-            "Co.Mam"
-          ],
           "sachets": 2
         }
       ]
@@ -4581,18 +4111,10 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
-          "sachets": 2
+          "sachets": 1
         },
         {
-          "annee": null,
-          "origine": [
-            "FDSM"
-          ],
-          "sachets": 1
+          "sachets": 2
         }
       ]
     },
@@ -4640,17 +4162,9 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 1
         },
         {
-          "annee": null,
-          "origine": [
-            "FD4S"
-          ],
           "sachets": 1
         }
       ]
@@ -4701,10 +4215,6 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": null,
-          "origine": [
-            "SC"
-          ],
           "sachets": 2
         }
       ]
@@ -4755,10 +4265,6 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2019,
-          "origine": [
-            "KOK."
-          ],
           "sachets": 1
         }
       ]
@@ -4810,17 +4316,9 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 2
         },
         {
-          "annee": null,
-          "origine": [
-            "SC"
-          ],
           "sachets": 2
         }
       ]
@@ -4871,25 +4369,13 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
+          "sachets": 1
+        },
+        {
           "sachets": 3
         },
         {
-          "annee": 2024,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 2
-        },
-        {
-          "annee": null,
-          "origine": [
-            "KOK."
-          ],
-          "sachets": 1
         }
       ]
     },
@@ -4937,18 +4423,10 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2023,
-          "origine": [
-            "Monjardin"
-          ],
-          "sachets": 3
+          "sachets": 2
         },
         {
-          "annee": null,
-          "origine": [
-            "YR"
-          ],
-          "sachets": 2
+          "sachets": 3
         }
       ]
     },
@@ -4999,17 +4477,9 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 2
         },
         {
-          "annee": null,
-          "origine": [
-            "Co.Mam"
-          ],
           "sachets": 2
         }
       ]
@@ -5060,10 +4530,6 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2024,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 2
         }
       ]
@@ -5114,25 +4580,13 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 2
         },
         {
-          "annee": 2024,
-          "origine": [
-            "Monjardin"
-          ],
-          "sachets": 2
-        },
-        {
-          "annee": 2021,
-          "origine": [
-            "KOK."
-          ],
           "sachets": 1
+        },
+        {
+          "sachets": 2
         }
       ]
     },
@@ -5180,10 +4634,6 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2024,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 2
         }
       ]
@@ -5232,10 +4682,6 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": null,
-          "origine": [
-            "Co.Mam"
-          ],
           "sachets": 2
         }
       ]
@@ -5284,10 +4730,6 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2024,
-          "origine": [
-            "SC"
-          ],
           "sachets": 2
         }
       ]
@@ -5338,10 +4780,6 @@
       "conservation": 3,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 6
         }
       ]
@@ -5392,10 +4830,6 @@
       "conservation": 4,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 4
         }
       ]
@@ -5448,10 +4882,6 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 3
         }
       ]
@@ -5504,10 +4934,6 @@
       "conservation": 5,
       "millesimes": [
         {
-          "annee": 2025,
-          "origine": [
-            "Monjardin"
-          ],
           "sachets": 1
         }
       ]
