@@ -1,0 +1,452 @@
+/* =============================================
+   STYLES COMMUNS (ÉPINGLES + TABLEAU + ÉTIQUETTES)
+   ============================================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, 'Liberation Sans', Helvetica, sans-serif;
+  background: white;
+  color: #222;
+  font-size: 9px;
+}
+
+/* Contrôles (boutons, infos) */
+.controls {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 1rem;
+  align-items: center;
+  padding: 8px;
+}
+
+.btn {
+  padding: 6px 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 13px;
+  color: #000;
+}
+
+.btn:hover {
+  background: #f5f5f5;
+}
+
+.info {
+  font-size: 12px;
+  color: #666;
+  flex: 1;
+}
+
+/* =============================================
+   STYLES SPÉCIFIQUES AU TABLEAU
+   ============================================= */
+/* Largeurs des colonnes */
+.col-type      { width: 7.5%; }
+.col-nom       { width: 12.5%; }
+.col-epingle   { width: 2.5%; }
+.col-nbep      { width: 2.5%; }
+.col-origine   { width: 5%; }
+.col-sachet    { width: 2.5%; }
+.col-annee     { width: 5%; }
+.col-s         { width: 2.5%; }
+.col-qtte      { width: 5%; }
+.col-germ      { width: 5%; }
+.col-profond   { width: 5%; }
+.col-germdur   { width: 5%; }
+.col-germtemp  { width: 5%; }
+.col-sa        { width: 10%; }
+.col-se        { width: 5%; }
+.col-vide1     { width: 5%; }
+.col-arrosage  { width: 5%; }
+.col-exposition{ width: 10%; }
+.col-ou        { width: 10%; }
+.col-conservation     { width: 5%; }
+
+/* Mise en page A4 paysage pour le tableau */
+.page-tableau {
+  width: 297mm;
+  margin: 0 auto;
+  background: white;
+  padding: 15mm 10mm 10mm 10mm;
+  border: 0.5px solid #ddd;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+thead th {
+  background: #e0e0e0;
+  color: #111;
+  font-size: 8px;
+  font-weight: 600;
+  text-align: center;
+  padding: 2px 1px;
+  border: 1px solid #999;
+  line-height: 1.1;
+  vertical-align: middle;
+}
+
+td {
+  border: 1px solid #aaa;
+  text-align: center;
+  vertical-align: middle;
+  padding: 1px 2px;
+  font-size: 9px;
+  color: #111;
+  overflow: hidden;
+  line-height: 6mm;
+}
+
+th, td {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Cellules spécifiques */
+td.info-bas {
+  vertical-align: bottom !important;
+  font-size: 7px;
+  color: #888;
+}
+
+.info-gris {
+  color: #888;
+  vertical-align: middle;
+}
+
+td.nom-cell {
+  text-align: center;
+  vertical-align: middle;
+}
+
+td.nom-cell .nom {
+  font-weight: 700;
+  font-size: 9px;
+  display: block;
+  padding-bottom: 1px;
+}
+
+td.nom-cell .var {
+  font-size: 8px;
+  font-weight: 400;
+  display: block;
+  padding-bottom: 1px;
+}
+
+/* Multi-sachets */
+td.multi {
+  vertical-align: top;
+  padding: 0;
+}
+
+td.multi .sl {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #ddd;
+  min-height: 6mm;
+}
+
+td.multi .sl:last-child {
+  border-bottom: none;
+  padding-bottom: 1px;
+}
+
+/* =============================================
+   STYLES SPÉCIFIQUES AUX ÉPINGLES (3 COLONNES)
+   ============================================= */
+.page-epingles {
+  width: 297mm;
+  margin: 0 auto;
+  background: white;
+  display: flex;
+  gap: 5mm; /* Espace entre les colonnes */
+  padding: 15mm 10mm 10mm 10mm;
+  border: 0.5px solid #ddd;
+}
+
+/* Chaque colonne (3 par page) */
+.column {
+  flex: 1; /* Prend 1/3 de la largeur */
+  border-left: 1px solid #333;
+  border-top: 1px solid #333;
+}
+
+/* Une entrée (ligne) dans la colonne */
+.entry {
+  display: grid;
+  grid-template-columns: 75px 1fr 40px;
+  border-right: 1px solid #333;
+  border-bottom: 1px solid #333;
+  height: 9.2mm;
+}
+
+/* Cellules individuelles */
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1px 4px;
+  overflow: hidden;
+}
+
+/* Cellule pour le type */
+.cell-type {
+  font-size: 9px;
+  color: #111;
+  border-right: 1px solid #333;
+  text-align: center;
+  line-height: 1.2;
+  word-break: break-word;
+}
+
+/* Cellule pour le nom et la variété */
+.cell-name {
+  flex-direction: column;
+  border-right: 1px solid #333;
+  text-align: center;
+}
+
+.cell-name .nom {
+  font-size: 12px;
+  font-weight: 700;
+  color: #111;
+  line-height: 1.2;
+}
+
+.cell-name .variete {
+  font-size: 12px;
+  font-weight: 400;
+  color: #111;
+  line-height: 1.2;
+}
+
+/* Cellule pour le numéro */
+.cell-num {
+  font-size: 9px;
+  font-weight: 500;
+  color: #111;
+}
+/* =============================================
+   STYLES SPÉCIFIQUES AUX ÉTIQUETTES
+   4 lignes par page, pas d'écart entre lignes
+   Hauteur dispo : 190mm / 4 = 47mm par étiquette
+   ============================================= */
+.page-etiquettes {
+  width: 297mm;
+  margin: 0 auto;
+  background: white;
+  padding: 10mm 10mm 10mm 10mm;
+  border: 0.5px solid #ddd;
+  /*display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow: hidden;*/
+}
+.ligne-etiquettes {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  height: 47mm; /*hauteur ligne étiquette*/
+  margin: 0mm;
+}
+
+/* =============================================
+   WRAPPER
+   Normales : 69mm
+   Inversées : margin négatif pour imbrication
+   ============================================= */
+.etiquette-wrapper {
+  width: 69mm;
+  height: 47mm;
+  position: relative;
+}
+
+.etiquette-wrapper.inverse {
+  margin-left: -17.25mm;
+  margin-right: -17.25mm;
+  z-index: 0;
+}
+
+.etiquette {
+  width: 69mm;
+  height: 47mm;
+  position: relative;
+}
+
+.etiquette svg.forme {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* =============================================
+   CONTENU
+   Nom + Variété en haut, plus grands
+   Saut de ligne, puis infos décalées vers le centre
+   ============================================= */
+.etiquette-content {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  padding: 5mm 15mm 4mm 15mm;
+}
+
+.etiquette.inverse .etiquette-content {
+  transform: rotate(180deg);
+  transform-origin: center center;
+}
+
+/* Nom — plus grand, pas de trait */
+.ligne-nom {
+  font-size: 14pt;
+  font-weight: bold;
+  text-align: center;
+  height: 6mm;
+  line-height: 6mm;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin: 0 -10mm;
+}
+
+/* Variété — plus grand, pas de trait */
+.ligne-variete {
+  font-size: 12pt;
+  text-align: center;
+  height: 5.5mm;
+  line-height: 5.5mm;
+  overflow: visible;
+  white-space: nowrap;
+  margin: 0 -10mm;
+}
+
+/* Saut de ligne entre haut et infos */
+.spacer {
+  height: 5mm;
+  flex-shrink: 0;
+}
+/* Saut de ligne entre haut et infos */
+.spacer2 {
+  height: 2mm;
+  flex-shrink: 0;
+}
+
+/* Infos décalées vers le centre */
+.infos {
+  font-size: 9pt;
+  line-height: 1.5;
+  padding-left: 5mm;
+}
+
+.infos div {
+  display: flex;
+  gap: 3px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.infos .label { flex-shrink: 0; }
+.infos .valeur { font-weight: bold; overflow: hidden }
+
+.ligne-saisons {
+  font-size: 11pt;
+  padding-left: 10mm;
+}
+
+/*@media print {
+  .controls { display: none; }
+  @page { size: A4 landscape; margin: 0; }
+  .page-etiquettes {
+    width: 100%;
+    padding: 15mm 10mm 10mm 10mm;
+    margin: 0;
+    border: none;
+    page-break-after: always;
+  }
+  .page:last-child { page-break-after: avoid; }
+}
+/* =============================================
+   STYLES D'IMPRESSION POUR LES ÉPINGLES (3 COLONNES)
+   ============================================= */
+/*@media print {
+  .page-epingles {
+    width: 100%;
+    padding: 15mm 10mm 10mm 10mm;
+    margin: 0;
+    border: none !important;
+    page-break-after: always;
+    break-after: page;
+  }
+
+  .page-epingles:last-child {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  .column {
+    border-left: 1px solid #333 !important;
+  }
+
+  .column:first-child {
+    border-left: none !important;
+  }
+}
+
+/* =============================================
+   STYLES POUR L'IMPRESSION (COMMUNS)
+   ============================================= */
+@media print {
+  /* Masquer les contrôles à l'impression */
+  .controls {
+    display: none !important;
+  }
+
+  /* Définir la taille et l'orientation de la page */
+  @page {
+    size: A4 landscape;
+    margin: 0;
+  }
+
+  /* Style pour les pages (tableau ET épingles) */
+  .page-tableau,
+  .page-epingles,
+  .page-etiquettes {
+    width: 100%;
+    padding: auto;
+    margin: 0;
+    border: none;
+    page-break-after: always;
+    break-after: page;
+  }
+
+  /* Éviter les sauts de page intempestifs */
+  tr,
+  .entry {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Éviter les sauts de page après la dernière page */
+  .page-tableau:last-child,
+  .page-epingles:last-child,
+  .page-etiquettes:last-child
+
+   {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+}

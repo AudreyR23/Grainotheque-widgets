@@ -123,16 +123,10 @@ function afficherAnalyse() {
   const nbProblemes = a.doublons.length + a.invalides.length;
   document.getElementById('alerte-titre').textContent =
     nbProblemes > 0 ? '⚠ Attention (' + nbProblemes + ')' : '';
-  document.getElementById('resume').textContent =
-    recordsParId.size + ' variétés lues : ' +
-    a.parNumero.size + ' numéros valides distincts, ' +
-    a.sansNumero.length + ' sans numéro, ' +
-    a.invalides.length + ' invalides.';
-
   const zone = document.getElementById('analyse');
   zone.textContent = '';
 
-  ajouterLigne(zone, 'Numéro maximum : ' + a.max);
+  ajouterLigne(zone, 'Numéro maximum : ' + a.max, 'titre');
 
   ajouterLigne(zone, 'Trous (' + a.trous.length + ')', 'titre');
   if (a.trous.length === 0) {

@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Semis réalisés</title>
+  <link rel="stylesheet" href="../styles/gestion_commun.css">
   <link rel="stylesheet" href="../styles/semis_realises.css">
   <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
 </head>
@@ -20,51 +21,49 @@
       </div>
       <label for="rechercheVariete">Variété</label>
       <div class="champ-recherche">
-        <input id="rechercheVariete" type="search" placeholder="Taper pour chercher…" autocomplete="off">
+        <input id="rechercheVariete" type="search" class="champ" placeholder="Taper pour chercher…" autocomplete="off">
         <ul id="listeVarietes" class="liste-choix" hidden></ul>
       </div>
       <div id="infoVariete" class="info" hidden></div>
       <div id="derniersSemis" class="derniers" hidden></div>
             <label for="selectMillesime">Millésime</label>
-      <select id="selectMillesime" disabled></select>
+      <select id="selectMillesime" class="champ" disabled></select>
           <label for="dateSemis">Date du semis</label>
-      <input id="dateSemis" type="date">
+      <input id="dateSemis" type="date" class="champ">
 
    <div class="deux-colonnes">
         <div id="blocGodets">
           <label for="nbGodets">Nb de godets</label>
-          <input id="nbGodets" type="number" min="1" step="1" inputmode="numeric">
+          <input id="nbGodets" type="number" class="champ" min="1" step="1" inputmode="numeric">
         </div>
         <div>
           <label id="labelGraines" for="nbGraines">Graines par godet</label>
-          <input id="nbGraines" type="number" min="1" step="1" inputmode="numeric">
+          <input id="nbGraines" type="number" class="champ" min="1" step="1" inputmode="numeric">
         </div>
       </div>
 
       <label for="selectType">Type</label>
-      <select id="selectType"></select>
+      <select id="selectType" class="champ"></select>
 
             <div id="blocOu" hidden>
         <label for="rechercheOu">Où</label>
         <div id="pastillesOu" class="pastilles"></div>
         <div class="champ-recherche">
-          <input id="rechercheOu" type="search" placeholder="Chercher un emplacement…" autocomplete="off">
+          <input id="rechercheOu" type="search" class="champ" placeholder="Chercher un emplacement…" autocomplete="off">
           <ul id="listeOu" class="liste-choix" hidden></ul>
         </div>
       </div>
             <label class="case"><input id="caseSachetVide" type="checkbox"> Sachet vidé (millésime épuisé)</label>
             <label class="case"><input id="caseAProduire" type="checkbox"> À reproduire (produire des graines)</label>
             <p id="erreurFiche" class="erreur" hidden></p>
-      <button id="btnAjouter" type="button" class="btn-principal">Ajouter à la liste</button>
+            <button id="btnAjouter" type="button" class="btn-principal btn-large btn-ajouter">Ajouter à la liste</button>    
     </section>
         <p id="messageSucces" class="succes" hidden></p>
         <section id="brouillons">
       <h2 id="titreBrouillons" hidden></h2>
       <ul id="listeBrouillons" class="liste-brouillons"></ul>
             <p id="erreurEnregistrement" class="erreur" hidden></p>
-      <button id="btnEnregistrer" type="button" class="btn-principal btn-enregistrer" hidden>Enregistrer tout</button>
-    </section>
-    <p id="message"></p>
+            <button id="btnEnregistrer" type="button" class="btn-principal btn-large " hidden>Enregistrer tout</button>    </section>
   </main>
   <script src="../script/semis_realises.js"></script>
 </body>
