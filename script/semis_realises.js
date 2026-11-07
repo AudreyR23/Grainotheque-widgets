@@ -110,7 +110,6 @@ async function chargerDonnees() {
       origine: listeChoix(m.Origine),
       saisonsManuel: m.Nb_saisons_manuel || '',
       estOriginal: m.Nb_saisons_manuel === 'or.',
-            estOriginal: m.Nb_saisons_manuel === 'or.',
       planteMere: !!m.Plante_mere,
       anneePlantation: m.Annee_plantation || null
     });
@@ -184,6 +183,7 @@ function choisirVariete(id) {
   remplirMillesimes(id);
   appliquerTypeVariete(id);
   afficherDerniersSemis();
+  majRempli();
   console.log('Variété choisie :', v);
 }
 
@@ -239,6 +239,7 @@ function remplirMillesimes(varieteId) {
     opt.textContent = varieteId ? 'Aucun millésime disponible pour cette variété' : '— choisir une variété d\'abord —';
     select.appendChild(opt);
     select.disabled = true;
+    rafraichirSelect(select);
     return;
   }
 
@@ -251,6 +252,7 @@ function remplirMillesimes(varieteId) {
   select.disabled = false;
   select.value = String(liste[0].id);   // le plus récent (ou « or. » s'il est seul)
   millesimeChoisiId = liste[0].id;
+  rafraichirSelect(select);
 }
 
 function initialiserSelecteurMillesime() {
@@ -272,13 +274,15 @@ function remplirTypes() {
     select.appendChild(opt);
   }
     select.value = TYPES.includes(TYPE_PAR_DEFAUT) ? TYPE_PAR_DEFAUT : TYPES[0];
-}
+    rafraichirSelect(select);
+  }
 
 function appliquerTypeVariete(varieteId) {
   const v = recordsParId.varietes.get(varieteId);
   const parDefaut = TYPES.includes(TYPE_PAR_DEFAUT) ? TYPE_PAR_DEFAUT : TYPES[0];
   const type = v && TYPES.includes(v.type) ? v.type : parDefaut;
   document.getElementById('selectType').value = type;
+  rafraichirSelect(document.getElementById('selectType'));  
 }
 
 // --- Ou (multi-sélection) ---
@@ -371,9 +375,13 @@ function initialiserBascule() {
 function initialiserFiche() {
   document.getElementById('dateSemis').value = dateDuJour();
   remplirTypes();
+  habillerSelect(document.getElementById('selectMillesime'));
+  habillerSelect(document.getElementById('selectType'));
   initialiserOu();
     document.getElementById('dateSemis').addEventListener('change', afficherDerniersSemis);
     initialiserBascule();
+    majRempli();
+      document.addEventListener('input', majRempli);
 }
 // ===== Brouillons =====
 function afficherErreur(texte) {
@@ -429,7 +437,7 @@ function ajouterBrouillon() {
   document.getElementById('rechercheOu').value = '';
   document.getElementById('caseSachetVide').checked = false;
   document.getElementById('caseAProduire').checked = false;
-
+  majRempli();
   afficherBrouillons();
   majStatut();
   document.getElementById('rechercheVariete').focus();
@@ -583,7 +591,7 @@ function afficherDerniersSemis() {
     .sort((a, b) => b.date - a.date);
 
   const titre = document.createElement('div');
-  titre.className = 'derniers-titre';
+  titre.className = 'cadre-info-a-jour-titre ';
   titre.textContent = semis.length
     ? `Déjà semé en ${annee} (${semis.length}) :`
     : `Pas encore semé en ${annee}.`;
@@ -593,7 +601,7 @@ function afficherDerniersSemis() {
   if (meres.length) {
     const annees = meres.map(m => m.anneePlantation).filter(a => a).sort();
     const div = document.createElement('div');
-    div.className = 'derniers-mere';
+    div.className = 'cadre-info-a-jour-plantemere';
     div.textContent = '🌱 Plante mère en place' + (annees.length ? ` (plantée en ${annees.join(', ')})` : '');
     zone.appendChild(div);
   }
@@ -602,7 +610,7 @@ function afficherDerniersSemis() {
     const m = recordsParId.millesimes.get(s.millesimeId);
     const mil = m ? (m.estOriginal ? 'or.' : m.annee) : '?';
     const div = document.createElement('div');
-    div.className = 'derniers-ligne';
+    div.className = 'cadre-info-a-jour-ligne';
     div.textContent =
       `${dateAffichee(s.date)} · mil. ${mil} · ${s.godets} × ${s.graines}` +
       (s.ou.length ? ' · ' + s.ou.join(', ') : '');
@@ -610,7 +618,7 @@ function afficherDerniersSemis() {
   }
   if (semis.length > 5) {
     const div = document.createElement('div');
-    div.className = 'derniers-ligne';
+    div.className = 'cadre-info-a-jour-ligne';
     div.textContent = `… et ${semis.length - 5} autre(s)`;
     zone.appendChild(div);
   }
@@ -618,7 +626,7 @@ function afficherDerniersSemis() {
   const dansListe = brouillons.filter(b => b.varieteId === varieteChoisieId).length;
   if (dansListe) {
     const div = document.createElement('div');
-    div.className = 'derniers-alerte';
+    div.className = 'cadre-info-a-jour-alerte';
     div.textContent = `⚠ Déjà dans ta liste à enregistrer (${dansListe}).`;
     zone.appendChild(div);
   }
@@ -664,23 +672,99 @@ function varieteDemandee(id) {
   if (recordsParId.varietes.has(id)) choisirVariete(id);
 }
 
+// ===== Liste déroulante maison (habille un <select> masqué) =====
+const habillages = new Map();   // select → fonction de rafraîchissement
+
+function rafraichirSelect(select) {
+  const f = habillages.get(select);
+  if (f) f();
+}
+
+function habillerSelect(select) {
+  const conteneur = document.createElement('div');
+  conteneur.className = 'champ-recherche';
+  conteneur.id = 'zone-' + select.id;
+  select.parentNode.insertBefore(conteneur, select);
+  conteneur.appendChild(select);
+  select.hidden = true;
+
+  const bouton = document.createElement('button');
+  bouton.type = 'button';
+  bouton.className = 'champ-select';
+  const liste = document.createElement('ul');
+  liste.className = 'liste-choix';
+  liste.hidden = true;
+  conteneur.append(bouton, liste);
+
+  function rafraichir() {
+    const choisie = select.options[select.selectedIndex];
+    bouton.textContent = choisie ? choisie.textContent : '';
+    bouton.disabled = select.disabled;
+        bouton.classList.toggle('rempli', !select.disabled && select.value !== '');
+    liste.innerHTML = '';
+    for (const opt of select.options) {
+      const li = document.createElement('li');
+      li.textContent = opt.textContent;
+      li.dataset.valeur = opt.value;
+      if (opt.value === select.value) li.classList.add('selection');
+      liste.appendChild(li);
+    }
+    if (select.disabled) liste.hidden = true;
+  }
+  habillages.set(select, rafraichir);
+
+  bouton.addEventListener('click', () => {
+    if (select.disabled) return;
+    liste.hidden = !liste.hidden;
+  });
+  // click (et non pointerdown) : un défilement tactile ne sélectionne rien
+  liste.addEventListener('click', e => {
+    const li = e.target.closest('li[data-valeur]');
+    if (!li) return;
+    select.value = li.dataset.valeur;
+    select.dispatchEvent(new Event('change'));
+    rafraichir();
+    liste.hidden = true;
+  });
+  // fermeture au toucher en dehors
+  document.addEventListener('click', e => {
+    if (!conteneur.contains(e.target)) liste.hidden = true;
+  });
+
+  rafraichir();
+}
+// ===== Champs remplis (classe « rempli ») =====
+function majRempli() {
+  document.querySelectorAll('input.champ').forEach(el => {
+    let rempli;
+    if (el.id === 'rechercheVariete') rempli = varieteChoisieId !== null;  // seulement si sélectionnée
+    else if (el.id === 'rechercheOu') rempli = false;                      // se vide après chaque choix
+    else rempli = el.value !== '';
+    el.classList.toggle('rempli', rempli);
+  });
+}
 // ===== Initialisation =====
 grist.ready({
   requiredAccess: 'full'
 });
 
 const canal = new BroadcastChannel('granotheque-semer');
-canal.onmessage = e => varieteDemandee(e.data && e.data.varieteId);
-
+canal.onmessage = e => {
+  const id = e.data && e.data.varieteId;
+  if (donneesChargees) varieteDemandee(id); else varietePendante = id;
+};
 chargerDonnees()
   .then(chargerSemis)
   .then(chargerChoix)
   .then(() => {
-    afficherControle(); initialiserSelecteurVariete(); initialiserSelecteurMillesime();
+    initialiserSelecteurVariete(); initialiserSelecteurMillesime();
     initialiserFiche(); initialiserBrouillons(); majStatut();
     donneesChargees = true;
     if (varietePendante) varieteDemandee(varietePendante);
-    }).catch(err => {
+  })
+  .catch(err => {
     console.error(err);
-    document.getElementById('message').textContent = 'Erreur de chargement : ' + err.message;
+    const el = document.getElementById('statut');
+    el.textContent = 'Erreur de chargement : ' + err.message;
+    el.classList.add('non-sauvegarde');
   });

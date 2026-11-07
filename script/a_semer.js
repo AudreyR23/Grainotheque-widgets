@@ -188,7 +188,7 @@ function texteTest(a) {
 }
 
 function afficher() {
-  const liste = document.getElementById('liste');
+  const liste = document.getElementById('listeCartes');
   liste.innerHTML = '';
   const lignes = varietesASemer();
 
@@ -240,12 +240,11 @@ function afficher() {
 
         const bouton = document.createElement('button');
     bouton.type = 'button';
-    bouton.className = 'btn-semer';
+    bouton.className = "btn btn-principal btn-semer";
     bouton.textContent = 'Semer';
     bouton.dataset.id = v.id;
-    li.appendChild(bouton);
-
     li.append(nom, badges, detail);
+    li.appendChild(bouton);
     liste.appendChild(li);
   }
 }
@@ -293,8 +292,8 @@ function initialiserFiltres() {
 grist.ready({ requiredAccess: 'full' });
 const canal = new BroadcastChannel('granotheque-semer');
 
-document.getElementById('liste').addEventListener('pointerdown', e => {
-  const btn = e.target.closest('.btn-semer');
+document.getElementById('listeCartes').addEventListener('pointerdown', e => {
+  const btn = e.target.closest(".btn-semer");
   if (!btn) return;
   canal.postMessage({ varieteId: Number(btn.dataset.id) });
 });

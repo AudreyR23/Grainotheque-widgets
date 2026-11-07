@@ -5,20 +5,10 @@
   font-weight: bold;
   margin-top: 14px;
 }
-#analyse .alerte {
-  color: #c62828;
-}
 #analyse .info {
   color: #555;
   font-size: 0.9rem;
   word-break: break-word;
-}
-.prochain {
-  background: #fdc070;
-  border-radius: 6px;
-  padding: 8px 12px;
-  margin: 0 0 10px;
-  font-weight: bold;
 }
 
 #compteur {
@@ -40,11 +30,8 @@
   align-items: center;
   gap: 8px;
   padding: 8px 12px;
-  border-bottom: 1px solid #eee;
-  background: #fdc070;
-}
-#attentes li:last-child {
-  border-bottom: none;
+  background: #e8f0fb;
+  border: 1px solid #9db8e0; 
 }
 
 #attentes li.vide {

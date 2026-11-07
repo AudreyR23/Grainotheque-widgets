@@ -2,52 +2,10 @@
   margin-top: 12px; 
 }
 
-#selectMillesime {
-  margin-bottom: 12px;
-}
+#zone-selectMillesime { margin-bottom: 12px; }
 
 #blocOu { 
   margin-top: 12px; 
-}
-
-.pastilles { 
-  display: flex; 
-  flex-wrap: wrap; 
-  gap: 6px; 
-  margin-bottom: 6px; 
-}
-
-.pastille {
-  background: #e3f1e3;
-  border: 1px solid #8bc58b;
-  border-radius: 16px;
-  padding: 6px 12px;
-  cursor: pointer;
-  user-select: none;
-}
-
-.liste-brouillons { 
-  list-style: none; 
-  margin: 0; 
-  padding: 0; 
-}
-
-.brouillon {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  padding: 10px;
-  margin-bottom: 6px;
-  background: #f6f9f6;
-  border: 1px solid #cfe3cf;
-  border-radius: 6px;
-}
-
-.brouillon-detail { 
-  font-size: 0.85rem; 
-  color: #555; 
-  margin-top: 2px; 
 }
 
 .btn-suppr {
@@ -62,54 +20,43 @@
   cursor: pointer;
 }
 
-.derniers {
-  margin-top: 8px;
-  padding: 8px 10px;
-  font-size: 0.85rem;
-  background: #f4f6fa;
-  border: 1px solid #d5dbe8;
-  border-radius: 6px;
-}
-.derniers-titre { 
-  font-weight: 600; 
-  margin-bottom: 2px; 
-}
-.derniers-ligne { 
-  color: #444; 
-  padding: 1px 0; 
-}
-.derniers-alerte { 
-  color: #b26a00; 
-  font-weight: 600; 
-  margin-top: 4px; 
-}
-.derniers-mere { 
-  color: #1b5e20; 
-  font-weight: 600; 
-  padding: 2px 0; 
-}
-
-.bascule { 
-  display: grid; 
-  grid-template-columns: 1fr 1fr; 
-  gap: 8px; 
-  margin-bottom: 12px; 
+.bascule {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
 }
 .bascule button {
   padding: 14px;
   font-size: 1.1rem;
   font-weight: 600;
-  color: #ff9101;
-  background: #fff;
-  border: 2px solid #f8ae4c;
   border-radius: 8px;
   cursor: pointer;
 }
-.bascule button.actif { 
-  color: #fff; 
-  background: #ff9101; 
+
+/* Inactif */
+.bascule button.sousabri {
+  color: var(--sousabri-fonce);
+  background: #e2f7e1;
+  border: 2px solid var(--sousabri-moyen);
+}
+.bascule button.pleineterre {
+  color: var(--pleineterre-fonce);
+  background: #f3e8d2;
+  border: 2px solid var(--pleineterre-moyen);
 }
 
+/* Actif : fond plein dans la couleur de la catégorie, texte clair */
+.bascule button.sousabri.actif {
+  border: 2px solid var(--sousabri-fonce);
+  color: #fff;
+  background: var(--sousabri-moyen);
+}
+.bascule button.pleineterre.actif {
+  border: 2px solid var(--pleineterre-fonce);
+  color: #fff;
+  background: var(--pleineterre-moyen);
+}
 .case { 
   display: flex; 
   align-items: center; 

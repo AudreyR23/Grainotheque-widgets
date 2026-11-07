@@ -4,13 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>À semer</title>
+  <link rel="stylesheet" href="../styles/gestion_commun.css">
   <link rel="stylesheet" href="../styles/a_semer.css">
   <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
 </head>
 <body>
   <header>
     <h1 id="titre">À semer</h1>
-    <button type="button" id="btnActualiser" title="Recharger les données">↻ Actualiser</button>
+    <button type="button" class="btn" id="btnActualiser" title="Recharger les données">↻ Actualiser</button>
   </header>
   <div id="filtres">
   <label>Mois <select id="selectMois"></select></label>
@@ -23,8 +24,8 @@
     </select>
   </label>
 </div>
-  <p id="message"></p>
-  <ul id="liste"></ul>
+  <p id="message" class="message"></p>
+  <ul id="listeCartes"></ul>
   <script src="../script/a_semer.js"></script>
 </body>
 </html>

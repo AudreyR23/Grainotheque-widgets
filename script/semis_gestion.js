@@ -128,7 +128,7 @@ function afficherVerifier() {
     li.classList.toggle('brouillon', !!brouillon);
 
     const saisie = document.createElement('div');
-    saisie.className = 'saisie';
+    saisie.className = '.saisie';
     const champ = document.createElement('input');
     champ.type = 'number';
     champ.min = '0';
