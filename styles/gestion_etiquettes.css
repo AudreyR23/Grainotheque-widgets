@@ -15,7 +15,7 @@
   background: #e8f0fb; 
   border-color: #9db8e0; }
 
-.btn-principal:disabled { background: #90a4ae; cursor: wait; }
+.btn-enregistrer :disabled { background: #90a4ae; cursor: wait; }
 
 #barreEnregistrement {
   position: sticky;

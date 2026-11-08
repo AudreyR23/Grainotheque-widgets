@@ -13,12 +13,12 @@
   border: 2px solid #e0b4b4; border-radius: 6px; cursor: pointer;
 }
 .semis.brouillon { background: #e8f0fb; border-color: #9db8e0; }
-.btn-principal {
+.btn-enregistrer {
   width: 100%; margin-top: 14px; padding: 14px;
   font-size: 1.1rem; font-weight: 600; color: #fff;
   background: #1565c0; border: none; border-radius: 8px; cursor: pointer;
 }
-.btn-principal:disabled { background: #90a4ae; cursor: wait; }
+.btn-enregistrer :disabled { background: #90a4ae; cursor: wait; }
 
 .alerte-germes { margin-top: 6px; color: #b26a00; font-weight: 600; font-size: 0.9rem; }
 

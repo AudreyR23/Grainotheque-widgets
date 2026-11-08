@@ -1,37 +1,42 @@
 :root {
-  /* catégorie « sous abri » */
-  --sousabri-fonce:        #2d5a39;
-  --sousabri-clair:        #e2f7e1;
-  --sousabri-moyen:        #2e7d32;
-
-
-  /* catégorie « pleine terre » */
-  --pleineterre-fonce: #7a5518;
-  --pleineterre-clair: #f3e8d2;
-  --pleineterre-moyen: #b8863b;
-
+  color-scheme: light;
 
   --a-jour:                 #246d97;
+  /* catégorie « succes et récap »*/
+  --bleu-clair :          #cde9fa;
+  --bleu-moyen :          #59aada;
+  --bleu-fonce :          #108ad1;
+
   --erreur:                 #c62828;
-  --categorie:              #2b2b2b;
-  --arriere-plan:           #fafaf7;
-  --bordure-champ:          #aaa;
-  --bordure-discret:        #eee;
-  --arriere-plan-liste:     #fff;
-  --plantemere:             #7cbe02;
-  --texte-clair:            var(--arriere-plan-liste);
-    /* champ rempli */
-  --rempli-fond:  #1f1f1f;
-  --rempli-texte: #f4f4f0;
-  /* catégorie « info à MAJ » */
-  --MAJ-fonce: #ff7b00;
-  --MAJ-clair: #f5d2ab;
-  --MAJ-moyen: #ff9633;
+  --label:                  #2b2b2b;
+  --arriere-plan:           #f7f7e4;
+  --gris:                   #aaa;
+  --gris-fonce:             #555;
+  --blanc:                  #ffffff;
+  --plantemere:             #9cbe02;
+
+  /* catégorie « sous abri » */
+  --sousabri-clair:        #e3f1e3;
+  --sousabri-moyen:        #2e7d32;
+  --sousabri-fonce:        #2d5a39;
+
+  /* catégorie « pleine terre » */
+  --pleineterre-clair: #e6d8bc;
+  --pleineterre-moyen: #b8863b;
+  --pleineterre-fonce: #7a5518;
+
+  /* catégorie « brouillon, à ajouter » */
+  --orange-clair: #f8d8b3;
+  --orange-moyen: #f79e4c;
+  --orange-fonce: #ff7b00;
 
   /* catégorie « info à jour »*/
-  --recap-fonce: #83abfa;
-  --recap-clair: #f4f6fa;
-  --recap-moyen: #acc7fd;
+  --recap-clair: #cdddfc;
+  --recap-moyen: #4f88fc;
+  --recap-fonce: #004de6;
+  --recap-moyen2: #83abfa;
+
+
 }
 /* ===== Base ===== */
 * { box-sizing: border-box; }
@@ -39,7 +44,7 @@ body {
     font-family: system-ui, sans-serif; 
     margin: 0; 
     padding: 12px; 
-    color: var(--categorie);
+    color: var(--label);
     background: var(--arriere-plan) 
 }
 header { 
@@ -59,10 +64,15 @@ h2 {
 }
 label { 
     display: block; 
-    font-weight: 600; 
+    font-weight: bold; 
     margin-bottom: 4px; 
 }
 
+input, select, button, textarea { 
+    color-scheme: light; 
+}
+
+/* ===== Statut ===== */
 .statut { 
     font-size: 0.85rem; 
     color: var(--a-jour);
@@ -75,40 +85,65 @@ label {
 /* ===== Champs ===== */
 .champ {
   width: 100%;
-  font-size: 1.1rem;
-  padding: 10px;
-  border: 1px solid var(--bordure-champ);
-  border-radius: 6px;
-}
-/* ===== Bouton qui ouvre une liste (remplace un <select>) ===== */
-.champ-select {
-  width: 100%;
   font: inherit;
   font-size: 1.1rem;
   padding: 10px;
-  border: 1px solid var(--bordure-champ);
+  border: 1px solid var(--gris);
   border-radius: 6px;
-  background: #fff;
-  color: var(--categorie);
+  background: var(--arriere-plan);
+  color: var(--label);
+}
+.champ:focus,
+.champ-select:focus {
+  outline: 1px solid var(--orange-fonce);
+  outline-offset: 0;
+}
+/* ===== Bouton qui ouvre une liste (remplace un <select>) ===== */
+.champ-select {
   display: flex;
   justify-content: space-between;
   align-items: center;
   text-align: left;
   cursor: pointer;
 }
-.champ-select::after { content: '▾'; margin-left: 8px; }
-.champ-select:disabled { background: #f0f0ee; color: #888; cursor: default; }
-
-/* ===== Champ rempli : texte clair sur fond noir ===== */
-.champ.rempli, .champ-select.rempli {
-  background: var(--rempli-fond);
-  color: var(--rempli-texte);
-  border-color: var(--rempli-fond);
+.champ-select::after { 
+  content: '▾'; 
+  margin-left: 8px; 
 }
-input.champ.rempli { color-scheme: dark; }   /* icône calendrier et flèches en clair */
+/* ===== Liste déroulante (même aspect que champ) ===== */
+.champ-liste { position: relative; }
+.liste-choix {
+  position: absolute; /* Relative : La liste reste dans le flux de la page : elle occupe sa place et pousse vers le bas ce qui la suit.*/
+  left: 0; right: 0;
+  z-index: 10; /* Ordre d’empilement : une valeur haute passe devant les éléments voisins. Utile surtout avec absolute.*/
+  margin: 1px 0px 0px; /* Marge extérieur*/ 
+  padding: 0;            /* supprime le retrait par défaut de la ul */
+  list-style: none; /*supprime les puces de la liste*/
+  max-height: 50vh; /*Hauteur maximale : 50 % de la hauteur de l’écran*/
+  overflow-y: auto; /*Si le contenu dépasse la hauteur max, une barre de défilement verticale apparaît.*/
+  font-size: 1.1rem; /*Taille du texte, identique à celle des champs*/
+  background: var(--arriere-plan); 
+  border: 1px solid var(--gris); /*Bordure fine pleine*/
+  border-radius: 6px; /*Coins arrondis.*/
+  box-shadow: 0 4px 10px rgba(0,0,0,.15); /*Ombre portée légère : effet de liste « posée au-dessus ».*/
+  touch-action: pan-y; /*Au doigt, seul le glissement vertical est autorisé sur la liste*/
+  overscroll-behavior: contain; /*Quand on arrive en bout de liste, le défilement ne se transmet pas à la page derrière.*/
+  -webkit-overflow-scrolling: touch; /*Défilement fluide avec inertie sur d’anciens iOS */
+}
+.liste-choix li {
+  padding: 10px 10px; /*Marge intérieur*/
+  cursor: pointer; /*la main au survol*/
+  touch-action: manipulation; /*au doigt, pas de zoom par double-tap, le toucher répond tout de suite*/
+}
 .liste-choix li.selection { 
-    background: var(--MAJ-clair); 
+    background: var(--orange-clair); /*la ligne actuellement choisie*/
     font-weight: bold; }
+.liste-choix li:hover { background: var(--orange-clair); } /*la souris passe dessus*/
+.liste-choix li.vide { /*de type : aucune variété trouvée*/
+  color: var(--gris);
+  cursor: default; 
+  font-style: italic; 
+  text-align: center; }
 
 /* ===== Champs de saisie  ===== */
 .saisie { 
@@ -118,37 +153,7 @@ input.champ.rempli { color-scheme: dark; }   /* icône calendrier et flèches en
     margin-top: 8px; }
 
 
-/* ===== Liste déroulante (même aspect que .champ) ===== */
-.liste-choix {
-  position: absolute;
-  left: 0; right: 0;
-  z-index: 10;
-  margin: 2px 0 0;
-  padding: 0;
-  list-style: none;
-  max-height: 50vh;
-  overflow-y: auto;
-  font-size: 1.1rem;
-  background: var(--arriere-plan-liste);
-  border: 1px solid var(--bordure-champ);
-  border-radius: 6px;
-  box-shadow: 0 4px 10px rgba(0,0,0,.15);
-  touch-action: pan-y;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-}
-.liste-choix li {
-  padding: 12px 10px;
-  border-bottom: 1px solid var(--bordure-discret);
-  cursor: pointer;
-  touch-action: manipulation;
-}
-.liste-choix li:last-child { border-bottom: none; }
-.liste-choix li:hover { background: var(--MAJ-clair); }
-.liste-choix li.selection { background: var(--MAJ-clair); font-weight: bold; }
-.liste-choix li.vide { color: #777; cursor: default; font-style: italic; text-align: center; }
-
-/* ===== Infos à MAJ ===== */
+/* ===== Brouillon - Infos à MAJ ===== */
 
 .liste-brouillons { 
   list-style: none; 
@@ -163,50 +168,60 @@ input.champ.rempli { color-scheme: dark; }   /* icône calendrier et flèches en
   gap: 10px;
   padding: 10px;
   margin-bottom: 6px;
-  background: var(--MAJ-clair);
-  border: 1px solid var(--MAJ-moyen);
+  background: var(--orange-clair);
+  border: 1px solid var(--orange-moyen);
   border-radius: 6px;
 }
 
 .brouillon-detail { 
   font-size: 0.85rem; 
-  color: #555; 
+  color: var(--gris-fonce); 
   margin-top: 2px; 
 }
 
 /* ===== Boutons ===== */
 .btn {
   font: inherit;
-  padding: 8px 12px;
-  font-size: 0.9rem;
-  border: 1px solid #bbb;
+  padding: 8px 12px; /*espace intérieur entre texte et bordure*/
+  font-size: 1rem; /*taille du texte*/
+  border: 1px solid var(--gris);
   border-radius: 6px;
-  background: #fff;
-  color: #030303;
+  background: var(--arriere-plan);
+  color: var(--label);
   cursor: pointer;
   touch-action: manipulation;
 }
-.btn-principal {
-  font: inherit;
-  padding: 8px 14px;
-  font-size: 0.95rem;
+.btn-large {
   font-weight: bold;
-  border: 1px solid #588dc9;
-  border-radius: 6px;
-  background: #1565c0;
-  color: #fff;
-  cursor: pointer;
-  touch-action: manipulation;
+  width: 100%; 
+  margin-top: 14px; 
+  padding: 14px; 
+  font-size: 1.1rem; 
+  border-radius: 8px; 
 }
-.btn-principal:active { background: #0e498d; }
-.btn-principal:disabled { opacity: 0.5; cursor: default; }
-.btn-large { width: 100%; margin-top: 14px; padding: 14px; font-size: 1.1rem; border-radius: 8px; }
+   .btn:disabled { opacity: 0.5; cursor: default; }
+/* Enregistrer */
+.btn-enregistrer {
+  border: 1px solid var(--bleu-fonce);
+  background: var(--bleu-moyen);
+  color: var(--arriere-plan);
+}
+.btn-enregistrer:active { 
+  background: var(--bleu-fonce); 
+}
+
+/* Intermédiaire */
 .btn-ajouter { 
-    background: #f5d2ab; 
-    border-color: #ff7b00;
-    color:#ff7b00 
+    background: var(--orange-clair); 
+    border-color: var(--orange-moyen); 
+    color:var(--orange-fonce); 
 }
-.button:focus-visible { 
+.btn-ajouter:active { 
+  background: var(--orange-fonce);
+  color:var(--arriere-plan); 
+ }
+
+.btn:focus-visible { 
     outline: 2px solid #3f7d4e; 
     outline-offset: 2px; }
 .btn-annuler { 
@@ -218,18 +233,88 @@ input.champ.rempli { color-scheme: dark; }   /* icône calendrier et flèches en
     background: #1565c0; 
     border: none; }
 
+.btn-suppr {
+  flex: none;
+  align-self: flex-start; /*change l’alignement d’un seul élément, sans toucher aux autres.*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  font: inherit;
+  font-size: 0.95rem;
+  line-height: 1;
+  color: var(--gris-fonce);
+  background: var(--arriere-plan);
+  border: 1px solid var(--gris);
+  border-radius: 6px;
+  cursor: pointer;
+}
 
+/* ===== Case à cocher ===== */
+.case { 
+  display: flex; 
+  align-items: center; 
+  gap: 10px; 
+  font-weight: bold; 
+}
+.case input {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 24px;
+  height: 24px;
+  flex: none;
+  margin: 0;
+  background: var(--arriere-plan);
+  border: 2px solid var(--gris);
+  border-radius: 6px;
+  cursor: pointer;
+}
+.case input:checked {
+  background: var(--orange-fonce);
+  border-color: var(--orange-fonce);
+  /* coche dessinée en SVG */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E");
+  background-size: 80%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 /* ===== Messages ===== */
 .info { margin-top: 8px; font-size: 0.9rem; color: #555; }
-.message { margin: 8px 0; font-size: 0.9rem; color: #555; white-space: pre-line; }
-.message.erreur { color: #c62828; font-weight: bold; }
-.message.ok { color: #2e7d32; }
-.alerte { color: #a33; }
-.erreur { color: #c62828; font-weight: 600; margin: 10px 0 0; }
-.succes { color: #1b5e20; background: #e3f1e3; border: 1px solid #8bc58b; border-radius: 6px; padding: 10px; font-weight: 600; margin: 14px 0 0; }
+.message { 
+  margin-top: 8px;
+  padding: 8px 10px;
+  font-size: 0.9rem; 
+  color: #555; 
+  white-space: pre-line; 
+}
+.succes { /*succès dans un cadre*/
+  color: var(--bleu-fonce); 
+  background: var(--bleu-clair); 
+  border: 1px solid var(--bleu-moyen); 
+  border-radius: 6px; 
+  padding: 10px; 
+  font-weight: bold; 
+  margin: 14px 0 0; 
+}
+.erreur { 
+  color: var(--erreur); 
+  font-weight: bold; 
+  margin: 10px 0 0; }
+
+/*.message.erreur { color: #c62828; font-weight: bold; }*/
+/*.message.ok { 
+  color: #2e7d32; 
+}*/
+/*.alerte { color: #a33; }*/
 
 /* ===== Mise en page ===== */
-.deux-colonnes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.deux-colonnes { 
+  display: grid; 
+  grid-template-columns: 1fr 1fr; 
+  gap: 12px; 
+}
 .deux-colonnes.une-colonne { grid-template-columns: 1fr; }
 
 /* ===== Infos à jour ===== */
@@ -237,26 +322,26 @@ input.champ.rempli { color-scheme: dark; }   /* icône calendrier et flèches en
   margin-top: 8px;
   padding: 8px 10px;
   font-size: 0.85rem;
-  background: #f4f6fa;
-  border: 1px solid #d5dbe8;
+  background: var(--bleu-clair);
+  border: 1px solid var(--bleu-moyen);
   border-radius: 6px;
 }
 .cadre-info-a-jour-titre { 
-  font-weight: 600; 
-  margin-bottom: 2px; 
-}
+  font-weight: bold; 
+  margin-bottom: 2px;
+  color: var(--bleu-fonce); 
+ }
 .cadre-info-a-jour-ligne { 
-  color: #444; 
+  color: var(--gris-fonce); 
   padding: 1px 0; 
 }
 .cadre-info-a-jour-plantemere { 
   color: var(--plantemere); 
   padding: 2px 0; 
 }
-
 .cadre-info-a-jour-alerte { 
   color:var(--erreur); 
-  font-weight: 600; 
+  font-weight: bold; 
   margin-top: 4px; 
 }
 
@@ -269,15 +354,15 @@ input.champ.rempli { color-scheme: dark; }   /* icône calendrier et flèches en
   margin-bottom: 6px; 
 }
 .pastille {
-  background: #f5d2ab;
-  border: 1px solid #ff7b00;
-  border-radius: 16px;
+  background: var(--orange-clair);
+  border: 1px solid var(--orange-fonce);
+  border-radius: 6px;
   padding: 6px 12px;
   cursor: pointer;
   user-select: none;
 }
 
-/*Affichage ou deja indiqué*/
+/*Affichage ou deja indiqué*/ /*pas encore utilisé*/
 .confirmation {
   position: fixed; inset: 0; z-index: 100;
   display: flex; align-items: center; justify-content: center;
@@ -291,7 +376,7 @@ input.champ.rempli { color-scheme: dark; }   /* icône calendrier et flèches en
 .confirmation-boite p { margin: 0 0 14px; white-space: pre-line; }
 .confirmation-boutons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .confirmation-boutons button {
-  padding: 14px; font-size: 1.1rem; font-weight: 600;
+  padding: 14px; font-size: 1.1rem; font-weight: bold;
   border-radius: 8px; cursor: pointer;
 }
 
@@ -300,8 +385,8 @@ input.champ.rempli { color-scheme: dark; }   /* icône calendrier et flèches en
 
 /*Cadre infos disponibles*/
 .cadre-info {
-  background: #f5d2ab;
-  border: 1px solid #ff7b00; 
+  background: var(--orange-clair);
+  border: 1px solid var(--orange-fonce); 
   border-radius: 6px;
   padding: 8px 12px;
   margin: 0 0 10px;

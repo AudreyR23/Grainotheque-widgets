@@ -1,10 +1,10 @@
 // ===== ÉTAT GLOBAL =====
 let recordsParId = new Map();     // id Grist -> ligne
 let nonSauvegarde = false;        // vrai dès qu'une attribution est en attente
-let attributions = new Map();     // id -> numéro attribué (utilisé aux étapes suivantes)
+let attributions = new Map();     // id -> numéro attribué 
 let analyse = null;               // résultat de analyserNumeros()
 let texteRecherche = '';          // contenu du champ de recherche
-const LIMITE_LISTE = 200;         // nombre max de lignes affichées
+const LIMITE_LISTE = 40;         // nombre max de lignes affichées
 let enCours = false;              // vrai pendant l'écriture dans Grist
 let colonnes = null;              // noms réels des colonnes associées (mappings)
 
@@ -15,7 +15,7 @@ function majStatut() {
     el.textContent = 'Non sauvegardé';
     el.classList.add('non-sauvegarde');
   } else {
-    el.textContent = 'À jour';
+    el.textContent = '✓ À jour';
     el.classList.remove('non-sauvegarde');
   }
 }
@@ -49,17 +49,6 @@ function analyserNumeros() {
       invalides.push(ligne);
     }
   }
-
-  let max = 0;
-  for (const numero of parNumero.keys()) {
-    if (numero > max) max = numero;
-  }
-
-  const trous = [];
-  for (let n = 1; n <= max; n++) {
-    if (!parNumero.has(n)) trous.push(n);
-  }
-
   const doublons = [];
   for (const [numero, lignes] of parNumero) {
     if (lignes.length > 1) doublons.push({ numero: numero, lignes: lignes });
@@ -70,10 +59,7 @@ function analyserNumeros() {
     parNumero: parNumero,
     sansNumero: sansNumero,
     invalides: invalides,
-    max: max,
-    trous: trous,
-    doublons: doublons,
-    prochain: trous.length > 0 ? trous[0] : max + 1
+    doublons: doublons
   };
 }
 
@@ -111,52 +97,34 @@ function nettoyerAttributions() {
 }
 
 // ===== AFFICHAGE =====
-function ajouterLigne(parent, texte, classe) {
-  const p = document.createElement('p');
-  p.textContent = texte;
-  if (classe) p.className = classe;
-  parent.appendChild(p);
+function ajouterDiv(parent, texte, classe) {
+  const div = document.createElement('div');
+  div.textContent = texte;
+  div.className = classe;
+  parent.appendChild(div);
 }
 
 function afficherAnalyse() {
   const a = analyse;
-  const nbProblemes = a.doublons.length + a.invalides.length;
-  document.getElementById('alerte-titre').textContent =
-    nbProblemes > 0 ? '⚠ Attention (' + nbProblemes + ')' : '';
-  const zone = document.getElementById('analyse');
+  const nbAnomalies = a.doublons.length + a.invalides.length;
+  document.getElementById('anomalies').hidden = nbAnomalies === 0;
+
+  const zone = document.getElementById('anomalies-contenu');
   zone.textContent = '';
 
-  ajouterLigne(zone, 'Numéro maximum : ' + a.max, 'titre');
-
-  ajouterLigne(zone, 'Trous (' + a.trous.length + ')', 'titre');
-  if (a.trous.length === 0) {
-    ajouterLigne(zone, 'Aucun trou : la liste est complète.', 'info');
-  } else {
-    const limite = 100;
-    let texte = a.trous.slice(0, limite).join(', ');
-    if (a.trous.length > limite) texte += ' … (+' + (a.trous.length - limite) + ')';
-    ajouterLigne(zone, texte, 'info');
+  if (a.doublons.length > 0) {
+    ajouterDiv(zone, '⚠ Doublons (' + a.doublons.length + ')', 'cadre-info-a-jour-titre');
+    for (const d of a.doublons) {
+      ajouterDiv(zone, 'N° ' + d.numero + ' : ' +
+        d.lignes.map(nomAffichage).join('  |  '), 'cadre-info-a-jour-alerte');
+    }
   }
-
-  ajouterLigne(zone, 'Prochain numéro à attribuer : ' + a.prochain +
-    (a.trous.length === 0 ? ' (nouveau, max + 1)' : ' (premier trou)'), 'titre');
-
-  ajouterLigne(zone, 'Doublons (' + a.doublons.length + ')', 'titre');
-  if (a.doublons.length === 0) {
-    ajouterLigne(zone, 'Aucun doublon.', 'info');
-  }
-  for (const d of a.doublons) {
-    ajouterLigne(zone, 'N° ' + d.numero + ' : ' +
-      d.lignes.map(nomAffichage).join('  |  '), 'alerte');
-  }
-
-  ajouterLigne(zone, 'Numéros invalides (' + a.invalides.length + ')', 'titre');
-  if (a.invalides.length === 0) {
-    ajouterLigne(zone, 'Aucun numéro invalide.', 'info');
-  }
-  for (const ligne of a.invalides) {
-    ajouterLigne(zone, nomAffichage(ligne) + ' : valeur « ' +
-      ligne.Num_epingle + ' »', 'alerte');
+  if (a.invalides.length > 0) {
+    ajouterDiv(zone, '⚠ Numéros invalides (' + a.invalides.length + ')', 'cadre-info-a-jour-titre');
+    for (const ligne of a.invalides) {
+      ajouterDiv(zone, nomAffichage(ligne) + ' : valeur « ' +
+        ligne.Num_epingle + ' »', 'cadre-info-a-jour-alerte');
+    }
   }
 }
 
@@ -166,40 +134,26 @@ function afficherListe() {
   // Numéro proposé
   const prochain = calculerProchain();
   document.getElementById('prochain').textContent =
-    'Prochain numéro à attribuer : ' + prochain.numero +
-    (prochain.nouveau ? ' (nouveau, max + 1)' : ' (premier trou)');
+    'N° ' + prochain.numero + (prochain.nouveau ? ' (nouveau)' : '');
 
-  // Filtrage + tri (les variétés déjà attribuées en attente sont exclues)
+  // Variétés disponibles (hors attributions en attente)
+  const disponibles = a.sansNumero.filter(function (ligne) {
+    return !attributions.has(ligne.id);
+  });
+
+   // Liste déroulante : vide tant que rien n'est tapé
+  const liste = document.getElementById('liste');
+  liste.textContent = '';
   const filtre = normaliser(texteRecherche.trim());
-  const correspondances = a.sansNumero
+  if (!filtre) { liste.hidden = true; return; }
+
+  const correspondances = disponibles
     .filter(function (ligne) {
-      return !attributions.has(ligne.id) &&
-        normaliser(ligne.NomVariete).includes(filtre);
+      return normaliser(ligne.NomVariete).includes(filtre);
     })
     .sort(function (x, y) {
       return nomAffichage(x).localeCompare(nomAffichage(y), 'fr');
     });
-
-  // Compteur
-  const affichees = Math.min(correspondances.length, LIMITE_LISTE);
-  let texteCompteur = correspondances.length + ' variété(s) sans numéro';
-  if (filtre) texteCompteur += ' correspondant à la recherche';
-  if (correspondances.length > LIMITE_LISTE) {
-    texteCompteur += ' (' + affichees + ' affichées, affine la recherche)';
-  }
-  document.getElementById('compteur').textContent = texteCompteur;
-
-  // Liste
-  const liste = document.getElementById('liste');
-  liste.textContent = '';
-
-  if (correspondances.length === 0) {
-    const li = document.createElement('li');
-    li.className = 'vide';
-    li.textContent = filtre ? 'Aucun résultat.' : 'Toutes les variétés ont un numéro.';
-    liste.appendChild(li);
-    return;
-  }
 
   for (const ligne of correspondances.slice(0, LIMITE_LISTE)) {
     const li = document.createElement('li');
@@ -207,6 +161,20 @@ function afficherListe() {
     li.dataset.id = ligne.id;
     liste.appendChild(li);
   }
+  if (correspondances.length === 0) {
+    const li = document.createElement('li');
+    li.className = 'vide';
+    li.textContent = 'Aucune variété trouvée';
+    liste.appendChild(li);
+  } else if (correspondances.length > LIMITE_LISTE) {
+    const li = document.createElement('li');
+    li.className = 'vide';
+    li.textContent = '… ' + (correspondances.length - LIMITE_LISTE) + ' autres, précise ta recherche';
+    liste.appendChild(li);
+  }
+
+  // N'ouvre la liste que si le champ est actif (évite qu'elle rouvre après une mise à jour Grist)
+  liste.hidden = document.activeElement !== document.getElementById('recherche');
 }
 
 function afficherAttentes() {
@@ -214,27 +182,24 @@ function afficherAttentes() {
   ul.textContent = '';
 
   const entrees = Array.from(attributions).sort(function (x, y) { return x[1] - y[1]; });
-  document.getElementById('annuler-tout').hidden = entrees.length === 0;
-  document.getElementById('sauvegarder').hidden = entrees.length === 0;
-  if (entrees.length === 0) {
-    const li = document.createElement('li');
-    li.className = 'vide';
-    li.textContent = 'Aucune attribution en attente.';
-    ul.appendChild(li);
-    return;
-  }
+  document.getElementById('en-attente').hidden = entrees.length === 0;
+  document.getElementById('titre-attentes').textContent =
+    'À enregistrer (' + entrees.length + ')';
 
   for (const [id, numero] of entrees) {
     const ligne = recordsParId.get(id);
     const li = document.createElement('li');
+    li.className = 'brouillon';
 
-    const texte = document.createElement('span');
+    const texte = document.createElement('strong');
     texte.textContent = 'N° ' + numero + ' : ' + nomAffichage(ligne);
     li.appendChild(texte);
 
     const bouton = document.createElement('button');
     bouton.type = 'button';
-    bouton.textContent = 'Annuler';
+    bouton.className = 'btn-suppr';
+    bouton.textContent = '✕';
+    bouton.title = 'Retirer de la liste';
     bouton.dataset.id = id;
     li.appendChild(bouton);
 
@@ -245,17 +210,30 @@ function afficherAttentes() {
 function afficherMessage(texte, classe) {
   const el = document.getElementById('message');
   el.textContent = texte;
-  el.className = 'info' + (classe ? ' ' + classe : '');
+  el.className = classe || 'info';
+  el.hidden = !texte;
 }
 
-// ===== GRIST =====
 // ===== ÉVÉNEMENTS =====
-document.getElementById('recherche').addEventListener('input', function (e) {
+const champRecherche = document.getElementById('recherche');
+const listeVarietes = document.getElementById('liste');
+
+champRecherche.addEventListener('input', function (e) {
   texteRecherche = e.target.value;
   afficherListe();
 });
+champRecherche.addEventListener('focus', function () {
+  champRecherche.select();
+  afficherListe();
+});
+champRecherche.addEventListener('blur', function () {
+  listeVarietes.hidden = true;
+});
 
-document.getElementById('liste').addEventListener('pointerup', function (e) {
+// mousedown bloqué : le champ garde le focus, la liste reste ouverte jusqu'au click
+listeVarietes.addEventListener('mousedown', function (e) { e.preventDefault(); });
+
+listeVarietes.addEventListener('click', function (e) {
   const li = e.target.closest('li[data-id]');
   if (!li) return;
   const id = Number(li.dataset.id);
@@ -263,12 +241,18 @@ document.getElementById('liste').addEventListener('pointerup', function (e) {
 
   attributions.set(id, calculerProchain().numero);
   nonSauvegarde = true;
+
+  // Champ vidé et prêt pour la variété suivante
+  texteRecherche = '';
+  champRecherche.value = '';
+
   majStatut();
   afficherAttentes();
   afficherListe();
+  champRecherche.focus();
 });
 
-document.getElementById('attentes').addEventListener('pointerup', function (e) {
+document.getElementById('attentes').addEventListener('click', function (e) {
   const bouton = e.target.closest('button[data-id]');
   if (!bouton) return;
   attributions.delete(Number(bouton.dataset.id));
@@ -278,15 +262,7 @@ document.getElementById('attentes').addEventListener('pointerup', function (e) {
   afficherListe();
 });
 
-document.getElementById('annuler-tout').addEventListener('pointerup', function () {
-  attributions.clear();
-  nonSauvegarde = false;
-  majStatut();
-  afficherAttentes();
-  afficherListe();
-});
-
-document.getElementById('sauvegarder').addEventListener('pointerup', sauvegarder);
+document.getElementById('sauvegarder').addEventListener('click', sauvegarder);
 
 async function sauvegarder() {
   if (enCours || attributions.size === 0) return;
@@ -319,7 +295,6 @@ async function sauvegarder() {
         if (!colonnes) throw new Error('colonnes non associées');
     const tableId = await grist.selectedTable.getTableId();
     const entrees = Array.from(attributions);
-    const modifications = entrees; // sert au message final (modifications.length)
     const champs = {};
     champs[colonnes.Num_epingle] = entrees.map(function (e) { return e[1]; });
     champs[colonnes.Lettre] = entrees.map(function () { return ''; });
@@ -332,7 +307,7 @@ async function sauvegarder() {
     majStatut();
     afficherAttentes();
     afficherListe();
-    afficherMessage(modifications.length + ' variété(s) numérotée(s) et sauvegardée(s).', 'ok');
+    afficherMessage(entrees.length + ' variété(s) numérotée(s) et sauvegardée(s).', 'succes');
   } catch (erreur) {
     afficherMessage('Erreur de sauvegarde : ' + (erreur && erreur.message ? erreur.message : erreur) +
       '. Les attributions sont conservées, tu peux réessayer.', 'erreur');
@@ -354,8 +329,7 @@ grist.ready({
 grist.onRecords(function (records, mappings) {
   const lignes = grist.mapColumnNames(records);
   if (!lignes) {
-    document.getElementById('resume').textContent =
-      'Colonnes non associées : configure-les dans le panneau du widget.';
+    afficherMessage('Colonnes non associées : configure-les dans le panneau du widget.', 'erreur');    
     return;
   }
   colonnes = mappings;

@@ -16,18 +16,18 @@
     <main>
     <section id="fiche">
 <div id="basculeMode" class="bascule">
-  <button type="button" data-mode="godets" class="sousabri actif">Sous abri</button>
-  <button type="button" data-mode="pleine_terre" class="pleineterre">Pleine terre</button>
+  <button type="button" data-mode="godets" class="btn btn-large sousabri actif">Sous abri</button>
+  <button type="button" data-mode="pleine_terre" class="btn btn-large pleineterre">Pleine terre</button>
 </div>
       <label for="rechercheVariete">Variété</label>
-      <div class="champ-recherche">
+      <div class="champ-liste">
         <input id="rechercheVariete" type="search" class="champ" placeholder="Taper pour chercher…" autocomplete="off">
         <ul id="listeVarietes" class="liste-choix" hidden></ul>
       </div>
       <div id="infoVariete" class="info" hidden></div>
       <div id="derniersSemis" class="cadre-info-a-jour" hidden></div>
             <label for="selectMillesime">Millésime</label>
-      <select id="selectMillesime" class="champ" disabled></select>
+      <select id="selectMillesime" disabled></select>
           <label for="dateSemis">Date du semis</label>
       <input id="dateSemis" type="date" class="champ">
 
@@ -43,12 +43,12 @@
       </div>
 
       <label for="selectType">Type</label>
-      <select id="selectType" class="champ"></select>
+      <select id="selectType" ></select>
 
             <div id="blocOu" hidden>
         <label for="rechercheOu">Où</label>
         <div id="pastillesOu" class="pastilles"></div>
-        <div class="champ-recherche">
+        <div class="champ-liste">
           <input id="rechercheOu" type="search" class="champ" placeholder="Chercher un emplacement…" autocomplete="off">
           <ul id="listeOu" class="liste-choix" hidden></ul>
         </div>
@@ -56,14 +56,14 @@
             <label class="case"><input id="caseSachetVide" type="checkbox"> Sachet vidé (millésime épuisé)</label>
             <label class="case"><input id="caseAProduire" type="checkbox"> À reproduire (produire des graines)</label>
             <p id="erreurFiche" class="erreur" hidden></p>
-            <button id="btnAjouter" type="button" class="btn-principal btn-large btn-ajouter">Ajouter à la liste</button>    
+            <button id="btnAjouter" type="button" class="btn btn-ajouter btn-large">Ajouter à la liste</button>    
     </section>
         <p id="messageSucces" class="succes" hidden></p>
         <section id="brouillons">
       <h2 id="titreBrouillons" hidden></h2>
       <ul id="listeBrouillons" class="liste-brouillons"></ul>
             <p id="erreurEnregistrement" class="erreur" hidden></p>
-            <button id="btnEnregistrer" type="button" class="btn-principal btn-large " hidden>Enregistrer tout</button>    </section>
+            <button id="btnEnregistrer" type="button" class="btn btn-enregistrer btn-large " hidden >Enregistrer</button>    </section>
   </main>
   <script src="../script/semis_realises.js"></script>
 </body>

@@ -84,9 +84,9 @@ Variables en français, état global en haut du fichier, `modifie` + `majStatut(
 
 ## Nettoyage CSS (à confirmer comme fait)
 
-Règles héritées de `gestion_semis` à supprimer car inutilisées : `.btn-ng`, `.champ-germes`, `.saisie-planter`, `.btn-tout`, `#datePlantation`, bloc « où » (`.bloc-ou`, `.champ-recherche`, `.recherche-ou`, `.liste-choix`, `.pastille*`), `.alerte-germes`, `.liste-semis`, `h2`.
+Règles héritées de `gestion_semis` à supprimer car inutilisées : `.btn-ng`, `.champ-germes`, `.saisie-planter`, `.btn-tout`, `#datePlantation`, bloc « où » (`.bloc-ou`, `.champ-liste`, `.recherche-ou`, `.liste-choix`, `.pastille*`), `.alerte-germes`, `.liste-semis`, `h2`.
 À ajouter : une règle `.champ-etiquettes` (flex: 1, font-size 1.1rem, padding 10px, bordure 1px #aaa, rayon 6px).
-À conserver : `.semis*`, `.saisie`, `.btn-principal`, `.erreur`, `.succes`, `.statut*`, `.compteurs`, `#recherche`, `#message`, `#barreEnregistrement*`, `#btnEnregistrer:not([hidden])`, `[hidden]`, `.confirmation*`, `.btn-annuler`, `.btn-valider`.
+À conserver : `.semis*`, `.saisie`, `.btn-enregistrer `, `.erreur`, `.succes`, `.statut*`, `.compteurs`, `#recherche`, `#message`, `#barreEnregistrement*`, `#btnEnregistrer:not([hidden])`, `[hidden]`, `.confirmation*`, `.btn-annuler`, `.btn-valider`.
 
 ## Reste à faire / pistes
 

@@ -7,7 +7,6 @@ let brouillons = [];       // lignes en attente d'enregistrement
 let prochainIdBrouillon = 1;
 let enregistrementEnCours = false;
 let modeSemis = 'godets';   // 'godets' ou 'pleine_terre'
-let sourceChoix = 'liste de secours (lecture Grist non faite)';
 let donneesChargees = false;
 let varietePendante = null;   // variété reçue avant la fin du chargement
 
@@ -115,22 +114,6 @@ async function chargerDonnees() {
     });
   }
 }
-
-function afficherControle() {
-  const mils = [...recordsParId.millesimes.values()];
-  const lignes = [
-    `Variétés : ${recordsParId.varietes.size}`,
-    `Millésimes : ${mils.length}`,
-    `  dont « or. » : ${mils.filter(m => m.estOriginal).length}`,
-    `  sans variété liée : ${mils.filter(m => !m.varieteId).length}`,
-    `  ignorés (sans date, hors « or. ») : ${mils.filter(m => !m.estOriginal && m.annee === null).length}`,
-    `  ignorés (sans date, hors « or. ») : ${mils.filter(m => !m.estOriginal && m.annee === null).length}`,
-    `Choix Type / Où : ${sourceChoix}`
-  ];
-  document.getElementById('message').innerText = lignes.join('\n');
-  console.log('Exemple variété :', [...recordsParId.varietes.values()][0]);
-  console.log('Exemple millésime avec année :', mils.find(m => m.annee !== null));
-}
 // ===== Sélecteur de variété =====
 const MAX_RESULTATS = 40;
 
@@ -183,8 +166,6 @@ function choisirVariete(id) {
   remplirMillesimes(id);
   appliquerTypeVariete(id);
   afficherDerniersSemis();
-  majRempli();
-  console.log('Variété choisie :', v);
 }
 
 function initialiserSelecteurVariete() {
@@ -198,7 +179,8 @@ function initialiserSelecteurVariete() {
     document.getElementById('infoVariete').hidden = true;
     afficherResultats();
   });
-  champ.addEventListener('focus', () => champ.select());
+  champ.addEventListener('focus', () => { champ.select(); if (champ.value) afficherResultats(); });  
+  champ.addEventListener('blur', () => { liste.hidden = true; });
 
   // mousedown bloqué : le champ garde le focus, la liste reste ouverte jusqu'au click.
   // click (et non pointerdown) : un défilement tactile ne déclenche pas de sélection.
@@ -259,7 +241,6 @@ function initialiserSelecteurMillesime() {
   const select = document.getElementById('selectMillesime');
   select.addEventListener('change', () => {
     millesimeChoisiId = select.value ? Number(select.value) : null;
-    console.log('Millésime choisi :', recordsParId.millesimes.get(millesimeChoisiId));
   });
   remplirMillesimes(null);
 }
@@ -380,8 +361,6 @@ function initialiserFiche() {
   initialiserOu();
     document.getElementById('dateSemis').addEventListener('change', afficherDerniersSemis);
     initialiserBascule();
-    majRempli();
-      document.addEventListener('input', majRempli);
 }
 // ===== Brouillons =====
 function afficherErreur(texte) {
@@ -437,7 +416,6 @@ function ajouterBrouillon() {
   document.getElementById('rechercheOu').value = '';
   document.getElementById('caseSachetVide').checked = false;
   document.getElementById('caseAProduire').checked = false;
-  majRempli();
   afficherBrouillons();
   majStatut();
   document.getElementById('rechercheVariete').focus();
@@ -659,10 +637,8 @@ async function chargerChoix() {
     const lieux = choixDe('Ou');
     if (types) TYPES = types;
     if (lieux) LIEUX = lieux;
-    sourceChoix = `Grist (Type : ${types ? types.length : 'secours'}, Ou : ${lieux ? lieux.length : 'secours'})`;
   } catch (err) {
     console.error('Lecture des choix impossible, liste de secours utilisée :', err);
-    sourceChoix = 'liste de secours (erreur : ' + err.message + ')';
   }
 }
 
@@ -682,7 +658,7 @@ function rafraichirSelect(select) {
 
 function habillerSelect(select) {
   const conteneur = document.createElement('div');
-  conteneur.className = 'champ-recherche';
+  conteneur.className = 'champ-liste';
   conteneur.id = 'zone-' + select.id;
   select.parentNode.insertBefore(conteneur, select);
   conteneur.appendChild(select);
@@ -690,7 +666,7 @@ function habillerSelect(select) {
 
   const bouton = document.createElement('button');
   bouton.type = 'button';
-  bouton.className = 'champ-select';
+  bouton.className = 'champ champ-select';
   const liste = document.createElement('ul');
   liste.className = 'liste-choix';
   liste.hidden = true;
@@ -700,7 +676,6 @@ function habillerSelect(select) {
     const choisie = select.options[select.selectedIndex];
     bouton.textContent = choisie ? choisie.textContent : '';
     bouton.disabled = select.disabled;
-        bouton.classList.toggle('rempli', !select.disabled && select.value !== '');
     liste.innerHTML = '';
     for (const opt of select.options) {
       const li = document.createElement('li');
@@ -732,16 +707,6 @@ function habillerSelect(select) {
   });
 
   rafraichir();
-}
-// ===== Champs remplis (classe « rempli ») =====
-function majRempli() {
-  document.querySelectorAll('input.champ').forEach(el => {
-    let rempli;
-    if (el.id === 'rechercheVariete') rempli = varieteChoisieId !== null;  // seulement si sélectionnée
-    else if (el.id === 'rechercheOu') rempli = false;                      // se vide après chaque choix
-    else rempli = el.value !== '';
-    el.classList.toggle('rempli', rempli);
-  });
 }
 // ===== Initialisation =====
 grist.ready({

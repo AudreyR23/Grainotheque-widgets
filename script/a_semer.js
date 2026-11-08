@@ -240,7 +240,7 @@ function afficher() {
 
         const bouton = document.createElement('button');
     bouton.type = 'button';
-    bouton.className = "btn btn-principal btn-semer";
+    bouton.className = "btn btn-enregistrer btn-semer";
     bouton.textContent = 'Semer';
     bouton.dataset.id = v.id;
     li.append(nom, badges, detail);

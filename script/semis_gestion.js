@@ -293,7 +293,7 @@ function afficherPlanter() {
     const pastilles = document.createElement('div');
     pastilles.className = 'pastilles';
     const champOu = document.createElement('div');
-    champOu.className = 'champ-recherche';
+    champOu.className = 'champ-liste';
     const rechercheOu = document.createElement('input');
     rechercheOu.type = 'search';
     rechercheOu.className = 'recherche-ou';

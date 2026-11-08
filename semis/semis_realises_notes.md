@@ -1,226 +1,177 @@
 # Granothèque Grist : widget « Semis réalisés »
 
-> Dernière mise à jour : 24/10/2026
-> Statut : **dev validé** (étapes 1 à 8, lecture des choix depuis Grist, correctif défilement mobile, bascule godets / pleine terre, plante mère, sachet vidé). **Prod et tests tablette en cours.**
+> Dernière mise à jour : 08/11/2026
+> Statut : **dev validé** (fonctionnel + habillage CSS harmonisé). **Prod et tests tablette à faire.**
 
 ## 1. Rôle
 
-Saisir rapidement les semis d'une journée dans la table **Semis** à partir d'un formulaire, sans passer par la grille Grist.
+Saisir rapidement les semis d'une journée dans la table **Semis** via un formulaire, sans passer par la grille Grist.
 
-- Usage : PC, mobile et tablette, pas d'impression.
-- Un seul « Annuler » (Ctrl+Z) dans Grist annule tout l'enregistrement d'un lot (semis + mise à jour des stocks).
+- Usage : PC, mobile, tablette. Pas d'impression.
+- Un seul Ctrl+Z dans Grist annule un lot complet (semis + mises à jour de stock).
 
-## 2. Fichiers et installation
+## 2. Fichiers
 
-| Élément | Dev | Prod |
-|---|---|---|
-| HTML | `semis_realises.html` (dossier `semis/` du dépôt) | à créer sans le suffixe dev |
-| JS | script du widget (`../script/...`) | idem |
-| CSS | feuille de styles (`../styles/...`) | idem |
+| Fichier | Rôle |
+|---|---|
+| `semis_realises.html` | page du widget |
+| `../script/semis_realises.js` | logique |
+| `../styles/gestion_commun.css` | socle partagé entre outils (chargé **en premier**) |
+| `../styles/semis_realises.css` | règles propres à Semis (chargé **ensuite**) |
 
-- Dans Grist : widget **Personnalisé**, accès **« Accès complet au document »** (`requiredAccess: 'full'`).
-- Le widget peut être lié à la table Semis ou non : il lit tout via `grist.docApi`.
-- Dev servi en local (Live Server, port 5500) ; **Live Server ne recharge qu'à l'enregistrement du fichier**.
-- Prod : retirer le badge `DEV`, changer le `<title>`, pointer vers les fichiers prod, créer un nouveau widget avec l'URL prod.
+- Grist : widget **Personnalisé**, accès **complet** (`requiredAccess: 'full'`).
+- Live Server ne recharge qu'à l'**enregistrement** du fichier. Rechargement forcé : Ctrl+Maj+R.
+- Prod : copie des fichiers sans suffixe dev, nouveau widget avec l'URL prod.
 
 ## 3. Données
 
 ### Lues
-| Table | Colonnes utilisées |
+| Table | Colonnes |
 |---|---|
 | `Varietes` | `Nom`, `Variete` (formules), `Type`, `Duree_germ` |
-| `Millesimes` | `NomVariete` (réf.), `Millesime` (date), `Origine` (ChoiceList), `Nb_saisons_manuel`, `Plante_mere`, `Annee_plantation` |
-| `Semis` | `NomVariete`, `Millesime`, `Date_s`, `Nb_godets`, `Nb_graines`, `Ou` (encart « déjà semé ») |
-| `_grist_Tables`, `_grist_Tables_column` | tables système : choix des colonnes `Semis.Type` et `Semis.Ou` |
+| `Millesimes` | `NomVariete` (réf.), `Millesime` (date), `Origine`, `Nb_saisons_manuel`, `Plante_mere`, `Annee_plantation` |
+| `Semis` | `NomVariete`, `Millesime`, `Date_s`, `Nb_godets`, `Nb_graines`, `Ou` |
+| `_grist_Tables`, `_grist_Tables_column` | choix de `Semis.Type` et `Semis.Ou` (`widgetOptions.choices`) |
 
 ### Écrites
-**Table `Semis`** (via `BulkAddRecord`) : `NomVariete`, `Millesime`, `Date_s`, `Nb_godets`, `Nb_graines`, `Type`, `Ou`,`Germes` = vide explicite.
-
-**Table `Millesimes`** (via `UpdateRecord`, uniquement si « Sachet vidé » est coché) : `Qtte_graines` = vide, `Sachets` = vide. Même `applyUserActions` que les semis : un seul Ctrl+Z.
-
-**Jamais envoyées** : `Positions`, `A_produire`, `Nb_etiquettes`, `Graines_exterieures`, `Plantes`, `Oups`, `Date_p`, `Don_p`, `Date_creation`, `Date_modif` (les `_default` Grist se remplissent seuls, vérifié).
+- **`Semis`** (`BulkAddRecord`) : `NomVariete`, `Millesime`, `Date_s`, `Nb_godets`, `Nb_graines`, `Type`, `Ou`, `Germes` (= `null` explicite, sinon Grist met 0 et `Info_germination` conclut « NG »), `A_produire`.
+- **`Millesimes`** (`UpdateRecord`, si « Sachet vidé ») : `Qtte_graines` et `Sachets` vidés. Même `applyUserActions` que les semis.
+- **Jamais envoyées** : `Positions`, `Nb_etiquettes`, `Graines_exterieures`, `Plantes`, `Oups`, `Date_p`, `Don_p`, `Date_creation`, `Date_modif` (défauts Grist).
 
 ## 4. Fonctionnalités
 
-1. **Bascule Godets / Pleine terre** (deux gros boutons) :
-   - *Godets* : champs « Nb de godets » + « Graines par godet », `Où` masqué et non envoyé ;
-   - *Pleine terre* : `Nb_godets` = 1 automatique, un seul champ « Nb de graines », `Où` **visible et obligatoire**.
-   - Le mode est conservé d'un ajout à l'autre ; changer de mode vide les `Où` choisis.
-2. **Recherche de variété** : filtre en tapant sur `Nom` + `Variete`, insensible aux accents et à la casse, plusieurs mots dans n'importe quel ordre, 40 résultats maximum.
-3. **Encart d'info variété** : Type et durée de germination.
-4. **Millésime filtré** sur la variété choisie : présélection du plus récent ; ordre : datés (récent d'abord) puis « or. (originale) » en dernier ; libellé : année · origine · nb de saisons.
-5. **Encart « déjà semé »** : semis de la variété pour **l'année de la date saisie** (5 maximum, du plus récent au plus ancien) ; ligne « 🌱 Plante mère en place (plantée en …) » si un millésime de la variété a `Plante_mere` ; alerte orange si la variété est déjà dans la liste à enregistrer.
-6. **Fiche** : date (aujourd'hui par défaut), godets / graines, Type (menu), Où (multi-sélection avec recherche et pastilles, pleine terre uniquement), case **« Sachet vidé »**.
-7. **Validation** : variété, millésime, date, godets > 0 (mode godets) et graines > 0 obligatoires ; `Où` obligatoire en pleine terre.
-8. **Liste de brouillons** : « Ajouter à la liste » ; ✕ pour retirer ; affichage « pleine terre · n graines » ou « n godets × m graines », et « sachet vidé » le cas échéant ; statut « ● Non sauvegardé (n) » / « ✓ À jour ».
-9. **Enregistrer tout** : un seul `applyUserActions` (`BulkAddRecord` + `UpdateRecord` éventuels), bouton désactivé pendant l'écriture, brouillons conservés en cas d'échec, rechargement de `Semis` après succès.
-10. **Avertissement** `beforeunload` s'il reste des brouillons.
-11. **Choix `Type` et `Ou` lus depuis Grist** (liste en dur en secours).
+1. **Bascule Sous abri / Pleine terre** : sous abri = godets + graines par godet, `Où` masqué ; pleine terre = `Nb_godets` = 1, un champ graines, `Où` obligatoire. Mode conservé d'un ajout à l'autre ; changer de mode vide `Où`.
+2. **Recherche de variété** (sans accents ni casse, plusieurs mots, 40 résultats max).
+3. **Encart variété** : Type et durée de germination.
+4. **Millésime** filtré : datés (récent d'abord, présélectionné), « or. (originale) » en dernier.
+5. **Encart « déjà semé »** (année de la date saisie, 5 max), « 🌱 Plante mère en place », alerte si déjà dans les brouillons.
+6. **Fiche** : date, godets, graines, Type, Où (pastilles), cases « Sachet vidé » et « À reproduire ».
+7. **Validation** : variété, millésime, date, godets > 0, graines > 0 ; `Où` obligatoire en pleine terre.
+8. **Brouillons** : ajout, suppression ✕, statut « ● Non sauvegardé (n) » / « ✓ À jour ».
+9. **Enregistrer tout** : un seul `applyUserActions`, boutons désactivés pendant l'écriture, brouillons conservés en cas d'échec, rechargement de `Semis`.
+10. **`beforeunload`** si brouillons non enregistrés.
+11. **Réception d'une variété** depuis l'outil « À semer » via `BroadcastChannel('granotheque-semer')` (mise en attente si les données ne sont pas chargées).
+12. **Selects habillés** : Millésime et Type sont des `<select>` masqués (`hidden`) + bouton `.champ.champ-select` + liste `.liste-choix` (`habillerSelect` / `rafraichirSelect`).
 
-## 5. Comportements de saisie
+Après « Ajouter » : conservés = mode, date, godets, graines, type ; vidés = variété, millésime, encarts, Où, cases ; focus sur la recherche.
 
-- Après « Ajouter » :
-  - **conservés** : mode, date, godets, graines, Type ;
-  - **vidés** : variété, millésime, encarts, `Où`, case « Sachet vidé » (décochée) ;
-  - le focus revient sur la recherche de variété.
-- Au choix d'une variété : le Type se cale sur `Varietes.Type` s'il existe dans les choix de `Semis.Type`, sinon `Arom.Méd 🌿` (ou le premier choix).
-- Changer la date met à jour l'encart « déjà semé ».
-- La pleine terre se reconnaît dans Semis par `Nb_godets = 1` (aucune colonne dédiée).
+## 5. Règles métier
 
-## 6. Règles métier
+- « or. » = semence originale : proposée, en dernier.
+- Millésimes sans date et hors « or. » (62 lignes vides) : ignorés.
+- `Semis.Millesime` reçoit l'**id** de la ligne de `Millesimes`, pas l'année.
+- Sachet vidé : vider `Qtte_graines` **et** `Sachets` (la formule `Epuise` exige les deux vides ou à 0).
+- Pleine terre reconnaissable dans Semis par `Nb_godets = 1` (pas de colonne dédiée).
 
-- **« or. »** (`Nb_saisons_manuel === 'or.'`) = semence originale : **proposée**, placée en dernier.
-- Millésimes **sans date et hors « or. »** (62 lignes, toutes vides) : **ignorés**. À nettoyer dans Grist si souhaité.
-- Variété sans millésime utilisable : menu grisé « Aucun millésime disponible ».
-- Dans `Semis.Millesime`, on écrit l'**id de la ligne de `Millesimes`**, pas l'année.
-- **Sachet vidé** : il faut vider `Qtte_graines` **et** `Sachets`, car la formule `Epuise` exige les deux vides ou à 0. Un millésime épuisé **reste proposé** dans la liste (pas de filtre sur le stock).
+## 6. Formats Grist
 
-## 7. Choix techniques
-
-- **Conventions** : variables en français, état global en haut du fichier, `modifie` + `majStatut()`, `recordsParId` (Map).
-- **Lecture** : `grist.docApi.fetchTable(...)` (~550 variétés / ~960 millésimes : aucun souci de performance), transformée par `tableEnLignes()`.
-- **Écriture** : `grist.docApi.applyUserActions([...])`.
-- **Listes déroulantes maison** (`ul`/`li`) pour la recherche.
-- **Sélection dans les listes qui défilent : `click`, pas `pointerdown`.** Sur tactile, `pointerdown` se déclenche dès que le doigt se pose et sélectionnait au lieu de laisser défiler. Pour que le `blur` du champ ne ferme pas la liste avant le `click`, on ajoute `mousedown` + `preventDefault()` sur la liste. CSS : `touch-action: pan-y; overscroll-behavior: contain` sur `.liste-choix`.
-- **Choix Type / Où** : lecture de `widgetOptions.choices` dans `_grist_Tables_column`. `TYPES` et `LIEUX` sont des `let` (réassignés).
-
-### Formats Grist à retenir
-
-| Type | Lecture (`fetchTable`) | Écriture |
+| Type | Lecture | Écriture |
 |---|---|---|
-| Reference | id de ligne (nombre) | id de ligne |
-| Date | secondes depuis 1970 (UTC) | `Date.UTC(a, m-1, j) / 1000` (**minuit UTC**, sinon décalage d'un jour) |
-| ChoiceList | `['L', 'a', 'b']` | `['L', 'a', 'b']`, ou `null` si vide |
+| Reference | id de ligne | id de ligne |
+| Date | secondes depuis 1970 (UTC) | `Date.UTC(a, m-1, j) / 1000` (minuit UTC, sinon décalage d'un jour) |
+| ChoiceList | `['L','a','b']` | `['L','a','b']` ou `null` |
+| Numeric vide | `null` | `null` explicite (sinon 0) |
 
-## 8. Référence des fonctions
+## 7. Architecture CSS (à reproduire dans les autres outils)
 
-Ordre du fichier JS. `async` = renvoie une promesse.
+### Principe
+- **Commun** : ce que deux outils ou plus partagent, **à l'identique**. Si deux versions « proches » existent, en choisir une d'abord.
+- **Outil** : règles qui citent des id ou classes propres à l'outil.
+- Chargement : commun d'abord, outil ensuite.
+- Une variable CSS n'est qu'une valeur : la mettre dans le commun n'impose rien à un outil qui ne la lit pas.
+- Les boutons n'« héritent » pas : on cumule les classes dans le HTML (`btn` + variante + taille).
 
-### Utilitaires
-| Fonction | Rôle |
+### Palette (`:root`)
+| Famille | Variables | Usage |
+|---|---|---|
+| Neutres | `--label`, `--arriere-plan`, `--gris`, `--gris-fonce` | texte, fond, bordures |
+| Succès / récap | `--bleu-clair/-moyen/-fonce` | message de succès, encart « à jour », bouton Enregistrer |
+| Brouillon / étape intermédiaire | `--orange-clair/-moyen/-fonce` | brouillons, pastilles, bouton Ajouter, sélection de liste, focus, coche |
+| Sous abri | `--sousabri-clair/-moyen/-fonce` | bascule (visible aussi dans d'autres outils) |
+| Pleine terre | `--pleineterre-clair/-moyen/-fonce` | bascule (idem) |
+| États | `--erreur`, `--a-jour`, `--plantemere` | statut, alertes |
+
+### Composants communs
+| Composant | Classes | Remarque |
+|---|---|---|
+| Champ | `.champ` | input et bouton de select ; fond et couleur explicites ; focus orange |
+| Bouton-champ à flèche | `.champ.champ-select` | **deux** classes ; `.champ-select` n'ajoute que flex et ▾ |
+| Conteneur de liste | `.champ-liste` | `position: relative` : repère de la liste absolue, **obligatoire** autour de chaque input + liste |
+| Liste | `.liste-choix` (+ `li`, `.selection`, `.vide`) | identique pour Variété, Où, Millésime, Type |
+| Boutons | `.btn` (socle) + `.btn-ajouter` (orange) ou `.btn-enregistrer` (bleu) + `.btn-large` | toujours `btn` + variante ; `.btn:disabled` gère le grisé |
+| Croix | `.btn-suppr` | 30 px, `align-self: flex-start` |
+| Case à cocher | `.case` | dessinée en CSS (indépendante du thème système) |
+| Messages | `.erreur`, `.succes`, `.info` | |
+| Brouillons | `.liste-brouillons`, `.brouillon`, `.brouillon-detail` | orange |
+| Encart « à jour » | `.cadre-info-a-jour` + `-titre/-ligne/-plantemere/-alerte` | bleu |
+| Pastilles | `.pastilles`, `.pastille` | orange |
+| Grille | `.deux-colonnes`, `.une-colonne` | |
+| Masquage | `[hidden] { display: none !important }` | indispensable |
+
+### Propre à Semis (`semis_realises.css`)
+- `#fiche label { margin-top: 12px }` : même écart au-dessus de tous les labels, y compris en deux colonnes.
+- `#basculeMode + label { margin-top: 0 }` : « Variété » collé à la bascule.
+- `#fiche label.case { margin-top: 14px }` : plus précis que `#fiche label`, sinon la marge des cases serait écrasée.
+- `.bascule` + boutons `.sousabri` / `.pleineterre` / `.actif`. Les boutons portent `btn btn-large` ; `.bascule button { margin-top: 0 }` annule la marge de `btn-large`.
+
+## 8. Vigilances
+
+**CSS**
+- Espace avant `:active` / `:disabled` : `.btn :active` ≠ `.btn:active` (l'espace cible un enfant, la règle ne s'applique jamais).
+- `.champ-liste { position: relative }` indispensable, sinon la liste dépasse du champ (elle se cale sur la page).
+- `padding: 0` sur `.liste-choix` : sinon retrait par défaut de la `ul`.
+- Fond et couleur explicites dans `.champ` : sinon les `<input>` suivent le thème sombre du système (`color-scheme: light` en renfort).
+- `font: inherit` avant `font-size` : `font` remet tout à l'héritage.
+- Classe `btn` oubliée dans le HTML : le bouton perd police, padding, arrondi.
+- Le contour orange au focus est le défaut du navigateur, désormais défini par `.champ:focus`.
+- Un `<select>` natif ne se stylise pas (liste dessinée par le système) : d'où `habillerSelect`.
+- Précision CSS : `#fiche label.case` > `#fiche label` > `.case` ; `.bascule button` > `.btn-large`. À précision égale, la dernière règle écrite gagne.
+- Tout renommage de classe : Ctrl+Maj+F dans **tous** les fichiers (HTML, JS qui pose des classes via `className` / `classList`, autres outils).
+
+**JS**
+- Sélection dans les listes au **`click`** (jamais `pointerdown`) + `mousedown` bloqué pour garder le focus : sinon on sélectionne en défilant sur mobile.
+- Les **id** HTML sont liés au JS (`btnAjouter`, `btnEnregistrer`, `basculeMode`, `selectMillesime`, `selectType`, `blocGodets`, `blocOu`, `labelGraines`, `derniersSemis`…). Renommer une classe ne casse rien ; renommer un id casse le démarrage (`is null`, message dans `#statut`).
+- Erreur de syntaxe = page vide sauf mise en forme : console F12, la ligne rouge donne le numéro.
+- Fichier non enregistré = changement invisible.
+- La liste Variété ne se referme pas au clic ailleurs (à corriger si gênant).
+
+## 9. Inutile à Semis dans le CSS commun
+
+À garder seulement si un autre outil s'en sert (chercher la classe dans tous les fichiers).
+
+| Élément | Remarque |
 |---|---|
-| `tableEnLignes(tableau)` | Résultat de `fetchTable` (`{colonne: [valeurs]}`) → lignes `[{id, ...}]` |
-| `listeChoix(valeur)` | ChoiceList `['L','a','b']` → `['a','b']` |
-| `anneeDepuisDate(secondes)` | Date Grist → année, ou `null` |
-| `normaliser(texte)` | Minuscules, sans accents, espaces simplifiés |
-| `dateDuJour()` | Date du jour `YYYY-MM-DD` |
-| `dateEnSecondes(iso)` | `YYYY-MM-DD` → secondes à minuit UTC |
+| `.saisie`, `.message`, `.compteurs`, `.cadre-info`, `.liste-semis` | non utilisés par Semis |
+| `.confirmation*` (boîte, boutons) | non utilisés ; `.confirmation[hidden]` redondant avec `[hidden]` |
+| `.btn:focus-visible` | morte : la classe `button` n'existe pas ; remplacer par `btn:focus-visible` |
+| `.btn-annuler`, `.btn-valider` | doublons de `.btn` et d'un bouton bleu |
+| `--blanc` | jamais lue |
+| `--recap-clair/-moyen/-fonce/-moyen2` | jamais lues (l'encart utilise `--bleu-*`) |
+| commentaires `/*.message.erreur…*/`, `/*.alerte…*/`, `/* ancien champ-liste*/` | à supprimer |
 
-### Statut
-| Fonction | Rôle |
-|---|---|
-| `majStatut()` | Calcule `modifie` (il reste des brouillons) et met à jour le statut |
+## 10. Reste à faire
 
-### Chargement
-| Fonction | Rôle |
-|---|---|
-| `chargerDonnees()` `async` | Lit `Varietes` et `Millesimes` |
-| `chargerSemis()` `async` | Lit `Semis` (au démarrage et après chaque enregistrement) |
-| `chargerChoix()` `async` | Lit les choix de `Semis.Type` / `Semis.Ou` ; repli sur la liste en dur |
-| `afficherControle()` | Comptes de contrôle et `console.log` (à retirer avant prod stable) |
+- [ ] Passage en prod et tests tablette (clavier, taille ✕ à 30 px, défilement des listes, hauteur de la fiche, contrastes).
+- [ ] Nettoyage JS : supprimer `afficherControle`, `sourceChoix`, les `console.log`.
+- [ ] Nettoyage CSS : règles mortes (§9), unifier `--bleu-*` / `--recap-*`.
+- [ ] Refermer la liste Variété au clic extérieur (option).
+- [ ] `Graines_exterieures` : vérifier l'usage puis supprimer la colonne.
+- [ ] Formule `Info_germination` : `if rec.Jours_ecoules == "": return ""` pour afficher « En attente » dès le jour J.
+- [ ] Options : masquer les millésimes épuisés, trier `LIEUX`, nettoyer les 62 lignes vides de `Millesimes`, factoriser `habillerSelect` dans un futur `gestion_commun.js`.
 
-### Sélecteur de variété
-| Fonction | Rôle |
-|---|---|
-| `libelleVariete(v)` | « Nom — Variété » |
-| `afficherResultats()` | Filtre les variétés (tous les mots, 40 max) |
-| `choisirVariete(id)` | Fixe `varieteChoisieId`, encart, puis `remplirMillesimes`, `appliquerTypeVariete`, `afficherDerniersSemis` |
-| `initialiserSelecteurVariete()` | Événements `input`, `focus`, `mousedown` (bloqué), `click` sur la liste |
+## 11. Limites connues
 
-### Sélecteur de millésime
-| Fonction | Rôle |
-|---|---|
-| `millesimesDeVariete(varieteId)` | Millésimes retenus, triés |
-| `libelleMillesime(m)` | « année · origine · n saison(s) » ou « or. (originale) » |
-| `remplirMillesimes(varieteId)` | Remplit le menu, présélectionne le premier, met à jour `millesimeChoisiId` |
-| `initialiserSelecteurMillesime()` | Événement `change` |
+- Nouveaux choix Type / Où vus au rechargement ; choix réglés « par vue » absents des métadonnées (repli sur la liste en dur du JS, à garder à jour).
+- `beforeunload` peu fiable lors d'un changement de page dans Grist : se fier au statut rouge.
+- `Millesimes` non rechargé après un sachet vidé (le millésime reste proposé jusqu'au rechargement).
 
-### Reste de la fiche
-| Fonction | Rôle |
-|---|---|
-| `remplirTypes()` | Menu Type depuis `TYPES` |
-| `appliquerTypeVariete(varieteId)` | Cale le Type sur celui de la variété |
-| `afficherPastilles()` | Lieux choisis en pastilles |
-| `afficherResultatsOu()` | Filtre `LIEUX` (hors déjà choisis) |
-| `initialiserOu()` | `input`, `focus`, `blur` du champ ; `mousedown` bloqué + `click` sur la liste ; `click` sur les pastilles |
-| `appliquerMode(mode)` | Bascule godets / pleine terre : affichage des blocs, libellé des graines, vide les `Où` |
-| `initialiserBascule()` | Événement `click` sur `#basculeMode`, mode initial « godets » |
-| `initialiserFiche()` | Date du jour, menu Type, `initialiserOu()`, écouteur de la date, `initialiserBascule()` |
+## 12. Migrer un autre outil vers cet aspect
 
-### Brouillons
-| Fonction | Rôle |
-|---|---|
-| `afficherErreur(texte)` | Affiche ou masque `#erreurFiche` |
-| `lireFiche()` | Renvoie un brouillon (`mode`, `godets` = 1 en pleine terre, `ou` vide en godets, `sachetVide`) |
-| `validerFiche(f)` | Message d'erreur ou `''` |
-| `ajouterBrouillon()` | Valide, ajoute, réinitialise partiellement la fiche (dont la case sachet vidé) |
-| `afficherBrouillons()` | Redessine la liste, le compteur et le bouton « Enregistrer tout » |
-| `initialiserBrouillons()` | « Ajouter », « Enregistrer tout », ✕ (`click`) |
-
-### Enregistrement
-| Fonction | Rôle |
-|---|---|
-| `afficherSucces(texte)` / `afficherErreurEnregistrement(texte)` | Messages |
-| `enregistrerTout()` `async` | `BulkAddRecord` sur `Semis` + `UpdateRecord` sur `Millesimes` (sachets vidés, dédoublonnés par `Set`), un seul `applyUserActions` ; verrou `enregistrementEnCours` |
-
-### Derniers semis
-| Fonction | Rôle |
-|---|---|
-| `dateAffichee(secondes)` | Date Grist → `jj/mm/aaaa` (UTC) |
-| `afficherDerniersSemis()` | Encart : plante mère, semis de l'année (5 max), alerte brouillon |
-
-### Hors fonctions
-- `beforeunload` : avertit s'il reste des brouillons.
-- `grist.ready({ requiredAccess: 'full' })`.
-- Démarrage : `chargerDonnees → chargerSemis → chargerChoix → afficherControle + initialiserSelecteurVariete + initialiserSelecteurMillesime + initialiserFiche + initialiserBrouillons + majStatut`, `.catch` affichant l'erreur dans `#message`.
-
-### Variables globales
-| Variable | Contenu |
-|---|---|
-| `modifie` | `true` s'il reste des brouillons |
-| `varieteChoisieId`, `millesimeChoisiId` | Sélections courantes (id) ou `null` |
-| `ouChoisis` | Lieux sélectionnés |
-| `brouillons`, `prochainIdBrouillon` | Lignes en attente, compteur |
-| `enregistrementEnCours` | Verrou anti double enregistrement |
-| `modeSemis` | `'godets'` ou `'pleine_terre'` |
-| `sourceChoix` | Origine des listes Type / Où |
-| `TYPES`, `LIEUX` | Choix (`let`) |
-| `TYPE_PAR_DEFAUT`, `MAX_RESULTATS` | Constantes |
-| `recordsParId` | `{varietes, millesimes, semis}` (trois `Map`) |
-
-### Identifiants HTML utilisés par le JS
-`statut`, `message`, `basculeMode`, `rechercheVariete`, `listeVarietes`, `infoVariete`, `derniersSemis`, `selectMillesime`, `dateSemis`, `blocGodets`, `nbGodets`, `labelGraines`, `nbGraines`, `selectType`, `blocOu`, `pastillesOu`, `rechercheOu`, `listeOu`, `caseSachetVide`, `erreurFiche`, `btnAjouter`, `messageSucces`, `titreBrouillons`, `listeBrouillons`, `erreurEnregistrement`, `btnEnregistrer`.
-
-## 9. Reste à faire
-
-### Prioritaire
-- [ ] **Poursuivre les tests tablette** : clavier et liste de la recherche de variété, taille des pastilles et boutons, clavier numérique, sélecteur de date, hauteur de la fiche (bouton fixe en bas ?). Le défilement de la liste `Où` sur mobile est validé.
-
-### Nettoyage avant prod stable
-- [ ] Retirer `afficherControle()`, le `<p id="message">` et les `console.log` de contrôle.
-- [ ] Vérifier qu'aucun autre outil n'utilise `Graines_exterieures`, puis supprimer la colonne si inutile.
-
-### Améliorations possibles
-- [ ] Masquer ou griser les millésimes épuisés dans la liste (aujourd'hui toujours proposés).
-- [ ] Formule `Info_germination` : `if not rec.Jours_ecoules` masque le cas `0` ; remplacer par `if rec.Jours_ecoules == "": return ""` pour afficher « En attente » dès le jour J (vérifier d'abord les autres outils).
-- [ ] `Type` : le widget lit `Semis.Type` ; si `Varietes.Type` contient une valeur absente, repli sur le type par défaut.
-- [ ] Trier les lieux par ordre alphabétique (`.sort((a, b) => a.localeCompare(b, 'fr'))` sur `LIEUX`).
-- [ ] Nettoyer les 62 lignes vides de `Millesimes`.
-
-## 10. Limites connues
-
-- Les nouveaux choix Type / Où ne sont vus qu'au **rechargement** du widget.
-- Choix réglés **par vue** (paramètres séparés) : absents des métadonnées, repli sur la liste en dur (à garder à jour en secours).
-- `beforeunload` ne se déclenche pas forcément quand on change de page dans Grist : se fier au statut rouge.
-- Pas de mise à jour en direct si les données changent ailleurs ; `Semis` est rechargée après chaque enregistrement, pas `Millesimes` (un sachet vidé reste proposé jusqu'au rechargement).
-- Pleine terre non distinguée par une colonne dédiée : `Nb_godets = 1` peut aussi être un vrai semis d'un godet.
-
-## 11. Rappels de dépannage
-
-- **Page vide, seule la mise en forme s'affiche** : erreur de syntaxe JS → console (F12), la ligne rouge donne le numéro de ligne (virgule manquante, caractère parasite).
-- **`getElementById(...) is null`** : élément absent du HTML, ou fichier **non enregistré**.
-- **`invalid assignment to const`** : variable en `const` réassignée (`TYPES`, `LIEUX` doivent être `let`).
-- **Date décalée d'un jour dans Grist** : toujours écrire minuit **UTC**.
-- **Liste qui sélectionne au lieu de défiler (mobile)** : utiliser `click`, pas `pointerdown`.
-- **Rechargement forcé** : Ctrl+Maj+R.
-- **Grist refuse `null` sur `Qtte_graines`** : remplacer par `0` (la formule `Epuise` accepte les deux).
+1. Charger `gestion_commun.css` avant le CSS de l'outil.
+2. Champs : `class="champ"` ; entourer chaque input + liste d'une `div.champ-liste` ; listes en `ul.liste-choix`.
+3. Boutons : `btn` + `btn-ajouter` (étape intermédiaire) ou `btn-enregistrer` (final) + `btn-large` si pleine largeur.
+4. Brouillons en `.brouillon`, messages en `.erreur` / `.succes`, encarts en `.cadre-info-a-jour*`, cases en `.case`.
+5. Si l'outil affiche sous abri / pleine terre : réutiliser les variables `--sousabri-*` et `--pleineterre-*`, et recopier les règles de bascule dans son CSS.
+6. Supprimer les règles locales devenues doublons (chercher chaque classe avant suppression).
+7. Select stylé : copier `habillerSelect` / `rafraichirSelect`.
+8. Tester après chaque étape (Ctrl+Maj+R) et surveiller la console.

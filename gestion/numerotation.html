@@ -14,24 +14,29 @@
     <span id="statut" class="statut"></span>
   </header>
   <main>
-      <h2>Anomalie(s)</h2>
-    <details id="bloc-analyse">
-      <summary><span id="alerte-titre"></span><span>Détail de l'analyse (max, trous, doublons, invalides)</span></summary>      <div id="analyse"></div>
-    </details>
-    <section id="en-attente">
-      <h2>Attribution(s) en attente</h2>
-      <ul id="attentes"></ul>
-      <button id="annuler-tout" type="button" class="btn">Tout annuler</button>
-      <button id="sauvegarder" type="button" class="btn-principal">Enregistrer tout</button>
-      <p id="message" class="message"></p>
+    <div id="anomalies" hidden>
+      <label> Anomalies </label>
+      <div id="anomalies-contenu" class="cadre-info-a-jour"></div>
+    </div>
+
+    <section id="fiche">
+      <label> Prochain numéro à attribuer </label>
+      <div class="pastilles">
+        <span id="prochain" class="pastille"></span>
+      </div>
+<label for="recherche">Variété sans numéro</label>
+<div class="champ-liste">
+  <input id="recherche" type="search" class="champ" placeholder="Taper pour chercher…" autocomplete="off">
+  <ul id="liste" class="liste-choix" hidden></ul>
+</div>
     </section>
 
-    <section id="attribution">
-      <h2>Variétés sans numéro</h2>
-      <p id="prochain" class="cadre-info"></p>
-      <input id="recherche" type="search" class="champ" placeholder="Rechercher une variété…" autocomplete="off">
-      <p id="compteur" class="info"></p>
-      <ul id="liste" class="liste-choix"></ul>
+    <p id="message" class="info" hidden></p>
+
+    <section id="en-attente" hidden>
+      <h2 id="titre-attentes"></h2>
+      <ul id="attentes" class="liste-brouillons"></ul>
+      <button id="sauvegarder" type="button" class="btn btn-enregistrer btn-large">Enregistrer</button>
     </section>
   </main>
   <script src="../script/numerotation.js"></script>
