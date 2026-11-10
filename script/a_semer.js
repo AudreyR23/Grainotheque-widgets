@@ -195,57 +195,70 @@ function afficher() {
   const nbASemer = lignes.filter(l => !l.dejaSemee).length;
   document.getElementById('message').textContent =
     `${nbASemer} variété(s) à semer en ${MOIS[moisChoisi - 1]}, pas encore semée(s) dans leur période de semis.`;
-  for (const { v, mil, sousAbris, pleineTerre, dejaSemee, semisFait, plant, fenetre } of lignes) {   const li = document.createElement('li');
-    li.className = 'carte' + (!sousAbris && pleineTerre ? ' pleine-terre' : '') + (dejaSemee ? ' deja-semee' : '');
 
-    const nom = document.createElement('div');
-    nom.className = 'carte-nom';
+  for (const { v, mil, sousAbris, pleineTerre, dejaSemee, semisFait, plant, fenetre } of lignes) {
+    const li = document.createElement('li');
+        // Liseré : vert (sous abri), marron (pleine terre), moitié-moitié si les deux
+    const categorie = sousAbris && pleineTerre ? 'sousabri-pleineterre' : sousAbris ? 'sousabri' : 'pleineterre';
+    li.className = 'carte ' + categorie + (dejaSemee ? ' deja-semee' : '');
+    
+    const texte = document.createElement('div');
+    texte.className = 'carte-texte';
+
+    // Nom
+    const nom = document.createElement('strong');
     nom.textContent = v.variete ? `${v.nom} — ${v.variete}` : v.nom;
+    texte.appendChild(nom);
 
-    const badges = document.createElement('div');
-    if (sousAbris) {
-      const b = document.createElement('span');
-      b.className = 'badge';
-      b.textContent = 'Sous abri';
-      badges.appendChild(b);
+    // Ligne colorée : Sous abri / Pleine terre
+    const mention = document.createElement('div');
+    mention.className = 'carte-mention';
+    const categories = [];
+    if (sousAbris) categories.push(['pastille-sousabri', 'Sous abri']);
+    if (pleineTerre) categories.push(['pastille-pleineterre', 'Pleine terre']);
+    for (const [classe, intitule] of categories) {
+      const p = document.createElement('span');
+      p.className = 'pastille-cat ' + classe;
+      p.textContent = intitule;
+      mention.appendChild(p);
     }
-    if (pleineTerre) {
-      const b = document.createElement('span');
-      b.className = 'badge pleine-terre';
-      b.textContent = 'Pleine terre';
-      badges.appendChild(b);
-    }
+    texte.appendChild(mention);
 
+    // Détails en gris
+    const periode = `semis ${MOIS[fenetre.debutMois - 1]} → ${MOIS[fenetre.finMois - 1]}`;
     const detail = document.createElement('div');
     detail.className = 'carte-detail';
-        if (mil) {
+    if (mil) {
       const anneeMil = mil.estMelange ? 'sachet mélangé (plusieurs millésimes)'
         : mil.annee !== null ? `millésime ${mil.annee}` : 'millésime sans date';
-        detail.textContent = `${anneeMil} · ${texteGermination(mil.germination)} · ${texteTest(v.anneesSansTest)} · semis ${MOIS[fenetre.debutMois - 1]} → ${MOIS[fenetre.finMois - 1]}`;
+      detail.textContent = `${anneeMil} · ${texteGermination(mil.germination)} · ${texteTest(v.anneesSansTest)} · ${periode}`;
     } else {
-      detail.textContent = `pas de graines · semis ${MOIS[fenetre.debutMois - 1]} → ${MOIS[fenetre.finMois - 1]}`;
-    }    
-        if (semisFait) {
-      const b = document.createElement('span');
-      b.className = 'badge deja-semee';
-      b.textContent = 'Déjà semée';
-      badges.appendChild(b);
+      detail.textContent = `pas de graines · ${periode}`;
     }
-        if (plant) {
-      const b = document.createElement('span');
-      b.className = 'badge plant';
-      b.textContent = `${plant} au jardin`;
-      badges.appendChild(b);
+    texte.appendChild(detail);
+
+    // Cadre bleu : déjà semée / plant au jardin
+    const infos = [];
+    if (semisFait) infos.push('Déjà semée');
+    if (plant) infos.push(`${plant} au jardin`);
+    if (infos.length) {
+      const cadre = document.createElement('div');
+      cadre.className = 'cadre-info-a-jour';
+      const titre = document.createElement('div');
+      titre.className = 'cadre-info-a-jour-titre';
+      titre.textContent = infos.join(' · ');
+      cadre.appendChild(titre);
+      texte.appendChild(cadre);
     }
 
-        const bouton = document.createElement('button');
+    // Bouton à droite, centré verticalement
+    const bouton = document.createElement('button');
     bouton.type = 'button';
-    bouton.className = 'btn-semer';
+    bouton.className = 'btn btn-enregistrer btn-semer carte-action';
     bouton.textContent = 'Semer';
     bouton.dataset.id = v.id;
-    li.appendChild(bouton);
 
-    li.append(nom, badges, detail);
+    li.append(texte, bouton);
     liste.appendChild(li);
   }
 }

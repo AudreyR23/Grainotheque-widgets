@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>À semer</title>
-  <link rel="stylesheet" href="../styles/gestion_commun.css">
-  <link rel="stylesheet" href="../styles/a_semer.css">
-  <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>À semer</title>
+<link rel="stylesheet" href="../styles/gestion_commun.css">
+<link rel="stylesheet" href="../styles/a_semer.css">
+<script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
 </head>
 <body>
-  <header>
-    <h1 id="titre">À semer</h1>
-    <button type="button" id="btnActualiser" title="Recharger les données">↻ Actualiser</button>
-  </header>
-  <div id="filtres">
-  <label>Mois <select id="selectMois"></select></label>
-  <label><input type="checkbox" id="caseDejaSemees"> Afficher aussi les déjà semées</label>
-    <label>Tri
-    <select id="selectTri">
-      <option value="nom">Nom</option>
-      <option value="germination">Germination (meilleure d'abord)</option>
-      <option value="test">Plus longtemps sans test</option>
-    </select>
-  </label>
+<header>
+<h1 id="titre">À semer</h1>
+<button type="button" id="btnActualiser" class="btn" title="Recharger les données">↻ Actualiser</button>
+</header>
+<div id="filtres">
+<label>Mois <select id="selectMois" class="champ champ-filtre"></select></label>
+<label class="case"><input type="checkbox" id="caseDejaSemees"> Afficher aussi les déjà semées</label>
+<label>Tri
+<select id="selectTri" class="champ champ-filtre">
+<option value="nom">Nom</option>
+<option value="germination">Germination (meilleure d'abord)</option>
+<option value="test">Plus longtemps sans test</option>
+</select>
+</label>
 </div>
-  <p id="message"></p>
-  <ul id="liste"></ul>
-  <script src="../script/a_semer.js"></script>
+<p id="message" class="message"></p>
+<ul id="liste" class="liste-semis"></ul>
+<script src="../script/a_semer.js"></script>
 </body>
 </html>

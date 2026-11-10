@@ -362,6 +362,18 @@ input, select, button, textarea {
   user-select: none;
 }
 
+/* ===== Pastilles de catégorie (sous abri / pleine terre) ===== */
+.pastille-cat {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: normal;
+  padding: 1px 8px;
+  margin-right: 4px;
+  border-radius: 10px;
+}
+.pastille-sousabri   { background: var(--sousabri-clair);   color: var(--sousabri-fonce); }
+.pastille-pleineterre { background: var(--pleineterre-clair); color: var(--pleineterre-fonce); }
+
 /*Affichage ou deja indiqué*/ /*pas encore utilisé*/
 .confirmation {
   position: fixed; inset: 0; z-index: 100;
@@ -395,5 +407,39 @@ input, select, button, textarea {
 
 /*Organisation cadres infos*/
 .liste-semis { list-style: none; margin: 0; padding: 0; }
+
+/* ===== Carte d'une entrée (partagée entre les outils) ===== */
+.carte {
+  display: flex;
+  align-items: center;          /* centre verticalement le bouton / champ à droite */
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px;
+  margin-bottom: 6px;
+  background: var(--blanc);
+  border: 1px solid var(--gris);
+  border-radius: 6px;
+}
+.carte-texte { flex: 1; min-width: 0; }
+.carte-detail { font-size: 0.85rem; color: var(--gris-fonce); margin-top: 2px; }
+.carte-mention { margin-top: 2px; font-size: 0.85rem; font-weight: bold; }
+.carte-action { flex: none; }
+.carte-texte .cadre-info-a-jour { display: inline-block; max-width: 100%; }
+
+/* Liseré de couleur à gauche */
+.carte.sousabri   { border-left: 5px solid var(--sousabri-moyen); }
+.carte.pleineterre { border-left: 5px solid var(--pleineterre-moyen); }
+/* Liseré moitié vert (haut) / moitié marron (bas) : sous abri ET pleine terre */
+.carte.sousabri-pleineterre {
+  border-left: 5px solid transparent;
+  background:
+    linear-gradient(to bottom, var(--sousabri-moyen) 50%, var(--pleineterre-moyen) 50%)
+      left / 5px 100% no-repeat border-box,
+    var(--blanc);
+}
+.carte.plantemere { border-left: 5px solid var(--plantemere); }
+
+/* Texte coloré de la ligne « mention » */
+.texte-plantemere { color: var(--plantemere); }
 
 [hidden] { display: none !important; }

@@ -102,21 +102,21 @@ function afficherSelection() {
 
   for (const s of semis) {
     const li = document.createElement('li');
-    li.className = 'semis';
+    li.className = 'carte';
     li.dataset.id = s.id;
         if (s.planteMere) li.classList.add('plantemere');
 
     const texte = document.createElement('div');
-    texte.className = 'semis-texte';
+    texte.className = 'carte-texte';
     const ligne1 = document.createElement('strong');
     ligne1.textContent = libelle(s);
     const ligne2 = document.createElement('div');
-    ligne2.className = 'semis-detail';
+    ligne2.className = 'carte-detail';
     ligne2.textContent = detailEntree(s);
         texte.appendChild(ligne1);
     if (s.planteMere) {
       const mere = document.createElement('div');
-      mere.className = 'semis-plantemere';
+      mere.className = 'carte-mention texte-plantemere';
       mere.textContent = '🌱 Plante mère' + (s.anneePlantation ? ` (plantée en ${s.anneePlantation})` : '');
       texte.appendChild(mere);
     }
