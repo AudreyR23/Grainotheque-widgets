@@ -1,36 +1,60 @@
+/* ===== Carte d'une entrée : neutre, sans couleur ===== */
 .semis {
-  padding: 10px; 
-  margin: 0 0 10px;
-  background: #f5d2ab; 
-  border: 1px solid #ff7b00; 
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px;
+  margin-bottom: 6px;
+  background: var(--arriere-plan);
+  border: 1px solid var(--gris);
   border-radius: 6px;
 }
-.semis-detail { font-size: 0.85rem; color: #555; margin-top: 2px; }
-.semis-retard { color: #c62828; font-weight: 600; }
-#message { margin-top: 20px; font-size: 0.8rem; color: #888; white-space: pre-line; }
+.semis-texte { flex: 1; min-width: 0; }
+.semis-detail { font-size: 0.85rem; color: var(--gris-fonce); margin-top: 2px; }
 
-.saisie { display: flex; gap: 8px; align-items: center; margin-top: 8px; }
+/* ===== Petit champ du nombre, à droite, centré verticalement ===== */
+.champ.champ-etiquettes {
+  flex: none;
+  width: 4.5rem;
+  padding: 10px 4px;
+  text-align: center;
+}
 
-.semis.brouillon { 
-  background: #e8f0fb; 
-  border-color: #9db8e0; }
+/* ===== Barre d'enregistrement flottante ===== */
+#enCours { margin-bottom: 12px; }
 
-.btn-enregistrer :disabled { background: #90a4ae; cursor: wait; }
-
-#barreEnregistrement {
+#barreFlottante {
   position: sticky;
   bottom: 0;
   z-index: 5;
-  background: #fff;   /* ta couleur de fond si elle n'est pas blanche */
-  padding-top: 6px;
+  background: var(--arriere-plan);
 }
-#barreEnregistrement p { margin: 0 0 6px; }
-#btnEnregistrer:not([hidden]) { display: block; width: 100%; }
+#barreFlottante p { margin: 0 0 6px; }
 
-[hidden] { display: none !important; }
+#message { margin-top: 20px; font-size: 0.8rem; color: var(--gris); white-space: pre-line; }
 
-.champ-etiquettes {
-  flex: 1; min-width: 0;
-  font-size: 1.1rem; padding: 10px;
-  border: 1px solid #aaa; border-radius: 6px;
+.brouillon-alerte {
+  margin-top: 4px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: var(--erreur);
+}
+
+.brouillon-nb {
+  margin-top: 2px;
+  font-weight: bold;
+  color: var(--orange-fonce);
+}
+.semis-texte .cadre-info-a-jour {
+  display: inline-block;
+  max-width: 100%;
+}
+
+.semis.plantemere { border-left: 5px solid var(--plantemere); }
+.semis-plantemere {
+  margin-top: 2px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: var(--plantemere);
 }

@@ -8,92 +8,123 @@ Choisir, dans une liste filtrable, les **plants plantés au jardin** et les **pl
 
 | Fichier | Rôle |
 |---|---|
-| `selection_etiquettes.html` | Page du widget (copie adaptée du HTML de `gestion_semis`) |
-| `../styles/selection_etiquettes.css` | Styles |
-| `../script/main_selection_etiquettes.js` | Logique |
+| `gestion_etiquettes.html` | Page du widget |
+| `../styles/gestion_commun.css` | CSS commun à tous les outils (variables, champs, boutons, brouillons, messages, confirmation) |
+| `../styles/gestion_etiquettes.css` | CSS propre à cet outil |
+| `../script/gestion_etiquettes.js` | Logique |
 
-Deux versions : dev et prod. On teste en dev, puis on recopie en prod.
+- Deux versions : dev et prod. On teste en dev, puis on recopie en prod.
+- Ordre des feuilles de style dans le HTML : `gestion_commun.css` d'abord, puis `gestion_etiquettes.css`.
+- Version dans les URL (`?v=N`) à incrémenter à chaque modification (cache).
 
 ## Intégration Grist
 
 - Widget personnalisé sur la table **Semis**.
-- `grist.ready({ requiredAccess: 'full' })` : nécessaire pour écrire (Grist n'a pas d'accès « écriture par table »).
-- Chargement par `grist.docApi.fetchTable('Semis')`, comme les autres outils. Pas de `onRecords` ni de mapping de colonnes.
+- `grist.ready({ requiredAccess: 'full' })` : nécessaire pour écrire.
+- Chargement par `grist.docApi.fetchTable('Semis')`, comme les autres outils (pas de `onRecords` ni de mapping).
 - Toutes les colonnes utiles sont déjà sur Semis (colonnes formules comprises) : aucune autre table n'est lue.
 
-## Colonnes lues (table Semis)
+## Colonnes
 
-`Nom`, `Variete`, `Annee_graine`, `Plantes`, `Date_p`, `Ou` (ChoiceList), `Positions` (chargée mais non affichée), `Nb_etiquettes`, `Etiq_en_attente`, `Plante_mere`, `Annee_plantation_mil`.
-
-## Colonne écrite
-
-**Uniquement `Nb_etiquettes`**. Aucune autre colonne n'est modifiée (ni `Etiq_en_attente`, ni `Plantes`, ni `Ou`, ni `Date_p`).
+- **Lues** : `Nom`, `Variete`, `Annee_graine`, `Plantes`, `Date_p`, `Ou` (ChoiceList), `Positions` (chargée, non affichée), `Nb_etiquettes`, `Etiq_en_attente`, `Plante_mere`, `Annee_plantation_mil`.
+- **Écrite** : uniquement `Nb_etiquettes`. Rien d'autre n'est modifié.
 
 ## Règles de sélection (`entreesEtiquetables()`)
 
-- **Plant** : `Plantes > 0`. `Oups`, `Don_p` et `Reste_a_planter` sont ignorés.
+- **Plant** : `Plantes > 0`. `Oups`, `Don_p`, `Reste_a_planter` sont ignorés.
 - **Plante mère** : `Plante_mere` vrai **et** `Annee_plantation_mil` renseignée.
-- Chaque entrée de la liste est **une ligne de Semis précise** (pas une variété agrégée). Il n'y a donc aucune ambiguïté sur la ligne qui reçoit `Nb_etiquettes`.
-- Aucune ligne n'est jamais créée ni supprimée. Une plante mère doit donc avoir une ligne Semis pour apparaître.
+- Chaque entrée = **une ligne de Semis précise** : aucune ambiguïté sur la ligne qui reçoit `Nb_etiquettes`.
+- Aucune ligne n'est créée ni supprimée. Une plante mère doit avoir une ligne Semis pour apparaître.
+
+## Logique de couleurs
+
+| Couleur | Signification | Où dans l'outil |
+|---|---|---|
+| Neutre (fond de page, bordure grise) | Entrée sans information | Cartes de « À étiqueter » |
+| Bleu (`.cadre-info-a-jour`) | Info à jour, déjà en base | Cadre « X à imprimer · Y imprimées en attente » dans la carte |
+| Orange (`.brouillon`, `.btn-ajouter`, `.brouillon-nb`) | En cours, pas encore enregistré | Section « En cours », bouton « Voir les « En cours » » |
+| Rouge (`--erreur`) | Attention / erreur | ⚠ dans « En cours », message d'échec |
+| Vert-jaune (`--plantemere`) | Catégorie plante mère | Liseré à gauche de la carte (`.semis.plantemere`) et ligne « 🌱 Plante mère (plantée en AAAA) » (`.semis-plantemere`) |
+
+Les cartes ne changent **jamais** de couleur à la saisie. Le fond d'une carte reste toujours neutre.
 
 ## Fonctionnalités
 
-- Liste triée par nom (puis par id), au format `Nom — Variété`.
-- Détail sous chaque entrée : « plante mère plantée en AAAA », « N plantés le JJ/MM/AAAA », « graines AAAA », « Où : … ».
-- Recherche à la frappe : insensible aux accents et à la casse, plusieurs mots dans n'importe quel ordre. Elle porte sur nom + variété.
+### Liste « À étiqueter »
+- Triée par nom (puis par id), format `Nom — Variété`.
+- Structure d'une carte (`<li class="semis">`, en flex) :
+  - à gauche `.semis-texte` : variété, ligne plante mère (si besoin), détail (« N plantés le JJ/MM/AAAA », « graines AAAA », « Où : … »), cadre bleu (si besoin) ;
+  - à droite : petit champ numérique `.champ.champ-etiquettes` (~4,5 rem), centré verticalement.
+- Cadre bleu = **deux éléments imbriqués** : un `div.cadre-info-a-jour` (le cadre, `inline-block`, largeur du contenu) qui contient un `div.cadre-info-a-jour-titre` (le texte bleu foncé gras).
+- Plante mère : classe `plantemere` sur le `<li>` (liseré) + `div.semis-plantemere`.
+- Champ : entier strictement positif. Toute autre valeur (vide, 0, négatif, décimal) supprime le brouillon.
+
+### Recherche
+- À la frappe, insensible aux accents et à la casse, plusieurs mots dans n'importe quel ordre, sur nom + variété.
 - Titre « À étiqueter (N) » ou « (x sur N) » pendant le filtrage, plus compteur dans l'en-tête.
-- Badge orange « ⚠ X à imprimer · Y imprimées en attente » si `Nb_etiquettes > 0` ou `Etiq_en_attente > 0`, pour éviter les doublons.
-- Champ « Étiquettes » par ligne : entier strictement positif. Toute autre valeur (vide, 0, négatif, décimal) supprime le brouillon.
-- Brouillons `{ idSemis, nb }` : ligne en bleu, conservés quand on filtre ou efface la recherche.
-- Statut dans l'en-tête : « ✓ À jour » ou « ● Non sauvegardé (n) ». Alerte du navigateur à la fermeture s'il y a des brouillons.
-- Barre d'enregistrement collée en bas (messages et bouton « Enregistrer tout »), bouton visible seulement s'il y a des brouillons.
-- Message de succès qui disparaît seul après 5 s.
+- Les brouillons survivent au filtrage (le champ est rempli depuis `brouillons`).
+
+### Section « En cours » (orange)
+- Entre la recherche et « À étiqueter », visible seulement s'il y a au moins un brouillon.
+- Titre « En cours (n) » et bouton **Enregistrer** (sans compteur, comme les autres outils).
+- Chaque ligne : variété (🌱 devant si plante mère, option), puis le Où, puis « + x étiquettes » en orange, puis un ⚠ rouge si la ligne a déjà des étiquettes à imprimer ou en attente (anti-doublon).
+- ✕ : retire le brouillon **à l'écran uniquement** (rien dans Grist) et vide le champ de la ligne dans la liste.
+- Seule cette section est redessinée à chaque saisie (`afficherEnCours()`), pas la liste, pour que le champ garde le focus.
+
+### Barre flottante en bas (`#barreFlottante`, sticky)
+- Contient le message de succès (disparaît seul après 5 s) et le bouton orange **« Voir les « En cours » (n) »**.
+- Ce bouton n'apparaît que s'il y a des brouillons **et** que la section « En cours » est hors de l'écran (`IntersectionObserver`). Au clic : défilement doux vers la section.
+
+### Statut
+- En-tête : « ✓ À jour » ou « ● Non sauvegardé (n) ». Alerte du navigateur à la fermeture s'il y a des brouillons.
+- `majStatut()` appelle `afficherEnCours()`.
 
 ## Enregistrement (`enregistrerTout`)
 
-1. Relit la table Semis (`chargerSemis()`) pour avoir les valeurs **actuelles** de `Nb_etiquettes`.
+1. Relit Semis (`chargerSemis()`) pour avoir les valeurs **actuelles** de `Nb_etiquettes`.
 2. Calcule `Nb_etiquettes actuel + saisie` (vide = 0).
 3. Écrit en un seul `BulkUpdateRecord` sur `Nb_etiquettes`.
 4. Vide les brouillons, affiche le succès, recharge et réaffiche la liste.
 
-En cas d'échec, un message rouge s'affiche et les brouillons sont conservés. Une ligne supprimée entre-temps (ex. par `achatrepro`) est simplement ignorée.
+En cas d'échec : message rouge, brouillons conservés. Une ligne supprimée entre-temps est ignorée.
 
 ## Cohabitation avec les autres outils (validée)
 
-- **Etiquettes sur sachets** : lit `Nb_etiquettes > 0`, imprime, puis `Etiq_en_attente += Nb_etiquettes` et `Nb_etiquettes = 0`. La relecture avant écriture évite tout conflit avec la remise à 0.
-- **achatrepro** : lit et vide `Etiq_en_attente`, supprime les lignes de transit/vierges. Notre outil ne crée aucune ligne, donc aucun risque.
-- **Gestion des semis** : continue à gérer germes, plantés et emplacements. Notre outil ne touche pas ces colonnes.
+- **Etiquettes sur sachets** : lit `Nb_etiquettes > 0`, imprime, puis `Etiq_en_attente += Nb_etiquettes` et `Nb_etiquettes = 0`. La relecture avant écriture évite tout conflit.
+- **achatrepro** : lit et vide `Etiq_en_attente`, supprime les lignes de transit/vierges. Notre outil ne crée aucune ligne.
+- **Gestion des semis** : gère germes, plantés, emplacements. Notre outil ne touche pas ces colonnes.
 
-Test de bout en bout validé : saisie → impression → retour (badge « imprimées en attente ») → nouvelle saisie (3 et non 5, `Etiq_en_attente` intact).
+Test de bout en bout validé : saisie → impression → retour (cadre bleu « imprimées en attente ») → nouvelle saisie (3 et non 5, `Etiq_en_attente` intact).
 
 ## Conventions respectées
 
-Variables en français, état global en haut du fichier, `modifie` + `majStatut()`, `recordsParId` (Map), utilitaires `tableEnLignes` / `normaliser` / `listeChoix` / `dateAffichee`, `confirmer()` prévue dans le HTML/CSS (non utilisée).
+Variables en français, état global en haut du fichier, `modifie` + `majStatut()`, `recordsParId` (Map), utilitaires `tableEnLignes` / `normaliser` / `listeChoix` / `dateAffichee`, `confirmer()` prévue dans le HTML/CSS commun (non utilisée).
 
 ## Pièges rencontrés
 
-- **Cache du JS** : Grist garde l'ancien script. Après modification, faire Ctrl + Maj + R. Sur tablette, utiliser `?v=N` sur les URL du JS et du CSS dans le HTML et incrémenter à chaque changement.
-- **`hidden` et CSS** : une règle `display` peut l'emporter sur l'attribut `hidden`, d'où `[hidden] { display: none !important; }` dans le CSS.
+- **Cache JS/CSS** : Ctrl + Maj + R, ou `?v=N` dans les URL (tablette).
+- **`hidden` et CSS** : une règle `display` peut l'emporter sur `hidden`, d'où `[hidden] { display: none !important; }` (dans le CSS commun).
+- **`.brouillon` du CSS commun** : orange et flexible. À appliquer seulement aux lignes de « En cours », jamais aux cartes de la liste.
+- **`className = '...'` écrase** les classes existantes : changer la classe d'un cadre lui fait perdre son style (cas du cadre bleu).
 
 ## Choix écartés
 
-- `onRecords` + `mapColumnNames` : abandonné au profit de `fetchTable`, comme les autres outils.
-- Colonne `Disparue` sur les plantes mères : non ajoutée pour l'instant (option A retenue).
-- Affichage de `Positions` : retiré, `Où` suffit à distinguer les lignes.
-- Recherche collée en haut (sticky) : essayée, non retenue.
-
-## Nettoyage CSS (à confirmer comme fait)
-
-Règles héritées de `gestion_semis` à supprimer car inutilisées : `.btn-ng`, `.champ-germes`, `.saisie-planter`, `.btn-tout`, `#datePlantation`, bloc « où » (`.bloc-ou`, `.champ-liste`, `.recherche-ou`, `.liste-choix`, `.pastille*`), `.alerte-germes`, `.liste-semis`, `h2`.
-À ajouter : une règle `.champ-etiquettes` (flex: 1, font-size 1.1rem, padding 10px, bordure 1px #aaa, rayon 6px).
-À conserver : `.semis*`, `.saisie`, `.btn-enregistrer `, `.erreur`, `.succes`, `.statut*`, `.compteurs`, `#recherche`, `#message`, `#barreEnregistrement*`, `#btnEnregistrer:not([hidden])`, `[hidden]`, `.confirmation*`, `.btn-annuler`, `.btn-valider`.
+- `onRecords` + `mapColumnNames` : remplacé par `fetchTable`.
+- Colonne `Disparue` sur les plantes mères : non ajoutée.
+- Affichage de `Positions` : retiré, `Où` suffit.
+- Recherche collée en haut (sticky) : non retenue.
+- Bouton Enregistrer flottant avec compteur : remplacé par Enregistrer dans « En cours » + bouton flottant « Voir les En cours ».
+- Liste séparée des étiquettes déjà à imprimer : écartée (doublon), remplacée par le cadre bleu.
+- ⚠ orange dans la carte : remplacé par le cadre bleu (orange réservé aux brouillons).
+- Fond coloré pour les plantes mères : écarté (conflit avec bleu et orange), liseré retenu.
 
 ## Reste à faire / pistes
 
-- [ ] Confirmer le nettoyage CSS en dev, puis recopier en prod avec `?v=N`.
-- [ ] Retirer le `console.log` de trace dans `afficherSucces` s'il y est encore, et éventuellement `el.style.display` (redondant avec `[hidden]`).
-- [ ] Décider du sort de `#message` (diagnostic : semis chargés / plants / plantes mères) : le garder discret ou le supprimer.
-- [ ] Liste longue : envisager un affichage réduit (limite de lignes, bouton « Afficher tout »), ou un bouton « Enregistrer » plus accessible.
-- [ ] Plantes mères mortes ou arrachées : aucun statut aujourd'hui, elles restent dans la liste. Piste : colonne `Millesimes.Disparue` (Bool) répercutée sur Semis, puis exclusion.
-- [ ] Éventuellement afficher `Positions` en option, ou une confirmation avant enregistrement via `confirmer()`.
-- [ ] Éventuellement un bouton pour retirer un brouillon rapidement, ou pour vider tous les brouillons.
+- [ ] Mettre la version prod à jour avec les derniers HTML/CSS/JS (avec `?v=N`).
+- [ ] Peaufiner le CSS de détail (espacements, couleur du ⚠, `margin-top` du cadre bleu).
+- [ ] Vérifier le contraste du texte `--plantemere` en plein soleil ; sinon ajouter `--plantemere-fonce` (#5f7a00) pour les textes.
+- [ ] Décider du sort de `#message` (diagnostic) : garder discret ou supprimer.
+- [ ] Retirer le `console.log` de trace dans `afficherSucces` s'il y est encore.
+- [ ] Liste longue : envisager un affichage réduit (limite de lignes, « Afficher tout »).
+- [ ] Plantes mères mortes ou arrachées : aucun statut aujourd'hui. Piste : colonne `Millesimes.Disparue` (Bool) répercutée sur Semis.
+- [ ] Éventuellement une confirmation avant enregistrement via `confirmer()`, ou un bouton « Tout retirer ».

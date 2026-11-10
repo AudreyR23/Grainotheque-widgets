@@ -3,6 +3,7 @@ let modifie = false;
 let brouillons = [];   // { idSemis, nb } : étiquettes à ajouter
 let enregistrementEnCours = false;
 let recherche = '';
+let enCoursVisible = false;
 const recordsParId = {
   semis: new Map()
 };
@@ -71,9 +72,6 @@ function libelle(s) {
 
 function detailEntree(s) {
   const parties = [];
-  if (s.planteMere) {
-    parties.push('plante mère' + (s.anneePlantation ? ` plantée en ${s.anneePlantation}` : ''));
-  }
   if (s.plantes > 0) {
     parties.push(`${s.plantes} planté${s.plantes > 1 ? 's' : ''}` +
       (s.datePlantation ? ` le ${dateAffichee(s.datePlantation)}` : ''));
@@ -106,43 +104,51 @@ function afficherSelection() {
     const li = document.createElement('li');
     li.className = 'semis';
     li.dataset.id = s.id;
+        if (s.planteMere) li.classList.add('plantemere');
 
+    const texte = document.createElement('div');
+    texte.className = 'semis-texte';
     const ligne1 = document.createElement('strong');
     ligne1.textContent = libelle(s);
-
     const ligne2 = document.createElement('div');
     ligne2.className = 'semis-detail';
     ligne2.textContent = detailEntree(s);
+        texte.appendChild(ligne1);
+    if (s.planteMere) {
+      const mere = document.createElement('div');
+      mere.className = 'semis-plantemere';
+      mere.textContent = '🌱 Plante mère' + (s.anneePlantation ? ` (plantée en ${s.anneePlantation})` : '');
+      texte.appendChild(mere);
+    }
+    texte.appendChild(ligne2);
+
+        if (s.nbEtiquettes > 0 || s.enAttente > 0) {
+      const cadre = document.createElement('div');
+      cadre.className = 'cadre-info-a-jour';
+
+      const info = document.createElement('div');
+      info.className = 'cadre-info-a-jour-titre';
+      const morceaux = [];
+      if (s.nbEtiquettes > 0) morceaux.push(`${s.nbEtiquettes} à imprimer`);
+      if (s.enAttente > 0) morceaux.push(`${s.enAttente} imprimée${s.enAttente > 1 ? 's' : ''} en attente`);
+      info.textContent = morceaux.join(' · ');
+
+      cadre.appendChild(info);
+      texte.appendChild(cadre);
+    }
 
     const brouillon = brouillons.find(b => b.idSemis === s.id);
-    li.classList.toggle('brouillon', !!brouillon);
-
-    const saisie = document.createElement('div');
-    saisie.className = 'saisie';
     const champ = document.createElement('input');
     champ.type = 'number';
     champ.min = '1';
     champ.step = '1';
     champ.inputMode = 'numeric';
-    champ.placeholder = 'Étiquettes';
-    champ.className = 'champ-etiquettes';
+    champ.placeholder = 'Nb';
+    champ.title = 'Nombre d\'étiquettes à ajouter';
+    champ.className = 'champ champ-etiquettes';
     if (brouillon) champ.value = brouillon.nb;
-    saisie.appendChild(champ);
 
-    li.append(ligne1, ligne2, saisie);
-
-    if (s.nbEtiquettes > 0 || s.enAttente > 0) {
-      const info = document.createElement('div');
-      info.className = 'semis-detail';
-      const alerte = document.createElement('span');
-      alerte.className = 'semis-retard';
-      const morceaux = [];
-      if (s.nbEtiquettes > 0) morceaux.push(`${s.nbEtiquettes} à imprimer`);
-      if (s.enAttente > 0) morceaux.push(`${s.enAttente} imprimée${s.enAttente > 1 ? 's' : ''} en attente`);
-      alerte.textContent = '⚠ ' + morceaux.join(' · ');
-      info.appendChild(alerte);
-      li.appendChild(info);
-    }
+    li.append(texte, champ);
     liste.appendChild(li);
   }
   majCompteurs();
@@ -168,14 +174,13 @@ function majStatut() {
   el.textContent = modifie ? `● Non sauvegardé (${n})` : '✓ À jour';
   el.classList.toggle('non-sauvegarde', modifie);
   document.getElementById('btnEnregistrer').hidden = !modifie;
+  afficherEnCours();
 }
 
 // ===== Saisie et brouillons =====
 function poserBrouillon(idSemis, nb) {
   brouillons = brouillons.filter(b => b.idSemis !== idSemis);
   if (nb !== null) brouillons.push({ idSemis, nb });
-  const li = document.querySelector(`#listeSelection li[data-id="${idSemis}"]`);
-  if (li) li.classList.toggle('brouillon', nb !== null);
   majStatut();
 }
 
@@ -191,7 +196,83 @@ function initialiserSaisie() {
   });
     document.getElementById('btnEnregistrer').addEventListener('click', enregistrerTout);
 }
+// ===== Section « En cours » =====
+function afficherEnCours() {
+  const n = brouillons.length;
+  document.getElementById('enCours').hidden = n === 0;
+  document.getElementById('titreEnCours').textContent = `En cours (${n})`;
+  document.getElementById('btnVoirEnCours').textContent = `Voir les « En cours » (${n})`;
 
+  const liste = document.getElementById('listeEnCours');
+  liste.innerHTML = '';
+  for (const b of brouillons) {
+    const s = recordsParId.semis.get(b.idSemis);
+    const li = document.createElement('li');
+    li.className = 'brouillon';
+
+    const texte = document.createElement('div');
+    const ligne1 = document.createElement('strong');
+    ligne1.textContent = s ? (s.planteMere ? '🌱 ' : '') + libelle(s) : '(ligne inconnue)';       texte.appendChild(ligne1);
+    if (s && s.ou.length) {
+      const ligneOu = document.createElement('div');
+      ligneOu.className = 'brouillon-detail';
+      ligneOu.textContent = s.ou.join(', ');
+      texte.appendChild(ligneOu);
+    }
+    const ligneNb = document.createElement('div');
+    ligneNb.className = 'brouillon-nb';
+    ligneNb.textContent = `+ ${b.nb} étiquette${b.nb > 1 ? 's' : ''}`;
+    texte.appendChild(ligneNb);
+        if (s && (s.nbEtiquettes > 0 || s.enAttente > 0)) {
+      const alerte = document.createElement('div');
+      alerte.className = 'brouillon-alerte';
+      const morceaux = [];
+      if (s.nbEtiquettes > 0) morceaux.push(`${s.nbEtiquettes} déjà à imprimer`);
+      if (s.enAttente > 0) morceaux.push(`${s.enAttente} en attente`);
+      alerte.textContent = '⚠ ' + morceaux.join(' · ');
+      texte.appendChild(alerte);
+    }
+
+    const bouton = document.createElement('button');
+    bouton.type = 'button';
+    bouton.className = 'btn-suppr';
+    bouton.textContent = '✕';
+    bouton.title = 'Retirer de la liste';
+    bouton.dataset.id = b.idSemis;
+
+    li.append(texte, bouton);
+    liste.appendChild(li);
+  }
+  majBoutonVoir();
+}
+
+function majBoutonVoir() {
+  document.getElementById('btnVoirEnCours').hidden = brouillons.length === 0 || enCoursVisible;
+}
+
+function initialiserEnCours() {
+  const section = document.getElementById('enCours');
+
+  // Le bouton flottant n'apparaît que si la section « En cours » est hors de l'écran
+  new IntersectionObserver(entrees => {
+    enCoursVisible = entrees[0].isIntersecting;
+    majBoutonVoir();
+  }).observe(section);
+
+  document.getElementById('btnVoirEnCours').addEventListener('click', () => {
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  // ✕ : retire le brouillon et vide le champ de la ligne (écran uniquement, rien dans Grist)
+  document.getElementById('listeEnCours').addEventListener('click', e => {
+    const btn = e.target.closest('.btn-suppr');
+    if (!btn) return;
+    const id = Number(btn.dataset.id);
+    poserBrouillon(id, null);
+    const champ = document.querySelector(`#listeSelection li[data-id="${id}"] .champ-etiquettes`);
+    if (champ) champ.value = '';
+  });
+}
 // ===== Enregistrement =====
 let minuterieSucces = null;
 
@@ -247,7 +328,7 @@ async function enregistrerTout() {
   } finally {
     enregistrementEnCours = false;
     bouton.disabled = false;
-    bouton.textContent = 'Enregistrer tout';
+    bouton.textContent = 'Enregistrer';
   }
 }
 
@@ -264,6 +345,7 @@ chargerSemis()
     afficherSelection();
     initialiserRecherche();
     initialiserSaisie();
+    initialiserEnCours();
     majStatut();
     const plants = entreesEtiquetables().filter(s => !s.planteMere).length;
     const meres  = entreesEtiquetables().filter(s => s.planteMere).length;

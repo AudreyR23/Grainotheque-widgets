@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Semis à gérer</title>
+<title>Sélection pour étiquettes</title>
 <link rel="stylesheet" href="../styles/gestion_commun.css">
 <link rel="stylesheet" href="../styles/gestion_etiquettes.css">
 <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
@@ -14,13 +14,21 @@
 <span id="statut" class="statut">Chargement…</span>
 </header>
 <main>
-<input id="recherche" class="champ" type="search" placeholder="Filtrer par nom de variété…" autocomplete="off">    
-<h3 id="titreSelection">À étiqueter</h3>
-<ul id="listeSelection"></ul>
-<div id="barreEnregistrement">
-  <p id="messageSucces" class="succes" hidden></p>
-  <p id="erreurEnregistrement" class="erreur" hidden></p>
-  <button id="btnEnregistrer" type="button" class="btn-enregistrer " hidden>Enregistrer tout</button>
+<input id="recherche" class="champ" type="search" placeholder="Filtrer par nom de variété…" autocomplete="off">
+
+<section id="enCours" hidden>
+<h2 id="titreEnCours"></h2>
+<ul id="listeEnCours" class="liste-brouillons"></ul>
+<p id="erreurEnregistrement" class="erreur" hidden></p>
+<button id="btnEnregistrer" type="button" class="btn btn-enregistrer btn-large">Enregistrer</button>
+</section>
+
+<h2 id="titreSelection">À étiqueter</h2>
+<ul id="listeSelection" class="liste-semis"></ul>
+
+<div id="barreFlottante">
+<p id="messageSucces" class="succes" hidden></p>
+<button id="btnVoirEnCours" type="button" class="btn btn-ajouter btn-large" hidden>Voir les « En cours »</button>
 </div>
 <p id="message"></p>
 </main>
