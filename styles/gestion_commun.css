@@ -178,6 +178,8 @@ input, select, button, textarea {
   color: var(--gris-fonce); 
   margin-top: 2px; 
 }
+/*arevoir*/
+
 
 /* ===== Boutons ===== */
 .btn {
@@ -301,13 +303,15 @@ input, select, button, textarea {
 .erreur { 
   color: var(--erreur); 
   font-weight: bold; 
-  margin: 10px 0 0; }
+  margin: 10px 0 0; 
+  margin-top: 4px;
+  font-size: 0.85rem;
+}
 
 /*.message.erreur { color: #c62828; font-weight: bold; }*/
 /*.message.ok { 
   color: #2e7d32; 
 }*/
-/*.alerte { color: #a33; }*/
 
 /* ===== Mise en page ===== */
 .deux-colonnes { 
@@ -338,11 +342,6 @@ input, select, button, textarea {
 .cadre-info-a-jour-plantemere { 
   color: var(--plantemere); 
   padding: 2px 0; 
-}
-.cadre-info-a-jour-alerte { 
-  color:var(--erreur); 
-  font-weight: bold; 
-  margin-top: 4px; 
 }
 
 /* ===== Où ===== */
@@ -425,6 +424,7 @@ input, select, button, textarea {
 .carte-mention { margin-top: 2px; font-size: 0.85rem; font-weight: bold; }
 .carte-action { flex: none; }
 .carte-texte .cadre-info-a-jour { display: inline-block; max-width: 100%; }
+.semis-retard { color: #c62828; font-weight: 600; }
 
 /* Liseré de couleur à gauche */
 .carte.sousabri   { border-left: 5px solid var(--sousabri-moyen); }

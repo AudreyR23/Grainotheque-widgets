@@ -17,15 +17,6 @@
 }
 #barreFlottante p { margin: 0 0 6px; }
 
-#message { margin-top: 20px; font-size: 0.8rem; color: var(--gris); white-space: pre-line; }
-
-.brouillon-alerte {
-  margin-top: 4px;
-  font-size: 0.85rem;
-  font-weight: bold;
-  color: var(--erreur);
-}
-
 .brouillon-nb {
   margin-top: 2px;
   font-weight: bold;

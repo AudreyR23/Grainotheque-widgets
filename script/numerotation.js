@@ -116,14 +116,14 @@ function afficherAnalyse() {
     ajouterDiv(zone, '⚠ Doublons (' + a.doublons.length + ')', 'cadre-info-a-jour-titre');
     for (const d of a.doublons) {
       ajouterDiv(zone, 'N° ' + d.numero + ' : ' +
-        d.lignes.map(nomAffichage).join('  |  '), 'cadre-info-a-jour-alerte');
+        d.lignes.map(nomAffichage).join('  |  '), 'erreur');
     }
   }
   if (a.invalides.length > 0) {
     ajouterDiv(zone, '⚠ Numéros invalides (' + a.invalides.length + ')', 'cadre-info-a-jour-titre');
     for (const ligne of a.invalides) {
       ajouterDiv(zone, nomAffichage(ligne) + ' : valeur « ' +
-        ligne.Num_epingle + ' »', 'cadre-info-a-jour-alerte');
+        ligne.Num_epingle + ' »', 'erreur');
     }
   }
 }

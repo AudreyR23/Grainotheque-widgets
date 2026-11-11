@@ -96,10 +96,6 @@ function afficherSelection() {
     libelle(a).localeCompare(libelle(b), 'fr') || a.id - b.id);
   const semis = filtrerParRecherche(tous);
   liste.innerHTML = '';
-  document.getElementById('titreSelection').textContent = recherche
-    ? `À étiqueter (${semis.length} sur ${tous.length})`
-    : `À étiqueter (${tous.length})`;
-
   for (const s of semis) {
     const li = document.createElement('li');
     li.className = 'carte';
@@ -151,12 +147,6 @@ function afficherSelection() {
     li.append(texte, champ);
     liste.appendChild(li);
   }
-  majCompteurs();
-}
-
-function majCompteurs() {
-  document.getElementById('compteurs').textContent =
-    `${entreesEtiquetables().length} à étiqueter`;
 }
 
 function initialiserRecherche() {
@@ -200,8 +190,8 @@ function initialiserSaisie() {
 function afficherEnCours() {
   const n = brouillons.length;
   document.getElementById('enCours').hidden = n === 0;
-  document.getElementById('titreEnCours').textContent = `En cours (${n})`;
-  document.getElementById('btnVoirEnCours').textContent = `Voir les « En cours » (${n})`;
+  document.getElementById('titreEnCours').textContent = `À ajouter (${n})`;
+  document.getElementById('btnVoirEnCours').textContent = `Voir les brouillons (${n})`;
 
   const liste = document.getElementById('listeEnCours');
   liste.innerHTML = '';
@@ -225,7 +215,7 @@ function afficherEnCours() {
     texte.appendChild(ligneNb);
         if (s && (s.nbEtiquettes > 0 || s.enAttente > 0)) {
       const alerte = document.createElement('div');
-      alerte.className = 'brouillon-alerte';
+      alerte.className = 'erreur';
       const morceaux = [];
       if (s.nbEtiquettes > 0) morceaux.push(`${s.nbEtiquettes} déjà à imprimer`);
       if (s.enAttente > 0) morceaux.push(`${s.enAttente} en attente`);
@@ -347,10 +337,6 @@ chargerSemis()
     initialiserSaisie();
     initialiserEnCours();
     majStatut();
-    const plants = entreesEtiquetables().filter(s => !s.planteMere).length;
-    const meres  = entreesEtiquetables().filter(s => s.planteMere).length;
-    document.getElementById('message').textContent =
-      `Semis chargés : ${recordsParId.semis.size}\nPlants plantés : ${plants}\nPlantes mères : ${meres}`;
   })
   .catch(err => {
     console.error(err);

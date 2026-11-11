@@ -604,8 +604,8 @@ function afficherDerniersSemis() {
   const dansListe = brouillons.filter(b => b.varieteId === varieteChoisieId).length;
   if (dansListe) {
     const div = document.createElement('div');
-    div.className = 'cadre-info-a-jour-alerte';
-    div.textContent = `⚠ Déjà dans ta liste à enregistrer (${dansListe}).`;
+    div.className = 'erreur';
+    div.textContent = `⚠ Déjà dans ta liste à enregistrer`;
     zone.appendChild(div);
   }
   zone.hidden = false;
@@ -668,7 +668,7 @@ function habillerSelect(select) {
   bouton.type = 'button';
   bouton.className = 'champ champ-select';
   const liste = document.createElement('ul');
-  liste.className = 'liste-choix';
+  liste.className = 'liste-choix'; /* à supprimer*/
   liste.hidden = true;
   conteneur.append(bouton, liste);
 

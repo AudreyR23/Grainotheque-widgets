@@ -108,20 +108,21 @@ function afficherVerifier() {
 
   for (const s of semis) {
     const li = document.createElement('li');
-    li.className = 'semis';
-    li.dataset.id = s.id;
+    li.className = 'carte';
+    li.dataset.id = s.id; /*à revoir*/
 
+    const texte = document.createElement('div');
+    texte.className = 'carte-texte';
     const ligne1 = document.createElement('strong');
     ligne1.textContent = libelle(s);
-
     const ligne2 = document.createElement('div');
-    ligne2.className = 'semis-detail';
+    ligne2.className = 'carte-detail';
     ligne2.textContent =
       `semé le ${s.date ? dateAffichee(s.date) : '?'} · ${s.godets} × ${s.graines} graines · ` +
       `germination ${s.duree} j · `;
-    const retard = document.createElement('span');
-    retard.className = 'semis-retard';
-    retard.textContent = `${s.info} j de retard`;
+    const retard = document.createElement('div');
+    retard.className = 'erreur';
+    retard.textContent = '⚠ ' + `${s.info} j de retard`;
     ligne2.appendChild(retard);
 
     const brouillon = brouillons.find(b => b.idSemis === s.id);
@@ -151,11 +152,6 @@ function afficherVerifier() {
     majAlerteGermes(s.id);
     liste.appendChild(li);
   }
-
-  const enAttente = [...recordsParId.semis.values()].filter(s => s.info === 'En attente').length;
-  document.getElementById('message').textContent =
-    `Semis chargés : ${recordsParId.semis.size}\nEn attente (durée pas atteinte) : ${enAttente}`;
-    majCompteurs();
 }
 
 function majAlerteGermes(idSemis) {
@@ -169,7 +165,7 @@ function majAlerteGermes(idSemis) {
   if (trop) alerte.textContent = `⚠ ${b.germes} germes pour seulement ${s.semees} graines semées.`;
 }
 
-// ===== Recherche et compteurs =====
+// ===== Recherche =====
 function filtrerParRecherche(semis) {
   if (!recherche) return semis;
   const mots = recherche.split(' ');
@@ -177,11 +173,6 @@ function filtrerParRecherche(semis) {
     const texte = normaliser(s.nom + ' ' + s.variete);
     return mots.every(mot => texte.includes(mot));
   });
-}
-
-function majCompteurs() {
-  document.getElementById('compteurs').textContent =
-    `${semisAVerifier().length} à vérifier · ${semisAPlanter().length} à planter`;
 }
 
 function initialiserRecherche() {

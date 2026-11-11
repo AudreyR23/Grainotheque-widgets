@@ -192,10 +192,6 @@ function afficher() {
   liste.innerHTML = '';
   const lignes = varietesASemer();
 
-  const nbASemer = lignes.filter(l => !l.dejaSemee).length;
-  document.getElementById('message').textContent =
-    `${nbASemer} variété(s) à semer en ${MOIS[moisChoisi - 1]}, pas encore semée(s) dans leur période de semis.`;
-
   for (const { v, mil, sousAbris, pleineTerre, dejaSemee, semisFait, plant, fenetre } of lignes) {
     const li = document.createElement('li');
         // Liseré : vert (sous abri), marron (pleine terre), moitié-moitié si les deux
