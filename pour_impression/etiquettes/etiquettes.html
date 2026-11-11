@@ -2,19 +2,20 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8">
-    <title>Gestion des épingles</title>
+    <title>Etiquettes sur sachets</title>
 
-    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../../styles/main.css">
 
   </head>
   <body>
     <div class="controls">
       <span class="info" id="info-count">Chargement...</span>
       <button class="btn" onclick="window.print()">🖨️ Imprimer</button>
+      <button class="btn" onclick="marquerImprimees()">✅ Marquer comme imprimées</button>
     </div>
     <div id="pages"></div>
-    
+
     <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
-    <script src="../script/numero.js"></script>
+    <script src="etiquettes.js"></script>
   </body>
 </html>
