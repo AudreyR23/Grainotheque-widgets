@@ -68,13 +68,13 @@ Table utilisée : **Semis** uniquement (pas de chargement de `Varietes` ni de `M
 ## 5. Choix techniques
 
 - **État global en haut du fichier**, noms de variables en français.
-  - `brouillons` : germes en attente `{ idSemis, germes }`
+  - `etapeintermediaires` : germes en attente `{ idSemis, germes }`
   - `plantations` : plantations en attente `{ idSemis, plantes, oups, don, ou }`
   - `ouParSemis` : Map idSemis → emplacements choisis
   - `recordsParId.semis` : Map des lignes chargées
   - `LIEUX` : choix de la colonne `Ou`, lus dans Grist
-  - `recherche`, `enregistrementEnCours`, `modifie`
-- **Brouillon = ligne bleue** (pas de liste séparée « à enregistrer », contrairement à `semis_realises`). `majStatut()` calcule `modifie` à partir de `brouillons` + `plantations`.
+  - `recherche`, `enregistrementEtapeIntermediaire`, `modifie`
+- **etape-intermediare = ligne bleue** (pas de liste séparée « à enregistrer », contrairement à `semis_realises`). `majStatut()` calcule `modifie` à partir de `etapeintermediaires` + `plantations`.
 - **`tableEnLignes()`** transforme le format colonnes de `fetchTable` en tableau de lignes.
 - **ChoiceList Grist** : format `['L', 'a', 'b']`, converti avec `listeChoix()` ; à l'écriture : `['L', ...valeurs]`.
 - **Dates Grist** : secondes UTC à minuit (`dateEnSecondes`, `dateAffichee`).
@@ -98,7 +98,7 @@ Table utilisée : **Semis** uniquement (pas de chargement de `Varietes` ni de `M
 **Ménage du code (quand les chiffres sont confirmés) :**
 1. Dans `afficherVerifier()`, supprimer `const enAttente = …` et le `message.textContent = …` de contrôle, en gardant `majCompteurs();` et le `<p id="message">` (il affiche « Erreur de chargement »).
 2. Supprimer le `console.log('Exemple semis :', …)` de l'initialisation.
-3. Supprimer le commentaire obsolète `// utilisé à l'étape 2` à côté de `let brouillons`.
+3. Supprimer le commentaire obsolète `// utilisé à l'étape 2` à côté de `let etapeintermediaires`.
 4. Supprimer le champ `jours` de `chargerSemis()` (inutilisé).
 
 **Idées non retenues ou facultatives :**
@@ -113,5 +113,5 @@ Table utilisée : **Semis** uniquement (pas de chargement de `Varietes` ni de `M
 2. Germes puis NG, avertissement si germes > semées, enregistrement, vérification dans Grist.
 3. Plantation partielle : la ligne reste avec « déjà planté » mis à jour ; plantation du reste : la ligne disparaît.
 4. `Ou` vide : erreur rouge. `Ou` rempli sans ajout : fenêtre de confirmation. Avec ajout : `Ou` contient l'ancien et le nouveau.
-5. Recherche qui masque une ligne en brouillon, puis enregistrement : le brouillon est bien enregistré.
+5. Recherche qui masque une ligne en etape-intermediare, puis enregistrement : le etape-intermediare est bien enregistré.
 6. Le statut et le bouton « Enregistrer tout » apparaissent et disparaissent avec les saisies.

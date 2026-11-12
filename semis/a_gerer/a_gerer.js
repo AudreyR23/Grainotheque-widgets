@@ -1,7 +1,7 @@
 // ===== État global =====
 let modifie = false;
-let brouillons = [];   // utilisé à l'étape 2
-let enregistrementEnCours = false;
+let etapeintermediaires = [];   // utilisé à l'étape 2
+let enregistrementEtapeIntermediaire = false;
 let plantations = [];   // { idSemis, plantes, oups, don } : quantités à ajouter
 let recherche = '';   // texte de recherche normalisé
 let LIEUX = [];                 // lus depuis Grist (choix de la colonne Ou)
@@ -50,7 +50,7 @@ function listeChoix(valeur) {
 // ===== Statut =====
 function majStatut() {
   const el = document.getElementById('statut');
-  const n = brouillons.length + plantations.length;
+  const n = etapeintermediaires.length + plantations.length;
   modifie = n > 0;
   el.textContent = modifie ? `● Non sauvegardé (${n})` : '✓ À jour';
   el.classList.toggle('non-sauvegarde', modifie);
@@ -112,7 +112,7 @@ function afficherVerifier() {
     li.dataset.id = s.id; /*à revoir*/
 
     const texte = document.createElement('div');
-    texte.className = 'carte-texte';
+    texte.className = 'carte-titre';
     const ligne1 = document.createElement('strong');
     ligne1.textContent = libelle(s);
     const ligne2 = document.createElement('div');
@@ -125,8 +125,8 @@ function afficherVerifier() {
     retard.textContent = '⚠ ' + `${s.info} j de retard`;
     ligne2.appendChild(retard);
 
-    const brouillon = brouillons.find(b => b.idSemis === s.id);
-    li.classList.toggle('brouillon', !!brouillon);
+    const etape-intermediare = etapeintermediaires.find(b => b.idSemis === s.id);
+    li.classList.toggle('etape-intermediare', !!etape-intermediare);
 
     const saisie = document.createElement('div');
     saisie.className = '.saisie';
@@ -137,7 +137,7 @@ function afficherVerifier() {
     champ.inputMode = 'numeric';
     champ.placeholder = 'Germes';
     champ.className = 'champ-germes';
-    if (brouillon) champ.value = brouillon.germes;
+    if (etape-intermediare) champ.value = etape-intermediare.germes;
     const btnNg = document.createElement('button');
     btnNg.type = 'button';
     btnNg.className = 'btn-ng';
@@ -159,7 +159,7 @@ function majAlerteGermes(idSemis) {
   if (!li) return;
   const alerte = li.querySelector('.alerte-germes');
   const s = recordsParId.semis.get(idSemis);
-  const b = brouillons.find(x => x.idSemis === idSemis);
+  const b = etapeintermediaires.find(x => x.idSemis === idSemis);
   const trop = !!(b && s && s.semees > 0 && b.germes > s.semees);
   alerte.hidden = !trop;
   if (trop) alerte.textContent = `⚠ ${b.germes} germes pour seulement ${s.semees} graines semées.`;
@@ -183,12 +183,12 @@ function initialiserRecherche() {
   });
 }
 
-// ===== Saisie et brouillons =====
-function poserBrouillon(idSemis, germes) {
-  brouillons = brouillons.filter(b => b.idSemis !== idSemis);
-  if (germes !== null) brouillons.push({ idSemis, germes });
+// ===== Saisie et etapeintermediaires =====
+function poseretapeintermediaire(idSemis, germes) {
+  etapeintermediaires = etapeintermediaires.filter(b => b.idSemis !== idSemis);
+  if (germes !== null) etapeintermediaires.push({ idSemis, germes });
   const li = document.querySelector(`#listeVerifier li[data-id="${idSemis}"]`);
-  if (li) li.classList.toggle('brouillon', germes !== null);
+  if (li) li.classList.toggle('etape-intermediare', germes !== null);
   majAlerteGermes(idSemis);
   majStatut();
 }
@@ -202,7 +202,7 @@ function initialiserSaisie() {
     const id = Number(champ.closest('li').dataset.id);
     const texte = champ.value.trim();
     const valeur = Number(texte);
-    poserBrouillon(id, texte !== '' && valeur >= 0 ? valeur : null);
+    poseretapeintermediaire(id, texte !== '' && valeur >= 0 ? valeur : null);
   });
 
   liste.addEventListener('click', e => {
@@ -213,10 +213,10 @@ function initialiserSaisie() {
     const id = Number(li.dataset.id);
     if (champ.value === '0') {          // 2e clic : on annule
       champ.value = '';
-      poserBrouillon(id, null);
+      poseretapeintermediaire(id, null);
     } else {
       champ.value = '0';
-      poserBrouillon(id, 0);
+      poseretapeintermediaire(id, 0);
     }
   });
 
@@ -239,11 +239,11 @@ function afficherPlanter() {
     ? `À planter (${semis.length} sur ${tous.length})`
     : `À planter (${tous.length})`;
   for (const s of semis) {
-    const brouillon = plantations.find(p => p.idSemis === s.id);
+    const etape-intermediare = plantations.find(p => p.idSemis === s.id);
     const li = document.createElement('li');
     li.className = 'semis';
     li.dataset.id = s.id;
-    li.classList.toggle('brouillon', !!brouillon);
+    li.classList.toggle('etape-intermediare', !!etape-intermediare);
 
     const ligne1 = document.createElement('strong');
     ligne1.textContent = libelle(s);
@@ -266,7 +266,7 @@ function afficherPlanter() {
       champ.inputMode = 'numeric';
       champ.placeholder = texte;
       champ.dataset.champ = cle;
-      if (brouillon && brouillon[cle]) champ.value = brouillon[cle];
+      if (etape-intermediare && etape-intermediare[cle]) champ.value = etape-intermediare[cle];
       saisie.appendChild(champ);
     }
     const btnTout = document.createElement('button');
@@ -327,7 +327,7 @@ function poserPlantation(idSemis) {
   plantations = plantations.filter(x => x.idSemis !== idSemis);
   const vide = p.plantes === 0 && p.oups === 0 && p.don === 0;
   if (!vide) plantations.push(p);
-  li.classList.toggle('brouillon', !vide);
+  li.classList.toggle('etape-intermediare', !vide);
   majAlertePlanter(idSemis);
   majStatut();
 }
@@ -450,7 +450,7 @@ function afficherErreurEnregistrement(texte) {
 }
 
 async function enregistrerTout() {
-  if ((brouillons.length === 0 && plantations.length === 0) || enregistrementEnCours) return;
+  if ((etapeintermediaires.length === 0 && plantations.length === 0) || enregistrementEtapeIntermediaire) return;
   const dateP = document.getElementById('datePlantation').value;
   if (plantations.some(p => p.plantes > 0) && !dateP) {
     afficherErreurEnregistrement('Renseigne la date de plantation.');
@@ -475,21 +475,21 @@ async function enregistrerTout() {
   }
   afficherErreurEnregistrement('');
 
-  enregistrementEnCours = true;
+  enregistrementEtapeIntermediaire = true;
   const bouton = document.getElementById('btnEnregistrer');
   bouton.disabled = true;
   bouton.textContent = 'Enregistrement…';
   afficherSucces('');
   afficherErreurEnregistrement('');
 
-  const n = brouillons.length + plantations.length;
+  const n = etapeintermediaires.length + plantations.length;
   try {
     const actions = [];
-    if (brouillons.length) {
+    if (etapeintermediaires.length) {
       actions.push([
         'BulkUpdateRecord', 'Semis',
-        brouillons.map(b => b.idSemis),
-        { Germes: brouillons.map(b => b.germes) }
+        etapeintermediaires.map(b => b.idSemis),
+        { Germes: etapeintermediaires.map(b => b.germes) }
       ]);
     }
     for (const p of plantations) {
@@ -506,7 +506,7 @@ async function enregistrerTout() {
       actions.push(['UpdateRecord', 'Semis', p.idSemis, champs]);
     }
     await grist.docApi.applyUserActions(actions);
-    brouillons = [];
+    etapeintermediaires = [];
     plantations = [];
     ouParSemis.clear();
     majStatut();
@@ -518,7 +518,7 @@ async function enregistrerTout() {
     console.error(err);
     afficherErreurEnregistrement('Échec de l\'enregistrement : ' + err.message + ' — tes saisies sont conservées.');
   } finally {
-    enregistrementEnCours = false;
+    enregistrementEtapeIntermediaire = false;
     bouton.disabled = false;
     bouton.textContent = 'Enregistrer tout';
   }

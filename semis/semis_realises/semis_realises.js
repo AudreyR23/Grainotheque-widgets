@@ -3,9 +3,9 @@ let modifie = false;
 let varieteChoisieId = null;
 let millesimeChoisiId = null;
 let ouChoisis = [];   // valeurs de « Ou » sélectionnées
-let brouillons = [];       // lignes en attente d'enregistrement
-let prochainIdBrouillon = 1;
-let enregistrementEnCours = false;
+let etapeintermediaires = [];       // lignes en attente d'enregistrement
+let prochainIdetapeintermediaire = 1;
+let enregistrementEtapeIntermediaire = false;
 let modeSemis = 'godets';   // 'godets' ou 'pleine_terre'
 let donneesChargees = false;
 let varietePendante = null;   // variété reçue avant la fin du chargement
@@ -75,8 +75,8 @@ function dateEnSecondes(iso) {
 // ===== Statut =====
 function majStatut() {
   const el = document.getElementById('statut');
-  modifie = brouillons.length > 0;
-  el.textContent = modifie ? `● Non sauvegardé (${brouillons.length})` : '✓ À jour';
+  modifie = etapeintermediaires.length > 0;
+  el.textContent = modifie ? `● Non sauvegardé (${etapeintermediaires.length})` : '✓ À jour';
   el.classList.toggle('non-sauvegarde', modifie);
 }
 
@@ -362,7 +362,7 @@ function initialiserFiche() {
     document.getElementById('dateSemis').addEventListener('change', afficherDerniersSemis);
     initialiserBascule();
 }
-// ===== Brouillons =====
+// ===== etapeintermediaires =====
 function afficherErreur(texte) {
   const el = document.getElementById('erreurFiche');
   el.textContent = texte;
@@ -395,14 +395,14 @@ function validerFiche(f) {
   return '';
 }
 
-function ajouterBrouillon() {
+function ajouteretapeintermediaire() {
   const f = lireFiche();
   const erreur = validerFiche(f);
   afficherErreur(erreur);
   if (erreur) return;
 
-  f.idBrouillon = prochainIdBrouillon++;
-  brouillons.push(f);
+  f.idetapeintermediaire = prochainIdetapeintermediaire++;
+  etapeintermediaires.push(f);
 
   // Réinitialisation partielle : on garde date, godets, graines, type
   varieteChoisieId = null;
@@ -416,31 +416,31 @@ function ajouterBrouillon() {
   document.getElementById('rechercheOu').value = '';
   document.getElementById('caseSachetVide').checked = false;
   document.getElementById('caseAProduire').checked = false;
-  afficherBrouillons();
+  afficheretapeintermediaires();
   majStatut();
   document.getElementById('rechercheVariete').focus();
 }
 
-function afficherBrouillons() {
-  const zone = document.getElementById('listeBrouillons');
-  const titre = document.getElementById('titreBrouillons');
+function afficheretapeintermediaires() {
+  const zone = document.getElementById('listeetapeintermediaires');
+  const titre = document.getElementById('titreetapeintermediaires');
   zone.innerHTML = '';
-  titre.hidden = brouillons.length === 0;
-  titre.textContent = `À enregistrer (${brouillons.length})`;
-  document.getElementById('btnEnregistrer').hidden = brouillons.length === 0;
+  titre.hidden = etapeintermediaires.length === 0;
+  titre.textContent = `À enregistrer (${etapeintermediaires.length})`;
+  document.getElementById('btnEnregistrer').hidden = etapeintermediaires.length === 0;
 
-  for (const b of brouillons) {
+  for (const b of etapeintermediaires) {
     const v = recordsParId.varietes.get(b.varieteId);
     const m = recordsParId.millesimes.get(b.millesimeId);
     const li = document.createElement('li');
-    li.className = 'brouillon';
+    li.className = 'etape-intermediare';
 
     const texte = document.createElement('div');
-    texte.className = 'brouillon-texte';
+    texte.className = 'etape-intermediare-texte';
     const ligne1 = document.createElement('strong');
     ligne1.textContent = v ? libelleVariete(v) : '(variété inconnue)';
     const ligne2 = document.createElement('div');
-    ligne2.className = 'brouillon-detail';
+    ligne2.className = 'etape-intermediaire-detail';
         const quantite = b.mode === 'pleine_terre'
       ? `pleine terre · ${b.graines} graines`
       : `${b.godets} godets × ${b.graines} graines`;
@@ -456,21 +456,21 @@ function afficherBrouillons() {
     bouton.className = 'btn-suppr';
     bouton.textContent = '✕';
     bouton.title = 'Retirer de la liste';
-    bouton.dataset.id = b.idBrouillon;
+    bouton.dataset.id = b.idetapeintermediaire;
 
     li.append(texte, bouton);
     zone.appendChild(li);
   }
 }
 
-function initialiserBrouillons() {
-  document.getElementById('btnAjouter').addEventListener('click', ajouterBrouillon);
+function initialiseretapeintermediaires() {
+  document.getElementById('btnAjouter').addEventListener('click', ajouteretapeintermediaire);
     document.getElementById('btnEnregistrer').addEventListener('click', enregistrerTout);
-  document.getElementById('listeBrouillons').addEventListener('click', e => {
+  document.getElementById('listeetapeintermediaires').addEventListener('click', e => {
     const btn = e.target.closest('.btn-suppr');
     if (!btn) return;
-    brouillons = brouillons.filter(b => b.idBrouillon !== Number(btn.dataset.id));
-    afficherBrouillons();
+    etapeintermediaires = etapeintermediaires.filter(b => b.idetapeintermediaire !== Number(btn.dataset.id));
+    afficheretapeintermediaires();
     majStatut();
   });
 }
@@ -489,8 +489,8 @@ function afficherErreurEnregistrement(texte) {
 }
 
 async function enregistrerTout() {
-  if (brouillons.length === 0 || enregistrementEnCours) return;
-  enregistrementEnCours = true;
+  if (etapeintermediaires.length === 0 || enregistrementEtapeIntermediaire) return;
+  enregistrementEtapeIntermediaire = true;
 
   const bouton = document.getElementById('btnEnregistrer');
   bouton.disabled = true;
@@ -499,28 +499,28 @@ async function enregistrerTout() {
   afficherSucces('');
   afficherErreurEnregistrement('');
 
-  const n = brouillons.length;
+  const n = etapeintermediaires.length;
   const colonnes = {
-    NomVariete: brouillons.map(b => b.varieteId),
-    Millesime: brouillons.map(b => b.millesimeId),
-    Date_s: brouillons.map(b => dateEnSecondes(b.date)),
-    Nb_godets: brouillons.map(b => b.godets),
-    Nb_graines: brouillons.map(b => b.graines),
-    Type: brouillons.map(b => b.type),
-    Ou: brouillons.map(b => b.ou.length ? ['L', ...b.ou] : null),
-    Germes: brouillons.map(() => null),
-    A_produire: brouillons.map(b => !!b.aProduire)
+    NomVariete: etapeintermediaires.map(b => b.varieteId),
+    Millesime: etapeintermediaires.map(b => b.millesimeId),
+    Date_s: etapeintermediaires.map(b => dateEnSecondes(b.date)),
+    Nb_godets: etapeintermediaires.map(b => b.godets),
+    Nb_graines: etapeintermediaires.map(b => b.graines),
+    Type: etapeintermediaires.map(b => b.type),
+    Ou: etapeintermediaires.map(b => b.ou.length ? ['L', ...b.ou] : null),
+    Germes: etapeintermediaires.map(() => null),
+    A_produire: etapeintermediaires.map(b => !!b.aProduire)
   };
 
    try {
         const actions = [['BulkAddRecord', 'Semis', new Array(n).fill(null), colonnes]];
-    const millesimesVides = [...new Set(brouillons.filter(b => b.sachetVide).map(b => b.millesimeId))];
+    const millesimesVides = [...new Set(etapeintermediaires.filter(b => b.sachetVide).map(b => b.millesimeId))];
     for (const id of millesimesVides) {
       actions.push(['UpdateRecord', 'Millesimes', id, { Qtte_graines: null, Sachets: '' }]);
     }
     await grist.docApi.applyUserActions(actions);
-    brouillons = [];
-    afficherBrouillons();
+    etapeintermediaires = [];
+    afficheretapeintermediaires();
     majStatut();
     afficherSucces(`✓ ${n} semis enregistré${n > 1 ? 's' : ''} dans Semis.`);
     try { await chargerSemis(); } catch (e) { console.error('Rechargement de Semis impossible :', e); }
@@ -528,7 +528,7 @@ async function enregistrerTout() {
     console.error(err);
     afficherErreurEnregistrement('Échec de l\'enregistrement : ' + err.message + ' — tes lignes sont conservées.');
   } finally {
-    enregistrementEnCours = false;
+    enregistrementEtapeIntermediaire = false;
     bouton.disabled = false;
     document.getElementById('btnAjouter').disabled = false;
     bouton.textContent = 'Enregistrer tout';
@@ -569,7 +569,7 @@ function afficherDerniersSemis() {
     .sort((a, b) => b.date - a.date);
 
   const titre = document.createElement('div');
-  titre.className = 'cadre-info-a-jour-titre ';
+  titre.className = 'cadre-info-titre ';
   titre.textContent = semis.length
     ? `Déjà semé en ${annee} (${semis.length}) :`
     : `Pas encore semé en ${annee}.`;
@@ -579,7 +579,7 @@ function afficherDerniersSemis() {
   if (meres.length) {
     const annees = meres.map(m => m.anneePlantation).filter(a => a).sort();
     const div = document.createElement('div');
-    div.className = 'cadre-info-a-jour-plantemere';
+    div.className = 'cadre-info-plantemere';
     div.textContent = '🌱 Plante mère en place' + (annees.length ? ` (plantée en ${annees.join(', ')})` : '');
     zone.appendChild(div);
   }
@@ -588,7 +588,7 @@ function afficherDerniersSemis() {
     const m = recordsParId.millesimes.get(s.millesimeId);
     const mil = m ? (m.estOriginal ? 'or.' : m.annee) : '?';
     const div = document.createElement('div');
-    div.className = 'cadre-info-a-jour-ligne';
+    div.className = 'cadre-info-ligne';
     div.textContent =
       `${dateAffichee(s.date)} · mil. ${mil} · ${s.godets} × ${s.graines}` +
       (s.ou.length ? ' · ' + s.ou.join(', ') : '');
@@ -596,12 +596,12 @@ function afficherDerniersSemis() {
   }
   if (semis.length > 5) {
     const div = document.createElement('div');
-    div.className = 'cadre-info-a-jour-ligne';
+    div.className = 'cadre-info-ligne';
     div.textContent = `… et ${semis.length - 5} autre(s)`;
     zone.appendChild(div);
   }
 
-  const dansListe = brouillons.filter(b => b.varieteId === varieteChoisieId).length;
+  const dansListe = etapeintermediaires.filter(b => b.varieteId === varieteChoisieId).length;
   if (dansListe) {
     const div = document.createElement('div');
     div.className = 'erreur';
@@ -723,7 +723,7 @@ chargerDonnees()
   .then(chargerChoix)
   .then(() => {
     initialiserSelecteurVariete(); initialiserSelecteurMillesime();
-    initialiserFiche(); initialiserBrouillons(); majStatut();
+    initialiserFiche(); initialiseretapeintermediaires(); majStatut();
     donneesChargees = true;
     if (varietePendante) varieteDemandee(varietePendante);
   })

@@ -25,7 +25,7 @@
   --pleineterre-moyen: #b8863b;
   --pleineterre-fonce: #7a5518;
 
-  /* catégorie « brouillon, à ajouter » */
+  /* catégorie « etape-intermediare, à ajouter » */
   --orange-clair: #f8d8b3;
   --orange-moyen: #f79e4c;
   --orange-fonce: #ff7b00;
@@ -35,6 +35,11 @@
   --recap-moyen: #4f88fc;
   --recap-fonce: #004de6;
   --recap-moyen2: #83abfa;
+
+    /* catégorie « localisation » */
+  --ici-clair: #e8def0;
+  --ici-moyen: #8e6bb0;
+  --ici-fonce: #5b2d82;
 
 
 }
@@ -64,7 +69,6 @@ h2 {
 }
 label { 
     display: block; 
-    font-weight: bold; 
     margin-bottom: 4px; 
 }
 
@@ -153,15 +157,15 @@ input, select, button, textarea {
     margin-top: 8px; }
 
 
-/* ===== Brouillon - Infos à MAJ ===== */
+/* ===== Etape intermediaire ===== */
 
-.liste-brouillons { 
+.liste-etape-intermediaires { 
   list-style: none; 
   margin: 0; 
   padding: 0; 
 }
 
-.brouillon {
+.etape-intermediaire {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -173,13 +177,21 @@ input, select, button, textarea {
   border-radius: 6px;
 }
 
-.brouillon-detail { 
+.etape-intermediaire-detail { 
   font-size: 0.85rem; 
   color: var(--gris-fonce); 
   margin-top: 2px; 
 }
-/*arevoir*/
 
+/*Cadre infos disponibles - a revoir*/
+.cadre-etape {
+  background: var(--orange-clair);
+  border: 1px solid var(--orange-fonce); 
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin: 0 0 10px;
+  font-weight: bold;
+}
 
 /* ===== Boutons ===== */
 .btn {
@@ -258,9 +270,11 @@ input, select, button, textarea {
 .case { 
   display: flex; 
   align-items: center; 
-  gap: 10px; 
-  font-weight: bold; 
-}
+  gap: 10px;
+  font-weight: normal; 
+  margin-bottom: 4px; 
+
+  }
 .case input {
   appearance: none;
   -webkit-appearance: none;
@@ -282,6 +296,7 @@ input, select, button, textarea {
   background-position: center;
   background-repeat: no-repeat;
 }
+
 /* ===== Messages ===== */
 .info { margin-top: 8px; font-size: 0.9rem; color: #555; }
 .message { 
@@ -308,11 +323,6 @@ input, select, button, textarea {
   font-size: 0.85rem;
 }
 
-/*.message.erreur { color: #c62828; font-weight: bold; }*/
-/*.message.ok { 
-  color: #2e7d32; 
-}*/
-
 /* ===== Mise en page ===== */
 .deux-colonnes { 
   display: grid; 
@@ -321,29 +331,28 @@ input, select, button, textarea {
 }
 .deux-colonnes.une-colonne { grid-template-columns: 1fr; }
 
-/* ===== Infos à jour ===== */
-.cadre-info-a-jour {
-  margin-top: 8px;
+/* ===== Infos à jour ===== A appeler autrement, pas cadre */
+.cadre-info {
+  margin-top: 4px;
   padding: 8px 10px;
-  font-size: 0.85rem;
   background: var(--bleu-clair);
   border: 1px solid var(--bleu-moyen);
   border-radius: 6px;
 }
-.cadre-info-a-jour-titre { 
+.cadre-info-titre { 
+  font-size: 0.85rem;
   font-weight: bold; 
-  margin-bottom: 2px;
+  margin-top: 2px;
   color: var(--bleu-fonce); 
  }
-.cadre-info-a-jour-ligne { 
+.cadre-info-ligne { 
   color: var(--gris-fonce); 
   padding: 1px 0; 
 }
-.cadre-info-a-jour-plantemere { 
+.cadre-info-plantemere { 
   color: var(--plantemere); 
   padding: 2px 0; 
 }
-
 /* ===== Où ===== */
 
 .pastilles { 
@@ -367,7 +376,7 @@ input, select, button, textarea {
   font-size: 0.75rem;
   font-weight: normal;
   padding: 1px 8px;
-  margin-right: 4px;
+  margin-top: 4px; 
   border-radius: 10px;
 }
 .pastille-sousabri   { background: var(--sousabri-clair);   color: var(--sousabri-fonce); }
@@ -394,18 +403,8 @@ input, select, button, textarea {
 /*Compteur*/
 .compteurs { display: block; font-size: 0.8rem; font-weight: 400; color: #666; margin-top: 2px; }
 
-/*Cadre infos disponibles*/
-.cadre-info {
-  background: var(--orange-clair);
-  border: 1px solid var(--orange-fonce); 
-  border-radius: 6px;
-  padding: 8px 12px;
-  margin: 0 0 10px;
-  font-weight: bold;
-}
-
 /*Organisation cadres infos*/
-.liste-semis { list-style: none; margin: 0; padding: 0; }
+.liste-carte { list-style: none; margin: 0; padding: 0; }
 
 /* ===== Carte d'une entrée (partagée entre les outils) ===== */
 .carte {
@@ -419,11 +418,21 @@ input, select, button, textarea {
   border: 1px solid var(--gris);
   border-radius: 6px;
 }
-.carte-texte { flex: 1; min-width: 0; }
-.carte-detail { font-size: 0.85rem; color: var(--gris-fonce); margin-top: 2px; }
-.carte-mention { margin-top: 2px; font-size: 0.85rem; font-weight: bold; }
+.carte-titre { 
+  flex: 1; 
+  min-width: 0;
+  color : var(--label) 
+}
+.carte-detail {
+  margin-top: 4px; 
+  font-size: 0.85rem; 
+  color: var(--gris-fonce); }
+.carte-mention { 
+  margin-top: 4px; 
+  font-size: 0.85rem; 
+  font-weight: bold; }
 .carte-action { flex: none; }
-.carte-texte .cadre-info-a-jour { display: inline-block; max-width: 100%; }
+.carte-titre .cadre-info { display: inline-block; max-width: 100%; }
 .semis-retard { color: #c62828; font-weight: 600; }
 
 /* Liseré de couleur à gauche */
@@ -437,9 +446,23 @@ input, select, button, textarea {
       left / 5px 100% no-repeat border-box,
     var(--blanc);
 }
-.carte.plantemere { border-left: 5px solid var(--plantemere); }
+.carte.plantemere { 
+  border-left: 5px solid var(--plantemere); 
+}
 
 /* Texte coloré de la ligne « mention » */
-.texte-plantemere { color: var(--plantemere); }
+.texte-plantemere { 
+  color: var(--plantemere);  
+  font-size: 0.85rem; 
+  }
+
+.texte-ici { 
+  color: var(--ici-fonce);
+    margin-top: 4px; 
+ 
+}
+
+/* ===== Type de la variété, après le nom ===== */
+.carte-type { font-size: 0.85rem; color: var(--gris-fonce); margin-left: 4px; }
 
 [hidden] { display: none !important; }

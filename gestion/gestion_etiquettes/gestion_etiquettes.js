@@ -1,41 +1,29 @@
 // ===== État global =====
 let modifie = false;
 let brouillons = [];   // { idSemis, nb } : étiquettes à ajouter
-let enregistrementEnCours = false;
 let recherche = '';
-let enCoursVisible = false;
+let minuterieSucces = null;
+let reponseConfirmation = null;
 const recordsParId = {
   semis: new Map()
 };
 
-// ===== Utilitaires (copiés de ton outil) =====
-function tableEnLignes(tableau) {
-  const colonnes = Object.keys(tableau);
-  const lignes = [];
-  for (let i = 0; i < tableau.id.length; i++) {
-    const ligne = {};
-    for (const c of colonnes) ligne[c] = tableau[c][i];
-    lignes.push(ligne);
-  }
-  return lignes;
-}
+// État lu par le HTML : Vue redessine quand il change
+const etat = Vue.reactive({
+  filtreMeres: false,
+  filtreEtiquettes: false,
+  titre: 'À étiqueter',
+  entrees: [],
+  etapeIntermediaire: [],
+  etapeVisible: false,
+  erreur: '',
+  succes: '',
+  message: '',
+  enregistrement: false,
+  confirmation: { visible: false, texte: '' }
+});
 
-
-function dateAffichee(secondes) {
-  return new Date(secondes * 1000).toLocaleDateString('fr-FR', { timeZone: 'UTC' });
-}
-
-function normaliser(texte) {
-  return String(texte || '')
-    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase().replace(/\s+/g, ' ').trim();
-}
-
-/*ajouter choix du ou*/
-function listeChoix(valeur) {
-  // ChoiceList Grist : ['L', 'a', 'b'] → ['a', 'b']
-  return Array.isArray(valeur) && valeur[0] === 'L' ? valeur.slice(1) : [];
-}
+// ===== Utilitaires (passé en commun)=====
 
 // ===== Chargement =====
 async function chargerSemis() {
@@ -50,11 +38,11 @@ async function chargerSemis() {
       plantes: s.Plantes || 0,
       datePlantation: typeof s.Date_p === 'number' ? s.Date_p : null,
       ou: listeChoix(s.Ou),
-      positions: s.Positions || '',
       nbEtiquettes: s.Nb_etiquettes || 0,
       enAttente: s.Etiq_en_attente || 0,
       planteMere: !!s.Plante_mere,
-      anneePlantation: s.Annee_plantation_mil || null
+      anneePlantation: s.Annee_plantation_mil || null,
+      type: s.Type || ''
     });
   }
 }
@@ -63,22 +51,6 @@ async function chargerSemis() {
 function entreesEtiquetables() {
   return [...recordsParId.semis.values()].filter(s =>
     s.planteMere ? !!s.anneePlantation : s.plantes > 0);
-}
-
-// ===== Affichage =====
-function libelle(s) {
-  return s.variete ? `${s.nom} — ${s.variete}` : s.nom;
-}
-
-function detailEntree(s) {
-  const parties = [];
-  if (s.plantes > 0) {
-    parties.push(`${s.plantes} planté${s.plantes > 1 ? 's' : ''}` +
-      (s.datePlantation ? ` le ${dateAffichee(s.datePlantation)}` : ''));
-  }
-  if (s.anneeGraine) parties.push(`graines ${s.anneeGraine}`);
-  if (s.ou.length) parties.push(`Où : ${s.ou.join(', ')}`);
-  return parties.join(' · ');
 }
 
 function filtrerParRecherche(semis) {
@@ -91,69 +63,67 @@ function filtrerParRecherche(semis) {
 }
 
 function afficherSelection() {
-  const liste = document.getElementById('listeSelection');
   const tous = entreesEtiquetables().sort((a, b) =>
     libelle(a).localeCompare(libelle(b), 'fr') || a.id - b.id);
-  const semis = filtrerParRecherche(tous);
-  liste.innerHTML = '';
-  for (const s of semis) {
-    const li = document.createElement('li');
-    li.className = 'carte';
-    li.dataset.id = s.id;
-        if (s.planteMere) li.classList.add('plantemere');
-
-    const texte = document.createElement('div');
-    texte.className = 'carte-texte';
-    const ligne1 = document.createElement('strong');
-    ligne1.textContent = libelle(s);
-    const ligne2 = document.createElement('div');
-    ligne2.className = 'carte-detail';
-    ligne2.textContent = detailEntree(s);
-        texte.appendChild(ligne1);
-    if (s.planteMere) {
-      const mere = document.createElement('div');
-      mere.className = 'carte-mention texte-plantemere';
-      mere.textContent = '🌱 Plante mère' + (s.anneePlantation ? ` (plantée en ${s.anneePlantation})` : '');
-      texte.appendChild(mere);
-    }
-    texte.appendChild(ligne2);
-
-        if (s.nbEtiquettes > 0 || s.enAttente > 0) {
-      const cadre = document.createElement('div');
-      cadre.className = 'cadre-info-a-jour';
-
-      const info = document.createElement('div');
-      info.className = 'cadre-info-a-jour-titre';
-      const morceaux = [];
-      if (s.nbEtiquettes > 0) morceaux.push(`${s.nbEtiquettes} à imprimer`);
-      if (s.enAttente > 0) morceaux.push(`${s.enAttente} imprimée${s.enAttente > 1 ? 's' : ''} en attente`);
-      info.textContent = morceaux.join(' · ');
-
-      cadre.appendChild(info);
-      texte.appendChild(cadre);
-    }
-
-    const brouillon = brouillons.find(b => b.idSemis === s.id);
-    const champ = document.createElement('input');
-    champ.type = 'number';
-    champ.min = '1';
-    champ.step = '1';
-    champ.inputMode = 'numeric';
-    champ.placeholder = 'Nb';
-    champ.title = 'Nombre d\'étiquettes à ajouter';
-    champ.className = 'champ champ-etiquettes';
-    if (brouillon) champ.value = brouillon.nb;
-
-    li.append(texte, champ);
-    liste.appendChild(li);
-  }
+  let semis = filtrerParRecherche(tous);
+  if (etat.filtreMeres) semis = semis.filter(s => s.planteMere);
+  if (etat.filtreEtiquettes) semis = semis.filter(s => s.nbEtiquettes > 0 || s.enAttente > 0);
+  const filtre = recherche || etat.filtreMeres || etat.filtreEtiquettes;
+  etat.titre = filtre
+    ? `À étiqueter (${semis.length} sur ${tous.length})`
+    : `À étiqueter (${tous.length})`;
+  etat.entrees = semis;
 }
 
-function initialiserRecherche() {
-  document.getElementById('recherche').addEventListener('input', e => {
-    recherche = normaliser(e.target.value);
-    afficherSelection();
-  });
+function surRecherche(e) {
+  recherche = normaliser(e.target.value);
+  afficherSelection();
+}
+
+// ===== Textes affichés par le HTML =====
+function libelle(s) {
+  return s.variete ? `${s.nom} - ${s.variete}` : s.nom;
+}
+
+function detailEntree(s) {
+  const parties = [];
+  if (s.plantes > 0) {
+    parties.push(`${s.plantes} planté${s.plantes > 1 ? 's' : ''}` +
+      (s.datePlantation ? ` le ${dateAffichee(s.datePlantation)}` : ''));
+  }
+  if (s.anneeGraine) parties.push(`graines ${s.anneeGraine}`);
+  return parties.join(' · ');
+}
+
+function textePlanteMere(s) {
+  return '🌱 Plante mère' + (s.anneePlantation ? ` (plantée en ${s.anneePlantation})` : '');
+}
+
+function texteInfo(s) {
+  const morceaux = [];
+  if (s.nbEtiquettes > 0) morceaux.push(`${s.nbEtiquettes} à imprimer`);
+  if (s.enAttente > 0) morceaux.push(`${s.enAttente} imprimée${s.enAttente > 1 ? 's' : ''} en attente`);
+  return morceaux.join(' · ');
+}
+
+function texteAlerte(s) {
+  const morceaux = [];
+  if (s.nbEtiquettes > 0) morceaux.push(`${s.nbEtiquettes} déjà à imprimer`);
+  if (s.enAttente > 0) morceaux.push(`${s.enAttente} en attente`);
+  return morceaux.join(' · ');
+}
+
+function nomEtapeIntermediaire(b) {
+  return b.s ? (b.s.planteMere ? '🌱 ' : '') + libelle(b.s) : '(ligne inconnue)';
+}
+
+function texteNb(b) {
+  return `+ ${b.nb} étiquette${b.nb > 1 ? 's' : ''}`;
+}
+
+function valeurEtapeIntermediaire(idSemis) {
+  const b = brouillons.find(x => x.idSemis === idSemis);
+  return b ? b.nb : '';
 }
 
 // ===== Statut =====
@@ -163,15 +133,23 @@ function majStatut() {
   modifie = n > 0;
   el.textContent = modifie ? `● Non sauvegardé (${n})` : '✓ À jour';
   el.classList.toggle('non-sauvegarde', modifie);
-  document.getElementById('btnEnregistrer').hidden = !modifie;
-  afficherEnCours();
+  majEtapeIntermediaire();
 }
 
 // ===== Saisie et brouillons =====
 function poserBrouillon(idSemis, nb) {
+  // écran uniquement : rien n'est écrit dans Grist avant « Enregistrer »
   brouillons = brouillons.filter(b => b.idSemis !== idSemis);
   if (nb !== null) brouillons.push({ idSemis, nb });
   majStatut();
+}
+
+function majEtapeIntermediaire() {
+  etat.etapeIntermediaire = brouillons.map(b => ({
+    id: b.idSemis,
+    nb: b.nb,
+    s: recordsParId.semis.get(b.idSemis)
+  }));
 }
 
 function initialiserSaisie() {
@@ -184,116 +162,53 @@ function initialiserSaisie() {
     const valide = texte !== '' && Number.isInteger(valeur) && valeur > 0;
     poserBrouillon(id, valide ? valeur : null);
   });
-    document.getElementById('btnEnregistrer').addEventListener('click', enregistrerTout);
-}
-// ===== Section « En cours » =====
-function afficherEnCours() {
-  const n = brouillons.length;
-  document.getElementById('enCours').hidden = n === 0;
-  document.getElementById('titreEnCours').textContent = `À ajouter (${n})`;
-  document.getElementById('btnVoirEnCours').textContent = `Voir les brouillons (${n})`;
-
-  const liste = document.getElementById('listeEnCours');
-  liste.innerHTML = '';
-  for (const b of brouillons) {
-    const s = recordsParId.semis.get(b.idSemis);
-    const li = document.createElement('li');
-    li.className = 'brouillon';
-
-    const texte = document.createElement('div');
-    const ligne1 = document.createElement('strong');
-    ligne1.textContent = s ? (s.planteMere ? '🌱 ' : '') + libelle(s) : '(ligne inconnue)';       texte.appendChild(ligne1);
-    if (s && s.ou.length) {
-      const ligneOu = document.createElement('div');
-      ligneOu.className = 'brouillon-detail';
-      ligneOu.textContent = s.ou.join(', ');
-      texte.appendChild(ligneOu);
-    }
-    const ligneNb = document.createElement('div');
-    ligneNb.className = 'brouillon-nb';
-    ligneNb.textContent = `+ ${b.nb} étiquette${b.nb > 1 ? 's' : ''}`;
-    texte.appendChild(ligneNb);
-        if (s && (s.nbEtiquettes > 0 || s.enAttente > 0)) {
-      const alerte = document.createElement('div');
-      alerte.className = 'erreur';
-      const morceaux = [];
-      if (s.nbEtiquettes > 0) morceaux.push(`${s.nbEtiquettes} déjà à imprimer`);
-      if (s.enAttente > 0) morceaux.push(`${s.enAttente} en attente`);
-      alerte.textContent = '⚠ ' + morceaux.join(' · ');
-      texte.appendChild(alerte);
-    }
-
-    const bouton = document.createElement('button');
-    bouton.type = 'button';
-    bouton.className = 'btn-suppr';
-    bouton.textContent = '✕';
-    bouton.title = 'Retirer de la liste';
-    bouton.dataset.id = b.idSemis;
-
-    li.append(texte, bouton);
-    liste.appendChild(li);
-  }
-  majBoutonVoir();
 }
 
-function majBoutonVoir() {
-  document.getElementById('btnVoirEnCours').hidden = brouillons.length === 0 || enCoursVisible;
-}
-
-function initialiserEnCours() {
-  const section = document.getElementById('enCours');
-
-  // Le bouton flottant n'apparaît que si la section « En cours » est hors de l'écran
+// ===== Section « À ajouter » : visibilité et défilement =====
+function initialiserEtapeIntermediaire() {
   new IntersectionObserver(entrees => {
-    enCoursVisible = entrees[0].isIntersecting;
-    majBoutonVoir();
-  }).observe(section);
+    etat.etapeVisible = entrees[0].isIntersecting;
+  }).observe(document.getElementById('etapeIntermediaire'));
+}
 
-  document.getElementById('btnVoirEnCours').addEventListener('click', () => {
-    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
+function voirEtapeIntermediaire() {
+  document.getElementById('etapeIntermediaire')
+    .scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
 
-  // ✕ : retire le brouillon et vide le champ de la ligne (écran uniquement, rien dans Grist)
-  document.getElementById('listeEnCours').addEventListener('click', e => {
-    const btn = e.target.closest('.btn-suppr');
-    if (!btn) return;
-    const id = Number(btn.dataset.id);
-    poserBrouillon(id, null);
-    const champ = document.querySelector(`#listeSelection li[data-id="${id}"] .champ-etiquettes`);
-    if (champ) champ.value = '';
+// ===== Confirmation (prête, pas encore utilisée) =====
+function confirmer(texte) {
+  return new Promise(resolve => {
+    etat.confirmation.texte = texte;
+    etat.confirmation.visible = true;
+    reponseConfirmation = resolve;
   });
 }
-// ===== Enregistrement =====
-let minuterieSucces = null;
 
+function repondreConfirmation(ok) {
+  etat.confirmation.visible = false;
+  if (reponseConfirmation) reponseConfirmation(ok);
+  reponseConfirmation = null;
+}
+
+// ===== Enregistrement =====
 function afficherSucces(texte) {
-  const el = document.getElementById('messageSucces');
   clearTimeout(minuterieSucces);
-  el.textContent = texte;
-  el.hidden = !texte;
+  etat.succes = texte;
   if (texte) {
     minuterieSucces = setTimeout(() => afficherSucces(''), 5000);
   }
 }
 
-function afficherErreurEnregistrement(texte) {
-  const el = document.getElementById('erreurEnregistrement');
-  el.textContent = texte;
-  el.hidden = !texte;
-}
-
 async function enregistrerTout() {
-  if (brouillons.length === 0 || enregistrementEnCours) return;
-  enregistrementEnCours = true;
-  const bouton = document.getElementById('btnEnregistrer');
-  bouton.disabled = true;
-  bouton.textContent = 'Enregistrement…';
+  if (brouillons.length === 0 || etat.enregistrement) return;
+  etat.enregistrement = true;
   afficherSucces('');
-  afficherErreurEnregistrement('');
+  etat.erreur = '';
 
   const n = brouillons.length;
   try {
-    // 1. Relire les valeurs actuelles dans Grist (l'impression a pu les remettre à 0)
+    // 1. Relire les valeurs actuelles (l'impression a pu les remettre à 0)
     await chargerSemis();
     const ids = [];
     const valeurs = [];
@@ -314,31 +229,41 @@ async function enregistrerTout() {
     afficherSelection();
   } catch (err) {
     console.error(err);
-    afficherErreurEnregistrement('Échec de l\'enregistrement : ' + err.message + ' — tes saisies sont conservées.');
+    etat.erreur = 'Échec de l\'enregistrement : ' + err.message + ' — tes saisies sont conservées.';
   } finally {
-    enregistrementEnCours = false;
-    bouton.disabled = false;
-    bouton.textContent = 'Enregistrer';
+    etat.enregistrement = false;
   }
 }
 
 window.addEventListener('beforeunload', e => {
   if (modifie) { e.preventDefault(); e.returnValue = ''; }
 });
+// Quand une case change, la liste se recalcule
+Vue.watch(() => [etat.filtreMeres, etat.filtreEtiquettes], afficherSelection);
+
+// ===== Application Vue =====
+Vue.createApp({
+  setup() {
+    return {
+      etat, libelle, detailEntree, textePlanteMere, texteInfo, texteAlerte,
+      nomEtapeIntermediaire, typeInverse, texteNb, valeurEtapeIntermediaire,
+      surRecherche, poserBrouillon, voirEtapeIntermediaire,
+      enregistrerTout, repondreConfirmation
+    };
+  }
+}).mount('#appSelection');
 
 // ===== Initialisation =====
 grist.ready({ requiredAccess: 'full' });
 
 chargerSemis()
   .then(() => {
-    afficherSucces('');
     afficherSelection();
-    initialiserRecherche();
     initialiserSaisie();
-    initialiserEnCours();
+    initialiserEtapeIntermediaire();
     majStatut();
   })
   .catch(err => {
     console.error(err);
-    document.getElementById('message').textContent = 'Erreur de chargement : ' + err.message;
+    etat.message = 'Erreur de chargement : ' + err.message;
   });

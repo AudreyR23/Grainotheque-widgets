@@ -6,7 +6,6 @@
 <title>Sélection pour étiquettes</title>
 <link rel="stylesheet" href="../../styles/gestion_commun.css">
 <link rel="stylesheet" href="gestion_etiquettes.css">
-<script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
 </head>
 <body>
 <header>
@@ -14,33 +13,78 @@
 <span id="statut" class="statut">Chargement…</span>
 </header>
 <main>
-<input id="recherche" class="champ" type="search" placeholder="Filtrer par nom de variété…" autocomplete="off">
+<div id="appSelection">
 
-<section id="enCours" hidden>
-<h2 id="titreEnCours"></h2>
-<ul id="listeEnCours" class="liste-brouillons"></ul>
-<p id="erreurEnregistrement" class="erreur" hidden></p>
-<button id="btnEnregistrer" type="button" class="btn btn-enregistrer btn-large">Enregistrer</button>
+<input id="recherche" class="champ" type="search" placeholder="Filtrer par nom de variété…" autocomplete="off"  @input="surRecherche"> 
+<div class="filtres">
+<label class="case"><input type="checkbox" v-model="etat.filtreMeres"> Plantes mères</label>
+<label class="case"><input type="checkbox" v-model="etat.filtreEtiquettes"> Déjà des étiquettes</label>
+</div>
+
+<section id="etapeIntermediaire" v-show="etat.etapeIntermediaire.length > 0">
+<h2>À ajouter ({{ etat.etapeIntermediaire.length }})</h2>
+<ul class="liste-etape-intermediaires">
+<li v-for="b in etat.etapeIntermediaire" :key="b.id" class="etape-intermediaire">
+<div>
+<strong>{{ nomEtapeIntermediaire(b) }}</strong>
+<div v-if="b.s && b.s.ou.length" class="etape-intermediaire-detail texte-ici">📍 {{ b.s.ou.join(', ') }}</div>
+<div class="etape-intermediaire-nb">{{ texteNb(b) }}</div>
+<div v-if="b.s && (b.s.nbEtiquettes > 0 || b.s.enAttente > 0)" class="erreur">⚠ {{ texteAlerte(b.s) }}</div>
+</div>
+<button type="button" class="btn-suppr" title="Retirer de la liste" @click="poserBrouillon(b.id, null)" :aria-label="`Retirer ${nomEtapeIntermediaire(b)}`">✕</button>
+</li>
+</ul>
+<p v-if="etat.erreur" class="erreur">{{ etat.erreur }}</p>
+<button type="button" class="btn btn-enregistrer btn-large"
+:disabled="etat.enregistrement" @click="enregistrerTout">
+{{ etat.enregistrement ? 'Enregistrement…' : 'Enregistrer' }}
+</button>
 </section>
 
-<h2 id="titreSelection">À étiqueter</h2>
-<ul id="listeSelection" class="liste-semis"></ul>
+<h2>{{ etat.titre }}</h2>
+<ul id="listeSelection" class="liste-carte">
+<li v-for="s in etat.entrees" :key="s.id" class="carte" :class="{ plantemere: s.planteMere }" :data-id="s.id">
+<div class="carte-titre">
+<strong>{{ libelle(s) }}</strong>
+<span v-if="typeInverse" class="carte-type">{{ typeInverse(s.type) }}</span>
+<div v-if="s.planteMere" class="carte-mention texte-plantemere">{{ textePlanteMere(s) }}</div>
+<div class="carte-detail">{{ detailEntree(s) }}</div>
+<div v-if="s.ou.length" class="carte-mention texte-ici">📍 {{ s.ou.join(', ') }}</div>
+<div v-if="s.nbEtiquettes > 0 || s.enAttente > 0" class="cadre-info">
+<div class="cadre-info-titre">{{ texteInfo(s) }}</div>
+</div>
+</div>
+<input type="number" min="1" step="1" inputmode="numeric" placeholder="Nb" :aria-label="`Nombre d'étiquettes pour ${libelle(s)}`"
+title="Nombre d'étiquettes à ajouter" class="champ champ-etiquettes"
+:value="valeurEtapeIntermediaire(s.id)">
+</li>
+</ul>
 
 <div id="barreFlottante">
-<p id="messageSucces" class="succes" hidden></p>
-<button id="btnVoirEnCours" type="button" class="btn btn-ajouter btn-large" hidden>Voir les « En cours »</button>
+<p v-if="etat.succes" class="succes">{{ etat.succes }}</p>
+<button v-show="etat.etapeIntermediaire.length > 0 && !etat.etapeVisible" type="button"
+class="btn btn-ajouter btn-large" @click="voirEtapeIntermediaire">
+Voir les ajouts ({{ etat.etapeIntermediaire.length }})
+</button>
 </div>
-<p id="message"></p>
-</main>
-<div id="confirmation" class="confirmation" hidden>
+
+<p v-if="etat.message" class="message">{{ etat.message }}</p>
+
+<div class="confirmation" v-show="etat.confirmation.visible">
 <div class="confirmation-boite">
-<p id="confirmationTexte"></p>
+<p>{{ etat.confirmation.texte }}</p>
 <div class="confirmation-boutons">
-<button id="confirmationNon" type="button" class="btn-annuler">Annuler</button>
-<button id="confirmationOui" type="button" class="btn-valider">Valider</button>
+<button type="button" class="btn-annuler" @click="repondreConfirmation(false)">Annuler</button>
+<button type="button" class="btn-valider" @click="repondreConfirmation(true)">Valider</button>
 </div>
 </div>
 </div>
+
+</div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/vue@3.4.38/dist/vue.global.prod.js"></script>
+<script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
+<script src="../../script/scriptcommun.js"></script>
 <script src="gestion_etiquettes.js"></script>
 </body>
 </html>

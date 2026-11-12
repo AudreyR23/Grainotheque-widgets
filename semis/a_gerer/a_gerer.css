@@ -7,7 +7,7 @@
   color: #c62828; background: #fff;
   border: 2px solid #e0b4b4; border-radius: 6px; cursor: pointer;
 }
-.semis.brouillon { background: #e8f0fb; border-color: #9db8e0; }
+.semis.etape-intermediaire { background: #e8f0fb; border-color: #9db8e0; }
 .btn-enregistrer {
   width: 100%; margin-top: 14px; padding: 14px;
   font-size: 1.1rem; font-weight: 600; color: #fff;

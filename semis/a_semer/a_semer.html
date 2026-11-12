@@ -6,25 +6,52 @@
 <title>À semer</title>
 <link rel="stylesheet" href="../../styles/gestion_commun.css">
 <link rel="stylesheet" href="a_semer.css">
-<script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
 </head>
 <body>
+<div id="appSemer">
 <header>
-<h1 id="titre">À semer</h1>
-<button type="button" id="btnActualiser" class="btn" title="Recharger les données">↻ Actualiser</button>
+<h1>À semer en {{ MOIS[etat.mois - 1] }} ({{ etat.nombre }})</h1>
+<button type="button" class="btn" title="Recharger les données" :disabled="etat.chargement" @click="actualiser">↻ Actualiser</button>
 </header>
 <div id="filtres">
-<label>Mois <select id="selectMois" class="champ champ-filtre"></select></label>
-<label class="case"><input type="checkbox" id="caseDejaSemees"> Afficher aussi les déjà semées</label>
+<label>Mois
+<select v-model="etat.mois" class="champ champ-filtre">
+<option v-for="(nom, i) in MOIS" :key="i" :value="i + 1">{{ nom }}</option>
+</select>
+</label>
+<label class="case"><input type="checkbox" v-model="etat.afficherDejaSemees"> Afficher aussi les déjà semées</label>
+<label class="case"><input type="checkbox" v-model="etat.filtreSousAbri"> Sous abri</label>
+<label class="case"><input type="checkbox" v-model="etat.filtrePleineTerre"> Pleine terre</label>
 <label>Tri
-<select id="selectTri" class="champ champ-filtre">
+<select v-model="etat.tri" class="champ champ-filtre">
 <option value="nom">Nom</option>
 <option value="germination">% de germination</option>
 <option value="test">Test</option>
 </select>
 </label>
 </div>
-<ul id="liste" class="liste-semis"></ul>
+<ul class="liste-carte">
+<li v-for="l in etat.lignes" :key="l.v.id" class="carte" :class="[categorie(l), { 'deja-semee': l.dejaSemee }]">
+<div class="carte-titre">
+<strong>{{ libelle(l.v) }}</strong>
+<span v-if="typeInverse" class="carte-type">{{ typeInverse(l.v.type) }}</span>
+<div class="carte-mention">
+<span v-if="l.sousAbris" class="pastille-cat pastille-sousabri">Sous abri</span>
+<span v-if="l.pleineTerre" class="pastille-cat pastille-pleineterre">Pleine terre</span>
+</div>
+<div class="carte-detail">{{ texteDetail(l) }}</div>
+<div class="carte-detail">{{ textePeriode(l) }}</div>
+<div v-if="texteInfos(l)">
+<div class="cadre-info-titre">{{ texteInfos(l) }}</div>
+</div>
+</div>
+<button type="button" class="btn btn-enregistrer carte-action" :aria-label="`Semer ${libelle(l.v)}`" @click="semer(l.v.id)">Semer</button>
+</li>
+</ul>
+</div>
+<script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
+<script src="https://unpkg.com/vue@3.4.38/dist/vue.global.prod.js"></script>
+<script src="../../script/scriptcommun.js"></script>
 <script src="a_semer.js"></script>
 </body>
 </html>

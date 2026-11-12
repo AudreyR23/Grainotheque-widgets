@@ -26,9 +26,9 @@ Hébergement : GitHub Pages.
 
 Page plate, sans cadres, sur le modèle de « Semis réalisés ». De haut en bas :
 
-1. **Anomalies** (label + cadre `cadre-info-a-jour`) : visible uniquement s'il y a des doublons ou des numéros invalides, sinon masqué en entier.
-   - Titres « ⚠ Doublons (N) » / « ⚠ Numéros invalides (N) » : `.cadre-info-a-jour-titre` (bleu, gras).
-   - Lignes de détail : `.cadre-info-a-jour-alerte` (rouge, gras).
+1. **Anomalies** (label + cadre `cadre-info`) : visible uniquement s'il y a des doublons ou des numéros invalides, sinon masqué en entier.
+   - Titres « ⚠ Doublons (N) » / « ⚠ Numéros invalides (N) » : `.cadre-info-titre` (bleu, gras).
+   - Lignes de détail : `.cadre-info-alerte` (rouge, gras).
 2. **Prochain numéro à attribuer** : pastille orange (`.pastille`) ajustée à son contenu, sans croix. Affiche `N° 197`, ou `N° 252 (nouveau)` quand il n'y a plus de trou (max + 1).
 3. **Variété sans numéro** : champ de recherche + liste déroulante flottante (`.liste-choix`) :
    - fermée tant que rien n'est tapé ;
@@ -56,7 +56,7 @@ Mise à jour en direct : toute modification faite dans Grist recalcule les anoma
 - Conventions : variables en français, état global en haut du fichier, `majStatut()` pour « non sauvegardé », `recordsParId` (Map).
 - **Événements en `click`** (et non `pointerup`) : un défilement au doigt dans la liste ne déclenche aucune attribution. Même choix que « Semis réalisés ».
 - `mousedown` bloqué sur la liste (`preventDefault`) : le champ garde le focus jusqu'au `click`. `blur` du champ : la liste se ferme.
-- **État global** : `recordsParId`, `attributions` (Map id → numéro en attente), `analyse`, `texteRecherche`, `nonSauvegarde`, `enCours`, `colonnes` (mappings), `LIMITE_LISTE = 40`.
+- **État global** : `recordsParId`, `attributions` (Map id → numéro en attente), `analyse`, `texteRecherche`, `nonSauvegarde`, `EtapeIntermediaire`, `colonnes` (mappings), `LIMITE_LISTE = 40`.
 - **Fonctions** :
   - `analyserNumeros()` : retourne `parNumero`, `sansNumero`, `invalides`, `doublons`
   - `calculerProchain()` : prochain numéro libre, attributions en attente incluses
@@ -75,7 +75,7 @@ Mise à jour en direct : toute modification faite dans Grist recalcule les anoma
 | Résumé d'une ligne (`#resume`) | Supprimé |
 | Bloc d'analyse repliable (max, trous) | Supprimé |
 | « ⚠ Attention (N) » dans le titre du bloc | Bloc **Anomalies** (label + cadre commun) |
-| Anomalies avec CSS spécifique | Classes communes `cadre-info-a-jour-titre` / `-alerte` |
+| Anomalies avec CSS spécifique | Classes communes `cadre-info-titre` / `-alerte` |
 | `ajouterLigne` (balises `<p>`) | `ajouterDiv` (balises `<div>`) |
 | Compteurs (« N variétés sans numéro ») | Supprimés volontairement |
 | Liste intégrée à la page, toujours visible | Liste déroulante flottante, ouverte à la saisie |
@@ -99,7 +99,7 @@ Dépendances à connaître :
 
 - `.liste-choix` est en `position: absolute` : elle doit **toujours** être dans un parent `.champ-liste` (`position: relative`).
 - Les messages utilisent `.info`, `.succes`, `.erreur`. La classe `.message` n'est **pas** utilisée ici.
-- Les anomalies dépendent maintenant de `.cadre-info-a-jour`, `-titre` et `-alerte` : toute modification de ces classes change aussi cet outil.
+- Les anomalies dépendent maintenant de `.cadre-info`, `-titre` et `-alerte` : toute modification de ces classes change aussi cet outil.
 
 ## 8. CSS de `numerotation.css`
 
@@ -122,18 +122,18 @@ Option si une ligne de doublon déborde sur mobile : `#anomalies-contenu { word-
 - `.liste-choix li.selection`
 - `.liste-choix.integree` et ses règles `li` (à supprimer)
 - `.saisie`
-- `.brouillon-detail`
+- `.etape-intermediaire-detail`
 - `.btn-ajouter` et `.btn-ajouter:active`
 - `.btn-annuler`
 - `.btn-valider`
 - `.case` et `.case input`
 - `.message`
 - `.deux-colonnes` et `.une-colonne`
-- `.cadre-info-a-jour-ligne`, `-plantemere`
+- `.cadre-info-ligne`, `-plantemere`
 - `.cadre-info`
 - `.confirmation`, `.confirmation-boite`, `.confirmation-boutons`
 - `.compteurs`
-- `.liste-semis`
+- `.liste-carte`
 
 **Variables**
 - `--sousabri-clair/moyen/fonce`
@@ -142,7 +142,7 @@ Option si une ligne de doublon déborde sur mobile : `#anomalies-contenu { word-
 - `--plantemere`
 - `--blanc`
 
-**Utilisés par Numérotation** : base (`body`, `header`, `h1`, `h2`, `label`, `*`), `.statut`, `.champ` (+ `:focus`), `.champ-liste`, `.liste-choix` (+ `li`, `li:hover`, `li.vide`), `.liste-brouillons`, `.brouillon`, `.btn`, `.btn-large`, `.btn:disabled`, `.btn-enregistrer`, `.btn:focus-visible`, `.btn-suppr`, `.info`, `.succes`, `.erreur`, `.cadre-info-a-jour`, `.cadre-info-a-jour-titre`, `.cadre-info-a-jour-alerte`, `.pastilles`, `.pastille`, `[hidden]`.
+**Utilisés par Numérotation** : base (`body`, `header`, `h1`, `h2`, `label`, `*`), `.statut`, `.champ` (+ `:focus`), `.champ-liste`, `.liste-choix` (+ `li`, `li:hover`, `li.vide`), `.liste-etape-intermediaires`, `.etape-intermediaire`, `.btn`, `.btn-large`, `.btn:disabled`, `.btn-enregistrer`, `.btn:focus-visible`, `.btn-suppr`, `.info`, `.succes`, `.erreur`, `.cadre-info`, `.cadre-info-titre`, `.cadre-info-alerte`, `.pastilles`, `.pastille`, `[hidden]`.
 
 ## 10. Pièges rencontrés
 

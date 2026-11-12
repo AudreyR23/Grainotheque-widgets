@@ -7,7 +7,7 @@
 }
 
 /* ===== Barre d'enregistrement flottante ===== */
-#enCours { margin-bottom: 12px; }
+#etapeIntermediaire { margin-bottom: 12px; }
 
 #barreFlottante {
   position: sticky;
@@ -17,8 +17,15 @@
 }
 #barreFlottante p { margin: 0 0 6px; }
 
-.brouillon-nb {
+.etape-intermediaire-nb {
   margin-top: 2px;
+  font-size: 0.85rem; 
   font-weight: bold;
   color: var(--orange-fonce);
+}
+.filtres { 
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: 8px 20px; 
+  margin: 10px 0 4px; 
 }

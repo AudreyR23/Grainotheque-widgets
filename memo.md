@@ -6,12 +6,12 @@
 ## HTML / CSS : structure et apparence
 
 - [ ] **Quand créer un div** : un div pour chaque style différent ou chaque « contenant ». Un seul style sur un seul bloc de texte : une classe suffit, pas de div en plus.
-- [ ] **Cadre + contenu = deux éléments imbriqués** : le cadre porte `cadre-info-a-jour`, le texte dedans porte `cadre-info-a-jour-titre`. Le texte est ajouté au cadre avec `cadre.appendChild(info)`.
+- [ ] **Cadre + contenu = deux éléments imbriqués** : le cadre porte `cadre-info`, le texte dedans porte `cadre-info-titre`. Le texte est ajouté au cadre avec `cadre.appendChild(info)`.
 - [ ] **Où modifier quoi** : l'apparence (couleur, taille, marge) se règle dans le CSS. Le contenu et la structure (quoi afficher, dans quoi) se règlent dans le JS, là où l'élément est créé.
 - [ ] **Élément unique ou répété** : un élément unique et toujours présent s'écrit dans le HTML et le JS le remplit. Un élément répété pour chaque ligne est créé par le JS (`createElement`).
 - [ ] **`className = '...'` écrase** toutes les classes déjà présentes. `classList.add('...')` en ajoute une sans enlever les autres.
 - [ ] **Deux classes sur un élément** (`class="champ champ-etiquettes"`) : les deux styles s'appliquent. La règle `.champ.champ-etiquettes` (collée) vise un élément qui a les deux classes et est plus prioritaire que `.champ` seul.
-- [ ] **Sélecteur avec espace** (`.semis-texte .cadre-info-a-jour`) : vise le cadre seulement quand il est à l'intérieur de `.semis-texte`.
+- [ ] **Sélecteur avec espace** (`.semis-texte .cadre-info`) : vise le cadre seulement quand il est à l'intérieur de `.semis-texte`.
 - [ ] **Les variables CSS** (`var(--orange-clair)`) : définies une fois dans `:root` de `gestion_commun.css`, utilisables partout. Changer la valeur à un endroit change toute l'appli.
 - [ ] **Ordre des feuilles de style** : le commun d'abord, le spécifique ensuite, qui peut ainsi corriger le commun.
 - [ ] **`display: flex`** : place les enfants côte à côte (texte à gauche, champ à droite). `align-items: center` les centre verticalement, `justify-content: space-between` les écarte.
@@ -41,7 +41,7 @@
 ### 🆕 Ajouts HTML / CSS
 
 - [ ] 🆕 **Le même nom partout, lettre pour lettre** : le CSS, le HTML et le JS doivent écrire exactement le même nom de classe. Cas vus : `.badge.sous-abri` dans le CSS alors que le JS donnait seulement `badge` (« Sous abri » n'avait aucune couleur) ; `semis-plantemere` dans le JS et `badge-plantemere` dans le CSS. Une règle CSS pour une classe que personne n'applique ne fait rien, sans aucune erreur. Test : chercher le nom dans les trois fichiers (Ctrl+Maj+F).
-- [ ] 🆕 **Collision de noms entre outils** : `.badge` désignait une carte dans À étiqueter et une petite pastille dans À semer. Dans le commun, deux outils ne peuvent pas donner deux sens au même nom. Solution adoptée : des noms distincts et précis (`carte`, `carte-texte`, `pastille-cat`).
+- [ ] 🆕 **Collision de noms entre outils** : `.badge` désignait une carte dans À étiqueter et une petite pastille dans À semer. Dans le commun, deux outils ne peuvent pas donner deux sens au même nom. Solution adoptée : des noms distincts et précis (`carte`, `carte-titre`, `pastille-cat`).
 - [ ] 🆕 **Une règle globale touche tous les outils** : `label { font-weight: bold; display: block; ... }` dans le commun s'applique à chaque label. Pour la corriger dans un seul endroit, on utilise une règle plus précise (`#filtres label { ... }`, id > élément).
 - [ ] 🆕 **Une variante d'un composant** : `class="champ champ-filtre"` (socle + variante), comme pour `btn btn-enregistrer`. `.champ-filtre` l'emporte sur `.champ` car les deux ont la même précision et la feuille de l'outil est chargée **après** le commun.
 - [ ] 🆕 **Classe calculée par le JS** : au lieu d'écrire plusieurs cas, on calcule le nom : `const categorie = sousAbris && pleineTerre ? 'sousabri-pleineterre' : sousAbris ? 'sousabri' : 'pleineterre'`, puis `className = 'carte ' + categorie`. La couleur vit dans le CSS, le choix dans le JS.
@@ -58,7 +58,7 @@
 - [ ] **Redessiner la liste ou seulement une partie** : redessiner tout un champ en cours de frappe lui fait perdre le focus. C'est pourquoi on ne redessine que la section « En cours » à chaque saisie.
 - [ ] **Écouteur sur le parent** (`liste.addEventListener('input', ...)` avec `e.target.closest(...)`) : un seul écouteur sur la liste gère toutes les lignes, y compris celles créées après.
 - [ ] **`recordsParId` (Map)** : dictionnaire qui retrouve une ligne par son id, sans parcourir toute la liste.
-- [ ] **`brouillons` : écran seulement** : la liste des saisies non enregistrées. Rien n'est écrit dans Grist avant le clic sur Enregistrer. La ✕ ne touche que cette liste.
+- [ ] **`etapeintermediaires` : écran seulement** : la liste des saisies non enregistrées. Rien n'est écrit dans Grist avant le clic sur Enregistrer. La ✕ ne touche que cette liste.
 - [ ] **Relire avant d'écrire** : `enregistrerTout` recharge Semis avant de calculer `Nb_etiquettes + saisie`, pour partir de la valeur réelle (l'impression a pu la remettre à 0).
 - [ ] **`async` / `await` / `.then`** : la lecture et l'écriture dans Grist prennent du temps. `await` attend la fin avant de continuer.
 - [ ] **`IntersectionObserver`** : surveille si la section « En cours » est visible à l'écran. Il sert à cacher ou montrer le bouton orange flottant.
@@ -160,3 +160,10 @@
 - [ ] 🆕 **Les regex** (`^\d+(p|rhi|c|b)\.?$`) et `\d*` ≠ `\d+`.
 - [ ] 🆕 **`?.` et `??`** (accès sûr et valeur par défaut).
 - [ ] 🆕 **Les dates en secondes, `Date.UTC`, mois à partir de 0, intervalle début inclus / fin exclue.**
+
+- [ ] **`v-model`** : relie un champ (case, texte) à une donnée dans les deux sens. Cocher change la donnée, et changer la donnée coche.
+- [ ] **`Vue.watch`** : surveille une donnée et lance une fonction quand elle change. Ici, il recalcule la liste quand une case change.
+- [ ] **`:attribut="..."`** (deux-points) : la valeur est du JS calculé. Sans les deux-points, c'est du texte fixe.
+- [ ] **`aria-label`** : libellé invisible lu par les lecteurs d'écran, pour les champs sans texte visible.
+- [ ] **Ordre des règles CSS** : à spécificité égale, la règle écrite en dernier gagne (cas de `.texte-ou` après le gris).
+- [ ] **Combiner des filtres** : on part de la liste complète, puis on applique chaque filtre l'un après l'autre.

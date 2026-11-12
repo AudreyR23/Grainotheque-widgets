@@ -1,6 +1,5 @@
 /* ===== Filtres ===== */
-#filtres { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin-bottom: 10px; font-size: .9rem; }
-#filtres label { display: flex; align-items: center; gap: 6px; margin: 0; }
+#filtres { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin-bottom: 10px; }
 .champ-filtre { width: auto; font-size: 1rem; padding: 6px 8px; }
 
 /* ===== Variété déjà semée ===== */

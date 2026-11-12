@@ -44,12 +44,12 @@ Saisir rapidement les semis d'une journée dans la table **Semis** via un formul
 2. **Recherche de variété** (sans accents ni casse, plusieurs mots, 40 résultats max).
 3. **Encart variété** : Type et durée de germination.
 4. **Millésime** filtré : datés (récent d'abord, présélectionné), « or. (originale) » en dernier.
-5. **Encart « déjà semé »** (année de la date saisie, 5 max), « 🌱 Plante mère en place », alerte si déjà dans les brouillons.
+5. **Encart « déjà semé »** (année de la date saisie, 5 max), « 🌱 Plante mère en place », alerte si déjà dans les etapeintermediaires.
 6. **Fiche** : date, godets, graines, Type, Où (pastilles), cases « Sachet vidé » et « À reproduire ».
 7. **Validation** : variété, millésime, date, godets > 0, graines > 0 ; `Où` obligatoire en pleine terre.
-8. **Brouillons** : ajout, suppression ✕, statut « ● Non sauvegardé (n) » / « ✓ À jour ».
-9. **Enregistrer tout** : un seul `applyUserActions`, boutons désactivés pendant l'écriture, brouillons conservés en cas d'échec, rechargement de `Semis`.
-10. **`beforeunload`** si brouillons non enregistrés.
+8. **etapeintermediaires** : ajout, suppression ✕, statut « ● Non sauvegardé (n) » / « ✓ À jour ».
+9. **Enregistrer tout** : un seul `applyUserActions`, boutons désactivés pendant l'écriture, etapeintermediaires conservés en cas d'échec, rechargement de `Semis`.
+10. **`beforeunload`** si etapeintermediaires non enregistrés.
 11. **Réception d'une variété** depuis l'outil « À semer » via `BroadcastChannel('granotheque-semer')` (mise en attente si les données ne sont pas chargées).
 12. **Selects habillés** : Millésime et Type sont des `<select>` masqués (`hidden`) + bouton `.champ.champ-select` + liste `.liste-choix` (`habillerSelect` / `rafraichirSelect`).
 
@@ -86,7 +86,7 @@ Après « Ajouter » : conservés = mode, date, godets, graines, type ; vidés =
 |---|---|---|
 | Neutres | `--label`, `--arriere-plan`, `--gris`, `--gris-fonce` | texte, fond, bordures |
 | Succès / récap | `--bleu-clair/-moyen/-fonce` | message de succès, encart « à jour », bouton Enregistrer |
-| Brouillon / étape intermédiaire | `--orange-clair/-moyen/-fonce` | brouillons, pastilles, bouton Ajouter, sélection de liste, focus, coche |
+| etape-intermediare / étape intermédiaire | `--orange-clair/-moyen/-fonce` | etapeintermediaires, pastilles, bouton Ajouter, sélection de liste, focus, coche |
 | Sous abri | `--sousabri-clair/-moyen/-fonce` | bascule (visible aussi dans d'autres outils) |
 | Pleine terre | `--pleineterre-clair/-moyen/-fonce` | bascule (idem) |
 | États | `--erreur`, `--a-jour`, `--plantemere` | statut, alertes |
@@ -102,8 +102,8 @@ Après « Ajouter » : conservés = mode, date, godets, graines, type ; vidés =
 | Croix | `.btn-suppr` | 30 px, `align-self: flex-start` |
 | Case à cocher | `.case` | dessinée en CSS (indépendante du thème système) |
 | Messages | `.erreur`, `.succes`, `.info` | |
-| Brouillons | `.liste-brouillons`, `.brouillon`, `.brouillon-detail` | orange |
-| Encart « à jour » | `.cadre-info-a-jour` + `-titre/-ligne/-plantemere/-alerte` | bleu |
+| etapeintermediaires | `.liste-etape-intermediaires`, `.etape-intermediaire`, `.etape-intermediaire-detail` | orange |
+| Encart « à jour » | `.cadre-info` + `-titre/-ligne/-plantemere/-alerte` | bleu |
 | Pastilles | `.pastilles`, `.pastille` | orange |
 | Grille | `.deux-colonnes`, `.une-colonne` | |
 | Masquage | `[hidden] { display: none !important }` | indispensable |
@@ -141,7 +141,7 @@ Après « Ajouter » : conservés = mode, date, godets, graines, type ; vidés =
 
 | Élément | Remarque |
 |---|---|
-| `.saisie`, `.message`, `.compteurs`, `.cadre-info`, `.liste-semis` | non utilisés par Semis |
+| `.saisie`, `.message`, `.compteurs`, `.cadre-info`, `.liste-carte` | non utilisés par Semis |
 | `.confirmation*` (boîte, boutons) | non utilisés ; `.confirmation[hidden]` redondant avec `[hidden]` |
 | `.btn:focus-visible` | morte : la classe `button` n'existe pas ; remplacer par `btn:focus-visible` |
 | `.btn-annuler`, `.btn-valider` | doublons de `.btn` et d'un bouton bleu |
@@ -170,7 +170,7 @@ Après « Ajouter » : conservés = mode, date, godets, graines, type ; vidés =
 1. Charger `gestion_commun.css` avant le CSS de l'outil.
 2. Champs : `class="champ"` ; entourer chaque input + liste d'une `div.champ-liste` ; listes en `ul.liste-choix`.
 3. Boutons : `btn` + `btn-ajouter` (étape intermédiaire) ou `btn-enregistrer` (final) + `btn-large` si pleine largeur.
-4. Brouillons en `.brouillon`, messages en `.erreur` / `.succes`, encarts en `.cadre-info-a-jour*`, cases en `.case`.
+4. etapeintermediaires en `.etape-intermediaire`, messages en `.erreur` / `.succes`, encarts en `.cadre-info*`, cases en `.case`.
 5. Si l'outil affiche sous abri / pleine terre : réutiliser les variables `--sousabri-*` et `--pleineterre-*`, et recopier les règles de bascule dans son CSS.
 6. Supprimer les règles locales devenues doublons (chercher chaque classe avant suppression).
 7. Select stylé : copier `habillerSelect` / `rafraichirSelect`.

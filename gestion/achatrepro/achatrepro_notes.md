@@ -108,7 +108,7 @@ Bloc `@media (pointer: coarse)` : cibles d'environ 44 px, police de 16 px (évit
 - **Dates** : `Millesime` et `Date_s` en secondes depuis epoch, au 1er janvier en UTC. Comparaison avec `getUTCFullYear()`.
 - **Bandeau plutôt que `confirm()`** : les fenêtres natives peuvent être bloquées dans l'iframe d'un widget Grist.
 - **Détection en échec** : un échec de lecture (`fetchTable`) affiche un message rouge et **bloque** la création.
-- **Anti-course** : `verifierDoublonEnDirect` utilise un compteur `verifEnCours`.
+- **Anti-course** : `verifierDoublonEnDirect` utilise un compteur `verifEtapeIntermediaire`.
 - **`normaliser()`** : NFD + suppression des accents + minuscules + espaces réduits.
 - **Valeurs de `Sachets`** : `VALEUR_SACHET = '1'` ; `'1p.'` écrit en dur pour les plantes mère.
 - **Affichage conditionnel** : classe CSS `.cache` (`display:none !important`).

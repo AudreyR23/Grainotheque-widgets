@@ -5,7 +5,7 @@ let attributions = new Map();     // id -> numéro attribué
 let analyse = null;               // résultat de analyserNumeros()
 let texteRecherche = '';          // contenu du champ de recherche
 const LIMITE_LISTE = 40;         // nombre max de lignes affichées
-let enCours = false;              // vrai pendant l'écriture dans Grist
+let EtapeIntermediaire = false;              // vrai pendant l'écriture dans Grist
 let colonnes = null;              // noms réels des colonnes associées (mappings)
 
 // ===== STATUT =====
@@ -113,14 +113,14 @@ function afficherAnalyse() {
   zone.textContent = '';
 
   if (a.doublons.length > 0) {
-    ajouterDiv(zone, '⚠ Doublons (' + a.doublons.length + ')', 'cadre-info-a-jour-titre');
+    ajouterDiv(zone, '⚠ Doublons (' + a.doublons.length + ')', 'cadre-info-titre');
     for (const d of a.doublons) {
       ajouterDiv(zone, 'N° ' + d.numero + ' : ' +
         d.lignes.map(nomAffichage).join('  |  '), 'erreur');
     }
   }
   if (a.invalides.length > 0) {
-    ajouterDiv(zone, '⚠ Numéros invalides (' + a.invalides.length + ')', 'cadre-info-a-jour-titre');
+    ajouterDiv(zone, '⚠ Numéros invalides (' + a.invalides.length + ')', 'cadre-info-titre');
     for (const ligne of a.invalides) {
       ajouterDiv(zone, nomAffichage(ligne) + ' : valeur « ' +
         ligne.Num_epingle + ' »', 'erreur');
@@ -189,7 +189,7 @@ function afficherAttentes() {
   for (const [id, numero] of entrees) {
     const ligne = recordsParId.get(id);
     const li = document.createElement('li');
-    li.className = 'brouillon';
+    li.className = 'etape-intermediare';
 
     const texte = document.createElement('strong');
     texte.textContent = 'N° ' + numero + ' : ' + nomAffichage(ligne);
@@ -265,7 +265,7 @@ document.getElementById('attentes').addEventListener('click', function (e) {
 document.getElementById('sauvegarder').addEventListener('click', sauvegarder);
 
 async function sauvegarder() {
-  if (enCours || attributions.size === 0) return;
+  if (EtapeIntermediaire || attributions.size === 0) return;
 
   // Contrôle 1 : les attributions sont-elles toujours cohérentes avec Grist ?
   const avant = attributions.size;
@@ -287,7 +287,7 @@ async function sauvegarder() {
     return;
   }
 
-  enCours = true;
+  EtapeIntermediaire = true;
   document.getElementById('sauvegarder').disabled = true;
   afficherMessage('Sauvegarde en cours…');
 
@@ -312,7 +312,7 @@ async function sauvegarder() {
     afficherMessage('Erreur de sauvegarde : ' + (erreur && erreur.message ? erreur.message : erreur) +
       '. Les attributions sont conservées, tu peux réessayer.', 'erreur');
   } finally {
-    enCours = false;
+    EtapeIntermediaire = false;
     document.getElementById('sauvegarder').disabled = false;
   }
 }

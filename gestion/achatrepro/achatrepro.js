@@ -489,7 +489,7 @@ function cacherAlerteDoublon() {
   document.getElementById('doublon-millesime').classList.remove('show');
 }
 /* Alerte en direct : vérifie dès que variété + année + origine sont remplies */
-let verifEnCours = 0;
+let verifEtapeIntermediaire = 0;
 
 async function verifierDoublonEnDirect() {
   const varId  = parseInt(document.getElementById('m-variete').value);
@@ -503,9 +503,9 @@ async function verifierDoublonEnDirect() {
   }
 
   /* Évite qu'une ancienne réponse écrase une plus récente */
-  const numero = ++verifEnCours;
+  const numero = ++verifEtapeIntermediaire;
   try {
-    const doublons = await trouverDoublonsMillesime(varId, annee, origine, planteMere);    if (numero !== verifEnCours) return;
+    const doublons = await trouverDoublonsMillesime(varId, annee, origine, planteMere);    if (numero !== verifEtapeIntermediaire) return;
     if (doublons.length) afficherAlerteDoublon(doublons);
     else cacherAlerteDoublon();
   } catch (e) {
