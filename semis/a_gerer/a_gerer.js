@@ -125,8 +125,8 @@ function afficherVerifier() {
     retard.textContent = '⚠ ' + `${s.info} j de retard`;
     ligne2.appendChild(retard);
 
-    const etape-intermediare = etapeintermediaires.find(b => b.idSemis === s.id);
-    li.classList.toggle('etape-intermediare', !!etape-intermediare);
+    const etape-intermediaire = etapeintermediaires.find(b => b.idSemis === s.id);
+    li.classList.toggle('etape-intermediaire', !!etape-intermediaire);
 
     const saisie = document.createElement('div');
     saisie.className = '.saisie';
@@ -137,7 +137,7 @@ function afficherVerifier() {
     champ.inputMode = 'numeric';
     champ.placeholder = 'Germes';
     champ.className = 'champ-germes';
-    if (etape-intermediare) champ.value = etape-intermediare.germes;
+    if (etape-intermediaire) champ.value = etape-intermediaire.germes;
     const btnNg = document.createElement('button');
     btnNg.type = 'button';
     btnNg.className = 'btn-ng';
@@ -188,7 +188,7 @@ function poseretapeintermediaire(idSemis, germes) {
   etapeintermediaires = etapeintermediaires.filter(b => b.idSemis !== idSemis);
   if (germes !== null) etapeintermediaires.push({ idSemis, germes });
   const li = document.querySelector(`#listeVerifier li[data-id="${idSemis}"]`);
-  if (li) li.classList.toggle('etape-intermediare', germes !== null);
+  if (li) li.classList.toggle('etape-intermediaire', germes !== null);
   majAlerteGermes(idSemis);
   majStatut();
 }
@@ -239,11 +239,11 @@ function afficherPlanter() {
     ? `À planter (${semis.length} sur ${tous.length})`
     : `À planter (${tous.length})`;
   for (const s of semis) {
-    const etape-intermediare = plantations.find(p => p.idSemis === s.id);
+    const etape-intermediaire = plantations.find(p => p.idSemis === s.id);
     const li = document.createElement('li');
     li.className = 'semis';
     li.dataset.id = s.id;
-    li.classList.toggle('etape-intermediare', !!etape-intermediare);
+    li.classList.toggle('etape-intermediaire', !!etape-intermediaire);
 
     const ligne1 = document.createElement('strong');
     ligne1.textContent = libelle(s);
@@ -266,7 +266,7 @@ function afficherPlanter() {
       champ.inputMode = 'numeric';
       champ.placeholder = texte;
       champ.dataset.champ = cle;
-      if (etape-intermediare && etape-intermediare[cle]) champ.value = etape-intermediare[cle];
+      if (etape-intermediaire && etape-intermediaire[cle]) champ.value = etape-intermediaire[cle];
       saisie.appendChild(champ);
     }
     const btnTout = document.createElement('button');
@@ -327,7 +327,7 @@ function poserPlantation(idSemis) {
   plantations = plantations.filter(x => x.idSemis !== idSemis);
   const vide = p.plantes === 0 && p.oups === 0 && p.don === 0;
   if (!vide) plantations.push(p);
-  li.classList.toggle('etape-intermediare', !vide);
+  li.classList.toggle('etape-intermediaire', !vide);
   majAlertePlanter(idSemis);
   majStatut();
 }

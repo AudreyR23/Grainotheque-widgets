@@ -25,16 +25,10 @@
   --pleineterre-moyen: #b8863b;
   --pleineterre-fonce: #7a5518;
 
-  /* catégorie « etape-intermediare, à ajouter » */
+  /* catégorie « etape-intermediaire, à ajouter » */
   --orange-clair: #f8d8b3;
   --orange-moyen: #f79e4c;
   --orange-fonce: #ff7b00;
-
-  /* catégorie « info à jour »*/
-  --recap-clair: #cdddfc;
-  --recap-moyen: #4f88fc;
-  --recap-fonce: #004de6;
-  --recap-moyen2: #83abfa;
 
     /* catégorie « localisation » */
   --ici-clair: #e8def0;
@@ -114,6 +108,11 @@ input, select, button, textarea {
   content: '▾'; 
   margin-left: 8px; 
 }
+.champ:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
 /* ===== Liste déroulante (même aspect que champ) ===== */
 .champ-liste { position: relative; }
 .liste-choix {
@@ -148,14 +147,6 @@ input, select, button, textarea {
   cursor: default; 
   font-style: italic; 
   text-align: center; }
-
-/* ===== Champs de saisie  ===== */
-.saisie { 
-    display: flex; 
-    gap: 8px; 
-    align-items: center; 
-    margin-top: 8px; }
-
 
 /* ===== Etape intermediaire ===== */
 
@@ -213,7 +204,7 @@ input, select, button, textarea {
   font-size: 1.1rem; 
   border-radius: 8px; 
 }
-   .btn:disabled { opacity: 0.5; cursor: default; }
+.btn:disabled { opacity: 0.6; cursor: default; }
 /* Enregistrer */
 .btn-enregistrer {
   border: 1px solid var(--bleu-fonce);
@@ -238,10 +229,9 @@ input, select, button, textarea {
 .btn:focus-visible { 
     outline: 2px solid #3f7d4e; 
     outline-offset: 2px; }
-.btn-annuler { 
-    color: #444; 
-    background: #fff; 
-    border: 2px solid #aaa; }
+
+.btn-annuler { color: #444; background: #fff; border: 2px solid #aaa; }
+
 .btn-valider { 
     color: #fff; 
     background: #1565c0; 
@@ -362,8 +352,9 @@ input, select, button, textarea {
   margin-bottom: 6px; 
 }
 .pastille {
-  background: var(--orange-clair);
-  border: 1px solid var(--orange-fonce);
+  background: var(--ici-clair);
+  border: 1px solid var(--ici-moyen);
+  color: var(--ici-fonce);
   border-radius: 6px;
   padding: 6px 12px;
   cursor: pointer;
@@ -399,9 +390,6 @@ input, select, button, textarea {
   padding: 14px; font-size: 1.1rem; font-weight: bold;
   border-radius: 8px; cursor: pointer;
 }
-
-/*Compteur*/
-.compteurs { display: block; font-size: 0.8rem; font-weight: 400; color: #666; margin-top: 2px; }
 
 /*Organisation cadres infos*/
 .liste-carte { list-style: none; margin: 0; padding: 0; }
@@ -449,7 +437,8 @@ input, select, button, textarea {
 .carte.plantemere { 
   border-left: 5px solid var(--plantemere); 
 }
-
+/* Carte d'une étape intermédiaire (en cours, pas encore enregistrée) */
+.carte.etape { border-left: 5px solid var(--orange-moyen); }
 /* Texte coloré de la ligne « mention » */
 .texte-plantemere { 
   color: var(--plantemere);  

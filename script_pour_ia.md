@@ -19,7 +19,7 @@ Conventions : variables en français, état global en haut du fichier, `recordsP
 - Toute fonction appelée par le HTML doit figurer dans le `return` du `setup`, y compris celles qui viennent du JS commun.
 - `Vue.watch(() => [filtres...], recalculer)` recalcule la liste quand un filtre change.
 - Boutons dans une liste qui défile : `@click`, pas `pointerdown` (sinon un début de défilement déclenche l'action).
-### CSS commun : `gestion_commun.css`
+### CSS commun : `styles_commun.css`
 - Variables de couleurs par famille (`--famille-clair / -moyen / -fonce`).
 - Cartes `.carte*` (`carte-titre`, `carte-detail`, `carte-mention`, `carte-type`, `carte-action`, liserés `.carte.sousabri` etc.), cadres d'info `.cadre-info*`, pastilles `.pastille-cat`, étape intermédiaire orange, confirmation, boutons (`btn` + variante + taille), champs, cases `.case`.
 - Règle : une classe est dans le commun si au moins deux outils s'en servent à l'identique. Une règle qui cite un id de l'outil reste dans son CSS.
@@ -37,7 +37,7 @@ Neutre = sans info. Bleu = info à jour en base. Orange = en cours / pas encore 
  
 ## Fichiers que je te joins
 - [ ] HTML, JS et CSS de l'outil
-- [ ] `gestion_commun.css` **et** `gestion_commun.js` (à jour)
+- [ ] `styles_commun.css` **et** `gestion_commun.js` (à jour)
 - [ ] le fichier récapitulatif de l'outil, s'il existe
 - [ ] si l'outil communique avec un autre : le JS de l'autre outil
 ## Ce que j'attends
@@ -55,7 +55,7 @@ Neutre = sans info. Bleu = info à jour en base. Orange = en cours / pas encore 
    - (d) nettoyage des styles et du JS inutilisés ;
    - (e) améliorations.
 ### Pendant le travail
-3. Un seul changement à la fois, avec un test après chaque étape. Ne modifie rien qui fonctionne déjà sans me le dire.
+3. Ne modifie rien qui fonctionne déjà sans me le dire.
 4. Pour chaque modification, écris :
    - le **fichier** concerné, en tête ;
    - l'**endroit exact** (après quelle ligne, ou quelle fonction remplacer en entier) ;

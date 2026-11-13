@@ -74,7 +74,7 @@ Table utilisée : **Semis** uniquement (pas de chargement de `Varietes` ni de `M
   - `recordsParId.semis` : Map des lignes chargées
   - `LIEUX` : choix de la colonne `Ou`, lus dans Grist
   - `recherche`, `enregistrementEtapeIntermediaire`, `modifie`
-- **etape-intermediare = ligne bleue** (pas de liste séparée « à enregistrer », contrairement à `semis_realises`). `majStatut()` calcule `modifie` à partir de `etapeintermediaires` + `plantations`.
+- **etape-intermediaire = ligne bleue** (pas de liste séparée « à enregistrer », contrairement à `semis_realises`). `majStatut()` calcule `modifie` à partir de `etapeintermediaires` + `plantations`.
 - **`tableEnLignes()`** transforme le format colonnes de `fetchTable` en tableau de lignes.
 - **ChoiceList Grist** : format `['L', 'a', 'b']`, converti avec `listeChoix()` ; à l'écriture : `['L', ...valeurs]`.
 - **Dates Grist** : secondes UTC à minuit (`dateEnSecondes`, `dateAffichee`).
@@ -113,5 +113,5 @@ Table utilisée : **Semis** uniquement (pas de chargement de `Varietes` ni de `M
 2. Germes puis NG, avertissement si germes > semées, enregistrement, vérification dans Grist.
 3. Plantation partielle : la ligne reste avec « déjà planté » mis à jour ; plantation du reste : la ligne disparaît.
 4. `Ou` vide : erreur rouge. `Ou` rempli sans ajout : fenêtre de confirmation. Avec ajout : `Ou` contient l'ancien et le nouveau.
-5. Recherche qui masque une ligne en etape-intermediare, puis enregistrement : le etape-intermediare est bien enregistré.
+5. Recherche qui masque une ligne en etape-intermediaire, puis enregistrement : le etape-intermediaire est bien enregistré.
 6. Le statut et le bouton « Enregistrer tout » apparaissent et disparaissent avec les saisies.

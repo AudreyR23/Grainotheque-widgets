@@ -12,7 +12,7 @@
 - [ ] **`className = '...'` écrase** toutes les classes déjà présentes. `classList.add('...')` en ajoute une sans enlever les autres.
 - [ ] **Deux classes sur un élément** (`class="champ champ-etiquettes"`) : les deux styles s'appliquent. La règle `.champ.champ-etiquettes` (collée) vise un élément qui a les deux classes et est plus prioritaire que `.champ` seul.
 - [ ] **Sélecteur avec espace** (`.semis-texte .cadre-info`) : vise le cadre seulement quand il est à l'intérieur de `.semis-texte`.
-- [ ] **Les variables CSS** (`var(--orange-clair)`) : définies une fois dans `:root` de `gestion_commun.css`, utilisables partout. Changer la valeur à un endroit change toute l'appli.
+- [ ] **Les variables CSS** (`var(--orange-clair)`) : définies une fois dans `:root` de `styles_commun.css`, utilisables partout. Changer la valeur à un endroit change toute l'appli.
 - [ ] **Ordre des feuilles de style** : le commun d'abord, le spécifique ensuite, qui peut ainsi corriger le commun.
 - [ ] **`display: flex`** : place les enfants côte à côte (texte à gauche, champ à droite). `align-items: center` les centre verticalement, `justify-content: space-between` les écarte.
 - [ ] **`inline-block`** : un bloc qui prend seulement la largeur de son contenu (cadre bleu), au lieu de s'étirer sur toute la ligne.
@@ -167,3 +167,45 @@
 - [ ] **`aria-label`** : libellé invisible lu par les lecteurs d'écran, pour les champs sans texte visible.
 - [ ] **Ordre des règles CSS** : à spécificité égale, la règle écrite en dernier gagne (cas de `.texte-ou` après le gris).
 - [ ] **Combiner des filtres** : on part de la liste complète, puis on applique chaque filtre l'un après l'autre.
+
+# Mémo : notions à comprendre (à cocher)
+
+*(Seuls les ajouts de cette dernière phase sont listés ; garde les sections précédentes.)*
+
+## Vue 3
+
+- [ ] **Zone Vue** : tout ce qui est dans `<div id="appXxx">` est reconstruit par Vue. Un écouteur JS posé sur un de ses éléments est perdu.
+- [ ] **Directives sur la racine** : `v-show`, `v-if`, `:class` ne fonctionnent pas sur l'élément `id="app…"` lui-même. Ajouter une `div` intérieure.
+- [ ] **`Vue.reactive` / `etat`** : changer une propriété redessine l'écran. Toute propriété lue par le HTML doit être déclarée dans `etat`.
+- [ ] **`{{ }}`, `v-for`, `v-if`, `v-show`, `:class`, `@click`, `v-model`** : rôle de chacun.
+- [ ] **`:value` + `@input` ou `v-model`** : `v-model` pour un champ simple, `:value` + `@input` quand l'ordre des événements compte.
+- [ ] **`@mousedown.prevent`** : équivalent Vue de `preventDefault()` ; garde le focus pour que `blur` ne ferme pas la liste avant le `click`.
+- [ ] **Fonction appelée par le HTML** : elle doit figurer dans le `return` du `setup`.
+- [ ] **`Vue.watch`** : recalcule quand une valeur change (ex. la date).
+- [ ] **Ordre des scripts** : Grist, Vue, commun, outil. Vue absent = `Vue is not defined`.
+
+## JS et commun
+
+- [ ] **Paramètre vs argument** : `libelle(v)` fonctionne avec `libelle(s)` car le nom du paramètre est local.
+- [ ] **Règle du commun** : uniquement les paramètres **et** mêmes noms de propriétés dans tous les outils (`.nom`, `.variete`).
+- [ ] **Ne jamais redéfinir une fonction commune** dans un outil.
+- [ ] **Vérifier un ancien accès** : chercher la forme précise (`getElementById('nbGodets')`), pas le mot seul.
+- [ ] **Fonction orpheline** : plus appelée = à supprimer, après recherche.
+- [ ] **Doublon d'une variable** (`millesimeChoisiId` / `etat.millesimeId`) : un seul à garder.
+
+## CSS
+
+- [ ] **Commentaire `//` en fin de ligne** : tout ce qui suit sur la même ligne est ignoré. Une propriété ou une ligne de code collée après un commentaire disparaît.
+- [ ] **`:disabled`, `:active`, `:focus` collés au nom** : un espace change le sens.
+- [ ] **Un état « désactivé » doit être stylé** : sans règle `:disabled`, rien ne change à l'écran.
+- [ ] **Variante de classe** : `.carte.etape` = carte + variante, liseré orange.
+- [ ] **Unité de nom** : « étape intermédiaire » partout (HTML, JS, CSS) ; renommer avec remplacement dans tous les fichiers, noms longs d'abord.
+
+## Méthode et rigueur
+
+- [ ] **Appliquer toute la consigne** : plusieurs « bugs » venaient d'un point non appliqué.
+- [ ] **Signaler une étape non faite** : préciser quelle étape est appliquée évite un faux diagnostic.
+- [ ] **Bug fantôme = cache** : Ctrl+Maj+R d'abord.
+- [ ] **Diagnostic en console** : `lireFiche()` ou autre fonction tapée dans la console donne la vraie valeur.
+- [ ] **Vérifier le fichier complet après plusieurs corrections** : doublons, restes, commentaires qui avalent du code.
+- [ ] **Nettoyer en un passage séparé**, avec un test à la fin.

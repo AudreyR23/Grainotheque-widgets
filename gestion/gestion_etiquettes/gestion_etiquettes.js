@@ -1,6 +1,6 @@
 // ===== État global =====
 let modifie = false;
-let brouillons = [];   // { idSemis, nb } : étiquettes à ajouter
+let etapesIntermediaires = [];   // { idSemis, nb } : étiquettes à ajouter
 let recherche = '';
 let minuterieSucces = null;
 let reponseConfirmation = null;
@@ -81,10 +81,6 @@ function surRecherche(e) {
 }
 
 // ===== Textes affichés par le HTML =====
-function libelle(s) {
-  return s.variete ? `${s.nom} - ${s.variete}` : s.nom;
-}
-
 function detailEntree(s) {
   const parties = [];
   if (s.plantes > 0) {
@@ -122,30 +118,30 @@ function texteNb(b) {
 }
 
 function valeurEtapeIntermediaire(idSemis) {
-  const b = brouillons.find(x => x.idSemis === idSemis);
+  const b = etapesIntermediaires.find(x => x.idSemis === idSemis);
   return b ? b.nb : '';
 }
 
 // ===== Statut =====
 function majStatut() {
   const el = document.getElementById('statut');
-  const n = brouillons.length;
+  const n = etapesIntermediaires.length;
   modifie = n > 0;
   el.textContent = modifie ? `● Non sauvegardé (${n})` : '✓ À jour';
   el.classList.toggle('non-sauvegarde', modifie);
   majEtapeIntermediaire();
 }
 
-// ===== Saisie et brouillons =====
-function poserBrouillon(idSemis, nb) {
+// ===== Saisie et etapes Intermediaires =====
+function poserEtapeIntermediaire(idSemis, nb) {
   // écran uniquement : rien n'est écrit dans Grist avant « Enregistrer »
-  brouillons = brouillons.filter(b => b.idSemis !== idSemis);
-  if (nb !== null) brouillons.push({ idSemis, nb });
+  etapesIntermediaires = etapesIntermediaires.filter(b => b.idSemis !== idSemis);
+  if (nb !== null) etapesIntermediaires.push({ idSemis, nb });
   majStatut();
 }
 
 function majEtapeIntermediaire() {
-  etat.etapeIntermediaire = brouillons.map(b => ({
+  etat.etapeIntermediaire = etapesIntermediaires.map(b => ({
     id: b.idSemis,
     nb: b.nb,
     s: recordsParId.semis.get(b.idSemis)
@@ -160,7 +156,7 @@ function initialiserSaisie() {
     const texte = champ.value.trim();
     const valeur = Number(texte);
     const valide = texte !== '' && Number.isInteger(valeur) && valeur > 0;
-    poserBrouillon(id, valide ? valeur : null);
+    poserEtapeIntermediaire(id, valide ? valeur : null);
   });
 }
 
@@ -201,18 +197,18 @@ function afficherSucces(texte) {
 }
 
 async function enregistrerTout() {
-  if (brouillons.length === 0 || etat.enregistrement) return;
+  if (etapesIntermediaires.length === 0 || etat.enregistrement) return;
   etat.enregistrement = true;
   afficherSucces('');
   etat.erreur = '';
 
-  const n = brouillons.length;
+  const n = etapesIntermediaires.length;
   try {
     // 1. Relire les valeurs actuelles (l'impression a pu les remettre à 0)
     await chargerSemis();
     const ids = [];
     const valeurs = [];
-    for (const b of brouillons) {
+    for (const b of etapesIntermediaires) {
       const s = recordsParId.semis.get(b.idSemis);
       if (!s) continue;
       ids.push(b.idSemis);
@@ -222,7 +218,7 @@ async function enregistrerTout() {
     await grist.docApi.applyUserActions([
       ['BulkUpdateRecord', 'Semis', ids, { Nb_etiquettes: valeurs }]
     ]);
-    brouillons = [];
+    etapesIntermediaires = [];
     majStatut();
     afficherSucces(`✓ ${n} ligne${n > 1 ? 's' : ''} mise${n > 1 ? 's' : ''} à jour.`);
     await chargerSemis();
@@ -247,7 +243,7 @@ Vue.createApp({
     return {
       etat, libelle, detailEntree, textePlanteMere, texteInfo, texteAlerte,
       nomEtapeIntermediaire, typeInverse, texteNb, valeurEtapeIntermediaire,
-      surRecherche, poserBrouillon, voirEtapeIntermediaire,
+      surRecherche, poserEtapeIntermediaire, voirEtapeIntermediaire,
       enregistrerTout, repondreConfirmation
     };
   }

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sélection pour étiquettes</title>
-<link rel="stylesheet" href="../../styles/gestion_commun.css">
+<link rel="stylesheet" href="../../styles/styles_commun.css">
 <link rel="stylesheet" href="gestion_etiquettes.css">
 </head>
 <body>
@@ -31,7 +31,7 @@
 <div class="etape-intermediaire-nb">{{ texteNb(b) }}</div>
 <div v-if="b.s && (b.s.nbEtiquettes > 0 || b.s.enAttente > 0)" class="erreur">⚠ {{ texteAlerte(b.s) }}</div>
 </div>
-<button type="button" class="btn-suppr" title="Retirer de la liste" @click="poserBrouillon(b.id, null)" :aria-label="`Retirer ${nomEtapeIntermediaire(b)}`">✕</button>
+<button type="button" class="btn-suppr" title="Retirer de la liste" @click="poserEtapeIntermediaire(b.id, null)" :aria-label="`Retirer ${nomEtapeIntermediaire(b)}`">✕</button>
 </li>
 </ul>
 <p v-if="etat.erreur" class="erreur">{{ etat.erreur }}</p>
@@ -82,8 +82,8 @@ Voir les ajouts ({{ etat.etapeIntermediaire.length }})
 
 </div>
 </main>
-<script src="https://cdn.jsdelivr.net/npm/vue@3.4.38/dist/vue.global.prod.js"></script>
 <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@3.4.38/dist/vue.global.prod.js"></script>
 <script src="../../script/scriptcommun.js"></script>
 <script src="gestion_etiquettes.js"></script>
 </body>

@@ -15,7 +15,7 @@ Usage : PC et tablette, lecture seule (À semer n'écrit rien dans les tables). 
 | Élément | Détail |
 |---|---|
 | Widget À semer | `a_semer.html`, `a_semer.js`, `a_semer.css` (dans le dossier du widget) |
-| CSS commun | `../../styles/gestion_commun.css` (variables de couleur, boutons, champs, cadres, **carte**, **pastilles**, **type**) |
+| CSS commun | `../../styles/styles_commun.css` (variables de couleur, boutons, champs, cadres, **carte**, **pastilles**, **type**) |
 | JS commun | `gestion_commun.js` (fonctions utilitaires partagées, voir 8) |
 | Hébergement | GitHub Pages (`audreyr23.github.io/Grainotheque-widgets/...`) |
 | À semer, dans Grist | Données : **Varietes**. « Sélectionner par » : vide. Accès : **full** |
@@ -26,7 +26,7 @@ Accès `full` : nécessaire car le widget lit plusieurs tables avec `grist.docAp
 
 **Ordre de chargement dans le HTML** :
 
-1. `gestion_commun.css`, puis `a_semer.css` ;
+1. `styles_commun.css`, puis `a_semer.css` ;
 2. en fin de `<body>` : Vue 3.4.38 (jsdelivr), puis `grist-plugin-api.js`, puis `gestion_commun.js`, puis `a_semer.js`.
 
 Pas d'élément `message` dans le HTML : une erreur de chargement n'apparaît que dans la console (F12).
@@ -173,7 +173,7 @@ Toutes doivent figurer dans le `return` du `setup` de `Vue.createApp`, sinon l'a
 
 ## 8. CSS commun et JS commun
 
-### Classes de la carte (dans `gestion_commun.css`)
+### Classes de la carte (dans `styles_commun.css`)
 
 | Classe | Rôle |
 |---|---|

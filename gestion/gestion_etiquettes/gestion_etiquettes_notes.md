@@ -9,12 +9,12 @@ Choisir, dans une liste filtrable, les **plants plantés au jardin** et les **pl
 | Fichier | Rôle |
 |---|---|
 | `gestion_etiquettes.html` | Page du widget |
-| `../styles/gestion_commun.css` | CSS commun à tous les outils (variables, champs, boutons, etapeintermediaires, messages, confirmation) |
+| `../styles/styles_commun.css` | CSS commun à tous les outils (variables, champs, boutons, etapeintermediaires, messages, confirmation) |
 | `../styles/gestion_etiquettes.css` | CSS propre à cet outil |
 | `../script/gestion_etiquettes.js` | Logique |
 
 - Deux versions : dev et prod. On teste en dev, puis on recopie en prod.
-- Ordre des feuilles de style dans le HTML : `gestion_commun.css` d'abord, puis `gestion_etiquettes.css`.
+- Ordre des feuilles de style dans le HTML : `styles_commun.css` d'abord, puis `gestion_etiquettes.css`.
 - Version dans les URL (`?v=N`) à incrémenter à chaque modification (cache).
 - `aria-label` est vide sur le champ de recherche.
 
@@ -58,7 +58,7 @@ Les cartes ne changent **jamais** de couleur à la saisie. Le fond d'une carte r
   - à droite : petit champ numérique `.champ.champ-etiquettes` (~4,5 rem), centré verticalement.
 - Cadre bleu = **deux éléments imbriqués** : un `div.cadre-info` (le cadre, `inline-block`, largeur du contenu) qui contient un `div.cadre-info-titre` (le texte bleu foncé gras).
 - Plante mère : classe `plantemere` sur le `<li>` (liseré) + `div.semis-plantemere`.
-- Champ : entier strictement positif. Toute autre valeur (vide, 0, négatif, décimal) supprime le etape-intermediare.
+- Champ : entier strictement positif. Toute autre valeur (vide, 0, négatif, décimal) supprime le etape-intermediaire.
 
 ### Recherche
 - À la frappe, insensible aux accents et à la casse, plusieurs mots dans n'importe quel ordre, sur nom + variété.
@@ -66,10 +66,10 @@ Les cartes ne changent **jamais** de couleur à la saisie. Le fond d'une carte r
 - Les etapeintermediaires survivent au filtrage (le champ est rempli depuis `etapeintermediaires`).
 
 ### Section « En cours » (orange)
-- Entre la recherche et « À étiqueter », visible seulement s'il y a au moins un etape-intermediare.
+- Entre la recherche et « À étiqueter », visible seulement s'il y a au moins un etape-intermediaire.
 - Titre « En cours (n) » et bouton **Enregistrer** (sans compteur, comme les autres outils).
 - Chaque ligne : variété (🌱 devant si plante mère, option), puis le Où, puis « + x étiquettes » en orange, puis un ⚠ rouge si la ligne a déjà des étiquettes à imprimer ou en attente (anti-doublon).
-- ✕ : retire le etape-intermediare **à l'écran uniquement** (rien dans Grist) et vide le champ de la ligne dans la liste.
+- ✕ : retire le etape-intermediaire **à l'écran uniquement** (rien dans Grist) et vide le champ de la ligne dans la liste.
 - Seule cette section est redessinée à chaque saisie (`afficherEtapeIntermediaire()`), pas la liste, pour que le champ garde le focus.
 
 ### Barre flottante en bas (`#barreFlottante`, sticky)
@@ -153,7 +153,7 @@ Variables en français, état global en haut du fichier, `modifie` + `majStatut(
 | `.semis-plantemere` | `.carte-mention` + `.texte-plantemere` |
 
 ### CSS
-- `gestion_commun.css` contient les cartes partagées (`.carte*`), les cadres d'info (`.cadre-info*`), l'étape intermédiaire et la confirmation.
+- `styles_commun.css` contient les cartes partagées (`.carte*`), les cadres d'info (`.cadre-info*`), l'étape intermédiaire et la confirmation.
 - `.carte-titre .cadre-info` : même cadre bleu, réduit au contenu quand il est dans une carte. Les deux règles s'additionnent.
 - Plante mère : liseré à gauche (`.carte.plantemere`) et ligne de texte (`.carte-mention.texte-plantemere`). Ne jamais mettre `.plantemere` comme règle de texte, sinon tout le `li` rétrécit.
 - `.erreur` sert aussi au ⚠ (petite taille).
@@ -176,7 +176,7 @@ Règles de sélection, écriture de `Nb_etiquettes` uniquement (valeur relue pui
 ## Évolutions : violet, filtres rapides, accessibilité
 
 ### Localisation en violet
-- Variables dans `:root` de `gestion_commun.css` : `--ou-clair`, `--ou-moyen`, `--ou-fonce`.
+- Variables dans `:root` de `styles_commun.css` : `--ou-clair`, `--ou-moyen`, `--ou-fonce`.
 - Classe `.texte-ou { color: var(--ou-fonce); }`, placée après `.etape-intermediaire-detail` (sinon le gris l'emporte).
 - Le Où a sa propre ligne : `📍 Pot.BC`, dans la carte (`carte-mention texte-ou`) et dans « À ajouter » (`etape-intermediaire-detail texte-ou`).
 - `detailEntree` ne contient plus le Où.

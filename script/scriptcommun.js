@@ -39,3 +39,7 @@ function typeInverse(type) {
   const m = String(type || '').match(/^(.*?)\s*(\p{Extended_Pictographic}.*)$/u);
   return m ? `${m[2]} ${m[1]}`.trim() : String(type || '');
 }
+
+function libelle(v) {
+  return v.variete ? `${v.nom} - ${v.variete}` : v.nom;
+}

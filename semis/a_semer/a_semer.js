@@ -182,10 +182,6 @@ function afficher() {
 }
 
 // ===== Textes et actions utilisés par le HTML =====
-function libelle(v) {
-  return v.variete ? `${v.nom} - ${v.variete}` : v.nom;
-}
-
 function categorie(l) {
   // Liseré : vert (sous abri), marron (pleine terre), moitié-moitié si les deux
   return l.sousAbris && l.pleineTerre ? 'sousabri-pleineterre' : l.sousAbris ? 'sousabri' : 'pleineterre';

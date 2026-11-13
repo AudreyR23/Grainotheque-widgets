@@ -1,5 +1,5 @@
 #fiche label { margin-top: 12px; }
-#basculeMode + label { margin-top: 0; }   /* le premier label (Variété), juste sous la bascule */
+#appBascule + #appVariete label { margin-top: 0; }
 #fiche label.case { margin-top: 14px; }
 
 .bascule {

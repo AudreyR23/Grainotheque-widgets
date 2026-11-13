@@ -189,7 +189,7 @@ function afficherAttentes() {
   for (const [id, numero] of entrees) {
     const ligne = recordsParId.get(id);
     const li = document.createElement('li');
-    li.className = 'etape-intermediare';
+    li.className = 'etape-intermediaire';
 
     const texte = document.createElement('strong');
     texte.textContent = 'N° ' + numero + ' : ' + nomAffichage(ligne);

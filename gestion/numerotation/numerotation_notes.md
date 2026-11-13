@@ -8,7 +8,7 @@ Widget personnalisé (HTML/JS/CSS) pour attribuer les numéros d'épingle (`Num_
 |---|---|
 | `numerotation.html` | Structure de la page |
 | `../script/numerotation.js` | Logique (lecture, analyse, attribution, sauvegarde) |
-| `../styles/gestion_commun.css` | CSS commun à tous les outils |
+| `../styles/styles_commun.css` | CSS commun à tous les outils |
 | `../styles/numerotation.css` | CSS propre à cet outil (3 règles) |
 
 Hébergement : GitHub Pages.
@@ -86,7 +86,7 @@ Mise à jour en direct : toute modification faite dans Grist recalcule les anoma
 | Champ de recherche conservé après attribution | Champ vidé, focus conservé |
 | `analyserNumeros` calculait max, trous, prochain | Ne garde que ce qui sert |
 
-## 7. Impact sur `gestion_commun.css`
+## 7. Impact sur `styles_commun.css`
 
 Modifications faites dans le fichier commun pendant ce travail :
 
@@ -113,7 +113,7 @@ Raison de chaque règle : espace au-dessus des labels de la fiche ; espace autou
 
 Option si une ligne de doublon déborde sur mobile : `#anomalies-contenu { word-break: break-word; }`.
 
-## 9. Éléments de `gestion_commun.css` non utilisés par Numérotation
+## 9. Éléments de `styles_commun.css` non utilisés par Numérotation
 
 À **conserver** : ils servent aux autres outils.
 
