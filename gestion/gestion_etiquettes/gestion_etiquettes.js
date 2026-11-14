@@ -2,7 +2,6 @@
 let modifie = false;
 let etapesIntermediaires = [];   // { idSemis, nb } : étiquettes à ajouter
 let recherche = '';
-let minuterieSucces = null;
 let reponseConfirmation = null;
 const recordsParId = {
   semis: new Map()
@@ -54,12 +53,7 @@ function entreesEtiquetables() {
 }
 
 function filtrerParRecherche(semis) {
-  if (!recherche) return semis;
-  const mots = recherche.split(' ');
-  return semis.filter(s => {
-    const texte = normaliser(s.nom + ' ' + s.variete);
-    return mots.every(mot => texte.includes(mot));
-  });
+  return semis.filter(s => correspondRecherche(normaliser(s.nom + ' ' + s.variete), recherche));
 }
 
 function afficherSelection() {
@@ -188,13 +182,8 @@ function repondreConfirmation(ok) {
 }
 
 // ===== Enregistrement =====
-function afficherSucces(texte) {
-  clearTimeout(minuterieSucces);
-  etat.succes = texte;
-  if (texte) {
-    minuterieSucces = setTimeout(() => afficherSucces(''), 5000);
-  }
-}
+
+const afficherSucces = creerMessageTemporaire(texte => { etat.succes = texte; });
 
 async function enregistrerTout() {
   if (etapesIntermediaires.length === 0 || etat.enregistrement) return;

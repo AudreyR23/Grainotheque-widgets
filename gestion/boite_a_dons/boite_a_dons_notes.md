@@ -75,7 +75,7 @@ Chemins relatifs : `../script/…`, `../styles/…`, `./dons.json`. Les arboresc
 - **Fiche dépliable** (`<details>`, « Voir la fiche ») :
   - bloc *Culture* : type, famille, exposition, arrosage, où cultiver, nature et qualité du sol, infos ;
   - bloc *Semis & germination* : semis s/abri, semis PT, récolte, profondeur, durée de germination, température de germination.
-- **Pastilles de type** : générées depuis le JSON, avec le nombre de variétés, plus « Tous ». Les nombres restent ceux de la liste complète.
+- **pastille-orga de type** : générées depuis le JSON, avec le nombre de variétés, plus « Tous ». Les nombres restent ceux de la liste complète.
 - **Recherche texte** : sur nom, variété et description. Ignore accents et majuscules, plusieurs mots possibles (tous requis, ordre libre).
 - **Filtre « À semer en »** : liste déroulante (tous les mois, janvier à décembre). Une variété reste si le mois figure dans `semis_sous_abris` ou `semis_pleine_terre`.
 - **Les trois filtres se combinent** (type + mois + texte). Le sous-titre indique le nombre de résultats, les filtres actifs et la date de mise à jour.
@@ -105,13 +105,13 @@ Chemins relatifs : `../script/…`, `../styles/…`, `./dons.json`. Les arboresc
 | Mémorisation | `sauvegarderSelection`, `restaurerSelection` |
 | Sélection | `majBarre`, `changerQuantite`, `remplirSelecteur` |
 | Rendu | `creerCarte`, `creerChamp`, `creerBloc`, `correspond`, `afficherListe` |
-| Pastilles | `creerPastille`, `majPastilles`, `creerPastilles` |
+| pastille-orga | `creerPastille`, `majPastilles`, `creerPastilles` |
 | Panneau | `lignesSelection`, `construireMessage`, `ouvrirPanneau`, `copierMessage`, `partagerMessage`, `initialiserPanneau` |
 | Filtres | `initialiserFiltres` |
-| Démarrage | `demarrer` (ordre : charger le JSON → remplir `varietesParId` → `restaurerSelection` → pastilles → liste → panneau → filtres) |
+| Démarrage | `demarrer` (ordre : charger le JSON → remplir `varietesParId` → `restaurerSelection` → pastille-orga → liste → panneau → filtres) |
 
 **Ids HTML requis** (un manquant provoque « getElementById(...) is null ») :
-`liste`, `sousTitre`, `pastilles`, `recherche`, `selectMois`, `barreSelection`, `resumeSelection`, `btnVoirSelection`, `panneau`, `listeSelection`, `prenom`, `message`, `btnCopier`, `btnPartager`, `btnFermer`, `retourCopie`.
+`liste`, `sousTitre`, `pastille-orga`, `recherche`, `selectMois`, `barreSelection`, `resumeSelection`, `btnVoirSelection`, `panneau`, `listeSelection`, `prenom`, `message`, `btnCopier`, `btnPartager`, `btnFermer`, `retourCopie`.
 
 ## 7. Routine de publication
 
@@ -139,7 +139,7 @@ Chemins relatifs : `../script/…`, `../styles/…`, `./dons.json`. Les arboresc
 - Une demande n'est pas une réservation : deux personnes peuvent demander le même sachet.
 - Les quantités se modifient depuis les cartes, pas depuis le panneau.
 - Pas de bouton « Tout vider » (on revient à 0 avec les `−`).
-- Les nombres sur les pastilles ne tiennent pas compte de la recherche ni du mois.
+- Les nombres sur les pastille-orga ne tiennent pas compte de la recherche ni du mois.
 - Le filtre mois ne regarde que le mois choisi (pas le suivant).
 - Aucune notification : tu ne sais pas qu'une demande est faite tant que la personne ne t'écrit pas.
 

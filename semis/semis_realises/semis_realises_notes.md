@@ -48,9 +48,9 @@ Saisir rapidement les semis d'une journée dans la table **Semis** via un formul
 3. **Encart bleu unique** : Type (emoji d'abord) et germination, « Déjà semé en AAAA », plante mère, lignes de semis (5 max), alerte rouge si déjà dans les étapes.
 4. **Millésime** : datés (récent d'abord, présélectionné), « or. (originale) » en dernier ; bouton grisé tant qu'aucune variété n'est choisie.
 5. **Type** : liste lue dans Grist, se cale sur le Type de la variété.
-6. **Où** : pastilles violettes, liste qui se ferme après un choix et se rouvre au toucher.
+6. **Où** : pastille-orga violettes, liste qui se ferme après un choix et se rouvre au toucher.
 7. **Cases** : « Sachet vidé » et « À reproduire ».
-8. **Étapes intermédiaires** : cartes `.carte.etape` (liseré orange, pastille de mode), ✕ pour retirer.
+8. **Étapes intermédiaires** : cartes `.carte.etape` (liseré orange, pastille-look de mode), ✕ pour retirer.
 9. **Enregistrer** : un seul `applyUserActions`, bouton grisé pendant l'écriture, étapes conservées en cas d'échec, bandeau de succès 5 s.
 10. `beforeunload` si étapes non enregistrées.
 11. **Réception d'une variété** depuis « À semer » (`BroadcastChannel('granotheque-semer')`), mise en attente pendant le chargement.
@@ -85,12 +85,12 @@ Après « Ajouter » : conservés = mode, date, godets, graines, type ; vidés =
 
 ## 8. Ce qui change pour cet outil
 
-- CSS : cartes d'étapes en `.carte.etape`, pastilles `Où` violettes, encart `.cadre-info` unique, `#fiche label` / `#fiche label.case`, bascule.
+- CSS : cartes d'étapes en `.carte.etape`, pastille-orga `Où` violettes, encart `.cadre-info` unique, `#fiche label` / `#fiche label.case`, bascule.
 - JS : copies locales supprimées (`tableEnLignes`, `listeChoix`, `anneeDepuisDate`, `normaliser`, `dateAffichee`, `libelleVariete`), `typeInverse` utilisée, `habillerSelect` supprimé, tout converti en Vue.
 
 ## 9. Ce qui change pour le commun
 
-- **`styles_commun.css`** : `.carte.etape`, `.pastille` en violet « ici », `.champ:disabled`, `.btn-annuler` conservé. Retirés : `.cadre-etape`, `.saisie`, `.compteurs` (après recherche).
+- **`styles_commun.css`** : `.carte.etape`, `.pastille-look` en violet « ici », `.champ:disabled`, `.btn-annuler` conservé. Retirés : `.cadre-etape`, `.saisie`, `.compteurs` (après recherche).
 - **`scriptcommun.js`** : `libelle(v)` ajoutée (tiret court « - », identique dans les 3 outils). `dateDuJour` et `dateEnSecondes` restent locales (candidates quand « Semis à gérer » en aura besoin).
 - À conserver tant que d'autres outils les utilisent : `.etape-intermediaire*`, `.liste-etape-intermediaires`, `.btn-valider`, `.message`.
 

@@ -192,7 +192,7 @@ function creerBloc(titre, champs) {
 }
 
 function creerPastille(type, libelle) {
-  const bouton = creer('button', 'pastille', libelle);
+  const bouton = creer('button', 'pastille-look', libelle);
   bouton.type = 'button';
   bouton.dataset.type = type;
   bouton.addEventListener('click', () => {
@@ -204,12 +204,12 @@ function creerPastille(type, libelle) {
 }
 
 function majPastilles() {
-  document.querySelectorAll('.pastille').forEach(bouton =>
+  document.querySelectorAll('.pastille-look').forEach(bouton =>
     bouton.classList.toggle('active', bouton.dataset.type === typeActif));
 }
 
 function creerPastilles() {
-  const nav = document.getElementById('pastilles');
+  const nav = document.getElementById('pastille-orga');
   nav.replaceChildren();
   const comptes = new Map();
   donnees.varietes.forEach(v => {

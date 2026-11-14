@@ -16,9 +16,9 @@ header h1 { margin: 4px 0; font-size: 22px; }
 .millesimes { list-style: none; margin: 8px 0 0; padding: 0; font-size: 13px; color: #cfd6ee; }
 .millesimes li { padding: 4px 0; border-top: 1px solid #1f4f8f; }
 
-#pastilles { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
-.pastille { background: #16213e; color: #e6e6e6; border: 1px solid #1f4f8f; border-radius: 16px; padding: 6px 12px; font-size: 13px; cursor: pointer; }
-.pastille.active { background: #e94560; border-color: #e94560; color: #fff; }
+#pastille-orga { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.pastille-look { background: #16213e; color: #e6e6e6; border: 1px solid #1f4f8f; border-radius: 16px; padding: 6px 12px; font-size: 13px; cursor: pointer; }
+.pastille-look.active { background: #e94560; border-color: #e94560; color: #fff; }
 
 .fiche { margin-top: 10px; }
 .fiche summary { cursor: pointer; font-size: 13px; color: #9aa4bf; padding: 6px 0; }

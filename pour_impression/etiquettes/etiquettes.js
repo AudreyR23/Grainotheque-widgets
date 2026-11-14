@@ -63,15 +63,15 @@ function makeEtiquette(data, indexDansLigne) {
           <div class="spacer"></div>
           <div class="infos">
             <div>
-              <span class="label">Récolte :</span>
+              <span class="h3">Récolte :</span>
               <span class="valeur">🌱 ${ANNEE_EN_COURS}</span>
             </div>
             <div>
-              <span class="label">Origine :</span>
+              <span class="h3">Origine :</span>
               <span class="valeur">${origineTexte}</span>
             </div>
             <div>
-              <span class="label">${libelleDate} :</span>
+              <span class="h3">${libelleDate} :</span>
               <span class="valeur">${valeurDate}</span>
             </div>  
           <div class="spacer2"></div>

@@ -15,7 +15,7 @@ Usage : PC et tablette, lecture seule (À semer n'écrit rien dans les tables). 
 | Élément | Détail |
 |---|---|
 | Widget À semer | `a_semer.html`, `a_semer.js`, `a_semer.css` (dans le dossier du widget) |
-| CSS commun | `../../styles/styles_commun.css` (variables de couleur, boutons, champs, cadres, **carte**, **pastilles**, **type**) |
+| CSS commun | `../../styles/styles_commun.css` (variables de couleur, boutons, champs, cadres, **carte**, **pastille-orga**, **type**) |
 | JS commun | `gestion_commun.js` (fonctions utilitaires partagées, voir 8) |
 | Hébergement | GitHub Pages (`audreyr23.github.io/Grainotheque-widgets/...`) |
 | À semer, dans Grist | Données : **Varietes**. « Sélectionner par » : vide. Accès : **full** |
@@ -68,7 +68,7 @@ Même visuel que « Sélection pour étiquettes », à partir des classes commun
 
 - **Liseré à gauche** sur toutes les cartes : vert (`--sousabri-moyen`) si sous abri, marron (`--pleineterre-moyen`) si pleine terre, **moitié vert (haut) / moitié marron (bas)** si les deux.
 - **Nom** en gras, puis le **type** en petit gris, emoji d'abord (« 🌼 Fleurs », via `typeInverse`).
-- **Pastilles** « Sous abri » (vert clair) et « Pleine terre » (beige).
+- **pastille-orga** « Sous abri » (vert clair) et « Pleine terre » (beige).
 - **Deux lignes grises** : (1) millésime, germination, ancienneté du test ; (2) période de semis (« semis Nov → Fév »).
 - **Cadre bleu** (`cadre-info`) pour « Déjà semée » et/ou « Plant au jardin » (ou Rhizome, Caïeux, Bulbe).
 - **Bouton « Semer »** (style Enregistrer) à droite, centré verticalement, avec un `aria-label` contenant le nom de la variété.
@@ -180,16 +180,16 @@ Toutes doivent figurer dans le `return` du `setup` de `Vue.createApp`, sinon l'a
 | `.carte` | Conteneur : flex, centrage vertical, fond blanc, bordure grise |
 | `.carte-titre` | Colonne de texte (prend la place restante) |
 | `.carte-detail` | Ligne grise, petite taille |
-| `.carte-mention` | Ligne sous le nom (pastilles ou texte coloré) |
+| `.carte-mention` | Ligne sous le nom (pastille-orga ou texte coloré) |
 | `.carte-type` | Type de la variété, petit et gris, après le nom |
 | `.carte-action` | Élément à droite (bouton ou champ), ne se comprime pas |
 | `.carte.sousabri`, `.carte.pleineterre`, `.carte.sousabri-pleineterre`, `.carte.plantemere` | Liseré de couleur |
-| `.pastille-cat` + `.pastille-sousabri` / `.pastille-pleineterre` | Pastilles de catégorie |
+| `.pastille-cat` + `.pastille-sousabri` / `.pastille-pleineterre` | pastille-orga de catégorie |
 | `.cadre-info`, `.cadre-info-titre` | Cadre bleu d'information |
 | `.carte-titre .cadre-info` | Même cadre, réduit au contenu quand il est dans une carte |
 | `.texte-plantemere`, `.texte-ici` | Ligne verte « plante mère » / ligne violette de localisation (utilisées par Étiquettes) |
 
-Noms volontairement distincts de `.badge` et de `.pastille` (lieux dans semis réalisés).
+Noms volontairement distincts de `.badge` et de `.pastille-look` (lieux dans semis réalisés).
 
 ### Fonctions de `gestion_commun.js`
 
@@ -305,7 +305,7 @@ Par priorité :
 6. **Plants au jardin** : `typeDePlant`, filtre dans `millesimeAUtiliser`, tri sans plantage si pas de graines. Correction de la regex (le « x » désignait un nombre).
 7. Sachet « Mél » : traité comme un millésime normal, avec mention « sachet mélangé ».
 8. **Refonte visuelle** : carte commune (`.carte`), liseré de couleur, bouton « Semer » centré à droite, cadre bleu, `a_semer.css` raccourci.
-9. **Pastilles** « Sous abri » / « Pleine terre » (`pastille-cat`), avec correction d'un bug de classe (`badge` sans `sous-abri`).
+9. **pastille-orga** « Sous abri » / « Pleine terre » (`pastille-cat`), avec correction d'un bug de classe (`badge` sans `sous-abri`).
 10. **Liseré moitié vert / moitié marron** pour les variétés des deux modes.
 11. **Harmonisation avec Étiquettes** : renommages des classes (`carte-titre`, `cadre-info`, `liste-carte`), chemins `../../styles/`, Vue 3.4.38 chargé par jsdelivr.
 12. **Conversion Vue, par étapes** :
@@ -344,7 +344,7 @@ Par priorité :
 5. Cases Sous abri et Pleine terre : filtrage correct, titre « (x sur N) », retour à « (N) » quand elles sont décochées.
 6. Les trois tris réordonnent la liste sans erreur.
 7. Variété avec plant (`1P.`, `2rhi`, `3c.`, `1b.`) : absente de la liste normale, présente grisée avec la case cochée.
-8. Liserés : vert, marron, moitié-moitié ; pastilles et type (emoji d'abord) corrects.
+8. Liserés : vert, marron, moitié-moitié ; pastille-orga et type (emoji d'abord) corrects.
 9. « Semer » : la variété arrive dans semis réalisés avec son millésime et ses derniers semis.
 10. Après un semis enregistré et « Actualiser » : la variété disparaît de la liste normale.
 11. Sur tablette : le défilement ne déclenche pas « Semer ».

@@ -29,7 +29,7 @@ Page plate, sans cadres, sur le modèle de « Semis réalisés ». De haut en ba
 1. **Anomalies** (label + cadre `cadre-info`) : visible uniquement s'il y a des doublons ou des numéros invalides, sinon masqué en entier.
    - Titres « ⚠ Doublons (N) » / « ⚠ Numéros invalides (N) » : `.cadre-info-titre` (bleu, gras).
    - Lignes de détail : `.cadre-info-alerte` (rouge, gras).
-2. **Prochain numéro à attribuer** : pastille orange (`.pastille`) ajustée à son contenu, sans croix. Affiche `N° 197`, ou `N° 252 (nouveau)` quand il n'y a plus de trou (max + 1).
+2. **Prochain numéro à attribuer** : pastille-look orange (`.pastille-look`) ajustée à son contenu, sans croix. Affiche `N° 197`, ou `N° 252 (nouveau)` quand il n'y a plus de trou (max + 1).
 3. **Variété sans numéro** : champ de recherche + liste déroulante flottante (`.liste-choix`) :
    - fermée tant que rien n'est tapé ;
    - recherche insensible à la casse et aux accents ;
@@ -62,7 +62,7 @@ Mise à jour en direct : toute modification faite dans Grist recalcule les anoma
   - `calculerProchain()` : prochain numéro libre, attributions en attente incluses
   - `nettoyerAttributions()` : retire les attributions devenues incohérentes après un changement externe dans Grist
   - `ajouterDiv(parent, texte, classe)` : crée une ligne `<div>` (remplace l'ancienne `ajouterLigne`)
-  - `afficherAnalyse()` (anomalies), `afficherListe()` (pastille + liste déroulante), `afficherAttentes()`, `afficherMessage(texte, classe)`
+  - `afficherAnalyse()` (anomalies), `afficherListe()` (pastille-look + liste déroulante), `afficherAttentes()`, `afficherMessage(texte, classe)`
   - `sauvegarder()`
 - **Contrôles avant écriture** : (1) attributions toujours cohérentes avec Grist, sinon retirées avec un message rouge ; (2) pas de numéro en double, uniquement des entiers ≥ 1.
 - **Écriture** : `grist.docApi.applyUserActions` avec `BulkUpdateRecord`, à partir de `grist.selectedTable.getTableId()` et des noms de colonnes reçus dans `onRecords(records, mappings)`.
@@ -80,7 +80,7 @@ Mise à jour en direct : toute modification faite dans Grist recalcule les anoma
 | Compteurs (« N variétés sans numéro ») | Supprimés volontairement |
 | Liste intégrée à la page, toujours visible | Liste déroulante flottante, ouverte à la saisie |
 | Bouton « Tout annuler » | Supprimé (reste le ✕ par ligne) |
-| Prochain numéro en cadre pleine largeur | Pastille ajustée au contenu |
+| Prochain numéro en cadre pleine largeur | pastille-look ajustée au contenu |
 | Bouton « Sauvegarder dans Grist » | Bouton « Enregistrer » (`btn-large`) |
 | Événements `pointerup` | Événements `click` |
 | Champ de recherche conservé après attribution | Champ vidé, focus conservé |
@@ -91,7 +91,7 @@ Mise à jour en direct : toute modification faite dans Grist recalcule les anoma
 Modifications faites dans le fichier commun pendant ce travail :
 
 - **`.btn:focus-visible`** : corrigé (c'était `.button:focus-visible`, qui ne ciblait rien). **Effet sur tous les outils** : un contour vert apparaît désormais au focus clavier des boutons.
-- **`.pastille`** : `border-radius` passé à 6px (16px avant). **Effet sur « Semis réalisés »** : les pastilles « Où » sont aussi moins arrondies. À vérifier si c'est voulu.
+- **`.pastille-look`** : `border-radius` passé à 6px (16px avant). **Effet sur « Semis réalisés »** : les pastille-orga « Où » sont aussi moins arrondies. À vérifier si c'est voulu.
 - **`.carte`, `.carte h2`, `.carte-alerte`** : ajoutés puis retirés. Vérifier qu'il n'en reste rien.
 - **`.liste-choix.integree`** : ajouté puis devenu inutile. **À supprimer** s'il est encore dans le fichier.
 
@@ -109,7 +109,7 @@ Dépendances à connaître :
 #prochain { cursor: default; }
 ```
 
-Raison de chaque règle : espace au-dessus des labels de la fiche ; espace autour du bloc d'anomalies ; pastille non cliquable (`.pastille` a `cursor: pointer`).
+Raison de chaque règle : espace au-dessus des labels de la fiche ; espace autour du bloc d'anomalies ; pastille-look non cliquable (`.pastille-look` a `cursor: pointer`).
 
 Option si une ligne de doublon déborde sur mobile : `#anomalies-contenu { word-break: break-word; }`.
 
@@ -142,7 +142,7 @@ Option si une ligne de doublon déborde sur mobile : `#anomalies-contenu { word-
 - `--plantemere`
 - `--blanc`
 
-**Utilisés par Numérotation** : base (`body`, `header`, `h1`, `h2`, `label`, `*`), `.statut`, `.champ` (+ `:focus`), `.champ-liste`, `.liste-choix` (+ `li`, `li:hover`, `li.vide`), `.liste-etape-intermediaires`, `.etape-intermediaire`, `.btn`, `.btn-large`, `.btn:disabled`, `.btn-enregistrer`, `.btn:focus-visible`, `.btn-suppr`, `.info`, `.succes`, `.erreur`, `.cadre-info`, `.cadre-info-titre`, `.cadre-info-alerte`, `.pastilles`, `.pastille`, `[hidden]`.
+**Utilisés par Numérotation** : base (`body`, `header`, `h1`, `h2`, `label`, `*`), `.statut`, `.champ` (+ `:focus`), `.champ-liste`, `.liste-choix` (+ `li`, `li:hover`, `li.vide`), `.liste-etape-intermediaires`, `.etape-intermediaire`, `.btn`, `.btn-large`, `.btn:disabled`, `.btn-enregistrer`, `.btn:focus-visible`, `.btn-suppr`, `.info`, `.succes`, `.erreur`, `.cadre-info`, `.cadre-info-titre`, `.cadre-info-alerte`, `.pastille-orga`, `.pastille-look`, `[hidden]`.
 
 ## 10. Pièges rencontrés
 
@@ -160,7 +160,7 @@ Option si une ligne de doublon déborde sur mobile : `#anomalies-contenu { word-
 - [ ] **Test au doigt sur tablette après la mise en prod** : faire défiler la liste déroulante, aucune attribution ne doit se déclencher.
 - [ ] Facultatif : effacer le message de succès dès la prochaine attribution (`afficherMessage('');` dans l'écouteur `click` de la liste, après `nonSauvegarde = true;`).
 - [ ] Supprimer `.liste-choix.integree` du CSS commun s'il y est encore.
-- [ ] Vérifier l'arrondi des pastilles dans « Semis réalisés ».
+- [ ] Vérifier l'arrondi des pastille-orga dans « Semis réalisés ».
 - [ ] Facultatif : passer les couleurs en dur de `.btn-annuler` et `.btn-valider` en variables CSS.
 
 ## 12. Idées possibles pour plus tard

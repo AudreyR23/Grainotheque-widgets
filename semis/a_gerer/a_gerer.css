@@ -1,34 +1,58 @@
-.semis-retard { color: #c62828; font-weight: 600; }
-#message { margin-top: 20px; font-size: 0.8rem; color: #888; white-space: pre-line; }
+/* ===== Cartes de cette page ===== */
+/* La carte commune est une ligne (titre à gauche, action à droite).
+   Ici : titre et détail en haut, saisie dessous. */
+.carte.carte-colonne { flex-direction: column; align-items: stretch; gap: 6px; }
 
-.btn-ng {
-  flex: none; padding: 10px 16px;
-  font-size: 1.1rem; font-weight: 600;
-  color: #c62828; background: #fff;
-  border: 2px solid #e0b4b4; border-radius: 6px; cursor: pointer;
+/* ===== À vérifier ===== */
+.saisie { display: flex; gap: 8px; align-items: center; }
+.champ-germes { flex: 1; min-width: 0; }
+.btn-ng { flex: none; font-weight: bold; color: var(--erreur); border-color: var(--erreur); }
+.alerte-germes { color: var(--erreur); font-weight: bold; font-size: 0.85rem; }
+
+/* ===== À planter ===== */
+#datePlantation { margin-bottom: 10px; }
+.saisie-planter { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 8px; }
+.saisie-planter .champ { min-width: 0; }
+.bloc-ou { margin-top: 2px; }
+
+/* ===== Bouton « Enregistrer tout » : toujours visible en bas ===== */
+#btnEnregistrer { position: sticky; bottom: 8px; z-index: 5; box-shadow: 0 4px 12px rgba(0,0,0,.25); }
+
+/* Le conteneur Vue ne crée pas de boîte : le bouton « sticky » reste collé en bas de <main> */
+#appEnregistrer { display: contents; }
+
+/* ===== Bandeau du haut, collé à l'écran ===== */
+.entete { flex-wrap: wrap; position: sticky; top: 0; z-index: 20; padding: 6px 0; background: var(--arriere-plan); }
+.entete-nav { display: flex; gap: 8px; flex-basis: 100%; }
+.entete-message { flex-basis: 100%; margin: 0; }
+
+/* ===== Récapitulatif « En cours » ===== */
+.recap { margin-bottom: 10px; }
+.recap-titre { font-weight: bold; color: var(--orange-fonce); margin-bottom: 4px; }
+.recap-ligne { cursor: pointer; }
+
+/* Le défilement ne doit pas passer sous le bandeau */
+#appVerifier, #appPlanter, #appEnCours, .carte-colonne, #erreur-verifier, #erreur-planter { scroll-margin-top: 120px; }
+
+/* Boutons de choix (Encore là / Morte) */
+.btn-choix { flex: 1; }
+.btn-choix.actif { 
+   background: var(--orange-clair); 
+   border-color: var(--orange-moyen); 
 }
-.semis.etape-intermediaire { background: #e8f0fb; border-color: #9db8e0; }
-.btn-enregistrer {
-  width: 100%; margin-top: 14px; padding: 14px;
-  font-size: 1.1rem; font-weight: 600; color: #fff;
-  background: #1565c0; border: none; border-radius: 8px; cursor: pointer;
+
+/* Lieu où la plante mère est morte */
+.pastille-look.choix.morte { 
+   background: var(--blanc); 
+   border: 1px solid var(--erreur); 
 }
-.btn-enregistrer :disabled { background: #90a4ae; cursor: wait; }
-
-.alerte-germes { margin-top: 6px; color: #b26a00; font-weight: 600; font-size: 0.9rem; }
-
-#datePlantation {
-  width: 100%; font-size: 1.1rem; padding: 10px;
-  border: 1px solid #aaa; border-radius: 6px; margin-bottom: 10px;
+.texte-morte {
+  color: var(--erreur); 
+  margin-top: 4px;
+  font-size: 0.85rem;
 }
 
-.btn-tout {
-  padding: 10px 14px; font-size: 1rem; font-weight: 600;
-  color: #2e7d32; background: #fff;
-  border: 2px solid #8bc58b; border-radius: 6px; cursor: pointer;
-}
-
-/*pour ajout où*/
-.bloc-ou { margin-top: 8px; }
-.liste-choix li { padding: 12px 10px; border-bottom: 1px solid #eee; cursor: pointer; }
-.liste-choix li.vide { color: #777; cursor: default; font-style: italic; }
+/* Boutons Encore là / Morte et lieux sur la même ligne, retour à la ligne si besoin */
+.ligne-mere { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.ligne-mere .btn-choix { flex: 0 0 auto; }
+.ligne-mere .carte-detail { margin-top: 0; }

@@ -31,30 +31,16 @@ const etat = Vue.reactive({
 
 // ===== État global =====
 let modifie = false;
-let minuterieSucces = null;
 let varieteChoisieId = null;
 let millesimeChoisiId = null;
 let prochainIdEtapeIntermediaire= 1;
 let donneesChargees = false;
 let varietePendante = null;   // variété reçue avant la fin du chargement
 
-let TYPES = [
-  'Arom.Méd 🌿', 'Fleurs 🌼', 'Lég-feu. 🥬', 'Lég-fru. 🍅', 'Lég-gra. 🌾',
-  'Lég-rac. 🥕', 'Tub.bul. 🧅', 'Petits Fruits 🫐'
-];
+let TYPES = [];   // lus depuis Grist (choix de la colonne Type de Semis)
 const TYPE_PAR_DEFAUT = 'Arom.Méd 🌿';
 
-let LIEUX = [
-  'Cour 1', 'Cour 2', 'C. Fosse', 'C. Terrasse', 'Regard eau', 'Bac C angle', 'Bac R milieu',
-  'Bac terrasse', 'Bac C milieu', 'Bac R angle', 'Grand bac', 'SerreN', 'Serre Tipi', 'SerreS',
-  'Serre', 'SerreE', 'SerreW', 'Pot.Table', 'Pot.HC', 'Pot.HE', 'Pot.Prunier', 'Pot.HN',
-  'Pot.Bulle', 'Pot.B', 'Pot.BC', 'Ext. Serre W', 'Ext. Serre Bulle', 'Ext. Serre S',
-  'Ext. Serre E', 'Ext. Serre Clô.', 'Ext. Serre Tipi', 'Pot.1-4', 'Pot.1-3', 'Pot.2-3',
-  'Pot.2-4', 'Pot.3-1', 'Pot.3-2', 'Pot.3-3', 'Pot.3-4', 'Pot.4-1', 'Pot.4-3', 'Pot.4-4',
-  'Séchoir B', 'Séchoir HB', 'Séchoir H', 'Kiwi', 'Figuier', 'Prairie murier', 'Saule',
-  'Pot.2-1', 'Pot', 'Pot.1-2', 'Pot.2-2', 'Pot.4-2', 'Pot. 1-1', 'Tipi carré', 'En pot',
-  'Murette', 'Fontaine', 'Cour triangle', 'C. Triangle'
-];
+let LIEUX = [];   // lus depuis Grist (choix de la colonne Ou de Semis)
 
 const recordsParId = {
   varietes: new Map(),
@@ -64,16 +50,6 @@ const recordsParId = {
 
 // ===== Utilitaires =====
 
-function dateDuJour() {
-  const d = new Date();
-  const p = n => String(n).padStart(2, '0');
-  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
-}
-function dateEnSecondes(iso) {
-  // 'YYYY-MM-DD' → secondes depuis 1970, à minuit UTC (format Grist pour une colonne Date)
-  const [a, m, j] = iso.split('-').map(Number);
-  return Date.UTC(a, m - 1, j) / 1000;
-}
 
 // ===== Statut =====
 function majStatut() {
@@ -125,9 +101,8 @@ function afficherResultats() {
   const saisie = normaliser(etat.rechercheVariete);
   if (!saisie) { etat.listeVarieteOuverte = false; return; }
 
-  const mots = saisie.split(' ');
   const trouves = [...recordsParId.varietes.values()]
-    .filter(v => mots.every(mot => v.recherche.includes(mot)))
+    .filter(v => correspondRecherche(v.recherche, saisie))
     .sort((a, b) => libelle(a).localeCompare(libelle(b), 'fr'));
 
   etat.resultatsVariete = trouves.slice(0, MAX_RESULTATS)
@@ -219,13 +194,26 @@ function texteBoutonMillesime() {
 // ===== Reste de la fiche =====
 function remplirTypes() {
   etat.types = TYPES.map(t => ({ valeur: t, libelle: typeInverse(t) }));
-  etat.type = TYPES.includes(TYPE_PAR_DEFAUT) ? TYPE_PAR_DEFAUT : TYPES[0];
+  etat.type = TYPES.includes(TYPE_PAR_DEFAUT) ? TYPE_PAR_DEFAUT : (TYPES[0] || '');
 }
 
 function appliquerTypeVariete(varieteId) {
   const v = recordsParId.varietes.get(varieteId);
-  const parDefaut = TYPES.includes(TYPE_PAR_DEFAUT) ? TYPE_PAR_DEFAUT : TYPES[0];
+  const parDefaut = TYPES.includes(TYPE_PAR_DEFAUT) ? TYPE_PAR_DEFAUT : (TYPES[0] || '');
   etat.type = v && TYPES.includes(v.type) ? v.type : parDefaut;
+}
+
+async function chargerChoix() {
+  try {
+    const choix = await lireChoixColonnes('Semis', ['Type', 'Ou']);
+    if (choix.Type) TYPES = choix.Type;
+    if (choix.Ou) LIEUX = choix.Ou;
+    const manquants = [!choix.Type && 'Type', !choix.Ou && 'Où'].filter(Boolean);
+    if (manquants.length) etat.message = 'Choix introuvables dans Grist : ' + manquants.join(', ');
+  } catch (err) {
+    console.error('Lecture des choix impossible :', err);
+    etat.message = 'Choix (Type, Où) non chargés : ' + err.message;
+  }
 }
 
 function choisirType(valeur) {
@@ -254,8 +242,7 @@ document.addEventListener('click', e => {
 
 // --- Où (multi-sélection) ---
 function lieuxProposes() {
-  const saisie = normaliser(etat.rechercheOu);
-  return LIEUX.filter(l => !etat.ouChoisis.includes(l) && (!saisie || normaliser(l).includes(saisie)));
+  return lieuxFiltres(LIEUX, etat.ouChoisis, etat.rechercheOu);
 }
 
 function surRechercheOu(e) {
@@ -311,6 +298,7 @@ function lireFiche() {
 function validerFiche(f) {
   if (!f.varieteId) return 'Choisis une variété dans la liste.';
   if (!f.millesimeId) return 'Choisis un millésime.';
+  if (!f.type) return 'Aucun type disponible (lecture des choix impossible) : recharge le widget.';
   if (!f.date) return 'Renseigne la date du semis.';
   if (!(f.godets > 0)) return 'Renseigne le nombre de godets.';
   if (!(f.graines > 0)) return 'Renseigne le nombre de graines.';
@@ -365,11 +353,8 @@ function detailEtapeIntermediaire(b) {
 }
 
 // ===== Enregistrement dans Semis =====
-function afficherSucces(texte) {
-  clearTimeout(minuterieSucces);
-  etat.succes = texte;
-  if (texte) minuterieSucces = setTimeout(() => afficherSucces(''), 5000);
-}
+
+const afficherSucces = creerMessageTemporaire(texte => { etat.succes = texte; });
 
 async function enregistrerTout() {
   if (etat.etapesIntermediaires.length === 0 || etat.enregistrement) return;
@@ -469,34 +454,6 @@ function afficherDerniersSemis() {
 window.addEventListener('beforeunload', e => {
   if (modifie) { e.preventDefault(); e.returnValue = ''; }
 });
-// ===== Choix Type / Ou lus depuis Grist =====
-async function chargerChoix() {
-  try {
-    const [tabTables, tabColonnes] = await Promise.all([
-      grist.docApi.fetchTable('_grist_Tables'),
-      grist.docApi.fetchTable('_grist_Tables_column')
-    ]);
-    const table = tableEnLignes(tabTables).find(t => t.tableId === 'Semis');
-    if (!table) throw new Error('table Semis introuvable dans les métadonnées');
-    const colonnes = tableEnLignes(tabColonnes).filter(c => c.parentId === table.id);
-
-    const choixDe = colId => {
-      const c = colonnes.find(x => x.colId === colId);
-      if (!c || !c.widgetOptions) return null;
-      try {
-        const options = JSON.parse(c.widgetOptions);
-        return Array.isArray(options.choices) && options.choices.length ? options.choices : null;
-      } catch (e) { return null; }
-    };
-
-    const types = choixDe('Type');
-    const lieux = choixDe('Ou');
-    if (types) TYPES = types;
-    if (lieux) LIEUX = lieux;
-  } catch (err) {
-    console.error('Lecture des choix impossible, liste de secours utilisée :', err);
-  }
-}
 
 // ===== Variété envoyée par « À semer » =====
 function varieteDemandee(id) {

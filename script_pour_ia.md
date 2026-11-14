@@ -21,7 +21,7 @@ Conventions : variables en français, état global en haut du fichier, `recordsP
 - Boutons dans une liste qui défile : `@click`, pas `pointerdown` (sinon un début de défilement déclenche l'action).
 ### CSS commun : `styles_commun.css`
 - Variables de couleurs par famille (`--famille-clair / -moyen / -fonce`).
-- Cartes `.carte*` (`carte-titre`, `carte-detail`, `carte-mention`, `carte-type`, `carte-action`, liserés `.carte.sousabri` etc.), cadres d'info `.cadre-info*`, pastilles `.pastille-cat`, étape intermédiaire orange, confirmation, boutons (`btn` + variante + taille), champs, cases `.case`.
+- Cartes `.carte*` (`carte-titre`, `carte-detail`, `carte-mention`, `carte-type`, `carte-action`, liserés `.carte.sousabri` etc.), cadres d'info `.cadre-info*`, pastille-orga `.pastille-cat`, étape intermédiaire orange, confirmation, boutons (`btn` + variante + taille), champs, cases `.case`.
 - Règle : une classe est dans le commun si au moins deux outils s'en servent à l'identique. Une règle qui cite un id de l'outil reste dans son CSS.
 - Convention BEM (`bloc__element`, `bloc--variante`) : décidée comme amélioration future, **pas appliquée** pour l'instant. Ne renomme pas l'existant.
 ### JS commun : `gestion_commun.js`

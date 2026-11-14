@@ -180,7 +180,7 @@ Règles de sélection, écriture de `Nb_etiquettes` uniquement (valeur relue pui
 - Classe `.texte-ou { color: var(--ou-fonce); }`, placée après `.etape-intermediaire-detail` (sinon le gris l'emporte).
 - Le Où a sa propre ligne : `📍 Pot.BC`, dans la carte (`carte-mention texte-ou`) et dans « À ajouter » (`etape-intermediaire-detail texte-ou`).
 - `detailEntree` ne contient plus le Où.
-- Règle de couleurs : violet = emplacement affiché, orange = en cours de saisie (les pastilles de « Semis réalisés » restent orange).
+- Règle de couleurs : violet = emplacement affiché, orange = en cours de saisie (les pastille-orga de « Semis réalisés » restent orange).
 - Le 📍 évite de dépendre de la couleur seule (soleil, daltonisme).
 
 ### Filtres rapides (cases à cocher)

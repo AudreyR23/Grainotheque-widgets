@@ -77,8 +77,8 @@
            <div id="appOu">
 <div v-show="etat.modeSemis === 'pleine_terre'">
 <label for="rechercheOu">Où</label>
-<div class="pastilles">
-<span v-for="lieu in etat.ouChoisis" :key="lieu" class="pastille" @click="retirerLieu(lieu)">{{ lieu }} ✕</span>
+<div class="pastille-orga">
+<span v-for="lieu in etat.ouChoisis" :key="lieu" class="pastille-look-choix" @click="retirerLieu(lieu)">{{ lieu }} ✕</span>
 </div>
 <div class="champ-liste">
 <input id="rechercheOu" type="search" class="champ" placeholder="Chercher un emplacement…" autocomplete="off"
