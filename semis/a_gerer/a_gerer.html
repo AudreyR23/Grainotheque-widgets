@@ -13,14 +13,14 @@
       <span class="statut" :class="{ 'non-sauvegarde': nombreSaisies() > 0 }"
         >{{ texteStatut() }}</span
       >
-      <nav class="entete-nav">
+      <nav class="div-btn">
         <button
-          v-if="nombreEnCours() > 0"
+          v-if="nombreSaisies() > 0"
           type="button"
-          class="btn btn-ajouter"
+          class="btn couleur-etape"
           @click="aller('appEnCours')"
         >
-          En cours ({{ nombreEnCours() }})
+          En cours ({{ nombreSaisies() }})
         </button>
         <button type="button" class="btn" @click="aller('appVerifier')">
           À vérifier ({{ etat.totalVerifier }})
@@ -36,42 +36,32 @@
     </header>
 
     <main>
-      <div id="appRecherche">
-        <input
-          id="recherche"
-          class="champ"
-          type="search"
-          placeholder="Filtrer par nom de variété…"
-          autocomplete="off"
-          v-model="etat.recherche"
-        />
-        <label for="tri">Trier par</label>
-        <select id="tri" class="champ" v-model="etat.tri">
-          <option value="defaut">Ordre habituel (retard / ancienneté)</option>
-          <option value="nom">Nom</option>
-        </select>
-      </div>
       <div id="appEnCours">
         <section
           v-if="recapGermes().length || recapMeres().length || recapPlantation().length"
-          class="recap"
         >
-          <h2>En cours : pas encore enregistré</h2>
+          <h2>En cours : pas encore enregistré </h2>
 
           <div v-if="recapGermes().length">
-            <h3> 🔍 Germination ({{ recapGermes().length }})</h3>
+            <h3>🔍 Germination ({{ recapGermes().length }})</h3>
             <ul class="liste-carte">
               <li
                 v-for="r in recapGermes()"
                 :key="r.id"
-                class="carte etape recap-ligne"
+                class="carte etape curseur-main"
                 @click="allerCarte(r.id)"
               >
+              <!-- TO DO -->
                 <div class="carte-titre">
-                  <strong>{{ r.nom }}</strong>
-                  <span v-if="typeInverse" class="carte-type">{{ typeInverse(r.type) }}</span>
-                  <div class="carte-detail">{{ r.texte }}</div>
-                  <div v-if="r.alerte" class="erreur">{{ r.alerte }}</div>
+                  <strong>{{ r.nom }}</strong
+                  ><span v-if="r.type" class="carte-type"
+                    >{{ typeInverse(r.type) }}</span
+                  >
+                  <div class="div-info">
+                    <span v-for="(p, i) in r.parties" :key="i" :class="p.classe"
+                      >{{ p.texte }}</span
+                    >
+                  </div>
                 </div>
                 <button
                   type="button"
@@ -87,17 +77,24 @@
           </div>
 
           <div v-if="recapMeres().length">
-            <h3> 🌱 Plantes mères ({{ recapMeres().length }})</h3>
+            <h3>🌱 Plantes mères ({{ recapMeres().length }})</h3>
             <ul class="liste-carte">
               <li
                 v-for="r in recapMeres()"
                 :key="r.id"
-                class="carte etape recap-ligne"
+                class="carte etape curseur-main"
                 @click="allerMere(r.id)"
               >
                 <div class="carte-titre">
-                  <strong>{{ r.nom }}</strong>
-                  <div class="carte-detail">{{ r.texte }}</div>
+                  <strong>{{ r.nom }}</strong
+                  ><span v-if="r.type" class="carte-type"
+                    >{{ typeInverse(r.type) }}</span
+                  >
+                  <div class="div-info">
+                    <span v-for="(p, i) in r.parties" :key="i" :class="p.classe"
+                      >{{ p.texte }}</span
+                    >
+                  </div>
                 </div>
                 <button
                   type="button"
@@ -113,21 +110,23 @@
           </div>
 
           <div v-if="recapPlantation().length">
-            <h3> 🪏 Plantation ({{ recapPlantation().length }})</h3>
+            <h3>🪏 Plantation ({{ recapPlantation().length }})</h3>
             <ul class="liste-carte">
               <li
                 v-for="r in recapPlantation()"
                 :key="r.id"
-                class="carte etape recap-ligne"
+                class="carte etape curseur-main"
                 @click="allerCarte(r.id)"
               >
                 <div class="carte-titre">
-                  <strong>{{ r.nom }}</strong>
-                  <div class="carte-detail">{{ r.texte }}</div>
-     
-                  <div v-if="r.alerte" class="erreur">{{ r.alerte }}</div>
-                  <div v-if="r.info" :class="r.info.classe">
-                    {{ r.info.texte }}
+                  <strong>{{ r.nom }}</strong
+                  ><span v-if="r.type" class="carte-type"
+                    >{{ typeInverse(r.type) }}</span
+                  >
+                  <div class="div-info">
+                    <span v-for="(p, i) in r.parties" :key="i" :class="p.classe"
+                      >{{ p.texte }}</span
+                    >
                   </div>
                 </div>
                 <button
@@ -139,31 +138,57 @@
                 >
                   ✕
                 </button>
+              <!-- FIN TO DO -->
               </li>
             </ul>
           </div>
         </section>
       </div>
-
+        <h3> Filtrer/Trier</h3>
+      <div id="appRecherche" class="div-champ">
+        <input
+          id="recherche"
+          class="champ"
+          type="search"
+          placeholder="Filtrer par nom de variété…"
+          autocomplete="off"
+          v-model="etat.recherche"
+        />
+        <div for="tri" class="texte-entete-champ">Trier par</div>
+        <select id="tri" class="champ" v-model="etat.tri">
+          <option value="defaut">Ordre habituel (retard / ancienneté)</option>
+          <option value="nom">Nom</option>
+        </select>
+      </div>
+      
       <div id="appVerifier">
-        <h2>{{ titreVerifier() }}</h2>
-        <label class="case"
-          ><input type="checkbox" v-model="etat.inclureSansDuree" /> Inclure les
-          semis sans durée de germination (12 derniers mois)</label
-        >
-        <label class="case"
-          ><input type="checkbox" v-model="etat.controleMeres" /> Contrôler les
-          plantes mères ({{ etat.totalMeres }} à contrôler)</label
+        <h2>
+          {{ titreListe('🔍', 'À vérifier', etat.listeVerifier,
+          etat.totalVerifier) }}
+        </h2>
+        <div class="div-case"
+          >
+          <label class="case">
+          <input type="checkbox" v-model="etat.inclureSansDuree" /> <span class="case-texte" >Inclure les
+          semis sans durée de germination (12 derniers mois)</span></label>
+          <label class="case">
+          <input type="checkbox" v-model="etat.controleMeres" /> <span class="case-texte" >Contrôler les
+          plantes mères ({{ etat.totalMeres }} à contrôler)</span></label>
+        </div
         >
         <p v-if="etat.erreurs.verifier" id="erreur-verifier" class="erreur">
           {{ etat.erreurs.verifier }}
         </p>
 
         <section v-if="etat.controleMeres">
-          <label> <strong> Plantes mères à contrôler ({{ etat.listeMeres.length }})</strong></label>
-          <label class="case"
+          <h4>
+            <strong>
+              Plantes mères à contrôler ({{ etat.listeMeres.length }})</strong
+            ></h4
+          >
+          <div class="case info"
             ><input type="checkbox" v-model="etat.inclureControlees" /> Inclure
-            aussi celles plantées ou contrôlées cette année</label
+            aussi celles plantées ou contrôlées cette année</div
           >
           <ul class="liste-carte">
             <li
@@ -173,18 +198,23 @@
               class="carte carte-colonne plantemere"
               :class="{ etape: statutMere(m.id) }"
             >
-              <strong>{{ libelle(m) }}</strong>
-              <div class="ligne-info-mere">
+              <div>
+                <strong>{{ libelle(m) }}</strong
+                ><span v-if="m.type" class="carte-type"
+                  >{{ typeInverse(m.type) }}</span
+                >
+              </div>
+              <div class="div-info">
                 <span class="pastille-cat pastille-plantemere"
                   >🌱 Plante mère</span
                 >
-                <span class="carte-detail">{{ detailMere(m) }}</span>
+                <span class="info">{{ detailMere(m) }}</span>
                 <span class="texte-ici ou-fin">{{ ouMere(m) }}</span>
               </div>
-              <div class="ligne-mere">
+              <div class="div-btn">
                 <button
                   type="button"
-                  class="btn btn-choix"
+                  class="btn"
                   :class="{ actif: statutMere(m.id) === 'Vivante' }"
                   @click="choisirStatutMere(m, 'Vivante')"
                 >
@@ -192,7 +222,7 @@
                 </button>
                 <button
                   type="button"
-                  class="btn btn-choix"
+                  class="btn"
                   :class="{ actif: statutMere(m.id) === 'Morte' }"
                   @click="choisirStatutMere(m, 'Morte')"
                 >
@@ -202,7 +232,7 @@
                   v-if="statutMere(m.id) === 'Morte' && m.ou.length > 1"
                 >
                   <span
-                    class="carte-detail"
+                    class="info"
                     title="Touche un lieu pour le cocher s'il est mort"
                     >Morte à :</span
                   >
@@ -219,39 +249,39 @@
               <div v-if="besoinLieuMere(m)" class="bloc-ou">
                 <div class="pastille-orga">
                   <span
-                    v-for="lieu in ouMereChoisis(m.id)"
+                    v-for="lieu in lieuxChoisis('mere', m.id)"
                     :key="lieu"
                     class="pastille-look choix ici texte-ici"
-                    @click="retirerLieuMere(m.id, lieu)"
+                    @click="retirerLieu('mere', m.id, lieu)"
                     >{{ lieu }} ✕</span
                   >
                 </div>
-                <div class="champ-liste">
+                <div class="div-champ-carte">
                   <input
                     type="search"
                     class="champ recherche-ou"
                     autocomplete="off"
                     placeholder="Où est-elle ? (obligatoire)"
-                    :value="etat.ouMereOuvertId === m.id ? etat.rechercheOuMere : ''"
-                    @input="surRechercheOuMere(m.id, $event)"
-                    @focus="ouvrirOuMere(m.id)"
-                    @click="ouvrirOuMere(m.id)"
-                    @blur="fermerOuMere(m.id)"
+                    :value="ouvertOu('mere', m.id) ? etat.rechercheOu : ''"
+                    @input="surRechercheOu('mere', m.id, $event)"
+                    @focus="ouvrirOu('mere', m.id)"
+                    @click="ouvrirOu('mere', m.id)"
+                    @blur="fermerOu('mere', m.id)"
                   />
                   <ul
                     class="liste-choix"
-                    v-show="etat.ouMereOuvertId === m.id"
+                    v-show="ouvertOu('mere', m.id)"
                     @mousedown.prevent
                   >
                     <li
-                      v-for="lieu in lieuxProposesMere(m.id)"
+                      v-for="lieu in lieuxProposes('mere', m.id)"
                       :key="lieu"
                       @click="ajouterLieuMere(m.id, lieu)"
                     >
                       {{ lieu }}
                     </li>
                     <li
-                      v-if="lieuxProposesMere(m.id).length === 0"
+                      v-if="lieuxProposes('mere', m.id).length === 0"
                       class="vide"
                     >
                       Aucun emplacement
@@ -264,7 +294,7 @@
               </div>
             </li>
           </ul>
-          <p v-if="etat.listeMeres.length === 0" class="carte-detail">
+          <p v-if="etat.listeMeres.length === 0" class="info">
             Aucune plante mère à contrôler cette année.
           </p>
         </section>
@@ -277,15 +307,35 @@
             class="carte carte-colonne"
             :class="{ etape: aGermes(s.id) }"
           >
-            <strong>{{ libelle(s) }}</strong>
-            <div class="carte-detail">{{ detailVerifier(s) }}</div>
-            <div :class="mentionVerifier(s).classe">
-              {{ mentionVerifier(s).texte }}
+            <div>
+              <strong>{{ libelle(s) }}</strong
+              ><span v-if="s.type" class="carte-type"
+                >{{ typeInverse(s.type) }}</span
+              >
             </div>
-            <div class="saisie">
+            <div class="div-info">
+              <span class="info"
+                >semé le {{ dateAffichee(s.date) }} · {{ s.godets }} × {{
+                s.graines }} graines · </span
+              >
+              <span v-if="s.duree" class="info"
+                >germination {{ s.duree }} j · </span
+              >
+              <span v-else class="info detail-gras"
+                >ℹ Pas de durée de germination indiquée</span
+              >
+              <span v-if="s.germes !== null" class="info"
+                >Nb germés : {{ s.germes }} · </span
+              >
+              <span v-if="s.attente" class="info texte-etape ">En attente</span>
+              <span v-if="typeof s.info === 'number'" class="info erreur"
+                >⚠ {{ s.info }} j de retard</span
+              >
+            </div>
+            <div class="div-champ-carte">
               <input
                 type="number"
-                class="champ champ-germes"
+                class="champ champ-flexible"
                 min="0"
                 step="1"
                 inputmode="numeric"
@@ -295,12 +345,21 @@
               />
               <button
                 type="button"
-                class="btn btn-ng"
+                class="btn texte-morte"
                 @click="basculerNG(s.id)"
               >
                 NG
               </button>
-            </div>
+              <label class="case-carte"
+                ><input
+                  type="checkbox"
+                  :checked="valeurAttente(s.id)"
+                  :disabled="!aGermes(s.id)"
+                  @change="basculerAttente(s.id)"
+                />
+                <span class="info">En attente</span></div
+              >
+            </label>
             <div v-if="alerteGermes(s)" class="alerte-germes">
               {{ alerteGermes(s) }}
             </div>
@@ -309,14 +368,19 @@
       </div>
 
       <div id="appPlanter">
-        <h2>{{ titrePlanter() }}</h2>
-        <label for="datePlantation">Date de plantation</label>
-        <input
+        <h2>
+          {{ titreListe('🪏', 'À planter', etat.listePlanter, etat.totalPlanter)
+          }}
+        </h2>
+        <h3 for="datePlantation">Date de plantation</h3>
+                <div class="div-champ">
+<input
           id="datePlantation"
           class="champ"
           type="date"
           v-model="etat.datePlantation"
         />
+        </div>
         <p v-if="etat.erreurs.planter" id="erreur-planter" class="erreur">
           {{ etat.erreurs.planter }}
         </p>
@@ -328,14 +392,36 @@
             class="carte carte-colonne"
             :class="{ etape: aPlantationDe(s.id) }"
           >
-            <strong>{{ libelle(s) }}</strong>
-            <div class="carte-detail">{{ detailPlanter(s) }}</div>
-            <div class="saisie-planter">
+            <div>
+              <strong>{{ libelle(s) }}</strong
+              ><span v-if="s.type" class="carte-type"
+                >{{ typeInverse(s.type) }}</span
+              >
+            </div>
+            <div class="div-info">
+              <span class="info"
+                >semé le {{ dateAffichee(s.date) }} · {{ s.germes }} germés .
+                {{s.plantes}} déjà planté</span
+              >
+              <span v-if="s.datePlantation" class="info"
+                >le {{ dateAffichee(s.datePlantation) }}</span
+              >
+              <span v-if="s.attente" class="texte-etape"
+                >germination en attente</span
+              >
+              <span v-if="s.ou.length" class="texte-ici"
+                >📍{{ s.ou.join(', ') }}</span
+              >
+              <span class="info"
+                >oups {{s.oups}} · don {{s.don}} · reste {{s.reste}}</span
+              >
+            </div>
+            <div class="div-champ-carte ">
               <input
                 v-for="c in CHAMPS_PLANTER"
                 :key="c.cle"
                 type="number"
-                class="champ"
+                class="champ champ-flexible"
                 min="0"
                 step="1"
                 inputmode="numeric"
@@ -345,7 +431,7 @@
               />
               <button
                 type="button"
-                class="btn btn-tout"
+                class="btn"
                 @click="toutPlanter(s)"
               >
                 Tout
@@ -354,10 +440,10 @@
             <div class="bloc-ou">
               <div class="pastille-orga">
                 <span
-                  v-for="lieu in ouDe(s.id)"
+                  v-for="lieu in lieuxChoisis('semis', s.id)"
                   :key="lieu"
                   class="pastille-look choix ici texte-ici"
-                  @click="retirerLieu(s.id, lieu)"
+                  @click="retirerLieu('semis', s.id, lieu)"
                   >{{ lieu }} ✕</span
                 >
               </div>
@@ -367,25 +453,28 @@
                   class="champ recherche-ou"
                   autocomplete="off"
                   :placeholder="placeholderOu(s)"
-                  :value="etat.ouOuvertId === s.id ? etat.rechercheOu : ''"
-                  @input="surRechercheOu(s.id, $event)"
-                  @focus="ouvrirOu(s.id)"
-                  @click="ouvrirOu(s.id)"
-                  @blur="fermerOu(s.id)"
+                  :value="ouvertOu('semis', s.id) ? etat.rechercheOu : ''"
+                  @input="surRechercheOu('semis', s.id, $event)"
+                  @focus="ouvrirOu('semis', s.id)"
+                  @click="ouvrirOu('semis', s.id)"
+                  @blur="fermerOu('semis', s.id)"
                 />
                 <ul
                   class="liste-choix"
-                  v-show="etat.ouOuvertId === s.id"
+                  v-show="ouvertOu('semis', s.id)"
                   @mousedown.prevent
                 >
                   <li
                     v-for="lieu in lieuxProposes(s.id)"
                     :key="lieu"
-                    @click="ajouterLieu(s.id, lieu)"
+                    @click="ajouterLieu('semis', s.id, lieu)"
                   >
                     {{ lieu }}
                   </li>
-                  <li v-if="lieuxProposes(s.id).length === 0" class="vide">
+                  <li
+                    v-if="lieuxProposes('semis', s.id).length === 0"
+                    class="vide"
+                  >
                     Aucun emplacement
                   </li>
                 </ul>
@@ -401,9 +490,8 @@
         </ul>
       </div>
 
-      <div id="appEnregistrer">
+      <div id="appEnregistrer" class="btn-display">
         <button
-          id="btnEnregistrer"
           type="button"
           class="btn btn-enregistrer btn-large"
           v-show="nombreSaisies() > 0"
