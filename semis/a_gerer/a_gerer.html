@@ -40,7 +40,7 @@
         <section
           v-if="recapGermes().length || recapMeres().length || recapPlantation().length"
         >
-          <h2>En cours : pas encore enregistré </h2>
+          <h2>En cours : pas encore enregistré</h2>
 
           <div v-if="recapGermes().length">
             <h3>🔍 Germination ({{ recapGermes().length }})</h3>
@@ -49,9 +49,9 @@
                 v-for="r in recapGermes()"
                 :key="r.id"
                 class="carte etape curseur-main"
-                @click="allerCarte(r.id)"
+                @click="allerCarte('verifier', r.id)"
               >
-              <!-- TO DO -->
+                <!-- TO DO -->
                 <div class="carte-titre">
                   <strong>{{ r.nom }}</strong
                   ><span v-if="r.type" class="carte-type"
@@ -116,7 +116,7 @@
                 v-for="r in recapPlantation()"
                 :key="r.id"
                 class="carte etape curseur-main"
-                @click="allerCarte(r.id)"
+                @click="allerCarte('planter', r.id)"
               >
                 <div class="carte-titre">
                   <strong>{{ r.nom }}</strong
@@ -138,13 +138,13 @@
                 >
                   ✕
                 </button>
-              <!-- FIN TO DO -->
+                <!-- FIN TO DO -->
               </li>
             </ul>
           </div>
         </section>
       </div>
-        <h3> Filtrer/Trier</h3>
+      <h3>Filtrer/Trier</h3>
       <div id="appRecherche" class="div-champ">
         <input
           id="recherche"
@@ -154,28 +154,34 @@
           autocomplete="off"
           v-model="etat.recherche"
         />
-        <div for="tri" class="texte-entete-champ">Trier par</div>
+        <label for="tri" class="texte-entete-champ">Trier par</label>
         <select id="tri" class="champ" v-model="etat.tri">
           <option value="defaut">Ordre habituel (retard / ancienneté)</option>
           <option value="nom">Nom</option>
         </select>
       </div>
-      
+
       <div id="appVerifier">
         <h2>
           {{ titreListe('🔍', 'À vérifier', etat.listeVerifier,
           etat.totalVerifier) }}
         </h2>
-        <div class="div-case"
+        <div class="div-case">
+          <label class="case">
+            <input type="checkbox" v-model="etat.inclureSansDuree" />
+            <span class="case-texte"
+              >Inclure les semis sans durée de germination (12 derniers
+              mois)</span
+            ></label
           >
           <label class="case">
-          <input type="checkbox" v-model="etat.inclureSansDuree" /> <span class="case-texte" >Inclure les
-          semis sans durée de germination (12 derniers mois)</span></label>
-          <label class="case">
-          <input type="checkbox" v-model="etat.controleMeres" /> <span class="case-texte" >Contrôler les
-          plantes mères ({{ etat.totalMeres }} à contrôler)</span></label>
-        </div
-        >
+            <input type="checkbox" v-model="etat.controleMeres" />
+            <span class="case-texte"
+              >Contrôler les plantes mères ({{ etat.totalMeres }} à
+              contrôler)</span
+            ></label
+          >
+        </div>
         <p v-if="etat.erreurs.verifier" id="erreur-verifier" class="erreur">
           {{ etat.erreurs.verifier }}
         </p>
@@ -184,12 +190,16 @@
           <h4>
             <strong>
               Plantes mères à contrôler ({{ etat.listeMeres.length }})</strong
-            ></h4
-          >
-          <div class="case info"
-            ><input type="checkbox" v-model="etat.inclureControlees" /> Inclure
-            aussi celles plantées ou contrôlées cette année</div
-          >
+            >
+          </h4>
+          <div class="div-case">
+            <label class="case">
+              <input type="checkbox" v-model="etat.inclureControlees" />
+              <span class="case-texte"
+                >Inclure aussi celles plantées ou contrôlées cette année</span
+              ></label
+            >
+          </div>
           <ul class="liste-carte">
             <li
               v-for="m in etat.listeMeres"
@@ -209,7 +219,7 @@
                   >🌱 Plante mère</span
                 >
                 <span class="info">{{ detailMere(m) }}</span>
-                <span class="texte-ici ou-fin">{{ ouMere(m) }}</span>
+                <span class="texte-ici">{{ ouMere(m) }}</span>
               </div>
               <div class="div-btn">
                 <button
@@ -246,8 +256,8 @@
                   >
                 </template>
               </div>
-              <div v-if="besoinLieuMere(m)" class="bloc-ou">
-                <div class="pastille-orga">
+              <div v-if="besoinLieuMere(m)">
+                <div class="div-bloc-ou">
                   <span
                     v-for="lieu in lieuxChoisis('mere', m.id)"
                     :key="lieu"
@@ -259,7 +269,7 @@
                 <div class="div-champ-carte">
                   <input
                     type="search"
-                    class="champ recherche-ou"
+                    class="champ"
                     autocomplete="off"
                     placeholder="Où est-elle ? (obligatoire)"
                     :value="ouvertOu('mere', m.id) ? etat.rechercheOu : ''"
@@ -276,7 +286,7 @@
                     <li
                       v-for="lieu in lieuxProposes('mere', m.id)"
                       :key="lieu"
-                      @click="ajouterLieuMere(m.id, lieu)"
+                      @click="ajouterLieu('mere', m.id, lieu)"
                     >
                       {{ lieu }}
                     </li>
@@ -287,9 +297,12 @@
                       Aucun emplacement
                     </li>
                   </ul>
-                </div>
-                <div v-if="ouMereChoisis(m.id).length === 0" class="erreur">
-                  ⚠ Emplacement inconnu : choisis où elle est.
+                  <span
+                    v-if="lieuxChoisis('mere', m.id).length === 0"
+                    class="erreur"
+                  >
+                    ⚠ Emplacement inconnu : choisis où elle est.</span
+                  >
                 </div>
               </div>
             </li>
@@ -303,7 +316,7 @@
           <li
             v-for="s in etat.listeVerifier"
             :key="s.id"
-            :id="'carte-' + s.id"
+            :id="'verifier-' + s.id"
             class="carte carte-colonne"
             :class="{ etape: aGermes(s.id) }"
           >
@@ -316,18 +329,18 @@
             <div class="div-info">
               <span class="info"
                 >semé le {{ dateAffichee(s.date) }} · {{ s.godets }} × {{
-                s.graines }} graines · </span
-              >
+                s.graines }} graines ·
+              </span>
               <span v-if="s.duree" class="info"
-                >germination {{ s.duree }} j · </span
-              >
+                >germination {{ s.duree }} j ·
+              </span>
               <span v-else class="info detail-gras"
                 >ℹ Pas de durée de germination indiquée</span
               >
               <span v-if="s.germes !== null" class="info"
-                >Nb germés : {{ s.germes }} · </span
-              >
-              <span v-if="s.attente" class="info texte-etape ">En attente</span>
+                >Nb germés : {{ s.germes }} ·
+              </span>
+              <span v-if="s.attente" class="info texte-etape">En attente</span>
               <span v-if="typeof s.info === 'number'" class="info erreur"
                 >⚠ {{ s.info }} j de retard</span
               >
@@ -357,9 +370,10 @@
                   :disabled="!aGermes(s.id)"
                   @change="basculerAttente(s.id)"
                 />
-                <span class="info">En attente</span></div
+                <span class="info">En attente</span></label
               >
-            </label>
+            </div>
+
             <div v-if="alerteGermes(s)" class="alerte-germes">
               {{ alerteGermes(s) }}
             </div>
@@ -372,14 +386,14 @@
           {{ titreListe('🪏', 'À planter', etat.listePlanter, etat.totalPlanter)
           }}
         </h2>
-        <h3 for="datePlantation">Date de plantation</h3>
-                <div class="div-champ">
-<input
-          id="datePlantation"
-          class="champ"
-          type="date"
-          v-model="etat.datePlantation"
-        />
+        <label for="datePlantation">Date de plantation</label>
+        <div class="div-champ">
+          <input
+            id="datePlantation"
+            class="champ"
+            type="date"
+            v-model="etat.datePlantation"
+          />
         </div>
         <p v-if="etat.erreurs.planter" id="erreur-planter" class="erreur">
           {{ etat.erreurs.planter }}
@@ -388,7 +402,7 @@
           <li
             v-for="s in etat.listePlanter"
             :key="s.id"
-            :id="'carte-' + s.id"
+            :id="'planter-' + s.id"
             class="carte carte-colonne"
             :class="{ etape: aPlantationDe(s.id) }"
           >
@@ -400,11 +414,11 @@
             </div>
             <div class="div-info">
               <span class="info"
-                >semé le {{ dateAffichee(s.date) }} · {{ s.germes }} germés .
-                {{s.plantes}} déjà planté</span
-              >
+                >semé le {{ dateAffichee(s.date) }} · {{ s.germes }} germés ·
+              </span>
               <span v-if="s.datePlantation" class="info"
-                >le {{ dateAffichee(s.datePlantation) }}</span
+                >{{s.plantes}} déjà planté le {{ dateAffichee(s.datePlantation)
+                }}</span
               >
               <span v-if="s.attente" class="texte-etape"
                 >germination en attente</span
@@ -416,7 +430,7 @@
                 >oups {{s.oups}} · don {{s.don}} · reste {{s.reste}}</span
               >
             </div>
-            <div class="div-champ-carte ">
+            <div class="div-champ-carte">
               <input
                 v-for="c in CHAMPS_PLANTER"
                 :key="c.cle"
@@ -429,62 +443,58 @@
                 :value="valeurQuantite(s.id, c.cle)"
                 @input="surQuantite(s.id, c.cle, $event)"
               />
-              <button
-                type="button"
-                class="btn"
-                @click="toutPlanter(s)"
-              >
+              <button type="button" class="btn" @click="toutPlanter(s)">
                 Tout
               </button>
             </div>
-            <div class="bloc-ou">
-              <div class="pastille-orga">
-                <span
-                  v-for="lieu in lieuxChoisis('semis', s.id)"
+            <div>
+            <div class="div-bloc-ou">
+              <span
+                v-for="lieu in lieuxChoisis('semis', s.id)"
+                :key="lieu"
+                class="pastille-look choix ici texte-ici"
+                @click="retirerLieu('semis', s.id, lieu)"
+                >{{ lieu }} ✕</span
+              >
+            </div>
+            <div class="div-champ-carte">
+              <input
+                type="search"
+                class="champ"
+                autocomplete="off"
+                :placeholder="placeholderOu(s)"
+                :value="ouvertOu('semis', s.id) ? etat.rechercheOu : ''"
+                @input="surRechercheOu('semis', s.id, $event)"
+                @focus="ouvrirOu('semis', s.id)"
+                @click="ouvrirOu('semis', s.id)"
+                @blur="fermerOu('semis', s.id)"
+              />
+              <ul
+                class="liste-choix"
+                v-show="ouvertOu('semis', s.id)"
+                @mousedown.prevent
+              >
+                <li
+                  v-for="lieu in lieuxProposes('semis', s.id)"
                   :key="lieu"
-                  class="pastille-look choix ici texte-ici"
-                  @click="retirerLieu('semis', s.id, lieu)"
-                  >{{ lieu }} ✕</span
+                  @click="ajouterLieu('semis', s.id, lieu)"
                 >
-              </div>
-              <div class="champ-liste">
-                <input
-                  type="search"
-                  class="champ recherche-ou"
-                  autocomplete="off"
-                  :placeholder="placeholderOu(s)"
-                  :value="ouvertOu('semis', s.id) ? etat.rechercheOu : ''"
-                  @input="surRechercheOu('semis', s.id, $event)"
-                  @focus="ouvrirOu('semis', s.id)"
-                  @click="ouvrirOu('semis', s.id)"
-                  @blur="fermerOu('semis', s.id)"
-                />
-                <ul
-                  class="liste-choix"
-                  v-show="ouvertOu('semis', s.id)"
-                  @mousedown.prevent
+                  {{ lieu }}
+                </li>
+                <li
+                  v-if="lieuxProposes('semis', s.id).length === 0"
+                  class="vide"
                 >
-                  <li
-                    v-for="lieu in lieuxProposes(s.id)"
-                    :key="lieu"
-                    @click="ajouterLieu('semis', s.id, lieu)"
-                  >
-                    {{ lieu }}
-                  </li>
-                  <li
-                    v-if="lieuxProposes('semis', s.id).length === 0"
-                    class="vide"
-                  >
-                    Aucun emplacement
-                  </li>
-                </ul>
-              </div>
-              <div v-if="infoOu(s)" :class="infoOu(s).classe">
+                  Aucun emplacement
+                </li>
+              </ul>
+              <span v-if="infoOu(s)" :class="infoOu(s).classe">
                 {{ infoOu(s).texte }}
-              </div>
+              </span>
             </div>
             <div v-if="alertePlanter(s)" class="alerte-germes">
               {{ alertePlanter(s) }}
+            </div>
             </div>
           </li>
         </ul>

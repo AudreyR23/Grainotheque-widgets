@@ -194,14 +194,15 @@ function aller(id) {
   if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-async function allerCarte(idSemis) {
-  if (!document.getElementById("carte-" + idSemis)) {
-    // carte masquée par la recherche
+async function allerCarte(section, idSemis) {
+  const id = section + "-" + idSemis;          // 'verifier-12' ou 'planter-12'
+  if (!document.getElementById(id)) {          // carte masquée par la recherche
     etat.recherche = "";
     await Vue.nextTick();
   }
-  aller("carte-" + idSemis);
+  aller(id);
 }
+
 async function allerMere(idMillesime) {
   const carte = () => document.getElementById("mere-" + idMillesime);
   if (!carte()) {
@@ -434,18 +435,6 @@ function basculerAttente(idSemis) {
   const s = saisieDe(idSemis);
   if (s.germes === null) return;
   majSaisie(idSemis, { attente: !s.attente });
-}
-
-function partiesVerifier(s) {
-  if (s.germes !== null && s.germes !== undefined);
-  if (s.attente);
-  if (typeof s.info === 'number');
-  else if (!s.duree);
-  }
-
-function partiesPlanter(s) {
-  if (s.attente);
-  if (s.ou.length);
 }
 
 function alerteGermes(s) {
@@ -902,7 +891,7 @@ Vue.createApp({
       lieuMort,
       basculerLieuMort,
       besoinLieuMere,
-      typeInverse, partiesVerifier, valeurAttente, basculerAttente,
+      typeInverse, valeurAttente, basculerAttente,
       lieuxChoisis, ouvertOu, lieuxProposes, ouvrirOu, fermerOu, surRechercheOu, ajouterLieu, retirerLieu,
       dateAffichee,
     };
@@ -925,7 +914,7 @@ Vue.createApp({
       infoOu,
       retirerSaisie,
       allerCarte,
-      typeInverse, partiesPlanter,
+      typeInverse, 
       dateAffichee,
     };
   },

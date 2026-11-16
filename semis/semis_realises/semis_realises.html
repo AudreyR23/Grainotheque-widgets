@@ -77,7 +77,7 @@
            <div id="appOu">
 <div v-show="etat.modeSemis === 'pleine_terre'">
 <label for="rechercheOu">Où</label>
-<div class="pastille-orga">
+<div class="div-info">
 <span v-for="lieu in etat.ouChoisis" :key="lieu" class="pastille-look-choix" @click="retirerLieu(lieu)">{{ lieu }} ✕</span>
 </div>
 <div class="champ-liste">

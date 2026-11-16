@@ -98,15 +98,8 @@ label {
   border-radius: 6px;
   background: var(--arriere-plan);
   color: var(--label);
+  margin-top: 4px;
   }
-
-.champ-select {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  text-align: left;
-  cursor: pointer;
-}
 
 .div-champ {
   display: flex;
@@ -116,7 +109,6 @@ label {
   text-align: left;
   column-gap: 8px;
   row-gap: 4px;
-  margin-bottom: 10px;
 }
 .div-champ-carte {
   display: flex;
@@ -132,30 +124,34 @@ label {
   flex-wrap: wrap;
   align-items: center;
   text-align: left;
-  cursor: pointer;
-  gap: 8px;
-   flex-basis: 100%;
+  flex-basis: 100%;
 }
 .div-info {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   text-align: left;
-  cursor: pointer;
+  row-gap: 4px;
 }
-
 .div-case {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  padding-bottom: 4px;
-  row-gap: 4px;
+  column-gap: 4px;
 }
 
-.champ-select::after {
+.div-bloc-ou {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  text-align: left;
+}
+
+
+/*.champ-select::after {
   content: '▾';
   margin-left: 8px;
-}
+}*/
 
 .champ:focus,
 .champ-select:focus {
@@ -171,11 +167,10 @@ label {
 /* ===== Case à cocher ===== */
 
 input[type="checkbox"] {
-  width: 100%;
   appearance: none;
   -webkit-appearance: none;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   flex: none;
   background: var(--arriere-plan);
   border: 2px solid var(--gris);
@@ -192,16 +187,18 @@ input[type="checkbox"]:checked {
   background-position: center;
   background-repeat: no-repeat;
 }
+input[type="checkbox"]:disabled { 
+  opacity: 0.4; 
+  cursor: default; 
+}
 .case {  
   display: flex;
   align-items: center;
-  gap: 4px;
   width:100%;
 }
 .case-carte {  
   display: flex;
   align-items: center;
-  gap: 4px;
 }
 .case-texte {
   font-size: 0.9rem;
@@ -209,14 +206,13 @@ input[type="checkbox"]:checked {
   }
 
 /* ===== Liste déroulante ===== */
-.champ-liste {
+/*.champ-liste {
   position: relative;
-}
+}*/
 
 .liste-choix {
-  position: absolute;
-  left: 0;
-  right: 0;
+    width: 100%;
+  position: relative;
   z-index: 10;
   margin: 1px 0px 0px;
   padding: 0;
@@ -258,16 +254,10 @@ input[type="checkbox"]:checked {
   text-align: center;
 }
 
-.pastille-orga {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 6px;
-}
-
 .pastille-look.choix {
   border-radius: 6px;
   padding: 6px 12px;
+  margin-right: 4px;
   cursor: pointer;
   user-select: none;
 }
@@ -328,8 +318,8 @@ input[type="checkbox"]:checked {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 6px;
   padding: 10px;
+  margin-top: 6px;
   margin-bottom: 6px;
   background: var(--blanc);
   border: 1px solid var(--gris);
@@ -423,6 +413,7 @@ input[type="checkbox"]:checked {
 /* ===== Boutons ===== */
 .btn {
   font: inherit;
+  margin-right: 8px;
   padding: 10px;
   font-size: 0.9rem;
   border: 1px solid var(--gris);
@@ -637,7 +628,6 @@ input[type="checkbox"]:checked {
 .confirmation-boutons {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
 }
 
 .confirmation-boutons button {
@@ -660,7 +650,6 @@ input[type="checkbox"]:checked {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 10px;
   padding: 10px;
   margin-bottom: 6px;
   background: var(--orange-clair);

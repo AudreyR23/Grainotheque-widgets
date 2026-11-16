@@ -19,14 +19,14 @@
 }
 
 /* ===== À planter ===== */
-.saisie-planter {
+/*.saisie-planter {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr auto;
   gap: 8px;
 }
 .saisie-planter .champ {
   min-width: 0;
-}
+}*/
 .bloc-ou {
   margin-top: 2px;
 }
@@ -66,12 +66,8 @@
 }
 
 /* Case « En attente » à côté de NG */
-.saisie .case {
+/*.saisie .case {
   margin: 0;
   flex: none;
   white-space: nowrap;
-}
-.case input:disabled {
-  opacity: 0.4;
-  cursor: default;
-}
+}*/
