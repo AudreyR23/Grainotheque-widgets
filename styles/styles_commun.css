@@ -55,7 +55,7 @@ body {
   color: var(--label);
   background: var(--arriere-plan)
 }
-
+/*pas en BEM*/
 header {
   display: flex;
   justify-content: space-between;
@@ -87,7 +87,23 @@ label {
   font-size: 0.9rem;
   }
 
+.ligne {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  text-align: left;
+}
 
+.ligne--entre {
+  justify-content: space-between;
+  column-gap: 8px;
+  row-gap: 4px;
+  margin-top: 0
+}
+
+.ligne--pleine {
+    flex-basis: 100%;
+}
 
 /* ===== Champs ===== */
 .champ {
@@ -101,68 +117,29 @@ label {
   margin-top: 4px;
   }
 
-.div-champ {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  text-align: left;
-  column-gap: 8px;
-  row-gap: 4px;
+.champ:focus,
+/*inutilisé dans a gérer*//*pas en BEM*/
+.champ-select:focus {
+  outline: 1px solid var(--orange-fonce);
+  outline-offset: 0;
 }
-.div-champ-carte {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  text-align: left;
-  column-gap: 8px;
-  row-gap: 4px;
+/*inutilisé dans a gérer*/
+.champ:disabled {
+  opacity: 0.6;
+  cursor: default;
 }
-.div-btn {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  text-align: left;
-  flex-basis: 100%;
-}
+
 .div-info {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  text-align: left;
   row-gap: 4px;
 }
 .div-case {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
   column-gap: 4px;
 }
-
-.div-bloc-ou {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  text-align: left;
-}
-
 
 /*.champ-select::after {
   content: '▾';
   margin-left: 8px;
 }*/
-
-.champ:focus,
-.champ-select:focus {
-  outline: 1px solid var(--orange-fonce);
-  outline-offset: 0;
-}
-
-.champ:disabled {
-  opacity: 0.6;
-  cursor: default;
-}
 
 /* ===== Case à cocher ===== */
 
@@ -191,28 +168,25 @@ input[type="checkbox"]:disabled {
   opacity: 0.4; 
   cursor: default; 
 }
+
 .case {  
   display: flex;
   align-items: center;
-  width:100%;
 }
-.case-carte {  
-  display: flex;
-  align-items: center;
-}
-.case-texte {
+
+.case__texte {
   font-size: 0.9rem;
   color: var(--label);
   }
 
 /* ===== Liste déroulante ===== */
-/*.champ-liste {
-  position: relative;
-}*/
+.champ-liste {
+  position: flex;
+}
 
 .liste-choix {
-    width: 100%;
-  position: relative;
+  width: 100%;
+  position: absolute;
   z-index: 10;
   margin: 1px 0px 0px;
   padding: 0;
@@ -267,6 +241,7 @@ input[type="checkbox"]:disabled {
   border: 1px solid var(--ici-moyen);
 }
 
+/*inutilisé dans a gérer*/
 .pastille-look.choix.info {
   background: var(--bleu-clair);
   border: 1px solid var(--bleu-moyen);
@@ -285,7 +260,8 @@ input[type="checkbox"]:disabled {
 
 
 /* ===== Cadres ===== */
-.cadre-info {
+/*inutilisé dans a gérer encart bleu/
+/*.cadre-info {
   margin-top: 4px;
   padding: 8px 10px;
   background: var(--bleu-clair);
@@ -293,12 +269,14 @@ input[type="checkbox"]:disabled {
   border-radius: 6px;
 }
 
+/*inutilisé dans a gérer*/
 .cadre-info-ligne {
   font-size: 0.85rem;
   color: var(--gris-fonce);
   margin-top: 2px;
 }
 
+/*inutilisé dans a gérer*/
 .cadre-info-plantemere {
   color: var(--plantemere);
   padding: 2px 0;
@@ -324,25 +302,29 @@ input[type="checkbox"]:disabled {
   background: var(--blanc);
   border: 1px solid var(--gris);
   border-radius: 6px;
+  gap: 6px
 }
 
 .carte.plantemere {
   border-left: 5px solid var(--plantemere-moyen);
 }
 
-.carte.etape {
+.etape {
   border-left: 5px solid var(--orange-moyen);
 }
 
+/*inutilisé dans a gérer*/
 .carte.sousabri {
   border-left: 5px solid var(--sousabri-moyen);
 }
 
+/*inutilisé dans a gérer*/
 .carte.pleineterre {
   border-left: 5px solid var(--pleineterre-moyen);
 }
 
 /* Liseré moitié vert (haut) / moitié marron (bas) : sous abri ET pleine terre */
+/*inutilisé dans a gérer*/
 .carte.sousabri-pleineterre {
   border-left: 5px solid transparent;
   background:
@@ -355,24 +337,21 @@ input[type="checkbox"]:disabled {
   align-items: stretch;
 }
 
-
 .carte-titre {
   flex: 1;
   min-width: 0;
   color: var(--label);
   font-size: 1rem;
 }
-
-.carte-detail {
-  align-items: center;
-  font-size: 0.85rem;
+.texte--discret {
   color: var(--gris-fonce);
   margin-right: 4px;
 }
 
+/*inutilisé dans a gérer*/
 .carte-mention {
   margin-top: 4px;
-  font-size: 0.85rem;
+  font-size: 0.85rem; /*texte*/
   font-weight: bold;
 }
 
@@ -380,6 +359,7 @@ input[type="checkbox"]:disabled {
   flex: none;
 }
 
+/*inutilisé dans a gérer*/
 .carte-titre .cadre-info {
   display: inline-block;
   max-width: 100%;
@@ -392,12 +372,12 @@ input[type="checkbox"]:disabled {
   margin-left: 4px;
 }
 
-
+/*inutilisé dans a gérer*/
 .pastille-sousabri {
   background: var(--sousabri-clair);
   color: var(--sousabri-fonce);
 }
-
+/*inutilisé dans a gérer*/
 .pastille-pleineterre {
   background: var(--pleineterre-clair);
   color: var(--pleineterre-fonce);
@@ -451,25 +431,52 @@ input[type="checkbox"]:disabled {
 .btn-enregistrer:active {
   background: var(--bleu-fonce);
 }
+.btn-choix {
+  font: inherit;
+  margin-right: 8px;
+  padding: 10px;
+  font-size: 0.9rem;
+  border: 1px solid var(--gris);
+  border-radius: 6px;
+  background: var(--arriere-plan);
+  color: var(--label);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.btn--etape {
+  background: var(--orange-clair);
+  border-color: var(--orange-moyen);
+}
+
+/* Boutons Encore là / Morte et lieux sur la même ligne, retour à la ligne si besoin */
+.btn.actif {
+  background: var(--orange-clair);
+  border-color: var(--orange-moyen);
+}
 
 /* Intermédiaire */
-.btn-ajouter {
+/*inutilisé dans a gérer*/
+/*.btn-ajouter {
   background: var(--orange-clair);
   border-color: var(--orange-moyen);
   color: var(--orange-fonce);
 }
 
+/*inutilisé dans a gérer*/
 .btn-ajouter:active {
   background: var(--orange-fonce);
   color: var(--arriere-plan);
 }
 
+/*inutilisé dans a gérer*/
 .btn-annuler {
   color: var(--gris-fonce);
   background: var(--blanc);
   border: 2px solid var(--gris-fonce);
 }
 
+/*inutilisé dans a gérer*/
 .btn-valider {
   color: var(--blanc);
   background: #1565c0;
@@ -505,11 +512,7 @@ input[type="checkbox"]:disabled {
   outline-offset: 2px;
 }
 
-/* Boutons Encore là / Morte et lieux sur la même ligne, retour à la ligne si besoin */
-.btn.actif {
-  background: var(--orange-clair);
-  border-color: var(--orange-moyen);
-}
+
 
 /* ===== Textes ===== */
 .statut {
@@ -522,32 +525,34 @@ input[type="checkbox"]:disabled {
   font-weight: bold;
 }
 
-.info {
-  font-size: 0.85rem;
-  color: var(--gris-fonce);
-  margin-right: 4px;
-}
+
+
+/*inutilisé dans a gérer*/
 .texte-entete-champ {
   font-size: 0.9rem;
   color: var(--gris-fonce);
 }
 
-.detail-gras {
+.--gras {
   font-weight: bold;
 }
 
+/*inutilisé dans a gérer*/
 .info-titre {
   font-size: 0.85rem;
   font-weight: bold;
   margin-top: 4px;
   color: var(--bleu-fonce);
 }
+.texte {
+    font-size: 0.85rem; 
+}
 
-.texte-etape {
-  font-size: 0.85rem; 
+.texte--etape {
   font-weight: bold;
   color: var(--orange-fonce);
 }
+
 .couleur-etape {
   background: var(--orange-clair);
   border: 1px solid var(--orange-moyen);
@@ -558,7 +563,7 @@ input[type="checkbox"]:disabled {
   color: var(--gris-fonce);
 }
 
-.succes {
+.encart--bleu {
   color: var(--bleu-fonce);
   background: var(--bleu-clair);
   border: 1px solid var(--bleu-moyen);
@@ -568,33 +573,35 @@ input[type="checkbox"]:disabled {
   margin: 14px 0 0;
 }
 
-.erreur {
+.texte--erreur {
   color: var(--erreur);
   font-weight: bold;
-  font-size: 0.85rem;
 }
 
-.texte-plantemere {
+/*inutilisé dans a gérer*/
+.texte--plantemere {
   color: var(--plantemere);
-  font-size: 0.85rem;
 }
 
-.texte-ici {
+.texte--ici {
   color: var(--ici-fonce);
-  font-size: 0.85rem;
+  margin-right: 4px;
 }
 
 /* ===== Mise en page ===== */
+/*inutilisé dans a gérer*/
 .deux-colonnes {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
 
+/*inutilisé dans a gérer*/
 .deux-colonnes.une-colonne {
   grid-template-columns: 1fr;
 }
 
+/*inutilisé dans a gérer*/
 .confirmation {
   position: fixed;
   inset: 0;
@@ -606,10 +613,12 @@ input[type="checkbox"]:disabled {
   background: rgba(0, 0, 0, .45);
 }
 
+/*inutilisé dans a gérer*/
 .confirmation[hidden] {
   display: none;
 }
 
+/*inutilisé dans a gérer*/
 .confirmation-boite {
   width: 100%;
   max-width: 420px;
@@ -620,16 +629,19 @@ input[type="checkbox"]:disabled {
   border-radius: 10px;
 }
 
+/*inutilisé dans a gérer*/
 .confirmation-boite p {
   margin: 0 0 14px;
   white-space: pre-line;
 }
 
+/*inutilisé dans a gérer*/
 .confirmation-boutons {
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
 
+/*inutilisé dans a gérer*/
 .confirmation-boutons button {
   padding: 14px;
   font-size: 1.1rem;
@@ -640,12 +652,14 @@ input[type="checkbox"]:disabled {
 
 /* ===== Etape intermediaire ===== */
 
+/*inutilisé dans a gérer*/
 .liste-etape-intermediaires {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
+/*inutilisé dans a gérer* - carte--etape/
 .etape-intermediaire {
   display: flex;
   justify-content: space-between;

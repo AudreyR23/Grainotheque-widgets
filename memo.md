@@ -209,3 +209,86 @@
 - [ ] **Diagnostic en console** : `lireFiche()` ou autre fonction tapée dans la console donne la vraie valeur.
 - [ ] **Vérifier le fichier complet après plusieurs corrections** : doublons, restes, commentaires qui avalent du code.
 - [ ] **Nettoyer en un passage séparé**, avec un test à la fin.
+
+
+
+
+# Mémo : conventions de mes outils Grist (à ne pas réexpliquer)
+
+## Stack
+- Widgets Grist en HTML/CSS/JS sur GitHub. Je travaille en français et je suis débutante en Vue : explique brièvement les notions nouvelles.
+- Vue 3.4.38 (unpkg), chargé en fin de `<body>` : plugin Grist, Vue, `scriptcommun.js`, JS de l'outil. `requiredAccess: 'full'`.
+- Chemins : `../../styles/styles_commun.css`, `../../script/scriptcommun.js`.
+
+## Règles Vue
+- Une zone `<div id="appXxx">` par bloc, montée par un `Vue.createApp(...).mount('#appXxx')`. Vue reconstruit la zone : un écouteur JS posé dessus est perdu.
+- État dans un seul `Vue.reactive` en haut du fichier : `etat`.
+- Toute fonction appelée par le HTML doit être dans le `return` du `setup` de la zone. Un oubli donne `Property "xxx" was accessed during render…` et la zone disparaît.
+- **Le JS calcule, le HTML met en forme** : le JS renvoie des valeurs (`germes: 3`, `cas: 'morte'`), pas des phrases. Textes, classes de style et `v-if` sont dans le HTML.
+- Vue ne suit pas les `Map` : copier la liste affichée dans `etat` (`recalculerVerifier`, etc.).
+- `@click` (pas `pointerdown`) dans les listes qui défilent. `@mousedown.prevent` sur un menu déroulant pour garder le focus dans le champ.
+- Pas de `createElement`, `innerHTML` ni `getElementById` pour écrire dans l'interface.
+- Une fonction du commun ne doit utiliser que ses paramètres. Ne jamais en redéfinir une dans un outil (la copie locale la masque sans erreur).
+
+## Conventions de données
+- ChoiceList Grist : `['L', 'a', 'b']` (`listeChoix()` pour lire).
+- Dates : secondes UTC à minuit (`dateEnSecondes`, `dateAffichee`, `anneeDepuisDate`).
+- Colonnes écrites par un outil : colonnes de **données**, jamais des colonnes formule.
+- Les ids de tables différentes se recoupent : ne jamais les mélanger dans un même objet.
+- Quantités saisies = ajouts aux valeurs chargées.
+- Avant d'enregistrer : recharger la table, comparer les lignes concernées, et refuser si l'une a changé.
+
+## Couleurs
+Neutre = sans info. Bleu = info à jour. Orange = en cours, pas enregistré. Rouge = attention. Vert-jaune = plante mère. Violet = lieu. Vert / marron = sous abri / pleine terre.
+
+## Garder les saisies au rechargement (`sessionStorage`)
+- Toutes les saisies non enregistrées vivent dans des objets de `etat` (`saisies`, `saisiesMeres`).
+- Un `Vue.watch` profond les copie dans `sessionStorage` à chaque changement ; au démarrage, on les relit puis on supprime celles dont la carte n'existe plus.
+```js
+const CLE_SAISIES = "outil_saisies";
+function sauvegarderSaisies() {
+  try {
+    const vide = !Object.keys(etat.saisies).length && !Object.keys(etat.saisiesMeres).length;
+    if (vide) sessionStorage.removeItem(CLE_SAISIES);
+    else sessionStorage.setItem(CLE_SAISIES, JSON.stringify({ saisies: etat.saisies, meres: etat.saisiesMeres }));
+  } catch (err) { console.warn(err); }
+}
+function restaurerSaisies() {
+  try {
+    const d = JSON.parse(sessionStorage.getItem(CLE_SAISIES) || "{}");
+    for (const [id, s] of Object.entries(d.saisies || {})) etat.saisies[id] = { ...saisieVide(), ...s };
+    for (const [id, s] of Object.entries(d.meres || {})) etat.saisiesMeres[id] = { statut: s.statut, morts: s.morts || [], ou: s.ou || [] };
+  } catch (err) { console.warn(err); }
+}
+Vue.watch(() => [etat.saisies, etat.saisiesMeres], sauvegarderSaisies, { deep: true });
+// au démarrage, après chargerSemis() : restaurerSaisies(); purgerSaisiesOrphelines(); recalculerTout();
+```
+- Le contenu est perdu à la fermeture de l'onglet : voulu. Changer la clé si le format change.
+
+## CSS
+- Classes de mise en page sans espacement externe ; l'espacement vient de `gap` sur le parent.
+- Une classe est dans le commun si au moins deux outils s'en servent à l'identique. Une règle qui cite un id reste dans l'outil.
+- `input[type="checkbox"]` (pas `input` seul) pour le style des cases.
+- Un sélecteur `h3 {}` cible la balise, `.h3 {}` cible la classe.
+- Une règle CSS invalide casse la suivante : point en trop, commentaire sans `/* */`, `border-color: 1px solid …`.
+- Après un changement du commun : Ctrl+F5 et ouvrir tous les outils. En prod : commun d'abord, puis outils.
+
+## Méthode
+- Une modification à la fois, un test et la console (F12, filtre vidé) avant la suivante.
+- Ctrl+Maj+F sur le nom collé : un compte inattendu trahit un doublon.
+- Un commit avant chaque série de changements.
+- Dans la console, les « n cachés » sont des messages filtrés, pas un résultat.
+
+div-champ, div-champ-carte, div-btn, div-info, div-case, div-bloc-ou	ligne (+ ligne--entre, ligne--pleine)
+info, carte-detail	texte texte--discret
+texte-ici, texte-etape, texte-morte, erreur, detail-gras	texte texte--ici, --etape, --morte, --erreur, --gras
+carte, carte-colonne, carte etape, carte plantemere	carte, carte--colonne, carte--etape, carte--plantemere
+carte-titre, carte-type, carte-action	carte__titre, carte__type, carte__action
+champ-liste, liste-choix, li, .selection, .vide	menu, menu__liste, menu__item, menu__item--choisi, menu__item--vide
+pastille-look choix ici, … morte, pastille-cat pastille-plantemere	pastille pastille--lieu, pastille--morte, pastille pastille--categorie pastille--plantemere
+btn btn-large btn-enregistrer, btn actif, couleur-etape, btn-suppr	btn btn--grand btn--enregistrer, btn btn--actif, btn btn--etape, btn btn--suppr
+btn-display	zone-transparente
+statut non-sauvegarde	statut statut--non-sauvegarde
+succes	encart encart--succes
+
+Les classes propres à a_gerer.css suivraient le même schéma : .entete, .entete__message, .carte__alerte.
