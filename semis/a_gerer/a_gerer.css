@@ -1,20 +1,4 @@
-/* ===== Cartes de cette page ===== */
-/* La carte commune est une ligne (titre à gauche, action à droite).
-   Ici : titre et détail en haut, saisie dessous. */
-.carte.carte-colonne {
-  gap: 6px;
-}
-
-/* ===== À vérifier ===== */
-.champ-flexible {
-  flex: 1;
-  min-width: 0;
-}
-.alerte-germes {
-  color: var(--erreur);
-  font-weight: bold;
-  font-size: 0.85rem;
-}
+/* ===== Css "à gérer" ===== */
 
 /* ===== Bandeau du haut, collé à l'écran ===== */
 .entete {
@@ -25,7 +9,7 @@
   padding: 6px 0;
   background: var(--arriere-plan);
 }
-.entete-message {
+.entete__message {
   flex-basis: 100%;
   margin: 0;
 }
@@ -34,18 +18,18 @@
 #appVerifier,
 #appPlanter,
 #appEnCours,
-.carte-colonne,
+.carte--colonne,
 #erreur-verifier,
 #erreur-planter,
 #erreur-meres, #appMeres {
   scroll-margin-top: 120px;
 }
 
-/* Lieu où la plante mère est morte */
-.pastille-look.choix.morte {
-  background: var(--blanc);
-  border: 1px solid var(--erreur);
-}
-.texte--morte {
-  color: var(--erreur);
-}
+.ligne--tri { gap: 8px; margin-top: 6px; }
+
+/* bloc qui prend la largeur de son plus long texte, sans s'étirer */
+.menu--auto { flex: 0 0 auto; width: max-content; max-width: 100%; }
+
+/* champ plus petit */
+.champ--petit { padding: 6px 10px; width: 100%; text-align: left; margin-top: 0; }
+.reserve { display: block; height: 0; overflow: hidden; visibility: hidden; }

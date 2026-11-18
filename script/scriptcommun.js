@@ -31,6 +31,7 @@ function anneeDepuisDate(secondes) {
 }
 
 function dateAffichee(secondes) {
+  if (typeof secondes !== 'number') return '?';
   return new Date(secondes * 1000).toLocaleDateString('fr-FR', { timeZone: 'UTC' });
 }
 

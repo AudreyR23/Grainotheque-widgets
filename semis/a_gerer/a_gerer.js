@@ -22,6 +22,7 @@ const etat = Vue.reactive({
   inclureControlees: false, // revoir aussi les plantes mères déjà contrôlées cette année
   ouOuvert: null, // 'semis-12' ou 'mere-12' : sélecteur « Où » ouvert
   rechercheOu: "",
+  listeTriOuverte: false,
 });
 
 // ===== État global =====
@@ -149,7 +150,8 @@ function recapGermes() {
       type: s.type,
       germes: g.germes,
       attente: g.attente,
-      alerte: alerteGermes(s),
+            trop: tropDeGermes(s),
+      semees: s.semees,
     }));
 }
 
@@ -166,8 +168,9 @@ function recapPlantation() {
       don: p.don,
       ou: p.ou, // lieux choisis maintenant
       ouActuels: s.ou, // lieux déjà dans Grist
-      info: infoOu(s), // { classe, texte } ou null (porte déjà sa classe)
-      alerte: alertePlanter(s),
+      casOu: casOu(s),
+      total: totalSaisi(p.idSemis),
+      reste: s.reste,
     }));
 }
 
@@ -342,21 +345,6 @@ function lieuxParMillesime() {
   return resultat;
 }
 
-function detailMere(m) {
-  return (
-    (m.anneePlantation
-      ? `plantée en ${m.anneePlantation}`
-      : "année de plantation inconnue") +
-    (m.anneeControle
-      ? ` · dernier contrôle en ${m.anneeControle} : ${m.statut || "?"}`
-      : " · jamais contrôlée")
-  );
-}
-
-function ouMere(m) {
-  return "📍 " + (m.ou.length ? m.ou.join(", ") : "emplacement inconnu");
-}
-
 function statutMere(idMillesime) {
   const s = etat.saisiesMeres[idMillesime];
   return s ? s.statut : "";
@@ -405,14 +393,6 @@ function trierListe(semis) {
   if (etat.tri !== "nom") return semis;
   return [...semis].sort((a, b) => libelle(a).localeCompare(libelle(b), "fr"));
 }
-const TRIS = [
-  { valeur: "defaut", libelle: "Ordre habituel (retard / ancienneté)" },
-  { valeur: "nom", libelle: "Nom" },
-];
-
-function texteBoutonTri() {
-  return TRIS.find((t) => t.valeur === etat.tri).libelle;
-}
 function basculerTri() {
   etat.listeTriOuverte = !etat.listeTriOuverte;
 }
@@ -422,7 +402,7 @@ function choisirTri(valeur) {
 }
 // Un toucher en dehors du menu le ferme
 document.addEventListener("click", (e) => {
-  if (!e.target.closest("#appRecherche .champ-liste")) etat.listeTriOuverte = false;
+  if (!e.target.closest("#appRecherche .menu")) etat.listeTriOuverte = false;
 });
 
 function recalculerListe(cle, tous) {
@@ -440,12 +420,6 @@ function recalculerTout() {
   recalculerVerifier();
   recalculerPlanter();
   recalculerMeres();
-}
-
-function titreListe(icone, nom, liste, total) {
-  return rechercheNormalisee()
-    ? `${nom} (${liste.length} sur ${total})`
-    : `${icone} ${nom} (${total})`;
 }
 
 // ===== À vérifier =====
@@ -478,10 +452,13 @@ function basculerAttente(idSemis) {
   majSaisie(idSemis, { attente: !s.attente });
 }
 
-function alerteGermes(s) {
-  const germes = saisieDe(s.id).germes;
-  if (germes === null || !(s.semees > 0) || germes <= s.semees) return "";
-  return `⚠ ${germes} germes pour seulement ${s.semees} graines semées.`;
+function tropDeGermes(s) {
+  const g = saisieDe(s.id).germes;
+  return g !== null && s.semees > 0 && g > s.semees;
+}
+function totalSaisi(idSemis) {
+  const p = saisieDe(idSemis);
+  return p.plantes + p.oups + p.don;
 }
 
 const UN_AN = 365 * 24 * 3600; // en secondes
@@ -530,25 +507,12 @@ function nombreSaisies() {
   );
 }
 
-function texteStatut() {
-  if (!etat.charge) return "Chargement…";
-  const n = nombreSaisies();
-  return n > 0 ? `● Non sauvegardé (${n})` : "✓ À jour";
-}
-
 // ===== À planter =====
 function semisAPlanter() {
   return [...recordsParId.semis.values()]
     .filter((s) => s.germes > 0 && s.reste > 0 && !s.planteMere)
     .sort((a, b) => (a.date || 0) - (b.date || 0));
 }
-
-const CHAMPS_PLANTER = [
-  { cle: "plantes", texte: "Plantés" },
-  { cle: "oups", texte: "Oups" },
-  { cle: "don", texte: "Don" },
-];
-
 function aPlantationDe(idSemis) {
   return aPlantation(saisieDe(idSemis));
 }
@@ -571,14 +535,6 @@ function toutPlanter(s) {
   etat.brut[`${s.id}:oups`] = "";
   etat.brut[`${s.id}:don`] = "";
   majSaisie(s.id, { plantes: s.reste, oups: 0, don: 0 });
-}
-
-function alertePlanter(s) {
-  const p = saisieDe(s.id);
-  const total = p.plantes + p.oups + p.don;
-  return total > s.reste
-    ? `⚠ ${total} saisis pour seulement ${s.reste} restant(s).`
-    : "";
 }
 
 // --- Où : un seul jeu de fonctions pour « À planter » (type 'semis') et les plantes mères (type 'mere') ---
@@ -637,27 +593,17 @@ function retirerLieu(type, id, lieu) {
   );
 }
 
-function placeholderOu(s) {
-  return s.ou.length
-    ? "Ajouter un emplacement (facultatif)"
-    : "Où ? (obligatoire si plantés)";
-}
-
-function infoOu(s) {
+function casOu(s) {
   // Rien à dire si rien n'est planté, ou si un nouvel emplacement est déjà choisi
   const p = saisieDe(s.id);
-  if (p.plantes <= 0 || p.ou.length > 0) return null;
-  return s.ou.length
-    ? {
-        classe: "info-ou texte-ici",
-        texte: `📍 Les plants resteront à : ${s.ou.join(", ")}`,
-      }
-    : { classe: "info-ou erreur", texte: "⚠ Choisis un emplacement (Où)." };
+  if (p.plantes <= 0 || p.ou.length > 0) return "aucun";
+  return s.ou.length ? "reste" : "manquant";
 }
 // --- Emplacement d'une plante mère « Encore là » sans lieu connu ---
 function besoinLieuMere(m) {
   return statutMere(m.id) === "Vivante" && m.ou.length === 0;
 }
+
 
 // ===== Enregistrement =====
 async function lignesModifiees(ids) {
@@ -928,7 +874,7 @@ async function chargerChoix() {
 // ===== Vue =====
 Vue.createApp({
   setup() {
-    return { etat, nombreSaisies, texteStatut, aller };
+    return { etat, nombreSaisies, aller };
   },
 }).mount("#appEntete");
 Vue.createApp({
@@ -936,7 +882,7 @@ Vue.createApp({
     return { 
       etat, 
       nombreSaisies,
-      TRIS, texteBoutonTri, basculerTri, choisirTri
+      basculerTri, choisirTri
    };
   },
 }).mount("#appRecherche");
@@ -952,6 +898,7 @@ Vue.createApp({
       retirerSaisie,
       retirerMere,
       typeInverse,
+
     };
   },
 }).mount("#appEnCours");
@@ -960,18 +907,17 @@ Vue.createApp({
     return {
       etat,
       libelle,
-      titreListe,
       aGermes,
       valeurGermes,
       surGermes,
       basculerNG,
-      alerteGermes,
       retirerSaisie,
       allerCarte,
       typeInverse,
       valeurAttente,
       basculerAttente,
       dateAffichee,
+      tropDeGermes,
     };
   },
 }).mount("#appVerifier");
@@ -980,14 +926,10 @@ Vue.createApp({
     return {
       etat,
       libelle,
-      CHAMPS_PLANTER,
-      titreListe,
       aPlantationDe,
       valeurQuantite,
       surQuantite,
       toutPlanter,
-      alertePlanter,
-      placeholderOu,
       lieuxChoisis,
       ouvertOu,
       lieuxProposes,
@@ -996,11 +938,12 @@ Vue.createApp({
       surRechercheOu,
       ajouterLieu,
       retirerLieu,
-      infoOu,
       retirerSaisie,
       allerCarte,
       typeInverse,
       dateAffichee,
+      casOu,
+      totalSaisi,
     };
   },
 }).mount("#appPlanter");
@@ -1010,10 +953,7 @@ Vue.createApp({
       etat,
       libelle,
       typeInverse,
-      titreListe,
       allerMere,
-      detailMere,
-      ouMere,
       statutMere,
       choisirStatutMere,
       lieuMort,

@@ -52,6 +52,13 @@ body {
   color: var(--label);
   background: var(--arriere-plan);
 }
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
 h1 {
   font-size: 1.2rem;
   margin: 0;
@@ -127,7 +134,7 @@ h3 {
 }
 .case__saisie:checked {
   background: var(--orange-fonce) center / 80% no-repeat
-    url("data:image/svg+xml,…");
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E");
   border-color: var(--orange-fonce);
 }
 .case__saisie:disabled {
@@ -143,7 +150,10 @@ h3 {
   list-style: none;
   margin: 1px 0 0;
   padding: 0;
-  width: 100%;
+  position: absolute; 
+  top: 100%; 
+  left: 0; right: 0; 
+  z-index: 10;
   max-height: 50vh;
   overflow-y: auto;
   font-size: 0.9rem;
@@ -219,7 +229,7 @@ h3 {
 }
 
 /* ===== Carte ===== */
-.liste-cartes {
+.liste-carte {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -239,9 +249,7 @@ h3 {
   flex-direction: column;
   align-items: stretch;
 }
-.carte--etape {
-  border-left: 5px solid var(--orange-moyen);
-}
+
 .carte--plantemere {
   border-left: 5px solid var(--plantemere-moyen);
 }
@@ -251,19 +259,19 @@ h3 {
 .carte--pleineterre {
   border-left: 5px solid var(--pleineterre-moyen);
 }
+.carte--etape {
+  border-left: 5px solid var(--orange-moyen);
+}
 .carte--cliquable {
   cursor: pointer;
 }
-.carte__titre {
-  flex: 1;
-  min-width: 0;
-  font-size: 1rem;
-}
+
 .carte__type {
   margin-left: 4px;
   font-size: 0.85rem;
   color: var(--gris-fonce);
 }
+
 .carte__action {
   flex: none;
 }
@@ -271,7 +279,6 @@ h3 {
 /* ===== Texte ===== */
 .texte {
   font-size: 0.85rem;
-  margin-right: 4px;
 }
 .texte--discret {
   color: var(--gris-fonce);

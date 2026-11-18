@@ -1,606 +1,350 @@
 <!doctype html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>À gérer</title>
-    <link rel="stylesheet" href="../../styles/styles_commun.css" />
-    <link rel="stylesheet" href="a_gerer.css" />
-  </head>
-  <body>
-    <header id="appEntete" class="entete">
-      <h1>À gérer</h1>
-      <span class="statut" :class="{ 'non-sauvegarde': nombreSaisies() > 0 }"
-        >{{ texteStatut() }}</span
-      >
-      <nav class="ligne.ligne--pleine ">
-        <button
-          v-if="nombreSaisies() > 0"
-          type="button"
-          class="btn btn-choix btn--etape"
-          @click="aller('appEnCours')"
-        >
-          En cours ({{ nombreSaisies() }})
-        </button>
-        <button type="button" class="btn btn-choix" @click="aller('appMeres')">
-          À contrôler ({{ etat.totalMeres }})
-        </button>
-        <button type="button" class="btn btn-choix" @click="aller('appVerifier')">
-          À vérifier ({{ etat.totalVerifier }})
-        </button>
-        <button type="button" class="btn btn-choix" @click="aller('appPlanter')">
-          À planter ({{ etat.totalPlanter }})
-        </button>
-      </nav>
-      <p v-if="etat.succes" class="encart--bleu  entete-message">{{ etat.succes }}</p>
-      <p v-if="etat.erreurs.general" class="texte texte--erreur entete-message">
-        {{ etat.erreurs.general }}
-      </p>
-    </header>
 
-    <main>
-      <div id="appEnCours">
-        <section
-          v-if="recapGermes().length || recapMeres().length || recapPlantation().length"
-        >
-          <h2>En cours : pas encore enregistré</h2>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>À gérer</title>
+  <link rel="stylesheet" href="../../styles/styles_communs_bem.css" />
+  <link rel="stylesheet" href="a_gerer.css" />
+</head>
 
-          <div v-if="recapGermes().length">
-            <h3>🔍 Germination ({{ recapGermes().length }})</h3>
-            <ul class="liste-carte">
-              <li
-                v-for="r in recapGermes()"
-                :key="r.id"
-                class="carte etape curseur-main"
-                @click="allerCarte('verifier', r.id)"
-              >
-                <div class="carte-titre">
-                  <strong>{{ r.nom }}</strong
-                  ><span v-if="r.type" class="carte-type"
-                    >{{ typeInverse(r.type) }}</span
-                  >
-                  <div class="ligne.div-info">
-                    <span class="texte texte--discret"
-                      >{{ r.germes === 0 ? 'NG : aucun germe' : 'Nb germés : ' +
-                      r.germes }}</span
-                    >
-                    <span v-if="r.attente" class="texte texte--etape"
-                      >En attente : oui</span
-                    >
-                    <span v-if="r.alerte" class="texte texte--erreur">{{ r.alerte }}</span>
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  class="btn-suppr carte-action"
-                  title="Annuler cette saisie"
-                  :aria-label="`Annuler la saisie de ${r.nom}`"
-                  @click.stop="retirerSaisie(r.id)"
-                >
-                  ✕
-                </button>
-              </li>
-            </ul>
-          </div>
+<body>
+  <header id="appEntete" class="entete">
+    <h1>À gérer</h1>
+<span class="statut" :class="{ 'statut--non-sauvegarde': nombreSaisies() > 0 }">
+  <template v-if="!etat.charge">Chargement…</template>
+  <template v-else-if="nombreSaisies() > 0">● Non sauvegardé ({{ nombreSaisies() }})</template>
+  <template v-else>✓ À jour</template>
+</span>
+    <nav class="ligne ligne--pleine ">
+      <button v-if="nombreSaisies() > 0" type="button" class="btn btn--etape" @click="aller('appEnCours')">
+        En cours ({{ nombreSaisies() }})
+      </button>
+      <button type="button" class="btn" @click="aller('appMeres')">
+        À contrôler ({{ etat.totalMeres }})
+      </button>
+      <button type="button" class="btn" @click="aller('appVerifier')">
+        À vérifier ({{ etat.totalVerifier }})
+      </button>
+      <button type="button" class="btn" @click="aller('appPlanter')">
+        À planter ({{ etat.totalPlanter }})
+      </button>
+    </nav>
+    <p v-if="etat.succes" class="encart encart--succes entete__message">{{ etat.succes }}</p>
+    <p v-if="etat.erreurs.general" class="texte texte--erreur entete__message">
+      {{ etat.erreurs.general }}
+    </p>
+  </header>
 
-          <div v-if="recapMeres().length">
-            <h3>🌱 Plantes mères ({{ recapMeres().length }})</h3>
-            <ul class="liste-carte">
-              <li
-                v-for="r in recapMeres()"
-                :key="r.id"
-                class="carte etape curseur-main"
-                @click="allerMere(r.id)"
-              >
-                <div class="carte-titre">
-                  <strong>{{ r.nom }}</strong
-                  ><span v-if="r.type" class="carte-type"
-                    >{{ typeInverse(r.type) }}</span
-                  >
-                  <div class="ligne.div-info">
-                    <span class="pastille-cat pastille-plantemere"
-                      >🌱 Plante mère</span
-                    >
-                    <span v-if="r.cas === 'vivante'" class="texte texte--discret"
-                      >Encore là</span
-                    >
-                    <span
-                      v-else-if="r.cas === 'vivante-nouveau-lieu'"
-                      class="texte texte--discret"
-                      >Encore là</span
-                    >
-                    <span
-                      v-else-if="r.cas === 'vivante-sans-lieu'"
-                      class="texte texte--erreur"
-                      >⚠ Encore là : choisis un emplacement</span
-                    >
-                    <span
-                      v-else-if="r.cas === 'morte-sans-coche'"
-                      class="texte texte--erreur"
-                      >⚠ Morte : coche le ou les lieux où elle est morte</span
-                    >
-                    <span v-else-if="r.cas === 'morte'" class="texte texte--morte"
-                      >✝ Morte : ne sera plus plante mère</span
-                    >
-                    <span
-                      v-else-if="r.cas === 'morte-partielle'"
-                      class="texte texte--morte"
-                      >✝ Morte à : {{ r.lieuxMorts.join(', ') }} · reste à : {{
-                      r.lieuxRestants.join(', ') }}</span
-                    >
-                    <span
-                      v-if="r.cas === 'vivante-nouveau-lieu'"
-                      class="texte texte--ici"
-                      >📍 {{ r.lieuxChoisis.join(', ') }}</span
-                    >
-                    <span
-                      v-else-if="r.cas === 'vivante' && r.lieuxActuels.length"
-                      class="texte texte--ici"
-                      >📍 {{ r.lieuxActuels.join(', ') }}</span
-                    >
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  class="btn-suppr carte-action"
-                  title="Annuler"
-                  :aria-label="`Annuler le contrôle de ${r.nom}`"
-                  @click.stop="retirerMere(r.id)"
-                >
-                  ✕
-                </button>
-              </li>
-            </ul>
-          </div>
+  <main>
+    <div id="appEnCours">
+      <section v-if="recapGermes().length || recapMeres().length || recapPlantation().length">
+        <h2>En cours : pas encore enregistré</h2>
 
-          <div v-if="recapPlantation().length">
-            <h3>🪏 Plantation ({{ recapPlantation().length }})</h3>
-            <ul class="liste-carte">
-              <li
-                v-for="r in recapPlantation()"
-                :key="r.id"
-                class="carte etape curseur-main"
-                @click="allerCarte('planter', r.id)"
-              >
-                <div class="carte-titre">
-                  <strong>{{ r.nom }}</strong
-                  ><span v-if="r.type" class="carte-type"
-                    >{{ typeInverse(r.type) }}</span
-                  >
-                  <div class="ligne.div-info">
-                    <span v-if="r.plantes > 0" class="texte texte--discret"
-                      >{{ r.plantes }} planté{{ r.plantes > 1 ? 's' : ''
-                      }}</span
-                    >
-                    <span v-if="r.oups > 0" class="texte texte--discret"
-                      >{{ r.oups }} oups</span
-                    >
-                    <span v-if="r.don > 0" class="texte texte--discret"
-                      >{{ r.don }} don</span
-                    >
-                    <span v-if="r.info" :class="r.info.classe"
-                      >{{ r.info.texte }}</span
-                    >
-                    <span v-else-if="r.ou.length" class="texte texte--ici"
-                      >📍 {{ r.ou.join(', ') }}</span
-                    >
-                    <span v-else-if="r.ouActuels.length" class="texte texte--ici"
-                      >📍 {{ r.ouActuels.join(', ') }}</span
-                    >
-                    <span v-if="r.alerte" class="texte texte--erreur">{{ r.alerte }}</span>
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  class="btn-suppr carte-action"
-                  title="Annuler cette saisie"
-                  :aria-label="`Annuler la saisie de ${r.nom}`"
-                  @click.stop="retirerSaisie(r.id)"
-                >
-                  ✕
-                </button>
-              </li>
-            </ul>
-          </div>
-        </section>
-      </div>
-      <h3>Filtrer/Trier</h3>
-      <div id="appRecherche" class="ligne">
-        <input
-          id="recherche"
-          class="champ"
-          type="search"
-          placeholder="Filtrer par nom de variété…"
-          autocomplete="off"
-          v-model="etat.recherche"
-        />
-      <label class="texte texte--discret" for="boutonTri">Trier par</label>
-      <div class="champ-liste">
-        <button
-          id="boutonTri"
-          type="button"
-          class="champ"
-          @click="basculerTri()"
-        >
-          {{ texteBoutonTri() }}
-        </button>
-        <ul
-          class="liste-choix"
-          v-show="etat.listeTriOuverte"
-          @mousedown.prevent
-        >
-          <li
-            v-for="t in TRIS"
-            :key="t.valeur"
-            :class="{ selection: t.valeur === etat.tri }"
-            @click="choisirTri(t.valeur)"
-          >
-            {{ t.libelle }}
-          </li>
-        </ul>
-      </div>
-      </div>
-
-      <div id="appMeres">
-        <h2>
-          {{ titreListe('🌱', 'À contrôler', etat.listeMeres, etat.totalMeres)
-          }}
-        </h2>
-                <p v-if="etat.erreurs.meres" id="erreur-meres" class="texte texte--erreur">{{ etat.erreurs.meres }}</p>
-
-        <div class="ligne.div-case">
-          <label class="case">
-            <input type="checkbox" v-model="etat.controleMeres" />
-            <span class="case__texte"
-              >Contrôler les plantes mères ({{ etat.totalMeres }} à
-              contrôler)</span
-            ></label
-          >
-        </div>
-        <section v-if="etat.controleMeres">
-          <div class="ligne.div-case">
-            <label class="case">
-              <input type="checkbox" v-model="etat.inclureControlees" />
-              <span class="case__texte"
-                >Inclure aussi celles plantées ou contrôlées cette année</span
-              ></label
-            >
-          </div>
+        <div v-if="recapGermes().length">
+          <h3>🔍 Germination ({{ recapGermes().length }})</h3>
           <ul class="liste-carte">
-            <li
-              v-for="m in etat.listeMeres"
-              :key="m.id"
-              :id="'mere-' + m.id"
-              class="carte carte-colonne plantemere"
-              :class="{ etape: statutMere(m.id) }"
-            >
-              <div>
-                <strong>{{ libelle(m) }}</strong
-                ><span v-if="m.type" class="carte-type"
-                  >{{ typeInverse(m.type) }}</span
-                >
-              </div>
-              <div class="ligne.div-info">
-                <span class="pastille-cat pastille-plantemere"
-                  >🌱 Plante mère</span
-                >
-                <span class="texte texte--discret">{{ detailMere(m) }}</span>
-                <span class="texte texte--ici">{{ ouMere(m) }}</span>
-              </div>
-              <div class="ligne.ligne--pleine ">
-                <button
-                  type="button"
-                  class="btn btn-choix "
-                  :class="{ actif: statutMere(m.id) === 'Vivante' }"
-                  @click="choisirStatutMere(m, 'Vivante')"
-                >
-                  Encore là
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-choix"
-                  :class="{ actif: statutMere(m.id) === 'Morte' }"
-                  @click="choisirStatutMere(m, 'Morte')"
-                >
-                  Morte
-                </button>
-                <template
-                  v-if="statutMere(m.id) === 'Morte' && m.ou.length > 1"
-                >
-                  <span
-                    class="texte texte--discret"
-                    title="Touche un lieu pour le cocher s'il est mort"
-                    >Morte à :</span
-                  >
-                  <span
-                    v-for="lieu in m.ou"
-                    :key="lieu"
-                    class="pastille-look choix ici texte texte--ici"
-                    :class="{ 'morte texte texte--morte': lieuMort(m.id, lieu) }"
-                    @click="basculerLieuMort(m.id, lieu)"
-                    >{{ lieu }}</span
-                  >
-                </template>
-              </div>
-              <div v-if="besoinLieuMere(m)">
+            <li v-for="r in recapGermes()" :key="r.id" class="carte carte--etape carte--cliquable"
+              @click="allerCarte('verifier', r.id)">
+              <div class="carte__contenu">
+                <strong>{{ r.nom }}</strong><span v-if="r.type" class="carte__type">{{ typeInverse(r.type) }}</span>
                 <div class="ligne">
-                  <span
-                    v-for="lieu in lieuxChoisis('mere', m.id)"
-                    :key="lieu"
-                    class="pastille-look choix ici texte texte--ici"
-                    @click="retirerLieu('mere', m.id, lieu)"
-                    >{{ lieu }} ✕</span
-                  >
-                </div>
-                <div class="ligne ligne--entre">
-                  <input
-                    type="search"
-                    class="champ"
-                    autocomplete="off"
-                    placeholder="Où est-elle ? (obligatoire)"
-                    :value="ouvertOu('mere', m.id) ? etat.rechercheOu : ''"
-                    @input="surRechercheOu('mere', m.id, $event)"
-                    @focus="ouvrirOu('mere', m.id)"
-                    @click="ouvrirOu('mere', m.id)"
-                    @blur="fermerOu('mere', m.id)"
-                  />
-                  <ul
-                    class="liste-choix"
-                    v-show="ouvertOu('mere', m.id)"
-                    @mousedown.prevent
-                  >
-                    <li
-                      v-for="lieu in lieuxProposes('mere', m.id)"
-                      :key="lieu"
-                      @click="ajouterLieu('mere', m.id, lieu)"
-                    >
-                      {{ lieu }}
-                    </li>
-                    <li
-                      v-if="lieuxProposes('mere', m.id).length === 0"
-                      class="vide"
-                    >
-                      Aucun emplacement
-                    </li>
-                  </ul>
-                  <span
-                    v-if="lieuxChoisis('mere', m.id).length === 0"
-                    class="texte texte--erreur"
-                  >
-                    ⚠ Emplacement inconnu : choisis où elle est.</span
-                  >
+                  <span class="texte texte--discret">{{ r.germes === 0 ? 'NG : aucun germe' : 'Nb germés : ' +
+                    r.germes }} ·</span>
+                  <span v-if="r.attente" class="texte texte--etape">En attente : oui</span>
+<span v-if="r.trop" class="texte texte--erreur">⚠ {{ r.germes }} germes pour seulement {{ r.semees }} graines semées.</span>
                 </div>
               </div>
+              <button type="button" class="btn btn--suppr carte__action" title="Annuler cette saisie"
+                :aria-label="`Annuler la saisie de ${r.nom}`" @click.stop="retirerSaisie(r.id)">
+                ✕
+              </button>
             </li>
           </ul>
-          <p v-if="etat.listeMeres.length === 0" class="texte texte--discret">
-            Aucune plante mère à contrôler cette année.
-          </p>
-        </section>
-      </div>
-
-      <div id="appVerifier">
-        <h2>
-          {{ titreListe('🔍', 'À vérifier', etat.listeVerifier,
-          etat.totalVerifier) }}
-        </h2>
-        <div class="ligne.div-case">
-          <label class="case">
-            <input type="checkbox" v-model="etat.inclureSansDuree" />
-            <span class="case__texte"
-              >Inclure les semis sans durée de germination (12 derniers
-              mois)</span
-            ></label
-          >
         </div>
-        <p v-if="etat.erreurs.verifier" id="erreur-verifier" class="texte texte--erreur">
-          {{ etat.erreurs.verifier }}
-        </p>
-        <ul class="liste-carte">
-          <li
-            v-for="s in etat.listeVerifier"
-            :key="s.id"
-            :id="'verifier-' + s.id"
-            class="carte carte-colonne"
-            :class="{ etape: aGermes(s.id) }"
-          >
-            <div>
-              <strong>{{ libelle(s) }}</strong
-              ><span v-if="s.type" class="carte-type"
-                >{{ typeInverse(s.type) }}</span
-              >
-            </div>
-            <div class="ligne.div-info">
-              <span class="texte texte--discret"
-                >semé le {{ dateAffichee(s.date) }} · {{ s.godets }} × {{
-                s.graines }} graines ·
-              </span>
-              <span v-if="s.duree" class="texte texte--discret"
-                >germination {{ s.duree }} j ·
-              </span>
-              <span v-else class="texte texte--discret --gras"
-                >ℹ Pas de durée de germination indiquée</span
-              >
-              <span v-if="s.germes !== null" class="texte texte--discret"
-                >Nb germés : {{ s.germes }} ·
-              </span>
-              <span v-if="s.attente" class="texte texte--discret texte--etape">En attente</span>
-              <span v-if="typeof s.info === 'number'" class="texte texte--discret texte--erreur"
-                >⚠ {{ s.info }} j de retard</span
-              >
-            </div>
-            <div class="ligne ligne--entre">
-              <input
-                type="number"
-                class="champ champ-flexible"
-                min="0"
-                step="1"
-                inputmode="numeric"
-                placeholder="Germes"
-                :value="valeurGermes(s.id)"
-                @input="surGermes(s.id, $event)"
-              />
-              <button
-                type="button"
-                class="btn btn-choix texte texte--morte"
-                @click="basculerNG(s.id)"
-              >
-                NG
-              </button>
-              <label class="case"
-                ><input
-                  type="checkbox"
-                  :checked="valeurAttente(s.id)"
-                  :disabled="!aGermes(s.id)"
-                  @change="basculerAttente(s.id)"
-                />
-                <span class="texte texte--discret">En attente</span></label
-              >
-            </div>
 
-            <div v-if="alerteGermes(s)" class="alerte-germes">
-              {{ alerteGermes(s) }}
-            </div>
-          </li>
-        </ul>
-      </div>
-
-      <div id="appPlanter">
-        <h2>
-          {{ titreListe('🪏', 'À planter', etat.listePlanter, etat.totalPlanter)
-          }}
-        </h2>
-        <label for="datePlantation">Date de plantation</label>
-        <div class="ligne">
-          <input
-            id="datePlantation"
-            class="champ"
-            type="date"
-            v-model="etat.datePlantation"
-          />
-        </div>
-        <p v-if="etat.erreurs.planter" id="erreur-planter" class="texte texte--erreur">
-          {{ etat.erreurs.planter }}
-        </p>
-        <ul class="liste-carte">
-          <li
-            v-for="s in etat.listePlanter"
-            :key="s.id"
-            :id="'planter-' + s.id"
-            class="carte carte-colonne"
-            :class="{ etape: aPlantationDe(s.id) }"
-          >
-            <div>
-              <strong>{{ libelle(s) }}</strong
-              ><span v-if="s.type" class="carte-type"
-                >{{ typeInverse(s.type) }}</span
-              >
-            </div>
-            <div class="ligne.div-info">
-              <span class="texte texte--discret"
-                >semé le {{ dateAffichee(s.date) }} · {{ s.germes }} germés ·
-              </span>
-              <span v-if="s.datePlantation" class="info"
-                >{{s.plantes}} déjà planté le {{ dateAffichee(s.datePlantation)
-                }} ·</span
-              >
-              <span v-if="s.attente" class="texte texte--etape"
-                >germination en attente</span
-              >
-              <span v-if="s.ou.length" class="texte texte--ici"
-                >📍{{ s.ou.join(', ') }}  ·</span
-              >
-              <span class="texte texte--discret"
-                >oups {{s.oups}} · don {{s.don}} · reste {{s.reste}}</span
-              >
-            </div>
-            <div class="ligne ligne--entre">
-              <input
-                v-for="c in CHAMPS_PLANTER"
-                :key="c.cle"
-                type="number"
-                class="champ champ-flexible"
-                min="0"
-                step="1"
-                inputmode="numeric"
-                :placeholder="c.texte"
-                :value="valeurQuantite(s.id, c.cle)"
-                @input="surQuantite(s.id, c.cle, $event)"
-              />
-              <button type="button" class="btn btn-choix" @click="toutPlanter(s)">
-                Tout
-              </button>
-            </div>
-            <div>
-              <div class="ligne">
-                <span
-                  v-for="lieu in lieuxChoisis('semis', s.id)"
-                  :key="lieu"
-                  class="pastille-look choix ici texte texte--ici"
-                  @click="retirerLieu('semis', s.id, lieu)"
-                  >{{ lieu }} ✕</span
-                >
+        <div v-if="recapMeres().length">
+          <h3>🌱 Plantes mères ({{ recapMeres().length }})</h3>
+          <ul class="liste-carte">
+            <li v-for="r in recapMeres()" :key="r.id" class="carte carte--etape carte--cliquable" @click="allerMere(r.id)">
+              <div class="carte__contenu">
+                <strong>{{ r.nom }}</strong><span v-if="r.type" class="carte__type">{{ typeInverse(r.type) }}</span>
+                <div class="ligne">
+                  <span class="pastille pastille--categorie pastille--plantemere">🌱 Plante mère</span>
+                  <span v-if="r.cas === 'vivante'" class="texte texte--discret">Encore là ·</span>
+                  <span v-else-if="r.cas === 'vivante-nouveau-lieu'" class="texte texte--discret">Encore là →</span>
+                  <span v-else-if="r.cas === 'vivante-sans-lieu'" class="texte texte--erreur">⚠ Encore là : choisis un
+                    emplacement</span>
+                  <span v-else-if="r.cas === 'morte-sans-coche'" class="texte texte--erreur">⚠ Morte : coche le ou les
+                    lieux où elle est morte</span>
+                  <span v-else-if="r.cas === 'morte'" class="texte texte--morte">✝ Morte : ne sera plus plante
+                    mère</span>
+                  <span v-else-if="r.cas === 'morte-partielle'" class="texte texte--morte">✝ Morte à : {{
+                    r.lieuxMorts.join(', ') }} · reste à : {{
+                    r.lieuxRestants.join(', ') }} ·</span>
+                  <span v-if="r.cas === 'vivante-nouveau-lieu'" class="texte texte--ici">📍 {{ r.lieuxChoisis.join(', ')
+                    }} ·</span>
+                  <span v-else-if="r.cas === 'vivante' && r.lieuxActuels.length" class="texte texte--ici">📍 {{
+                    r.lieuxActuels.join(', ') }} ·</span>
+                </div>
               </div>
-              <div class="ligne ligne--entre">
-                <input
-                  type="search"
-                  class="champ"
-                  autocomplete="off"
-                  :placeholder="placeholderOu(s)"
-                  :value="ouvertOu('semis', s.id) ? etat.rechercheOu : ''"
-                  @input="surRechercheOu('semis', s.id, $event)"
-                  @focus="ouvrirOu('semis', s.id)"
-                  @click="ouvrirOu('semis', s.id)"
-                  @blur="fermerOu('semis', s.id)"
-                />
-                <ul
-                  class="liste-choix"
-                  v-show="ouvertOu('semis', s.id)"
-                  @mousedown.prevent
-                >
-                  <li
-                    v-for="lieu in lieuxProposes('semis', s.id)"
-                    :key="lieu"
-                    @click="ajouterLieu('semis', s.id, lieu)"
-                  >
+              <button type="button" class="btn btn--suppr carte__action" title="Annuler"
+                :aria-label="`Annuler le contrôle de ${r.nom}`" @click.stop="retirerMere(r.id)">
+                ✕
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <div v-if="recapPlantation().length">
+          <h3>🪏 Plantation ({{ recapPlantation().length }})</h3>
+          <ul class="liste-carte">
+            <li v-for="r in recapPlantation()" :key="r.id" class="carte carte--etape carte--cliquable"
+              @click="allerCarte('planter', r.id)">
+              <div class="carte__contenu">
+                <strong>{{ r.nom }}</strong><span v-if="r.type" class="carte__type">{{ typeInverse(r.type) }}</span>
+                <div class="ligne">
+                  <span v-if="r.plantes > 0" class="texte texte--discret">{{ r.plantes }} planté{{ r.plantes > 1 ? 's' :
+                    ''
+                    }} ·</span>
+                  <span v-if="r.oups > 0" class="texte texte--discret">{{ r.oups }} oups ·</span>
+                  <span v-if="r.don > 0" class="texte texte--discret">{{ r.don }} don ·</span>
+<span v-if="r.casOu === 'reste'" class="texte texte--ici">📍 Les plants resteront à : {{ r.ouActuels.join(', ') }} ·</span>
+<span v-else-if="r.casOu === 'manquant'" class="texte texte--erreur">⚠ Choisis un emplacement (Où). ·</span>
+<span v-else-if="r.ou.length" class="texte texte--ici">📍 {{ r.ou.join(', ') }} ·</span>
+<span v-else-if="r.ouActuels.length" class="texte texte--ici">📍 {{ r.ouActuels.join(', ') }} ·</span>
+<span v-if="r.total > r.reste" class="texte texte--erreur">⚠ {{ r.total }} saisis pour seulement {{ r.reste }} restant(s).</span>
+</div>
+              </div>
+              <button type="button" class="btn btn--suppr carte__action" title="Annuler cette saisie"
+                :aria-label="`Annuler la saisie de ${r.nom}`" @click.stop="retirerSaisie(r.id)">
+                ✕
+              </button>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </div>
+    <h3>Filtrer/Trier</h3>
+    <div id="appRecherche">
+      <input id="recherche" class="champ" type="search" placeholder="Filtrer par nom de variété…" autocomplete="off"
+        v-model="etat.recherche" />
+      <div class="ligne ligne--tri">
+        <label class="texte texte--discret" for="boutonTri">Trier par</label>
+        <div class="menu menu--auto">
+          <button id="boutonTri" type="button" class="champ champ--petit" @click="basculerTri()">
+  {{ etat.tri === 'nom' ? 'Nom' : 'Ordre habituel (retard / ancienneté)' }}
+  <span class="reserve" aria-hidden="true">Ordre habituel (retard / ancienneté)</span>
+</button>
+<ul class="menu__liste" v-show="etat.listeTriOuverte" @mousedown.prevent>
+  <li class="menu__item" :class="{ 'menu__item--choisi': etat.tri === 'defaut' }" @click="choisirTri('defaut')">Ordre habituel (retard / ancienneté)</li>
+  <li class="menu__item" :class="{ 'menu__item--choisi': etat.tri === 'nom' }" @click="choisirTri('nom')">Nom</li>
+</ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="appMeres">
+<h2>🌱 À contrôler (<template v-if="etat.recherche.trim()">{{ etat.listeMeres.length }} sur </template>{{ etat.totalMeres }})</h2>
+
+      <div class="ligne">
+        <label class="case">
+          <input type="checkbox" class="case__saisie" v-model="etat.controleMeres" />
+          <span class="case__texte">Contrôler les plantes mères ({{ etat.totalMeres }} à
+            contrôler)</span></label>
+        <p v-if="etat.erreurs.meres" id="erreur-meres" class="texte texte--erreur">{{ etat.erreurs.meres }}</p>
+
+      </div>
+      <section v-if="etat.controleMeres">
+        <div class="ligne">
+          <label class="case">
+            <input type="checkbox" class="case__saisie" v-model="etat.inclureControlees" />
+            <span class="case__texte">Inclure aussi celles plantées ou contrôlées cette année</span></label>
+        </div>
+        <ul class="liste-carte">
+          <li v-for="m in etat.listeMeres" :key="m.id" :id="'mere-' + m.id"
+            class="carte carte--colonne carte--plantemere" :class="{ 'carte--etape': statutMere(m.id) }">
+            <div>
+              <strong>{{ libelle(m) }}</strong><span v-if="m.type" class="carte__type">{{ typeInverse(m.type) }}</span>
+            </div>
+            <div class="ligne">
+              <span class="pastille pastille--categorie pastille--plantemere">🌱 Plante mère</span>
+<span class="texte texte--discret">{{ m.anneePlantation ? 'plantée en ' + m.anneePlantation : 'année de plantation inconnue' }}</span>
+<span v-if="m.anneeControle" class="texte texte--discret">· dernier contrôle en {{ m.anneeControle }} : {{ m.statut || '?' }}</span>
+<span v-else class="texte texte--discret">· jamais contrôlée</span>
+<span class="texte texte--ici">📍 {{ m.ou.length ? m.ou.join(', ') : 'emplacement inconnu' }}</span>
+            </div>
+            <div class="ligne ligne--pleine ">
+              <button type="button" class="btn" :class="{ 'btn--etape': statutMere(m.id) === 'Vivante' }"
+                @click="choisirStatutMere(m, 'Vivante')">
+                Encore là
+              </button>
+              <button type="button" class="btn" :class="{ 'btn--etape': statutMere(m.id) === 'Morte' }"
+                @click="choisirStatutMere(m, 'Morte')">
+                Morte
+              </button>
+              <template v-if="statutMere(m.id) === 'Morte' && m.ou.length > 1">
+                <span class="texte texte--discret" title="Touche un lieu pour le cocher s'il est mort">Morte à :</span>
+                <span v-for="lieu in m.ou" :key="lieu" class="pastille pastille--lieu"
+                  :class="{ 'pastille--morte': lieuMort(m.id, lieu) }" @click="basculerLieuMort(m.id, lieu)">{{
+                  lieu }}</span>
+              </template>
+            </div>
+            <div v-if="besoinLieuMere(m)">
+              <div class="ligne">
+                <span v-for="lieu in lieuxChoisis('mere', m.id)" :key="lieu"
+                  class="pastille pastille--lieu" @click="retirerLieu('mere', m.id, lieu)">{{ lieu }}
+                  ✕</span>
+              </div>
+              <div class="menu">
+                <input type="search" class="champ" autocomplete="off" placeholder="Où est-elle ? (obligatoire)"
+                  :value="ouvertOu('mere', m.id) ? etat.rechercheOu : ''" @input="surRechercheOu('mere', m.id, $event)"
+                  @focus="ouvrirOu('mere', m.id)" @click="ouvrirOu('mere', m.id)" @blur="fermerOu('mere', m.id)" />
+                <ul class="menu__liste" v-show="ouvertOu('mere', m.id)" @mousedown.prevent>
+                  <li class="menu__item" v-for="lieu in lieuxProposes('mere', m.id)" :key="lieu" @click="ajouterLieu('mere', m.id, lieu)">
                     {{ lieu }}
                   </li>
-                  <li
-                    v-if="lieuxProposes('semis', s.id).length === 0"
-                    class="vide"
-                  >
+                  <li v-if="lieuxProposes('mere', m.id).length === 0" class="menu__item menu__item--vide">
                     Aucun emplacement
                   </li>
                 </ul>
-                <span v-if="infoOu(s)" :class="infoOu(s).classe">
-                  {{ infoOu(s).texte }}
-                </span>
               </div>
-              <div v-if="alertePlanter(s)" class="alerte-germes">
-                {{ alertePlanter(s) }}
-              </div>
+
+              <span v-if="lieuxChoisis('mere', m.id).length === 0" class="texte texte--erreur">
+                ⚠ Emplacement inconnu : choisis où elle est.</span>
             </div>
           </li>
         </ul>
-      </div>
 
-      <div id="appEnregistrer" class="btn-display">
-        <button
-          type="button"
-          class="btn btn-enregistrer btn-large"
-          v-show="nombreSaisies() > 0"
-          :disabled="etat.enregistrement"
-          @click="enregistrerTout"
-        >
-          {{ etat.enregistrement ? 'Enregistrement…' : 'Enregistrer tout' }}
-        </button>
-        <p v-if="etat.message" class="message">{{ etat.message }}</p>
-      </div>
-    </main>
+      </section>
+      <p v-if="etat.listeMeres.length === 0" class="texte texte--discret">
+        Aucune plante mère à contrôler cette année.
+      </p>
+    </div>
 
-    <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
-    <script src="https://unpkg.com/vue@3.4.38/dist/vue.global.prod.js"></script>
-    <script src="../../script/scriptcommun.js"></script>
-    <script src="a_gerer.js"></script>
-  </body>
+    <div id="appVerifier">
+<h2>🔍 À vérifier (<template v-if="etat.recherche.trim()">{{ etat.listeVerifier.length }} sur </template>{{ etat.totalVerifier }})</h2>
+      <div class="ligne ligne--case">
+        <label class="case">
+          <input type="checkbox" class="case__saisie" v-model="etat.inclureSansDuree" />
+          <span class="case__texte">Inclure les semis sans durée de germination (12 derniers
+            mois)</span></label>
+      </div>
+      <p v-if="etat.erreurs.verifier" id="erreur-verifier" class="texte texte--erreur">
+        {{ etat.erreurs.verifier }}
+      </p>
+      <ul class="liste-carte">
+        <li v-for="s in etat.listeVerifier" :key="s.id" :id="'verifier-' + s.id"
+          class="carte carte--colonne" :class="{ 'carte--etape': aGermes(s.id) }">
+          <div>
+            <strong>{{ libelle(s) }}</strong><span v-if="s.type" class="carte__type">{{ typeInverse(s.type) }}</span>
+          </div>
+          <div class="ligne">
+            <span class="texte texte--discret">semé le {{ dateAffichee(s.date) }} ·
+            </span> 
+            <span class="texte texte--discret">{{ s.godets }} × {{s.graines }} graines ·
+            </span>
+            <span v-if="s.duree" class="texte texte--discret">germination {{ s.duree }} j ·
+            </span>
+            <span v-else class="texte texte--discret texte--gras">ℹ Pas de durée de germination indiquée
+            </span>
+            <span v-if="s.germes !== null" class="texte texte--discret">Nb germés : {{ s.germes }} ·
+            </span>
+            <span v-if="s.attente" class="texte texte--discret texte--etape">En attente
+            </span>
+            <span v-if="typeof s.info === 'number'" class="texte texte--discret texte--erreur">⚠ {{ s.info }} j de
+              retard</span>
+          </div>
+          <div class="ligne ligne--entre">
+            <input type="number" class="champ champ--flexible" min="0" step="1" inputmode="numeric" placeholder="Germes"
+              :value="valeurGermes(s.id)" @input="surGermes(s.id, $event)" />
+            <button type="button" class="btn texte texte--morte" @click="basculerNG(s.id)">
+              NG
+            </button>
+            <label class="case"><input type="checkbox" class="case__saisie" :checked="valeurAttente(s.id)" :disabled="!aGermes(s.id)"
+                @change="basculerAttente(s.id)" />
+              <span class="texte texte--discret">En attente</span></label>
+          </div>
+
+<div v-if="tropDeGermes(s)" class="texte texte--erreur">⚠ {{ valeurGermes(s.id) }} germes pour seulement {{ s.semees }} graines semées.</div>
+        </li>
+      </ul>
+    </div>
+
+    <div id="appPlanter">
+<h2>🪏 À planter (<template v-if="etat.recherche.trim()">{{ etat.listePlanter.length }} sur </template>{{ etat.totalPlanter }})</h2>
+      <label for="datePlantation">Date de plantation</label>
+      <div class="ligne">
+        <input id="datePlantation" class="champ" type="date" v-model="etat.datePlantation" />
+      </div>
+      <p v-if="etat.erreurs.planter" id="erreur-planter" class="texte texte--erreur">
+        {{ etat.erreurs.planter }}
+      </p>
+      <ul class="liste-carte">
+        <li v-for="s in etat.listePlanter" :key="s.id" :id="'planter-' + s.id" class="carte carte--colonne"
+          :class="{ 'carte--etape': aPlantationDe(s.id) }">
+          <div>
+            <strong>{{ libelle(s) }}</strong>
+            <span v-if="s.type" class="carte__type">{{ typeInverse(s.type) }}</span>
+          </div>
+          <div class="ligne">
+            <span class="texte texte--discret">semé le {{ dateAffichee(s.date) }} ·</span>
+            <span class="texte texte--discret">{{ s.germes }} germés ·</span>
+            <span v-if="s.datePlantation" class="texte texte--discret">{{s.plantes}} déjà planté le {{
+              dateAffichee(s.datePlantation)}} ·</span>
+            <span v-if="s.attente" class="texte texte--etape">germination en attente</span>
+            <span v-if="s.ou.length" class="texte texte--ici">📍{{ s.ou.join(', ') }} ·</span>
+            <span class="texte texte--discret">oups {{s.oups}} ·</span>
+            <span class="texte texte--discret">don {{s.don}} ·</span>
+            <span class="texte texte--discret">reste {{s.reste}}</span>
+          </div>
+<div class="ligne ligne--entre">
+  <input type="number" class="champ champ--flexible" min="0" step="1" inputmode="numeric" placeholder="Plantés" :value="valeurQuantite(s.id, 'plantes')" @input="surQuantite(s.id, 'plantes', $event)" />
+  <input type="number" class="champ champ--flexible" min="0" step="1" inputmode="numeric" placeholder="Oups" :value="valeurQuantite(s.id, 'oups')" @input="surQuantite(s.id, 'oups', $event)" />
+  <input type="number" class="champ champ--flexible" min="0" step="1" inputmode="numeric" placeholder="Don" :value="valeurQuantite(s.id, 'don')" @input="surQuantite(s.id, 'don', $event)" />
+  <button type="button" class="btn" @click="toutPlanter(s)">Tout</button>
+</div>
+          <div>
+            <div class="ligne">
+              <span v-for="lieu in lieuxChoisis('semis', s.id)" :key="lieu"
+                class="pastille pastille--lieu" @click="retirerLieu('semis', s.id, lieu)">{{ lieu }}
+                ✕</span>
+            </div>
+            <div class="menu">
+              <input type="search" class="champ" autocomplete="off" :placeholder="s.ou.length ? 'Ajouter un emplacement (facultatif)' : 'Où ? (obligatoire si plantés)'"
+                :value="ouvertOu('semis', s.id) ? etat.rechercheOu : ''" @input="surRechercheOu('semis', s.id, $event)"
+                @focus="ouvrirOu('semis', s.id)" @click="ouvrirOu('semis', s.id)" @blur="fermerOu('semis', s.id)" />
+              <ul class="menu__liste" v-show="ouvertOu('semis', s.id)" @mousedown.prevent>
+                <li class="menu__item" v-for="lieu in lieuxProposes('semis', s.id)" :key="lieu" @click="ajouterLieu('semis', s.id, lieu)">
+                  {{ lieu }}
+                </li>
+                <li v-if="lieuxProposes('semis', s.id).length === 0" class="menu__item menu__item--vide">
+                  Aucun emplacement
+                </li>
+              </ul>
+            </div>
+<span v-if="casOu(s) === 'reste'" class="texte texte--ici">📍 Les plants resteront à : {{ s.ou.join(', ') }}</span>
+<span v-else-if="casOu(s) === 'manquant'" class="texte texte--erreur">⚠ Choisis un emplacement (Où).</span>
+<div v-if="totalSaisi(s.id) > s.reste" class="texte texte--erreur">⚠ {{ totalSaisi(s.id) }} saisis pour seulement {{ s.reste }} restant(s).</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div id="appEnregistrer" class="zone-transparente">
+      <button type="button" class="btn btn--enregistrer btn--grand" v-show="nombreSaisies() > 0"
+        :disabled="etat.enregistrement" @click="enregistrerTout">
+        {{ etat.enregistrement ? 'Enregistrement…' : 'Enregistrer tout' }}
+      </button>
+      <p v-if="etat.message" class="texte texte--note">{{ etat.message }}</p>
+    </div>
+  </main>
+
+  <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
+  <script src="https://unpkg.com/vue@3.4.38/dist/vue.global.prod.js"></script>
+  <script src="../../script/scriptcommun.js"></script>
+  <script src="a_gerer.js"></script>
+</body>
+
 </html>
