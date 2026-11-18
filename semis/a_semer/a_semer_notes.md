@@ -178,15 +178,15 @@ Toutes doivent figurer dans le `return` du `setup` de `Vue.createApp`, sinon l'a
 | Classe | Rôle |
 |---|---|
 | `.carte` | Conteneur : flex, centrage vertical, fond blanc, bordure grise |
-| `.carte-titre` | Colonne de texte (prend la place restante) |
+| `.bloc-contenu-carte` | Colonne de texte (prend la place restante) |
 | `.carte-detail` | Ligne grise, petite taille |
 | `.carte-mention` | Ligne sous le nom (pastille-orga ou texte coloré) |
 | `.carte-type` | Type de la variété, petit et gris, après le nom |
-| `.carte-action` | Élément à droite (bouton ou champ), ne se comprime pas |
+| `.carte__action` | Élément à droite (bouton ou champ), ne se comprime pas |
 | `.carte.sousabri`, `.carte.pleineterre`, `.carte.sousabri-pleineterre`, `.carte.plantemere` | Liseré de couleur |
-| `.pastille-cat` + `.pastille-sousabri` / `.pastille-pleineterre` | pastille-orga de catégorie |
+| `.pastille--categorie` + `.pastille-sousabri` / `.pastille-pleineterre` | pastille-orga de catégorie |
 | `.cadre-info`, `.cadre-info-titre` | Cadre bleu d'information |
-| `.carte-titre .cadre-info` | Même cadre, réduit au contenu quand il est dans une carte |
+| `.bloc-contenu-carte .cadre-info` | Même cadre, réduit au contenu quand il est dans une carte |
 | `.texte-plantemere`, `.texte-ici` | Ligne verte « plante mère » / ligne violette de localisation (utilisées par Étiquettes) |
 
 Noms volontairement distincts de `.badge` et de `.pastille-look` (lieux dans semis réalisés).
@@ -237,7 +237,7 @@ function semer(id) {
 ```
 
 ```html
-<button type="button" class="btn btn-enregistrer carte-action"
+<button type="button" class="btn btn--enregistrer carte__action"
         :aria-label="`Semer ${libelle(l.v)}`" @click="semer(l.v.id)">Semer</button>
 ```
 
@@ -281,7 +281,7 @@ Par priorité :
 - [ ] Lire les libellés de mois depuis Grist (comme Étiquettes lit les choix de Type), pour ne pas dépendre de `Jui` / `Juil`.
 - [ ] Vérifier `texteGermination` (limite 10).
 - [ ] Remplacer `Vue.watch` + `afficher()` par un `computed` (plus avancé).
-- [ ] Convention **BEM** pour les classes (`carte__titre`, `carte--sousabri`) : décidé de ne pas renommer maintenant. À appliquer aux nouvelles classes. Au prochain nettoyage, remplacer `.carte-titre .cadre-info` par une classe de variante. Attention : en BEM, le modificateur doit être écrit **après** `.carte` dans le fichier (sinon le dégradé du liseré moitié-moitié disparaît).
+- [ ] Convention **BEM** pour les classes (`carte__titre`, `carte--sousabri`) : décidé de ne pas renommer maintenant. À appliquer aux nouvelles classes. Au prochain nettoyage, remplacer `.bloc-contenu-carte .cadre-info` par une classe de variante. Attention : en BEM, le modificateur doit être écrit **après** `.carte` dans le fichier (sinon le dégradé du liseré moitié-moitié disparaît).
 - [ ] **Export `.ics`** : bouton qui télécharge un événement par variété à semer (instantané, non mis à jour).
 - [ ] **Rappel automatique** : script externe (API Grist, GitHub Actions) qui envoie la liste chaque mois. Chantier à part.
 - [ ] Séparer Sous abri / Pleine terre dans « déjà semée » (limite 1), choisir une année en plus du mois (limite 2).
@@ -305,9 +305,9 @@ Par priorité :
 6. **Plants au jardin** : `typeDePlant`, filtre dans `millesimeAUtiliser`, tri sans plantage si pas de graines. Correction de la regex (le « x » désignait un nombre).
 7. Sachet « Mél » : traité comme un millésime normal, avec mention « sachet mélangé ».
 8. **Refonte visuelle** : carte commune (`.carte`), liseré de couleur, bouton « Semer » centré à droite, cadre bleu, `a_semer.css` raccourci.
-9. **pastille-orga** « Sous abri » / « Pleine terre » (`pastille-cat`), avec correction d'un bug de classe (`badge` sans `sous-abri`).
+9. **pastille-orga** « Sous abri » / « Pleine terre » (`pastille--categorie`), avec correction d'un bug de classe (`badge` sans `sous-abri`).
 10. **Liseré moitié vert / moitié marron** pour les variétés des deux modes.
-11. **Harmonisation avec Étiquettes** : renommages des classes (`carte-titre`, `cadre-info`, `liste-carte`), chemins `../../styles/`, Vue 3.4.38 chargé par jsdelivr.
+11. **Harmonisation avec Étiquettes** : renommages des classes (`bloc-contenu-carte`, `cadre-info`, `liste-carte`), chemins `../../styles/`, Vue 3.4.38 chargé par jsdelivr.
 12. **Conversion Vue, par étapes** :
     - titre avec décompte et suppression du message d'erreur ;
     - `pointerdown` remplacé par `click` sur Semer ;

@@ -81,7 +81,7 @@ Mise à jour en direct : toute modification faite dans Grist recalcule les anoma
 | Liste intégrée à la page, toujours visible | Liste déroulante flottante, ouverte à la saisie |
 | Bouton « Tout annuler » | Supprimé (reste le ✕ par ligne) |
 | Prochain numéro en cadre pleine largeur | pastille-look ajustée au contenu |
-| Bouton « Sauvegarder dans Grist » | Bouton « Enregistrer » (`btn-large`) |
+| Bouton « Sauvegarder dans Grist » | Bouton « Enregistrer » (`btn--grand`) |
 | Événements `pointerup` | Événements `click` |
 | Champ de recherche conservé après attribution | Champ vidé, focus conservé |
 | `analyserNumeros` calculait max, trous, prochain | Ne garde que ce qui sert |
@@ -142,7 +142,7 @@ Option si une ligne de doublon déborde sur mobile : `#anomalies-contenu { word-
 - `--plantemere`
 - `--blanc`
 
-**Utilisés par Numérotation** : base (`body`, `header`, `h1`, `h2`, `label`, `*`), `.statut`, `.champ` (+ `:focus`), `.champ-liste`, `.liste-choix` (+ `li`, `li:hover`, `li.vide`), `.liste-etape-intermediaires`, `.etape-intermediaire`, `.btn`, `.btn-large`, `.btn:disabled`, `.btn-enregistrer`, `.btn:focus-visible`, `.btn-suppr`, `.info`, `.succes`, `.erreur`, `.cadre-info`, `.cadre-info-titre`, `.cadre-info-alerte`, `.pastille-orga`, `.pastille-look`, `[hidden]`.
+**Utilisés par Numérotation** : base (`body`, `header`, `h1`, `h2`, `label`, `*`), `.statut`, `.champ` (+ `:focus`), `.champ-liste`, `.liste-choix` (+ `li`, `li:hover`, `li.vide`), `.liste-etape-intermediaires`, `.etape-intermediaire`, `.btn`, `.btn--grand`, `.btn:disabled`, `.btn--enregistrer`, `.btn:focus-visible`, `.btn-suppr`, `.info`, `.succes`, `.erreur`, `.cadre-info`, `.cadre-info-titre`, `.cadre-info-alerte`, `.pastille-orga`, `.pastille-look`, `[hidden]`.
 
 ## 10. Pièges rencontrés
 

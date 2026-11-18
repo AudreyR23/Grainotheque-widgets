@@ -18,10 +18,10 @@
 - [ ] **`inline-block`** : un bloc qui prend seulement la largeur de son contenu (cadre bleu), au lieu de s'étirer sur toute la ligne.
 - [ ] **`position: sticky; bottom: 0`** : l'élément reste collé en bas de l'écran pendant le défilement (barre flottante).
 - [ ] **L'attribut `hidden` et le CSS** : un `display` écrit dans une règle peut l'emporter sur `hidden`. La règle `[hidden] { display: none !important; }` force `hidden` à fonctionner.
-- [ ] **Les boutons ne « héritent » pas** : il n'existe pas de « hérite de `.btn` » en CSS. On cumule les classes dans le HTML : `btn` (socle) + une variante (`btn-ajouter`, `btn-enregistrer`) + une taille (`btn-large`). Oublier `btn` fait perdre police, padding, arrondi.
+- [ ] **Les boutons ne « héritent » pas** : il n'existe pas de « hérite de `.btn` » en CSS. On cumule les classes dans le HTML : `btn` (socle) + une variante (`btn-ajouter`, `btn--enregistrer`) + une taille (`btn--grand`). Oublier `btn` fait perdre police, padding, arrondi.
 - [ ] **Écrire les classes dans le HTML, pas la syntaxe CSS** : `class="sousabri actif"` est correct, `class="bascule button.sousabri"` ne l'est pas (`button.sousabri` est du CSS). Un élément n'a **qu'un seul** attribut `class` : le second est ignoré.
 - [ ] **Espace ou pas d'espace dans un sélecteur** : `.btn:active` (le bouton lui-même, pressé) ≠ `.btn :active` (un enfant du bouton). Un espace de trop et la règle ne s'applique jamais. Même chose pour `.a.b` (deux classes sur le même élément) ≠ `.a .b` (b à l'intérieur de a).
-- [ ] **Précision et ordre des règles** : quand deux règles touchent la même propriété, la plus précise gagne (id > classe > élément ; plus de classes = plus précis), puis, à précision égale, la dernière écrite. Exemples vus : `#fiche label.case` bat `#fiche label` qui bat `.case` ; `.bascule button` bat `.btn-large`.
+- [ ] **Précision et ordre des règles** : quand deux règles touchent la même propriété, la plus précise gagne (id > classe > élément ; plus de classes = plus précis), puis, à précision égale, la dernière écrite. Exemples vus : `#fiche label.case` bat `#fiche label` qui bat `.case` ; `.bascule button` bat `.btn--grand`.
 - [ ] **Inspecteur (F12, onglet Éléments / Styles)** : une règle barrée est celle qui a perdu. C'est le moyen de savoir pourquoi un style ne s'applique pas, au lieu de deviner.
 - [ ] **`position: absolute` a besoin d'un repère** : une liste en `absolute` se cale sur le plus proche ancêtre qui a une `position`. Sans `.champ-liste { position: relative }`, elle se cale sur la page et dépasse du champ. Avec `relative` (au lieu d'`absolute`), la liste pousse le contenu au lieu de flotter.
 - [ ] **Retraits par défaut du navigateur** : une `ul` a un retrait à gauche (`padding`) et des puces, un `button` a sa propre police et son padding. Il faut les neutraliser explicitement (`padding: 0`, `list-style: none`, `font: inherit`).
@@ -41,9 +41,9 @@
 ### 🆕 Ajouts HTML / CSS
 
 - [ ] 🆕 **Le même nom partout, lettre pour lettre** : le CSS, le HTML et le JS doivent écrire exactement le même nom de classe. Cas vus : `.badge.sous-abri` dans le CSS alors que le JS donnait seulement `badge` (« Sous abri » n'avait aucune couleur) ; `semis-plantemere` dans le JS et `badge-plantemere` dans le CSS. Une règle CSS pour une classe que personne n'applique ne fait rien, sans aucune erreur. Test : chercher le nom dans les trois fichiers (Ctrl+Maj+F).
-- [ ] 🆕 **Collision de noms entre outils** : `.badge` désignait une carte dans À étiqueter et une petite pastille-look dans À semer. Dans le commun, deux outils ne peuvent pas donner deux sens au même nom. Solution adoptée : des noms distincts et précis (`carte`, `carte-titre`, `pastille-cat`).
+- [ ] 🆕 **Collision de noms entre outils** : `.badge` désignait une carte dans À étiqueter et une petite pastille-look dans À semer. Dans le commun, deux outils ne peuvent pas donner deux sens au même nom. Solution adoptée : des noms distincts et précis (`carte`, `bloc-contenu-carte`, `pastille--categorie`).
 - [ ] 🆕 **Une règle globale touche tous les outils** : `label { font-weight: bold; display: block; ... }` dans le commun s'applique à chaque label. Pour la corriger dans un seul endroit, on utilise une règle plus précise (`#filtres label { ... }`, id > élément).
-- [ ] 🆕 **Une variante d'un composant** : `class="champ champ-filtre"` (socle + variante), comme pour `btn btn-enregistrer`. `.champ-filtre` l'emporte sur `.champ` car les deux ont la même précision et la feuille de l'outil est chargée **après** le commun.
+- [ ] 🆕 **Une variante d'un composant** : `class="champ champ-filtre"` (socle + variante), comme pour `btn btn--enregistrer`. `.champ-filtre` l'emporte sur `.champ` car les deux ont la même précision et la feuille de l'outil est chargée **après** le commun.
 - [ ] 🆕 **Classe calculée par le JS** : au lieu d'écrire plusieurs cas, on calcule le nom : `const categorie = sousAbris && pleineTerre ? 'sousabri-pleineterre' : sousAbris ? 'sousabri' : 'pleineterre'`, puis `className = 'carte ' + categorie`. La couleur vit dans le CSS, le choix dans le JS.
 - [ ] 🆕 **Préférer flex à `position: absolute` pour un bouton dans une carte** : en absolute, il est « posé » sur la carte et peut recouvrir le texte. Avec `display: flex` sur la carte et `align-items: center`, le bouton est centré et le texte se met à côté, sans chevauchement.
 - [ ] 🆕 **`opacity` estompe tout l'élément** : sur `.deja-semee { opacity: .6 }`, le bouton, le texte et le liseré deviennent plus pâles ensemble. C'est voulu ici, mais ça ne permet pas d'estomper une partie seulement.
@@ -279,15 +279,15 @@ Vue.watch(() => [etat.saisies, etat.saisiesMeres], sauvegarderSaisies, { deep: t
 - Un commit avant chaque série de changements.
 - Dans la console, les « n cachés » sont des messages filtrés, pas un résultat.
 
-div-champ, div-champ-carte, div-btn, div-info, div-case, div-bloc-ou	ligne (+ ligne--entre, ligne--pleine)
+div-champ, div-champ-carte, div-btn, ligne--info, ligne--case, div-bloc-ou	ligne (+ ligne--entre, ligne--pleine)
 info, carte-detail	texte texte--discret
-texte-ici, texte-etape, texte-morte, erreur, detail-gras	texte texte--ici, --etape, --morte, --erreur, --gras
-carte, carte-colonne, carte etape, carte plantemere	carte, carte--colonne, carte--etape, carte--plantemere
-carte-titre, carte-type, carte-action	carte__titre, carte__type, carte__action
+texte-ici, texte-etape, texte-morte, erreur, detail-gras	texte texte--ici, --etape, --morte, --erreur, texte--gras
+carte, bloc-contenu-carte-colonne, carte etape, carte plantemere	carte, carte--colonne, carte--etape, carte--plantemere
+bloc-contenu-carte, carte-type, carte-action	carte__titre, carte__type, carte__action
 champ-liste, liste-choix, li, .selection, .vide	menu, menu__liste, menu__item, menu__item--choisi, menu__item--vide
-pastille-look choix ici, … morte, pastille-cat pastille-plantemere	pastille pastille--lieu, pastille--morte, pastille pastille--categorie pastille--plantemere
-btn btn-large btn-enregistrer, btn actif, couleur-etape, btn-suppr	btn btn--grand btn--enregistrer, btn btn--actif, btn btn--etape, btn btn--suppr
-btn-display	zone-transparente
+pastille-look choix ici, … morte, pastille--categorie pastille-plantemere	pastille pastille--lieu, pastille--morte, pastille pastille--categorie pastille--plantemere
+btn btn--grand btn--enregistrer, btn actif, couleur-etape, btn-suppr	btn btn--grand btn--enregistrer, btn btn--actif, btn btn--etape, btn btn--suppr
+zone-transparente	zone-transparente
 statut non-sauvegarde	statut statut--non-sauvegarde
 succes	encart encart--succes
 

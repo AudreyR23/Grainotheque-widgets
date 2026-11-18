@@ -1,6 +1,6 @@
 CSS
 
-Ajouté : .carte-type (type de la variété, petit et gris, après le nom). À confirmer.
+Ajouté : .carte__type (type de la variété, petit et gris, après le nom). À confirmer.
 Ajouté à ta logique de couleurs : vert foncé et marron = mode de semis (sous abri / pleine terre).
 Notes à corriger : tes notes Étiquettes parlent de --ou-* et .texte-ou, mais le CSS contient --ici-* et .texte-ici. Mets à jour les notes avec les noms du CSS.
 Ménage possible :

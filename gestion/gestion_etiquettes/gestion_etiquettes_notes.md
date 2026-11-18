@@ -148,13 +148,13 @@ Variables en français, état global en haut du fichier, `modifie` + `majStatut(
 | `afficherEnCours` | `majEtapeIntermediaire` |
 | `valeurBrouillon` | `valeurEtapeIntermediaire` |
 | `initialiserEnCours` / `voirEnCours` | `initialiserEtapeIntermediaire` / `voirEtapeIntermediaire` |
-| `.semis`, `.semis-texte`, `.semis-detail` | `.carte`, `.carte-titre`, `.carte-detail` |
+| `.semis`, `.semis-texte`, `.semis-detail` | `.carte`, `.carte__contenu`, `.carte-detail` |
 | `.cadre-info-a-jour*` | `.cadre-info*` |
 | `.semis-plantemere` | `.carte-mention` + `.texte-plantemere` |
 
 ### CSS
 - `styles_commun.css` contient les cartes partagées (`.carte*`), les cadres d'info (`.cadre-info*`), l'étape intermédiaire et la confirmation.
-- `.carte-titre .cadre-info` : même cadre bleu, réduit au contenu quand il est dans une carte. Les deux règles s'additionnent.
+- `.carte__contenu .cadre-info` : même cadre bleu, réduit au contenu quand il est dans une carte. Les deux règles s'additionnent.
 - Plante mère : liseré à gauche (`.carte.plantemere`) et ligne de texte (`.carte-mention.texte-plantemere`). Ne jamais mettre `.plantemere` comme règle de texte, sinon tout le `li` rétrécit.
 - `.erreur` sert aussi au ⚠ (petite taille).
 - CSS spécifique : `.champ.champ-etiquettes`, `#etapeIntermediaire`, `#barreFlottante`, `.etape-intermediaire-nb`.

@@ -42,7 +42,7 @@
             <li
               v-for="b in etat.etapeIntermediaire"
               :key="b.id"
-              class="carte etape"
+              class="carte carte--etape"
             >
               <div>
                 <strong>{{ nomEtapeIntermediaire(b) }}</strong>
@@ -74,7 +74,7 @@
           <p v-if="etat.erreur" class="erreur">{{ etat.erreur }}</p>
           <button
             type="button"
-            class="btn btn-enregistrer btn-large"
+            class="btn btn--enregistrer btn--grand"
             :disabled="etat.enregistrement"
             @click="enregistrerTout"
           >
@@ -91,9 +91,9 @@
             :class="{ plantemere: s.planteMere }"
             :data-id="s.id"
           >
-            <div class="carte-titre">
+            <div class="carte__contenu">
               <strong>{{ libelle(s) }}</strong>
-              <span v-if="typeInverse" class="carte-type"
+              <span v-if="typeInverse" class="carte__type"
                 >{{ typeInverse(s.type) }}</span
               >
               <div v-if="s.planteMere" class="carte-mention texte-plantemere">
@@ -105,7 +105,7 @@
               </div>
               <div
                 v-if="s.nbEtiquettes > 0 || s.enAttente > 0"
-                class="div-info"
+                class="ligne--info"
               >
                 <div class="pastille-look choix info info-titre">
                   {{ texteInfo(s) }}
@@ -131,7 +131,7 @@
           <button
             v-show="etat.etapeIntermediaire.length > 0 && !etat.etapeVisible"
             type="button"
-            class="btn btn-ajouter btn-large"
+            class="btn btn-ajouter btn--grand"
             @click="voirEtapeIntermediaire"
           >
             Voir les ajouts ({{ etat.etapeIntermediaire.length }})

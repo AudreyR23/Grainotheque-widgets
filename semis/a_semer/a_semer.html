@@ -58,18 +58,18 @@
           class="carte"
           :class="[categorie(l), { 'deja-semee': l.dejaSemee }]"
         >
-          <div class="carte-titre">
+          <div class="carte__contenu">
             <strong>{{ libelle(l.v) }}</strong>
-            <span v-if="typeInverse" class="carte-type"
+            <span v-if="typeInverse" class="carte__type"
               >{{ typeInverse(l.v.type) }}</span
             >
             <div class="carte-mention">
-              <span v-if="l.sousAbris" class="pastille-cat pastille-sousabri"
+              <span v-if="l.sousAbris" class="pastille--categorie pastille-sousabri"
                 >Sous abri</span
               >
               <span
                 v-if="l.pleineTerre"
-                class="pastille-cat pastille-pleineterre"
+                class="pastille--categorie pastille-pleineterre"
                 >Pleine terre</span
               >
             </div>
@@ -81,7 +81,7 @@
           </div>
           <button
             type="button"
-            class="btn btn-enregistrer carte-action"
+            class="btn btn--enregistrer carte__action"
             :aria-label="`Semer ${libelle(l.v)}`"
             @click="semer(l.v.id)"
           >

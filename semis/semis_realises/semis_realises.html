@@ -16,8 +16,8 @@
     <section id="fiche">
 <div id="appBascule">
 <div class="bascule">
-<button type="button" class="btn btn-large sousabri" :class="{ actif: etat.modeSemis === 'godets' }" @click="choisirMode('godets')">Sous abri</button>
-<button type="button" class="btn btn-large pleineterre" :class="{ actif: etat.modeSemis === 'pleine_terre' }" @click="choisirMode('pleine_terre')">Pleine terre</button>
+<button type="button" class="btn btn--grand sousabri" :class="{ actif: etat.modeSemis === 'godets' }" @click="choisirMode('godets')">Sous abri</button>
+<button type="button" class="btn btn--grand pleineterre" :class="{ actif: etat.modeSemis === 'pleine_terre' }" @click="choisirMode('pleine_terre')">Pleine terre</button>
 </div>
 </div>
 <div id="appVariete">
@@ -77,7 +77,7 @@
            <div id="appOu">
 <div v-show="etat.modeSemis === 'pleine_terre'">
 <label for="rechercheOu">Où</label>
-<div class="div-info">
+<div class="ligne--info">
 <span v-for="lieu in etat.ouChoisis" :key="lieu" class="pastille-look-choix" @click="retirerLieu(lieu)">{{ lieu }} ✕</span>
 </div>
 <div class="champ-liste">
@@ -95,7 +95,7 @@
 <label class="case"><input type="checkbox" v-model="etat.aProduire"> À reproduire (produire des graines)</label>
 </div>
 <p id="erreurFiche" class="erreur" hidden></p>
-            <button id="btnAjouter" type="button" class="btn btn-ajouter btn-large">Ajouter à la liste</button>    
+            <button id="btnAjouter" type="button" class="btn btn-ajouter btn--grand">Ajouter à la liste</button>    
     </section>
         <div id="appEtapes">
 <p v-if="etat.succes" class="succes">{{ etat.succes }}</p>
@@ -104,19 +104,19 @@
 <section v-show="etat.etapesIntermediaires.length > 0">
 <h2>À enregistrer ({{ etat.etapesIntermediaires.length }})</h2>
 <ul class="liste-carte">
-<li v-for="b in etat.etapesIntermediaires" :key="b.id" class="carte etape">
-<div class="carte-titre">
+<li v-for="b in etat.etapesIntermediaires" :key="b.id" class="carte carte--etape">
+<div class="carte__contenu">
 <strong>{{ nomEtapeIntermediaire(b) }}</strong>
 <div class="carte-mention">
-<span class="pastille-cat" :class="b.mode === 'pleine_terre' ? 'pastille-pleineterre' : 'pastille-sousabri'">{{ b.mode === 'pleine_terre' ? 'Pleine terre' : 'Sous abri' }}</span>
+<span class="pastille--categorie" :class="b.mode === 'pleine_terre' ? 'pastille-pleineterre' : 'pastille-sousabri'">{{ b.mode === 'pleine_terre' ? 'Pleine terre' : 'Sous abri' }}</span>
 </div>
 <div class="carte-detail">{{ detailEtapeIntermediaire(b) }}</div>
 </div>
-<button type="button" class="btn-suppr carte-action" title="Retirer de la liste" :aria-label="`Retirer ${nomEtapeIntermediaire(b)}`" @click="retirerEtapeIntermediaire(b.id)">✕</button>
+<button type="button" class="btn-suppr carte__action" title="Retirer de la liste" :aria-label="`Retirer ${nomEtapeIntermediaire(b)}`" @click="retirerEtapeIntermediaire(b.id)">✕</button>
 </li>
 </ul>
 <p v-if="etat.erreur" class="erreur">{{ etat.erreur }}</p>
-<button type="button" class="btn btn-enregistrer btn-large" :disabled="etat.enregistrement" @click="enregistrerTout">
+<button type="button" class="btn btn--enregistrer btn--grand" :disabled="etat.enregistrement" @click="enregistrerTout">
 {{ etat.enregistrement ? 'Enregistrement…' : 'Enregistrer' }}
 </button>
 </section>
