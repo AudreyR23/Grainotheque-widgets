@@ -1,34 +1,35 @@
-.semis-retard { color: #c62828; font-weight: 600; }
-#message { margin-top: 20px; font-size: 0.8rem; color: #888; white-space: pre-line; }
+/* ===== Css "à gérer" ===== */
 
-.btn-ng {
-  flex: none; padding: 10px 16px;
-  font-size: 1.1rem; font-weight: 600;
-  color: #c62828; background: #fff;
-  border: 2px solid #e0b4b4; border-radius: 6px; cursor: pointer;
+/* ===== Bandeau du haut, collé à l'écran ===== */
+.entete {
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: 6px 0;
+  background: var(--arriere-plan);
 }
-.semis.brouillon { background: #e8f0fb; border-color: #9db8e0; }
-.btn-enregistrer {
-  width: 100%; margin-top: 14px; padding: 14px;
-  font-size: 1.1rem; font-weight: 600; color: #fff;
-  background: #1565c0; border: none; border-radius: 8px; cursor: pointer;
-}
-.btn-enregistrer :disabled { background: #90a4ae; cursor: wait; }
-
-.alerte-germes { margin-top: 6px; color: #b26a00; font-weight: 600; font-size: 0.9rem; }
-
-#datePlantation {
-  width: 100%; font-size: 1.1rem; padding: 10px;
-  border: 1px solid #aaa; border-radius: 6px; margin-bottom: 10px;
+.entete__message {
+  flex-basis: 100%;
+  margin: 0;
 }
 
-.btn-tout {
-  padding: 10px 14px; font-size: 1rem; font-weight: 600;
-  color: #2e7d32; background: #fff;
-  border: 2px solid #8bc58b; border-radius: 6px; cursor: pointer;
+/* Le défilement ne doit pas passer sous le bandeau */
+#appVerifier,
+#appPlanter,
+#appEnCours,
+.carte--colonne,
+#erreur-verifier,
+#erreur-planter,
+#erreur-meres, #appMeres {
+  scroll-margin-top: 120px;
 }
 
-/*pour ajout où*/
-.bloc-ou { margin-top: 8px; }
-.liste-choix li { padding: 12px 10px; border-bottom: 1px solid #eee; cursor: pointer; }
-.liste-choix li.vide { color: #777; cursor: default; font-style: italic; }
+.ligne--tri { gap: 8px; margin-top: 6px; }
+
+/* bloc qui prend la largeur de son plus long texte, sans s'étirer */
+.menu--auto { flex: 0 0 auto; width: max-content; max-width: 100%; }
+
+/* champ plus petit */
+.champ--petit { padding: 6px 10px; width: 100%; text-align: left; margin-top: 0; }
+.reserve { display: block; height: 0; overflow: hidden; visibility: hidden; }

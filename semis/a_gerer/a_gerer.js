@@ -1,566 +1,1012 @@
+// État lu par le HTML : Vue met la page à jour quand il change
+const etat = Vue.reactive({
+  recherche: "", // texte tapé dans le champ de recherche
+  saisies: {}, // idSemis → { germes, plantes, oups, don, ou } : saisies pas encore enregistrées
+  listeVerifier: [], // semis affichés dans « À vérifier » (après recherche)
+  totalVerifier: 0, // nombre de semis à vérifier, sans la recherche
+  inclureSansDuree: true, // afficher aussi les semis dont la variété n'a pas de durée de germination
+  listePlanter: [], // semis affichés dans « À planter » (après recherche)
+  totalPlanter: 0, // nombre de semis à planter, sans la recherche
+  datePlantation: dateDuJour(), // 'AAAA-MM-JJ'
+  charge: false, // true quand les données sont chargées
+  enregistrement: false, // true pendant l'enregistrement
+  succes: "", // message de succès
+  erreurs: { verifier: "", planter: "", meres: "", general: "" },
+  message: "", // erreur de chargement, ou emplacements non chargés
+  brut: {}, // texte tapé dans les champs de quantité, clé « idSemis:cle »
+  tri: "defaut", // 'defaut' ou 'nom'
+  controleMeres: false, // afficher la section « plantes mères à contrôler »
+  listeMeres: [], // plantes mères affichées (après recherche)
+  totalMeres: 0, // plantes mères à contrôler, sans la recherche
+  saisiesMeres: {}, // idMillesime → 'Vivante' | 'Morte' : pas encore enregistré
+  inclureControlees: false, // revoir aussi les plantes mères déjà contrôlées cette année
+  ouOuvert: null, // 'semis-12' ou 'mere-12' : sélecteur « Où » ouvert
+  rechercheOu: "",
+  listeTriOuverte: false,
+});
+
 // ===== État global =====
-let modifie = false;
-let brouillons = [];   // utilisé à l'étape 2
-let enregistrementEnCours = false;
-let plantations = [];   // { idSemis, plantes, oups, don } : quantités à ajouter
-let recherche = '';   // texte de recherche normalisé
-let LIEUX = [];                 // lus depuis Grist (choix de la colonne Ou)
-const ouParSemis = new Map();   // idSemis → [emplacements choisis]
+let LIEUX = []; // lus depuis Grist (choix de la colonne Ou)
 const recordsParId = {
-  semis: new Map()
+  semis: new Map(),
+  millesimes: new Map(),
 };
 
-// ===== Utilitaires =====
-function tableEnLignes(tableau) {
-  const colonnes = Object.keys(tableau);
-  const lignes = [];
-  for (let i = 0; i < tableau.id.length; i++) {
-    const ligne = {};
-    for (const c of colonnes) ligne[c] = tableau[c][i];
-    lignes.push(ligne);
+// --- Sauvegarde des saisies dans l'onglet (survit à un rechargement du widget) ---
+const CLE_SAISIES = "a_gerer_saisies";
+
+function sauvegarderSaisies() {
+  try {
+    const vide =
+      Object.keys(etat.saisies).length === 0 &&
+      Object.keys(etat.saisiesMeres).length === 0;
+    if (vide) sessionStorage.removeItem(CLE_SAISIES);
+    else
+      sessionStorage.setItem(
+        CLE_SAISIES,
+        JSON.stringify({ saisies: etat.saisies, meres: etat.saisiesMeres }),
+      );
+  } catch (err) {
+    console.warn("Sauvegarde des saisies impossible :", err);
   }
-  return lignes;
 }
 
-function dateAffichee(secondes) {
-  return new Date(secondes * 1000).toLocaleDateString('fr-FR', { timeZone: 'UTC' });
+function restaurerSaisies() {
+  try {
+    const brut = sessionStorage.getItem(CLE_SAISIES);
+    if (!brut) return;
+    const d = JSON.parse(brut);
+    for (const [id, s] of Object.entries(d.saisies || {})) {
+      etat.saisies[id] = { ...saisieVide(), ...s };
+    }
+    for (const [id, s] of Object.entries(d.meres || {})) {
+      etat.saisiesMeres[id] = {
+        statut: s.statut,
+        morts: s.morts || [],
+        ou: s.ou || [],
+      };
+    }
+  } catch (err) {
+    console.warn("Lecture des saisies sauvegardées impossible :", err);
+  }
 }
 
-function dateDuJour() {
-  const d = new Date();
-  const p = n => String(n).padStart(2, '0');
-  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+function purgerSaisiesOrphelines() {
+  // Supprime les saisies dont la carte n'est plus dans « À vérifier » ni dans « À planter »
+  const ids = new Set(
+    [...semisAVerifier(), ...semisAPlanter()].map((s) => s.id),
+  );
+  for (const id of Object.keys(etat.saisies)) {
+    if (!ids.has(Number(id))) delete etat.saisies[id];
+  }
+  // Plantes mères : on garde seulement celles qui sont toujours plantes mères
+  for (const id of Object.keys(etat.saisiesMeres)) {
+    const m = recordsParId.millesimes.get(Number(id));
+    if (!m || !m.planteMere) delete etat.saisiesMeres[id];
+  }
 }
-function dateEnSecondes(iso) {
-  const [a, m, j] = iso.split('-').map(Number);
-  return Date.UTC(a, m - 1, j) / 1000;
+// ===== Saisies en attente =====
+
+function saisieVide() {
+  return { germes: null, attente: false, plantes: 0, oups: 0, don: 0, ou: [] };
 }
 
-function normaliser(texte) {
-  return String(texte || '')
-    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase().replace(/\s+/g, ' ').trim();
-}
-/*ajouter choix du ou*/
-function listeChoix(valeur) {
-  // ChoiceList Grist : ['L', 'a', 'b'] → ['a', 'b']
-  return Array.isArray(valeur) && valeur[0] === 'L' ? valeur.slice(1) : [];
+function saisieDe(idSemis) {
+  // Saisie en attente de ce semis (ou une saisie vide, sans rien créer)
+  return etat.saisies[idSemis] || saisieVide();
 }
 
-// ===== Statut =====
-function majStatut() {
-  const el = document.getElementById('statut');
-  const n = brouillons.length + plantations.length;
-  modifie = n > 0;
-  el.textContent = modifie ? `● Non sauvegardé (${n})` : '✓ À jour';
-  el.classList.toggle('non-sauvegarde', modifie);
-  document.getElementById('btnEnregistrer').hidden = !modifie;
+function majSaisie(idSemis, champs) {
+  // Modifie quelques champs ; si la saisie devient vide, on la supprime
+  const s = { ...saisieDe(idSemis), ...champs };
+  if (s.germes === null) s.attente = false; // « en attente » n'a de sens qu'avec un nombre
+  const vide =
+    s.germes === null &&
+    s.plantes === 0 &&
+    s.oups === 0 &&
+    s.don === 0 &&
+    s.ou.length === 0;
+  if (vide) delete etat.saisies[idSemis];
+  else etat.saisies[idSemis] = s;
+}
+
+function aPlantation(saisie) {
+  return saisie.plantes > 0 || saisie.oups > 0 || saisie.don > 0;
+}
+
+function saisiesGermes() {
+  // [{ idSemis, germes, attente }] : germes à enregistrer (NG = 0 compris)
+  return Object.entries(etat.saisies)
+    .filter(([, s]) => s.germes !== null)
+    .map(([id, s]) => ({
+      idSemis: Number(id),
+      germes: s.germes,
+      attente: !!s.attente,
+    }));
+}
+
+function saisiesPlantation() {
+  // [{ idSemis, plantes, oups, don, ou }] : plantations à enregistrer
+  // Un emplacement choisi sans quantité ne compte pas.
+  return Object.entries(etat.saisies)
+    .filter(([, s]) => aPlantation(s))
+    .map(([id, s]) => ({
+      idSemis: Number(id),
+      plantes: s.plantes,
+      oups: s.oups,
+      don: s.don,
+      ou: s.ou,
+    }));
+}
+
+// ===== Récapitulatif « En cours » =====
+function recapGermes() {
+  return saisiesGermes()
+    .map((g) => ({ g, s: recordsParId.semis.get(g.idSemis) }))
+    .filter((x) => x.s)
+    .map(({ g, s }) => ({
+      id: g.idSemis,
+      nom: libelle(s),
+      type: s.type,
+      germes: g.germes,
+      attente: g.attente,
+            trop: tropDeGermes(s),
+      semees: s.semees,
+    }));
+}
+
+function recapPlantation() {
+  return saisiesPlantation()
+    .map((p) => ({ p, s: recordsParId.semis.get(p.idSemis) }))
+    .filter((x) => x.s)
+    .map(({ p, s }) => ({
+      id: p.idSemis,
+      nom: libelle(s),
+      type: s.type,
+      plantes: p.plantes,
+      oups: p.oups,
+      don: p.don,
+      ou: p.ou, // lieux choisis maintenant
+      ouActuels: s.ou, // lieux déjà dans Grist
+      casOu: casOu(s),
+      total: totalSaisi(p.idSemis),
+      reste: s.reste,
+    }));
+}
+
+function recapMeres() {
+  const lieux = lieuxParMillesime();
+  return Object.entries(etat.saisiesMeres)
+    .map(([id, s]) => ({
+      id: Number(id),
+      s,
+      m: recordsParId.millesimes.get(Number(id)),
+    }))
+    .filter((x) => x.m)
+    .map(({ id, s, m }) => {
+      const actuels = lieux.get(id) || [];
+      const e = effetMere(s, actuels);
+      let cas = "vivante";
+      if (s.statut === "Vivante" && actuels.length === 0)
+        cas =
+          s.ou && s.ou.length ? "vivante-nouveau-lieu" : "vivante-sans-lieu";
+      else if (
+        s.statut === "Morte" &&
+        actuels.length > 1 &&
+        e.morts.length === 0
+      )
+        cas = "morte-sans-coche";
+      else if (!e.planteMere) cas = "morte";
+      else if (e.morts.length) cas = "morte-partielle";
+      return {
+        id,
+        nom: libelle(m),
+        type: m.type,
+        cas,
+        lieuxChoisis: s.ou || [],
+        lieuxActuels: actuels,
+        lieuxMorts: e.morts,
+        lieuxRestants: actuels.filter((l) => !e.morts.includes(l)),
+      };
+    });
+}
+
+function retirerSaisie(idSemis) {
+  delete etat.saisies[idSemis];
+  for (const cle of Object.keys(etat.brut || {})) {
+    if (cle.startsWith(idSemis + ":")) delete etat.brut[cle];
+  }
+}
+
+// ===== Défilement =====
+function aller(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+async function allerCarte(section, idSemis) {
+  const id = section + "-" + idSemis; // 'verifier-12' ou 'planter-12'
+  if (!document.getElementById(id)) {
+    // carte masquée par la recherche
+    etat.recherche = "";
+    await Vue.nextTick();
+  }
+  aller(id);
+}
+
+async function allerMere(idMillesime) {
+  const carte = () => document.getElementById("mere-" + idMillesime);
+  if (!carte()) {
+    etat.controleMeres = true;       // ouvre la section
+    etat.recherche = "";             // enlève un filtre qui masquerait la carte
+    etat.inclureControlees = true;   // montre aussi les plantes déjà contrôlées
+    recalculerMeres();               // recalcule tout de suite, sans attendre le watch
+    await Vue.nextTick();
+  }
+  aller("mere-" + idMillesime);
+}
+// ===== Erreurs d'enregistrement =====
+function effacerErreurs() {
+  etat.erreurs = { verifier: "", planter: "", meres: "", general: "" };
+}
+
+const NOMS_SECTIONS = { verifier: "À vérifier", planter: "À planter", meres: "À contrôler" };
+
+async function refuser(section, texte) {
+  etat.erreurs[section] = texte;
+  etat.erreurs.general = `Rien n'est enregistré : voir « ${NOMS_SECTIONS[section]} ».`;
+  if (section === "meres") etat.controleMeres = true; // la section doit être ouverte pour voir le message
+  await Vue.nextTick();
+  aller("erreur-" + section);
 }
 
 // ===== Chargement =====
 async function chargerSemis() {
-  const tab = await grist.docApi.fetchTable('Semis');
+  const tab = await grist.docApi.fetchTable("Semis");
   recordsParId.semis.clear();
   for (const s of tableEnLignes(tab)) {
     recordsParId.semis.set(s.id, {
       id: s.id,
-      nom: s.Nom || '',
-      variete: s.Variete || '',
-      date: typeof s.Date_s === 'number' ? s.Date_s : null,
+      nom: s.Nom || "",
+      variete: s.Variete || "",
+      date: typeof s.Date_s === "number" ? s.Date_s : null,
       godets: s.Nb_godets || 0,
       graines: s.Nb_graines || 0,
-      semees: s.Graines_semees || ((s.Nb_godets || 0) * (s.Nb_graines || 0)),
+      semees: s.Graines_semees || (s.Nb_godets || 0) * (s.Nb_graines || 0),
       plantes: s.Plantes || 0,
       oups: s.Oups || 0,
       don: s.Don_p || 0,
-      reste: typeof s.Reste_a_planter === 'number' ? s.Reste_a_planter : 0,
+      reste: typeof s.Reste_a_planter === "number" ? s.Reste_a_planter : 0,
       planteMere: !!s.Plante_mere,
       ou: listeChoix(s.Ou),
-      germes: s.Germes,                               // null = pas encore noté
+      millesimeId: s.Millesime || 0,
+      datePlantation: typeof s.Date_p === "number" ? s.Date_p : null,
+      germes: s.Germes, // null = pas encore noté
       duree: s.Germination_duree || null,
-      jours: typeof s.Jours_ecoules === 'number' ? s.Jours_ecoules : null,
-      info: s.Info_germination                        // 'En attente' | nombre (jours de retard) | 'OK' | 'NG' | ''
+      info: s.Info_germination, // 'En attente' | nombre (jours de retard) | 'OK' | 'NG' | ''
+      type: s.Type || "",
+      attente: !!s.Germes_attente,
+    });
+  }
+}
+// ===== Plantes mères (table Millesimes) =====
+async function chargerMillesimes() {
+  const tab = await grist.docApi.fetchTable("Millesimes");
+  recordsParId.millesimes.clear();
+  for (const m of tableEnLignes(tab)) {
+    recordsParId.millesimes.set(m.id, {
+      id: m.id,
+      nom: m.Nom || "",
+      variete: m.Variete || "",
+      planteMere: !!m.Plante_mere,
+      type: m.Type || "",
+      varieteId: m.NomVariete || 0,
+      anneePlantation: m.Annee_plantation || null,
+      statut: m.Statut_mere || "", // '' | 'Vivante' | 'Morte'
+      anneeControle: anneeDepuisDate(m.Controle_mere),
     });
   }
 }
 
-// ===== Affichage =====
-function libelle(s) {
-  return s.variete ? `${s.nom} — ${s.variete}` : s.nom;
+function meresAControler() {
+  // Par défaut : plantées avant cette année et pas encore contrôlées cette année.
+  // Avec la case « inclure » : toutes les plantes mères en place.
+  const annee = new Date().getFullYear();
+  return [...recordsParId.millesimes.values()]
+    .filter(
+      (m) =>
+        m.planteMere &&
+        (etat.inclureControlees ||
+          (m.anneeControle !== annee &&
+            (!m.anneePlantation || m.anneePlantation < annee))),
+    )
+    .sort((a, b) => libelle(a).localeCompare(libelle(b), "fr") || a.id - b.id);
 }
+
+function estLigneMere(s) {
+  // Ligne Semis d'une plante mère : millésime plante mère, sans godets ni graines (créée par « achat-repro »)
+  return s.planteMere && s.millesimeId > 0 && s.godets === 0 && s.graines === 0;
+}
+
+function sansQuantite(s) {
+  // Rien n'a été semé (ni godets ni graines) : il n'y a pas de germination à vérifier
+  return s.millesimeId > 0 && s.godets === 0 && s.graines === 0;
+}
+
+function lieuxParMillesime() {
+  // idMillesime → lieux actuels : « Ou » de la ou des lignes Semis de la plante mère
+  const resultat = new Map();
+  for (const s of recordsParId.semis.values()) {
+    if (!estLigneMere(s)) continue;
+    const lieux = resultat.get(s.millesimeId) || [];
+    for (const l of s.ou) if (!lieux.includes(l)) lieux.push(l);
+    resultat.set(s.millesimeId, lieux);
+  }
+  return resultat;
+}
+
+function statutMere(idMillesime) {
+  const s = etat.saisiesMeres[idMillesime];
+  return s ? s.statut : "";
+}
+
+function choisirStatutMere(m, statut) {
+  // Un second clic sur le même bouton annule le choix.
+  const s = etat.saisiesMeres[m.id];
+  if (s && s.statut === statut) delete etat.saisiesMeres[m.id];
+  else etat.saisiesMeres[m.id] = { statut, morts: [], ou: [] };
+}
+
+function lieuMort(idMillesime, lieu) {
+  const s = etat.saisiesMeres[idMillesime];
+  return !!s && s.morts.includes(lieu);
+}
+
+function basculerLieuMort(idMillesime, lieu) {
+  const s = etat.saisiesMeres[idMillesime];
+  if (!s) return;
+  s.morts = s.morts.includes(lieu)
+    ? s.morts.filter((l) => l !== lieu)
+    : [...s.morts, lieu];
+}
+
+function effetMere(saisie, actuels) {
+  // Ce que l'enregistrement fera : { planteMere, statut, morts }
+  if (saisie.statut !== "Morte")
+    return { planteMere: true, statut: "Vivante", morts: [] };
+  const morts = saisie.morts.filter((l) => actuels.includes(l));
+  if (actuels.length <= 1)
+    return { planteMere: false, statut: "Morte", morts: [...actuels] };
+  if (morts.length === 0)
+    return { planteMere: true, statut: "Vivante", morts: [] };
+  if (morts.length >= actuels.length)
+    return { planteMere: false, statut: "Morte", morts };
+  return { planteMere: true, statut: "Vivante", morts };
+}
+
+function retirerMere(idMillesime) {
+  delete etat.saisiesMeres[idMillesime];
+}
+
+// ===== Affichage =====
+function trierListe(semis) {
+  if (etat.tri !== "nom") return semis;
+  return [...semis].sort((a, b) => libelle(a).localeCompare(libelle(b), "fr"));
+}
+function basculerTri() {
+  etat.listeTriOuverte = !etat.listeTriOuverte;
+}
+function choisirTri(valeur) {
+  etat.tri = valeur;
+  etat.listeTriOuverte = false;
+}
+// Un toucher en dehors du menu le ferme
+document.addEventListener("click", (e) => {
+  if (!e.target.closest("#appRecherche .menu")) etat.listeTriOuverte = false;
+});
+
+function recalculerListe(cle, tous) {
+  etat["total" + cle] = tous.length;
+  etat["liste" + cle] = trierListe(filtrerParRecherche(tous));
+}
+function recalculerVerifier() { recalculerListe("Verifier", semisAVerifier()); }
+function recalculerPlanter()  { recalculerListe("Planter", semisAPlanter()); }
+function recalculerMeres() {
+  const lieux = lieuxParMillesime();
+  recalculerListe("Meres", meresAControler().map((m) => ({ ...m, ou: lieux.get(m.id) || [] })));
+}
+
+function recalculerTout() {
+  recalculerVerifier();
+  recalculerPlanter();
+  recalculerMeres();
+}
+
+// ===== À vérifier =====
+function aGermes(idSemis) {
+  return saisieDe(idSemis).germes !== null;
+}
+
+function valeurGermes(idSemis) {
+  const g = saisieDe(idSemis).germes;
+  return g === null ? "" : g;
+}
+
+function surGermes(idSemis, e) {
+  const texte = e.target.value.trim();
+  const valeur = Number(texte);
+  majSaisie(idSemis, { germes: texte !== "" && valeur >= 0 ? valeur : null });
+}
+
+function basculerNG(idSemis) {
+  // 1er clic : 0 germe ; 2e clic : on annule
+  majSaisie(idSemis, { germes: saisieDe(idSemis).germes === 0 ? null : 0 });
+}
+function valeurAttente(idSemis) {
+  return !!saisieDe(idSemis).attente;
+}
+
+function basculerAttente(idSemis) {
+  const s = saisieDe(idSemis);
+  if (s.germes === null) return;
+  majSaisie(idSemis, { attente: !s.attente });
+}
+
+function tropDeGermes(s) {
+  const g = saisieDe(s.id).germes;
+  return g !== null && s.semees > 0 && g > s.semees;
+}
+function totalSaisi(idSemis) {
+  const p = saisieDe(idSemis);
+  return p.plantes + p.oups + p.don;
+}
+
+const UN_AN = 365 * 24 * 3600; // en secondes
 
 function semisAVerifier() {
-  // Germes vide ET durée de germination dépassée (Info_germination = nombre de jours de retard)
-  return [...recordsParId.semis.values()]
-    .filter(s => (s.germes === null || s.germes === undefined) && typeof s.info === 'number')
+  const maintenant = Date.now() / 1000;
+  const base = [...recordsParId.semis.values()].filter(
+    (s) => s.date !== null && !sansQuantite(s),
+  );
+  const sansGermes = base.filter(
+    (s) => s.germes === null || s.germes === undefined,
+  );
+  const enRetard = sansGermes
+    .filter((s) => typeof s.info === "number")
     .sort((a, b) => b.info - a.info);
-}
-
-function afficherVerifier() {
-  const liste = document.getElementById('listeVerifier');
-  const titre = document.getElementById('titreVerifier');
-  const tous = semisAVerifier();
-  const semis = filtrerParRecherche(tous);
-  liste.innerHTML = '';
-  titre.textContent = recherche
-    ? `À vérifier (${semis.length} sur ${tous.length})`
-    : `À vérifier (${tous.length})`;
-
-  for (const s of semis) {
-    const li = document.createElement('li');
-    li.className = 'carte';
-    li.dataset.id = s.id; /*à revoir*/
-
-    const texte = document.createElement('div');
-    texte.className = 'carte-texte';
-    const ligne1 = document.createElement('strong');
-    ligne1.textContent = libelle(s);
-    const ligne2 = document.createElement('div');
-    ligne2.className = 'carte-detail';
-    ligne2.textContent =
-      `semé le ${s.date ? dateAffichee(s.date) : '?'} · ${s.godets} × ${s.graines} graines · ` +
-      `germination ${s.duree} j · `;
-    const retard = document.createElement('div');
-    retard.className = 'erreur';
-    retard.textContent = '⚠ ' + `${s.info} j de retard`;
-    ligne2.appendChild(retard);
-
-    const brouillon = brouillons.find(b => b.idSemis === s.id);
-    li.classList.toggle('brouillon', !!brouillon);
-
-    const saisie = document.createElement('div');
-    saisie.className = '.saisie';
-    const champ = document.createElement('input');
-    champ.type = 'number';
-    champ.min = '0';
-    champ.step = '1';
-    champ.inputMode = 'numeric';
-    champ.placeholder = 'Germes';
-    champ.className = 'champ-germes';
-    if (brouillon) champ.value = brouillon.germes;
-    const btnNg = document.createElement('button');
-    btnNg.type = 'button';
-    btnNg.className = 'btn-ng';
-    btnNg.textContent = 'NG';
-    saisie.append(champ, btnNg);
-
-    const alerte = document.createElement('div');
-    alerte.className = 'alerte-germes';
-    alerte.hidden = true;
-
-    li.append(ligne1, ligne2, saisie, alerte);
-    majAlerteGermes(s.id);
-    liste.appendChild(li);
-  }
-}
-
-function majAlerteGermes(idSemis) {
-  const li = document.querySelector(`#listeVerifier li[data-id="${idSemis}"]`);
-  if (!li) return;
-  const alerte = li.querySelector('.alerte-germes');
-  const s = recordsParId.semis.get(idSemis);
-  const b = brouillons.find(x => x.idSemis === idSemis);
-  const trop = !!(b && s && s.semees > 0 && b.germes > s.semees);
-  alerte.hidden = !trop;
-  if (trop) alerte.textContent = `⚠ ${b.germes} germes pour seulement ${s.semees} graines semées.`;
+  const enAttente = base
+    .filter((s) => s.attente && s.germes !== null && s.germes !== undefined)
+    .sort((a, b) => a.date - b.date);
+  const sansDuree = etat.inclureSansDuree
+    ? sansGermes
+        .filter((s) => !s.duree && maintenant - s.date < UN_AN)
+        .sort((a, b) => a.date - b.date)
+    : [];
+  return [...enRetard, ...enAttente, ...sansDuree];
 }
 
 // ===== Recherche =====
+function rechercheNormalisee() {
+  return normaliser(etat.recherche);
+}
+
 function filtrerParRecherche(semis) {
-  if (!recherche) return semis;
-  const mots = recherche.split(' ');
-  return semis.filter(s => {
-    const texte = normaliser(s.nom + ' ' + s.variete);
-    return mots.every(mot => texte.includes(mot));
-  });
+  const saisie = rechercheNormalisee();
+  if (!saisie) return semis;
+  return semis.filter((s) =>
+    correspondRecherche(normaliser(s.nom + " " + s.variete), saisie),
+  );
 }
 
-function initialiserRecherche() {
-  document.getElementById('recherche').addEventListener('input', e => {
-    recherche = normaliser(e.target.value);
-    afficherVerifier();
-    afficherPlanter();
-  });
-}
-
-// ===== Saisie et brouillons =====
-function poserBrouillon(idSemis, germes) {
-  brouillons = brouillons.filter(b => b.idSemis !== idSemis);
-  if (germes !== null) brouillons.push({ idSemis, germes });
-  const li = document.querySelector(`#listeVerifier li[data-id="${idSemis}"]`);
-  if (li) li.classList.toggle('brouillon', germes !== null);
-  majAlerteGermes(idSemis);
-  majStatut();
-}
-
-function initialiserSaisie() {
-  const liste = document.getElementById('listeVerifier');
-
-  liste.addEventListener('input', e => {
-    const champ = e.target.closest('.champ-germes');
-    if (!champ) return;
-    const id = Number(champ.closest('li').dataset.id);
-    const texte = champ.value.trim();
-    const valeur = Number(texte);
-    poserBrouillon(id, texte !== '' && valeur >= 0 ? valeur : null);
-  });
-
-  liste.addEventListener('click', e => {
-    const btn = e.target.closest('.btn-ng');
-    if (!btn) return;
-    const li = btn.closest('li');
-    const champ = li.querySelector('.champ-germes');
-    const id = Number(li.dataset.id);
-    if (champ.value === '0') {          // 2e clic : on annule
-      champ.value = '';
-      poserBrouillon(id, null);
-    } else {
-      champ.value = '0';
-      poserBrouillon(id, 0);
-    }
-  });
-
-  document.getElementById('btnEnregistrer').addEventListener('click', enregistrerTout);
+// ===== Saisie des germés =====
+function nombreSaisies() {
+  return (
+    saisiesGermes().length +
+    saisiesPlantation().length +
+    Object.keys(etat.saisiesMeres).length
+  );
 }
 
 // ===== À planter =====
 function semisAPlanter() {
   return [...recordsParId.semis.values()]
-    .filter(s => s.germes > 0 && s.reste > 0 && !s.planteMere)
+    .filter((s) => s.germes > 0 && s.reste > 0 && !s.planteMere)
     .sort((a, b) => (a.date || 0) - (b.date || 0));
 }
+function aPlantationDe(idSemis) {
+  return aPlantation(saisieDe(idSemis));
+}
 
-function afficherPlanter() {
-  const liste = document.getElementById('listePlanter');
-  const tous = semisAPlanter();
-  const semis = filtrerParRecherche(tous);
-  liste.innerHTML = '';
-  document.getElementById('titrePlanter').textContent = recherche
-    ? `À planter (${semis.length} sur ${tous.length})`
-    : `À planter (${tous.length})`;
-  for (const s of semis) {
-    const brouillon = plantations.find(p => p.idSemis === s.id);
-    const li = document.createElement('li');
-    li.className = 'semis';
-    li.dataset.id = s.id;
-    li.classList.toggle('brouillon', !!brouillon);
+function valeurQuantite(idSemis, cle) {
+  const brut = etat.brut[`${idSemis}:${cle}`];
+  if (brut !== undefined) return brut;
+  const v = saisieDe(idSemis)[cle];
+  return v > 0 ? v : "";
+}
 
-    const ligne1 = document.createElement('strong');
-    ligne1.textContent = libelle(s);
+function surQuantite(idSemis, cle, e) {
+  etat.brut[`${idSemis}:${cle}`] = e.target.value;
+  const v = Number(e.target.value);
+  majSaisie(idSemis, { [cle]: v > 0 ? v : 0 });
+}
 
-    const ligne2 = document.createElement('div');
-    ligne2.className = 'semis-detail';
-        ligne2.textContent =
-      `semé le ${s.date ? dateAffichee(s.date) : '?'} · ${s.germes} germes · ` +
-      `déjà planté ${s.plantes}` + 
-      (s.ou.length ? ` · Où : ${s.ou.join(', ')}` : '') + 
-      `· oups ${s.oups} · don ${s.don} · reste ${s.reste}`;
-      
-    const saisie = document.createElement('div');
-    saisie.className = 'saisie-planter';
-    for (const [cle, texte] of [['plantes', 'Plantés'], ['oups', 'Oups'], ['don', 'Don']]) {
-      const champ = document.createElement('input');
-      champ.type = 'number';
-      champ.min = '0';
-      champ.step = '1';
-      champ.inputMode = 'numeric';
-      champ.placeholder = texte;
-      champ.dataset.champ = cle;
-      if (brouillon && brouillon[cle]) champ.value = brouillon[cle];
-      saisie.appendChild(champ);
-    }
-    const btnTout = document.createElement('button');
-    btnTout.type = 'button';
-    btnTout.className = 'btn-tout';
-    btnTout.textContent = 'Tout';
-    saisie.appendChild(btnTout);
+function toutPlanter(s) {
+  etat.brut[`${s.id}:plantes`] = String(s.reste);
+  etat.brut[`${s.id}:oups`] = "";
+  etat.brut[`${s.id}:don`] = "";
+  majSaisie(s.id, { plantes: s.reste, oups: 0, don: 0 });
+}
 
-    const alerte = document.createElement('div');
-    alerte.className = 'alerte-germes';
-    alerte.hidden = true;
+// --- Où : un seul jeu de fonctions pour « À planter » (type 'semis') et les plantes mères (type 'mere') ---
+function cleOu(type, id) {
+  return type + "-" + id;
+}
 
-    const blocOu = document.createElement('div');
-    blocOu.className = 'bloc-ou';
-    const pastilles = document.createElement('div');
-    pastilles.className = 'pastilles';
-    const champOu = document.createElement('div');
-    champOu.className = 'champ-liste';
-    const rechercheOu = document.createElement('input');
-    rechercheOu.type = 'search';
-    rechercheOu.className = 'recherche-ou';
-    rechercheOu.placeholder = s.ou.length ? 'Ajouter un emplacement (facultatif)' : 'Où ? (obligatoire si plantés)';
-    rechercheOu.autocomplete = 'off';
-    const listeOu = document.createElement('ul');
-    listeOu.className = 'liste-choix';
-    listeOu.hidden = true;
-    champOu.append(rechercheOu, listeOu);
-    blocOu.append(pastilles, champOu);
+function lieuxChoisis(type, id) {
+  if (type === "mere")
+    return (etat.saisiesMeres[id] && etat.saisiesMeres[id].ou) || [];
+  return saisieDe(id).ou;
+}
 
-    li.append(ligne1, ligne2, saisie, blocOu, alerte);    
-    liste.appendChild(li);
-    afficherPastillesOu(li);
-    majAlertePlanter(s.id);
+function changerLieux(type, id, liste) {
+  if (type === "mere") {
+    if (etat.saisiesMeres[id]) etat.saisiesMeres[id].ou = liste;
+  } else majSaisie(id, { ou: liste });
+}
+
+function ouvertOu(type, id) {
+  return etat.ouOuvert === cleOu(type, id);
+}
+
+function lieuxProposes(type, id) {
+  if (!ouvertOu(type, id)) return []; // on ne calcule que pour la liste ouverte
+  return lieuxFiltres(LIEUX, lieuxChoisis(type, id), etat.rechercheOu);
+}
+
+function ouvrirOu(type, id) {
+  if (!ouvertOu(type, id)) {
+    etat.ouOuvert = cleOu(type, id);
+    etat.rechercheOu = "";
   }
 }
 
-function majAlertePlanter(idSemis) {
-  const li = document.querySelector(`#listePlanter li[data-id="${idSemis}"]`);
-  if (!li) return;
-  const alerte = li.querySelector('.alerte-germes');
-  const s = recordsParId.semis.get(idSemis);
-  const p = plantations.find(x => x.idSemis === idSemis);
-  const total = p ? p.plantes + p.oups + p.don : 0;
-  const trop = !!(p && s && total > s.reste);
-  alerte.hidden = !trop;
-  if (trop) alerte.textContent = `⚠ ${total} saisis pour seulement ${s.reste} restant(s).`;
+function fermerOu(type, id) {
+  if (ouvertOu(type, id)) etat.ouOuvert = null;
 }
 
-function poserPlantation(idSemis) {
-  const li = document.querySelector(`#listePlanter li[data-id="${idSemis}"]`);
-  if (!li) return;
-  const lire = cle => {
-    const v = Number(li.querySelector(`[data-champ="${cle}"]`).value);
-    return v > 0 ? v : 0;
-  };
-  const p = { idSemis, plantes: lire('plantes'), oups: lire('oups'), don: lire('don'),
-              ou: ouParSemis.get(idSemis) || [] };
-  plantations = plantations.filter(x => x.idSemis !== idSemis);
-  const vide = p.plantes === 0 && p.oups === 0 && p.don === 0;
-  if (!vide) plantations.push(p);
-  li.classList.toggle('brouillon', !vide);
-  majAlertePlanter(idSemis);
-  majStatut();
-}
-/*Sélecteur Où par ligne*/
-function afficherPastillesOu(li) {
-  const zone = li.querySelector('.pastilles');
-  zone.innerHTML = '';
-  for (const lieu of ouParSemis.get(Number(li.dataset.id)) || []) {
-    const span = document.createElement('span');
-    span.className = 'pastille';
-    span.textContent = lieu + ' ✕';
-    span.dataset.lieu = lieu;
-    zone.appendChild(span);
-  }
+function surRechercheOu(type, id, e) {
+  etat.ouOuvert = cleOu(type, id);
+  etat.rechercheOu = e.target.value;
 }
 
-function afficherListeOu(li) {
-  const choisis = ouParSemis.get(Number(li.dataset.id)) || [];
-  const saisie = normaliser(li.querySelector('.recherche-ou').value);
-  const liste = li.querySelector('.liste-choix');
-  liste.innerHTML = '';
-  const trouves = LIEUX.filter(l => !choisis.includes(l) && (!saisie || normaliser(l).includes(saisie)));
-  for (const lieu of trouves) {
-    const item = document.createElement('li');
-    item.textContent = lieu;
-    item.dataset.lieu = lieu;
-    liste.appendChild(item);
-  }
-  if (trouves.length === 0) {
-    const item = document.createElement('li');
-    item.className = 'vide';
-    item.textContent = 'Aucun emplacement';
-    liste.appendChild(item);
-  }
-  liste.hidden = false;
+function ajouterLieu(type, id, lieu) {
+  changerLieux(type, id, [...lieuxChoisis(type, id), lieu]);
+  etat.rechercheOu = "";
+  etat.ouOuvert = null; // se referme après le choix
 }
 
-function changerOu(li, nouveaux) {
-  const id = Number(li.dataset.id);
-  ouParSemis.set(id, nouveaux);
-  afficherPastillesOu(li);
-  poserPlantation(id);
+function retirerLieu(type, id, lieu) {
+  changerLieux(
+    type,
+    id,
+    lieuxChoisis(type, id).filter((l) => l !== lieu),
+  );
 }
 
-function initialiserPlanter() {
-  const liste = document.getElementById('listePlanter');
-  document.getElementById('datePlantation').value = dateDuJour();
-
-  liste.addEventListener('input', e => {
-    const champ = e.target.closest('input[data-champ]');
-    if (!champ) return;
-    poserPlantation(Number(champ.closest('li').dataset.id));
-  });
-
-  liste.addEventListener('click', e => {
-    const btn = e.target.closest('.btn-tout');
-    if (!btn) return;
-    const li = btn.closest('li');
-    const id = Number(li.dataset.id);
-    const s = recordsParId.semis.get(id);
-    li.querySelector('[data-champ="plantes"]').value = s.reste;
-    li.querySelector('[data-champ="oups"]').value = '';
-    li.querySelector('[data-champ="don"]').value = '';
-    poserPlantation(id);
-  });
-    // --- sélecteur « Où » ---
-  liste.addEventListener('focusin', e => {
-    if (e.target.matches('.recherche-ou')) afficherListeOu(e.target.closest('li.semis'));
-  });
-  liste.addEventListener('focusout', e => {
-    if (e.target.matches('.recherche-ou')) e.target.closest('li.semis').querySelector('.liste-choix').hidden = true;
-  });
-  liste.addEventListener('input', e => {
-    if (e.target.matches('.recherche-ou')) afficherListeOu(e.target.closest('li.semis'));
-  });
-  liste.addEventListener('mousedown', e => {
-    if (e.target.closest('.liste-choix')) e.preventDefault();   // le champ garde le focus
-  });
-  liste.addEventListener('click', e => {
-    const item = e.target.closest('.liste-choix li[data-lieu]');
-    if (item) {
-      const li = item.closest('li.semis');
-      const choisis = ouParSemis.get(Number(li.dataset.id)) || [];
-      li.querySelector('.recherche-ou').value = '';
-      changerOu(li, [...choisis, item.dataset.lieu]);
-      afficherListeOu(li);
-      return;
-    }
-    const pastille = e.target.closest('.pastille');
-    if (pastille) {
-      const li = pastille.closest('li.semis');
-      const choisis = ouParSemis.get(Number(li.dataset.id)) || [];
-      changerOu(li, choisis.filter(l => l !== pastille.dataset.lieu));
-    }
-  });
+function casOu(s) {
+  // Rien à dire si rien n'est planté, ou si un nouvel emplacement est déjà choisi
+  const p = saisieDe(s.id);
+  if (p.plantes <= 0 || p.ou.length > 0) return "aucun";
+  return s.ou.length ? "reste" : "manquant";
+}
+// --- Emplacement d'une plante mère « Encore là » sans lieu connu ---
+function besoinLieuMere(m) {
+  return statutMere(m.id) === "Vivante" && m.ou.length === 0;
 }
 
-function confirmer(texte) {
-  return new Promise(resolve => {
-    const fond = document.getElementById('confirmation');
-    document.getElementById('confirmationTexte').textContent = texte;
-    fond.hidden = false;
-    const fin = ok => { fond.hidden = true; resolve(ok); };
-    document.getElementById('confirmationOui').onclick = () => fin(true);
-    document.getElementById('confirmationNon').onclick = () => fin(false);
-  });
-}
 
 // ===== Enregistrement =====
-function afficherSucces(texte) {
-  const el = document.getElementById('messageSucces');
-  el.textContent = texte;
-  el.hidden = !texte;
+async function lignesModifiees(ids) {
+  // Recharge Semis et renvoie [{ id, nom }] pour les lignes (parmi ids) modifiées depuis le chargement précédent
+  const avant = new Map(ids.map((id) => [id, recordsParId.semis.get(id)]));
+  await chargerSemis();
+  const modifiees = [];
+  for (const id of ids) {
+    const a = avant.get(id);
+    const b = recordsParId.semis.get(id);
+    const change =
+      !a ||
+      !b ||
+      (a.germes ?? null) !== (b.germes ?? null) ||
+      !!a.attente !== !!b.attente ||
+      a.plantes !== b.plantes ||
+      a.oups !== b.oups ||
+      a.don !== b.don ||
+      a.ou.join("|") !== b.ou.join("|");
+    if (change)
+      modifiees.push({
+        id,
+        nom: b || a ? libelle(b || a) : "(ligne supprimée)",
+      });
+  }
+  return modifiees;
 }
 
-function afficherErreurEnregistrement(texte) {
-  const el = document.getElementById('erreurEnregistrement');
-  el.textContent = texte;
-  el.hidden = !texte;
-}
+const afficherSucces = creerMessageTemporaire((texte) => {
+  etat.succes = texte;
+});
 
 async function enregistrerTout() {
-  if ((brouillons.length === 0 && plantations.length === 0) || enregistrementEnCours) return;
-  const dateP = document.getElementById('datePlantation').value;
-  if (plantations.some(p => p.plantes > 0) && !dateP) {
-    afficherErreurEnregistrement('Renseigne la date de plantation.');
+  const lignesGermes = saisiesGermes();
+  const lignesPlantation = saisiesPlantation();
+  const lignesMeres = Object.entries(etat.saisiesMeres)
+    .map(([id, saisie]) => ({ id: Number(id), saisie }))
+    .filter((l) => recordsParId.millesimes.has(l.id));
+  if (
+    (lignesGermes.length === 0 &&
+      lignesPlantation.length === 0 &&
+      lignesMeres.length === 0) ||
+    etat.enregistrement
+  )
+    return;
+  effacerErreurs();
+  const dateP = etat.datePlantation;
+  if (lignesPlantation.some((p) => p.plantes > 0) && !dateP) {
+    refuser("planter", "Renseigne la date de plantation.");
     return;
   }
-  const plantesSansNouvelOu = plantations.filter(p => p.plantes > 0 && p.ou.length === 0);
-  const sansOu = plantesSansNouvelOu.filter(p => recordsParId.semis.get(p.idSemis).ou.length === 0);
+  const sansOu = lignesPlantation.filter(
+    (p) =>
+      p.plantes > 0 &&
+      p.ou.length === 0 &&
+      recordsParId.semis.get(p.idSemis).ou.length === 0,
+  );
   if (sansOu.length) {
-    const noms = sansOu.map(p => libelle(recordsParId.semis.get(p.idSemis))).join(', ');
-    afficherErreurEnregistrement('Choisis un emplacement (Où) pour : ' + noms);
+    refuser(
+      "planter",
+      "Choisis un emplacement (Où) pour les cartes marquées en rouge ci-dessus.",
+    );
     return;
   }
-  if (plantesSansNouvelOu.length) {
-    const lignes = plantesSansNouvelOu.map(p => {
-      const s = recordsParId.semis.get(p.idSemis);
-      return `• ${libelle(s)} : ${s.ou.join(', ')}`;
-    });
-    const ok = await confirmer(
-      'Aucun nouvel emplacement choisi. Les plants resteront aux emplacements actuels :\n\n' +
-      lignes.join('\n'));
-    if (!ok) return;
+  const lieuxConnus = lieuxParMillesime();
+  const meresSansEmplacement = lignesMeres.filter(
+    (l) =>
+      l.saisie.statut === "Vivante" &&
+      (lieuxConnus.get(l.id) || []).length === 0 &&
+      (l.saisie.ou || []).length === 0,
+  );
+  if (meresSansEmplacement.length) {
+    const noms = meresSansEmplacement
+      .map((l) => libelle(recordsParId.millesimes.get(l.id)))
+      .join(", ");
+    refuser("meres", "Choisis l'emplacement des plantes mères : " + noms);
+    return;
   }
-  afficherErreurEnregistrement('');
+  const lieuxMeres = lieuxParMillesime();
+  const meresSansLieu = lignesMeres.filter((l) => {
+    const actuels = lieuxMeres.get(l.id) || [];
+    return (
+      l.saisie.statut === "Morte" &&
+      actuels.length > 1 &&
+      l.saisie.morts.filter((x) => actuels.includes(x)).length === 0
+    );
+  });
+  if (meresSansLieu.length) {
+    const noms = meresSansLieu
+      .map((l) => libelle(recordsParId.millesimes.get(l.id)))
+      .join(", ");
+    refuser("meres", "Coche les lieux où la plante est morte : " + noms);
+    return;
+  }
+  afficherSucces("");
+  etat.enregistrement = true;
 
-  enregistrementEnCours = true;
-  const bouton = document.getElementById('btnEnregistrer');
-  bouton.disabled = true;
-  bouton.textContent = 'Enregistrement…';
-  afficherSucces('');
-  afficherErreurEnregistrement('');
-
-  const n = brouillons.length + plantations.length;
+  const n = lignesGermes.length + lignesPlantation.length + lignesMeres.length;
   try {
+    // Vérification : une de ces lignes a-t-elle été modifiée dans Grist depuis le chargement ?
+    const ids = [
+      ...new Set([
+        ...lignesGermes.map((b) => b.idSemis),
+        ...lignesPlantation.map((p) => p.idSemis),
+      ]),
+    ];
+    const modifiees = await lignesModifiees(ids);
+    if (modifiees.length) {
+      purgerSaisiesOrphelines();
+      recalculerTout();
+      const idsGermes = new Set(lignesGermes.map((b) => b.idSemis));
+      const idsPlantation = new Set(lignesPlantation.map((p) => p.idSemis));
+      const texte = (liste) =>
+        "Modifié dans Grist depuis le chargement : " +
+        liste.map((m) => m.nom).join(", ") +
+        " — vérifie les valeurs affichées, puis enregistre à nouveau.";
+      const modifieesVerifier = modifiees.filter((m) => idsGermes.has(m.id));
+      const modifieesPlanter = modifiees.filter((m) => idsPlantation.has(m.id));
+      if (modifieesVerifier.length)
+        etat.erreurs.verifier = texte(modifieesVerifier);
+      if (modifieesPlanter.length)
+        etat.erreurs.planter = texte(modifieesPlanter);
+      etat.erreurs.general =
+        "Rien n'est enregistré : des lignes ont été modifiées dans Grist.";
+      etat.enregistrement = false;
+      await Vue.nextTick();
+      aller(modifieesVerifier.length ? "erreur-verifier" : "erreur-planter");
+      return;
+    }
+
     const actions = [];
-    if (brouillons.length) {
+    if (lignesGermes.length) {
       actions.push([
-        'BulkUpdateRecord', 'Semis',
-        brouillons.map(b => b.idSemis),
-        { Germes: brouillons.map(b => b.germes) }
+        "BulkUpdateRecord",
+        "Semis",
+        lignesGermes.map((b) => b.idSemis),
+        {
+          Germes: lignesGermes.map((b) => b.germes),
+          Germes_attente: lignesGermes.map((b) => !!b.attente),
+        },
       ]);
     }
-    for (const p of plantations) {
+    for (const p of lignesPlantation) {
       const s = recordsParId.semis.get(p.idSemis);
       if (!s) continue;
       const champs = {};
       if (p.plantes > 0) {
         champs.Plantes = s.plantes + p.plantes;
         champs.Date_p = dateEnSecondes(dateP);
-        champs.Ou = ['L', ...new Set([...s.ou, ...p.ou])];
+        champs.Ou = ["L", ...new Set([...s.ou, ...p.ou])];
       }
       if (p.oups > 0) champs.Oups = s.oups + p.oups;
       if (p.don > 0) champs.Don_p = s.don + p.don;
-      actions.push(['UpdateRecord', 'Semis', p.idSemis, champs]);
+      actions.push(["UpdateRecord", "Semis", p.idSemis, champs]);
+    }
+    if (lignesMeres.length) {
+      const aujourdhui = dateEnSecondes(dateDuJour());
+      const lieux = lieuxParMillesime();
+      const effets = lignesMeres.map((l) => ({
+        id: l.id,
+        e: effetMere(l.saisie, lieux.get(l.id) || []),
+      }));
+      actions.push([
+        "BulkUpdateRecord",
+        "Millesimes",
+        effets.map((x) => x.id),
+        {
+          Statut_mere: effets.map((x) => x.e.statut),
+          Controle_mere: effets.map(() => aujourdhui),
+          Plante_mere: effets.map((x) => x.e.planteMere),
+        },
+      ]);
+      // Lignes Semis des plantes mères : on retire les lieux morts ; mort totale : Plantes = 0
+      for (const { id, e } of effets) {
+        if (e.planteMere && e.morts.length === 0) continue; // rien de mort : on ne touche à rien
+        for (const s of recordsParId.semis.values()) {
+          if (s.millesimeId !== id || !estLigneMere(s)) continue;
+          const restants = s.ou.filter((l) => !e.morts.includes(l));
+          const champs = { Ou: restants.length ? ["L", ...restants] : null };
+          if (!e.planteMere) champs.Plantes = 0;
+          actions.push(["UpdateRecord", "Semis", s.id, champs]);
+        }
+      }
+      // « Encore là » sans lieu connu : on écrit le lieu choisi (ligne Semis existante, sinon création)
+      for (const l of lignesMeres) {
+        const nouveaux = l.saisie.ou || [];
+        if (l.saisie.statut !== "Vivante" || nouveaux.length === 0) continue;
+        const m = recordsParId.millesimes.get(l.id);
+        const existantes = [...recordsParId.semis.values()].filter(
+          (s) => s.millesimeId === l.id && estLigneMere(s),
+        );
+        if (existantes.length) {
+          actions.push([
+            "UpdateRecord",
+            "Semis",
+            existantes[0].id,
+            { Ou: ["L", ...new Set([...existantes[0].ou, ...nouveaux])] },
+          ]);
+        } else {
+          actions.push([
+            "AddRecord",
+            "Semis",
+            null,
+            {
+              NomVariete: m.varieteId,
+              Millesime: l.id,
+              Date_s: m.anneePlantation
+                ? dateEnSecondes(`${m.anneePlantation}-01-01`)
+                : null,
+              Plantes: 1,
+              Ou: ["L", ...nouveaux],
+              Nb_etiquettes: 0,
+            },
+          ]);
+        }
+      }
     }
     await grist.docApi.applyUserActions(actions);
-    brouillons = [];
-    plantations = [];
-    ouParSemis.clear();
-    majStatut();
-    afficherSucces(`✓ ${n} ligne${n > 1 ? 's' : ''} mise${n > 1 ? 's' : ''} à jour.`);
-    await chargerSemis();
-    afficherVerifier();
-    afficherPlanter();
+    etat.saisies = {};
+    etat.saisiesMeres = {};
+    if (etat.brut) etat.brut = {};
+    afficherSucces(
+      `✓ ${n} ligne${n > 1 ? "s" : ""} mise${n > 1 ? "s" : ""} à jour.`,
+    );
   } catch (err) {
     console.error(err);
-    afficherErreurEnregistrement('Échec de l\'enregistrement : ' + err.message + ' — tes saisies sont conservées.');
-  } finally {
-    enregistrementEnCours = false;
-    bouton.disabled = false;
-    bouton.textContent = 'Enregistrer tout';
+    etat.erreurs.general =
+      "Échec de l'enregistrement : " +
+      err.message +
+      " — tes saisies sont conservées.";
+    etat.enregistrement = false;
+    return;
   }
-} 
 
-window.addEventListener('beforeunload', e => {
-  if (modifie) { e.preventDefault(); e.returnValue = ''; }
+  // Rechargement séparé : s'il échoue, l'enregistrement, lui, a bien eu lieu
+  try {
+    await chargerSemis();
+    await chargerMillesimes();
+    recalculerTout();
+  } catch (err) {
+    console.error(err);
+    etat.erreurs.general =
+      "Enregistré, mais le rechargement a échoué : " +
+      err.message +
+      " — recharge le widget.";
+  } finally {
+    etat.enregistrement = false;
+  }
+}
+
+window.addEventListener("beforeunload", (e) => {
+  if (nombreSaisies() > 0) {
+    e.preventDefault();
+    e.returnValue = "";
+  }
 });
 
 // ===== Choix « Où » lus depuis Grist =====
 async function chargerChoix() {
   try {
-    const [tabTables, tabColonnes] = await Promise.all([
-      grist.docApi.fetchTable('_grist_Tables'),
-      grist.docApi.fetchTable('_grist_Tables_column')
-    ]);
-    const table = tableEnLignes(tabTables).find(t => t.tableId === 'Semis');
-    if (!table) throw new Error('table Semis introuvable');
-    const col = tableEnLignes(tabColonnes).find(c => c.parentId === table.id && c.colId === 'Ou');
-    const options = col && col.widgetOptions ? JSON.parse(col.widgetOptions) : null;
-    if (options && Array.isArray(options.choices)) LIEUX = options.choices;
+    const choix = await lireChoixColonnes("Semis", ["Ou"]);
+    if (choix.Ou) LIEUX = choix.Ou;
   } catch (err) {
-    console.error('Lecture des emplacements impossible :', err);
-    document.getElementById('message').textContent = 'Emplacements (Où) non chargés : ' + err.message;
+    console.error("Lecture des emplacements impossible :", err);
+    etat.message = "Emplacements (Où) non chargés : " + err.message;
   }
 }
+// ===== Vue =====
+Vue.createApp({
+  setup() {
+    return { etat, nombreSaisies, aller };
+  },
+}).mount("#appEntete");
+Vue.createApp({
+  setup() {
+    return { 
+      etat, 
+      nombreSaisies,
+      basculerTri, choisirTri
+   };
+  },
+}).mount("#appRecherche");
+Vue.createApp({
+  setup() {
+    return {
+      etat,
+      recapGermes,
+      recapMeres,
+      recapPlantation,
+      allerCarte,
+      allerMere,
+      retirerSaisie,
+      retirerMere,
+      typeInverse,
 
+    };
+  },
+}).mount("#appEnCours");
+Vue.createApp({
+  setup() {
+    return {
+      etat,
+      libelle,
+      aGermes,
+      valeurGermes,
+      surGermes,
+      basculerNG,
+      retirerSaisie,
+      allerCarte,
+      typeInverse,
+      valeurAttente,
+      basculerAttente,
+      dateAffichee,
+      tropDeGermes,
+    };
+  },
+}).mount("#appVerifier");
+Vue.createApp({
+  setup() {
+    return {
+      etat,
+      libelle,
+      aPlantationDe,
+      valeurQuantite,
+      surQuantite,
+      toutPlanter,
+      lieuxChoisis,
+      ouvertOu,
+      lieuxProposes,
+      ouvrirOu,
+      fermerOu,
+      surRechercheOu,
+      ajouterLieu,
+      retirerLieu,
+      retirerSaisie,
+      allerCarte,
+      typeInverse,
+      dateAffichee,
+      casOu,
+      totalSaisi,
+    };
+  },
+}).mount("#appPlanter");
+Vue.createApp({
+  setup() {
+    return {
+      etat,
+      libelle,
+      typeInverse,
+      allerMere,
+      statutMere,
+      choisirStatutMere,
+      lieuMort,
+      basculerLieuMort,
+      besoinLieuMere,
+      lieuxChoisis,
+      ouvertOu,
+      lieuxProposes,
+      ouvrirOu,
+      fermerOu,
+      surRechercheOu,
+      ajouterLieu,
+      retirerLieu,
+      dateAffichee,
+    };
+  },
+}).mount("#appMeres");
+Vue.createApp({
+  setup() {
+    return { etat, nombreSaisies, enregistrerTout };
+  },
+}).mount("#appEnregistrer");
+
+// Quand le texte de recherche change, on recalcule les deux listes
+Vue.watch(
+  () => [
+    etat.recherche,
+    etat.tri,
+    etat.inclureSansDuree,
+    etat.inclureControlees,
+  ],
+  () => {
+    recalculerTout();
+  },
+);
+
+// Les saisies sont copiées dans l'onglet à chaque changement
+Vue.watch(() => [etat.saisies, etat.saisiesMeres], sauvegarderSaisies, {
+  deep: true,
+});
 // ===== Initialisation =====
-grist.ready({ requiredAccess: 'full' });
+grist.ready({ requiredAccess: "full" });
 
 chargerSemis()
   .then(chargerChoix)
+  .then(chargerMillesimes)
   .then(() => {
-    afficherVerifier();
-    afficherPlanter();
-    initialiserSaisie();
-    initialiserPlanter();
-    initialiserRecherche();
-    majStatut();
-    console.log('Exemple semis :', [...recordsParId.semis.values()][0]);
+    restaurerSaisies();
+    purgerSaisiesOrphelines();
+    recalculerTout();
+    etat.charge = true;
   })
-  .catch(err => {
+  .catch((err) => {
     console.error(err);
-    document.getElementById('message').textContent = 'Erreur de chargement : ' + err.message;
+    etat.message = "Erreur de chargement : " + err.message;
   });
