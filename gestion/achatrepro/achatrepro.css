@@ -249,7 +249,8 @@ body {
    ============================================= */
 @media (pointer: coarse) {
   body { font-size: 15px; }
-
+    .lieux__pastille { font-size: 14px; padding: 8px 14px; min-height: 40px; }
+  .lieux__item { padding: 12px 10px; font-size: 16px; }
   .nav-btn {
     padding: 12px 16px;
     font-size: 14px;
@@ -297,5 +298,42 @@ body {
 @media (max-width: 600px) {
   .form-row { grid-template-columns: 1fr; }
 }
+
+/* Emplacements d'une plante mère (BEM) */
+.lieux { position: relative; }
+.lieux__pastilles { display: flex; flex-wrap: wrap; gap: 6px; }
+.lieux__pastilles:not(:empty) { margin-bottom: 6px; }
+.lieux__pastille {
+  padding: 4px 10px;
+  border: 1px solid var(--vert-clair);
+  border-radius: 20px;
+  background: var(--vert-bg);
+  color: var(--vert);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+}
+.lieux__liste {
+  position: absolute;
+  top: 100%; left: 0; right: 0;
+  z-index: 10;
+  max-height: 50vh;
+  overflow-y: auto;
+  margin: 1px 0 0;
+  padding: 0;
+  list-style: none;
+  background: var(--blanc);
+  border: 1px solid var(--gris);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  touch-action: pan-y;
+  overscroll-behavior: contain;
+}
+.lieux__item { padding: 8px 10px; cursor: pointer; touch-action: manipulation; }
+.lieux__item:hover { background: var(--vert-bg); }
+.lieux__item--vide { color: var(--gris-texte); font-style: italic; text-align: center; cursor: default; }
+[hidden] { display: none !important; }
+
 /* Case si sachet ou plante mère)*/
 .cache { display: none !important; }

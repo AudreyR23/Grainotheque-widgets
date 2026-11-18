@@ -166,6 +166,14 @@ function majChampsMillesime(source) {
   document.getElementById('bloc-plantation').classList.toggle('cache', !mere);
   if (!sachet) document.getElementById('m-qtte').value = '';
   if (!mere)   document.getElementById('m-annee-plantation').value = '';
+    document.getElementById('bloc-mere').classList.toggle('cache', !mere);
+  if (!mere) {
+    document.getElementById('m-nb-plants').value = '';
+    document.getElementById('m-lieux-recherche').value = '';
+    document.getElementById('m-lieux-liste').hidden = true;
+    lieuxMere = [];
+    afficherPastillesLieux();
+  }
   const reelsVisible = !!ligneAttenteChoisie && sachet;
   document.getElementById('bloc-sachets-reels').classList.toggle('cache', !reelsVisible);
   if (!reelsVisible) {
@@ -174,7 +182,72 @@ function majChampsMillesime(source) {
   }  
   verifierDoublonEnDirect();
 }
+/* =============================================
+   PLANTE MÈRE — emplacements (choix de Semis.Ou)
+   ============================================= */
+let LIEUX = [];        // choix de la colonne Ou de Semis
+let lieuxMere = [];    // emplacements choisis pour la plante mère
 
+function afficherPastillesLieux() {
+  const zone = document.getElementById('m-lieux-pastilles');
+  zone.innerHTML = '';
+  lieuxMere.forEach(l => {
+    const p = document.createElement('span');
+    p.className = 'lieux__pastille';
+    p.textContent = l + ' ✕';
+    p.dataset.lieu = l;
+    zone.appendChild(p);
+  });
+}
+
+function afficherListeLieux() {
+  const liste = document.getElementById('m-lieux-liste');
+  const saisie = document.getElementById('m-lieux-recherche').value;
+  const trouves = lieuxFiltres(LIEUX, lieuxMere, saisie);
+  liste.innerHTML = '';
+  trouves.forEach(l => {
+    const li = document.createElement('li');
+    li.className = 'lieux__item';
+    li.textContent = l;
+    li.dataset.lieu = l;
+    liste.appendChild(li);
+  });
+  if (!trouves.length) {
+    const li = document.createElement('li');
+    li.className = 'lieux__item lieux__item--vide';
+    li.textContent = 'Aucun emplacement';
+    liste.appendChild(li);
+  }
+  liste.hidden = false;
+}
+
+function initialiserLieuxMere() {
+  const champ = document.getElementById('m-lieux-recherche');
+  const liste = document.getElementById('m-lieux-liste');
+  const zone = document.getElementById('m-lieux-pastilles');
+
+  champ.addEventListener('input', afficherListeLieux);
+  champ.addEventListener('focus', afficherListeLieux);
+  champ.addEventListener('blur', () => { liste.hidden = true; });
+
+  /* mousedown bloqué : le champ garde le focus jusqu'au click (même méthode que l'outil Semis) */
+  liste.addEventListener('mousedown', e => e.preventDefault());
+  liste.addEventListener('click', e => {
+    const li = e.target.closest('li[data-lieu]');
+    if (!li) return;
+    lieuxMere.push(li.dataset.lieu);
+    champ.value = '';
+    afficherPastillesLieux();
+    liste.hidden = true;   /* se rouvre au toucher du champ */
+  });
+
+  zone.addEventListener('click', e => {
+    const p = e.target.closest('.lieux__pastille');
+    if (!p) return;
+    lieuxMere = lieuxMere.filter(l => l !== p.dataset.lieu);
+    afficherPastillesLieux();
+  });
+}
 /* =============================================
    DÉTECTION DE DOUBLONS — MILLÉSIME
    ============================================= */
@@ -516,15 +589,6 @@ async function verifierDoublonEnDirect() {
    DÉTECTION DE DOUBLONS — VARIÉTÉ
    ============================================= */
 
-/* "Orange  Bourgoin" et "orange bourgoin" deviennent identiques ; accents ignorés */
-function normaliser(txt) {
-  return (txt || '').toString()
-    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/\s+/g, ' ')
-    .trim();
-}
-
 function trouverDoublonsVariete(nom, variete) {
   const cle = normaliser(nom) + '|' + normaliser(variete);
   return varietes.filter(v => normaliser(v.Nom) + '|' + normaliser(v.Variete) === cle);
@@ -733,7 +797,17 @@ document.getElementById('m-origine-fav').addEventListener('change', origineFavCh
     buildPills('e-terre', MOIS);
     buildPills('e-recolte', MOIS);
     fillMultiSelect('e-infos', INFOS);
-
+    /* Emplacements des plantes mères : choix de Semis.Ou */
+    initialiserLieuxMere();
+    try {
+      const choixSemis = await lireChoixColonnes('Semis', ['Ou']);
+      LIEUX = choixSemis.Ou || [];
+      if (!LIEUX.length) throw new Error('aucun choix trouvé pour Semis.Ou');
+    } catch (e) {
+      console.error('Lecture des emplacements impossible :', e);
+      showMsg('msg-millesime', '⚠️ Emplacements non chargés : ' + e.message +
+        ' (impossible de créer une plante mère)', 'err');
+    }
   } catch(e) {
     console.error('Erreur init:', e);
   }
@@ -862,7 +936,8 @@ async function creerVariete(forcer = false) {
   const row = {
     NomVariete:         nomVariete,
     Type:               document.getElementById('v-type').value || null,
-    Num_epingle:        null,   // vide, pas 0    Conservation:       parseFloat(document.getElementById('v-conservation').value) || null,
+    Num_epingle:        null,   // vide, pas 0
+    Conservation:       parseFloat(document.getElementById('v-conservation').value) || null,
     Semis_profondeur:   document.getElementById('v-profondeur').value || null,
     Duree_germ:         parseFloat(document.getElementById('v-duree-germ').value) || null,
     Temp_germ:          document.getElementById('v-temp-germ').value || null,
@@ -949,6 +1024,15 @@ async function creerMillesime(forcer = false) {
   if (!sachet && !planteMere) { showMsg('msg-millesime', 'Cocher Sachet et/ou Plante mère.', 'err'); return; }
   if (sachet && !qtte) { showMsg('msg-millesime', 'Indiquer la quantité de graines.', 'err'); return; }
   if (planteMere && !anneePlantation) { showMsg('msg-millesime', "Indiquer l'année de plantation.", 'err'); return; }
+    const nbPlants = Number(document.getElementById('m-nb-plants').value);
+  if (planteMere && !(Number.isInteger(nbPlants) && nbPlants >= 1)) {
+    showMsg('msg-millesime', 'Indiquer le nombre de plants (entier, au moins 1).', 'err');
+    return;
+  }
+  if (planteMere && lieuxMere.length === 0) {
+    showMsg('msg-millesime', 'Choisir au moins un emplacement pour la plante mère.', 'err');
+    return;
+  }
   const issuEtiquettes = document.getElementById('m-issu-etiquettes').checked;
   if (issuEtiquettes && !ligneAttenteChoisie) {
     showMsg('msg-millesime', 'Choisir une ligne d\'étiquettes, ou décocher "Issu de mes étiquettes".', 'err');
@@ -966,7 +1050,7 @@ async function creerMillesime(forcer = false) {
   if (!forcer) {
     let doublons = [];
     try {
-      doublons = await trouverDoublonsMillesime(varId, annee, getOrigines());
+  doublons = await trouverDoublonsMillesime(varId, annee, getOrigines(), planteMere);
         } catch (e) {
       showMsg('msg-millesime', '⚠️ Détection impossible : ' + e.message, 'err');
       return;
@@ -1045,13 +1129,14 @@ async function creerMillesime(forcer = false) {
     const dateP = Math.floor(new Date(anneeP + '-01-01T00:00:00Z').getTime() / 1000);
 
     try {
-      await grist.docApi.applyUserActions([
+            await grist.docApi.applyUserActions([
         ['AddRecord', 'Semis', null, {
           NomVariete: varId,
           Millesime: newMillesimeId,
           Date_s: dateP,
           Type: document.getElementById('m-type').value || null,
-          Plantes: 1,
+          Plantes: nbPlants,
+          Ou: ['L', ...lieuxMere],
           Nb_etiquettes: 0,
         }]
       ]);

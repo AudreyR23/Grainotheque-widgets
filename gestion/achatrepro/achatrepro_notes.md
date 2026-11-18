@@ -18,6 +18,7 @@ Usage : PC et tablette. Pas d'impression depuis cet outil.
 | `Achat_repro.html` | Structure : 3 panneaux, bandeaux, formulaires |
 | `../script/main_achatrepro.js` | Toute la logique |
 | `../styles/achatrepro.css` | Styles + bloc tactile |
+| `scriptcommun.js` | (`../../script/`) est chargé avant le JS de l'outil, après le plugin Grist. Fonctions du commun utilisées : `normaliser`, `lieuxFiltres`, `lireChoixColonnes`.
 
 Accès demandé : `grist.ready({ requiredAccess: 'full' })`.
 Tables utilisées : `Modele`, `Varietes`, `Millesimes`, `Semis` (lecture, écriture, suppression de lignes), plus les métadonnées `_grist_Tables` et `_grist_Tables_column`.
@@ -37,7 +38,7 @@ Tables utilisées : `Modele`, `Varietes`, `Millesimes`, `Semis` (lecture, écrit
 - **Origine** obligatoire, **une seule au total** : 6 étiquettes cliquables (les 6 premiers choix de la colonne `Origine` dans Grist) + un menu « Autres origines… ». Cliquer sur une étiquette décoche les autres et vide le menu ; choisir dans le menu décoche les étiquettes ; recliquer sur l'étiquette cochée la décoche.
 - Cases **Sachet** (cochée par défaut) et **Plante mère**, exclusives l'une de l'autre.
   - Sachet : champ *Quantité de graines* visible et obligatoire. `Sachets` = `1`.
-  - Plante mère : champ *Année de plantation* visible et obligatoire. `Sachets` = `1p.`. Une ligne est aussi créée dans `Semis`.
+  - Plante mère : champs *Année de plantation*, *Nombre de plants* (entier ≥ 1) et *Emplacement(s)* (au moins un) visibles et obligatoires. `Sachets` = `1p.`. **Convention : une ligne `Semis` par plante mère**, créée avec `Plantes` = nombre de plants, `Ou` = emplacements (`['L', ...]`), `Date_s` = 1er janvier de l'année de plantation, sans `Nb_godets` ni `Nb_graines` (c'est ce qui permet à l'outil `a_gerer` de la reconnaître). `Controle_mere` et `Statut_mere` ne sont **jamais** écrits sur `Millesimes` : la plante est proposée au contrôle l'année suivante.
 - Nb saisons (`or.` par défaut).
 - Contrôle : au moins Sachet ou Plante mère doit être coché.
 
@@ -116,6 +117,7 @@ Bloc `@media (pointer: coarse)` : cibles d'environ 44 px, police de 16 px (évit
 - **Origine de production** : constante `ORIGINE_PRODUCTION = 'Monjardin'` (choix stocké dans `Origine`, affiché « AR » sur l'étiquette par `.replace('Monjardin', 'AR')`).
 À la création d’une variété, Num_epingle est envoyé explicitement à null (vide, pas 0). Si valeur saisie, recopier     Type:               document.getElementById('v-type').value || null,
     Num_epingle:        null,   // vide, pas 0 en l'adaptant.
+- **Emplacements plante mère** : `LIEUX` lu au démarrage avec `lireChoixColonnes('Semis', ['Ou'])` (échec : message rouge, plante mère impossible). `lieuxMere` est l'état de la sélection ; fonctions `afficherPastillesLieux`, `afficherListeLieux`, `initialiserLieuxMere`. Même mécanique que l'outil Semis (champ de recherche, liste filtrée, pastilles à retirer). Styles BEM `lieux__*` dans `achatrepro.css`. Vidés par `majChampsMillesime` quand « Plante mère » est décochée.    
 
 ### Contrat entre les deux outils (achatrepro ↔ étiquettes)
 
@@ -136,7 +138,7 @@ Achatrepro, à la création du millésime :
 Si tu modifies l'un des deux outils, vérifie ce contrat : c'est lui qui évite de perdre des étiquettes imprimées.
 
 ### Ordre des opérations dans `creerMillesime(forcer)`
-1. Contrôles de saisie (variété, année, origine, sachet / plante mère, quantité, année de plantation).
+1. Contrôles de saisie (variété, année, origine, sachet / plante mère, quantité, année de plantation, nombre de plants, emplacement.
 2. Contrôles « étiquettes » : ligne choisie si la case est cochée, `Sachets réels` ≥ 1.
 3. Détection de doublon (sauf si `forcer`).
 4. **1)** Création du millésime (`AddRecord`, avec `Don` si sachets réels > 1). Erreur : message rouge + `return`.
@@ -614,7 +616,7 @@ async function nettoyerLigneAttente(ligne) {
 ```
 
 ### Fonctions principales (main_achatrepro.js)
-`showPanel`, `goToPanel`, `buildPills`, `getPills`, `setPills`, `fillSelect`, `fillMultiSelect`, `getMultiSelect`, `getOrigines`, `origineFavChoisie`, `origineAutreChoisie`, `majChampsMillesime`, `cleOrigine`, `trouverDoublonsMillesime`, `trouverSemisAProduire`, `chargerSemisEnAttente`, `libelleAttente`, `remplirListeAttente`, `annulerLigneAttente`, `majModeEtiquettes`, `rafraichirModeEtiquettes`, `appliquerOrigines`, `saisonsPourLigne`, `majInfoDon`, `preremplirLigneSansVariete`, `chargerLigneAttente`, `allerCreerVariete`, `allerCreerEspece`, `nettoyerLigneAttente`, `afficherAlerteDoublon`, `cacherAlerteDoublon`, `verifierDoublonEnDirect`, `normaliser`, `trouverDoublonsVariete`, `trouverDoublonsModele` (+ leurs `afficher…`, `cacher…`, `verifier…EnDirect`), `creerVariete(forcer)`, `creerMillesime(forcer)`, `creerModele(forcer)`, `reset…`, `init`.
+`showPanel`, `goToPanel`, `buildPills`, `getPills`, `setPills`, `fillSelect`, `fillMultiSelect`, `getMultiSelect`, `getOrigines`, `origineFavChoisie`, `origineAutreChoisie`, `majChampsMillesime`, `cleOrigine`, `trouverDoublonsMillesime`, `trouverSemisAProduire`, `chargerSemisEnAttente`, `libelleAttente`, `remplirListeAttente`, `annulerLigneAttente`, `majModeEtiquettes`, `rafraichirModeEtiquettes`, `appliquerOrigines`, `saisonsPourLigne`, `majInfoDon`, `preremplirLigneSansVariete`, `chargerLigneAttente`, `allerCreerVariete`, `allerCreerEspece`, `nettoyerLigneAttente`, `afficherAlerteDoublon`, `cacherAlerteDoublon`, `verifierDoublonEnDirect`, `normaliser`, `trouverDoublonsVariete`, `trouverDoublonsModele` (+ leurs `afficher…`, `cacher…`, `verifier…EnDirect`), `creerVariete(forcer)`, `creerMillesime(forcer)`, `creerModele(forcer)`, `reset…`, `init`, afficherPastillesLieux, afficherListeLieux, initialiserLieuxMere.
 
 ### Branchements HTML à ne pas perdre
 - `m-variete` : `onchange="chargerTypeMillesime(); verifierDoublonEnDirect()"`
@@ -630,11 +632,12 @@ async function nettoyerLigneAttente(ligne) {
 - `v-nom`, `v-variete` : `oninput="verifierDoublonVarieteEnDirect()"`
 - `e-nom` : `oninput="verifierDoublonModeleEnDirect()"`
 - Bandeaux : `#doublon-millesime`, `#doublon-variete`, `#doublon-modele`, chacun **dans son propre panneau**, juste avant son `btn-row`.
+#bloc-mere : affiché/caché par majChampsMillesime
 
 ### Dépendances avec les formules Grist
 - `Varietes.En_production` = `any(Semis.lookupRecords(NomVariete=rec.id).A_produire)` : bascule après le décochage.
 - Colonnes de `Semis` lues : `NomVariete`, `A_produire`, `Etiq_en_attente`, `Note_attente`, `Nb_etiquettes`, `Date_s`, `Nb_graines`, `Nb_godets`, `Germes`, `Plantes`, `Millesime`.
-- Colonnes de `Semis` écrites : `A_produire`, `Etiq_en_attente` ; suppression de ligne de transit ; création de la ligne plante mère (`NomVariete`, `Millesime`, `Date_s`, `Type`, `Plantes`, `Nb_etiquettes`).
+- Colonnes de `Semis` écrites : `A_produire`, `Etiq_en_attente` ; suppression de ligne de transit ; création de la ligne plante mère (`NomVariete`, `Millesime`, `Date_s`, `Type`, `Plantes`, `Nb_etiquettes`, `Ou`).
 - Colonnes de `Millesimes` lues pour les étiquettes : `Nb_saisons_manuel`, `Plante_mere`, `Annee_plantation`, `NomVariete`, `Origine`. Colonne écrite en plus des champs habituels : `Don`.
 - Une ligne Semis sans `Date_s` ne perturbe pas `Germination_2026`, `Annees_sans_test`, `Dernier_semis`, `Deja_seme_cette_annee` ni `En_production` (vérifié par lecture des formules et à l'usage).
 
@@ -652,6 +655,7 @@ async function nettoyerLigneAttente(ligne) {
 - `parcoursLigne` force l'enchaînement tant qu'il est vrai ; il est remis à faux dans `annulerLigneAttente`, `resetMillesime`, `chargerLigneAttente` et à l'arrivée dans Millésime. Un parcours abandonné n'impose donc rien à la création suivante.
 - Mode étiquettes : le menu des lignes était vidé par le reset sans être rechargé de façon fiable après une création. Corrigé en centralisant dans `rafraichirModeEtiquettes()`, appelée à la fin de `resetMillesime()`. Ne pas remettre un rechargement séparé dans `creerMillesime`.
 - Pense à retirer toute ligne `console.log` de test avant la prod.
+- Le `[hidden]` de la liste des emplacements dépend de la règle `[hidden] { display: none !important; }` dans `achatrepro.css`.
 
 ## 6. Procédure de passage en prod
 
@@ -681,3 +685,4 @@ async function nettoyerLigneAttente(ligne) {
 - [ ] Graines à identifier : l'origine n'est jamais devinée ; envisager une origine par défaut (par exemple `Monjardin`) si ces graines viennent toujours de ton jardin.
 - Abandonné : fusionner la quantité dans un millésime existant (deux sachets = deux lignes, le second va à la boîte à dons).
 - Abandonné : plusieurs origines par millésime (une seule, décision du 25/10/2026).
+- styles_commun.css (BEM) puis en Vue, comme a_gerer

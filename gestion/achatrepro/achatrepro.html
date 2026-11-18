@@ -1,387 +1,536 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Achat_repro</title>
-    <link rel="stylesheet" href="achatrepro.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="achatrepro.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
-<body>
-
-<!-- Navigation -->
-<div class="nav">
-  <div class="nav-tabs">
-    <button class="nav-btn active" onclick="showPanel('millesime')">📦 Nouveau millésime</button>
-    <button class="nav-btn" onclick="showPanel('variete')">🌱 Nouvelle variété</button>
-    <button class="nav-btn" onclick="showPanel('modele')">🗂 Nouvelle espèce</button>
-  </div>
-</div>
-<div class="chain-toggle-row">
-  <label class="chain-toggle">
-    <input type="checkbox" id="chain-auto" checked>
-    🔗 Enchaîner automatiquement (espèce → variété → millésime)
-  </label>
-</div>
-
-
-<!-- =============================================
-     PANNEAU 1 : NOUVEAU MILLÉSIME
-     ============================================= -->
-<div class="panel active" id="panel-millesime">
-  <div class="panel-title">📦 Nouveau millésime</div>
-  <div class="chain-banner" id="chain-banner-millesime"></div>
-
-  <!--Issu d'une étiquette*/-->
-    <div class="form-group form-group-check">
-    <label><input type="checkbox" id="m-issu-etiquettes" onchange="majModeEtiquettes()"> Issu de mes étiquettes</label>
-  </div>
-  <div class="form-group cache" id="bloc-attente">
-    <label>Étiquettes imprimées en attente</label>
-    <select id="m-attente" onchange="chargerLigneAttente()">
-      <option value="">— Choisir une ligne —</option>
-    </select>
-  <div class="msg" id="msg-millesime-etiquettes"></div>
-  </div>
-    <div class="cache" id="bloc-sans-variete" style="margin-bottom:10px">
-    <div style="font-size:12px;color:var(--gris-texte);margin-bottom:6px">
-      Variété déjà dans la liste : choisis-la dans le menu « Variété » ci-dessous. Sinon :
-    </div>
-    <div class="btn-row" style="margin-top:0">
-      <button type="button" class="btn btn-secondary" onclick="allerCreerVariete()">➕ Créer la variété</button>
-      <button type="button" class="btn btn-secondary" onclick="allerCreerEspece()">➕ Créer l'espèce</button>
-    </div>
-  </div>
-
-  <div class="form-row">
-    <div class="form-group">
-    <label>Variété</label>
-      <select id="m-variete" onchange="chargerTypeMillesime(); verifierDoublonEnDirect()">
-      <option value="">— Choisir une variété —</option>
-    </select>
-    </div>
-    <div class="form-group">
-    <label>Type</label>
-      <input type="text" id="m-type" readonly>
+  <body>
+    <!-- Navigation -->
+    <div class="nav">
+      <div class="nav-tabs">
+        <button class="nav-btn active" onclick="showPanel('millesime')">
+          📦 Nouveau millésime
+        </button>
+        <button class="nav-btn" onclick="showPanel('variete')">
+          🌱 Nouvelle variété
+        </button>
+        <button class="nav-btn" onclick="showPanel('modele')">
+          🗂 Nouvelle espèce
+        </button>
       </div>
     </div>
-  
- <div class="form-row">
+    <div class="chain-toggle-row">
+      <label class="chain-toggle">
+        <input type="checkbox" id="chain-auto" checked />
+        🔗 Enchaîner automatiquement (espèce → variété → millésime)
+      </label>
+    </div>
+
+    <!-- =============================================
+     PANNEAU 1 : NOUVEAU MILLÉSIME
+     ============================================= -->
+    <div class="panel active" id="panel-millesime">
+      <div class="panel-title">📦 Nouveau millésime</div>
+      <div class="chain-banner" id="chain-banner-millesime"></div>
+
+      <!--Issu d'une étiquette*/-->
+      <div class="form-group form-group-check">
+        <label
+          ><input
+            type="checkbox"
+            id="m-issu-etiquettes"
+            onchange="majModeEtiquettes()"
+          />
+          Issu de mes étiquettes</label
+        >
+      </div>
+      <div class="form-group cache" id="bloc-attente">
+        <label>Étiquettes imprimées en attente</label>
+        <select id="m-attente" onchange="chargerLigneAttente()">
+          <option value="">— Choisir une ligne —</option>
+        </select>
+        <div class="msg" id="msg-millesime-etiquettes"></div>
+      </div>
+      <div class="cache" id="bloc-sans-variete" style="margin-bottom: 10px">
+        <div
+          style="font-size: 12px; color: var(--gris-texte); margin-bottom: 6px"
+        >
+          Variété déjà dans la liste : choisis-la dans le menu « Variété »
+          ci-dessous. Sinon :
+        </div>
+        <div class="btn-row" style="margin-top: 0">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            onclick="allerCreerVariete()"
+          >
+            ➕ Créer la variété
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            onclick="allerCreerEspece()"
+          >
+            ➕ Créer l'espèce
+          </button>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Variété</label>
+          <select
+            id="m-variete"
+            onchange="
+              chargerTypeMillesime();
+              verifierDoublonEnDirect();
+            "
+          >
+            <option value="">— Choisir une variété —</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Type</label>
+          <input type="text" id="m-type" readonly />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nb saisons</label>
+          <select id="m-nb-saisons">
+            <option value="or.">or. (original)</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Millésime (année)</label>
+          <input
+            type="number"
+            id="m-millesime"
+            min="1900"
+            max="2100"
+            oninput="verifierDoublonEnDirect()"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label
+          >Origine
+          <span class="badge" style="background: #fce4e4; color: var(--rouge)"
+            >obligatoire</span
+          ></label
+        >
+        <div class="choice-grid" id="m-origine-fav"></div>
+        <select
+          id="m-origine-autre"
+          style="margin-top: 6px"
+          onchange="origineAutreChoisie()"
+        ></select>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group form-group-check">
+          <label
+            ><input
+              type="checkbox"
+              id="m-sachet-check"
+              checked
+              onchange="majChampsMillesime('sachet')"
+            />
+            Sachet</label
+          >
+          <div class="form-group" id="bloc-qtte">
+            <label>Quantité de graines</label>
+            <input type="number" id="m-qtte" min="0" placeholder="ex: 50" />
+          </div>
+        </div>
+      </div>
+      <!--Issu d'une étiquettes*-->
+      <div class="form-group cache" id="bloc-sachets-reels">
+        <label>Sachets réels (le tien + dons)</label>
+        <input
+          type="number"
+          id="m-sachets-reels"
+          min="1"
+          step="1"
+          inputmode="numeric"
+          oninput="majInfoDon()"
+        />
+        <div
+          id="info-don"
+          style="
+            font-size: 12px;
+            margin-top: 4px;
+            color: var(--vert);
+            font-weight: 600;
+          "
+        ></div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group form-group-check">
+          <label
+            ><input
+              type="checkbox"
+              id="m-plante-mere"
+              onchange="majChampsMillesime('mere')"
+            />
+            Plante mère</label
+          >
+        </div>
+        <div class="form-group cache" id="bloc-plantation">
+          <label>Année de plantation</label>
+          <input type="number" id="m-annee-plantation" min="1900" max="2100" />
+        </div>
+  <div class="cache" id="bloc-mere">
     <div class="form-group">
-    <label>Nb saisons</label>
-      <select id="m-nb-saisons">
-        <option value="or.">or. (original)</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-      </select>
+      <label>Nombre de plants <span class="badge" style="background:#fce4e4;color:var(--rouge)">obligatoire</span></label>
+      <input type="number" id="m-nb-plants" min="1" step="1" inputmode="numeric" placeholder="ex: 2">
     </div>
     <div class="form-group">
-      <label>Millésime (année)</label>
-      <input type="number" id="m-millesime" min="1900" max="2100" oninput="verifierDoublonEnDirect()">
-    </div>
-    </div>
- 
-  <div class="form-group">
-    <label>Origine <span class="badge" style="background:#fce4e4;color:var(--rouge)">obligatoire</span></label>
-    <div class="choice-grid" id="m-origine-fav"></div>
-<select id="m-origine-autre" style="margin-top:6px" onchange="origineAutreChoisie()"></select>  </div>
-
-    <div class="form-row">
-    <div class="form-group form-group-check">
-      <label><input type="checkbox" id="m-sachet-check" checked onchange="majChampsMillesime('sachet')"> Sachet</label>
-    <div class="form-group" id="bloc-qtte">
-      <label>Quantité de graines</label>
-      <input type="number" id="m-qtte" min="0" placeholder="ex: 50">
-    </div>
-    </div>
-    
-  </div>
-  <!--Issu d'une étiquettes*-->
-  <div class="form-group cache" id="bloc-sachets-reels">
-    <label>Sachets réels (le tien + dons)</label>
-    <input type="number" id="m-sachets-reels" min="1" step="1" inputmode="numeric" oninput="majInfoDon()">
-    <div id="info-don" style="font-size:12px;margin-top:4px;color:var(--vert);font-weight:600"></div>
-  </div>
-
-  <div class="form-row">
-    <div class="form-group form-group-check">
-      <label><input type="checkbox" id="m-plante-mere" onchange="majChampsMillesime('mere')"> Plante mère</label>
-    </div>
-    <div class="form-group cache" id="bloc-plantation">
-      <label>Année de plantation</label>
-      <input type="number" id="m-annee-plantation" min="1900" max="2100">
+      <label>Emplacement(s) <span class="badge" style="background:#fce4e4;color:var(--rouge)">obligatoire</span></label>
+      <div class="lieux__pastilles" id="m-lieux-pastilles"></div>
+      <div class="lieux">
+        <input type="search" id="m-lieux-recherche" autocomplete="off" placeholder="Chercher un emplacement…">
+        <ul class="lieux__liste" id="m-lieux-liste" hidden></ul>
+      </div>
     </div>
   </div>
+      </div>
 
-  <div class="btn-row">
-    <button class="btn btn-primary" onclick="creerMillesime()">✅ Créer le millésime</button>
-   <div class="doublon-banner" id="doublon-millesime">
-    <div id="doublon-texte"></div>
-    <div class="doublon-actions">
-      <button class="btn btn-primary" onclick="creerMillesime(true)">Créer quand même</button>
-      <button class="btn btn-secondary" onclick="cacherAlerteDoublon()">Annuler</button>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="creerMillesime()">
+          ✅ Créer le millésime
+        </button>
+        <div class="doublon-banner" id="doublon-millesime">
+          <div id="doublon-texte"></div>
+          <div class="doublon-actions">
+            <button class="btn btn-primary" onclick="creerMillesime(true)">
+              Créer quand même
+            </button>
+            <button class="btn btn-secondary" onclick="cacherAlerteDoublon()">
+              Annuler
+            </button>
+          </div>
+        </div>
+        <button class="btn btn-secondary" onclick="resetMillesime()">
+          ↩ Réinitialiser
+        </button>
+      </div>
+
+      <div class="msg" id="msg-millesime"></div>
     </div>
-  </div>
-    <button class="btn btn-secondary" onclick="resetMillesime()">↩ Réinitialiser</button>
-  </div>
- 
-  <div class="msg" id="msg-millesime"></div>
-</div>
 
-
-<!-- =============================================
+    <!-- =============================================
      PANNEAU 2 : NOUVELLE VARIÉTÉ
      ============================================= -->
-<div class="panel" id="panel-variete">
-  <div class="panel-title">🌱 Nouvelle variété</div>
-  <div class="chain-banner" id="chain-banner-variete"></div>
+    <div class="panel" id="panel-variete">
+      <div class="panel-title">🌱 Nouvelle variété</div>
+      <div class="chain-banner" id="chain-banner-variete"></div>
 
-  <div class="form-group">
-    <label>Modèle de base <span class="badge">pré-remplit le formulaire</span></label>
-    <select id="v-modele" onchange="chargerModele()">
-      <option value="">— Choisir un modèle —</option>
-    </select>
-  </div>
+      <div class="form-group">
+        <label
+          >Modèle de base
+          <span class="badge">pré-remplit le formulaire</span></label
+        >
+        <select id="v-modele" onchange="chargerModele()">
+          <option value="">— Choisir un modèle —</option>
+        </select>
+      </div>
 
-  <hr class="sep">
+      <hr class="sep" />
 
-  <div class="form-row">
-    <div class="form-group">
-      <label>Nom</label>
-      <input type="text" id="v-nom" placeholder="Tomate" oninput="verifierDoublonVarieteEnDirect()">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nom</label>
+          <input
+            type="text"
+            id="v-nom"
+            placeholder="Tomate"
+            oninput="verifierDoublonVarieteEnDirect()"
+          />
+        </div>
+        <div class="form-group">
+          <label>Variété </label>
+          <input
+            type="text"
+            id="v-variete"
+            placeholder="Orange Bourgoin"
+            oninput="verifierDoublonVarieteEnDirect()"
+          />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Type</label>
+          <select id="v-type"></select>
+        </div>
+        <div class="form-group">
+          <label>Famille</label>
+          <select id="v-famille" multiple style="height: 60px"></select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Conservation (ans)</label>
+          <input type="number" id="v-conservation" min="1" max="20" />
+        </div>
+        <div class="form-group">
+          <label>Profondeur de semis</label>
+          <select id="v-profondeur"></select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Durée germination (jours)</label>
+          <input type="number" id="v-duree-germ" min="1" max="60" />
+        </div>
+        <div class="form-group">
+          <label>Température germination</label>
+          <input type="text" id="v-temp-germ" placeholder="ex: 20-25°" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Semis sous abri 🏠</label>
+        <div class="choice-grid" id="v-abri"></div>
+      </div>
+
+      <div class="form-group">
+        <label>Semis pleine terre 🌿</label>
+        <div class="choice-grid" id="v-terre"></div>
+      </div>
+
+      <div class="form-group">
+        <label>Récolte / Floraison</label>
+        <div class="choice-grid" id="v-recolte"></div>
+      </div>
+
+      <hr class="sep" />
+
+      <div class="form-group">
+        <label>Semis (GPT)</label>
+        <select id="v-semis-gpt" multiple style="height: 60px"></select>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Exposition</label>
+          <select id="v-exposition"></select>
+        </div>
+        <div class="form-group">
+          <label>Arrosage</label>
+          <select id="v-arrosage"></select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nature du sol</label>
+          <select id="v-nature-sol" multiple style="height: 60px"></select>
+        </div>
+        <div class="form-group">
+          <label>Qualité du sol</label>
+          <select id="v-qualite-sol" multiple style="height: 60px"></select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Où cultiver</label>
+        <select id="v-ou-cultiver" multiple style="height: 60px"></select>
+      </div>
+
+      <div class="form-group">
+        <label>Infos</label>
+        <select id="v-infos" multiple style="height: 60px"></select>
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea
+          id="v-description"
+          rows="4"
+          placeholder="Description libre de la variété..."
+        ></textarea>
+      </div>
+
+      <div class="btn-row">
+        <button
+          class="btn btn-primary"
+          id="btn-creer-variete"
+          onclick="creerVariete()"
+        >
+          ✅ Créer la variété
+        </button>
+        <div class="doublon-banner" id="doublon-variete">
+          <div id="doublon-variete-texte"></div>
+          <div class="doublon-actions">
+            <button class="btn btn-primary" onclick="creerVariete(true)">
+              Créer quand même
+            </button>
+            <button
+              class="btn btn-secondary"
+              onclick="cacherAlerteDoublonVariete()"
+            >
+              Annuler
+            </button>
+          </div>
+        </div>
+        <button class="btn btn-secondary" onclick="resetVariete()">
+          ↩ Réinitialiser
+        </button>
+      </div>
+      <div class="msg" id="msg-variete"></div>
     </div>
-    <div class="form-group">
-      <label>Variété </label>
-      <input type="text" id="v-variete" placeholder="Orange Bourgoin" oninput="verifierDoublonVarieteEnDirect()">
-    </div>
-  </div>
 
-  <div class="form-row">
-    <div class="form-group">
-      <label>Type</label>
-      <select id="v-type"></select>
-    </div>
-    <div class="form-group">
-      <label>Famille</label>
-      <select id="v-famille" multiple style="height:60px"></select>
-    </div>
-  </div>
-
-  <div class="form-row">
-    <div class="form-group">
-      <label>Conservation (ans)</label>
-      <input type="number" id="v-conservation" min="1" max="20">
-    </div>
-    <div class="form-group">
-      <label>Profondeur de semis</label>
-      <select id="v-profondeur"></select>
-    </div>
-  </div>
-
-  <div class="form-row">
-    <div class="form-group">
-      <label>Durée germination (jours)</label>
-      <input type="number" id="v-duree-germ" min="1" max="60">
-    </div>
-    <div class="form-group">
-      <label>Température germination</label>
-      <input type="text" id="v-temp-germ" placeholder="ex: 20-25°">
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label>Semis sous abri 🏠</label>
-    <div class="choice-grid" id="v-abri"></div>
-  </div>
-
-  <div class="form-group">
-    <label>Semis pleine terre 🌿</label>
-    <div class="choice-grid" id="v-terre"></div>
-  </div>
-
-  <div class="form-group">
-    <label>Récolte / Floraison</label>
-    <div class="choice-grid" id="v-recolte"></div>
-  </div>
-
-  <hr class="sep">
-
-  <div class="form-group">
-    <label>Semis (GPT)</label>
-    <select id="v-semis-gpt" multiple style="height:60px"></select>
-  </div>
-
-  <div class="form-row">
-    <div class="form-group">
-      <label>Exposition</label>
-      <select id="v-exposition"></select>
-    </div>
-    <div class="form-group">
-      <label>Arrosage</label>
-      <select id="v-arrosage"></select>
-    </div>
-  </div>
-
-  <div class="form-row">
-    <div class="form-group">
-      <label>Nature du sol</label>
-      <select id="v-nature-sol" multiple style="height:60px"></select>
-    </div>
-    <div class="form-group">
-      <label>Qualité du sol</label>
-      <select id="v-qualite-sol" multiple style="height:60px"></select>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label>Où cultiver</label>
-    <select id="v-ou-cultiver" multiple style="height:60px"></select>
-  </div>
-
-  <div class="form-group">
-  <label>Infos</label>
-  <select id="v-infos" multiple style="height:60px"></select>
-</div>
-
-  <div class="form-group">
-    <label>Description</label>
-    <textarea id="v-description" rows="4" placeholder="Description libre de la variété..."></textarea>
-  </div>
-
-  <div class="btn-row">
-    <button class="btn btn-primary" id="btn-creer-variete" onclick="creerVariete()">✅ Créer la variété</button>
-    <div class="doublon-banner" id="doublon-variete">
-    <div id="doublon-variete-texte"></div>
-    <div class="doublon-actions">
-      <button class="btn btn-primary" onclick="creerVariete(true)">Créer quand même</button>
-      <button class="btn btn-secondary" onclick="cacherAlerteDoublonVariete()">Annuler</button>
-    </div>
-  </div>  
-    <button class="btn btn-secondary" onclick="resetVariete()">↩ Réinitialiser</button>
-  </div>
-  <div class="msg" id="msg-variete"></div>
-</div>
-
-<!-- =============================================
+    <!-- =============================================
      PANNEAU 3 : NOUVELLE ESPÈCE (modèle)
      ============================================= -->
-<div class="panel" id="panel-modele">
-  <div class="panel-title">🗂 Nouvelle espèce (modèle)</div>
+    <div class="panel" id="panel-modele">
+      <div class="panel-title">🗂 Nouvelle espèce (modèle)</div>
 
-  <div class="form-group">
-    <label>Partir d'un modèle existant <span class="badge">optionnel</span></label>
-    <select id="e-modele-base" onchange="chargerModeleBase()">
-      <option value="">— Créer from scratch —</option>
-    </select>
-  </div>
+      <div class="form-group">
+        <label
+          >Partir d'un modèle existant
+          <span class="badge">optionnel</span></label
+        >
+        <select id="e-modele-base" onchange="chargerModeleBase()">
+          <option value="">— Créer from scratch —</option>
+        </select>
+      </div>
 
-  <hr class="sep">
+      <hr class="sep" />
 
-  <div class="form-group">
-    <label>Nom de l'espèce (ex: Tomate)</label>
-    <input type="text" id="e-nom" placeholder="Tomate" oninput="verifierDoublonModeleEnDirect()">
-  </div>
+      <div class="form-group">
+        <label>Nom de l'espèce (ex: Tomate)</label>
+        <input
+          type="text"
+          id="e-nom"
+          placeholder="Tomate"
+          oninput="verifierDoublonModeleEnDirect()"
+        />
+      </div>
 
-  <div class="form-row">
-    <div class="form-group">
-      <label>Type</label>
-      <select id="e-type"></select>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Type</label>
+          <select id="e-type"></select>
+        </div>
+        <div class="form-group">
+          <label>Famille</label>
+          <select id="e-famille" multiple style="height: 60px"></select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Conservation (ans)</label>
+          <input type="number" id="e-conservation" min="1" max="20" />
+        </div>
+        <div class="form-group">
+          <label>Profondeur de semis</label>
+          <select id="e-profondeur"></select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Durée germination (jours)</label>
+          <input type="number" id="e-duree-germ" min="1" max="60" />
+        </div>
+        <div class="form-group">
+          <label>Température germination</label>
+          <input type="text" id="e-temp-germ" placeholder="ex: 20-25°" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Semis sous abri 🏠</label>
+        <div class="choice-grid" id="e-abri"></div>
+      </div>
+
+      <div class="form-group">
+        <label>Semis pleine terre 🌿</label>
+        <div class="choice-grid" id="e-terre"></div>
+      </div>
+
+      <div class="form-group">
+        <label>Récolte / Floraison</label>
+        <div class="choice-grid" id="e-recolte"></div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Exposition</label>
+          <select id="e-exposition"></select>
+        </div>
+        <div class="form-group">
+          <label>Arrosage</label>
+          <select id="e-arrosage"></select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nature du sol</label>
+          <select id="e-nature-sol" multiple style="height: 60px"></select>
+        </div>
+        <div class="form-group">
+          <label>Qualité du sol</label>
+          <select id="e-qualite-sol" multiple style="height: 60px"></select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Où cultiver</label>
+        <select id="e-ou-cultiver" multiple style="height: 60px"></select>
+      </div>
+
+      <div class="form-group">
+        <label>Infos</label>
+        <select id="e-infos" multiple style="height: 60px"></select>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="creerModele()">
+          ✅ Créer l'espèce
+        </button>
+        <div class="doublon-banner" id="doublon-modele">
+          <div id="doublon-modele-texte"></div>
+          <div class="doublon-actions">
+            <button class="btn btn-primary" onclick="creerModele(true)">
+              Créer quand même
+            </button>
+            <button
+              class="btn btn-secondary"
+              onclick="cacherAlerteDoublonModele()"
+            >
+              Annuler
+            </button>
+          </div>
+        </div>
+        <button class="btn btn-secondary" onclick="resetModele()">
+          ↩ Réinitialiser
+        </button>
+      </div>
+      <div class="msg" id="msg-modele"></div>
     </div>
-    <div class="form-group">
-      <label>Famille</label>
-      <select id="e-famille" multiple style="height:60px"></select>
-    </div>
-  </div>
 
-  <div class="form-row">
-    <div class="form-group">
-      <label>Conservation (ans)</label>
-      <input type="number" id="e-conservation" min="1" max="20">
-    </div>
-    <div class="form-group">
-      <label>Profondeur de semis</label>
-      <select id="e-profondeur"></select>
-    </div>
-  </div>
-
-  <div class="form-row">
-    <div class="form-group">
-      <label>Durée germination (jours)</label>
-      <input type="number" id="e-duree-germ" min="1" max="60">
-    </div>
-    <div class="form-group">
-      <label>Température germination</label>
-      <input type="text" id="e-temp-germ" placeholder="ex: 20-25°">
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label>Semis sous abri 🏠</label>
-    <div class="choice-grid" id="e-abri"></div>
-  </div>
-
-  <div class="form-group">
-    <label>Semis pleine terre 🌿</label>
-    <div class="choice-grid" id="e-terre"></div>
-  </div>
-
-  <div class="form-group">
-    <label>Récolte / Floraison</label>
-    <div class="choice-grid" id="e-recolte"></div>
-  </div>
-
-  <div class="form-row">
-    <div class="form-group">
-      <label>Exposition</label>
-      <select id="e-exposition"></select>
-    </div>
-    <div class="form-group">
-      <label>Arrosage</label>
-      <select id="e-arrosage"></select>
-    </div>
-  </div>
-
-  <div class="form-row">
-    <div class="form-group">
-      <label>Nature du sol</label>
-      <select id="e-nature-sol" multiple style="height:60px"></select>
-    </div>
-    <div class="form-group">
-      <label>Qualité du sol</label>
-      <select id="e-qualite-sol" multiple style="height:60px"></select>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label>Où cultiver</label>
-    <select id="e-ou-cultiver" multiple style="height:60px"></select>
-  </div>
-
-<div class="form-group">
-  <label>Infos</label>
-  <select id="e-infos" multiple style="height:60px"></select>
-</div>
-    <div class="btn-row">
-    <button class="btn btn-primary" onclick="creerModele()">✅ Créer l'espèce</button>
-      <div class="doublon-banner" id="doublon-modele">
-    <div id="doublon-modele-texte"></div>
-    <div class="doublon-actions">
-      <button class="btn btn-primary" onclick="creerModele(true)">Créer quand même</button>
-      <button class="btn btn-secondary" onclick="cacherAlerteDoublonModele()">Annuler</button>
-    </div>
-  </div>
-    <button class="btn btn-secondary" onclick="resetModele()">↩ Réinitialiser</button>
-  </div>
-  <div class="msg" id="msg-modele"></div>
-</div>
-
-<script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
-<script src="achatrepro.js"></script>
-
-</body>
+    <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
+    <script src="../../script/scriptcommun.js"></script>
+    <script src="achatrepro.js"></script>
+  </body>
 </html>
