@@ -1,89 +1,68 @@
-# Mémo : conventions de mes outils Grist (à ne pas réexpliquer)
+# Outil « À gérer » (`a_gerer`)
 
-## Contexte
-- Widgets Grist en HTML/CSS/JS hébergés sur GitHub (branche de dev `Vue`, branche en ligne `main`).
-- Je travaille en français et je suis débutante en Vue : explique brièvement les notions nouvelles.
-- Je ne suis pas développeuse : donne des modifications précises (fichier, endroit exact, fonction complète à remplacer), avec un test après chaque étape.
-- Une discussion par outil. Les changements du commun (`scriptcommun.js`, CSS commun) se traitent à part.
+## Rôle
+Widget Grist pour le suivi de saison : noter la germination des semis, noter les plantations avec leur emplacement, contrôler et ajuster les plantes mères. Prévu pour PC et tablette (testé sur téléphone). Lit et écrit dans les tables `Semis` et `Millesimes`.
 
-## Fichiers et chargement
-- `outil.html`, `outil.js`, `outil.css` + commun : `../../script/scriptcommun.js` et `../../styles/styles_communs_bem.css`.
-- Les outils pas encore migrés utilisent encore l'ancien `styles_commun.css`.
-- Scripts en fin de `<body>`, dans cet ordre : plugin Grist, Vue 3.4.38 (unpkg), `scriptcommun.js`, `outil.js`.
-- `grist.ready({ requiredAccess: 'full' })`.
+## Fichiers
+| Fichier | Rôle |
+|---|---|
+| `a_gerer.html` | Structure et textes, 7 zones Vue |
+| `a_gerer.css` | Styles propres à l'outil (bandeau, défilement, tri) |
+| `a_gerer.js` | Données, calculs, enregistrement |
+| `../../styles/styles_communs_bem.css` | Variables, champs, cartes, boutons (nommage BEM) |
+| `../../script/scriptcommun.js` | Fonctions communes |
 
-## Vue (sans compilation)
-- Une zone `<div id="appXxx">` par bloc, montée par `Vue.createApp({ setup() { return {...} } }).mount('#appXxx')`. Vue reconstruit la zone : un écouteur JS posé dessus est perdu.
-- Un seul état réactif `etat = Vue.reactive({...})`, en haut du fichier.
-- Toute fonction ou valeur appelée par le HTML doit figurer dans le `return` du `setup` de la zone. Un oubli donne `Property "xxx" was accessed during render…` et la zone disparaît.
-- Une expression invalide dans le HTML (ex. `:class="menu__item {…}"`) fait afficher les `{{ }}` bruts sur toute la zone.
-- Vue ne suit pas les `Map` : les données restent dans des `Map` (`recordsParId`), et les listes affichées sont copiées dans `etat` par des fonctions `recalculer…()`.
-- Un `Vue.watch` recalcule les listes quand un filtre change.
-- `@click` (pas `pointerdown`) dans les listes qui défilent. `@mousedown.prevent` sur un menu déroulant garde le focus dans le champ.
-- Pas de `createElement`, `innerHTML` ni `getElementById` pour écrire dans l'interface.
+Scripts en fin de `<body>`, dans cet ordre : plugin Grist, Vue 3.4.38 (unpkg), `scriptcommun.js`, `a_gerer.js`. Accès Grist : `full`.
 
-## Principe : le JS calcule, le HTML met en forme
-- Le JS renvoie des valeurs ou des codes (`casOu(s)` → `'reste' | 'manquant' | 'aucun'`, `cas: 'morte'`), jamais des phrases ni des classes de style.
-- Textes, `v-if` et classes sont dans le HTML.
-- Exceptions assumées : messages d'erreur et de succès construits au moment d'une décision.
-- Zone Vue contenant un bouton `sticky` : `class="zone-transparente"` (`display: contents`).
+## Données
+- `Semis` lues : `Nom`, `Variete`, `Type`, `Date_s`, `Nb_godets`, `Nb_graines`, `Graines_semees`, `Germes`, `Germes_attente`, `Germination_duree`, `Info_germination`, `Plantes`, `Oups`, `Don_p`, `Reste_a_planter`, `Date_p`, `Plante_mere`, `Ou`, `Millesime`.
+- `Millesimes` lues : `Nom`, `Variete`, `Type`, `NomVariete`, `Plante_mere`, `Annee_plantation`, `Statut_mere`, `Controle_mere`, `Nb_plants`.
+- Les choix de `Semis.Ou` (emplacements) sont lus dans les métadonnées Grist.
+- Écrites : `Semis` (`Germes`, `Germes_attente`, `Plantes`, `Date_p`, `Ou`, `Oups`, `Don_p`) ; `Millesimes` (`Statut_mere`, `Controle_mere`, `Plante_mere`, `Nb_plants`) ; création possible d'une ligne `Semis` pour une plante mère.
+- Colonnes de **données** (pas des formules) : `Semis.Germes_attente` (case), `Millesimes.Statut_mere` (Choix : `Vivante`, `Morte`), `Millesimes.Controle_mere` (Date), `Millesimes.Nb_plants` (Numérique), `Millesimes.Plante_mere` (case).
+- Une plante mère = une ligne `Millesimes` (`Plante_mere` cochée, `Nb_plants`) + une ligne `Semis` sans godets ni graines, qui porte `Ou` (et `Plantes`).
 
-## Fonctions communes (`scriptcommun.js`)
-- N'utilisent que leurs paramètres (jamais `etat`, `recordsParId`…). Seule exception : `lireChoixColonnes`, qui appelle `grist`.
-- Ne jamais redéfinir une fonction commune dans un outil : la copie locale la masque sans erreur.
-- Disponibles : `tableEnLignes`, `listeChoix`, `normaliser`, `anneeDepuisDate`, `dateAffichee`, `dateDuJour`, `dateEnSecondes`, `typeInverse`, `libelle`, `lieuxFiltres`, `correspondRecherche`, `choixColonne`, `lireChoixColonnes`, `creerMessageTemporaire`.
+## Fonctionnement
+**Bandeau** collé en haut : statut (« À jour » / « Non sauvegardé (n) »), boutons de navigation (En cours, À contrôler, À vérifier, À planter), messages de succès (5 s) et d'erreur.
 
-## Données Grist
-- ChoiceList : `['L', 'a', 'b']` (`listeChoix()` pour lire).
-- Dates : secondes UTC à minuit.
-- Colonnes écrites par un outil : colonnes de **données**, jamais des colonnes formule.
-- Les ids de tables différentes se recoupent : ne jamais les mélanger dans un même objet.
-- Quantités saisies = ajouts aux valeurs chargées.
-- Avant d'enregistrer : recharger la table, comparer les lignes concernées, refuser si l'une a changé.
-- Un seul `applyUserActions` par enregistrement.
+**Filtrer/Trier** : recherche par nom ou variété (accents ignorés, plusieurs mots) ; tri habituel ou par nom.
 
-## Saisies conservées au rechargement
-- Toutes les saisies non enregistrées vivent dans des objets de `etat` (`saisies`, `saisiesMeres`).
-- Un `Vue.watch` profond les copie dans `sessionStorage` ; au démarrage : restaurer, puis supprimer celles dont la carte n'existe plus.
-```js
-const CLE_SAISIES = "outil_saisies";
-function sauvegarderSaisies() {
-  try {
-    const vide = !Object.keys(etat.saisies).length && !Object.keys(etat.saisiesMeres).length;
-    if (vide) sessionStorage.removeItem(CLE_SAISIES);
-    else sessionStorage.setItem(CLE_SAISIES, JSON.stringify({ saisies: etat.saisies, meres: etat.saisiesMeres }));
-  } catch (err) { console.warn(err); }
-}
-function restaurerSaisies() {
-  try {
-    const d = JSON.parse(sessionStorage.getItem(CLE_SAISIES) || "{}");
-    for (const [id, s] of Object.entries(d.saisies || {})) etat.saisies[id] = { ...saisieVide(), ...s };
-    for (const [id, s] of Object.entries(d.meres || {})) etat.saisiesMeres[id] = { statut: s.statut, morts: s.morts || [], ou: s.ou || [] };
-  } catch (err) { console.warn(err); }
-}
-Vue.watch(() => [etat.saisies, etat.saisiesMeres], sauvegarderSaisies, { deep: true });
-// au démarrage : restaurerSaisies(); purgerSaisiesOrphelines(); recalculerTout();
-```
-- Contenu perdu à la fermeture de l'onglet : voulu. Changer la clé si le format change.
+**En cours** : récapitulatif des saisies pas encore enregistrées (germination, plantes mères, plantation). Un clic ramène à la carte, ✕ annule.
 
-## Couleurs
-Neutre = sans info. Bleu = info à jour. Orange = en cours, pas enregistré. Rouge = attention. Vert-jaune = plante mère. Violet = lieu. Vert / marron = sous abri / pleine terre.
+**À contrôler** (plantes mères) : par défaut, celles plantées avant l'année en cours et pas contrôlées cette année. Chaque carte affiche le nombre de plants et les lieux.
+- « Encore là » : `Statut_mere = Vivante`, `Controle_mere` = aujourd'hui. Sans lieu connu, le lieu devient obligatoire.
+- « Ajuster » : marque « Encore là », propose de modifier `Nb_plants` (minimum 1) et d'ajouter un emplacement. Second clic : annule l'ajustement.
+- « Morte » : une pastille par lieu si plusieurs ; on coche ceux où elle est morte. Mort totale : `Plante_mere` décochée, lieux retirés de `Ou`, `Plantes` et `Nb_plants` à 0. Mort partielle : seuls les lieux cochés sont retirés, `Nb_plants` inchangé.
 
-## Nommage CSS (BEM)
-- Bloc : `carte`, `btn`, `champ`, `menu`, `pastille`, `case`, `ligne`, `texte`, `encart`, `statut`. Élément : `bloc__element`. Variante : `bloc--variante`.
-- Une variante s'ajoute à la classe de base : `class="btn btn--etape"`, jamais seule.
-- Un seul niveau de classe (pas de `.carte .titre`) : toutes les règles ont le même poids, c'est l'ordre dans le fichier qui décide.
-- Cases à cocher : `class="case__saisie"` sur chaque `<input type="checkbox">` (jamais un sélecteur sur la balise `input` seule, qui toucherait tous les champs).
-- Menu : `menu` > `menu__liste` > `menu__item` (+ `menu__item--choisi`, `menu__item--vide`). `menu` est en `position: relative`, `menu__liste` en `absolute` juste dessous.
-- Un sélecteur `h3 {}` cible la balise, `.h3 {}` cible la classe.
-- Une règle CSS invalide casse la suivante : point en trop, commentaire sans `*/`, `border-color: 1px solid …`.
-- Les classes de mise en page n'ont pas d'espacement externe : l'espacement vient de `gap` sur le parent.
-- Une classe va dans le commun si au moins deux outils l'utilisent à l'identique ; une règle qui cite un id reste dans l'outil.
+**À vérifier** : semis datés, sans germes, durée de germination dépassée, plus ceux laissés « en attente ». Champ « Germes », bouton « NG », case « En attente ». Option pour inclure les semis sans durée de germination (12 derniers mois).
 
-## Méthode de travail
-- Une modification à la fois, puis un test et la console (F12, filtre vidé).
-- Ctrl+Maj+F sur le nom qu'on vient de coller : un compte inattendu trahit un doublon.
-- Ctrl+F5 après un changement du CSS ou du JS commun ; ouvrir tous les outils qui en dépendent.
-- Un commit avant chaque série de changements.
-- Dans la console, les « n cachés » sont des messages filtrés, pas un résultat.
-- Ordre en prod : commun d'abord, puis outils.
+**À planter** : semis avec germes et reste > 0. Champs Plantés, Oups, Don ; « Tout » ; emplacements (obligatoires si `Ou` est vide dans Grist). Une seule date de plantation.
+
+## Enregistrement
+Un seul bouton « Enregistrer tout », collé en bas.
+- Contrôles avant écriture : date de plantation, lieux manquants, lieux morts non cochés, nombre de plants valide.
+- Avant d'écrire, `Semis` est rechargé : si une ligne a changé dans Grist, rien n'est enregistré.
+- Quantités ajoutées aux valeurs chargées ; `Date_p` écrasée. Un seul `applyUserActions`.
+
+## Choix techniques
+- **Vue 3 sans compilation** : une zone `<div id="appXxx">` par bloc, chacune montée par son `Vue.createApp(...).mount(...)`. Tout ce que le HTML appelle doit figurer dans le `return` du `setup`.
+- **Un seul état réactif** (`etat`). Saisies non enregistrées : `etat.saisies` (par semis) et `etat.saisiesMeres` (par millésime) ; les ids des deux tables se recoupent, ils ne sont jamais mélangés.
+- **Le JS calcule, le HTML met en forme** : le JS renvoie des valeurs ou des codes, textes et classes sont dans le HTML.
+- **Saisies conservées au rechargement** : `Vue.watch` profond vers `sessionStorage`, relues au démarrage (testé sur téléphone).
+- **CSS en BEM** : `bloc`, `bloc__element`, `bloc--variante`.
+
+## Limites
+- Pas de correction d'une valeur déjà enregistrée ni d'annulation d'un « Morte » : corriger dans Grist.
+- Retirer un lieu sans « Morte » n'est pas prévu.
+- Plante mère sans `Ou` : « emplacement inconnu ».
+- Plante replantée après « Morte » : recocher `Plante_mere`, vider `Statut_mere` et `Controle_mere`, renseigner `Nb_plants`.
+- La détection de modification ne couvre que `Semis`, pas `Millesimes`.
+- Pas d'écoute des changements faits ailleurs dans Grist : recharger le widget.
+
+## Test de recette
+1. Statut « À jour » ; titres et boutons du bandeau justes.
+2. Germes, NG, « En attente » : liseré orange, ligne dans « En cours ».
+3. Plantés + lieu ; lieu manquant : refus avec message.
+4. Plante mère : « Encore là », « Ajuster » (nombre et lieu), « Morte » (un lieu, puis plusieurs).
+5. Valeur modifiée dans Grist pendant une saisie : rien n'est enregistré.
+6. Rechargement avec saisies : elles reviennent.

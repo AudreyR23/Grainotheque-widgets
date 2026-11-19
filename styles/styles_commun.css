@@ -87,6 +87,16 @@ label {
   font-size: 0.9rem;
   }
 
+/* ===== Bandeau du haut, collé à l'écran ===== */
+.entete {
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: 6px 0;
+  background: var(--arriere-plan);
+}
+
 /* ===== Ligne - div ===== */
 
 .ligne {

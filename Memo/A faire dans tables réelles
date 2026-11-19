@@ -1,0 +1,40 @@
+Colonne sachet num tempo : 
+import re
+s = $Sachets or ""
+if re.match(r"^(\d+)(p|rhi|b|c)\.$", s):
+  return None
+if s == "Mél.":
+  return 1
+return int(s) if re.match(r"^\d+$", s) else None
+
+
+Ajouter colonne Nb_plants : de données avec formule au départ : 
+import re
+m = re.match(r"^(\d+)(p|rhi|b|c)\.$", $Sachets or "")
+if m:
+  return int(m.group(1))
+return 1 if $Plante_mere else None
+Convertit en colonne de données
+Vérifier chaque plante-mère à un Nb_plants
+
+Ajouter colonne Melange (boléen) : 
+return $Sachets == "Mél."
+Convertit en colonne de données
+
+MAJ formule épuise : 
+return (not $Plante_mere) and (not $Qtte_graines) and (not $Sachets)
+
+Ajouter colonne : Type_plant
+Valeur : Pied, Rhizome, Bulbe, Caïeu
+Formule : import re
+s = str($Sachets or "").replace(" ", "")
+m = re.match(r"^\d+(p|r|rhi|c|b)\.?$", s)
+if m:
+  return {"p": "Pied","r": "Rhizome", "rhi": "Rhizome", "c": "Caïeu", "b": "Bulbe"}[m.group(1)]
+return "Plant" if $Plante_mere else None
+
+DAns sachets : $Sachet_num_tempo
+Renommer Sachets en Nb_sachets
+TRansformer en numérique
+
+Changer nom Modele en Especes

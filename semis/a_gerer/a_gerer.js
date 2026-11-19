@@ -64,6 +64,8 @@ function restaurerSaisies() {
         statut: s.statut,
         morts: s.morts || [],
         ou: s.ou || [],
+        ajuste: !!s.ajuste,
+        plants: s.plants ?? "",
       };
     }
   } catch (err) {
@@ -190,6 +192,7 @@ function recapMeres() {
       if (s.statut === "Vivante" && actuels.length === 0)
         cas =
           s.ou && s.ou.length ? "vivante-nouveau-lieu" : "vivante-sans-lieu";
+               else if (s.statut === "Vivante" && s.ou && s.ou.length) cas = "vivante-ajout-lieu"; 
       else if (
         s.statut === "Morte" &&
         actuels.length > 1 &&
@@ -207,6 +210,8 @@ function recapMeres() {
         lieuxActuels: actuels,
         lieuxMorts: e.morts,
         lieuxRestants: actuels.filter((l) => !e.morts.includes(l)),
+        plantsAvant: m.plants,
+        plantsApres: s.statut === "Vivante" && s.ajuste ? s.plants : null,        
       };
     });
 }
@@ -299,6 +304,7 @@ async function chargerMillesimes() {
       nom: m.Nom || "",
       variete: m.Variete || "",
       planteMere: !!m.Plante_mere,
+            plants: m.Nb_plants || 0,
       type: m.Type || "",
       varieteId: m.NomVariete || 0,
       anneePlantation: m.Annee_plantation || null,
@@ -344,6 +350,9 @@ function lieuxParMillesime() {
   }
   return resultat;
 }
+function nouvelleSaisieMere(statut) {
+  return { statut, morts: [], ou: [], ajuste: false, plants: "" };
+}
 
 function statutMere(idMillesime) {
   const s = etat.saisiesMeres[idMillesime];
@@ -354,7 +363,7 @@ function choisirStatutMere(m, statut) {
   // Un second clic sur le même bouton annule le choix.
   const s = etat.saisiesMeres[m.id];
   if (s && s.statut === statut) delete etat.saisiesMeres[m.id];
-  else etat.saisiesMeres[m.id] = { statut, morts: [], ou: [] };
+  else etat.saisiesMeres[m.id] = nouvelleSaisieMere(statut);
 }
 
 function lieuMort(idMillesime, lieu) {
@@ -387,7 +396,35 @@ function effetMere(saisie, actuels) {
 function retirerMere(idMillesime) {
   delete etat.saisiesMeres[idMillesime];
 }
+function ajusteMere(idMillesime) {
+  const s = etat.saisiesMeres[idMillesime];
+  return !!s && s.statut === "Vivante" && s.ajuste;
+}
 
+function plantsMere(idMillesime) {
+  const s = etat.saisiesMeres[idMillesime];
+  return s ? s.plants : "";
+}
+
+function ajusterMere(m) {
+  // 1er clic : « Encore là » + champ prérempli ; 2e clic : on ferme le champ
+  let s = etat.saisiesMeres[m.id];
+  if (!s) s = etat.saisiesMeres[m.id] = nouvelleSaisieMere("Vivante");
+  if (s.statut !== "Vivante") return;
+  s.ajuste = !s.ajuste;
+  if (!s.ajuste && m.ou.length > 0) s.ou = []; // on ferme : les lieux ajoutés sont abandonnés // 
+  if (s.ajuste && s.plants === "") s.plants = m.plants ? String(m.plants) : "";
+}
+
+function surPlantsMere(m, e) {
+  const s = etat.saisiesMeres[m.id];
+  if (s) s.plants = e.target.value;
+}
+
+function plantsValide(saisie) {
+  const n = Number(saisie.plants);
+  return String(saisie.plants).trim() !== "" && Number.isInteger(n) && n >= 1;
+}
 // ===== Affichage =====
 function trierListe(semis) {
   if (etat.tri !== "nom") return semis;
@@ -601,7 +638,8 @@ function casOu(s) {
 }
 // --- Emplacement d'une plante mère « Encore là » sans lieu connu ---
 function besoinLieuMere(m) {
-  return statutMere(m.id) === "Vivante" && m.ou.length === 0;
+  // Champ « Où » : plante « Encore là » sans lieu connu, ou en cours d'ajustement
+  return statutMere(m.id) === "Vivante" && (m.ou.length === 0 || ajusteMere(m.id));
 }
 
 
@@ -698,6 +736,16 @@ async function enregistrerTout() {
     refuser("meres", "Coche les lieux où la plante est morte : " + noms);
     return;
   }
+    const meresPlantsInvalides = lignesMeres.filter(
+    (l) => l.saisie.statut === "Vivante" && l.saisie.ajuste && !plantsValide(l.saisie),
+  );
+  if (meresPlantsInvalides.length) {
+    const noms = meresPlantsInvalides
+      .map((l) => libelle(recordsParId.millesimes.get(l.id)))
+      .join(", ");
+    refuser("meres", "Nombre de plants invalide (1 au minimum, sinon marque « Morte ») : " + noms);
+    return;
+  }
   afficherSucces("");
   etat.enregistrement = true;
 
@@ -776,6 +824,14 @@ async function enregistrerTout() {
           Plante_mere: effets.map((x) => x.e.planteMere),
         },
       ]);
+            // Nombre de plants : ajusté, ou remis à 0 en cas de mort totale
+      lignesMeres.forEach((l, i) => {
+        if (!effets[i].e.planteMere) {
+          actions.push(["UpdateRecord", "Millesimes", l.id, { Nb_plants: 0 }]);
+        } else if (l.saisie.statut === "Vivante" && l.saisie.ajuste) {
+          actions.push(["UpdateRecord", "Millesimes", l.id, { Nb_plants: Number(l.saisie.plants) }]);
+        }
+      });
       // Lignes Semis des plantes mères : on retire les lieux morts ; mort totale : Plantes = 0
       for (const { id, e } of effets) {
         if (e.planteMere && e.morts.length === 0) continue; // rien de mort : on ne touche à rien
@@ -968,6 +1024,7 @@ Vue.createApp({
       ajouterLieu,
       retirerLieu,
       dateAffichee,
+      ajusteMere, plantsMere, ajusterMere, surPlantsMere
     };
   },
 }).mount("#appMeres");

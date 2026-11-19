@@ -146,12 +146,12 @@ const origine = nettoyerValeur(row.Origine);
 const record = {
   ...(varietesParNom[nomVariete] || {}),
   NomVariete: nomVariete,
-  Sachets: row.Sachets || '1', // Conserve la valeur brute de Sachets (ex: "1" ou "1p.")
+  Nb_sachets: row.Sachets || '1', // Conserve la valeur brute de Sachets (ex: "1" ou "1p.")
   Millesime: millesimeAnnee, // Année nettoyée (ex: "2026")
   Germination_affichee: germinationAffichee,
   Nb_saisons: nettoyerValeur(row.Nb_saisons) || nettoyerValeur(row.Nb_saisons_manuel),
   Origine: origine,
-  sachets: [{
+  Nb_sachets: [{
     origine: origine,
     sachet: row.Sachets || '1', // Valeur brute de Sachets (ex: "1" ou "1p.")
     annee: millesimeAnnee, // Année nettoyée (ex: "2026")
@@ -168,7 +168,7 @@ millésimes.push(record);
           const millésimePourCalendrier = {
   id: millésimesPourCalendrier.length + 1,
   NomVariete: idVariete || nomVariete,
-  Sachets: sachets,
+  Nb_sachets: sachets,
   Millesime: parseInt(row.Millesime) || Math.floor(new Date().getTime() / 1000), // <-- On garde le timestamp ici
   Origine: origine,
   Nb_saisons: nettoyerValeur(row.Nb_saisons) || nettoyerValeur(row.Nb_saisons_manuel),

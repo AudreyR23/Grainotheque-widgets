@@ -216,7 +216,7 @@ function renderCalendrier(records) {
   const plantes = {};
 
   records
-    .filter(r => r.Sachets)
+    .filter(r => r.Nb_sachets:)
     .forEach(r => {
       const v = varietesParId[r.NomVariete] ||
         Object.values(varietesParId).find(x => x.NomVariete === r.NomVariete);

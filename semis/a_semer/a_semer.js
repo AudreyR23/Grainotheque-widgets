@@ -28,7 +28,6 @@ function moisDansListe(liste, mois) {
 }
 
 function typeDePlant(sachets) {
-  // « 1P. », « rhi », « c. », « b. » (avec ou sans nombre devant) → type de matériel vivant, sinon null
   const s = normaliser(sachets).replace(/\s+/g, '');
 const m = s.match(/^\d+(p|rhi|c|b)\.?$/);
   if (!m) return null;

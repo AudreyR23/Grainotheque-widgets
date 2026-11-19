@@ -381,7 +381,7 @@ async function enregistrerTout() {
     const actions = [['BulkAddRecord', 'Semis', new Array(n).fill(null), colonnes]];
     const millesimesVides = [...new Set(liste.filter(b => b.sachetVide).map(b => b.millesimeId))];
     for (const id of millesimesVides) {
-      actions.push(['UpdateRecord', 'Millesimes', id, { Qtte_graines: null, Sachets: '' }]);
+      actions.push(['UpdateRecord', 'Millesimes', id, { Qtte_graines: null, Nb_sachets: null }]);
     }
     await grist.docApi.applyUserActions(actions);
     etat.etapesIntermediaires = [];

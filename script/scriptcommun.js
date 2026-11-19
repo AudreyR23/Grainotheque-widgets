@@ -103,3 +103,5 @@ definir(texte);
 if (texte) minuterie = setTimeout(() => definir(''), duree);
   };
 }
+
+function enListeChoix(valeurs) { return ['L', ...valeurs]; }
