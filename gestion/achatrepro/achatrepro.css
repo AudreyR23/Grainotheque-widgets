@@ -1,6 +1,15 @@
-
 /* ===== Css « achatrepro » : uniquement ce qui n'est pas dans styles_communs_bem.css ===== */
- 
+
+/* ===== Bandeau du haut, collé à l'écran (identique à « à gérer ») ===== */
+.entete {
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: 6px 0;
+  background: var(--arriere-plan);
+}
+
 /* ===== Formulaire : un champ = un bloc (libellé au-dessus) ===== */
 .bloc {
   display: flex;
@@ -8,7 +17,7 @@
   gap: 4px;
   margin-bottom: 10px;
 }
- 
+
 /* Grille 2 colonnes, 1 colonne sur écran étroit */
 .grille {
   display: grid;
@@ -20,7 +29,23 @@
     grid-template-columns: 1fr;
   }
 }
- 
+
+/* ===== Menu à choix unique : bouton avec une flèche (liste = .menu__liste du commun) ===== */
+.champ--deroulant {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+  cursor: pointer;
+}
+.champ--deroulant::after {
+  content: '▾';
+}
+.champ--vide {
+  color: var(--gris-fonce);
+}
+
 /* ===== Pastille cochable (choix multiple) ===== */
 .pastille--choix {
   background: var(--blanc);
@@ -34,7 +59,7 @@
   border-color: var(--orange-moyen);
   font-weight: bold;
 }
- 
+
 /* ===== Badge « obligatoire » ===== */
 .badge {
   display: inline-block;
@@ -48,7 +73,7 @@
   background: #fce4e4;
   color: var(--erreur);
 }
- 
+
 /* ===== Encart d'alerte (doublon) ===== */
 .encart--alerte {
   margin-top: 10px;
@@ -57,7 +82,7 @@
   color: var(--label);
   font-weight: bold;
 }
- 
+
 /* ===== Bouton « Créer » (comme « Enregistrer » de « à gérer », sans être collé en bas) ===== */
 .btn--creer {
   border-color: var(--bleu-fonce);
@@ -65,4 +90,3 @@
   color: var(--arriere-plan);
   font-weight: bold;
 }
- 
