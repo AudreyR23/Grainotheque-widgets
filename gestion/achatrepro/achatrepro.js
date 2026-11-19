@@ -1,247 +1,407 @@
+// ===== Achat / repro : outil en Vue =====
+// Étape 3a : panneaux Espèce, Variété et Millésime (sans les étiquettes en attente, ajoutées en 3b)
 
-/* =============================================
-   DONNÉES GRIST CHARGÉES AU DÉMARRAGE
-   ============================================= */
-let modeles   = [];   // lignes de la table Modele
-let varietes  = [];   // lignes de la table Varietes (pour la liste du panneau 2)
-let metaChoix = {};   // choix disponibles par colonne (depuis Grist metadata)
+// ===== Constantes =====
+const TABLE_ESPECES = 'Especes';     // identifiant de la table des espèces dans Grist
+const TABLE_VARIETES = 'Varietes';
+const TABLE_MILLESIMES = 'Millesimes';
+const TABLE_SEMIS = 'Semis';
+const MOIS = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jui', 'Juil', 'Aou', 'Sep', 'Oct', 'Nov', 'Déc'];
+const SEUIL_PASTILLES = 15;   // liste de choix de 15 ou moins : pastilles ; plus longue : champ de recherche
+const NB_FAVORIS = 6;         // les 6 premiers choix de Origine sont des pastilles, les autres un menu
+const NB_SAISONS = ['or.', '1', '2', '3', '4', '5', '6', '7', '8'];
+const ORIGINE_PRODUCTION = 'Monjardin';   // choix de la colonne Origine affiché « AR » sur l'étiquette
+const COLONNES_CHOIX_MODELE = [
+  'Type', 'Exposition', 'Arrosage', 'Semis_profondeur',
+  'Famille', 'Nature_du_sol', 'Qualite_du_sol', 'Ou_cultiver', 'Infos'
+];
+const COLONNES_CHOIX_VARIETE = [...COLONNES_CHOIX_MODELE, 'Semis_GPT'];
 
-/* Valeurs des mois — identiques dans toutes les ChoiceList de mois */
-const MOIS = ['Jan','Fév','Mar','Avr','Mai','Jui','Juil','Aou','Sep','Oct','Nov','Déc'];
-
-/* =============================================
-   NAVIGATION
-   ============================================= */
-function showPanel(id) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('panel-' + id).classList.add('active');
-  event.target.classList.add('active');
+// Champs communs à une espèce et à une variété : mêmes noms dans le formulaire
+function champsVides() {
+  return {
+    type: '', famille: [], conservation: '', profondeur: '', dureeGerm: '', tempGerm: '',
+    abri: [], terre: [], recolte: [],
+    exposition: '', arrosage: '', natureSol: [], qualiteSol: [], ouCultiver: [], infos: []
+  };
 }
 
-/* Bascule de panneau par programme (sans event, utilisé pour l'enchainement) */
-function goToPanel(id) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('panel-' + id).classList.add('active');
-  const idx = { variete: 1, millesime: 0, modele: 2 }[id];
-  document.querySelectorAll('.nav-btn')[idx].classList.add('active');
+function millesimeVide() {
+  return {
+    varieteId: '', nbSaisons: 'or.', annee: new Date().getFullYear(),
+    origine: '',                       // une seule origine
+    sachet: true, planteMere: false,
+    qtte: '',                          // quantité de graines (sachet)
+    anneePlantation: '', nbPlants: '', lieux: [],  // plante mère
+    sachetsReels: ''                   // « Issu de mes étiquettes » : sachets réels (le tien + dons)
+  };
 }
 
-function chainEnabled() {
-  return document.getElementById('chain-auto').checked;
+// ===== État =====
+const etat = Vue.reactive({
+  charge: false,
+  erreurChargement: '',
+  onglet: 'millesime',
+  chaine: true,              // « Enchaîner automatiquement »
+  enregistrement: false,
+  message: '',
+  erreur: false,
+  panneauMessage: '',        // panneau où le message s'affiche : 'modele' | 'variete' | 'millesime'
+  bandeaux: { millesime: '', variete: '' },   // bandeaux d'enchaînement
+
+  // Espèces
+  choix: Object.fromEntries(COLONNES_CHOIX_MODELE.map(c => [c, []])),   // choix[colonne] = [...]
+  modeles: [],               // espèces existantes
+  modeleBase: '',            // id de l'espèce choisie comme point de départ (panneau Espèce)
+  modele: { nom: '', ...champsVides() },
+  doublonModeleMasque: false,
+
+  // Variétés
+  choixVariete: Object.fromEntries(COLONNES_CHOIX_VARIETE.map(c => [c, []])),
+  varietes: [],              // variétés existantes
+  varieteBase: '',           // id de l'espèce choisie comme modèle de base (panneau Variété)
+  variete: { nom: '', variete: '', description: '', semisGpt: [], ...champsVides() },
+  doublonVarieteMasque: false,
+
+  // Millésimes
+  choixOrigine: [],          // choix de la colonne Origine
+  lieux: [],                 // choix de la colonne Ou de Semis (emplacements des plantes mères)
+  millesime: millesimeVide(),
+  doublonsMillesime: [],     // millésimes existants de même variété + année + origine + nature
+  doublonMillesimeMasque: false,
+
+  // Étiquettes en attente (Semis.Etiq_en_attente)
+  issuEtiquettes: false,     // case « Issu de mes étiquettes »
+  semisEnAttente: [],        // lignes Semis avec Etiq_en_attente > 0
+  ligneAttenteId: '',        // ligne choisie dans la liste
+  parcoursLigne: false       // true pendant le trajet ligne sans variété → espèce → variété → millésime
+});
+
+// ===== Messages =====
+const afficherMessage = creerMessageTemporaire(texte => { etat.message = texte; }, 4000);
+
+function dire(texte, erreur = false, panneau = etat.onglet) {
+  etat.panneauMessage = panneau;
+  etat.erreur = erreur;
+  afficherMessage(texte);
 }
 
-function showChainBanner(id, txt) {
-  const el = document.getElementById('chain-banner-' + id);
-  if (!el) return;
-  el.textContent = txt;
-  el.classList.add('show');
+// ===== Utilitaires =====
+function nombreOuNull(valeur) {
+  const n = parseFloat(valeur);
+  return isNaN(n) ? null : n;
 }
 
-function hideChainBanner(id) {
-  const el = document.getElementById('chain-banner-' + id);
-  if (!el) return;
-  el.classList.remove('show');
+function colonnesCommunes(f) {
+  // Colonnes identiques pour une espèce et une variété, au format attendu par Grist
+  return {
+    Type: f.type || null,
+    Conservation: nombreOuNull(f.conservation),
+    Semis_profondeur: f.profondeur || null,
+    Duree_germ: nombreOuNull(f.dureeGerm),
+    Temp_germ: f.tempGerm || null,
+    Semis_sous_abris: enListeChoix(f.abri),
+    Semis_pleine_terre: enListeChoix(f.terre),
+    Recolte_floraison: enListeChoix(f.recolte),
+    Exposition: f.exposition || null,
+    Arrosage: f.arrosage || null,
+    Nature_du_sol: enListeChoix(f.natureSol),
+    Qualite_du_sol: enListeChoix(f.qualiteSol),
+    Famille: enListeChoix(f.famille),
+    Ou_cultiver: enListeChoix(f.ouCultiver),
+    Infos: enListeChoix(f.infos)
+  };
 }
 
-/* =============================================
-   AJOUT TYPE LIE A VARIETE
-   ============================================= */   
-function chargerTypeMillesime() {
-  const id = parseInt(document.getElementById('m-variete').value);
-
-  const v = varietes.find(x => x.id === id);
-
-  document.getElementById('m-type').value = v ? v.Type : '';
-}
-/* =============================================
-   UTILITAIRES — PILLS (cases à cocher style étiquette)
-   ============================================= */
-function buildPills(containerId, values, selected = []) {
-  const container = document.getElementById(containerId);
-  container.innerHTML = '';
-  values.forEach(v => {
-    const pill = document.createElement('label');
-    pill.className = 'choice-pill' + (selected.includes(v) ? ' checked' : '');
-    pill.innerHTML = `<input type="checkbox" value="${v}" ${selected.includes(v) ? 'checked' : ''}> ${v}`;
-    pill.querySelector('input').addEventListener('change', e => {
-      pill.classList.toggle('checked', e.target.checked);
-    });
-    container.appendChild(pill);
-  });
-}
-
-function getPills(containerId) {
-  const vals = [...document.querySelectorAll(`#${containerId} input:checked`)]
-    .map(i => i.value);
-
-  return vals.length ? ["L", ...vals] : ["L"];
-}
-
-function setPills(containerId, selected) {
-  document.querySelectorAll(`#${containerId} .choice-pill`).forEach(pill => {
-    const cb = pill.querySelector('input');
-    const checked = selected.includes(cb.value);
-    cb.checked = checked;
-    pill.classList.toggle('checked', checked);
-  });
-}
-
-/* =============================================
-   UTILITAIRES — SELECTS
-   ============================================= */
-function fillSelect(id, options, selected = null) {
-  const el = document.getElementById(id);
-  const prev = el.value;
-  el.innerHTML = '<option value="">—</option>';
-  options.forEach(o => {
-    const opt = document.createElement('option');
-    opt.value = o; opt.textContent = o;
-    if (o === (selected || prev)) opt.selected = true;
-    el.appendChild(opt);
-  });
-}
-
-function fillMultiSelect(id, options, selected = []) {
-  const el = document.getElementById(id);
-  el.innerHTML = '';
-  options.forEach(o => {
-    const opt = document.createElement('option');
-    opt.value = o; opt.textContent = o;
-    opt.selected = selected.includes(o);
-    el.appendChild(opt);
-  });
-}
-
-function getMultiSelect(id) {
-  const el = document.getElementById(id);
-
-  if (!el) return ["L"];
-
-  const vals = [...el.selectedOptions]
-    .map(o => o.value)
-    .filter(v => v);
-
-  return ["L", ...vals];
-}
-
-/* Origines : étiquettes favorites + menu "autres", au format ["L", ...] */
-function getOrigines() {
-  const favs  = getPills('m-origine-fav').filter(v => v !== 'L');
-  const autre = document.getElementById('m-origine-autre').value;
-  return ['L', ...favs, ...(autre ? [autre] : [])];
-}
-/* Une seule origine au total : étiquette cochée → on vide le menu et on décoche les autres */
-function origineFavChoisie(e) {
-  const cb = e.target;
-  if (cb.checked) {
-    setPills('m-origine-fav', [cb.value]);
-    document.getElementById('m-origine-autre').value = '';
+function appliquerModele(m, formulaire) {
+  // Copie les champs communs d'une espèce dans un formulaire (le nom n'est pas copié)
+  for (const cle of Object.keys(champsVides())) {
+    const v = m[cle];
+    formulaire[cle] = Array.isArray(v) ? [...v] : v;
   }
-  verifierDoublonEnDirect();
 }
 
-/* Menu "autres" choisi → on décoche les étiquettes */
-function origineAutreChoisie() {
-  if (document.getElementById('m-origine-autre').value) setPills('m-origine-fav', []);
-  verifierDoublonEnDirect();
+function donnerLeFocus(id) {
+  Vue.nextTick(() => {
+    const el = document.getElementById(id);
+    if (el) el.focus();
+  });
 }
 
-/* Sachet : valeur enregistrée dans la colonne Sachets */
-const VALEUR_SACHET = '1';
-
-/* Montre ou cache Quantité / Année de plantation selon les cases cochées */
-function majChampsMillesime(source) {
-  const caseSachet = document.getElementById('m-sachet-check');
-  const caseMere   = document.getElementById('m-plante-mere');
-
-  /* Exclusion mutuelle : cocher l'un décoche l'autre */
-  if (source === 'sachet' && caseSachet.checked) caseMere.checked = false;
-  if (source === 'mere'   && caseMere.checked)   caseSachet.checked = false;
-
-  const sachet = caseSachet.checked;
-  const mere   = caseMere.checked;
-  document.getElementById('bloc-qtte').classList.toggle('cache', !sachet);
-  document.getElementById('bloc-plantation').classList.toggle('cache', !mere);
-  if (!sachet) document.getElementById('m-qtte').value = '';
-  if (!mere)   document.getElementById('m-annee-plantation').value = '';
-  const reelsVisible = !!ligneAttenteChoisie && sachet;
-  document.getElementById('bloc-sachets-reels').classList.toggle('cache', !reelsVisible);
-  if (!reelsVisible) {
-    document.getElementById('m-sachets-reels').value = '';
-    majInfoDon();
-  }  
-  verifierDoublonEnDirect();
+// ===== Espèces =====
+function modeleDepuisLigne(m) {
+  return {
+    id: m.id,
+    nom: m.Nom || '',
+    type: m.Type || '',
+    famille: listeChoix(m.Famille),
+    conservation: m.Conservation || '',
+    profondeur: m.Semis_profondeur || '',
+    dureeGerm: m.Duree_germ || '',
+    tempGerm: m.Temp_germ || '',
+    abri: listeChoix(m.Semis_sous_abris),
+    terre: listeChoix(m.Semis_pleine_terre),
+    recolte: listeChoix(m.Recolte_floraison),
+    exposition: m.Exposition || '',
+    arrosage: m.Arrosage || '',
+    natureSol: listeChoix(m.Nature_du_sol),
+    qualiteSol: listeChoix(m.Qualite_du_sol),
+    ouCultiver: listeChoix(m.Ou_cultiver),
+    infos: listeChoix(m.Infos)
+  };
 }
 
-/* =============================================
-   DÉTECTION DE DOUBLONS — MILLÉSIME
-   ============================================= */
+async function chargerModeles() {
+  const tab = await grist.docApi.fetchTable(TABLE_ESPECES);
+  etat.modeles = tableEnLignes(tab)
+    .map(modeleDepuisLigne)
+    .sort((a, b) => a.nom.localeCompare(b.nom, 'fr'));
+}
 
-/* Transforme ["L","Achat","Don"] en "Achat|Don" (sans "L", trié) pour comparer */
+const doublonsModele = Vue.computed(() => {
+  const cle = normaliser(etat.modele.nom);
+  return cle ? etat.modeles.filter(m => normaliser(m.nom) === cle) : [];
+});
+
+function reinitialiserModele() {
+  etat.modeleBase = '';
+  Object.assign(etat.modele, { nom: '', ...champsVides() });
+  etat.doublonModeleMasque = false;
+}
+
+async function creerModele(forcer = false) {
+  if (etat.enregistrement) return;
+  const nom = etat.modele.nom.trim();
+  if (!nom) { dire('Le nom est obligatoire.', true); return; }
+  if (!forcer && doublonsModele.value.length) { etat.doublonModeleMasque = false; return; }
+
+  etat.enregistrement = true;
+  let nouvelId = null;
+  try {
+    const resultat = await grist.docApi.applyUserActions([
+      ['AddRecord', TABLE_ESPECES, null, { Nom: nom, ...colonnesCommunes(etat.modele) }]
+    ]);
+    nouvelId = resultat && resultat.retValues ? resultat.retValues[0] : null;
+  } catch (e) {
+    dire('❌ Erreur : ' + e.message, true);
+    etat.enregistrement = false;
+    return;
+  }
+
+  try {
+    await chargerModeles();
+  } catch (e) {
+    console.error('Rechargement des espèces impossible :', e);
+  }
+  reinitialiserModele();
+  dire('✅ Espèce créée : ' + nom);
+
+  // Enchaînement vers la variété : espèce présélectionnée (ses champs sont copiés), nom repris
+  if ((etat.chaine || etat.parcoursLigne) && nouvelId) {
+    etat.varieteBase = nouvelId;
+    etat.variete.nom = nom;
+    etat.bandeaux.variete = '🔗 Espèce "' + nom + '" créée — complétez maintenant sa première variété.';
+    etat.onglet = 'variete';
+    donnerLeFocus('v-variete');
+  }
+  etat.enregistrement = false;
+}
+
+// Choisir une espèce comme point de départ : copie ses champs dans le formulaire
+Vue.watch(() => etat.modeleBase, id => {
+  const m = etat.modeles.find(x => x.id === id);
+  if (m) appliquerModele(m, etat.modele);
+});
+
+// Le bandeau « doublon » se rouvre dès que le nom change
+Vue.watch(() => etat.modele.nom, () => { etat.doublonModeleMasque = false; });
+
+// ===== Variétés =====
+async function chargerVarietes() {
+  const tab = await grist.docApi.fetchTable(TABLE_VARIETES);
+  etat.varietes = tableEnLignes(tab)
+    .map(v => ({ id: v.id, nom: v.Nom || '', variete: v.Variete || '', type: v.Type || '' }))
+    .sort((a, b) => (a.nom + a.variete).localeCompare(b.nom + b.variete, 'fr'));
+}
+
+const doublonsVariete = Vue.computed(() => {
+  if (!etat.variete.nom.trim()) return [];
+  const cle = normaliser(etat.variete.nom) + '|' + normaliser(etat.variete.variete);
+  return etat.varietes.filter(v => normaliser(v.nom) + '|' + normaliser(v.variete) === cle);
+});
+
+function reinitialiserVariete() {
+  etat.varieteBase = '';
+  Object.assign(etat.variete, { nom: '', variete: '', description: '', semisGpt: [], ...champsVides() });
+  etat.doublonVarieteMasque = false;
+  etat.bandeaux.variete = '';
+}
+
+async function creerVariete(forcer = false) {
+  if (etat.enregistrement) return;
+  const f = etat.variete;
+  const nom = f.nom.trim();
+  const variete = f.variete.trim();
+  if (!nom) { dire('Le nom est obligatoire.', true); return; }
+  if (!forcer && doublonsVariete.value.length) { etat.doublonVarieteMasque = false; return; }
+
+  /* NomVariete = "Nom\nVariété", ou "Nom" s'il n'y a pas de variété */
+  const nomVariete = variete ? nom + '\n' + variete : nom;
+  const libelleCree = variete ? nom + ' — ' + variete : nom;
+
+  etat.enregistrement = true;
+  let nouvelId = null;
+  try {
+    const resultat = await grist.docApi.applyUserActions([
+      ['AddRecord', TABLE_VARIETES, null, {
+        NomVariete: nomVariete,
+        Num_epingle: null,   // vide, pas 0
+        ...colonnesCommunes(f),
+        Description: f.description.trim() || null,
+        Semis_GPT: enListeChoix(f.semisGpt)
+      }]
+    ]);
+    nouvelId = resultat && resultat.retValues ? resultat.retValues[0] : null;
+  } catch (e) {
+    dire('❌ Erreur : ' + e.message, true);
+    etat.enregistrement = false;
+    return;
+  }
+
+  try {
+    await chargerVarietes();
+  } catch (e) {
+    console.error('Rechargement des variétés impossible :', e);
+  }
+  reinitialiserVariete();
+  dire('✅ Variété créée : ' + libelleCree);
+
+  // Enchaînement vers le millésime : variété présélectionnée (forcé pendant un parcours « graines à identifier »)
+  if ((etat.chaine || etat.parcoursLigne) && nouvelId) {
+    etat.millesime.varieteId = nouvelId;
+    if (etat.parcoursLigne && ligneAttente.value) {
+      etat.parcoursLigne = false;
+      preremplirLigneSansVariete(ligneAttente.value);
+      etat.bandeaux.millesime = '🔗 Variété "' + libelleCree + '" créée — choisis l\'origine et la quantité de tes graines.';
+    } else {
+      etat.bandeaux.millesime = '🔗 Variété "' + libelleCree + '" créée — complétez maintenant son millésime.';
+    }
+    etat.onglet = 'millesime';
+    donnerLeFocus('m-origine-autre');
+  }
+  etat.enregistrement = false;
+}
+
+// Choisir une espèce comme modèle de base : copie ses champs dans le formulaire (le nom n'est pas copié)
+Vue.watch(() => etat.varieteBase, id => {
+  const m = etat.modeles.find(x => x.id === id);
+  if (m) appliquerModele(m, etat.variete);
+});
+
+// Le bandeau « doublon » se rouvre dès que le nom ou la variété change
+Vue.watch(() => [etat.variete.nom, etat.variete.variete], () => { etat.doublonVarieteMasque = false; });
+
+// ===== Millésimes =====
+const origineFavorites = Vue.computed(() => etat.choixOrigine.slice(0, NB_FAVORIS));
+const origineAutres = Vue.computed(() => etat.choixOrigine.slice(NB_FAVORIS));
+// Valeur affichée par le menu « Autres origines » : l'origine choisie si elle y figure, sinon vide
+const origineAutre = Vue.computed(() => origineAutres.value.includes(etat.millesime.origine) ? etat.millesime.origine : '');
+
+function choisirOrigine(origine) {
+  etat.millesime.origine = origine;   // une seule origine au total (pastille ou menu)
+}
+
+const typeVariete = Vue.computed(() => {
+  const v = etat.varietes.find(x => x.id === Number(etat.millesime.varieteId));
+  return v ? v.type : '';
+});
+
 function cleOrigine(liste) {
-  return (Array.isArray(liste) ? liste : [])
-    .filter(v => v && v !== 'L')
-    .sort()
-    .join('|');
+  // ['Achat', 'Don'] ou ['L', 'Achat', 'Don'] → 'Achat|Don' (trié, sans le L) pour comparer
+  return (Array.isArray(liste) ? liste : []).filter(v => v && v !== 'L').sort().join('|');
 }
 
-/* Renvoie les millésimes existants de même variété + année + origine */
-async function trouverDoublonsMillesime(varId, annee, origine, planteMere = false) {
-  const data = await grist.docApi.fetchTable('Millesimes');
-  const cleCherchee = cleOrigine(origine);
+async function trouverDoublonsMillesime(varId, annee, origine, planteMere) {
+  // Millésimes existants de même variété + année + origine + nature (sachet ou plante mère)
+  const data = await grist.docApi.fetchTable(TABLE_MILLESIMES);
   const doublons = [];
-
   data.id.forEach((id, i) => {
     if (data.NomVariete[i] !== varId) return;
     if (!!data.Plante_mere[i] !== !!planteMere) return;
-
-    const ts = data.Millesime[i];
-    if (!ts) return;
-    if (new Date(ts * 1000).getUTCFullYear() !== annee) return;
-
-    if (cleOrigine(data.Origine[i]) !== cleCherchee) return;
-
-    doublons.push({
-      id,
-      annee,
-      origine: cleOrigine(data.Origine[i]).replace(/\|/g, ', '),
-      qtte: data.Qtte_graines[i],
-      sachets: data.Sachets[i],
-    });
+    if (anneeDepuisDate(data.Millesime[i]) !== annee) return;
+    if (cleOrigine(data.Origine[i]) !== origine) return;
+    doublons.push({ id, annee, origine, qtte: data.Qtte_graines[i] });
   });
-
   return doublons;
 }
 
-/* Renvoie les ids des lignes Semis de cette variété dont "A produire" est coché */
-async function trouverSemisAProduire(varId) {
-  const data = await grist.docApi.fetchTable('Semis');
-  const ids = [];
-  data.id.forEach((id, i) => {
-    if (data.NomVariete[i] === varId && data.A_produire[i]) ids.push(id);
-  });
-  return ids;
+const texteDoublonMillesime = Vue.computed(() => {
+  const liste = etat.doublonsMillesime;
+  if (!liste.length) return '';
+  const d = liste[0];
+  return '⚠️ ' + (liste.length > 1 ? liste.length + ' millésimes existent déjà' : 'Un millésime existe déjà') +
+    ' (année ' + d.annee + ', origine : ' + (d.origine || '—') +
+    ', quantité : ' + (d.qtte != null ? d.qtte : '—') + '). Créer quand même ?';
+});
+
+// Alerte en direct : se déclenche dès que variété, année et origine sont renseignées
+let numeroVerification = 0;
+
+async function verifierDoublonMillesime() {
+  const m = etat.millesime;
+  const varId = Number(m.varieteId);
+  const annee = parseInt(m.annee);
+  if (!varId || !annee || !m.origine) { etat.doublonsMillesime = []; return; }
+
+  const numero = ++numeroVerification;   // évite qu'une ancienne réponse écrase une plus récente
+  try {
+    const doublons = await trouverDoublonsMillesime(varId, annee, m.origine, m.planteMere);
+    if (numero === numeroVerification) etat.doublonsMillesime = doublons;
+  } catch (e) {
+    console.error('Vérification en direct impossible :', e);
+  }
 }
 
-/* =============================================
-   ÉTIQUETTES EN ATTENTE (Semis.Etiq_en_attente)
-   ============================================= */
-const ORIGINE_PRODUCTION = 'Monjardin';   // choix de la colonne Origine affiché "AR" sur l'étiquette
+Vue.watch(
+  () => [etat.millesime.varieteId, etat.millesime.annee, etat.millesime.origine, etat.millesime.planteMere],
+  () => {
+    etat.doublonMillesimeMasque = false;
+    verifierDoublonMillesime();
+  }
+);
 
-let semisEnAttente = [];          // lignes Semis avec Etiq_en_attente > 0
-let ligneAttenteChoisie = null;   // ligne choisie dans la liste
-let parcoursLigne = false;   // true pendant le trajet ligne sans variété → espèce → variété → millésime
+// Sachet et plante mère s'excluent ; décocher l'un vide ses champs
+Vue.watch(() => etat.millesime.sachet, coche => {
+  if (coche) etat.millesime.planteMere = false;
+  else etat.millesime.qtte = '';
+});
+Vue.watch(() => etat.millesime.planteMere, coche => {
+  if (coche) etat.millesime.sachet = false;
+  else Object.assign(etat.millesime, { anneePlantation: '', nbPlants: '', lieux: [] });
+});
 
+function reinitialiserMillesime() {
+  Object.assign(etat.millesime, millesimeVide());
+  etat.doublonsMillesime = [];
+  etat.doublonMillesimeMasque = false;
+  etat.bandeaux.millesime = '';
+  etat.ligneAttenteId = '';
+  etat.parcoursLigne = false;
+  rafraichirEtiquettes();   // la case « Issu de mes étiquettes » reste cochée : la liste est remise à jour
+}
+
+// ===== Étiquettes en attente (Semis.Etiq_en_attente) =====
+// Contrat avec l'outil d'étiquettes : « Marquer comme imprimées » copie Nb_etiquettes dans Etiq_en_attente
+// (sans rien supprimer) ; cet outil vide Etiq_en_attente à la création du millésime, et supprime la ligne
+// si c'est une ligne de transit (sans date de semis ni données de culture).
 async function chargerSemisEnAttente() {
   const [semis, mils] = await Promise.all([
-    grist.docApi.fetchTable('Semis'),
-    grist.docApi.fetchTable('Millesimes')
+    grist.docApi.fetchTable(TABLE_SEMIS),
+    grist.docApi.fetchTable(TABLE_MILLESIMES)
   ]);
 
   const milParId = new Map();
-  const originesOr = new Map();   // variété -> origines de son millésime "or."
+  const originesOr = new Map();   // variété → origines de son millésime « or. »
   mils.id.forEach((id, i) => {
     milParId.set(id, {
       saisons: mils.Nb_saisons_manuel[i] || '',
@@ -253,13 +413,13 @@ async function chargerSemisEnAttente() {
     }
   });
 
-  semisEnAttente = [];
+  const liste = [];
   semis.id.forEach((id, i) => {
     const nb = semis.Etiq_en_attente[i];
     if (!(nb > 0)) return;
-    semisEnAttente.push({
+    liste.push({
       id,
-      varId: semis.NomVariete[i],
+      varId: semis.NomVariete[i] || 0,
       nb,
       note: ((semis.Note_attente || [])[i] || '').trim(),
       seme: !!semis.Date_s[i],
@@ -267,82 +427,44 @@ async function chargerSemisEnAttente() {
       originesOr: originesOr.get(semis.NomVariete[i]) || []
     });
   });
+  etat.semisEnAttente = liste;
 }
 
-function libelleAttente(l) {
-  if (!l.varId) {
-    return 'Graines à identifier' + (l.note ? ' (' + l.note + ')' : '') +
-           ' · ' + l.nb + ' étiquette(s)';
-  }
-  const v = varietes.find(x => x.id === l.varId);
-  const nom = v ? v.Nom + (v.Variete ? ' — ' + v.Variete : '') : '(variété inconnue)';
-  const type = (l.mil && l.mil.planteMere) ? 'plante mère'
-             : (l.seme ? 'semis' : 'récupération hors sachet');
-  return nom + ' · ' + type + ' · ' + l.nb + ' étiquette(s)';
-}
-
-function remplirListeAttente() {
-  const sel = document.getElementById('m-attente');
-  sel.innerHTML = '<option value="">— Choisir une ligne —</option>';
-  [...semisEnAttente]
-    .sort((a, b) => libelleAttente(a).localeCompare(libelleAttente(b), 'fr'))
-    .forEach(l => {
-      const opt = document.createElement('option');
-      opt.value = l.id;
-      opt.textContent = libelleAttente(l);
-      sel.appendChild(opt);
-    });
-}
-
-/* Annule la ligne choisie : le formulaire redevient libre */
-function annulerLigneAttente() {
-  ligneAttenteChoisie = null;
-  parcoursLigne = false;
-  document.getElementById('m-variete').disabled = false;
-  document.getElementById('m-attente').value = '';
-  document.getElementById('bloc-sans-variete').classList.add('cache');
-  majChampsMillesime();
-}
-
-/* Case "Issu de mes étiquettes" */
-async function majModeEtiquettes() {
-  const actif = document.getElementById('m-issu-etiquettes').checked;
-  document.getElementById('bloc-attente').classList.toggle('cache', !actif);
-  if (!actif) { annulerLigneAttente(); return; }
+async function rafraichirEtiquettes() {
+  if (!etat.issuEtiquettes) return;
   try {
     await chargerSemisEnAttente();
-    remplirListeAttente();
-    if (!semisEnAttente.length) {
-      showMsg('msg-millesime-etiquettes', 'Aucune étiquette en attente dans Semis.', 'err');
-    }
-  } catch (e) {
-    showMsg('msg-millesime-etiquettes', '❌ Lecture des étiquettes en attente impossible : ' + e.message, 'err');
-  }
-}
-
-/* Resynchronise l'affichage du mode étiquettes avec la case (appelée après chaque reset) */
-async function rafraichirModeEtiquettes() {
-  const actif = document.getElementById('m-issu-etiquettes').checked;
-  document.getElementById('bloc-attente').classList.toggle('cache', !actif);
-  if (!actif) return;
-  try {
-    await chargerSemisEnAttente();
-    remplirListeAttente();
   } catch (e) {
     console.error('Rafraîchissement des étiquettes en attente impossible :', e);
   }
 }
 
-/* Origine unique : on garde la première de la liste */
-function appliquerOrigines(liste) {
-  const favs = [...document.querySelectorAll('#m-origine-fav input')].map(i => i.value);
-  const o = liste[0] || '';
-  setPills('m-origine-fav', favs.includes(o) ? [o] : []);
-  document.getElementById('m-origine-autre').value = (o && !favs.includes(o)) ? o : '';
+const ligneAttente = Vue.computed(() =>
+  etat.semisEnAttente.find(l => l.id === Number(etat.ligneAttenteId)) || null);
+const ligneSansVariete = Vue.computed(() => !!ligneAttente.value && !ligneAttente.value.varId);
+const varieteVerrouillee = Vue.computed(() => !!ligneAttente.value && !!ligneAttente.value.varId);
+
+function libelleAttente(l) {
+  if (!l.varId) {
+    return 'Graines à identifier' + (l.note ? ' (' + l.note + ')' : '') + ' · ' + l.nb + ' étiquette(s)';
+  }
+  const v = etat.varietes.find(x => x.id === l.varId);
+  const type = (l.mil && l.mil.planteMere) ? 'plante mère' : (l.seme ? 'semis' : 'récupération hors sachet');
+  return (v ? libelle(v) : '(variété inconnue)') + ' · ' + type + ' · ' + l.nb + ' étiquette(s)';
 }
 
-/* Nb de saisons du nouveau millésime, même règle que l'étiquette */
+const optionsAttente = Vue.computed(() =>
+  etat.semisEnAttente
+    .map(l => ({ id: l.id, texte: libelleAttente(l) }))
+    .sort((a, b) => a.texte.localeCompare(b.texte, 'fr')));
+
+const infoDon = Vue.computed(() => {
+  const n = parseInt(etat.millesime.sachetsReels);
+  return n >= 1 ? 'Don : ' + (n - 1) + ' sachet(s)' : '';
+});
+
 function saisonsPourLigne(l) {
+  // Nb de saisons du nouveau millésime : même règle que l'étiquette
   let n;
   if (l.mil && l.mil.planteMere && l.mil.anneePlantation) {
     n = new Date().getFullYear() - l.mil.anneePlantation + 1;
@@ -355,802 +477,359 @@ function saisonsPourLigne(l) {
   return String(Math.min(Math.max(n, 1), 8));
 }
 
-function majInfoDon() {
-  const n = parseInt(document.getElementById('m-sachets-reels').value);
-  document.getElementById('info-don').textContent = n >= 1 ? 'Don : ' + (n - 1) + ' sachet(s)' : '';
+function preremplirLigneSansVariete(l) {
+  // Ligne sans variété : l'origine n'est pas devinable, tu la choisis
+  const m = etat.millesime;
+  m.annee = new Date().getFullYear();
+  m.nbSaisons = 'or.';
+  m.origine = '';
+  m.sachet = true;
+  m.planteMere = false;
+  m.sachetsReels = l.nb;
 }
 
-/* Préremplissage d'une ligne sans variété (ligneAttenteChoisie doit déjà être définie) */
-function preremplirLigneSansVariete(l) {
-  document.getElementById('m-millesime').value = new Date().getFullYear();
-  document.getElementById('m-nb-saisons').value = 'or.';
-  appliquerOrigines([]);   /* l'origine n'est pas devinable : tu la choisis */
-  document.getElementById('m-sachet-check').checked = true;
-  document.getElementById('m-plante-mere').checked = false;
-  majChampsMillesime('sachet');
-  document.getElementById('m-sachets-reels').value = l.nb;
-  majInfoDon();
-  verifierDoublonEnDirect();
+function annulerLigneAttente() {
+  etat.ligneAttenteId = '';
+  etat.parcoursLigne = false;
 }
 
 function chargerLigneAttente() {
-  const id = parseInt(document.getElementById('m-attente').value);
-  const l = semisEnAttente.find(x => x.id === id);
+  const l = ligneAttente.value;
+  etat.parcoursLigne = false;
   if (!l) { annulerLigneAttente(); return; }
+  const m = etat.millesime;
 
-  const selV = document.getElementById('m-variete');
-  const blocSans = document.getElementById('bloc-sans-variete');
-  parcoursLigne = false;
-
-  /* Ligne sans variété : le menu reste libre, boutons de création visibles */
+  // Ligne sans variété : le menu Variété reste libre, les boutons de création apparaissent
   if (!l.varId) {
-    ligneAttenteChoisie = l;
-    selV.disabled = false;
-    selV.value = '';
-    chargerTypeMillesime();
+    m.varieteId = '';
     preremplirLigneSansVariete(l);
-    blocSans.classList.remove('cache');
-    showMsg('msg-millesime', 'Choisis la variété dans le menu, ou crée-la avec les boutons.', 'ok');
+    dire('Choisis la variété dans le menu, ou crée-la avec les boutons.', false, 'millesime');
     return;
   }
 
-  /* Ligne avec variété (comportement de l'étape 4) */
-  blocSans.classList.add('cache');
-  selV.value = l.varId;
-  if (selV.value !== String(l.varId)) {
-    showMsg('msg-millesime', 'Variété introuvable dans la liste (recharge le widget).', 'err');
+  // Ligne avec variété : variété verrouillée, tout est prérempli
+  if (!etat.varietes.some(v => v.id === l.varId)) {
+    dire('Variété introuvable dans la liste (recharge le widget).', true, 'millesime');
     return;
   }
-  ligneAttenteChoisie = l;
-  selV.disabled = true;
-  chargerTypeMillesime();
-
-  document.getElementById('m-millesime').value = new Date().getFullYear();
-  document.getElementById('m-nb-saisons').value = saisonsPourLigne(l);
-
+  m.varieteId = l.varId;
+  m.annee = new Date().getFullYear();
+  m.nbSaisons = saisonsPourLigne(l);
   const produit = (l.mil && l.mil.planteMere) || l.seme;
-  appliquerOrigines(produit ? [ORIGINE_PRODUCTION] : l.originesOr);
-
-  document.getElementById('m-sachet-check').checked = true;
-  document.getElementById('m-plante-mere').checked = false;
-  majChampsMillesime('sachet');
-
-  document.getElementById('m-sachets-reels').value = l.nb;
-  majInfoDon();
-  verifierDoublonEnDirect();
-
-  if (getOrigines().length < 2) {
-    showMsg('msg-millesime', "Origine non reconnue : choisis-la à la main.", 'err');
-  }
-  document.getElementById('m-qtte').focus();
+  const origine = produit ? ORIGINE_PRODUCTION : (l.originesOr[0] || '');
+  m.origine = etat.choixOrigine.includes(origine) ? origine : '';
+  m.sachet = true;
+  m.planteMere = false;
+  m.sachetsReels = l.nb;
+  if (!m.origine) dire('Origine non reconnue : choisis-la à la main.', true, 'millesime');
+  donnerLeFocus('m-qtte');
 }
 
-/* Ligne sans variété → panneau Variété (la note préremplit le Nom, modifiable) */
+// Ligne sans variété → panneau Variété (la note préremplit le nom, modifiable)
 function allerCreerVariete() {
-  if (!ligneAttenteChoisie || ligneAttenteChoisie.varId) return;
-  parcoursLigne = true;
-  goToPanel('variete');
-  const champ = document.getElementById('v-nom');
-  if (!champ.value.trim() && ligneAttenteChoisie.note) {
-    champ.value = ligneAttenteChoisie.note;
-    verifierDoublonVarieteEnDirect();
-  }
-  showChainBanner('variete', '🔗 Graines à identifier (' + ligneAttenteChoisie.nb +
-    ' étiquette(s)) : crée la variété, tu reviendras au millésime ensuite.');
-  champ.focus();
+  const l = ligneAttente.value;
+  if (!l || l.varId) return;
+  etat.parcoursLigne = true;
+  if (!etat.variete.nom.trim() && l.note) etat.variete.nom = l.note;
+  etat.bandeaux.variete = '🔗 Graines à identifier (' + l.nb +
+    ' étiquette(s)) : crée la variété, tu reviendras au millésime ensuite.';
+  etat.onglet = 'variete';
+  donnerLeFocus('v-nom');
 }
 
-/* Ligne sans variété → panneau Espèce, puis la chaîne continue */
+// Ligne sans variété → panneau Espèce, puis la chaîne continue vers Variété et Millésime
 function allerCreerEspece() {
-  if (!ligneAttenteChoisie || ligneAttenteChoisie.varId) return;
-  parcoursLigne = true;
-  goToPanel('modele');
-  const champ = document.getElementById('e-nom');
-  if (!champ.value.trim() && ligneAttenteChoisie.note) {
-    champ.value = ligneAttenteChoisie.note;
-    verifierDoublonModeleEnDirect();
-  }
-  champ.focus();
+  const l = ligneAttente.value;
+  if (!l || l.varId) return;
+  etat.parcoursLigne = true;
+  if (!etat.modele.nom.trim() && l.note) etat.modele.nom = l.note;
+  etat.onglet = 'modele';
+  donnerLeFocus('e-nom');
 }
 
-/* Vide Etiq_en_attente ; supprime la ligne si c'est une ligne de transit.
-   Renvoie 'supprimee', 'videe' ou 'absente'. */
 async function nettoyerLigneAttente(ligne) {
-  const data = await grist.docApi.fetchTable('Semis');
+  // Vide Etiq_en_attente ; supprime la ligne si c'est une ligne de transit
+  const data = await grist.docApi.fetchTable(TABLE_SEMIS);
   const i = data.id.indexOf(ligne.id);
-  if (i === -1) return 'absente';
-
+  if (i === -1) return;
   const transit = !data.Date_s[i] && !data.Nb_graines[i] && !data.Nb_godets[i]
-               && !data.Germes[i] && !data.Plantes[i] && !(data.Nb_etiquettes[i] > 0);
-
+    && !data.Germes[i] && !data.Plantes[i] && !(data.Nb_etiquettes[i] > 0);
   if (transit) {
-    await grist.docApi.applyUserActions([['RemoveRecord', 'Semis', ligne.id]]);
-    return 'supprimee';
+    await grist.docApi.applyUserActions([['RemoveRecord', TABLE_SEMIS, ligne.id]]);
+  } else {
+    await grist.docApi.applyUserActions([['UpdateRecord', TABLE_SEMIS, ligne.id, { Etiq_en_attente: null }]]);
   }
-  await grist.docApi.applyUserActions([
-    ['UpdateRecord', 'Semis', ligne.id, { Etiq_en_attente: null }]
-  ]);
-  return 'videe';
 }
 
-function afficherAlerteDoublon(doublons) {
-  const d = doublons[0];
-  const nb = doublons.length;
-  const details = 'année ' + d.annee +
-    ', origine : ' + (d.origine || '—') +
-    ', quantité : ' + (d.qtte ?? '—');
-  document.getElementById('doublon-texte').textContent =
-    '⚠️ ' + (nb > 1 ? nb + ' millésimes existent déjà' : 'Un millésime existe déjà') +
-    ' (' + details + '). Créer quand même ?';
-  document.getElementById('doublon-millesime').classList.add('show');
-}
-
-function cacherAlerteDoublon() {
-  document.getElementById('doublon-millesime').classList.remove('show');
-}
-/* Alerte en direct : vérifie dès que variété + année + origine sont remplies */
-let verifEnCours = 0;
-
-async function verifierDoublonEnDirect() {
-  const varId  = parseInt(document.getElementById('m-variete').value);
-  const annee  = parseInt(document.getElementById('m-millesime').value);
-  const origine = getOrigines();
-  const planteMere = document.getElementById('m-plante-mere').checked;
-
-  if (!varId || !annee || origine.length < 2) {
-    cacherAlerteDoublon();
-    return;
-  }
-
-  /* Évite qu'une ancienne réponse écrase une plus récente */
-  const numero = ++verifEnCours;
+// Case « Issu de mes étiquettes » : charge la liste, ou libère le formulaire
+Vue.watch(() => etat.issuEtiquettes, async actif => {
+  if (!actif) { annulerLigneAttente(); return; }
   try {
-    const doublons = await trouverDoublonsMillesime(varId, annee, origine, planteMere);    if (numero !== verifEnCours) return;
-    if (doublons.length) afficherAlerteDoublon(doublons);
-    else cacherAlerteDoublon();
+    await chargerSemisEnAttente();
+    if (!etat.semisEnAttente.length) dire('Aucune étiquette en attente dans Semis.', true, 'millesime');
   } catch (e) {
-    console.error('Vérification en direct impossible :', e);
+    dire('❌ Lecture des étiquettes en attente impossible : ' + e.message, true, 'millesime');
   }
-}
-/* =============================================
-   DÉTECTION DE DOUBLONS — VARIÉTÉ
-   ============================================= */
-
-/* "Orange  Bourgoin" et "orange bourgoin" deviennent identiques ; accents ignorés */
-function normaliser(txt) {
-  return (txt || '').toString()
-    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/\s+/g, ' ')
-    .trim();
-}
-
-function trouverDoublonsVariete(nom, variete) {
-  const cle = normaliser(nom) + '|' + normaliser(variete);
-  return varietes.filter(v => normaliser(v.Nom) + '|' + normaliser(v.Variete) === cle);
-}
-
-function afficherAlerteDoublonVariete(doublons) {
-  const d = doublons[0];
-  document.getElementById('doublon-variete-texte').textContent =
-    '⚠️ ' + (doublons.length > 1 ? doublons.length + ' variétés existent déjà' : 'Une variété existe déjà') +
-    ' : ' + d.Nom + (d.Variete ? ' — ' + d.Variete : '') + '. Créer quand même ?';
-  document.getElementById('doublon-variete').classList.add('show');
-}
-
-function cacherAlerteDoublonVariete() {
-  document.getElementById('doublon-variete').classList.remove('show');
-}
-
-/* Alerte en direct : appelée à chaque frappe dans Nom ou Variété */
-function verifierDoublonVarieteEnDirect() {
-  const nom     = document.getElementById('v-nom').value;
-  const variete = document.getElementById('v-variete').value;
-  if (!nom.trim()) { cacherAlerteDoublonVariete(); return; }
-
-  const doublons = trouverDoublonsVariete(nom, variete);
-  if (doublons.length) afficherAlerteDoublonVariete(doublons);
-  else cacherAlerteDoublonVariete();
-}
-
-/* =============================================
-   DÉTECTION DE DOUBLONS — ESPÈCE (MODÈLE)
-   ============================================= */
-
-function trouverDoublonsModele(nom) {
-  const cle = normaliser(nom);
-  return modeles.filter(m => normaliser(m.Nom) === cle);
-}
-
-function afficherAlerteDoublonModele(doublons) {
-  document.getElementById('doublon-modele-texte').textContent =
-    '⚠️ ' + (doublons.length > 1 ? doublons.length + ' espèces existent déjà' : 'Une espèce existe déjà') +
-    ' : ' + doublons[0].Nom + '. Créer quand même ?';
-  document.getElementById('doublon-modele').classList.add('show');
-}
-
-function cacherAlerteDoublonModele() {
-  document.getElementById('doublon-modele').classList.remove('show');
-}
-
-/* Alerte en direct : appelée à chaque frappe dans le nom de l'espèce */
-function verifierDoublonModeleEnDirect() {
-  const nom = document.getElementById('e-nom').value;
-  if (!nom.trim()) { cacherAlerteDoublonModele(); return; }
-
-  const doublons = trouverDoublonsModele(nom);
-  if (doublons.length) afficherAlerteDoublonModele(doublons);
-  else cacherAlerteDoublonModele();
-}
-
-/* =============================================
-   AFFICHER UN MESSAGE
-   ============================================= */
-function showMsg(id, txt, type) {
-  const el = document.getElementById(id);
-  el.textContent = txt;
-  el.className = 'msg ' + type;
-  setTimeout(() => { el.className = 'msg'; }, 4000);
-}
-
-/* =============================================
-   INITIALISATION — charge les données Grist
-   ============================================= */
-grist.ready({ requiredAccess: 'full' });
-
-async function init() {
-  try {
-    /* Charger les modèles */
-    const dataModele = await grist.docApi.fetchTable('Modele');
-    modeles = dataModele.id.map((id, i) => ({
-      id,
-      Nom:               dataModele.Nom?.[i]               || '',
-      Type:              dataModele.Type?.[i]              || '',
-      Conservation:      dataModele.Conservation?.[i]      || '',
-      Semis_profondeur:  dataModele.Semis_profondeur?.[i]  || '',
-      Duree_germ:        dataModele.Duree_germ?.[i]        || '',
-      Temp_germ:         dataModele.Temp_germ?.[i]         || '',
-      Semis_sous_abris:  dataModele.Semis_sous_abris?.[i]  || [],
-      Semis_pleine_terre:dataModele.Semis_pleine_terre?.[i]|| [],
-      Recolte_floraison: dataModele.Recolte_floraison?.[i] || [],
-      Exposition:        dataModele.Exposition?.[i]        || '',
-      Arrosage:          dataModele.Arrosage?.[i]          || '',
-      Nature_du_sol:     dataModele.Nature_du_sol?.[i]     || [],
-      Qualite_du_sol:    dataModele.Qualite_du_sol?.[i]    || [],
-      Famille:           dataModele.Famille?.[i]           || [],
-      Ou_cultiver:       dataModele.Ou_cultiver?.[i]       || [],
-      Infos:             dataModele.Infos?.[i]             || [],
-    }));
-
-    /* Charger les variétés pour le panneau millésime */
-    const dataVar = await grist.docApi.fetchTable('Varietes');
-    varietes = dataVar.id.map((id, i) => ({
-      id,
-      NomVariete: dataVar.NomVariete?.[i] || '',
-      Nom:        dataVar.Nom?.[i]        || '',
-      Variete:    dataVar.Variete?.[i]    || '',
-      Type: dataVar.Type?.[i] || '', 
-    })).sort((a, b) => (a.Nom + a.Variete).localeCompare(b.Nom + b.Variete, 'fr'));
-
-     
-    /* Charger les métadonnées des colonnes (pour récupérer les choix) */
-    const meta = await grist.docApi.fetchTable('_grist_Tables_column');
-    const tablesMeta = await grist.docApi.fetchTable('_grist_Tables');
-
-    /* Trouver l'id de la table Varietes */
-    const tablesInteressantes = [
-        tablesMeta.id[tablesMeta.tableId.indexOf('Varietes')],
-        tablesMeta.id[tablesMeta.tableId.indexOf('Millesimes')],
-        tablesMeta.id[tablesMeta.tableId.indexOf('Modele')]
-   ];
-
-
-    /* Extraire les choix pour chaque colonne */
-    meta.id.forEach((id, i) => {
-
-  if (!tablesInteressantes.includes(meta.parentId[i])) return;
-
-  const col = meta.colId[i];
-  const widgetOpts = meta.widgetOptions[i];
-
-  if (!widgetOpts) return;
-
-  try {
-    const opts = JSON.parse(widgetOpts);
-
-    if (opts.choices) {
-      metaChoix[col] = opts.choices;
-    }
-
-  } catch(e) {}
 });
 
-    /* Remplir les listes de modèles */
-    const selV = document.getElementById('v-modele');
-    const selE = document.getElementById('e-modele-base');
-    modeles.forEach(m => {
-      [selV, selE].forEach(sel => {
-        const opt = document.createElement('option');
-        opt.value = m.id; opt.textContent = m.Nom;
-        sel.appendChild(opt);
-      });
-    });
+// Choix d'une ligne dans la liste
+Vue.watch(() => etat.ligneAttenteId, () => chargerLigneAttente());
 
-    /* Remplir la liste des variétés (panneau 2) */
-    const selM = document.getElementById('m-variete');
-    varietes.forEach(v => {
-      const opt = document.createElement('option');
-      opt.value = v.id;
-      opt.textContent = v.Nom + (v.Variete ? ' — ' + v.Variete : '');
-      selM.appendChild(opt);
-    });
-
-    /* Construire les selects et pills avec les choix Grist */
-    const TYPE    = metaChoix['Type']           || [];
-    const EXPO    = metaChoix['Exposition']      || [];
-    const ARROS   = metaChoix['Arrosage']        || [];
-    const PROF    = metaChoix['Semis_profondeur']|| [];
-    const FAMILLE = metaChoix['Famille']         || [];
-    const NATURE  = metaChoix['Nature_du_sol']   || [];
-    const QUALITE = metaChoix['Qualite_du_sol']  || [];
-    const OU      = metaChoix['Ou_cultiver']     || [];
-    const ORIG    = metaChoix['Origine']         || [];
-    const INFOS = metaChoix['Infos'] || metaChoix['Info_supp'] || [];
-    const SEMIS_GPT = metaChoix['Semis_GPT'] || [];
-
-    /* Panneau 1 — Variété */
-    fillSelect('v-type', TYPE);
-    fillSelect('v-profondeur', PROF);
-    fillSelect('v-exposition', EXPO);
-    fillSelect('v-arrosage', ARROS);
-    fillMultiSelect('v-famille', FAMILLE);
-    fillMultiSelect('v-nature-sol', NATURE);
-    fillMultiSelect('v-qualite-sol', QUALITE);
-    fillMultiSelect('v-ou-cultiver', OU);
-    buildPills('v-abri', MOIS);
-    buildPills('v-terre', MOIS);
-    buildPills('v-recolte', MOIS);
-    fillMultiSelect('v-infos', INFOS);
-    fillMultiSelect('v-semis-gpt', SEMIS_GPT);
-
-    /* Panneau 2 — Millésime */
-        const NB_FAVORIS = 6;
-    buildPills('m-origine-fav', ORIG.slice(0, NB_FAVORIS));
-    fillSelect('m-origine-autre', ORIG.slice(NB_FAVORIS));
-    document.getElementById('m-origine-autre').options[0].textContent = 'Autres origines…';
-document.getElementById('m-origine-fav').addEventListener('change', origineFavChoisie);    document.getElementById('m-millesime').value = new Date().getFullYear();
-
-    /* Panneau 3 — Modèle */
-    fillSelect('e-type', TYPE);
-    fillSelect('e-profondeur', PROF);
-    fillSelect('e-exposition', EXPO);
-    fillSelect('e-arrosage', ARROS);
-    fillMultiSelect('e-famille', FAMILLE);
-    fillMultiSelect('e-nature-sol', NATURE);
-    fillMultiSelect('e-qualite-sol', QUALITE);
-    fillMultiSelect('e-ou-cultiver', OU);
-    buildPills('e-abri', MOIS);
-    buildPills('e-terre', MOIS);
-    buildPills('e-recolte', MOIS);
-    fillMultiSelect('e-infos', INFOS);
-
-  } catch(e) {
-    console.error('Erreur init:', e);
-  }
-}
-
-/* =============================================
-   PANNEAU 1 — Charger un modèle
-   ============================================= */
-function chargerModele() {
-  const id = parseInt(document.getElementById('v-modele').value);
-  if (!id) return;
-  const m = modeles.find(x => x.id === id);
-  if (!m) return;
-  appliquerModele(m, 'v');
-}
-
-function appliquerModele(m, prefix) {
-  /* Texte */
-  if (document.getElementById(prefix + '-conservation'))
-    document.getElementById(prefix + '-conservation').value = m.Conservation || '';
-  if (document.getElementById(prefix + '-duree-germ'))
-    document.getElementById(prefix + '-duree-germ').value = m.Duree_germ || '';
-  if (document.getElementById(prefix + '-temp-germ'))
-    document.getElementById(prefix + '-temp-germ').value = m.Temp_germ || '';
-
-  /* Selects */
-  const sel = (id, val) => { if (document.getElementById(id)) document.getElementById(id).value = val || ''; };
-  sel(prefix + '-type', m.Type);
-  sel(prefix + '-profondeur', m.Semis_profondeur);
-  sel(prefix + '-exposition', m.Exposition);
-  sel(prefix + '-arrosage', m.Arrosage);
-
-  /* Multi-selects */
-  const toArray = v => Array.isArray(v) ? v : (v ? [v] : []);
-  fillMultiSelect(prefix + '-famille',    metaChoix['Famille']        || [], toArray(m.Famille));
-  fillMultiSelect(prefix + '-nature-sol', metaChoix['Nature_du_sol']  || [], toArray(m.Nature_du_sol));
-  fillMultiSelect(prefix + '-qualite-sol',metaChoix['Qualite_du_sol'] || [], toArray(m.Qualite_du_sol));
-  fillMultiSelect(prefix + '-ou-cultiver',metaChoix['Ou_cultiver']    || [], toArray(m.Ou_cultiver));
-  fillMultiSelect(prefix + '-infos',metaChoix['Infos']                || [], toArray(m.Infos));
-
-  /* Pills mois */
-  setPills(prefix + '-abri',    toArray(m.Semis_sous_abris));
-  setPills(prefix + '-terre',   toArray(m.Semis_pleine_terre));
-  setPills(prefix + '-recolte', toArray(m.Recolte_floraison));
-}
-
-function resetVariete() {
-  document.getElementById('v-modele').value = '';
-  document.getElementById('v-nom').value = '';
-  document.getElementById('v-variete').value = '';
-  ['v-type','v-profondeur','v-exposition','v-arrosage'].forEach(id => document.getElementById(id).value = '');
-  ['v-conservation','v-duree-germ','v-temp-germ'].forEach(id => document.getElementById(id).value = '');
-  ['v-famille','v-nature-sol','v-qualite-sol','v-ou-cultiver'].forEach(id => {
-    [...document.querySelectorAll(`#${id} option`)].forEach(o => o.selected = false);
+async function trouverSemisAProduire(varId) {
+  // Ids des lignes Semis de cette variété dont « A produire » est coché
+  const data = await grist.docApi.fetchTable(TABLE_SEMIS);
+  const ids = [];
+  data.id.forEach((id, i) => {
+    if (data.NomVariete[i] === varId && data.A_produire[i]) ids.push(id);
   });
-  ['v-abri','v-terre','v-recolte'].forEach(id => setPills(id, []));
-  [...document.querySelectorAll('#v-infos option')].forEach(o => o.selected = false);
-  [...document.querySelectorAll('#v-semis-gpt option')].forEach(o => o.selected = false);
-  document.getElementById('v-description').value = '';
-  hideChainBanner('variete');
+  return ids;
 }
 
-/* =============================================
-   PANNEAU 3 — Charger un modèle de base
-   ============================================= */
-function chargerModeleBase() {
-  const id = parseInt(document.getElementById('e-modele-base').value);
-  if (!id) return;
-  const m = modeles.find(x => x.id === id);
-  if (!m) return;
-  appliquerModele(m, 'e');
-}
-
-function resetModele() {
-  document.getElementById('e-modele-base').value = '';
-  document.getElementById('e-nom').value = '';
-  ['e-type','e-profondeur','e-exposition','e-arrosage'].forEach(id => document.getElementById(id).value = '');
-  ['e-conservation','e-duree-germ','e-temp-germ'].forEach(id => document.getElementById(id).value = '');
-  ['e-famille','e-nature-sol','e-qualite-sol','e-ou-cultiver'].forEach(id => {
-    [...document.querySelectorAll(`#${id} option`)].forEach(o => o.selected = false);
-  });
-  ['e-abri','e-terre','e-recolte'].forEach(id => setPills(id, []));
-  [...document.querySelectorAll('#e-infos option')].forEach(o => o.selected = false);
-}
-
-function resetMillesime() {
-  ligneAttenteChoisie = null;
-  document.getElementById('m-variete').disabled = false;
-  document.getElementById('m-attente').value = '';
-  document.getElementById('m-sachets-reels').value = '';
-  majInfoDon();
-    parcoursLigne = false;
-  document.getElementById('bloc-sans-variete').classList.add('cache');
-  document.getElementById('m-variete').value = '';
-  document.getElementById('m-millesime').value = new Date().getFullYear();
-  document.getElementById('m-nb-saisons').value = 'or.';
-  document.getElementById('m-qtte').value = '';
-  document.getElementById('m-sachet-check').checked = true;
-  setPills('m-origine-fav', []);
-  document.getElementById('m-origine-autre').value = '';
-  hideChainBanner('millesime');
-  document.getElementById('m-plante-mere').checked = false;
-  document.getElementById('m-annee-plantation').value = '';
-  majChampsMillesime();
-  cacherAlerteDoublon();
-  rafraichirModeEtiquettes();
-}
-
-/* =============================================
-   PANNEAU 1 — Créer une variété
-   ============================================= */
-async function creerVariete(forcer = false) {
-  const nom     = document.getElementById('v-nom').value.trim();
-  const variete = document.getElementById('v-variete').value.trim();
-  if (!nom) { showMsg('msg-variete', 'Le nom est obligatoire.', 'err'); return; }
-  /* Détection de doublon (sauf si l'utilisateur a déjà confirmé) */
-  if (!forcer) {
-    const doublons = trouverDoublonsVariete(nom, variete);
-    if (doublons.length) { afficherAlerteDoublonVariete(doublons); return; }
-  }
-  cacherAlerteDoublonVariete();
-
-  /* NomVariete = "Nom\nVariété" ou "Nom" si pas de variété */
-  const nomVariete = variete ? nom + '\n' + variete : nom;
-
-  const row = {
-    NomVariete:         nomVariete,
-    Type:               document.getElementById('v-type').value || null,
-    Num_epingle:        null,   // vide, pas 0    Conservation:       parseFloat(document.getElementById('v-conservation').value) || null,
-    Semis_profondeur:   document.getElementById('v-profondeur').value || null,
-    Duree_germ:         parseFloat(document.getElementById('v-duree-germ').value) || null,
-    Temp_germ:          document.getElementById('v-temp-germ').value || null,
-    Semis_sous_abris:   getPills('v-abri'),
-    Semis_pleine_terre: getPills('v-terre'),
-    Recolte_floraison:  getPills('v-recolte'),
-    Exposition:         document.getElementById('v-exposition').value || null,
-    Arrosage:           document.getElementById('v-arrosage').value || null,
-    Nature_du_sol:      getMultiSelect('v-nature-sol'),
-    Qualite_du_sol:     getMultiSelect('v-qualite-sol'),
-    Famille:            getMultiSelect('v-famille'),
-    Ou_cultiver:        getMultiSelect('v-ou-cultiver'),
-    Infos:              getMultiSelect('v-infos'),
-    Description:        document.getElementById('v-description').value.trim() || null,
-    Semis_GPT:          getMultiSelect('v-semis-gpt'),
-
-  };
-
-  try {
-    const result = await grist.docApi.applyUserActions([
-      ['AddRecord', 'Varietes', null, row]
-    ]);
-    const newVarieteId = result && result.retValues ? result.retValues[0] : null;
-
-    showMsg('msg-variete', '✅ Variété créée : ' + nomVariete, 'ok');
-
-    /* Recharger la liste des variétés pour le panneau millésime */
-    const dataVar = await grist.docApi.fetchTable('Varietes');
-    varietes = dataVar.id.map((id, i) => ({
-      id, NomVariete: dataVar.NomVariete?.[i] || '',
-      Nom: dataVar.Nom?.[i] || '', 
-      Variete: dataVar.Variete?.[i] || '',
-      Type: dataVar.Type?.[i] || '',
-    })).sort((a, b) => (a.Nom + a.Variete).localeCompare(b.Nom + b.Variete, 'fr'));
-    const selM = document.getElementById('m-variete');
-    selM.innerHTML = '<option value="">— Choisir une variété —</option>';
-    varietes.forEach(v => {
-      const opt = document.createElement('option');
-      opt.value = v.id;
-      opt.textContent = v.Nom + (v.Variete ? ' — ' + v.Variete : '');
-      selM.appendChild(opt);
-    });
-
-    resetVariete();
-    cacherAlerteDoublonVariete();
-
-      /* Enchainement vers le millésime avec la variété pré-sélectionnée */
-    if ((chainEnabled() || parcoursLigne) && newVarieteId) {
-      document.getElementById('m-variete').value = newVarieteId;
-      chargerTypeMillesime();
-      goToPanel('millesime');
-      if (parcoursLigne && ligneAttenteChoisie) {
-        parcoursLigne = false;
-        preremplirLigneSansVariete(ligneAttenteChoisie);
-        showChainBanner('millesime', '🔗 Variété "' + nomVariete +
-          '" créée — choisis l\'origine et la quantité de tes graines.');
-      } else {
-        showChainBanner('millesime', '🔗 Variété "' + nomVariete + '" créée — complétez maintenant son millésime.');
-      }
-      document.getElementById('m-origine-autre').focus();
-    }
-  } catch(e) {
-    showMsg('msg-variete', '❌ Erreur : ' + e.message, 'err');
-  }
-}
-
-/* =============================================
-   PANNEAU 2 — Créer un millésime
-   Remplace toute l'ancienne fonction creerMillesime(),
-   y compris le bloc commenté /* try { ... } qui la suit.
-   ============================================= */
 async function creerMillesime(forcer = false) {
-  const varId   = parseInt(document.getElementById('m-variete').value);
-  const annee   = parseInt(document.getElementById('m-millesime').value);
-  const planteMere = document.getElementById('m-plante-mere').checked;
-  const anneePlantation = parseInt(document.getElementById('m-annee-plantation').value) || null;
+  if (etat.enregistrement) return;
+  const m = etat.millesime;
+  const varId = Number(m.varieteId);
+  const annee = parseInt(m.annee);
+  const sachet = m.sachet;
+  const planteMere = m.planteMere;
+  const qtte = nombreOuNull(m.qtte);
+  const anneePlantation = parseInt(m.anneePlantation) || null;
+  const nbPlants = Number(m.nbPlants);
 
-  if (!varId) { showMsg('msg-millesime', 'Choisir une variété.', 'err'); return; }
-  if (!annee) { showMsg('msg-millesime', 'Indiquer une année.', 'err'); return; }
-  const origineChoisie = getOrigines().length > 1; // getMultiSelect renvoie toujours ["L", ...] même vide
-  if (!origineChoisie) { showMsg('msg-millesime', "L'origine est obligatoire.", 'err'); return; }
-    const sachet = document.getElementById('m-sachet-check').checked;
-  const qtte   = parseFloat(document.getElementById('m-qtte').value) || null;
-  if (!sachet && !planteMere) { showMsg('msg-millesime', 'Cocher Sachet et/ou Plante mère.', 'err'); return; }
-  if (sachet && !qtte) { showMsg('msg-millesime', 'Indiquer la quantité de graines.', 'err'); return; }
-  if (planteMere && !anneePlantation) { showMsg('msg-millesime', "Indiquer l'année de plantation.", 'err'); return; }
-  const issuEtiquettes = document.getElementById('m-issu-etiquettes').checked;
-  if (issuEtiquettes && !ligneAttenteChoisie) {
-    showMsg('msg-millesime', 'Choisir une ligne d\'étiquettes, ou décocher "Issu de mes étiquettes".', 'err');
+  // 1) Contrôles de saisie
+  if (!varId) { dire('Choisir une variété.', true); return; }
+  if (!annee) { dire('Indiquer une année.', true); return; }
+  if (!m.origine) { dire("L'origine est obligatoire.", true); return; }
+  if (!sachet && !planteMere) { dire('Cocher Sachet ou Plante mère.', true); return; }
+  if (sachet && !qtte) { dire('Indiquer la quantité de graines.', true); return; }
+  if (planteMere && !anneePlantation) { dire("Indiquer l'année de plantation.", true); return; }
+  if (planteMere && !(Number.isInteger(nbPlants) && nbPlants >= 1)) {
+    dire('Indiquer le nombre de plants (entier, au moins 1).', true);
+    return;
+  }
+  if (planteMere && m.lieux.length === 0) { dire('Choisir au moins un emplacement pour la plante mère.', true); return; }
+
+  // Mode « Issu de mes étiquettes »
+  const ligne = ligneAttente.value;
+  if (etat.issuEtiquettes && !ligne) {
+    dire('Choisir une ligne d\'étiquettes, ou décocher "Issu de mes étiquettes".', true);
     return;
   }
   let sachetsReels = null;
-  if (ligneAttenteChoisie && sachet) {
-    sachetsReels = parseInt(document.getElementById('m-sachets-reels').value);
-    if (!(sachetsReels >= 1)) {
-      showMsg('msg-millesime', 'Indiquer le nombre de sachets réels (au moins 1).', 'err');
-      return;
-    }
-  }  
-  /* Détection de doublon (sauf si l'utilisateur a déjà confirmé) */
+  if (ligne && sachet) {
+    sachetsReels = parseInt(m.sachetsReels);
+    if (!(sachetsReels >= 1)) { dire('Indiquer le nombre de sachets réels (au moins 1).', true); return; }
+  }
+
+  // 2) Détection de doublon (sauf si l'utilisateur a déjà confirmé)
   if (!forcer) {
     let doublons = [];
     try {
-      doublons = await trouverDoublonsMillesime(varId, annee, getOrigines());
-        } catch (e) {
-      showMsg('msg-millesime', '⚠️ Détection impossible : ' + e.message, 'err');
+      doublons = await trouverDoublonsMillesime(varId, annee, m.origine, planteMere);
+    } catch (e) {
+      dire('⚠️ Détection impossible : ' + e.message, true);
       return;
     }
     if (doublons.length) {
-      try {
-        afficherAlerteDoublon(doublons);
-      } catch (e) {
-        showMsg('msg-millesime', '⚠️ Affichage du bandeau impossible : ' + e.message, 'err');
-      }
+      etat.doublonsMillesime = doublons;
+      etat.doublonMillesimeMasque = false;
       return;
     }
   }
-  cacherAlerteDoublon();
 
-  /* Grist stocke les dates en secondes depuis epoch — 1er janvier de l'année */
-  const dateTs = Math.floor(new Date(annee + '-01-01T00:00:00Z').getTime() / 1000);
-
-  const v = varietes.find(x => x.id === varId);
-
-  const row = {
-    NomVariete:   varId,
-    Type: document.getElementById('m-type').value || null,
-    Millesime:    dateTs,
-    Nb_saisons_manuel: document.getElementById('m-nb-saisons').value || null,
-    Origine:      getOrigines(),
-    Sachets:      planteMere ? '1p.' : (sachet ? VALEUR_SACHET : null),
-    Qtte_graines: sachet ? qtte : null,
-    Germination_historique: null, // Forcer à null pour éviter les valeurs par défaut
-    Plante_mere: planteMere,
-    Annee_plantation: anneePlantation,
-  };
-    /* Don = sachets réels - 1 (la colonne reste à sa valeur par défaut s'il n'y a rien à donner) */
-  if (sachetsReels && sachetsReels > 1) row.Don = sachetsReels - 1;
-
-  /* 1) Création du millésime */
-  let newMillesimeId = null;
+  etat.enregistrement = true;
   try {
-    const result = await grist.docApi.applyUserActions([
-      ['AddRecord', 'Millesimes', null, row]
-    ]);
-    newMillesimeId = result && result.retValues ? result.retValues[0] : null;
-  } catch (e) {
-    showMsg('msg-millesime', '❌ Erreur : ' + e.message, 'err');
-    return;
-  }
-  /* 1b) Décocher "A produire" sur les Semis de cette variété */
-  let nbDecoches = 0;
-  try {
-    const idsADecocher = await trouverSemisAProduire(varId);
-    if (idsADecocher.length) {
-      await grist.docApi.applyUserActions([
-        ['BulkUpdateRecord', 'Semis', idsADecocher,
-          { A_produire: idsADecocher.map(() => false) }]
-      ]);
-      nbDecoches = idsADecocher.length;
-    }
-  } catch (e) {
-    showMsg('msg-millesime',
-      '⚠️ Millésime créé, mais le décochage de "A produire" a échoué : ' + e.message, 'err');
-    return;
-  }
-  /* 1c) Ligne d'étiquettes en attente : vidée, ou supprimée si ligne de transit */
-  if (ligneAttenteChoisie) {
-    try {
-      await nettoyerLigneAttente(ligneAttenteChoisie);
-    } catch (e) {
-      showMsg('msg-millesime',
-        '⚠️ Millésime créé, mais le nettoyage de la ligne d\'étiquettes a échoué : ' + e.message, 'err');
-      return;
-    }
-  }
-  /* 2) Plante mère : on crée aussi sa ligne dans Semis */
-  if (planteMere && newMillesimeId) {
-    const anneeP = anneePlantation || annee;
-    const dateP = Math.floor(new Date(anneeP + '-01-01T00:00:00Z').getTime() / 1000);
+    const v = etat.varietes.find(x => x.id === varId);
+    const typeDeLaVariete = typeVariete.value || null;
+    const dateMillesime = Date.UTC(annee, 0, 1) / 1000;   // 1er janvier, en secondes (format Grist)
 
+    // 3) Création du millésime
+    let nouveauMillesimeId = null;
     try {
-      await grist.docApi.applyUserActions([
-        ['AddRecord', 'Semis', null, {
+      const resultat = await grist.docApi.applyUserActions([
+        ['AddRecord', TABLE_MILLESIMES, null, {
           NomVariete: varId,
-          Millesime: newMillesimeId,
-          Date_s: dateP,
-          Type: document.getElementById('m-type').value || null,
-          Plantes: 1,
-          Nb_etiquettes: 0,
+          Type: typeDeLaVariete,
+          Millesime: dateMillesime,
+          Nb_saisons_manuel: m.nbSaisons || null,
+          Origine: enListeChoix([m.origine]),
+Nb_sachets: sachet ? 1 : null,
+Nb_plants: planteMere ? nombreDePlants : null,
+Melange: false,
+          Qtte_graines: sachet ? qtte : null,
+          Germination_historique: null,   // forcé à vide pour éviter une valeur par défaut
+          Plante_mere: planteMere,
+          Annee_plantation: anneePlantation,
+          // Don = sachets réels - 1 (rien n'est écrit s'il n'y a rien à donner)
+          ...(sachetsReels > 1 ? { Don: sachetsReels - 1 } : {})
         }]
       ]);
+      nouveauMillesimeId = resultat && resultat.retValues ? resultat.retValues[0] : null;
     } catch (e) {
-      showMsg('msg-millesime',
-        '⚠️ Millésime créé, mais la ligne Semis a échoué : ' + e.message, 'err');
+      dire('❌ Erreur : ' + e.message, true);
       return;
     }
-  }
 
-  showMsg('msg-millesime',
-    '✅ Millésime ' + annee + ' créé pour ' + (v ? v.Nom : '') +
-    (planteMere ? ' (ajouté aussi dans Semis)' : '') +
-    (nbDecoches ? ' · "À produire" décoché sur ' + nbDecoches + ' semis' : '') +
-    (sachetsReels > 1 ? ' · Don : ' + (sachetsReels - 1) + ' sachet(s)' : ''), 'ok');
-  resetMillesime();
-}
-/* =============================================
-   PANNEAU 3 — Créer un modèle (espèce)
-   ============================================= */
-async function creerModele(forcer = false) {
-  const nom = document.getElementById('e-nom').value.trim();
-  if (!nom) { showMsg('msg-modele', 'Le nom est obligatoire.', 'err'); return; }
-  /* Détection de doublon (sauf si l'utilisateur a déjà confirmé) */
-  if (!forcer) {
-    const doublons = trouverDoublonsModele(nom);
-    if (doublons.length) { afficherAlerteDoublonModele(doublons); return; }
-  }
-  cacherAlerteDoublonModele();
-  const row = {
-    Nom:                nom,
-    Type:               document.getElementById('e-type').value || null,
-    Conservation:       parseFloat(document.getElementById('e-conservation').value) || null,
-    Semis_profondeur:   document.getElementById('e-profondeur').value || null,
-    Duree_germ:         parseFloat(document.getElementById('e-duree-germ').value) || null,
-    Temp_germ:          document.getElementById('e-temp-germ').value || null,
-    Semis_sous_abris:   getPills('e-abri'),
-    Semis_pleine_terre: getPills('e-terre'),
-    Recolte_floraison:  getPills('e-recolte'),
-    Exposition:         document.getElementById('e-exposition').value || null,
-    Arrosage:           document.getElementById('e-arrosage').value || null,
-    Nature_du_sol:      getMultiSelect('e-nature-sol'),
-    Qualite_du_sol:     getMultiSelect('e-qualite-sol'),
-    Famille:            getMultiSelect('e-famille'),
-    Ou_cultiver:        getMultiSelect('e-ou-cultiver'),
-    Infos:              getMultiSelect('e-infos'),
-  };
-
-  try {
-    const result = await grist.docApi.applyUserActions([
-      ['AddRecord', 'Modele', null, row]
-    ]);
-    const newModeleId = result && result.retValues ? result.retValues[0] : null;
-
-    showMsg('msg-modele', '✅ Espèce créée : ' + nom, 'ok');
-    /* Ajouter à la liste des modèles */
-    const dataModele = await grist.docApi.fetchTable('Modele');
-    modeles = dataModele.id.map((id, i) => ({
-      id, Nom: dataModele.Nom?.[i] || '',
-      Type: dataModele.Type?.[i] || '',
-      Conservation: dataModele.Conservation?.[i] || '',
-      Semis_profondeur: dataModele.Semis_profondeur?.[i] || '',
-      Duree_germ: dataModele.Duree_germ?.[i] || '',
-      Temp_germ: dataModele.Temp_germ?.[i] || '',
-      Semis_sous_abris: dataModele.Semis_sous_abris?.[i] || [],
-      Semis_pleine_terre: dataModele.Semis_pleine_terre?.[i] || [],
-      Recolte_floraison: dataModele.Recolte_floraison?.[i] || [],
-      Exposition: dataModele.Exposition?.[i] || '',
-      Arrosage: dataModele.Arrosage?.[i] || '',
-      Nature_du_sol: dataModele.Nature_du_sol?.[i] || [],
-      Qualite_du_sol: dataModele.Qualite_du_sol?.[i] || [],
-      Famille: dataModele.Famille?.[i] || [],
-      Ou_cultiver: dataModele.Ou_cultiver?.[i] || [],
-      Infos: dataModele.Infos?.[i] || [],
-    }));
-    ['v-modele','e-modele-base'].forEach(id => {
-      const sel = document.getElementById(id);
-      sel.innerHTML = '<option value="">— Choisir un modèle —</option>';
-      modeles.forEach(m => {
-        const opt = document.createElement('option');
-        opt.value = m.id; opt.textContent = m.Nom;
-        sel.appendChild(opt);
-      });
-    });
-    resetModele();
-    cacherAlerteDoublonModele();
-
-    /* Enchainement vers la variété avec le modèle pré-sélectionné et pré-rempli */
-    if ((chainEnabled() || parcoursLigne) && newModeleId) {
-      document.getElementById('v-modele').value = newModeleId;
-      chargerModele();
-      document.getElementById('v-nom').value = nom;
-      goToPanel('variete');
-      document.getElementById('v-variete').focus();
-      showChainBanner('variete', '🔗 Espèce "' + nom + '" créée — complétez maintenant sa première variété.');
+    // 3b) « A produire » décoché sur les semis de cette variété
+    let nbDecoches = 0;
+    try {
+      const ids = await trouverSemisAProduire(varId);
+      if (ids.length) {
+        await grist.docApi.applyUserActions([
+          ['BulkUpdateRecord', TABLE_SEMIS, ids, { A_produire: ids.map(() => false) }]
+        ]);
+        nbDecoches = ids.length;
+      }
+    } catch (e) {
+      dire('⚠️ Millésime créé, mais le décochage de "A produire" a échoué : ' + e.message, true);
+      return;
     }
-  } catch(e) {
-    showMsg('msg-modele', '❌ Erreur : ' + e.message, 'err');
+
+    // 3c) Ligne d'étiquettes en attente : vidée, ou supprimée si c'est une ligne de transit
+    if (ligne) {
+      try {
+        await nettoyerLigneAttente(ligne);
+      } catch (e) {
+        dire('⚠️ Millésime créé, mais le nettoyage de la ligne d\'étiquettes a échoué : ' + e.message, true);
+        return;
+      }
+    }
+
+    // 4) Plante mère : une ligne Semis (sans godets ni graines) porte le nombre de plants et les emplacements
+    if (planteMere && nouveauMillesimeId) {
+      try {
+        await grist.docApi.applyUserActions([
+          ['AddRecord', TABLE_SEMIS, null, {
+            NomVariete: varId,
+            Millesime: nouveauMillesimeId,
+            Date_s: Date.UTC(anneePlantation, 0, 1) / 1000,
+            Type: typeDeLaVariete,
+            Plantes: nbPlants,
+            Ou: enListeChoix(m.lieux),
+            Nb_etiquettes: 0
+          }]
+        ]);
+      } catch (e) {
+        dire('⚠️ Millésime créé, mais la ligne Semis a échoué : ' + e.message, true);
+        return;
+      }
+    }
+
+    dire('✅ Millésime ' + annee + ' créé pour ' + (v ? v.nom : '') +
+      (planteMere ? ' (ajouté aussi dans Semis)' : '') +
+      (nbDecoches ? ' · "À produire" décoché sur ' + nbDecoches + ' semis' : '') +
+      (sachetsReels > 1 ? ' · Don : ' + (sachetsReels - 1) + ' sachet(s)' : ''));
+    reinitialiserMillesime();
+  } finally {
+    etat.enregistrement = false;
   }
 }
-/* Lancement */
-init();
+
+// ===== Application Vue (un seul point de montage) =====
+const app = Vue.createApp({
+  setup() {
+    return {
+      etat, MOIS, NB_SAISONS, libelle,
+      doublonsModele, doublonsVariete, texteDoublonMillesime,
+      origineFavorites, origineAutres, origineAutre, choisirOrigine, typeVariete,
+      creerModele, reinitialiserModele,
+      creerVariete, reinitialiserVariete,
+      creerMillesime, reinitialiserMillesime,
+      ligneAttente, ligneSansVariete, varieteVerrouillee, optionsAttente, infoDon,
+      allerCreerVariete, allerCreerEspece
+    };
+  }
+});
+
+// Composant « champs communs » : les champs qu'ont en commun une espèce et une variété
+app.component('champs-culture', {
+  template: '#tpl-champs-culture',
+  props: {
+    formulaire: { type: Object, required: true },
+    choix: { type: Object, required: true },
+    prefixe: { type: String, default: 'x' }   // préfixe des id (pour relier libellés et champs)
+  },
+  data() {
+    return { MOIS };
+  }
+});
+
+// Composant « choix multiple » : pastilles si la liste est courte, champ de recherche si elle est longue
+app.component('choix-multiple', {
+  template: '#tpl-choix-multiple',
+  props: {
+    modelValue: { type: Array, default: () => [] },
+    choix: { type: Array, default: () => [] },
+    seuil: { type: Number, default: SEUIL_PASTILLES }
+  },
+  emits: ['update:modelValue'],
+  data() {
+    return { recherche: '', ouvert: false };
+  },
+  computed: {
+    proposes() {
+      return lieuxFiltres(this.choix, this.modelValue, this.recherche);
+    }
+  },
+  methods: {
+    basculer(c) {
+      const suivant = this.modelValue.includes(c)
+        ? this.modelValue.filter(x => x !== c)
+        : [...this.modelValue, c];
+      this.$emit('update:modelValue', suivant);
+    },
+    ajouter(c) {
+      this.$emit('update:modelValue', [...this.modelValue, c]);
+      this.recherche = '';
+      this.ouvert = false;   // se rouvre au toucher du champ
+    },
+    retirer(c) {
+      this.$emit('update:modelValue', this.modelValue.filter(x => x !== c));
+    },
+    surSaisie(e) {
+      this.recherche = e.target.value;
+      this.ouvert = true;
+    },
+    fermer() {
+      this.ouvert = false;
+      this.recherche = '';
+    }
+  }
+});
+
+app.mount('#app');
+
+// ===== Initialisation =====
+grist.ready({ requiredAccess: 'full' });
+
+async function demarrer() {
+  try {
+    const [choixModele, choixVariete, choixMillesime] = await Promise.all([
+      lireChoixColonnes(TABLE_ESPECES, COLONNES_CHOIX_MODELE),
+      lireChoixColonnes(TABLE_VARIETES, COLONNES_CHOIX_VARIETE),
+      lireChoixColonnes(TABLE_MILLESIMES, ['Origine']),
+      chargerModeles(),
+      chargerVarietes()
+    ]);
+    for (const c of COLONNES_CHOIX_MODELE) etat.choix[c] = choixModele[c] || [];
+    for (const c of COLONNES_CHOIX_VARIETE) etat.choixVariete[c] = choixVariete[c] || [];
+    etat.choixOrigine = choixMillesime.Origine || [];
+  } catch (err) {
+    console.error(err);
+    etat.erreurChargement = 'Erreur de chargement : ' + err.message;
+  }
+
+  // Emplacements des plantes mères : une erreur ici ne bloque que la création d'une plante mère
+  try {
+    const choixSemis = await lireChoixColonnes(TABLE_SEMIS, ['Ou']);
+    etat.lieux = choixSemis.Ou || [];
+    if (!etat.lieux.length) throw new Error('aucun choix trouvé pour ' + TABLE_SEMIS + '.Ou');
+  } catch (err) {
+    console.error(err);
+    etat.erreurChargement += (etat.erreurChargement ? ' ' : '') +
+      'Emplacements non chargés : ' + err.message + ' (impossible de créer une plante mère).';
+  }
+  etat.charge = true;
+}
+
+demarrer();

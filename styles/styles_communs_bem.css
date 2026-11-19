@@ -75,6 +75,16 @@ h3 {
   display: none !important;
 }
 
+/* ===== Bandeau du haut, collé à l'écran ===== */
+.entete {
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: 6px 0;
+  background: var(--arriere-plan);
+}
+
 /* ===== Ligne (conteneur de mise en page) ===== */
 .ligne {
   display: flex;
@@ -415,4 +425,10 @@ h3 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
+}
+input,
+select,
+button,
+textarea {
+  color-scheme: light;
 }

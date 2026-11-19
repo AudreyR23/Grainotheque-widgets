@@ -1,301 +1,68 @@
-/* =============================================
-   DESIGN — tons terre, vert jardin, typographie nette
-   ============================================= */
-:root {
-  --vert:       #2d6a4f;
-  --vert-clair: #52b788;
-  --vert-bg:    #d8f3dc;
-  --terre:      #8b5e3c;
-  --fond:       #f7f4ef;
-  --blanc:      #ffffff;
-  --gris:       #e8e4dc;
-  --gris-texte: #6b6560;
-  --rouge:      #c0392b;
-  --texte:      #2c2a27;
-  --radius:     8px;
-  --shadow:     0 2px 8px rgba(0,0,0,0.08);
-}
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background: var(--fond);
-  color: var(--texte);
-  font-size: 13px;
-  min-height: 100vh;
-}
-
-/* Navigation */
-.nav {
-  padding: 10px 12px 0;
-  border-bottom: 2px solid var(--vert);
-  background: var(--blanc);
-}
-.nav-tabs { display: flex; flex-wrap: wrap; gap: 4px; }
-.nav-btn {
-  padding: 7px 14px;
-  border: none;
-  border-radius: var(--radius) var(--radius) 0 0;
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: 600;
-  background: var(--gris);
-  color: var(--gris-texte);
-  transition: all 0.15s;
-}
-.nav-btn.active {
-  background: var(--vert);
-  color: white;
-}
-.nav-btn:hover:not(.active) {
-  background: var(--vert-bg);
-  color: var(--vert);
-}
-
-/* Toggle enchainement */
-.chain-toggle-row {
-  padding: 6px 12px;
-  background: var(--vert-bg);
-  border-bottom: 1px solid var(--vert-clair);
-}
-.chain-toggle {
+/* ===== Css « achatrepro » : uniquement ce qui n'est pas dans styles_communs_bem.css ===== */
+ 
+/* ===== Formulaire : un champ = un bloc (libellé au-dessus) ===== */
+.bloc {
   display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--vert);
-  user-select: none;
-  cursor: pointer;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 10px;
 }
-.chain-toggle input { cursor: pointer; }
-
-/* Panneaux */
-.panel { display: none; padding: 14px 12px; }
-.panel.active { display: block; }
-
-/* Bandeau info enchainement */
-.chain-banner {
-  display: none;
-  background: var(--vert-bg);
-  color: var(--vert);
-  border: 1px solid var(--vert-clair);
-  border-radius: var(--radius);
-  padding: 8px 10px;
-  font-size: 12px;
-  font-weight: 600;
-  margin-bottom: 12px;
-}
-.chain-banner.show { display: block; }
-
-/* Titre panneau */
-.panel-title {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--vert);
-  margin-bottom: 12px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid var(--gris);
-}
-
-/* Formulaire */
-.form-group { margin-bottom: 10px; }
-.form-group label {
-  display: block;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--gris-texte);
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  margin-bottom: 3px;
-}
-.form-group input,
-.form-group select,
-.form-group textarea {
-  width: 100%;
-  padding: 6px 8px;
-  border: 1px solid var(--gris);
-  border-radius: var(--radius);
-  font-size: 13px;
-  background: var(--blanc);
-  color: var(--texte);
-  transition: border-color 0.15s;
-}
-.form-group input:focus,
-.form-group select:focus {
-  outline: none;
-  border-color: var(--vert-clair);
-}
-.form-group input[type="checkbox"] {
-  width: auto;
-  margin-right: 6px;
-  vertical-align: middle;
-}
-
-.form-group-check {
-  align-self: end;
-  padding-bottom: 6px;
-}
-
-/* Grille 2 colonnes */
-.form-row {
+ 
+/* Grille 2 colonnes, 1 colonne sur écran étroit */
+.grille {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  column-gap: 12px;
 }
-
-/* Choix multiples (mois) */
-.choice-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
+@media (max-width: 600px) {
+  .grille {
+    grid-template-columns: 1fr;
+  }
 }
-.choice-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 3px 8px;
-  border: 1px solid var(--gris);
-  border-radius: 20px;
-  cursor: pointer;
-  font-size: 11px;
+ 
+/* ===== Pastille cochable (choix multiple) ===== */
+.pastille--choix {
   background: var(--blanc);
-  user-select: none;
-  transition: all 0.12s;
-}
-.choice-pill input[type=checkbox] { display: none; }
-.choice-pill.checked {
-  background: var(--vert-bg);
-  border-color: var(--vert-clair);
-  color: var(--vert);
-  font-weight: 600;
-}
-
-/* Boutons */
-.btn-row { display: flex; gap: 8px; margin-top: 14px; }
-.btn {
-  padding: 8px 18px;
-  border: none;
-  border-radius: var(--radius);
+  border-color: var(--gris);
+  color: var(--label);
   cursor: pointer;
-  font-size: 13px;
-  font-weight: 600;
-  transition: all 0.15s;
+  user-select: none;
 }
-.btn-primary { background: var(--vert); color: white; }
-.btn-primary:hover { background: #1f4f38; }
-.btn-primary:disabled { background: var(--gris); color: var(--gris-texte); cursor: not-allowed; }
-.btn-secondary { background: var(--gris); color: var(--texte); }
-.btn-secondary:hover { background: #d5d0c8; }
-
-/* Séparateur */
-.sep {
-  border: none;
-  border-top: 1px dashed var(--gris);
-  margin: 12px 0;
+.pastille--choisie {
+  background: var(--orange-clair);
+  border-color: var(--orange-moyen);
+  font-weight: bold;
 }
-
-/* Messages */
-.msg {
-  padding: 8px 10px;
-  border-radius: var(--radius);
-  font-size: 12px;
-  margin-top: 10px;
-  display: none;
-}
-.msg.ok  { background: var(--vert-bg); color: var(--vert); display: block; }
-.msg.err { background: #fce4e4; color: var(--rouge); display: block; }
-
-/* Chargement */
-.loading {
-  color: var(--gris-texte);
-  font-style: italic;
-  font-size: 12px;
-  padding: 20px 0;
-  text-align: center;
-}
-
-/* Tag info */
+ 
+/* ===== Badge « obligatoire » ===== */
 .badge {
   display: inline-block;
-  font-size: 10px;
+  margin-left: 4px;
   padding: 1px 6px;
   border-radius: 10px;
-  background: var(--vert-bg);
-  color: var(--vert);
-  font-weight: 600;
-  margin-left: 4px;
+  font-size: 0.7rem;
+  font-weight: bold;
 }
-
-/* Alerte doublon */
-.doublon-banner {
-  display: none;
-  background: #fff3e0;
-  color: #8a4b00;
-  border: 1px solid #f0a23c;
-  border-radius: var(--radius);
-  padding: 8px 10px;
-  font-size: 12px;
-  font-weight: 600;
+.badge--obligatoire {
+  background: #fce4e4;
+  color: var(--erreur);
+}
+ 
+/* ===== Encart d'alerte (doublon) ===== */
+.encart--alerte {
   margin-top: 10px;
+  background: var(--orange-clair);
+  border-color: var(--orange-moyen);
+  color: var(--label);
+  font-weight: bold;
 }
-.doublon-banner.show { display: block; }
-.doublon-banner .doublon-actions { display: flex; gap: 8px; margin-top: 8px; }
-
-/* =============================================
-   TABLETTE / ÉCRAN TACTILE
-   Le PC (souris) garde son affichage actuel
-   ============================================= */
-@media (pointer: coarse) {
-  body { font-size: 15px; }
-
-  .nav-btn {
-    padding: 12px 16px;
-    font-size: 14px;
-    min-height: 44px;
-  }
-
-  .chain-toggle { font-size: 13px; padding: 4px 0; }
-  .chain-toggle input { width: 22px; height: 22px; }
-
-  .form-group label { font-size: 12px; }
-
-  /* 16px minimum : évite le zoom automatique sur iPad */
-  .form-group input,
-  .form-group select,
-  .form-group textarea {
-    font-size: 16px;
-    padding: 10px 10px;
-    min-height: 44px;
-  }
-  .form-group input[type="checkbox"] {
-    width: 24px;
-    height: 24px;
-    min-height: 0;
-  }
-  .form-group select[multiple] { min-height: 110px; }
-  /*régler la hauteur des listes multiples sur tablette*/
-  .form-group select[multiple] { height: 140px !important; }
-
-  .choice-pill {
-    font-size: 14px;
-    padding: 8px 14px;
-    min-height: 40px;
-  }
-
-  .btn {
-    font-size: 15px;
-    padding: 12px 22px;
-    min-height: 46px;
-  }
-
-  .doublon-banner, .chain-banner, .msg { font-size: 14px; }
+ 
+/* ===== Bouton « Créer » (comme « Enregistrer » de « à gérer », sans être collé en bas) ===== */
+.btn--creer {
+  border-color: var(--bleu-fonce);
+  background: var(--bleu-moyen);
+  color: var(--arriere-plan);
+  font-weight: bold;
 }
-
-/* Écran étroit (tablette en portrait, téléphone) : une seule colonne */
-@media (max-width: 600px) {
-  .form-row { grid-template-columns: 1fr; }
-}
-/* Case si sachet ou plante mère)*/
-.cache { display: none !important; }
+ 

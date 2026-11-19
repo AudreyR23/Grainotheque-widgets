@@ -74,6 +74,7 @@
                   <span class="pastille pastille--categorie pastille--plantemere">🌱 Plante mère</span>
                   <span v-if="r.cas === 'vivante'" class="texte texte--discret">Encore là ·</span>
                   <span v-else-if="r.cas === 'vivante-nouveau-lieu'" class="texte texte--discret">Encore là →</span>
+                  <span v-else-if="r.cas === 'vivante-ajout-lieu'" class="texte texte--discret">Encore là +</span>
                   <span v-else-if="r.cas === 'vivante-sans-lieu'" class="texte texte--erreur">⚠ Encore là : choisis un
                     emplacement</span>
                   <span v-else-if="r.cas === 'morte-sans-coche'" class="texte texte--erreur">⚠ Morte : coche le ou les
@@ -87,6 +88,8 @@
                     }} ·</span>
                   <span v-else-if="r.cas === 'vivante' && r.lieuxActuels.length" class="texte texte--ici">📍 {{
                     r.lieuxActuels.join(', ') }} ·</span>
+                   <span v-else-if="r.cas === 'vivante-ajout-lieu'" class="texte texte--ici">📍 {{ r.lieuxActuels.join(', ') }} + {{ r.lieuxChoisis.join(', ') }} ·</span> 
+                  <span v-if="r.plantsApres !== null" class="texte texte--etape">{{ r.plantsAvant }} → {{ r.plantsApres }} plants</span>  
                 </div>
               </div>
               <button type="button" class="btn btn--suppr carte__action" title="Annuler"
@@ -173,6 +176,7 @@
 <span class="texte texte--discret">{{ m.anneePlantation ? 'plantée en ' + m.anneePlantation : 'année de plantation inconnue' }}</span>
 <span v-if="m.anneeControle" class="texte texte--discret">· dernier contrôle en {{ m.anneeControle }} : {{ m.statut || '?' }}</span>
 <span v-else class="texte texte--discret">· jamais contrôlée</span>
+<span class="texte texte--discret">· {{ m.plants }} plant{{ m.plants > 1 ? 's' : '' }}</span>
 <span class="texte texte--ici">📍 {{ m.ou.length ? m.ou.join(', ') : 'emplacement inconnu' }}</span>
             </div>
             <div class="ligne ligne--pleine ">
@@ -184,13 +188,20 @@
                 @click="choisirStatutMere(m, 'Morte')">
                 Morte
               </button>
-              <template v-if="statutMere(m.id) === 'Morte' && m.ou.length > 1">
+<button v-if="statutMere(m.id) !== 'Morte'" type="button" class="btn"
+  :class="{ 'btn--etape': ajusteMere(m.id) }" @click="ajusterMere(m)">Ajuster</button>
+                <template v-if="statutMere(m.id) === 'Morte' && m.ou.length > 1">
                 <span class="texte texte--discret" title="Touche un lieu pour le cocher s'il est mort">Morte à :</span>
                 <span v-for="lieu in m.ou" :key="lieu" class="pastille pastille--lieu"
                   :class="{ 'pastille--morte': lieuMort(m.id, lieu) }" @click="basculerLieuMort(m.id, lieu)">{{
                   lieu }}</span>
               </template>
             </div>
+            <div v-if="ajusteMere(m.id)" class="ligne">
+  <label class="texte texte--discret" :for="'plants-' + m.id">Nombre de plants</label>
+  <input :id="'plants-' + m.id" type="number" class="champ champ--flexible" min="1" step="1"
+    inputmode="numeric" :value="plantsMere(m.id)" @input="surPlantsMere(m, $event)" />
+</div>
             <div v-if="besoinLieuMere(m)">
               <div class="ligne">
                 <span v-for="lieu in lieuxChoisis('mere', m.id)" :key="lieu"
@@ -198,7 +209,7 @@
                   ✕</span>
               </div>
               <div class="menu">
-                <input type="search" class="champ" autocomplete="off" placeholder="Où est-elle ? (obligatoire)"
+                <input type="search" class="champ" autocomplete="off" :placeholder="m.ou.length ? 'Ajouter un emplacement (facultatif)' : 'Où est-elle ? (obligatoire)'"
                   :value="ouvertOu('mere', m.id) ? etat.rechercheOu : ''" @input="surRechercheOu('mere', m.id, $event)"
                   @focus="ouvrirOu('mere', m.id)" @click="ouvrirOu('mere', m.id)" @blur="fermerOu('mere', m.id)" />
                 <ul class="menu__liste" v-show="ouvertOu('mere', m.id)" @mousedown.prevent>
@@ -211,7 +222,7 @@
                 </ul>
               </div>
 
-              <span v-if="lieuxChoisis('mere', m.id).length === 0" class="texte texte--erreur">
+<span v-if="lieuxChoisis('mere', m.id).length === 0 && m.ou.length === 0" class="texte texte--erreur">
                 ⚠ Emplacement inconnu : choisis où elle est.</span>
             </div>
           </li>
