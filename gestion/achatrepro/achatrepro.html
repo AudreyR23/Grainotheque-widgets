@@ -1,7 +1,6 @@
-
 <!doctype html>
 <html lang="fr">
- 
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -9,7 +8,7 @@
   <link rel="stylesheet" href="../../styles/styles_communs_bem.css" />
   <link rel="stylesheet" href="achatrepro.css" />
 </head>
- 
+
 <body>
   <div id="app">
     <header class="entete">
@@ -17,35 +16,44 @@
       <span v-if="!etat.charge" class="statut">Chargement…</span>
       <nav class="ligne ligne--pleine">
         <button type="button" class="btn" :class="{ 'btn--actif': etat.onglet === 'millesime' }"
-          @click="etat.onglet = 'millesime'">📦 Nouveau millésime</button>
+          @click="etat.onglet = 'millesime'">Nouveau millésime</button>
         <button type="button" class="btn" :class="{ 'btn--actif': etat.onglet === 'variete' }"
-          @click="etat.onglet = 'variete'">🌱 Nouvelle variété</button>
+          @click="etat.onglet = 'variete'">Nouvelle variété</button>
         <button type="button" class="btn" :class="{ 'btn--actif': etat.onglet === 'modele' }"
-          @click="etat.onglet = 'modele'">🗂 Nouvelle espèce</button>
+          @click="etat.onglet = 'modele'">Nouvelle espèce</button>
       </nav>
-      <label class="case ligne--pleine">
+      <div class="ligne">
+      <label class="case">
         <input type="checkbox" class="case__saisie" v-model="etat.chaine" />
         <span class="case__texte">🔗 Enchaîner automatiquement (espèce → variété → millésime)</span>
       </label>
-      <p v-if="etat.erreurChargement" class="texte texte--erreur ligne--pleine">{{ etat.erreurChargement }}</p>
-    </header>
- 
+      <p v-if="etat.erreurChargement" class="texte texte--erreur texte--gras ligne--pleine">{{ etat.erreurChargement }}</p>
+      </div>
+      </header>
+
     <main>
       <!-- ===== Millésime ===== -->
       <section v-show="etat.onglet === 'millesime'">
-        <h2>📦 Nouveau millésime</h2>
-        <p v-if="etat.bandeaux.millesime" class="encart">{{ etat.bandeaux.millesime }}</p>
- 
+        <div class="ligne ligne--entre">
+          <h2>Nouveau millésime</h2>
+          <button type="button" class="btn" @click="reinitialiserMillesime()">↩ Réinitialiser</button>
+        </div>
+        <p v-if="etat.bandeaux.millesime" class="encart encart--succes texte texte--succes">
+          <template v-if="etat.bandeaux.millesime.type === 'graines'">🔗 Variété « {{ etat.bandeaux.millesime.nom }} » créée — choisis l'origine et la quantité de tes graines.</template>
+          <template v-else>🔗 Variété « {{ etat.bandeaux.millesime.nom }} » créée — complétez maintenant son millésime.</template>
+        </p>
+              <div class="ligne">
         <label class="case">
           <input type="checkbox" class="case__saisie" v-model="etat.issuEtiquettes" />
           <span class="case__texte">Issu de mes étiquettes</span>
         </label>
+              </div>
         <div v-if="etat.issuEtiquettes" class="bloc">
           <label class="texte texte--discret" for="m-attente">Étiquettes imprimées en attente</label>
-          <select id="m-attente" class="champ" v-model="etat.ligneAttenteId">
-            <option value="">— Choisir une ligne —</option>
-            <option v-for="o in optionsAttente" :key="o.id" :value="o.id">{{ o.texte }}</option>
-          </select>
+          <choix-unique champ-id="m-attente" v-model="etat.ligneAttenteId" :options="optionsAttenteMenu"
+            vide="— Choisir une ligne —"></choix-unique>
+          <p v-if="etat.etiquettesChargees && !optionsAttenteMenu.length" class="texte texte--erreur texte--gras">Aucune étiquette en attente dans Semis.</p>
+          <p v-if="etat.erreurEtiquettes" class="texte texte--erreur texte--gras">Lecture des étiquettes en attente impossible : {{ etat.erreurEtiquettes }}</p>
         </div>
         <div v-if="ligneSansVariete" class="bloc">
           <span class="texte texte--discret">Variété déjà dans la liste : choisis-la dans le menu « Variété » ci-dessous. Sinon :</span>
@@ -54,46 +62,52 @@
             <button type="button" class="btn" @click="allerCreerEspece()">➕ Créer l'espèce</button>
           </div>
         </div>
- 
+
         <div class="grille">
           <div class="bloc">
-            <label class="texte texte--discret" for="m-variete">Variété <span class="badge badge--obligatoire">obligatoire</span></label>
-            <select id="m-variete" class="champ" v-model="etat.millesime.varieteId" :disabled="varieteVerrouillee">
-              <option value="">— Choisir une variété —</option>
-              <option v-for="v in etat.varietes" :key="v.id" :value="v.id">{{ libelle(v) }}</option>
-            </select>
+            <label class="texte--titre texte--discret" for="m-variete">Variété <span class="badge badge--obligatoire">obligatoire</span></label>
+            <choix-recherche champ-id="m-variete" v-model="etat.millesime.varieteId" :options="optionsVarietes"
+              placeholder="Chercher une variété…" :disabled="varieteVerrouillee"></choix-recherche>
           </div>
           <div class="bloc">
-            <label class="texte texte--discret" for="m-type">Type</label>
+            <label class="texte--titre texte--discret" for="m-type">Type</label>
             <input id="m-type" class="champ" type="text" readonly :value="typeVariete" />
           </div>
           <div class="bloc">
-            <label class="texte texte--discret" for="m-nb-saisons">Nb saisons</label>
-            <select id="m-nb-saisons" class="champ" v-model="etat.millesime.nbSaisons">
-              <option v-for="s in NB_SAISONS" :key="s" :value="s">{{ s === 'or.' ? 'or. (original)' : s }}</option>
-            </select>
+            <label class="texte--titre texte--discret" for="m-nb-saisons">Nb saisons</label>
+            <choix-unique champ-id="m-nb-saisons" v-model="etat.millesime.nbSaisons"
+              :options="optionsNbSaisons"></choix-unique>
           </div>
           <div class="bloc">
-            <label class="texte texte--discret" for="m-annee">Millésime (année)</label>
-            <input id="m-annee" class="champ" type="number" min="1900" max="2100" inputmode="numeric"
+            <label class="texte--titre texte--discret" for="m-annee">Millésime (année)</label>
+            <input id="m-annee" class="champ" type="number" min="2000" max="2100" inputmode="numeric"
               v-model="etat.millesime.annee" />
           </div>
         </div>
- 
+
         <div class="bloc">
-          <span class="texte texte--discret">Origine <span class="badge badge--obligatoire">obligatoire</span></span>
+          <span class="texte--titre texte--discret">Origine <span class="badge badge--obligatoire">obligatoire</span></span>
           <div class="ligne">
             <span v-for="o in origineFavorites" :key="o" class="pastille pastille--choix"
-              :class="{ 'pastille--choisie': etat.millesime.origine === o }"
+              :class="{ 'pastille--etape': etat.millesime.origine === o }"
               @click="choisirOrigine(etat.millesime.origine === o ? '' : o)">{{ o }}</span>
+            <span class="pastille pastille--choix"
+              :class="{ 'pastille--etape': origineAutre }"
+              @click="etat.autresOrigines = !etat.autresOrigines">{{ origineAutre || 'Autre origine' }}</span>
+          </div>  
+          <div v-if="etat.autresOrigines" class="grille">
+          <div class="bloc">
+                        <choix-unique champ-id="m-origine-autre" :model-value="origineAutre"
+              @update:model-value="choisirOrigine" :options="origineAutres"
+                              placeholder="Choisir une origine"></choix-unique>
           </div>
-          <select id="m-origine-autre" class="champ" :value="origineAutre"
-            @change="choisirOrigine($event.target.value)">
-            <option value="">Autres origines…</option>
-            <option v-for="o in origineAutres" :key="o" :value="o">{{ o }}</option>
-          </select>
+          <div class="bloc">    
+            <ajout-choix libelle="Nouvelle origine" :sur-ajout="ajouterOrigine"></ajout-choix>
+          </div>
+          </div>
+          <p v-if="varieteVerrouillee && !etat.millesime.origine" class="texte texte--erreur texte--gras">Origine non reconnue : choisis-la à la main.</p>
         </div>
- 
+
         <div class="ligne">
           <label class="case">
             <input type="checkbox" class="case__saisie" v-model="etat.millesime.sachet" />
@@ -104,251 +118,302 @@
             <span class="case__texte">Plante mère</span>
           </label>
         </div>
- 
+
+        <div class="grille">
         <div v-if="etat.millesime.sachet" class="bloc">
-          <label class="texte texte--discret" for="m-qtte">Quantité de graines <span class="badge badge--obligatoire">obligatoire</span></label>
+          <label class="texte--titre texte--discret" for="m-qtte">Quantité de graines <span class="badge badge--obligatoire">obligatoire</span></label>
           <input id="m-qtte" class="champ" type="number" min="0" inputmode="numeric" placeholder="ex: 50"
             v-model="etat.millesime.qtte" />
         </div>
- 
+        </div>
         <div v-if="ligneAttente && etat.millesime.sachet" class="bloc">
-          <label class="texte texte--discret" for="m-sachets-reels">Sachets réels (le tien + dons) <span class="badge badge--obligatoire">obligatoire</span></label>
+          <label class="texte--titre texte--discret" for="m-sachets-reels">Sachets réels (le tien + dons) <span class="badge badge--obligatoire">obligatoire</span></label>
           <input id="m-sachets-reels" class="champ" type="number" min="1" step="1" inputmode="numeric"
             v-model="etat.millesime.sachetsReels" />
-          <span v-if="infoDon" class="texte texte--gras">{{ infoDon }}</span>
+          <span v-if="donSachets !== null" class="texte texte--gras">Don : {{ donSachets }} sachet(s)</span>
         </div>
- 
+
         <div v-if="etat.millesime.planteMere">
           <div class="grille">
             <div class="bloc">
-              <label class="texte texte--discret" for="m-annee-plantation">Année de plantation <span class="badge badge--obligatoire">obligatoire</span></label>
-              <input id="m-annee-plantation" class="champ" type="number" min="1900" max="2100" inputmode="numeric"
+              <label class="texte--titre texte--discret" for="m-annee-plantation">Année de plantation <span class="badge badge--obligatoire">obligatoire</span></label>
+              <input id="m-annee-plantation" class="champ" type="number" min="2000" max="2100" inputmode="numeric"
                 v-model="etat.millesime.anneePlantation" />
             </div>
             <div class="bloc">
-              <label class="texte texte--discret" for="m-nb-plants">Nombre de plants <span class="badge badge--obligatoire">obligatoire</span></label>
+              <label class="texte--titre texte--discret" for="m-nb-plants">Nombre de plants <span class="badge badge--obligatoire">obligatoire</span></label>
               <input id="m-nb-plants" class="champ" type="number" min="1" step="1" inputmode="numeric"
                 placeholder="ex: 2" v-model="etat.millesime.nbPlants" />
             </div>
+          <div v-if="etat.choixTypePlant.length" class="bloc">
+            <label class="texte--titre texte--discret" for="m-type-plant">Type de plant <span class="badge badge--obligatoire">obligatoire</span></label>
+            <choix-unique champ-id="m-type-plant" v-model="etat.millesime.typePlant"
+              :options="etat.choixTypePlant" placeholder="Choisir une origine"></choix-unique>
           </div>
           <div class="bloc">
-            <span class="texte texte--discret">Emplacement(s) <span class="badge badge--obligatoire">obligatoire</span></span>
-            <choix-multiple v-model="etat.millesime.lieux" :choix="etat.lieux"></choix-multiple>
+            <span class="texte--titre texte--discret">Emplacement(s) <span class="badge badge--obligatoire">obligatoire</span></span>
+            <choix-multiple v-model="etat.millesime.lieux" :choix="etat.lieux" menu lieu></choix-multiple>
+          </div>
           </div>
         </div>
- 
-        <div v-if="etat.doublonsMillesime.length && !etat.doublonMillesimeMasque" class="encart encart--alerte">
-          <div>{{ texteDoublonMillesime }}</div>
-          <div class="ligne">
-            <button type="button" class="btn btn--creer" :disabled="etat.enregistrement" @click="creerMillesime(true)">Créer quand même</button>
-            <button type="button" class="btn" @click="etat.doublonMillesimeMasque = true">Annuler</button>
+        <p v-if="etat.message && etat.panneauMessage === 'millesime' && !etat.erreur" class="encart encart--succes texte texte--succes">{{ etat.message }}</p>
+        <p v-if="etat.message && etat.panneauMessage === 'millesime' && etat.erreur" class="texte texte--erreur texte--gras">{{ etat.message }}</p>
+                <div class="ligne">
+          <button type="button" class="btn btn--enregistrer" :disabled="etat.enregistrement" @click="creerMillesime()">Créer le millésime</button>
+          <div v-if="etat.doublonsMillesime.length && !etat.doublonMillesimeMasque" class="encart encart--alerte encart--cote texte texte--erreur">
+            <div>⚠️ {{ etat.doublonsMillesime.length > 1 ? etat.doublonsMillesime.length + ' millésimes existent déjà' : 'Un millésime existe déjà' }} :
+              <span class="texte--erreur texte--gras"> année : {{ etat.doublonsMillesime[0].annee }}, origine : {{ etat.doublonsMillesime[0].origine || '—' }}, quantité : {{ etat.doublonsMillesime[0].qtte != null ? etat.doublonsMillesime[0].qtte : '—' }}.</span></div>
+            <div class="ligne ligne--bas">
+              <button type="button" class="btn btn--enregistrer" :disabled="etat.enregistrement" @click="creerMillesime(true)">Créer quand même</button>
+              <button type="button" class="btn" @click="etat.doublonMillesimeMasque = true">Annuler</button>
+            </div>
           </div>
         </div>
- 
-        <div class="ligne">
-          <button type="button" class="btn btn--creer" :disabled="etat.enregistrement" @click="creerMillesime()">✅ Créer le millésime</button>
-          <button type="button" class="btn" @click="reinitialiserMillesime()">↩ Réinitialiser</button>
-        </div>
-        <p v-if="etat.message && etat.panneauMessage === 'millesime' && !etat.erreur" class="encart encart--succes">{{ etat.message }}</p>
-        <p v-if="etat.message && etat.panneauMessage === 'millesime' && etat.erreur" class="texte texte--erreur">{{ etat.message }}</p>
+
       </section>
- 
+
       <!-- ===== Variété ===== -->
       <section v-show="etat.onglet === 'variete'">
-        <h2>🌱 Nouvelle variété</h2>
-        <p v-if="etat.bandeaux.variete" class="encart">{{ etat.bandeaux.variete }}</p>
- 
-        <div class="bloc">
-          <label class="texte texte--discret" for="v-base">Modèle de base (pré-remplit le formulaire)</label>
-          <select id="v-base" class="champ" v-model="etat.varieteBase">
-            <option value="">— Choisir un modèle —</option>
-            <option v-for="m in etat.modeles" :key="m.id" :value="m.id">{{ m.nom }}</option>
-          </select>
+        <div class="ligne ligne--entre">
+          <h2>Nouvelle variété</h2>
+          <button type="button" class="btn" @click="reinitialiserVariete()">↩ Réinitialiser</button>
         </div>
- 
+        <p v-if="etat.bandeaux.variete" class="encart encart--succes texte texte--succes">
+          <template v-if="etat.bandeaux.variete.type === 'graines'">🔗 Graines à identifier ({{ etat.bandeaux.variete.nb }} étiquette(s)) : crée la variété, tu reviendras au millésime ensuite.</template>
+          <template v-else>🔗 Espèce « {{ etat.bandeaux.variete.nom }} » créée — complétez maintenant sa première variété.</template>
+        </p>
+
+        <div class="bloc">
+          <label class="texte--titre texte--discret" for="v-base">Modèle de base (pré-remplit le formulaire)</label>
+          <choix-recherche champ-id="v-base" v-model="etat.varieteBase" :options="optionsModeles"
+            placeholder="Chercher un modèle…"></choix-recherche>
+        </div>
+
         <div class="grille">
           <div class="bloc">
-            <label class="texte texte--discret" for="v-nom">Nom</label>
+            <label class="texte--titre texte--discret" for="v-nom">Nom</label>
             <input id="v-nom" class="champ" type="text" placeholder="Tomate" autocomplete="off"
               v-model="etat.variete.nom" />
           </div>
           <div class="bloc">
-            <label class="texte texte--discret" for="v-variete">Variété</label>
+            <label class="texte--titre texte--discret" for="v-variete">Variété</label>
             <input id="v-variete" class="champ" type="text" placeholder="Orange Bourgoin" autocomplete="off"
               v-model="etat.variete.variete" />
           </div>
         </div>
- 
+
         <champs-culture :formulaire="etat.variete" :choix="etat.choixVariete" prefixe="v"></champs-culture>
- 
+
         <div class="bloc">
-          <span class="texte texte--discret">Semis (GPT)</span>
-          <choix-multiple v-model="etat.variete.semisGpt" :choix="etat.choixVariete.Semis_GPT"></choix-multiple>
-        </div>
- 
-        <div class="bloc">
-          <label class="texte texte--discret" for="v-description">Description</label>
+          <label class="texte--titre texte--discret" for="v-description">Description</label>
           <textarea id="v-description" class="champ" rows="4" placeholder="Description libre de la variété…"
             v-model="etat.variete.description"></textarea>
         </div>
- 
-        <div v-if="doublonsVariete.length && !etat.doublonVarieteMasque" class="encart encart--alerte">
-          <div>⚠️ {{ doublonsVariete.length > 1 ? doublonsVariete.length + ' variétés existent déjà' : 'Une variété existe déjà' }} : {{ doublonsVariete[0].nom }}{{ doublonsVariete[0].variete ? ' — ' + doublonsVariete[0].variete : '' }}. Créer quand même ?</div>
+        <p v-if="etat.message && etat.panneauMessage === 'variete' && !etat.erreur" class="encart encart--succes texte texte--succes">{{ etat.message }}</p>
+        <p v-if="etat.message && etat.panneauMessage === 'variete' && etat.erreur" class="texte texte--erreur texte--gras">{{ etat.message }}</p>
+         <div class="ligne">
+          <button type="button" class="btn btn--enregistrer" :disabled="etat.enregistrement" @click="creerVariete()"> Créer la variété</button>
+
+        <div v-if="doublonsVariete.length && !etat.doublonVarieteMasque" class="encart encart--alerte encart--cote texte texte--erreur">
+          <div>⚠️ {{ doublonsVariete.length > 1 ? doublonsVariete.length + ' variétés existent déjà' : 'Une variété existe déjà' }} :
+            <span class="texte--erreur texte--gras"> {{ doublonsVariete[0].nom }}{{ doublonsVariete[0].variete ? ' — ' + doublonsVariete[0].variete : '' }}.</span></div>
           <div class="ligne">
-            <button type="button" class="btn btn--creer" :disabled="etat.enregistrement" @click="creerVariete(true)">Créer quand même</button>
+            <button type="button" class="btn btn--enregistrer" :disabled="etat.enregistrement" @click="creerVariete(true)">Créer quand même</button>
             <button type="button" class="btn" @click="etat.doublonVarieteMasque = true">Annuler</button>
           </div>
         </div>
- 
-        <div class="ligne">
-          <button type="button" class="btn btn--creer" :disabled="etat.enregistrement" @click="creerVariete()">✅ Créer la variété</button>
-          <button type="button" class="btn" @click="reinitialiserVariete()">↩ Réinitialiser</button>
-        </div>
-        <p v-if="etat.message && etat.panneauMessage === 'variete' && !etat.erreur" class="encart encart--succes">{{ etat.message }}</p>
-        <p v-if="etat.message && etat.panneauMessage === 'variete' && etat.erreur" class="texte texte--erreur">{{ etat.message }}</p>
+
+
+       </div>
       </section>
- 
+
       <!-- ===== Espèce ===== -->
       <section v-show="etat.onglet === 'modele'">
-        <h2>🗂 Nouvelle espèce</h2>
- 
-        <div class="bloc">
-          <label class="texte texte--discret" for="e-base">Partir d'un modèle existant (optionnel)</label>
-          <select id="e-base" class="champ" v-model="etat.modeleBase">
-            <option value="">— Créer à partir de zéro —</option>
-            <option v-for="m in etat.modeles" :key="m.id" :value="m.id">{{ m.nom }}</option>
-          </select>
+        <div class="ligne ligne--entre">
+          <h2>🗂 Nouvelle espèce</h2>
+          <button type="button" class="btn" @click="reinitialiserModele()">↩ Réinitialiser</button>
         </div>
- 
+
         <div class="bloc">
-          <label class="texte texte--discret" for="e-nom">Nom de l'espèce</label>
+          <label class="texte--titre texte--discret" for="e-base">Partir d'un modèle existant (optionnel)</label>
+          <choix-recherche champ-id="e-base" v-model="etat.modeleBase" :options="optionsModeles"
+            placeholder="Chercher un modèle (ou laisser vide)…"></choix-recherche>
+        </div>
+
+        <div class="bloc">
+          <label class="texte--titre texte--discret" for="e-nom">Nom de l'espèce</label>
           <input id="e-nom" class="champ" type="text" placeholder="Tomate" autocomplete="off"
             v-model="etat.modele.nom" />
         </div>
- 
+
         <champs-culture :formulaire="etat.modele" :choix="etat.choix" prefixe="e"></champs-culture>
- 
-        <div v-if="doublonsModele.length && !etat.doublonModeleMasque" class="encart encart--alerte">
-          <div>⚠️ {{ doublonsModele.length > 1 ? doublonsModele.length + ' espèces existent déjà' : 'Une espèce existe déjà' }} : {{ doublonsModele[0].nom }}. Créer quand même ?</div>
+
+        <p v-if="etat.message && etat.panneauMessage === 'modele' && !etat.erreur" class="encart encart--succes texte texte--succes">{{ etat.message }}</p>
+        <p v-if="etat.message && etat.panneauMessage === 'modele' && etat.erreur" class="texte texte--erreur texte--gras">{{ etat.message }}</p>
+        <div class="ligne">
+          <button type="button" class="btn btn--enregistrer" :disabled="etat.enregistrement" @click="creerModele()">Créer l'espèce</button>
+        <div v-if="doublonsModele.length && !etat.doublonModeleMasque" class="encart encart--alerte encart--cote texte texte--erreur">
+          <div>⚠️ {{ doublonsModele.length > 1 ? doublonsModele.length + ' espèces existent déjà' : 'Une espèce existe déjà' }} : 
+            <span class="texte--erreur texte--gras">{{ doublonsModele[0].nom }}.</span></div>
           <div class="ligne">
-            <button type="button" class="btn btn--creer" :disabled="etat.enregistrement" @click="creerModele(true)">Créer quand même</button>
+            <button type="button" class="btn btn--enregistrer" :disabled="etat.enregistrement" @click="creerModele(true)">Créer quand même</button>
             <button type="button" class="btn" @click="etat.doublonModeleMasque = true">Annuler</button>
           </div>
         </div>
- 
-        <div class="ligne">
-          <button type="button" class="btn btn--creer" :disabled="etat.enregistrement" @click="creerModele()">✅ Créer l'espèce</button>
-          <button type="button" class="btn" @click="reinitialiserModele()">↩ Réinitialiser</button>
         </div>
-        <p v-if="etat.message && etat.panneauMessage === 'modele' && !etat.erreur" class="encart encart--succes">{{ etat.message }}</p>
-        <p v-if="etat.message && etat.panneauMessage === 'modele' && etat.erreur" class="texte texte--erreur">{{ etat.message }}</p>
+
+
+
+
       </section>
     </main>
   </div>
- 
+
   <!-- Composant : champs communs à une espèce et à une variété -->
   <template id="tpl-champs-culture">
     <div>
       <h3>Culture</h3>
       <div class="grille">
         <div class="bloc">
-          <label class="texte texte--discret" :for="prefixe + '-type'">Type</label>
-          <select :id="prefixe + '-type'" class="champ" v-model="formulaire.type">
-            <option value="">—</option>
-            <option v-for="c in choix.Type" :key="c" :value="c">{{ c }}</option>
-          </select>
+          <label class="texte--titre texte--discret" :for="prefixe + '-type'">Type</label>
+          <choix-unique :champ-id="prefixe + '-type'" v-model="formulaire.type" :options="choix.Type"
+            placeholder="Choisir un type"></choix-unique>
         </div>
         <div class="bloc">
-          <label class="texte texte--discret" :for="prefixe + '-exposition'">Exposition</label>
-          <select :id="prefixe + '-exposition'" class="champ" v-model="formulaire.exposition">
-            <option value="">—</option>
-            <option v-for="c in choix.Exposition" :key="c" :value="c">{{ c }}</option>
-          </select>
+          <label class="texte--titre texte--discret" :for="prefixe + '-exposition'">Exposition</label>
+          <choix-unique :champ-id="prefixe + '-exposition'" v-model="formulaire.exposition"
+            :options="choix.Exposition" placeholder="Quelle exposition ?"></choix-unique>
         </div>
         <div class="bloc">
-          <label class="texte texte--discret" :for="prefixe + '-arrosage'">Arrosage</label>
-          <select :id="prefixe + '-arrosage'" class="champ" v-model="formulaire.arrosage">
-            <option value="">—</option>
-            <option v-for="c in choix.Arrosage" :key="c" :value="c">{{ c }}</option>
-          </select>
+          <label class="texte--titre texte--discret" :for="prefixe + '-arrosage'">Arrosage</label>
+          <choix-unique :champ-id="prefixe + '-arrosage'" v-model="formulaire.arrosage"
+            :options="choix.Arrosage" placeholder=" Quel arrosage ?"></choix-unique>
         </div>
         <div class="bloc">
-          <label class="texte texte--discret" :for="prefixe + '-conservation'">Conservation (ans)</label>
-          <input :id="prefixe + '-conservation'" class="champ" type="number" min="1" max="20" inputmode="numeric"
-            v-model="formulaire.conservation" />
+          <label class="texte--titre texte--discret" :for="prefixe + '-conservation'">Conservation (ans)</label>
+          <input :id="prefixe + '-conservation'" class="champ" type="text" inputmode="numeric"
+            placeholder="ex : 3" autocomplete="off" v-model="formulaire.conservation" />
         </div>
       </div>
- 
+
       <div class="bloc">
-        <span class="texte texte--discret">Famille</span>
+        <span class="texte--titre texte--discret">Famille</span>
         <choix-multiple v-model="formulaire.famille" :choix="choix.Famille"></choix-multiple>
       </div>
- 
+
       <h3>Semis et germination</h3>
       <div class="grille">
         <div class="bloc">
-          <label class="texte texte--discret" :for="prefixe + '-profondeur'">Profondeur de semis</label>
-          <select :id="prefixe + '-profondeur'" class="champ" v-model="formulaire.profondeur">
-            <option value="">—</option>
-            <option v-for="c in choix.Semis_profondeur" :key="c" :value="c">{{ c }}</option>
-          </select>
+          <label class="texte--titre texte--discret" :for="prefixe + '-profondeur'">Profondeur de semis (cm)</label>
+          <input :id="prefixe + '-profondeur'" class="champ" type="text" inputmode="decimal"
+            placeholder="ex : 1 ou 1-2" autocomplete="off" v-model="formulaire.profondeur" />
         </div>
         <div class="bloc">
-          <label class="texte texte--discret" :for="prefixe + '-duree-germ'">Durée germination (jours)</label>
-          <input :id="prefixe + '-duree-germ'" class="champ" type="number" min="1" max="60" inputmode="numeric"
-            v-model="formulaire.dureeGerm" />
+          <label class="texte--titre texte--discret" :for="prefixe + '-duree-germ'">Durée germination (jours)</label>
+          <input :id="prefixe + '-duree-germ'" class="champ" type="text" inputmode="numeric"
+            placeholder="ex : 14" autocomplete="off" v-model="formulaire.dureeGerm" />
         </div>
         <div class="bloc">
-          <label class="texte texte--discret" :for="prefixe + '-temp-germ'">Température germination</label>
+          <label class="texte--titre texte--discret" :for="prefixe + '-temp-germ'">Température germination</label>
           <input :id="prefixe + '-temp-germ'" class="champ" type="text" placeholder="ex: 20-25°" autocomplete="off"
             v-model="formulaire.tempGerm" />
         </div>
       </div>
- 
+
       <div class="bloc">
-        <span class="texte texte--discret">Semis sous abri 🏠</span>
+        <span class="texte--titre texte--discret">Semis sous abri 🏠</span>
         <choix-multiple v-model="formulaire.abri" :choix="MOIS"></choix-multiple>
       </div>
       <div class="bloc">
-        <span class="texte texte--discret">Semis pleine terre 🌿</span>
+        <span class="texte--titre texte--discret">Semis pleine terre 🌿</span>
         <choix-multiple v-model="formulaire.terre" :choix="MOIS"></choix-multiple>
       </div>
       <div class="bloc">
-        <span class="texte texte--discret">Récolte / Floraison</span>
+        <span class="texte--titre texte--discret">Récolte / Floraison 🌼</span>
         <choix-multiple v-model="formulaire.recolte" :choix="MOIS"></choix-multiple>
       </div>
- 
+
       <h3>Sol et lieu</h3>
       <div class="bloc">
-        <span class="texte texte--discret">Nature du sol</span>
+        <span class="texte--titre texte--discret">Nature du sol</span>
         <choix-multiple v-model="formulaire.natureSol" :choix="choix.Nature_du_sol"></choix-multiple>
       </div>
       <div class="bloc">
-        <span class="texte texte--discret">Qualité du sol</span>
+        <span class="texte--titre texte--discret">Qualité du sol</span>
         <choix-multiple v-model="formulaire.qualiteSol" :choix="choix.Qualite_du_sol"></choix-multiple>
       </div>
+      <div class="grille">
       <div class="bloc">
-        <span class="texte texte--discret">Où cultiver</span>
+        <span class="texte--titre texte--discret">Où cultiver</span>
         <choix-multiple v-model="formulaire.ouCultiver" :choix="choix.Ou_cultiver"></choix-multiple>
       </div>
+        <div class="bloc">
+          <span class="texte--titre texte--discret">Où semer</span>
+        <choix-multiple v-model="formulaire.semisGpt" :choix="choix.Ou_semer"></choix-multiple>
+              </div>
+      </div>
       <div class="bloc">
-        <span class="texte texte--discret">Infos</span>
-        <choix-multiple v-model="formulaire.infos" :choix="choix.Infos"></choix-multiple>
+        <span class="texte--titre texte--discret">Infos</span>
+        <choix-multiple v-model="formulaire.infos" :choix="choix.Infos" menu></choix-multiple>
+        <ajout-choix libelle="Nouvelle info" :sur-ajout="ajouterInfo"></ajout-choix>
       </div>
     </div>
   </template>
- 
-  <!-- Composant : choix multiple (pastilles si la liste est courte, recherche si elle est longue) -->
+
+  <!-- Composant : ajout d'un nouveau choix (lien qui ouvre un petit champ de saisie) -->
+  <template id="tpl-ajout-choix">
+    <div>
+      <button v-if="!ouvert" type="button" class="btn" @click="ouvrir">➕ {{ libelle }}…</button>
+      <div v-else class="ligne">
+        <input ref="champ" type="text" class="champ champ--flexible" autocomplete="off" :placeholder="libelle"
+          v-model="texte" @keydown.enter.prevent="valider" />
+        <button type="button" class="btn btn--etape" :disabled="enCours" @click="valider">Ajouter</button>
+        <button type="button" class="btn" @click="annuler">Annuler</button>
+      </div>
+    </div>
+  </template>
+
+  <!-- Composant : choix unique (bouton qui ouvre une liste, comme « Trier par » dans à gérer) -->
+  <template id="tpl-choix-unique">
+    <div class="menu">
+      <button type="button" :id="champId || null" class="champ champ--deroulant"
+        :class="{ 'champ--vide': estVide }" :disabled="disabled" @click="basculer">{{ libelleChoisi || '\u00a0' }}</button>
+      <ul class="menu__liste" v-show="ouvert" @mousedown.prevent>
+        <li v-if="vide" class="menu__item" :class="{ 'menu__item--choisi': estVide }" @click="choisir('')">{{ vide }}</li>
+        <li v-for="o in liste" :key="o.valeur" class="menu__item"
+          :class="{ 'menu__item--choisi': o.valeur === modelValue }" @click="choisir(o.valeur)">{{ o.libelle }}</li>
+        <li v-if="!liste.length && !vide" class="menu__item menu__item--vide">Aucun choix</li>      
+        </ul>
+    </div>
+  </template>
+
+  <!-- Composant : choix avec recherche (champ de saisie, liste qui se réduit à chaque lettre) -->
+  <template id="tpl-choix-recherche">
+    <div class="menu">
+      <input type="search" :id="champId || null" class="champ" autocomplete="off" :disabled="disabled"
+        :placeholder="ouvert && libelleChoisi ? libelleChoisi : placeholder"
+        :value="ouvert ? texte : libelleChoisi" @input="surSaisie" @focus="ouvrir" @click="ouvrir" @blur="fermer" />
+      <ul class="menu__liste" v-show="ouvert" @mousedown.prevent>
+        <li v-for="o in affiches" :key="o.valeur" class="menu__item"
+          :class="{ 'menu__item--choisi': o.valeur === modelValue }" @click="choisir(o.valeur)">{{ o.libelle }}</li>
+        <li v-if="affiches.length === 0" class="menu__item menu__item--vide">Aucun résultat</li>
+        <li v-else-if="nbAutres" class="menu__item menu__item--vide">… {{ nbAutres }} autres, précise ta recherche</li>
+      </ul>
+    </div>
+  </template>
+
+  <!-- Composant : choix multiple (pastilles, ou champ de recherche + liste avec l'attribut « menu ») -->
   <template id="tpl-choix-multiple">
     <div>
-      <div v-if="choix.length <= seuil" class="ligne">
-        <span v-for="c in choix" :key="c" class="pastille pastille--choix"
-          :class="{ 'pastille--choisie': modelValue.includes(c) }" @click="basculer(c)">{{ c }}</span>
-        <span v-if="choix.length === 0" class="texte texte--note">Aucun choix disponible</span>
+      <div v-if="!menu" class="ligne">
+        <span v-for="c in valides" :key="c" class="pastille pastille--choix"
+          :class="{ 'pastille--etape': modelValue.includes(c) }" @click="basculer(c)">{{ c }}</span>
+        <span v-if="valides.length === 0" class="texte texte--note">Aucun choix disponible</span>
       </div>
       <div v-else>
-        <div v-if="modelValue.length" class="ligne">
-          <span v-for="c in modelValue" :key="c" class="pastille pastille--choix pastille--choisie"
+        <div v-if="modelValue.length" class="ligne ligne--sur-champ">
+                    <span v-for="c in modelValue" :key="c" class="pastille"
+            :class="lieu ? 'pastille--lieu' : 'pastille--choix pastille--etape'"
             @click="retirer(c)">{{ c }} ✕</span>
         </div>
         <div class="menu">
@@ -363,12 +428,12 @@
       </div>
     </div>
   </template>
- 
+
   <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
   <script src="https://unpkg.com/vue@3.4.38/dist/vue.global.prod.js"></script>
   <script src="../../script/scriptcommun.js"></script>
+  <script src="achatrepro_textes.js"></script>
   <script src="achatrepro.js"></script>
 </body>
- 
+
 </html>
- 

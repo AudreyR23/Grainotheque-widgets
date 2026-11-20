@@ -4,7 +4,11 @@
   flex-basis: 100%;
   margin: 0;
 }
-
+.pastille--morte {
+  background: var(--blanc);
+  border-color: var(--erreur-fonce);
+  color: var(--erreur-fonce);
+}
 /* Le défilement ne doit pas passer sous le bandeau */
 #appVerifier,
 #appPlanter,
