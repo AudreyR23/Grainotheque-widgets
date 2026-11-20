@@ -15,7 +15,7 @@ const ORIGINE_PRODUCTION = 'Monjardin';   // choix de la colonne Origine affich√
 const ANNEE_MIN = 2000;
 const COLONNES_CHOIX_MODELE = [
   'Type', 'Exposition', 'Arrosage',
-  'Famille', 'Nature_du_sol', 'Qualite_du_sol', 'Ou_cultiver', 'Infos', 'Semis_GPT',
+  'Famille', 'Nature_du_sol', 'Qualite_du_sol', 'Ou_cultiver', 'Infos', 'Ou_semer',
 ];
 const COLONNES_CHOIX_VARIETE = [...COLONNES_CHOIX_MODELE];
 
@@ -157,7 +157,7 @@ function colonnesCommunes(f) {
     Qualite_du_sol: enListeChoix(f.qualiteSol),
     Famille: enListeChoix(f.famille),
     Ou_cultiver: enListeChoix(f.ouCultiver),
-    Semis_GPT: enListeChoix(f.semisGpt),
+    Ou_semer: enListeChoix(f.semisGpt),
     Infos: enListeChoix(f.infos)
   };
 }
@@ -196,7 +196,7 @@ function modeleDepuisLigne(m) {
     natureSol: listeChoix(m.Nature_du_sol),
     qualiteSol: listeChoix(m.Qualite_du_sol),
     ouCultiver: listeChoix(m.Ou_cultiver),
-    semisGpt: listeChoix(m.Semis_GPT),
+    semisGpt: listeChoix(m.Ou_semer),
     infos: listeChoix(m.Infos)
   };
 }
