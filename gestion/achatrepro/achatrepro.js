@@ -15,16 +15,16 @@ const ORIGINE_PRODUCTION = 'Monjardin';   // choix de la colonne Origine affich�
 const ANNEE_MIN = 2000;
 const COLONNES_CHOIX_MODELE = [
   'Type', 'Exposition', 'Arrosage',
-  'Famille', 'Nature_du_sol', 'Qualite_du_sol', 'Ou_cultiver', 'Infos'
+  'Famille', 'Nature_du_sol', 'Qualite_du_sol', 'Ou_cultiver', 'Infos', 'Semis_GPT',
 ];
-const COLONNES_CHOIX_VARIETE = [...COLONNES_CHOIX_MODELE, 'Semis_GPT'];
+const COLONNES_CHOIX_VARIETE = [...COLONNES_CHOIX_MODELE];
 
 // Champs communs à une espèce et à une variété : mêmes noms dans le formulaire
 function champsVides() {
   return {
     type: '', famille: [], conservation: '', profondeur: '', dureeGerm: '', tempGerm: '',
     abri: [], terre: [], recolte: [],
-    exposition: '', arrosage: '', natureSol: [], qualiteSol: [], ouCultiver: [], infos: []
+    exposition: '', arrosage: '', natureSol: [], qualiteSol: [], ouCultiver: [], semisGpt: [], infos: []
   };
 }
 
@@ -65,7 +65,7 @@ const etat = Vue.reactive({
   choixVariete: Object.fromEntries(COLONNES_CHOIX_VARIETE.map(c => [c, []])),
   varietes: [],              // variétés existantes
   varieteBase: '',           // id de l'espèce choisie comme modèle de base (panneau Variété)
-  variete: { nom: '', variete: '', description: '', semisGpt: [], ...champsVides() },
+  variete: { nom: '', variete: '', description: '', ...champsVides() },
   doublonVarieteMasque: false,
 
   // Millésimes
@@ -75,6 +75,7 @@ const etat = Vue.reactive({
   millesime: millesimeVide(),
   doublonsMillesime: [],     // millésimes existants de même variété + année + origine + nature
   doublonMillesimeMasque: false,
+    autresOrigines: false,     // panneau « Autre origine » ouvert
 
   // Étiquettes en attente (Semis.Etiq_en_attente)
   issuEtiquettes: false,     // case « Issu de mes étiquettes »
@@ -98,6 +99,12 @@ function dire(texte, erreur = false, panneau = etat.onglet) {
     afficherMessage(texte);  // un succès disparaît au bout de 4 s
   }
 }
+
+// Un clic efface un message d'erreur. L'écouteur est en phase de capture : un clic sur « Créer »
+// efface l'ancienne erreur AVANT que le bouton revalide, donc elle réapparaît s'il reste un problème.
+document.addEventListener('click', () => {
+  if (etat.erreur && etat.message) etat.message = '';
+}, true);
 
 // ===== Utilitaires =====
 function entierOuNull(valeur) {
@@ -150,6 +157,7 @@ function colonnesCommunes(f) {
     Qualite_du_sol: enListeChoix(f.qualiteSol),
     Famille: enListeChoix(f.famille),
     Ou_cultiver: enListeChoix(f.ouCultiver),
+    Semis_GPT: enListeChoix(f.semisGpt),
     Infos: enListeChoix(f.infos)
   };
 }
@@ -188,6 +196,7 @@ function modeleDepuisLigne(m) {
     natureSol: listeChoix(m.Nature_du_sol),
     qualiteSol: listeChoix(m.Qualite_du_sol),
     ouCultiver: listeChoix(m.Ou_cultiver),
+    semisGpt: listeChoix(m.Semis_GPT),
     infos: listeChoix(m.Infos)
   };
 }
@@ -275,7 +284,7 @@ const doublonsVariete = Vue.computed(() => {
 
 function reinitialiserVariete() {
   etat.varieteBase = '';
-  Object.assign(etat.variete, { nom: '', variete: '', description: '', semisGpt: [], ...champsVides() });
+  Object.assign(etat.variete, { nom: '', variete: '', description: '', ...champsVides() });
   etat.doublonVarieteMasque = false;
   etat.bandeaux.variete = null;
 }
@@ -302,8 +311,7 @@ async function creerVariete(forcer = false) {
         NomVariete: nomVariete,
         Num_epingle: null,   // vide, pas 0
         ...colonnesCommunes(f),
-        Description: f.description.trim() || null,
-        Semis_GPT: enListeChoix(f.semisGpt)
+        Description: f.description.trim() || null
       }]
     ]);
     nouvelId = resultat && resultat.retValues ? resultat.retValues[0] : null;
@@ -355,6 +363,8 @@ const origineAutre = Vue.computed(() => origineAutres.value.includes(etat.milles
 function choisirOrigine(origine) {
   etat.millesime.origine = origine;   // une seule origine au total (pastille ou menu)
 }
+// Une origine choisie (pastille, menu, ajout, ligne d'étiquettes) referme le panneau « Autre origine »
+Vue.watch(() => etat.millesime.origine, () => { etat.autresOrigines = false; });
 
 const typeVariete = Vue.computed(() => {
   const v = etat.varietes.find(x => x.id === Number(etat.millesime.varieteId));
@@ -423,6 +433,7 @@ function reinitialiserMillesime() {
   etat.bandeaux.millesime = null;
   etat.ligneAttenteId = '';
   etat.parcoursLigne = false;
+    etat.autresOrigines = false;
   rafraichirEtiquettes();   // la case « Issu de mes étiquettes » reste cochée : la liste est remise à jour
 }
 
@@ -882,7 +893,8 @@ app.component('choix-multiple', {
   props: {
     modelValue: { type: Array, default: () => [] },
     choix: { type: Array, default: () => [] },
-    menu: { type: Boolean, default: false }   // true : champ de recherche + liste ; false : pastilles
+    menu: { type: Boolean, default: false },   // true : champ de recherche + liste ; false : pastilles
+    lieu: { type: Boolean, default: false }   // true : les pastilles choisies prennent la couleur « lieu » (violet)
   },
   emits: ['update:modelValue'],
   data() {
@@ -931,7 +943,8 @@ app.component('choix-unique', {
     options: { type: Array, default: () => [] },   // chaînes, ou { valeur, libelle }
     vide: { type: String, default: '' },           // texte de l'entrée « rien de choisi » (si absent : pas d'entrée)
     champId: { type: String, default: '' },        // id du bouton (pour le libellé et le focus)
-    disabled: { type: Boolean, default: false }
+    disabled: { type: Boolean, default: false },
+    placeholder: { type: String, default: '' },    // texte du bouton quand rien n'est choisi (sans entrée dans la liste)
   },
   emits: ['update:modelValue'],
   data() {
@@ -948,7 +961,7 @@ app.component('choix-unique', {
     },
     libelleChoisi() {
       const o = this.liste.find(x => x.valeur === this.modelValue);
-      return o ? o.libelle : this.vide;
+      return o ? o.libelle : (this.vide || this.placeholder);
     }
   },
   methods: {

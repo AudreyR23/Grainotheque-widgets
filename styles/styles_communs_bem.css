@@ -7,7 +7,10 @@
   --bleu-moyen: #59aada;
   --bleu-fonce: #108ad1;
 
-  --erreur: #c62828;
+  --erreur-clair: #fcebeb;
+  --erreur-moyen: #c96a6a; 
+  --erreur-fonce: #c62828;
+
   --label: #2b2b2b;
   --arriere-plan: #f7f7e4;
   --gris: #aaa;
@@ -65,7 +68,7 @@ h1 {
 }
 h2 {
   font-size: 1.1rem;
-  margin: 16px 0 8px;
+  margin: 8px 0 8px;
 }
 h3 {
   font-size: 1rem;
@@ -197,7 +200,6 @@ h3 {
 .pastille {
   display: inline-block;
   padding: 6px 12px;
-  margin-right: 4px;
   border: 1px solid;
   border-radius: 6px;
   font-size: 0.85rem;
@@ -208,11 +210,6 @@ h3 {
   color: var(--ici-fonce);
   cursor: pointer;
   user-select: none;
-}
-.pastille--morte {
-  background: var(--blanc);
-  border-color: var(--erreur);
-  color: var(--erreur);
 }
 .pastille--info {
   background: var(--bleu-clair);
@@ -237,7 +234,15 @@ h3 {
   color: var(--plantemere-fonce);
   border-color: var(--plantemere-moyen);
 }
+.pastille--etape {
+  background: var(--orange-clair);
+  border-color: var(--orange-moyen);
+}
 
+/* Pastilles choisies posées au-dessus de leur champ de recherche */
+.ligne--sur-champ {
+  margin-bottom: 6px;
+}
 /* ===== Carte ===== */
 .liste-carte {
   list-style: none;
@@ -290,6 +295,9 @@ h3 {
 .texte {
   font-size: 0.85rem;
 }
+.texte--titre {
+  font-size: 0.90rem;
+}
 .texte--discret {
   color: var(--gris-fonce);
 }
@@ -305,10 +313,10 @@ h3 {
 }
 .texte--morte,
 .texte--erreur {
-  color: var(--erreur);
+  color: var(--erreur-fonce);
 }
-.texte--erreur {
-  font-weight: bold;
+.texte--succes {
+  color: var(--bleu-fonce);
 }
 .texte--plantemere {
   color: var(--plantemere-fonce);
@@ -320,15 +328,14 @@ h3 {
 
 /* ===== Encart (succès, info) ===== */
 .encart {
-  padding: 10px;
-  border: 1px solid var(--bleu-moyen);
+  padding: 5px;
+  border: 1px solid;
   border-radius: 6px;
-  background: var(--bleu-clair);
-  color: var(--bleu-fonce);
 }
 .encart--succes {
-  font-weight: bold;
   margin-top: 14px;
+  border-color: var(--bleu-moyen);
+  background: var(--bleu-clair);
 }
 
 /* ===== Statut ===== */
@@ -337,7 +344,7 @@ h3 {
   color: var(--a-jour);
 }
 .statut--non-sauvegarde {
-  color: var(--erreur);
+  color: var(--erreur-fonce);
   font-weight: bold;
 }
 
@@ -375,15 +382,20 @@ h3 {
   border-color: var(--orange-moyen);
 }
 .btn--danger {
-  color: var(--erreur);
+  color: var(--erreur-fonce);
 }
 .btn--enregistrer {
-  position: sticky;
-  bottom: 8px;
-  z-index: 5;
   border-color: var(--bleu-fonce);
   background: var(--bleu-moyen);
   color: var(--arriere-plan);
+  font-weight: bold;
+  margin-top: 8px;
+}
+/* Bouton collé en bas de l'écran (à poser sur un enfant direct de la section ou d'une .zone-transparente) */
+.btn--collant {
+  position: sticky;
+  bottom: 8px;
+  z-index: 5;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 .btn--suppr {

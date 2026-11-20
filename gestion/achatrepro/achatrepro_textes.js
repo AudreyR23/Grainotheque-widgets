@@ -38,16 +38,16 @@ const TEXTES = {
   lieuxNonCharges: e => 'Emplacements non chargés : ' + e + ' (impossible de créer une plante mère).',
  
   // --- Confirmations ---
-  especeCreee: nom => '✅ Espèce créée : ' + nom,
-  varieteCreee: nom => '✅ Variété créée : ' + nom,
+  especeCreee: nom => ' Espèce créée : ' + nom,
+  varieteCreee: nom => ' Variété créée : ' + nom,
   millesimeCree: (annee, nom, planteMere, nbDecoches, don) =>
-    '✅ Millésime ' + annee + ' créé pour ' + nom +
+    ' Millésime ' + annee + ' créé pour ' + nom +
     (planteMere ? ' (ajouté aussi dans Semis)' : '') +
     (nbDecoches ? ' · "À produire" décoché sur ' + nbDecoches + ' semis' : '') +
     (don > 0 ? ' · Don : ' + don + ' sachet(s)' : ''),
   origineExiste: nom => `Cette origine existe déjà : « ${nom} » est sélectionnée.`,
-  origineAjoutee: nom => '✅ Origine ajoutée : ' + nom,
-  infoAjoutee: nom => '✅ Info ajoutée : ' + nom,
+  origineAjoutee: nom => ' Origine ajoutée : ' + nom,
+  infoAjoutee: nom => ' Info ajoutée : ' + nom,
  
   // --- Libellés fabriqués par le code (listes) ---
   orOriginal: 'or. (original)',

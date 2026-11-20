@@ -44,7 +44,7 @@ Choisir, dans une liste filtrable, les **plants plantés au jardin** et les **pl
 | Neutre (fond de page, bordure grise) | Entrée sans information | Cartes de « À étiqueter » |
 | Bleu (`.cadre-info`) | Info à jour, déjà en base | Cadre « X à imprimer · Y imprimées en attente » dans la carte |
 | Orange (`.etape-intermediaire`, `.btn-ajouter`, `.etape-intermediaire-nb`) | En cours, pas encore enregistré | Section « En cours », bouton « Voir les « En cours » » |
-| Rouge (`--erreur`) | Attention / erreur | ⚠ dans « En cours », message d'échec |
+| Rouge (`--erreur-fonce`) | Attention / erreur | ⚠ dans « En cours », message d'échec |
 | Vert-jaune (`--plantemere`) | Catégorie plante mère | Liseré à gauche de la carte (`.semis.plantemere`) et ligne « 🌱 Plante mère (plantée en AAAA) » (`.semis-plantemere`) |
 
 Les cartes ne changent **jamais** de couleur à la saisie. Le fond d'une carte reste toujours neutre.

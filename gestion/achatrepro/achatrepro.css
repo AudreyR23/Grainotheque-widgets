@@ -48,45 +48,42 @@
 
 /* ===== Pastille cochable (choix multiple) ===== */
 .pastille--choix {
-  background: var(--blanc);
-  border-color: var(--gris);
-  color: var(--label);
   cursor: pointer;
   user-select: none;
+  
 }
-.pastille--choisie {
-  background: var(--orange-clair);
-  border-color: var(--orange-moyen);
-  font-weight: bold;
+/* Aspect « non choisie » seulement : une pastille choisie prend le style de .pastille--etape (commun) */
+.pastille--choix:not(.pastille--etape) {
+  background: var(--arriere-plan);
+  border-color: var(--gris);
+  color: var(--label);
 }
 
 /* ===== Badge « obligatoire » ===== */
 .badge {
-  display: inline-block;
   margin-left: 4px;
   padding: 1px 6px;
-  border-radius: 10px;
+  border-radius: 6px;
   font-size: 0.7rem;
-  font-weight: bold;
 }
 .badge--obligatoire {
-  background: #fce4e4;
-  color: var(--erreur);
+  background:var(--erreur-clair);
+  color: var(--erreur-fonce);
 }
 
 /* ===== Encart d'alerte (doublon) ===== */
 .encart--alerte {
-  margin-top: 10px;
-  background: var(--orange-clair);
-  border-color: var(--orange-moyen);
-  color: var(--label);
-  font-weight: bold;
+  margin-top:6px;
+  background: var(--blanc);
+  border-left: 5px solid var(--erreur-moyen);
+}
+/* Éléments alignés par le bas (boutons avec ou sans marge haute, hauteurs différentes) */
+.ligne--bas {
+  align-items: flex-end;
 }
 
-/* ===== Bouton « Créer » (comme « Enregistrer » de « à gérer », sans être collé en bas) ===== */
-.btn--creer {
-  border-color: var(--bleu-fonce);
-  background: var(--bleu-moyen);
-  color: var(--arriere-plan);
-  font-weight: bold;
+/* Encart d'alerte à côté d'un bouton : prend la place restante, passe dessous si c'est trop étroit */
+.encart--cote {
+  flex: 0 1 auto;    /* largeur du contenu, rétrécit si la place manque */
+  margin-top: 0;
 }

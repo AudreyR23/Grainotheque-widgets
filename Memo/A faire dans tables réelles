@@ -92,3 +92,6 @@ Semis_profondeur en Texte, nettoyage et choix vides.
 Déploiement des trois outils, puis les tests de la section 6 des notes.
 
 Dis-moi lesquels de ces points sont déjà faits en prod. Si tu veux que je te guide pas à pas, on commence par le renommage de Especes.
+1. Grist (à faire avant le reste)
+
+Dans Especes, ajoute une colonne Semis_GPT de type Choix multiple, avec les mêmes 5 choix que dans Varietes. Sans cette colonne, créer une espèce provoque l’erreur KeyError 'Semis_GPT'. Sans ses choix, le bloc affiche « Aucun choix disponible ».

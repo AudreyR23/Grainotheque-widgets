@@ -31,8 +31,8 @@
         À planter ({{ etat.totalPlanter }})
       </button>
     </nav>
-    <p v-if="etat.succes" class="encart encart--succes entete__message">{{ etat.succes }}</p>
-    <p v-if="etat.erreurs.general" class="texte texte--erreur entete__message">
+    <p v-if="etat.succes" class="encart encart--succes texte texte--succes">{{ etat.succes }}</p>
+    <p v-if="etat.erreurs.general" class="texte texte--erreur texte--gras entete__message">
       {{ etat.erreurs.general }}
     </p>
   </header>
@@ -53,7 +53,7 @@
                   <span class="texte texte--discret">{{ r.germes === 0 ? 'NG : aucun germe' : 'Nb germés : ' +
                     r.germes }} ·</span>
                   <span v-if="r.attente" class="texte texte--etape">En attente : oui</span>
-<span v-if="r.trop" class="texte texte--erreur">⚠ {{ r.germes }} germes pour seulement {{ r.semees }} graines semées.</span>
+<span v-if="r.trop" class="texte texte--erreur texte--gras">⚠ {{ r.germes }} germes pour seulement {{ r.semees }} graines semées.</span>
                 </div>
               </div>
               <button type="button" class="btn btn--suppr carte__action" title="Annuler cette saisie"
@@ -75,9 +75,9 @@
                   <span v-if="r.cas === 'vivante'" class="texte texte--discret">Encore là ·</span>
                   <span v-else-if="r.cas === 'vivante-nouveau-lieu'" class="texte texte--discret">Encore là →</span>
                   <span v-else-if="r.cas === 'vivante-ajout-lieu'" class="texte texte--discret">Encore là +</span>
-                  <span v-else-if="r.cas === 'vivante-sans-lieu'" class="texte texte--erreur">⚠ Encore là : choisis un
+                  <span v-else-if="r.cas === 'vivante-sans-lieu'" class="texte texte--erreur texte--gras">⚠ Encore là : choisis un
                     emplacement</span>
-                  <span v-else-if="r.cas === 'morte-sans-coche'" class="texte texte--erreur">⚠ Morte : coche le ou les
+                  <span v-else-if="r.cas === 'morte-sans-coche'" class="texte texte--erreur texte--gras">⚠ Morte : coche le ou les
                     lieux où elle est morte</span>
                   <span v-else-if="r.cas === 'morte'" class="texte texte--morte">✝ Morte : ne sera plus plante
                     mère</span>
@@ -114,10 +114,10 @@
                   <span v-if="r.oups > 0" class="texte texte--discret">{{ r.oups }} oups ·</span>
                   <span v-if="r.don > 0" class="texte texte--discret">{{ r.don }} don ·</span>
 <span v-if="r.casOu === 'reste'" class="texte texte--ici">📍 Les plants resteront à : {{ r.ouActuels.join(', ') }} ·</span>
-<span v-else-if="r.casOu === 'manquant'" class="texte texte--erreur">⚠ Choisis un emplacement (Où). ·</span>
+<span v-else-if="r.casOu === 'manquant'" class="texte texte--erreur texte--gras">⚠ Choisis un emplacement (Où). ·</span>
 <span v-else-if="r.ou.length" class="texte texte--ici">📍 {{ r.ou.join(', ') }} ·</span>
 <span v-else-if="r.ouActuels.length" class="texte texte--ici">📍 {{ r.ouActuels.join(', ') }} ·</span>
-<span v-if="r.total > r.reste" class="texte texte--erreur">⚠ {{ r.total }} saisis pour seulement {{ r.reste }} restant(s).</span>
+<span v-if="r.total > r.reste" class="texte texte--erreur texte--gras">⚠ {{ r.total }} saisis pour seulement {{ r.reste }} restant(s).</span>
 </div>
               </div>
               <button type="button" class="btn btn--suppr carte__action" title="Annuler cette saisie"
@@ -149,14 +149,15 @@
     </div>
 
     <div id="appMeres">
-<h2>🌱 À contrôler (<template v-if="etat.recherche.trim()">{{ etat.listeMeres.length }} sur </template>{{ etat.totalMeres }})</h2>
-
+      <div class="ligne"> 
+      <h2>🌱 À contrôler (<template v-if="etat.recherche.trim()">{{ etat.listeMeres.length }} sur </template>{{ etat.totalMeres }})</h2>
+</div>
       <div class="ligne">
         <label class="case">
           <input type="checkbox" class="case__saisie" v-model="etat.controleMeres" />
           <span class="case__texte">Contrôler les plantes mères ({{ etat.totalMeres }} à
             contrôler)</span></label>
-        <p v-if="etat.erreurs.meres" id="erreur-meres" class="texte texte--erreur">{{ etat.erreurs.meres }}</p>
+        <p v-if="etat.erreurs.meres" id="erreur-meres" class="texte texte--erreur texte--gras">{{ etat.erreurs.meres }}</p>
 
       </div>
       <section v-if="etat.controleMeres">
@@ -203,11 +204,11 @@
     inputmode="numeric" :value="plantsMere(m.id)" @input="surPlantsMere(m, $event)" />
 </div>
             <div v-if="besoinLieuMere(m)">
-              <div class="ligne">
-                <span v-for="lieu in lieuxChoisis('mere', m.id)" :key="lieu"
-                  class="pastille pastille--lieu" @click="retirerLieu('mere', m.id, lieu)">{{ lieu }}
-                  ✕</span>
-              </div>
+<div v-if="lieuxChoisis('mere', m.id).length" class="ligne ligne--sur-champ">
+  <span v-for="lieu in lieuxChoisis('mere', m.id)" :key="lieu"
+    class="pastille pastille--lieu" @click="retirerLieu('mere', m.id, lieu)">{{ lieu }}
+    ✕</span>
+</div>
               <div class="menu">
                 <input type="search" class="champ" autocomplete="off" :placeholder="m.ou.length ? 'Ajouter un emplacement (facultatif)' : 'Où est-elle ? (obligatoire)'"
                   :value="ouvertOu('mere', m.id) ? etat.rechercheOu : ''" @input="surRechercheOu('mere', m.id, $event)"
@@ -222,7 +223,7 @@
                 </ul>
               </div>
 
-<span v-if="lieuxChoisis('mere', m.id).length === 0 && m.ou.length === 0" class="texte texte--erreur">
+<span v-if="lieuxChoisis('mere', m.id).length === 0 && m.ou.length === 0" class="texte texte--erreur texte--gras">
                 ⚠ Emplacement inconnu : choisis où elle est.</span>
             </div>
           </li>
@@ -242,7 +243,7 @@
           <span class="case__texte">Inclure les semis sans durée de germination (12 derniers
             mois)</span></label>
       </div>
-      <p v-if="etat.erreurs.verifier" id="erreur-verifier" class="texte texte--erreur">
+      <p v-if="etat.erreurs.verifier" id="erreur-verifier" class="texte texte--erreur texte--gras">
         {{ etat.erreurs.verifier }}
       </p>
       <ul class="liste-carte">
@@ -264,7 +265,7 @@
             </span>
             <span v-if="s.attente" class="texte texte--discret texte--etape">En attente
             </span>
-            <span v-if="typeof s.info === 'number'" class="texte texte--discret texte--erreur">⚠ {{ s.info }} j de
+            <span v-if="typeof s.info === 'number'" class="texte texte--discret texte--erreur texte--gras">⚠ {{ s.info }} j de
               retard</span>
           </div>
           <div class="ligne ligne--entre">
@@ -278,7 +279,7 @@
               <span class="texte texte--discret">En attente</span></label>
           </div>
 
-<div v-if="tropDeGermes(s)" class="texte texte--erreur">⚠ {{ valeurGermes(s.id) }} germes pour seulement {{ s.semees }} graines semées.</div>
+<div v-if="tropDeGermes(s)" class="texte texte--erreur texte--gras">⚠ {{ valeurGermes(s.id) }} germes pour seulement {{ s.semees }} graines semées.</div>
         </li>
       </ul>
     </div>
@@ -289,7 +290,7 @@
       <div class="ligne">
         <input id="datePlantation" class="champ" type="date" v-model="etat.datePlantation" />
       </div>
-      <p v-if="etat.erreurs.planter" id="erreur-planter" class="texte texte--erreur">
+      <p v-if="etat.erreurs.planter" id="erreur-planter" class="texte texte--erreur texte--gras">
         {{ etat.erreurs.planter }}
       </p>
       <ul class="liste-carte">
@@ -317,11 +318,11 @@
   <button type="button" class="btn" @click="toutPlanter(s)">Tout</button>
 </div>
           <div>
-            <div class="ligne">
-              <span v-for="lieu in lieuxChoisis('semis', s.id)" :key="lieu"
-                class="pastille pastille--lieu" @click="retirerLieu('semis', s.id, lieu)">{{ lieu }}
-                ✕</span>
-            </div>
+<div v-if="lieuxChoisis('semis', s.id).length" class="ligne ligne--sur-champ">
+  <span v-for="lieu in lieuxChoisis('semis', s.id)" :key="lieu"
+    class="pastille pastille--lieu" @click="retirerLieu('semis', s.id, lieu)">{{ lieu }}
+    ✕</span>
+</div>
             <div class="menu">
               <input type="search" class="champ" autocomplete="off" :placeholder="s.ou.length ? 'Ajouter un emplacement (facultatif)' : 'Où ? (obligatoire si plantés)'"
                 :value="ouvertOu('semis', s.id) ? etat.rechercheOu : ''" @input="surRechercheOu('semis', s.id, $event)"
@@ -336,15 +337,15 @@
               </ul>
             </div>
 <span v-if="casOu(s) === 'reste'" class="texte texte--ici">📍 Les plants resteront à : {{ s.ou.join(', ') }}</span>
-<span v-else-if="casOu(s) === 'manquant'" class="texte texte--erreur">⚠ Choisis un emplacement (Où).</span>
-<div v-if="totalSaisi(s.id) > s.reste" class="texte texte--erreur">⚠ {{ totalSaisi(s.id) }} saisis pour seulement {{ s.reste }} restant(s).</div>
+<span v-else-if="casOu(s) === 'manquant'" class="texte texte--erreur texte--gras">⚠ Choisis un emplacement (Où).</span>
+<div v-if="totalSaisi(s.id) > s.reste" class="texte texte--erreur texte--gras">⚠ {{ totalSaisi(s.id) }} saisis pour seulement {{ s.reste }} restant(s).</div>
           </div>
         </li>
       </ul>
     </div>
 
     <div id="appEnregistrer" class="zone-transparente">
-      <button type="button" class="btn btn--enregistrer btn--grand" v-show="nombreSaisies() > 0"
+      <button type="button" class="btn btn--enregistrer btn--collant btn--grand" v-show="nombreSaisies() > 0"
         :disabled="etat.enregistrement" @click="enregistrerTout">
         {{ etat.enregistrement ? 'Enregistrement…' : 'Enregistrer tout' }}
       </button>

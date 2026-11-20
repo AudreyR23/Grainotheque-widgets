@@ -78,7 +78,7 @@ Le nouveau millésime est toujours un **sachet**. `Nb saisons` est borné entre 
 ### Onglets Variété et Espèce
 - **Rien d'obligatoire sauf le nom.**
 - Variété : modèle de base (menu avec recherche, copie les champs de l'espèce choisie, pas le nom), Nom + Variété, champs communs, Semis (GPT), Description. `NomVariete` = `Nom\nVariété` (ou `Nom` seul). `Num_epingle` est envoyé à `null` (vide, pas 0). Doublon sur Nom + Variété (sans casse ni accents).
-- Espèce : mêmes champs sans Semis GPT ni Description, point de départ optionnel. Doublon sur le nom.
+- Espèce : mêmes champs sans Description, point de départ optionnel. Doublon sur le nom.
 - **Contrôles des champs numériques** (messages d'erreur qui restent affichés) : conservation et durée de germination = entiers ; profondeur = nombre ou fourchette, `1 cm` devient `1`, les tirets longs deviennent `-`. Ces champs sont en texte : un champ numérique renverrait une valeur vide pour `abc`, sans erreur visible.
 - **Listes de choix** : pastilles de longueur fixe pour les mois, Famille, nature et qualité du sol, où cultiver, Semis GPT (les choix vides de Grist sont ignorés). Menu avec recherche pour les **Infos**, avec **« ➕ Nouvelle info… »** : l'info est ajoutée aux choix de `Especes.Infos` **et** de `Varietes.Infos` (une variété créée à la suite d'une espèce reçoit ainsi ses infos) et sélectionnée.
 - Le bouton **« ↩ Réinitialiser »** est en haut de chaque panneau, à droite du titre.

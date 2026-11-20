@@ -281,7 +281,7 @@ Vue.watch(() => [etat.saisies, etat.saisiesMeres], sauvegarderSaisies, { deep: t
 
 div-champ, div-champ-carte, div-btn, ligne--info, ligne--case, div-bloc-ou	ligne (+ ligne--entre, ligne--pleine)
 info, carte-detail	texte texte--discret
-texte-ici, texte-etape, texte-morte, erreur, detail-gras	texte texte--ici, --etape, --morte, --erreur, texte--gras
+texte-ici, texte-etape, texte-morte, erreur, detail-gras	texte texte--ici, --etape, --morte, --erreur-fonce, texte--gras
 carte, bloc-contenu-carte-colonne, carte etape, carte plantemere	carte, carte--colonne, carte--etape, carte--plantemere
 bloc-contenu-carte, carte-type, carte-action	carte__titre, carte__type, carte__action
 champ-liste, liste-choix, li, .selection, .vide	menu, menu__liste, menu__item, menu__item--choisi, menu__item--vide

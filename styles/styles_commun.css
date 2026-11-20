@@ -7,7 +7,7 @@
   --bleu-moyen: #59aada;
   --bleu-fonce: #108ad1;
 
-  --erreur: #c62828;
+  --erreur-fonce: #c62828;
   --label: #2b2b2b;
   --arriere-plan: #f7f7e4;
   --gris: #aaa;
@@ -71,7 +71,7 @@ h1 {
 
 h2 {
   font-size: 1.1rem;
-  margin: 16px 0 8px;
+  margin: 8px 0 8px;
 }
 
 h3 {
@@ -538,7 +538,7 @@ input[type="checkbox"]:disabled {
 }
 
 .statut--non-sauvegarde {
-  color: var(--erreur);
+  color: var(--erreur-fonce);
   font-weight: bold;
 }
 
@@ -586,8 +586,8 @@ input[type="checkbox"]:disabled {
   margin: 14px 0 0;
 }
 
-.texte--erreur {
-  color: var(--erreur);
+.texte--erreur texte--gras {
+  color: var(--erreur-fonce);
   font-weight: bold;
 }
 
