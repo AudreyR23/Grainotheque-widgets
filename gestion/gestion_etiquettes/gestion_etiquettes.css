@@ -1,25 +1,35 @@
-/* ===== Petit champ du nombre, à droite, centré verticalement ===== */
-.champ.champ-etiquettes {
+/* ===== Outil « Sélection pour étiquettes » : seulement ce qui n'est pas dans le commun ===== */
+
+/* Recherche + filtres : l'espacement vient du parent (gap), pas des enfants */
+#appRecherche {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+/* Petit champ du nombre, à droite, centré */
+.champ--nb {
   flex: none;
   width: 4.5rem;
   padding: 10px 4px;
   text-align: center;
 }
 
-/* ===== Barre d'enregistrement flottante ===== */
-#etapeIntermediaire { margin-bottom: 12px; }
-
-#barreFlottante {
-  position: sticky;
-  bottom: 0;
-  z-index: 5;
-  background: var(--arriere-plan);
+/* Section « À ajouter » */
+#etapeIntermediaire {
+  margin-bottom: 12px;
 }
-#barreFlottante p { margin: 0 0 6px; }
 
-.filtres { 
-  display: flex; 
-  flex-wrap: wrap; 
-  gap: 8px 20px; 
-  margin: 10px 0 4px; 
+/* Marge de défilement : l'en-tête collé en haut ne doit pas cacher la cible */
+#etapeIntermediaire,
+#appSelection,
+#appSelection li {
+  scroll-margin-top: 90px;
 }
+
+/* Chaque carte garde sa propre hauteur, même à côté d'une carte plus grande 
+#appSelection .grille,
+#etapeIntermediaire .grille {
+  align-items: start;
+}*/

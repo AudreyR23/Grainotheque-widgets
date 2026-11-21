@@ -4,74 +4,124 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Sélection pour étiquettes</title>
-    <link rel="stylesheet" href="../../styles/styles_commun.css" />
+    <link rel="stylesheet" href="../../styles/styles_communs_bem.css" />
     <link rel="stylesheet" href="gestion_etiquettes.css" />
   </head>
   <body>
-    <header>
+    <header id="appEntete" class="entete">
       <h1>Sélection pour étiquettes</h1>
-      <span id="statut" class="statut">Chargement…</span>
+      <span
+        class="statut"
+        :class="{ 'statut--non-sauvegarde': nombreSaisies() > 0 }"
+      >
+        <template v-if="etat.message">⚠ Erreur de chargement</template>
+        <template v-else-if="!etat.charge">Chargement…</template>
+        <template v-else-if="nombreSaisies() > 0"
+          >● Non sauvegardé ({{ nombreSaisies() }})</template
+        >
+        <template v-else>✓ À jour</template>
+      </span>
+      <nav class="ligne ligne--pleine">
+        <button
+          v-if="nombreSaisies() > 0"
+          type="button"
+          class="btn btn--etape"
+          @click="aller('etapeIntermediaire')"
+        >
+          À ajouter ({{ nombreSaisies() }})
+        </button>
+        <button type="button" class="btn" @click="aller('appSelection')">
+          À étiqueter ({{ etat.totalEntrees }})
+        </button>
+      </nav>
+      <p v-if="etat.succes" class="encart encart--succes texte texte--succes">
+        {{ etat.succes }}
+      </p>
+      <p v-if="etat.message" class="texte texte--note">{{ etat.message }}</p>
     </header>
     <main>
-      <div id="appSelection">
+      <div id="appRecherche">
         <input
           id="recherche"
           class="champ"
           type="search"
           placeholder="Filtrer par nom de variété…"
           autocomplete="off"
-          @input="surRecherche"
+          v-model="etat.recherche"
         />
-        <div class="filtres">
-          <label class="case"
-            ><input type="checkbox" v-model="etat.filtreMeres" /> Plantes
-            mères</label
-          >
-          <label class="case"
-            ><input type="checkbox" v-model="etat.filtreEtiquettes" /> Déjà des
-            étiquettes</label
-          >
+        <div class="ligne">
+          <label class="case">
+            <input
+              type="checkbox"
+              class="case__saisie"
+              v-model="etat.filtreMeres"
+            />
+            <span class="case__texte">Plantes mères</span>
+          </label>
+          <label class="case">
+            <input
+              type="checkbox"
+              class="case__saisie"
+              v-model="etat.filtreEtiquettes"
+            />
+            <span class="case__texte">Déjà des étiquettes</span>
+          </label>
         </div>
+      </div>
 
-        <section
-          id="etapeIntermediaire"
-          v-show="etat.etapeIntermediaire.length > 0"
-        >
-          <h2>À ajouter ({{ etat.etapeIntermediaire.length }})</h2>
-          <ul class="liste-carte">
+      <div id="appAjouts">
+        <section id="etapeIntermediaire" v-show="recapAjouts().length > 0">
+          <h2>À ajouter ({{ recapAjouts().length }})</h2>
+          <ul class="liste-carte grille">
             <li
-              v-for="b in etat.etapeIntermediaire"
+              v-for="b in recapAjouts()"
               :key="b.id"
-              class="carte carte--etape"
+              class="carte carte--etape carte--cliquable"
+              @click="allerCarte(b.id)"
             >
-              <div>
-                <strong>{{ nomEtapeIntermediaire(b) }}</strong>
-                <div
-                  v-if="b.s && b.s.ou.length"
-                  class="carte-mention texte-ici"
-                >
-                  📍 {{ b.s.ou.join(', ') }}
+              <div class="carte__contenu">
+                <div>
+<strong>{{ b.s ? libelle(b.s) : '(ligne inconnue)' }}</strong
+><span v-if="b.s && b.s.type" class="carte__type">{{ typeInverse(b.s.type) }}</span>
+</div>                
+<div class="ligne">
+                  <span
+                    v-if="b.s && b.s.planteMere"
+                    class="pastille pastille--categorie pastille--plantemere"
+                    >🌱 Plante mère</span
+                  >
+                  <span v-if="b.s && b.s.ou.length" class="texte texte--ici"
+                    >📍 {{ b.s.ou.join(', ') }} ·</span
+                  >
                 </div>
-                <div class="texte-etape">{{ texteNb(b) }}</div>
-                <div
-                  v-if="b.s && (b.s.nbEtiquettes > 0 || b.s.enAttente > 0)"
-                  class="erreur"
-                >
-                  ⚠ {{ texteAlerte(b.s) }}
+                <div class="ligne">
+<span class="texte texte--etape">+ {{ b.nb }} {{ pluriel(b.nb, 'étiquette', 'étiquettes') }} ·</span>
+                  <span
+                    v-if="b.s && b.s.nbEtiquettes > 0"
+                    class="texte texte--erreur texte--gras"
+                    >⚠ {{ b.s.nbEtiquettes }} déjà à imprimer ·</span
+                  >
+                  <span
+                    v-if="b.s && b.s.enAttente > 0"
+                    class="texte texte--erreur texte--gras"
+                    >⚠ {{ b.s.enAttente }} en attente ·</span
+                  >
                 </div>
               </div>
               <button
                 type="button"
-                class="btn-suppr"
+                class="btn btn--suppr carte__action"
                 title="Retirer de la liste"
-                @click="poserEtapeIntermediaire(b.id, null)"
-                :aria-label="`Retirer ${nomEtapeIntermediaire(b)}`"
+                :aria-label="`Retirer ${b.s ? libelle(b.s) : 'cette ligne'}`"
+                @click.stop="retirerSaisie(b.id)"
               >
                 ✕
               </button>
             </li>
           </ul>
-          <p v-if="etat.erreur" class="erreur">{{ etat.erreur }}</p>
+          <p v-if="etat.erreur" class="texte texte--erreur texte--gras">
+            {{ etat.erreur }}
+          </p>
           <button
             type="button"
             class="btn btn--enregistrer btn--grand"
@@ -81,35 +131,56 @@
             {{ etat.enregistrement ? 'Enregistrement…' : 'Enregistrer' }}
           </button>
         </section>
+      </div>
 
-        <h2>{{ etat.titre }}</h2>
-        <ul id="listeSelection" class="liste-carte">
+      <div id="appSelection">
+        <h2>
+          À étiqueter (<template
+            v-if="etat.recherche.trim() || etat.filtreMeres || etat.filtreEtiquettes"
+            >{{ etat.entrees.length }} sur </template
+          >{{ etat.totalEntrees }})
+        </h2>
+        <ul class="liste-carte grille">
           <li
             v-for="s in etat.entrees"
             :key="s.id"
+            :id="'carte-' + s.id"
             class="carte"
-            :class="{ plantemere: s.planteMere }"
-            :data-id="s.id"
+            :class="{ 'carte--plantemere': s.planteMere }"
           >
             <div class="carte__contenu">
+                              <div>
               <strong>{{ libelle(s) }}</strong>
-              <span v-if="typeInverse" class="carte__type"
+              <span v-if="s.type" class="carte__type"
                 >{{ typeInverse(s.type) }}</span
               >
-              <div v-if="s.planteMere" class="carte-mention texte-plantemere">
-                {{ textePlanteMere(s) }}
               </div>
-              <div class="carte-detail">{{ detailEntree(s) }}</div>
-              <div v-if="s.ou.length" class="carte-mention texte-ici">
-                📍 {{ s.ou.join(', ') }}
-              </div>
-              <div
-                v-if="s.nbEtiquettes > 0 || s.enAttente > 0"
-                class="ligne--info"
-              >
-                <div class="pastille-look choix info info-titre">
-                  {{ texteInfo(s) }}
+              <div class="ligne">
+                <div>
+                <span
+                  v-if="s.planteMere"
+                  class="pastille pastille--categorie pastille--plantemere"
+                  >🌱 Plante mère</span
+                >
+                <span v-if="s.planteMere" class="texte texte--discret"
+                  >{{ s.anneePlantation ? ' plantée en ' + s.anneePlantation :
+                  ' année de plantation inconnue' }} ·</span
+                >
+<span v-if="s.plantes > 0" class="texte texte--discret">{{ s.plantes }} {{ pluriel(s.plantes, 'planté', 'plantés') }} ·</span>
+                <span v-if="s.datePlantation" class="texte texte--discret"
+                  >le {{ dateAffichee(s.datePlantation) }} ·</span
+                >
+                <span v-if="s.anneeGraine" class="texte texte--discret"
+                  >graines {{ s.anneeGraine }} ·</span
+                >
+                <span v-if="s.ou.length" class="texte texte--ici"
+                  >📍 {{ s.ou.join(', ') }} ·</span
+                >
                 </div>
+                <span v-if="s.nbEtiquettes > 0" class="texte texte--discret texte--gras"
+                  >{{ s.nbEtiquettes }} à imprimer ·</span
+                >
+<span v-if="s.enAttente > 0" class="texte texte--discret texte--gras">{{ s.enAttente }} {{ pluriel(s.enAttente, 'imprimée', 'imprimées') }} en attente ·</span>
               </div>
             </div>
             <input
@@ -120,51 +191,16 @@
               placeholder="Nb"
               :aria-label="`Nombre d'étiquettes pour ${libelle(s)}`"
               title="Nombre d'étiquettes à ajouter"
-              class="champ champ-etiquettes"
-              :value="valeurEtapeIntermediaire(s.id)"
+              class="champ champ--nb"
+              :value="valeurNb(s.id)"
+              @input="surNb(s.id, $event)"
             />
           </li>
         </ul>
-
-        <div id="barreFlottante">
-          <p v-if="etat.succes" class="succes">{{ etat.succes }}</p>
-          <button
-            v-show="etat.etapeIntermediaire.length > 0 && !etat.etapeVisible"
-            type="button"
-            class="btn btn-ajouter btn--grand"
-            @click="voirEtapeIntermediaire"
-          >
-            Voir les ajouts ({{ etat.etapeIntermediaire.length }})
-          </button>
-        </div>
-
-        <p v-if="etat.message" class="message">{{ etat.message }}</p>
-
-        <div class="confirmation" v-show="etat.confirmation.visible">
-          <div class="confirmation-boite">
-            <p>{{ etat.confirmation.texte }}</p>
-            <div class="confirmation-boutons">
-              <button
-                type="button"
-                class="btn-annuler"
-                @click="repondreConfirmation(false)"
-              >
-                Annuler
-              </button>
-              <button
-                type="button"
-                class="btn-valider"
-                @click="repondreConfirmation(true)"
-              >
-                Valider
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
     </main>
     <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue@3.4.38/dist/vue.global.prod.js"></script>
+    <script src="https://unpkg.com/vue@3.4.38/dist/vue.global.prod.js"></script>
     <script src="../../script/scriptcommun.js"></script>
     <script src="gestion_etiquettes.js"></script>
   </body>

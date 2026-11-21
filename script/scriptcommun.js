@@ -105,3 +105,12 @@ if (texte) minuterie = setTimeout(() => definir(''), duree);
 }
 
 function enListeChoix(valeurs) { return ['L', ...valeurs]; }
+
+function pluriel(n, singulier, formePluriel = singulier + 's') {
+  // 0 et 1 → singulier ; 2 et plus → pluriel
+  return n >= 2 ? formePluriel : singulier;
+}
+function evolution(avant, apres, singulier, formePluriel) {
+  // « 12 → 15 germés » : l'accord se fait sur la valeur d'arrivée
+  return `${avant} → ${apres} ${pluriel(apres, singulier, formePluriel)}`;
+}

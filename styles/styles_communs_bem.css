@@ -102,7 +102,21 @@ h3 {
 .ligne--pleine {
   flex-basis: 100%;
 }
-
+/* Ecart de cette ligne avec l'objet en dessous */
+.ligne--sur-champ {
+  margin-bottom: 6px;
+}
+/* Grille 2 colonnes, 1 colonne sur écran étroit */
+.grille {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 12px;
+}
+@media (max-width: 600px) {
+  .grille {
+    grid-template-columns: 1fr;
+  }
+}
 /* ===== Champ ===== */
 .champ {
   width: 100%;
@@ -216,7 +230,7 @@ h3 {
   border-color: var(--bleu-moyen);
 }
 .pastille--categorie {
-  padding: 4px;
+  padding: 2px;
   font-size: 0.75rem;
 }
 .pastille--sousabri {
@@ -239,10 +253,6 @@ h3 {
   border-color: var(--orange-moyen);
 }
 
-/* Pastilles choisies posées au-dessus de leur champ de recherche */
-.ligne--sur-champ {
-  margin-bottom: 6px;
-}
 /* ===== Carte ===== */
 .liste-carte {
   list-style: none;
@@ -264,7 +274,15 @@ h3 {
   flex-direction: column;
   align-items: stretch;
 }
-
+/* Contenu à gauche d'une carte : ses blocs s'empilent avec 6px entre chacun.
+   Le bloc à droite (✕, champ Nb) est un enfant de .carte, centré par .carte. */
+.carte__contenu {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
 .carte--plantemere {
   border-left: 5px solid var(--plantemere-moyen);
 }
@@ -286,7 +304,6 @@ h3 {
   font-size: 0.85rem;
   color: var(--gris-fonce);
 }
-
 .carte__action {
   flex: none;
 }
@@ -370,7 +387,6 @@ h3 {
 }
 .btn--grand {
   width: 100%;
-  margin-top: 14px;
   padding: 14px;
   font-size: 1.1rem;
   font-weight: bold;

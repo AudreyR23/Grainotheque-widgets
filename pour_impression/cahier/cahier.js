@@ -239,8 +239,7 @@ function buildGrainesMap(records) {
         exposition: v.Exposition || '',
         ou: fmtVal(v.Ou_cultiver),
         conservation: v.Conservation || '',
-        Nb_sachets: []
-      });
+        sachets: []      });
     }
 
     const origine = Array.isArray(r.Origine)
@@ -250,7 +249,7 @@ function buildGrainesMap(records) {
 
     map.get(key).sachets.push({
       origine: origine,
-      sachet: r.Nb_sachets: ? String(r.Nb_sachets:) : '',
+      sachet: r.Nb_sachets ? String(r.Nb_sachets) : '',
       annee: fmtAnnee(r.Millesime),
       saisons: r.Nb_saisons || r.Nb_saisons_manuel || '',
       qtte: r.Qtte_graines || '',
@@ -315,7 +314,7 @@ if (dansGrist) {
         Variete: variete,
         NomVariete: col(md, 'NomVariete', i) || `${nom}\n${variete}`.trim(),
         Origine: col(md, 'Origine', i),
-        Nb_sachets: col(md, 'Sachets', i),
+        Nb_sachets: col(md, 'Nb_sachets', i),
         Millesime: col(md, 'Millesime', i),
         Nb_saisons: col(md, 'Nb_saisons', i),
         Nb_saisons_manuel: col(md, 'Nb_saisons_manuel', i),

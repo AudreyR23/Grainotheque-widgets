@@ -33,65 +33,19 @@ if m:
   return {"p": "Pied","r": "Rhizome", "rhi": "Rhizome", "c": "Caïeu", "b": "Bulbe"}[m.group(1)]
 return "Plant" if $Plante_mere else None
 
-DAns sachets : $Sachet_num_tempo
-Renommer Sachets en Nb_sachets
-TRansformer en numérique
 
-Changer nom Modele en Especes
+/21/11 à 22h30
 
-A1. Dans Grist
+Dans Grist, table Millesimes, colonne Plantes, remplace la formule par
+if rec.Plante_mere:
+    return rec.Nb_plants or 0
+return sum(g or 0 for g in Semis.lookupRecords(NomVariete=rec.NomVariete, Millesime=rec.id).Plantes)
+Or c'est Semis.Plantes que lisent le plan et les étiquettes. Dans la vraie base, s'il y a eu des ajustements avec l'ancienne version, il faut repérer les écarts une fois, à la main :
 
-Convertis la colonne Semis_profondeur en Texte dans Especes et dans Varietes (menu de la colonne, type de colonne). Les valeurs existantes sont conservées.
-Colonne tempo : 
-import re
-v = str($Semis_profondeur or "")
-return re.sub(r"\s*cm\s*$", "", v.replace("–", "-").replace("—", "-"), flags=re.I).strip()
-A copier coller en sélectionnnat l'en-tête de colonne
-Avant tout
-[ ] Sauvegarde du document de prod (téléchargement d’une copie du fichier Grist, ou une copie du document), puisque l’outil modifie désormais des définitions de colonnes.
-[ ] Faire ces opérations quand tu n’utilises aucun outil, puis tout tester après avoir déployé les outils.
-1. Renommer la table Modele en Especes
-[ ] Renomme la table dans Grist (Données brutes), puis vérifie que l’identifiant affiché est bien Especes.
-[ ] Cherche Modele dans les fichiers de tous tes outils : seul le nouvel achatrepro est prévu pour Especes. Si un autre outil (ou une vue, une formule) l’appelle encore, il cassera.
-2. Table Semis
-[ ] Etiq_en_attente : colonne Numérique, de données (pas de formule), vide partout.
-[ ] Note_attente : colonne Texte, de données. Dans ta base de test, c’était une colonne de formule qui renvoie '' : si c’est pareil en prod, convertis-la en colonne de données (menu de la colonne, « Convertir la colonne en données »), sinon on ne peut pas y saisir de note.
-[ ] Germes_attente : colonne Booléenne (utilisée par a_gerer), si elle n’existe pas encore.
-3. Table Millesimes
-[ ] Nb_sachets : colonne Numérique, qui remplace l’ancienne colonne de lettres (Sachets). Vérifie qu’il ne reste plus de valeurs comme 1p. ou Mél..
-[ ] Nb_plants : Numérique, rempli pour les plantes mères. C’est elle qu’ajuste a_gerer.
-[ ] Type_plant : colonne de choix, dont les choix sont renseignés. L’outil demande ce type à la création d’une plante mère. Dans le schéma ancien, c’était une colonne de formule vide : elle doit être une colonne de données avec ses choix.
-[ ] Melange : booléenne, si tu la gardes.
-[ ] Formules par défaut (Nb_sachets, Nb_plants, Melange, et la colonne Sachet_num_tempo qu’elles lisaient) : à retirer, tu m’as dit que c’est fait en prod. À vérifier.
-[ ] Epuise : (not rec.Plante_mere) and (not rec.Qtte_graines) and (not rec.Nb_sachets).
-[ ] Formules des germinations (Germination_2026, Germination_affichee, Annees_sans_test, Germination_cahier) : celles de ta base de test renvoient vide pour une plante mère. À reprendre telles quelles.
-[ ] Origine : le choix Monjardin existe (c’est lui que l’outil préremplit). Les 6 premiers choix de la liste deviennent les pastilles ; le reste va dans le menu « Autres origines… ».
-[ ] Statut_mere et Controle_mere : déjà là pour a_gerer, l’outil ne les écrit pas.
-
-Les données existantes : je n’ai pas vu comment tu as converti les anciennes valeurs de sachets (1, 2p., Mél., etc.) en nombres dans ta base de test. Si ce n’est pas déjà fait en prod, envoie-moi la liste des valeurs distinctes actuelles de la colonne, et je te donne une formule de conversion avec un contrôle avant d’écraser quoi que ce soit.
-
-4. Tables Especes et Varietes
-[ ] Semis_profondeur : convertir en Texte, dans les deux tables.
-[ ] Nettoyer les valeurs avec une colonne temporaire Prof_tmp : formule qui retire « cm » (voir mon message sur le sujet), contrôle, puis copie la colonne vers Semis_profondeur et supprime Prof_tmp. Garde les valeurs sous forme 1, 1-2, 0,5. Je te conseille la virgule comme séparateur ; si tu préfères le point, ajoute .replace(",", ".") à la formule et dis-le-moi pour adapter la fonction de l’outil. Les valeurs qui ne sont ni un nombre ni une fourchette (« en surface ») seront refusées par l’outil à la création : corrige-les dans cette étape.
-[ ] Choix vides : cherche dans la définition de chaque colonne de choix (Famille, Nature du sol, Qualité du sol, Où cultiver, Infos…) des choix vides ou réduits à un espace. L’outil les ignore à l’affichage, mais mieux vaut les supprimer.
-[ ] Nombres de choix attendus : mois 12, Famille 12, nature du sol 8, qualité du sol 10, où cultiver 3, Semis GPT 5. Les autres colonnes à pastilles s’afficheront telles quelles.
-[ ] Infos : mêmes choix dans Especes et Varietes (l’ajout depuis l’outil les ajoute dans les deux).
-5. Table Semis : choix Ou
-[ ] La liste des emplacements est lue dans la colonne Ou de Semis. Le contrôle dans l’outil se fait par une recherche, donc rien à changer, mais vérifie qu’elle est complète (c’est elle que a_gerer et achatrepro utilisent).
-6. Les outils à déployer en même temps
-[ ] Achatrepro (HTML, JS, CSS) et le JS des étiquettes (contrat sur Etiq_en_attente).
-[ ] « Semis réalisés » : Nb_sachets: null à la place de Sachets: ''.
-[ ] scriptcommun.js (avec enListeChoix) et styles_communs_bem.css à jour en prod.
-[ ] Mettre à jour l’URL de chaque widget dans Grist, puis tester.
-Ordre conseillé
-Sauvegarde.
-Especes (renommage), puis une recherche de Modele dans les outils.
-Semis (colonnes de données).
-Millesimes (nombres, Nb_plants, Type_plant, formules).
-Semis_profondeur en Texte, nettoyage et choix vides.
-Déploiement des trois outils, puis les tests de la section 6 des notes.
-
-Dis-moi lesquels de ces points sont déjà faits en prod. Si tu veux que je te guide pas à pas, on commence par le renommage de Especes.
-1. Grist (à faire avant le reste)
-
-Dans Especes, ajoute une colonne Ou_semer de type Choix multiple, avec les mêmes 5 choix que dans Varietes. Sans cette colonne, créer une espèce provoque l’erreur KeyError 'Ou_semer'. Sans ses choix, le bloc affiche « Aucun choix disponible ».
+Dans la table Semis, ajoute une colonne formule temporaire Ecart_mere :
+python
+if not rec.Plante_mere or rec.Nb_godets or rec.Nb_graines:
+    return ""
+return "" if (rec.Plantes or 0) == (rec.Millesime.Nb_plants or 0) else "écart"
+Filtre cette colonne sur « écart ». Pour chaque ligne trouvée, recopie dans Plantes le Nb_plants du millésime.
+Supprime la colonne Ecart_mere.

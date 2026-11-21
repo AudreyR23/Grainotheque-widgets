@@ -47,11 +47,16 @@ function makeEtiquette(data, indexDansLigne) {
   }
   let libelleDate = 'Semis';
   let valeurDate = data.seme ? (data.annee_semis || '') : '';
-  if (!data.vierge && data.plante_mere && data.annee_plantation) {
+    if (!data.vierge && data.plante_mere) {
     origineTexte = (origine && origine !== 'AR') ? `${origine} → AR` : 'AR';
-    saisons = ANNEE_EN_COURS - data.annee_plantation + 1;
     libelleDate = 'Plantation';
-    valeurDate = data.annee_plantation;
+    if (data.annee_plantation) {
+      saisons = ANNEE_EN_COURS - data.annee_plantation + 1;
+      valeurDate = data.annee_plantation;
+    } else {
+      saisons = 'or.';   // affiché « …… saison(s) »
+      valeurDate = '';
+    }
   }
   return `
     <div class="etiquette-wrapper${inverse ? ' inverse' : ''}">

@@ -1,30 +1,50 @@
-/* ===== Css "à gérer" ===== */
+/* ===== CSS de « À gérer » ===== */
 
+/* Message d'erreur du bandeau : seul sur sa ligne */
 .entete__message {
   flex-basis: 100%;
   margin: 0;
 }
+
+/* Lieu coché « mort » sur une carte plante mère */
 .pastille--morte {
   background: var(--blanc);
   border-color: var(--erreur-fonce);
   color: var(--erreur-fonce);
 }
+
 /* Le défilement ne doit pas passer sous le bandeau */
+#appEnCours,
 #appVerifier,
 #appPlanter,
-#appEnCours,
-.carte--colonne,
+#appMeres,
 #erreur-verifier,
 #erreur-planter,
-#erreur-meres, #appMeres {
+#erreur-meres,
+.carte--colonne {
   scroll-margin-top: 120px;
 }
 
-.ligne--tri { gap: 8px; margin-top: 6px; }
-
-/* bloc qui prend la largeur de son plus long texte, sans s'étirer */
-.menu--auto { flex: 0 0 auto; width: max-content; max-width: 100%; }
-
-/* champ plus petit */
-.champ--petit { padding: 6px 10px; width: 100%; text-align: left; margin-top: 0; }
-.reserve { display: block; height: 0; overflow: hidden; visibility: hidden; }
+/* ===== Tri ===== */
+/* Ligne « Trier par » sous le champ de recherche */
+.ligne--tri {
+  gap: 8px;
+  margin-top: 6px;
+}
+/* Menu aussi large que son plus long texte, sans s'étirer */
+.menu--auto {
+  flex: 0 0 auto;
+  width: max-content;
+  max-width: 100%;
+}
+/* Champ moins haut que la normale (bouton du tri) */
+.champ--petit {
+  padding: 6px 10px;
+}
+/* Copie invisible du plus long choix : le bouton garde la même largeur quel que soit le tri */
+.reserve {
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+}

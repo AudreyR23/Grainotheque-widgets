@@ -27,34 +27,35 @@ const TEXTES = {
   // --- Erreurs d'écriture et de lecture ---
   erreur: e => '❌ Erreur : ' + e,
   detectionImpossible: e => '⚠️ Détection impossible : ' + e,
-  decochageEchoue: e => '⚠️ Millésime créé, mais le décochage de "A produire" a échoué : ' + e,
-  nettoyageEchoue: e => '⚠️ Millésime créé, mais le nettoyage de la ligne d\'étiquettes a échoué : ' + e,
-  ligneSemisEchouee: e => '⚠️ Millésime créé, mais la ligne Semis a échoué : ' + e,
   varieteIntrouvable: 'Variété introuvable dans la liste (recharge le widget).',
   originePasAjoutee: e => '❌ Origine non ajoutée : ' + e,
   infoPasAjoutee: e => '❌ Info non ajoutée : ' + e,
   erreurChargement: e => 'Erreur de chargement : ' + e,
   aucunChoixLieux: 'aucun choix trouvé pour Semis.Ou',
   lieuxNonCharges: e => 'Emplacements non chargés : ' + e + ' (impossible de créer une plante mère).',
- 
+  lectureImpossible: e => '⚠️ Lecture impossible, rien n\'a été créé : ' + e,
+  ligneModifiee: 'Cette ligne d\'étiquettes a changé dans Grist : choisis-la de nouveau.',
+  suiteEchouee: e => '❌ Rien n\'a été créé : ' + e,
+  suiteEtAnnulationEchouees: e => '⚠️ Millésime créé, mais la suite a échoué (' + e + ') et il n\'a pas pu être annulé : vérifie Millesimes, puis les semis de la variété et la ligne d\'étiquettes.',
+
   // --- Confirmations ---
-  especeCreee: nom => ' Espèce créée : ' + nom,
-  varieteCreee: nom => ' Variété créée : ' + nom,
-  millesimeCree: (annee, nom, planteMere, nbDecoches, don) =>
+  especeCreee: nom => 'Espèce créée : ' + nom,
+  varieteCreee: nom => 'Variété créée : ' + nom,
+    millesimeCree: (annee, nom, planteMere, nbDecoches, don) =>
     ' Millésime ' + annee + ' créé pour ' + nom +
     (planteMere ? ' (ajouté aussi dans Semis)' : '') +
     (nbDecoches ? ' · "À produire" décoché sur ' + nbDecoches + ' semis' : '') +
-    (don > 0 ? ' · Don : ' + don + ' sachet(s)' : ''),
+    (don > 0 ? ' · Don : ' + don + ' ' + pluriel(don, 'sachet') : ''),
   origineExiste: nom => `Cette origine existe déjà : « ${nom} » est sélectionnée.`,
-  origineAjoutee: nom => ' Origine ajoutée : ' + nom,
-  infoAjoutee: nom => ' Info ajoutée : ' + nom,
+  origineAjoutee: nom => 'Origine ajoutée : ' + nom,
+  infoAjoutee: nom => 'Info ajoutée : ' + nom,
  
   // --- Libellés fabriqués par le code (listes) ---
   orOriginal: 'or. (original)',
   varieteInconnue: '(variété inconnue)',
-  graineAIdentifier: (note, nb) =>
-    'Graines à identifier' + (note ? ' (' + note + ')' : '') + ' · ' + nb + ' étiquette(s)',
-  ligneAttente: (variete, type, nb) => variete + ' · ' + type + ' · ' + nb + ' étiquette(s)',
+   graineAIdentifier: (note, nb) =>
+    'Graines à identifier' + (note ? ' (' + note + ')' : '') + ' · ' + nb + ' ' + pluriel(nb, 'étiquette'),
+  ligneAttente: (variete, type, nb) => variete + ' · ' + type + ' · ' + nb + ' ' + pluriel(nb, 'étiquette'),
   typeMere: 'plante mère',
   typeSemis: 'semis',
   typeHorsSachet: 'récupération hors sachet'
