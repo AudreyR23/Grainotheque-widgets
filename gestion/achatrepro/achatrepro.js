@@ -1,25 +1,33 @@
 // ===== Achat / repro : outil en Vue =====
 // Les textes affichés après une action sont dans achatrepro_textes.js (TEXTES) ;
 // les libellés fixes, bandeaux et avertissements sont dans achatrepro.html.
+//
+// Plan du fichier :
+//   1. Constantes            5. Valeurs calculées       9. Millésimes
+//   2. État                  6. Observateurs (watch)   10. Ajouter un choix (Origine, Infos)
+//   3. Messages              7. Lecture des données    11. Application Vue et composants
+//   4. Utilitaires           8. Espèces et variétés    12. Initialisation
 
-// ===== Constantes =====
+// ===== 1. Constantes =====
 const TABLE_ESPECES = 'Especes';     // identifiant de la table des espèces dans Grist
 const TABLE_VARIETES = 'Varietes';
 const TABLE_MILLESIMES = 'Millesimes';
 const TABLE_SEMIS = 'Semis';
 const MOIS = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jui', 'Juil', 'Aou', 'Sep', 'Oct', 'Nov', 'Déc'];
-const NB_FAVORIS = 6;         // les 6 premiers choix de Origine sont des pastilles, les autres un menu
-const NB_SAISONS = ['or.', '1', '2', '3', '4', '5', '6', '7', '8'];
-const NB_SACHETS = 1;         // valeur de Nb_sachets (Numérique) pour un sachet ; une plante mère va dans Nb_plants
+const NB_FAVORIS = 6;                // les 6 premiers choix de Origine sont des pastilles, les autres un menu
+const NB_SAISONS_MAX = 20;           // nombre de saisons maximum proposé (menu et préremplissage)
+const NB_SAISONS = ['or.', ...Array.from({ length: NB_SAISONS_MAX }, (_, i) => String(i + 1))];
+const NB_SACHETS = 1;                // valeur de Nb_sachets (Numérique) pour un sachet ; une plante mère va dans Nb_plants
 const ORIGINE_PRODUCTION = 'Monjardin';   // choix de la colonne Origine affiché « AR » sur l'étiquette
 const ANNEE_MIN = 2000;
+const MOTIF_PROFONDEUR = /^\d+([.,]\d+)?(\s*-\s*\d+([.,]\d+)?)?$/;   // 1, 0,5, 1-2
+// Colonnes de choix lues dans Especes et dans Varietes (mêmes noms dans les deux tables)
 const COLONNES_CHOIX_MODELE = [
-  'Type', 'Exposition', 'Arrosage',
-  'Famille', 'Nature_du_sol', 'Qualite_du_sol', 'Ou_cultiver', 'Infos', 'Ou_semer',
+  'Type', 'Exposition', 'Arrosage', 'Famille', 'Nature_du_sol', 'Qualite_du_sol', 'Ou_cultiver', 'Infos', 'Ou_semer'
 ];
-const COLONNES_CHOIX_VARIETE = [...COLONNES_CHOIX_MODELE];
 
 // Champs communs à une espèce et à une variété : mêmes noms dans le formulaire
+// (semisGpt contient « Où semer » : colonne Ou_semer)
 function champsVides() {
   return {
     type: '', famille: [], conservation: '', profondeur: '', dureeGerm: '', tempGerm: '',
@@ -39,7 +47,7 @@ function millesimeVide() {
   };
 }
 
-// ===== État =====
+// ===== 2. État =====
 const etat = Vue.reactive({
   charge: false,
   erreurChargement: '',
@@ -62,7 +70,7 @@ const etat = Vue.reactive({
   doublonModeleMasque: false,
 
   // Variétés
-  choixVariete: Object.fromEntries(COLONNES_CHOIX_VARIETE.map(c => [c, []])),
+  choixVariete: Object.fromEntries(COLONNES_CHOIX_MODELE.map(c => [c, []])),
   varietes: [],              // variétés existantes
   varieteBase: '',           // id de l'espèce choisie comme modèle de base (panneau Variété)
   variete: { nom: '', variete: '', description: '', ...champsVides() },
@@ -75,7 +83,7 @@ const etat = Vue.reactive({
   millesime: millesimeVide(),
   doublonsMillesime: [],     // millésimes existants de même variété + année + origine + nature
   doublonMillesimeMasque: false,
-    autresOrigines: false,     // panneau « Autre origine » ouvert
+  autresOrigines: false,     // panneau « Autre origine » ouvert
 
   // Étiquettes en attente (Semis.Etiq_en_attente)
   issuEtiquettes: false,     // case « Issu de mes étiquettes »
@@ -86,7 +94,7 @@ const etat = Vue.reactive({
   parcoursLigne: false       // true pendant le trajet ligne sans variété → espèce → variété → millésime
 });
 
-// ===== Messages =====
+// ===== 3. Messages =====
 const afficherMessage = creerMessageTemporaire(texte => { etat.message = texte; }, 4000);
 
 function dire(texte, erreur = false, panneau = etat.onglet) {
@@ -94,7 +102,7 @@ function dire(texte, erreur = false, panneau = etat.onglet) {
   etat.erreur = erreur;
   if (erreur) {
     afficherMessage('');     // arrête le minuteur en cours
-    etat.message = texte;    // une erreur reste affichée jusqu'au prochain message
+    etat.message = texte;    // une erreur reste affichée jusqu'au prochain clic
   } else {
     afficherMessage(texte);  // un succès disparaît au bout de 4 s
   }
@@ -106,7 +114,7 @@ document.addEventListener('click', () => {
   if (etat.erreur && etat.message) etat.message = '';
 }, true);
 
-// ===== Utilitaires =====
+// ===== 4. Utilitaires =====
 function entierOuNull(valeur) {
   // '12' → 12 ; vide ou autre chose qu'un entier → null
   const t = String(valeur).trim();
@@ -119,8 +127,6 @@ function anneeValide(valeur) {
   const n = parseInt(t, 10);
   return /^\d{4}$/.test(t) && n >= ANNEE_MIN && n <= new Date().getFullYear();
 }
-
-const MOTIF_PROFONDEUR = /^\d+([.,]\d+)?(\s*-\s*\d+([.,]\d+)?)?$/;   // 1, 0,5, 1-2
 
 function nettoyerProfondeur(valeur) {
   // « 1 cm » → « 1 » ; tirets longs → « - » ; le point devient une virgule
@@ -177,7 +183,119 @@ function donnerLeFocus(id) {
   });
 }
 
-// ===== Espèces =====
+function existeDeja(liste, valeur) {
+  return liste.some(c => normaliser(c) === normaliser(valeur));   // sans casse ni accents
+}
+
+function cleOrigine(liste) {
+  // ['Achat', 'Don'] ou ['L', 'Achat', 'Don'] → 'Achat|Don' (trié, sans le L) pour comparer
+  return (Array.isArray(liste) ? liste : []).filter(v => v && v !== 'L').sort().join('|');
+}
+
+// ===== 5. Valeurs calculées =====
+// Espèces et variétés : doublons
+const doublonsModele = Vue.computed(() => {
+  const cle = normaliser(etat.modele.nom);
+  return cle ? etat.modeles.filter(m => normaliser(m.nom) === cle) : [];
+});
+
+const doublonsVariete = Vue.computed(() => {
+  if (!etat.variete.nom.trim()) return [];
+  const cle = normaliser(etat.variete.nom) + '|' + normaliser(etat.variete.variete);
+  return etat.varietes.filter(v => normaliser(v.nom) + '|' + normaliser(v.variete) === cle);
+});
+
+// Millésime : origine
+const origineFavorites = Vue.computed(() => etat.choixOrigine.slice(0, NB_FAVORIS));
+const origineAutres = Vue.computed(() => etat.choixOrigine.slice(NB_FAVORIS));
+// Valeur affichée par le menu « Autres origines » : l'origine choisie si elle y figure, sinon vide
+const origineAutre = Vue.computed(() => origineAutres.value.includes(etat.millesime.origine) ? etat.millesime.origine : '');
+
+const typeVariete = Vue.computed(() => {
+  const v = etat.varietes.find(x => x.id === Number(etat.millesime.varieteId));
+  return v ? v.type : '';
+});
+
+// Millésime : étiquettes en attente
+const ligneAttente = Vue.computed(() =>
+  etat.semisEnAttente.find(l => l.id === Number(etat.ligneAttenteId)) || null);
+const ligneSansVariete = Vue.computed(() => !!ligneAttente.value && !ligneAttente.value.varId);
+const varieteVerrouillee = Vue.computed(() => !!ligneAttente.value && !!ligneAttente.value.varId);
+
+const optionsAttente = Vue.computed(() =>
+  etat.semisEnAttente
+    .map(l => ({ id: l.id, texte: libelleAttente(l) }))
+    .sort((a, b) => a.texte.localeCompare(b.texte, 'fr')));
+
+// Don = sachets réels - 1 (null tant que les sachets réels ne sont pas saisis)
+const donSachets = Vue.computed(() => {
+  const n = parseInt(etat.millesime.sachetsReels);
+  return n >= 1 ? n - 1 : null;
+});
+
+// Listes préparées pour les menus : { valeur, libelle }
+const optionsVarietes = Vue.computed(() =>
+  etat.varietes.map(v => ({ valeur: v.id, libelle: libelle(v) })));
+const optionsModeles = Vue.computed(() =>
+  etat.modeles.map(m => ({ valeur: m.id, libelle: m.nom })));
+const optionsAttenteMenu = Vue.computed(() =>
+  optionsAttente.value.map(o => ({ valeur: o.id, libelle: o.texte })));
+const optionsNbSaisons = NB_SAISONS.map(s => ({ valeur: s, libelle: s === 'or.' ? TEXTES.orOriginal : s }));
+
+// ===== 6. Observateurs (watch) =====
+// Choisir une espèce comme point de départ (panneau Espèce) ou comme modèle de base (panneau Variété) :
+// copie ses champs dans le formulaire, le nom n'est pas copié
+Vue.watch(() => etat.modeleBase, id => {
+  const m = etat.modeles.find(x => x.id === id);
+  if (m) appliquerModele(m, etat.modele);
+});
+Vue.watch(() => etat.varieteBase, id => {
+  const m = etat.modeles.find(x => x.id === id);
+  if (m) appliquerModele(m, etat.variete);
+});
+
+// Le bandeau « doublon » se rouvre dès que le nom (ou la variété) change
+Vue.watch(() => etat.modele.nom, () => { etat.doublonModeleMasque = false; });
+Vue.watch(() => [etat.variete.nom, etat.variete.variete], () => { etat.doublonVarieteMasque = false; });
+
+// Une origine choisie (pastille, menu, ajout, ligne d'étiquettes) referme le panneau « Autre origine »
+Vue.watch(() => etat.millesime.origine, () => { etat.autresOrigines = false; });
+
+// Doublon en direct : se déclenche quand variété, année, origine ou nature changent
+Vue.watch(
+  () => [etat.millesime.varieteId, etat.millesime.annee, etat.millesime.origine, etat.millesime.planteMere],
+  () => {
+    etat.doublonMillesimeMasque = false;
+    verifierDoublonMillesime();
+  }
+);
+
+// Sachet et plante mère s'excluent ; décocher l'un vide ses champs
+Vue.watch(() => etat.millesime.sachet, coche => {
+  if (coche) etat.millesime.planteMere = false;
+  else etat.millesime.qtte = '';
+});
+Vue.watch(() => etat.millesime.planteMere, coche => {
+  if (coche) etat.millesime.sachet = false;
+  else Object.assign(etat.millesime, { anneePlantation: '', nbPlants: '', typePlant: '', lieux: [] });
+});
+
+// Case « Issu de mes étiquettes » : charge la liste, ou libère le formulaire
+Vue.watch(() => etat.issuEtiquettes, async actif => {
+  etat.erreurEtiquettes = '';
+  etat.etiquettesChargees = false;
+  if (!actif) { annulerLigneAttente(); return; }
+  try {
+    await chargerSemisEnAttente();
+  } catch (e) {
+    etat.erreurEtiquettes = e.message;   // le texte est dans le HTML
+  }
+});
+
+// Choix d'une ligne dans la liste des étiquettes en attente
+Vue.watch(() => etat.ligneAttenteId, () => chargerLigneAttente());
+
+// ===== 7. Lecture des données =====
 function modeleDepuisLigne(m) {
   return {
     id: m.id,
@@ -208,11 +326,105 @@ async function chargerModeles() {
     .sort((a, b) => a.nom.localeCompare(b.nom, 'fr'));
 }
 
-const doublonsModele = Vue.computed(() => {
-  const cle = normaliser(etat.modele.nom);
-  return cle ? etat.modeles.filter(m => normaliser(m.nom) === cle) : [];
-});
+async function chargerVarietes() {
+  const tab = await grist.docApi.fetchTable(TABLE_VARIETES);
+  etat.varietes = tableEnLignes(tab)
+    .map(v => ({ id: v.id, nom: v.Nom || '', variete: v.Variete || '', type: v.Type || '' }))
+    .sort((a, b) => (a.nom + a.variete).localeCompare(b.nom + b.variete, 'fr'));
+}
 
+// Étiquettes en attente (Semis.Etiq_en_attente)
+// Contrat avec l'outil d'étiquettes : « Marquer comme imprimées » copie Nb_etiquettes dans Etiq_en_attente
+// (sans rien supprimer) ; cet outil vide Etiq_en_attente à la création du millésime, et supprime la ligne
+// si c'est une ligne de transit (sans date de semis ni données de culture).
+async function chargerSemisEnAttente() {
+  const [semis, mils] = await Promise.all([
+    grist.docApi.fetchTable(TABLE_SEMIS),
+    grist.docApi.fetchTable(TABLE_MILLESIMES)
+  ]);
+
+  const milParId = new Map();
+  const originesOr = new Map();   // variété → origines de son millésime « or. »
+  mils.id.forEach((id, i) => {
+    milParId.set(id, {
+      saisons: mils.Nb_saisons_manuel[i] || '',
+      planteMere: !!mils.Plante_mere[i],
+      anneePlantation: mils.Annee_plantation[i] || null
+    });
+    if (mils.Nb_saisons_manuel[i] === 'or.' && !originesOr.has(mils.NomVariete[i])) {
+      originesOr.set(mils.NomVariete[i], cleOrigine(mils.Origine[i]).split('|').filter(Boolean));
+    }
+  });
+
+  const liste = [];
+  semis.id.forEach((id, i) => {
+    const nb = semis.Etiq_en_attente[i];
+    if (!(nb > 0)) return;
+    liste.push({
+      id,
+      varId: semis.NomVariete[i] || 0,
+      nb,
+      note: ((semis.Note_attente || [])[i] || '').trim(),
+      seme: !!semis.Date_s[i],
+      mil: milParId.get(semis.Millesime[i]) || null,
+      originesOr: originesOr.get(semis.NomVariete[i]) || []
+    });
+  });
+  etat.semisEnAttente = liste;
+  etat.etiquettesChargees = true;
+}
+
+async function rafraichirEtiquettes() {
+  if (!etat.issuEtiquettes) return;
+  try {
+    await chargerSemisEnAttente();
+  } catch (e) {
+    console.error('Rafraîchissement des étiquettes en attente impossible :', e);
+  }
+}
+
+async function trouverSemisAProduire(varId) {
+  // Ids des lignes Semis de cette variété dont « A produire » est coché
+  const data = await grist.docApi.fetchTable(TABLE_SEMIS);
+  const ids = [];
+  data.id.forEach((id, i) => {
+    if (data.NomVariete[i] === varId && data.A_produire[i]) ids.push(id);
+  });
+  return ids;
+}
+
+async function trouverDoublonsMillesime(varId, annee, origine, planteMere) {
+  // Millésimes existants de même variété + année + origine + nature (sachet ou plante mère)
+  const data = await grist.docApi.fetchTable(TABLE_MILLESIMES);
+  const doublons = [];
+  data.id.forEach((id, i) => {
+    if (data.NomVariete[i] !== varId) return;
+    if (!!data.Plante_mere[i] !== !!planteMere) return;
+    if (anneeDepuisDate(data.Millesime[i]) !== annee) return;
+    if (cleOrigine(data.Origine[i]) !== origine) return;
+    doublons.push({ id, annee, origine, qtte: data.Qtte_graines[i] });
+  });
+  return doublons;
+}
+
+let numeroVerification = 0;
+
+async function verifierDoublonMillesime() {
+  const m = etat.millesime;
+  const varId = Number(m.varieteId);
+  const annee = parseInt(m.annee);
+  if (!varId || !annee || !m.origine) { etat.doublonsMillesime = []; return; }
+
+  const numero = ++numeroVerification;   // évite qu'une ancienne réponse écrase une plus récente
+  try {
+    const doublons = await trouverDoublonsMillesime(varId, annee, m.origine, m.planteMere);
+    if (numero === numeroVerification) etat.doublonsMillesime = doublons;
+  } catch (e) {
+    console.error('Vérification en direct impossible :', e);
+  }
+}
+
+// ===== 8. Espèces et variétés =====
 function reinitialiserModele() {
   etat.modeleBase = '';
   Object.assign(etat.modele, { nom: '', ...champsVides() });
@@ -258,29 +470,6 @@ async function creerModele(forcer = false) {
   }
   etat.enregistrement = false;
 }
-
-// Choisir une espèce comme point de départ : copie ses champs dans le formulaire
-Vue.watch(() => etat.modeleBase, id => {
-  const m = etat.modeles.find(x => x.id === id);
-  if (m) appliquerModele(m, etat.modele);
-});
-
-// Le bandeau « doublon » se rouvre dès que le nom change
-Vue.watch(() => etat.modele.nom, () => { etat.doublonModeleMasque = false; });
-
-// ===== Variétés =====
-async function chargerVarietes() {
-  const tab = await grist.docApi.fetchTable(TABLE_VARIETES);
-  etat.varietes = tableEnLignes(tab)
-    .map(v => ({ id: v.id, nom: v.Nom || '', variete: v.Variete || '', type: v.Type || '' }))
-    .sort((a, b) => (a.nom + a.variete).localeCompare(b.nom + b.variete, 'fr'));
-}
-
-const doublonsVariete = Vue.computed(() => {
-  if (!etat.variete.nom.trim()) return [];
-  const cle = normaliser(etat.variete.nom) + '|' + normaliser(etat.variete.variete);
-  return etat.varietes.filter(v => normaliser(v.nom) + '|' + normaliser(v.variete) === cle);
-});
 
 function reinitialiserVariete() {
   etat.varieteBase = '';
@@ -340,91 +529,14 @@ async function creerVariete(forcer = false) {
       etat.bandeaux.millesime = { type: 'variete', nom: libelleCree };
     }
     etat.onglet = 'millesime';
-    donnerLeFocus('m-origine-autre');
   }
   etat.enregistrement = false;
 }
 
-// Choisir une espèce comme modèle de base : copie ses champs dans le formulaire (le nom n'est pas copié)
-Vue.watch(() => etat.varieteBase, id => {
-  const m = etat.modeles.find(x => x.id === id);
-  if (m) appliquerModele(m, etat.variete);
-});
-
-// Le bandeau « doublon » se rouvre dès que le nom ou la variété change
-Vue.watch(() => [etat.variete.nom, etat.variete.variete], () => { etat.doublonVarieteMasque = false; });
-
-// ===== Millésimes =====
-const origineFavorites = Vue.computed(() => etat.choixOrigine.slice(0, NB_FAVORIS));
-const origineAutres = Vue.computed(() => etat.choixOrigine.slice(NB_FAVORIS));
-// Valeur affichée par le menu « Autres origines » : l'origine choisie si elle y figure, sinon vide
-const origineAutre = Vue.computed(() => origineAutres.value.includes(etat.millesime.origine) ? etat.millesime.origine : '');
-
+// ===== 9. Millésimes =====
 function choisirOrigine(origine) {
   etat.millesime.origine = origine;   // une seule origine au total (pastille ou menu)
 }
-// Une origine choisie (pastille, menu, ajout, ligne d'étiquettes) referme le panneau « Autre origine »
-Vue.watch(() => etat.millesime.origine, () => { etat.autresOrigines = false; });
-
-const typeVariete = Vue.computed(() => {
-  const v = etat.varietes.find(x => x.id === Number(etat.millesime.varieteId));
-  return v ? v.type : '';
-});
-
-function cleOrigine(liste) {
-  // ['Achat', 'Don'] ou ['L', 'Achat', 'Don'] → 'Achat|Don' (trié, sans le L) pour comparer
-  return (Array.isArray(liste) ? liste : []).filter(v => v && v !== 'L').sort().join('|');
-}
-
-async function trouverDoublonsMillesime(varId, annee, origine, planteMere) {
-  // Millésimes existants de même variété + année + origine + nature (sachet ou plante mère)
-  const data = await grist.docApi.fetchTable(TABLE_MILLESIMES);
-  const doublons = [];
-  data.id.forEach((id, i) => {
-    if (data.NomVariete[i] !== varId) return;
-    if (!!data.Plante_mere[i] !== !!planteMere) return;
-    if (anneeDepuisDate(data.Millesime[i]) !== annee) return;
-    if (cleOrigine(data.Origine[i]) !== origine) return;
-    doublons.push({ id, annee, origine, qtte: data.Qtte_graines[i] });
-  });
-  return doublons;
-}
-
-// Alerte en direct : se déclenche dès que variété, année et origine sont renseignées
-let numeroVerification = 0;
-
-async function verifierDoublonMillesime() {
-  const m = etat.millesime;
-  const varId = Number(m.varieteId);
-  const annee = parseInt(m.annee);
-  if (!varId || !annee || !m.origine) { etat.doublonsMillesime = []; return; }
-
-  const numero = ++numeroVerification;   // évite qu'une ancienne réponse écrase une plus récente
-  try {
-    const doublons = await trouverDoublonsMillesime(varId, annee, m.origine, m.planteMere);
-    if (numero === numeroVerification) etat.doublonsMillesime = doublons;
-  } catch (e) {
-    console.error('Vérification en direct impossible :', e);
-  }
-}
-
-Vue.watch(
-  () => [etat.millesime.varieteId, etat.millesime.annee, etat.millesime.origine, etat.millesime.planteMere],
-  () => {
-    etat.doublonMillesimeMasque = false;
-    verifierDoublonMillesime();
-  }
-);
-
-// Sachet et plante mère s'excluent ; décocher l'un vide ses champs
-Vue.watch(() => etat.millesime.sachet, coche => {
-  if (coche) etat.millesime.planteMere = false;
-  else etat.millesime.qtte = '';
-});
-Vue.watch(() => etat.millesime.planteMere, coche => {
-  if (coche) etat.millesime.sachet = false;
-  else Object.assign(etat.millesime, { anneePlantation: '', nbPlants: '', typePlant: '', lieux: [] });
-});
 
 function reinitialiserMillesime() {
   Object.assign(etat.millesime, millesimeVide());
@@ -433,65 +545,11 @@ function reinitialiserMillesime() {
   etat.bandeaux.millesime = null;
   etat.ligneAttenteId = '';
   etat.parcoursLigne = false;
-    etat.autresOrigines = false;
+  etat.autresOrigines = false;
   rafraichirEtiquettes();   // la case « Issu de mes étiquettes » reste cochée : la liste est remise à jour
 }
 
-// ===== Étiquettes en attente (Semis.Etiq_en_attente) =====
-// Contrat avec l'outil d'étiquettes : « Marquer comme imprimées » copie Nb_etiquettes dans Etiq_en_attente
-// (sans rien supprimer) ; cet outil vide Etiq_en_attente à la création du millésime, et supprime la ligne
-// si c'est une ligne de transit (sans date de semis ni données de culture).
-async function chargerSemisEnAttente() {
-  const [semis, mils] = await Promise.all([
-    grist.docApi.fetchTable(TABLE_SEMIS),
-    grist.docApi.fetchTable(TABLE_MILLESIMES)
-  ]);
-
-  const milParId = new Map();
-  const originesOr = new Map();   // variété → origines de son millésime « or. »
-  mils.id.forEach((id, i) => {
-    milParId.set(id, {
-      saisons: mils.Nb_saisons_manuel[i] || '',
-      planteMere: !!mils.Plante_mere[i],
-      anneePlantation: mils.Annee_plantation[i] || null
-    });
-    if (mils.Nb_saisons_manuel[i] === 'or.' && !originesOr.has(mils.NomVariete[i])) {
-      originesOr.set(mils.NomVariete[i], cleOrigine(mils.Origine[i]).split('|').filter(Boolean));
-    }
-  });
-
-  const liste = [];
-  semis.id.forEach((id, i) => {
-    const nb = semis.Etiq_en_attente[i];
-    if (!(nb > 0)) return;
-    liste.push({
-      id,
-      varId: semis.NomVariete[i] || 0,
-      nb,
-      note: ((semis.Note_attente || [])[i] || '').trim(),
-      seme: !!semis.Date_s[i],
-      mil: milParId.get(semis.Millesime[i]) || null,
-      originesOr: originesOr.get(semis.NomVariete[i]) || []
-    });
-  });
-  etat.semisEnAttente = liste;
-  etat.etiquettesChargees = true;
-}
-
-async function rafraichirEtiquettes() {
-  if (!etat.issuEtiquettes) return;
-  try {
-    await chargerSemisEnAttente();
-  } catch (e) {
-    console.error('Rafraîchissement des étiquettes en attente impossible :', e);
-  }
-}
-
-const ligneAttente = Vue.computed(() =>
-  etat.semisEnAttente.find(l => l.id === Number(etat.ligneAttenteId)) || null);
-const ligneSansVariete = Vue.computed(() => !!ligneAttente.value && !ligneAttente.value.varId);
-const varieteVerrouillee = Vue.computed(() => !!ligneAttente.value && !!ligneAttente.value.varId);
-
+// --- Étiquettes en attente : choix d'une ligne et préremplissage ---
 function libelleAttente(l) {
   if (!l.varId) return TEXTES.graineAIdentifier(l.note, l.nb);
   const v = etat.varietes.find(x => x.id === l.varId);
@@ -499,21 +557,11 @@ function libelleAttente(l) {
   return TEXTES.ligneAttente(v ? libelle(v) : TEXTES.varieteInconnue, type, l.nb);
 }
 
-const optionsAttente = Vue.computed(() =>
-  etat.semisEnAttente
-    .map(l => ({ id: l.id, texte: libelleAttente(l) }))
-    .sort((a, b) => a.texte.localeCompare(b.texte, 'fr')));
-
-// Don = sachets réels - 1 (null tant que les sachets réels ne sont pas saisis)
-const donSachets = Vue.computed(() => {
-  const n = parseInt(etat.millesime.sachetsReels);
-  return n >= 1 ? n - 1 : null;
-});
-
 function saisonsPourLigne(l) {
   // Nb de saisons du nouveau millésime : même règle que l'étiquette
   let n;
-  if (l.mil && l.mil.planteMere && l.mil.anneePlantation) {
+  if (l.mil && l.mil.planteMere) {
+    if (!l.mil.anneePlantation) return 'or.';
     n = new Date().getFullYear() - l.mil.anneePlantation + 1;
   } else if (!l.seme) {
     return 'or.';
@@ -521,7 +569,7 @@ function saisonsPourLigne(l) {
     n = parseInt(l.mil ? l.mil.saisons : '');
     n = isNaN(n) ? 1 : n + 1;
   }
-  return String(Math.min(Math.max(n, 1), 8));
+  return String(Math.min(Math.max(n, 1), NB_SAISONS_MAX));
 }
 
 function preremplirLigneSansVariete(l) {
@@ -591,45 +639,21 @@ function allerCreerEspece() {
   donnerLeFocus('e-nom');
 }
 
-async function nettoyerLigneAttente(ligne) {
-  // Vide Etiq_en_attente ; supprime la ligne si c'est une ligne de transit
+async function actionNettoyageLigne(ligne) {
+  // Action à envoyer pour la ligne d'étiquettes choisie : la supprimer si c'est une ligne de transit,
+  // sinon vider Etiq_en_attente. Renvoie null si la ligne a disparu ou changé depuis le chargement.
   const data = await grist.docApi.fetchTable(TABLE_SEMIS);
   const i = data.id.indexOf(ligne.id);
-  if (i === -1) return;
+  if (i === -1) return null;
+  if (data.Etiq_en_attente[i] !== ligne.nb || (data.NomVariete[i] || 0) !== ligne.varId) return null;
   const transit = !data.Date_s[i] && !data.Nb_graines[i] && !data.Nb_godets[i]
     && !data.Germes[i] && !data.Plantes[i] && !(data.Nb_etiquettes[i] > 0);
-  if (transit) {
-    await grist.docApi.applyUserActions([['RemoveRecord', TABLE_SEMIS, ligne.id]]);
-  } else {
-    await grist.docApi.applyUserActions([['UpdateRecord', TABLE_SEMIS, ligne.id, { Etiq_en_attente: null }]]);
-  }
+  return transit
+    ? ['RemoveRecord', TABLE_SEMIS, ligne.id]
+    : ['UpdateRecord', TABLE_SEMIS, ligne.id, { Etiq_en_attente: null }];
 }
 
-// Case « Issu de mes étiquettes » : charge la liste, ou libère le formulaire
-Vue.watch(() => etat.issuEtiquettes, async actif => {
-  etat.erreurEtiquettes = '';
-  etat.etiquettesChargees = false;
-  if (!actif) { annulerLigneAttente(); return; }
-  try {
-    await chargerSemisEnAttente();
-  } catch (e) {
-    etat.erreurEtiquettes = e.message;   // le texte est dans le HTML
-  }
-});
-
-// Choix d'une ligne dans la liste
-Vue.watch(() => etat.ligneAttenteId, () => chargerLigneAttente());
-
-async function trouverSemisAProduire(varId) {
-  // Ids des lignes Semis de cette variété dont « A produire » est coché
-  const data = await grist.docApi.fetchTable(TABLE_SEMIS);
-  const ids = [];
-  data.id.forEach((id, i) => {
-    if (data.NomVariete[i] === varId && data.A_produire[i]) ids.push(id);
-  });
-  return ids;
-}
-
+// --- Création d'un millésime ---
 async function creerMillesime(forcer = false) {
   if (etat.enregistrement) return;
   const m = etat.millesime;
@@ -682,16 +706,32 @@ async function creerMillesime(forcer = false) {
   try {
     const v = etat.varietes.find(x => x.id === varId);
     const typeDeLaVariete = typeVariete.value || null;
-    const dateMillesime = Date.UTC(annee, 0, 1) / 1000;   // 1er janvier, en secondes (format Grist)
 
-    // 3) Création du millésime
+    // 3) Lectures préalables : rien n'est encore écrit si l'une d'elles échoue
+    let idsADecocher = [];
+    let actionLigne = null;
+    try {
+      idsADecocher = await trouverSemisAProduire(varId);
+      if (ligne) actionLigne = await actionNettoyageLigne(ligne);
+    } catch (e) {
+      dire(TEXTES.lectureImpossible(e.message), true);
+      return;
+    }
+    if (ligne && !actionLigne) {   // la ligne d'étiquettes a changé ou disparu depuis le chargement
+      dire(TEXTES.ligneModifiee, true);
+      etat.ligneAttenteId = '';
+      await rafraichirEtiquettes();
+      return;
+    }
+
+    // 4) Premier envoi : le millésime (son id est nécessaire pour la ligne Semis d'une plante mère)
     let nouveauMillesimeId = null;
     try {
       const resultat = await grist.docApi.applyUserActions([
         ['AddRecord', TABLE_MILLESIMES, null, {
           NomVariete: varId,
           Type: typeDeLaVariete,
-          Millesime: dateMillesime,
+          Millesime: dateEnSecondes(annee + '-01-01'),   // 1er janvier
           Nb_saisons_manuel: m.nbSaisons || null,
           Origine: enListeChoix([m.origine]),
           Nb_sachets: sachet ? NB_SACHETS : null,
@@ -711,63 +751,47 @@ async function creerMillesime(forcer = false) {
       return;
     }
 
-    // 3b) « A produire » décoché sur les semis de cette variété
-    let nbDecoches = 0;
-    try {
-      const ids = await trouverSemisAProduire(varId);
-      if (ids.length) {
-        await grist.docApi.applyUserActions([
-          ['BulkUpdateRecord', TABLE_SEMIS, ids, { A_produire: ids.map(() => false) }]
-        ]);
-        nbDecoches = ids.length;
-      }
-    } catch (e) {
-      dire(TEXTES.decochageEchoue(e.message), true);
-      return;
+    // 5) Second envoi : tout le reste d'un seul coup (tout ou rien)
+    const actions = [];
+    if (idsADecocher.length) {   // « A produire » décoché sur les semis de cette variété
+      actions.push(['BulkUpdateRecord', TABLE_SEMIS, idsADecocher, { A_produire: idsADecocher.map(() => false) }]);
     }
-
-    // 3c) Ligne d'étiquettes en attente : vidée, ou supprimée si c'est une ligne de transit
-    if (ligne) {
+    if (actionLigne) actions.push(actionLigne);   // ligne d'étiquettes : vidée, ou supprimée si ligne de transit
+    if (planteMere && nouveauMillesimeId) {       // plante mère : une ligne Semis sans godets ni graines
+      actions.push(['AddRecord', TABLE_SEMIS, null, {
+        NomVariete: varId,
+        Millesime: nouveauMillesimeId,
+        Date_s: dateEnSecondes(anneePlantation + '-01-01'),
+        Type: typeDeLaVariete,
+        Plantes: nbPlants,
+        Ou: enListeChoix(m.lieux),
+        Nb_etiquettes: 0
+      }]);
+    }
+    if (actions.length) {
       try {
-        await nettoyerLigneAttente(ligne);
+        await grist.docApi.applyUserActions(actions);
       } catch (e) {
-        dire(TEXTES.nettoyageEchoue(e.message), true);
+        // Rien de la suite n'a été appliqué : on annule aussi le millésime qui vient d'être créé
+        try {
+          if (!nouveauMillesimeId) throw e;
+          await grist.docApi.applyUserActions([['RemoveRecord', TABLE_MILLESIMES, nouveauMillesimeId]]);
+          dire(TEXTES.suiteEchouee(e.message), true);
+        } catch (e2) {
+          dire(TEXTES.suiteEtAnnulationEchouees(e.message), true);
+        }
         return;
       }
     }
 
-    // 4) Plante mère : une ligne Semis (sans godets ni graines) porte le nombre de plants et les emplacements
-    if (planteMere && nouveauMillesimeId) {
-      try {
-        await grist.docApi.applyUserActions([
-          ['AddRecord', TABLE_SEMIS, null, {
-            NomVariete: varId,
-            Millesime: nouveauMillesimeId,
-            Date_s: Date.UTC(anneePlantation, 0, 1) / 1000,
-            Type: typeDeLaVariete,
-            Plantes: nbPlants,
-            Ou: enListeChoix(m.lieux),
-            Nb_etiquettes: 0
-          }]
-        ]);
-      } catch (e) {
-        dire(TEXTES.ligneSemisEchouee(e.message), true);
-        return;
-      }
-    }
-
-    dire(TEXTES.millesimeCree(annee, v ? v.nom : '', planteMere, nbDecoches, sachetsReels > 1 ? sachetsReels - 1 : 0));
+    dire(TEXTES.millesimeCree(annee, v ? v.nom : '', planteMere, idsADecocher.length, sachetsReels > 1 ? sachetsReels - 1 : 0));
     reinitialiserMillesime();
   } finally {
     etat.enregistrement = false;
   }
 }
 
-// ===== Ajouter un nouveau choix à une colonne (Origine, Infos) =====
-function existeDeja(liste, valeur) {
-  return liste.some(c => normaliser(c) === normaliser(valeur));   // sans casse ni accents
-}
-
+// ===== 10. Ajouter un choix à une colonne (Origine, Infos) =====
 async function ajouterChoixColonne(tableId, colId, valeur) {
   // Ajoute un choix à la liste d'une colonne Choice / ChoiceList. Les autres réglages
   // de la colonne (couleurs des choix existants comprises) sont relus puis conservés tels quels.
@@ -837,20 +861,11 @@ async function ajouterInfoGrist(texte) {
   return valeur;
 }
 
-// ===== Application Vue (un seul point de montage) =====
-// Listes préparées pour les menus : { valeur, libelle }
-const optionsVarietes = Vue.computed(() =>
-  etat.varietes.map(v => ({ valeur: v.id, libelle: libelle(v) })));
-const optionsModeles = Vue.computed(() =>
-  etat.modeles.map(m => ({ valeur: m.id, libelle: m.nom })));
-const optionsAttenteMenu = Vue.computed(() =>
-  optionsAttente.value.map(o => ({ valeur: o.id, libelle: o.texte })));
-const optionsNbSaisons = NB_SAISONS.map(s => ({ valeur: s, libelle: s === 'or.' ? TEXTES.orOriginal : s }));
-
+// ===== 11. Application Vue (un seul point de montage) et composants =====
 const app = Vue.createApp({
   setup() {
     return {
-      etat, MOIS, NB_SAISONS, libelle,
+      etat, pluriel,
       doublonsModele, doublonsVariete,
       origineFavorites, origineAutres, origineAutre, choisirOrigine, typeVariete,
       creerModele, reinitialiserModele,
@@ -894,7 +909,7 @@ app.component('choix-multiple', {
     modelValue: { type: Array, default: () => [] },
     choix: { type: Array, default: () => [] },
     menu: { type: Boolean, default: false },   // true : champ de recherche + liste ; false : pastilles
-    lieu: { type: Boolean, default: false }   // true : les pastilles choisies prennent la couleur « lieu » (violet)
+    lieu: { type: Boolean, default: false }    // true : les pastilles choisies prennent la couleur « lieu » (violet)
   },
   emits: ['update:modelValue'],
   data() {
@@ -944,7 +959,7 @@ app.component('choix-unique', {
     vide: { type: String, default: '' },           // texte de l'entrée « rien de choisi » (si absent : pas d'entrée)
     champId: { type: String, default: '' },        // id du bouton (pour le libellé et le focus)
     disabled: { type: Boolean, default: false },
-    placeholder: { type: String, default: '' },    // texte du bouton quand rien n'est choisi (sans entrée dans la liste)
+    placeholder: { type: String, default: '' }     // texte du bouton quand rien n'est choisi (sans entrée dans la liste)
   },
   emits: ['update:modelValue'],
   data() {
@@ -1069,20 +1084,20 @@ app.component('ajout-choix', {
 
 app.mount('#app');
 
-// ===== Initialisation =====
+// ===== 12. Initialisation =====
 grist.ready({ requiredAccess: 'full' });
 
 async function demarrer() {
   try {
     const [choixModele, choixVariete, choixMillesime] = await Promise.all([
       lireChoixColonnes(TABLE_ESPECES, COLONNES_CHOIX_MODELE),
-      lireChoixColonnes(TABLE_VARIETES, COLONNES_CHOIX_VARIETE),
+      lireChoixColonnes(TABLE_VARIETES, COLONNES_CHOIX_MODELE),
       lireChoixColonnes(TABLE_MILLESIMES, ['Origine', 'Type_plant']),
       chargerModeles(),
       chargerVarietes()
     ]);
     for (const c of COLONNES_CHOIX_MODELE) etat.choix[c] = choixModele[c] || [];
-    for (const c of COLONNES_CHOIX_VARIETE) etat.choixVariete[c] = choixVariete[c] || [];
+    for (const c of COLONNES_CHOIX_MODELE) etat.choixVariete[c] = choixVariete[c] || [];
     etat.choixOrigine = choixMillesime.Origine || [];
     etat.choixTypePlant = choixMillesime.Type_plant || [];
   } catch (err) {

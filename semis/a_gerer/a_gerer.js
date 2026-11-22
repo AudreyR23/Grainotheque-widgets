@@ -1,7 +1,7 @@
 // État lu par le HTML : Vue met la page à jour quand il change
 const etat = Vue.reactive({
   recherche: "", // texte tapé dans le champ de recherche
-  saisies: {}, // idSemis → { germes, plantes, oups, don, ou } : saisies pas encore enregistrées
+  saisies: {}, saisies: {}, // idSemis → { germes, attente, plantes, oups, don, ou } : ajouts pas encore enregistrés
   listeVerifier: [], // semis affichés dans « À vérifier » (après recherche)
   totalVerifier: 0, // nombre de semis à vérifier, sans la recherche
   inclureSansDuree: true, // afficher aussi les semis dont la variété n'a pas de durée de germination
@@ -18,12 +18,45 @@ const etat = Vue.reactive({
   controleMeres: false, // afficher la section « plantes mères à contrôler »
   listeMeres: [], // plantes mères affichées (après recherche)
   totalMeres: 0, // plantes mères à contrôler, sans la recherche
-  saisiesMeres: {}, // idMillesime → 'Vivante' | 'Morte' : pas encore enregistré
+  saisiesMeres: {}, // idMillesime → { statut, morts, ou, ajuste, plants } : contrôles pas encore enregistrés
   inclureControlees: false, // revoir aussi les plantes mères déjà contrôlées cette année
   ouOuvert: null, // 'semis-12' ou 'mere-12' : sélecteur « Où » ouvert
   rechercheOu: "",
   listeTriOuverte: false,
+    tropConfirme: "", // germés en trop déjà signalés : le clic suivant enregistre
 });
+
+// ===== Textes des messages (erreurs, succès) =====
+// Tous les messages construits par le JS sont ici, pour les relire et les comparer d'un outil à l'autre.
+// Une entrée « (x) => … » est une petite fonction : on lui donne des noms ou un nombre, elle renvoie la phrase.
+const TEXTES = {
+  // Noms des sections, repris dans les messages
+  sections: { verifier: "À vérifier", planter: "À planter", meres: "À contrôler" },
+
+  // Refus avant enregistrement
+  rienEnregistreVoir: (section) => `Rien n'est enregistré : voir « ${section} ».`,
+  dateManquante: "Renseigne la date de plantation.",
+  lieuManquant: "Choisis un emplacement (Où) pour les cartes marquées en rouge ci-dessus.",
+  meresSansEmplacement: (noms) => "Choisis l'emplacement des plantes mères : " + noms,
+  meresLieuxMortsNonCoches: (noms) => "Coche les lieux où la plante est morte : " + noms,
+  meresPlantsInvalides: (noms) => "Nombre de plants invalide (1 au minimum, sinon marque « Morte ») : " + noms,
+  meresPlusieursLignes: (noms) => "Plusieurs lignes Semis pour " + noms + " : change le nombre de plants directement dans Grist.",
+  tropDeGermes: (noms) => "Plus de germés que de graines semées : " + noms + ". Si c'est juste, clique à nouveau sur « Enregistrer tout ».",
+
+  // Lignes modifiées dans Grist pendant la saisie
+  modifieDansGrist: (noms) => "Modifié dans Grist depuis le chargement : " + noms + " — vérifie les valeurs affichées, puis enregistre à nouveau.",
+  rienEnregistreModifiees: "Rien n'est enregistré : des lignes ont été modifiées dans Grist.",
+  ligneSupprimee: "(ligne supprimée)",
+
+  // Résultat de l'enregistrement
+  succes: (n) => `✓ ${n} ${pluriel(n, "ligne mise", "lignes mises")} à jour.`,
+  echecEnregistrement: (detail) => "Échec de l'enregistrement : " + detail + " — tes saisies sont conservées.",
+  echecRechargement: (detail) => "Enregistré, mais le rechargement a échoué : " + detail + " — recharge le widget.",
+
+  // Chargement
+  echecChargement: (detail) => "Erreur de chargement : " + detail,
+  emplacementsNonCharges: (detail) => "Emplacements (Où) non chargés : " + detail,
+};
 
 // ===== État global =====
 let LIEUX = []; // lus depuis Grist (choix de la colonne Ou)
@@ -152,7 +185,10 @@ function recapGermes() {
       type: s.type,
       germes: g.germes,
       attente: g.attente,
-            trop: tropDeGermes(s),
+            finAttente: s.attente && !g.attente, // en attente dans Grist, décochée maintenant
+      avant: s.germes || 0,
+      total: totalGermes(s),
+      trop: tropDeGermes(s),
       semees: s.semees,
     }));
 }
@@ -166,8 +202,14 @@ function recapPlantation() {
       nom: libelle(s),
       type: s.type,
       plantes: p.plantes,
+      plantesAvant: s.plantes,
+      plantesApres: s.plantes + p.plantes,
       oups: p.oups,
+      oupsAvant: s.oups,
+      oupsApres: s.oups + p.oups,
       don: p.don,
+      donAvant: s.don,
+      donApres: s.don + p.don,
       ou: p.ou, // lieux choisis maintenant
       ouActuels: s.ou, // lieux déjà dans Grist
       casOu: casOu(s),
@@ -190,17 +232,15 @@ function recapMeres() {
       const e = effetMere(s, actuels);
       let cas = "vivante";
       if (s.statut === "Vivante" && actuels.length === 0)
-        cas =
-          s.ou && s.ou.length ? "vivante-nouveau-lieu" : "vivante-sans-lieu";
-               else if (s.statut === "Vivante" && s.ou && s.ou.length) cas = "vivante-ajout-lieu"; 
-      else if (
-        s.statut === "Morte" &&
-        actuels.length > 1 &&
-        e.morts.length === 0
-      )
+        cas = s.ou && s.ou.length ? "vivante-nouveau-lieu" : "vivante-sans-lieu";
+      else if (s.statut === "Vivante" && s.ou && s.ou.length)
+        cas = "vivante-ajout-lieu";
+      else if (s.statut === "Morte" && actuels.length > 1 && e.morts.length === 0)
         cas = "morte-sans-coche";
       else if (!e.planteMere) cas = "morte";
       else if (e.morts.length) cas = "morte-partielle";
+      // Nombre de plants après : seulement si on ajuste et que le nombre est valide
+      const ajusteValide = s.statut === "Vivante" && s.ajuste && plantsValide(s);
       return {
         id,
         nom: libelle(m),
@@ -211,7 +251,7 @@ function recapMeres() {
         lieuxMorts: e.morts,
         lieuxRestants: actuels.filter((l) => !e.morts.includes(l)),
         plantsAvant: m.plants,
-        plantsApres: s.statut === "Vivante" && s.ajuste ? s.plants : null,        
+        plantsApres: ajusteValide ? Number(s.plants) : null,
       };
     });
 }
@@ -255,11 +295,9 @@ function effacerErreurs() {
   etat.erreurs = { verifier: "", planter: "", meres: "", general: "" };
 }
 
-const NOMS_SECTIONS = { verifier: "À vérifier", planter: "À planter", meres: "À contrôler" };
-
 async function refuser(section, texte) {
   etat.erreurs[section] = texte;
-  etat.erreurs.general = `Rien n'est enregistré : voir « ${NOMS_SECTIONS[section]} ».`;
+  etat.erreurs.general = TEXTES.rienEnregistreVoir(TEXTES.sections[section]);
   if (section === "meres") etat.controleMeres = true; // la section doit être ouverte pour voir le message
   await Vue.nextTick();
   aller("erreur-" + section);
@@ -304,7 +342,7 @@ async function chargerMillesimes() {
       nom: m.Nom || "",
       variete: m.Variete || "",
       planteMere: !!m.Plante_mere,
-            plants: m.Nb_plants || 0,
+      plants: m.Nb_plants || 0,
       type: m.Type || "",
       varieteId: m.NomVariete || 0,
       anneePlantation: m.Annee_plantation || null,
@@ -333,7 +371,12 @@ function estLigneMere(s) {
   // Ligne Semis d'une plante mère : millésime plante mère, sans godets ni graines (créée par « achat-repro »)
   return s.planteMere && s.millesimeId > 0 && s.godets === 0 && s.graines === 0;
 }
-
+function lignesSemisMere(idMillesime) {
+  // Ligne(s) Semis de cette plante mère (en principe une seule)
+  return [...recordsParId.semis.values()].filter(
+    (s) => s.millesimeId === idMillesime && estLigneMere(s),
+  );
+}
 function sansQuantite(s) {
   // Rien n'a été semé (ni godets ni graines) : il n'y a pas de germination à vérifier
   return s.millesimeId > 0 && s.godets === 0 && s.graines === 0;
@@ -412,7 +455,7 @@ function ajusterMere(m) {
   if (!s) s = etat.saisiesMeres[m.id] = nouvelleSaisieMere("Vivante");
   if (s.statut !== "Vivante") return;
   s.ajuste = !s.ajuste;
-  if (!s.ajuste && m.ou.length > 0) s.ou = []; // on ferme : les lieux ajoutés sont abandonnés // 
+  if (!s.ajuste && m.ou.length > 0) s.ou = []; // on ferme : les lieux ajoutés sont abandonnés
   if (s.ajuste && s.plants === "") s.plants = m.plants ? String(m.plants) : "";
 }
 
@@ -469,18 +512,36 @@ function valeurGermes(idSemis) {
   return g === null ? "" : g;
 }
 
+function attenteDansGrist(idSemis) {
+  // La carte est-elle « en attente » dans Grist ?
+  const s = recordsParId.semis.get(Number(idSemis));
+  return !!(s && s.attente);
+}
+
+function champsGermes(idSemis, germes) {
+  // Premier nombre saisi sur la carte : « En attente » reprend l'état de Grist
+  const champs = { germes };
+  if (germes !== null && saisieDe(idSemis).germes === null)
+    champs.attente = attenteDansGrist(idSemis);
+  return champs;
+}
+
 function surGermes(idSemis, e) {
   const texte = e.target.value.trim();
   const valeur = Number(texte);
-  majSaisie(idSemis, { germes: texte !== "" && valeur >= 0 ? valeur : null });
+  const valide = texte !== "" && Number.isInteger(valeur) && valeur >= 0;
+  majSaisie(idSemis, champsGermes(idSemis, valide ? valeur : null));
 }
 
 function basculerNG(idSemis) {
   // 1er clic : 0 germe ; 2e clic : on annule
-  majSaisie(idSemis, { germes: saisieDe(idSemis).germes === 0 ? null : 0 });
+  majSaisie(idSemis, champsGermes(idSemis, saisieDe(idSemis).germes === 0 ? null : 0));
 }
 function valeurAttente(idSemis) {
-  return !!saisieDe(idSemis).attente;
+  // Avec une saisie : ce que tu as choisi ; sans saisie : l'état de Grist
+  const saisie = saisieDe(idSemis);
+  if (saisie.germes === null) return attenteDansGrist(idSemis);
+  return !!saisie.attente;
 }
 
 function basculerAttente(idSemis) {
@@ -489,9 +550,19 @@ function basculerAttente(idSemis) {
   majSaisie(idSemis, { attente: !s.attente });
 }
 
+function totalGermes(s) {
+  // germés déjà enregistrés + germés saisis (0 si rien n'est saisi)
+  return (s.germes || 0) + (saisieDe(s.id).germes ?? 0);
+}
+
 function tropDeGermes(s) {
-  const g = saisieDe(s.id).germes;
-  return g !== null && s.semees > 0 && g > s.semees;
+  return saisieDe(s.id).germes !== null && s.semees > 0 && totalGermes(s) > s.semees;
+}
+
+function resteAGermer(s) {
+  // Graines pas encore germées, d'après Grist seulement (la saisie en cours se voit dans « En cours »)
+  if (!s.attente || s.germes === null || s.germes === undefined || !(s.semees > 0)) return null;
+  return Math.max(s.semees - s.germes, 0);
 }
 function totalSaisi(idSemis) {
   const p = saisieDe(idSemis);
@@ -535,7 +606,7 @@ function filtrerParRecherche(semis) {
   );
 }
 
-// ===== Saisie des germés =====
+// ===== Nombre de saisies en attente =====
 function nombreSaisies() {
   return (
     saisiesGermes().length +
@@ -564,7 +635,7 @@ function valeurQuantite(idSemis, cle) {
 function surQuantite(idSemis, cle, e) {
   etat.brut[`${idSemis}:${cle}`] = e.target.value;
   const v = Number(e.target.value);
-  majSaisie(idSemis, { [cle]: v > 0 ? v : 0 });
+  majSaisie(idSemis, { [cle]: Number.isInteger(v) && v > 0 ? v : 0 });
 }
 
 function toutPlanter(s) {
@@ -573,7 +644,11 @@ function toutPlanter(s) {
   etat.brut[`${s.id}:don`] = "";
   majSaisie(s.id, { plantes: s.reste, oups: 0, don: 0 });
 }
-
+function toutPlanteDe(s) {
+  // La saisie correspond à « Tout » : tous les restants plantés, ni oups ni don
+  const p = saisieDe(s.id);
+  return s.reste > 0 && p.plantes === s.reste && p.oups === 0 && p.don === 0;
+}
 // --- Où : un seul jeu de fonctions pour « À planter » (type 'semis') et les plantes mères (type 'mere') ---
 function cleOu(type, id) {
   return type + "-" + id;
@@ -636,7 +711,7 @@ function casOu(s) {
   if (p.plantes <= 0 || p.ou.length > 0) return "aucun";
   return s.ou.length ? "reste" : "manquant";
 }
-// --- Emplacement d'une plante mère « Encore là » sans lieu connu ---
+// --- Emplacement d'une plante mère « Encore là » (sans lieu connu, ou ajusté) ---
 function besoinLieuMere(m) {
   // Champ « Où » : plante « Encore là » sans lieu connu, ou en cours d'ajustement
   return statutMere(m.id) === "Vivante" && (m.ou.length === 0 || ajusteMere(m.id));
@@ -664,7 +739,7 @@ async function lignesModifiees(ids) {
     if (change)
       modifiees.push({
         id,
-        nom: b || a ? libelle(b || a) : "(ligne supprimée)",
+        nom: b || a ? libelle(b || a) : TEXTES.ligneSupprimee,
       });
   }
   return modifiees;
@@ -690,7 +765,7 @@ async function enregistrerTout() {
   effacerErreurs();
   const dateP = etat.datePlantation;
   if (lignesPlantation.some((p) => p.plantes > 0) && !dateP) {
-    refuser("planter", "Renseigne la date de plantation.");
+    refuser("planter", TEXTES.dateManquante);
     return;
   }
   const sansOu = lignesPlantation.filter(
@@ -700,10 +775,7 @@ async function enregistrerTout() {
       recordsParId.semis.get(p.idSemis).ou.length === 0,
   );
   if (sansOu.length) {
-    refuser(
-      "planter",
-      "Choisis un emplacement (Où) pour les cartes marquées en rouge ci-dessus.",
-    );
+    refuser("planter", TEXTES.lieuManquant);
     return;
   }
   const lieuxConnus = lieuxParMillesime();
@@ -717,12 +789,11 @@ async function enregistrerTout() {
     const noms = meresSansEmplacement
       .map((l) => libelle(recordsParId.millesimes.get(l.id)))
       .join(", ");
-    refuser("meres", "Choisis l'emplacement des plantes mères : " + noms);
+    refuser("meres", TEXTES.meresSansEmplacement(noms));
     return;
   }
-  const lieuxMeres = lieuxParMillesime();
   const meresSansLieu = lignesMeres.filter((l) => {
-    const actuels = lieuxMeres.get(l.id) || [];
+    const actuels = lieuxConnus.get(l.id) || [];
     return (
       l.saisie.statut === "Morte" &&
       actuels.length > 1 &&
@@ -733,19 +804,48 @@ async function enregistrerTout() {
     const noms = meresSansLieu
       .map((l) => libelle(recordsParId.millesimes.get(l.id)))
       .join(", ");
-    refuser("meres", "Coche les lieux où la plante est morte : " + noms);
+    refuser("meres", TEXTES.meresLieuxMortsNonCoches(noms));
     return;
   }
-    const meresPlantsInvalides = lignesMeres.filter(
+  const meresPlantsInvalides = lignesMeres.filter(
     (l) => l.saisie.statut === "Vivante" && l.saisie.ajuste && !plantsValide(l.saisie),
   );
   if (meresPlantsInvalides.length) {
     const noms = meresPlantsInvalides
       .map((l) => libelle(recordsParId.millesimes.get(l.id)))
       .join(", ");
-    refuser("meres", "Nombre de plants invalide (1 au minimum, sinon marque « Morte ») : " + noms);
+    refuser("meres", TEXTES.meresPlantsInvalides(noms));
     return;
   }
+    // Nombre de plants changé, mais plusieurs lignes Semis : on ne sait pas comment le répartir
+  const meresPlusieursLignes = lignesMeres.filter((l) => {
+    const m = recordsParId.millesimes.get(l.id);
+    return (
+      l.saisie.statut === "Vivante" &&
+      l.saisie.ajuste &&
+      Number(l.saisie.plants) !== m.plants &&
+      lignesSemisMere(l.id).length > 1
+    );
+  });
+  if (meresPlusieursLignes.length) {
+    const noms = meresPlusieursLignes
+      .map((l) => libelle(recordsParId.millesimes.get(l.id)))
+      .join(", ");
+    refuser("meres", TEXTES.meresPlusieursLignes(noms));
+    return;
+  }
+    // Plus de germés que de graines semées : le 1er clic avertit, le 2e enregistre
+  const semisTrop = lignesGermes
+    .map((b) => recordsParId.semis.get(b.idSemis))
+    .filter((s) => s && tropDeGermes(s));
+  const signature = semisTrop.map((s) => s.id + ":" + totalGermes(s)).join("|");
+  if (semisTrop.length && signature !== etat.tropConfirme) {
+    etat.tropConfirme = signature;
+    const noms = semisTrop.map((s) => libelle(s)).join(", ");
+    refuser("verifier", TEXTES.tropDeGermes(noms));
+    return;
+  }
+  etat.tropConfirme = "";
   afficherSucces("");
   etat.enregistrement = true;
 
@@ -764,18 +864,14 @@ async function enregistrerTout() {
       recalculerTout();
       const idsGermes = new Set(lignesGermes.map((b) => b.idSemis));
       const idsPlantation = new Set(lignesPlantation.map((p) => p.idSemis));
-      const texte = (liste) =>
-        "Modifié dans Grist depuis le chargement : " +
-        liste.map((m) => m.nom).join(", ") +
-        " — vérifie les valeurs affichées, puis enregistre à nouveau.";
+      const texte = (liste) => TEXTES.modifieDansGrist(liste.map((m) => m.nom).join(", "));
       const modifieesVerifier = modifiees.filter((m) => idsGermes.has(m.id));
       const modifieesPlanter = modifiees.filter((m) => idsPlantation.has(m.id));
       if (modifieesVerifier.length)
         etat.erreurs.verifier = texte(modifieesVerifier);
       if (modifieesPlanter.length)
         etat.erreurs.planter = texte(modifieesPlanter);
-      etat.erreurs.general =
-        "Rien n'est enregistré : des lignes ont été modifiées dans Grist.";
+      etat.erreurs.general = TEXTES.rienEnregistreModifiees;
       etat.enregistrement = false;
       await Vue.nextTick();
       aller(modifieesVerifier.length ? "erreur-verifier" : "erreur-planter");
@@ -789,7 +885,7 @@ async function enregistrerTout() {
         "Semis",
         lignesGermes.map((b) => b.idSemis),
         {
-          Germes: lignesGermes.map((b) => b.germes),
+          Germes: lignesGermes.map((b) => (recordsParId.semis.get(b.idSemis).germes || 0) + b.germes),
           Germes_attente: lignesGermes.map((b) => !!b.attente),
         },
       ]);
@@ -824,12 +920,17 @@ async function enregistrerTout() {
           Plante_mere: effets.map((x) => x.e.planteMere),
         },
       ]);
-            // Nombre de plants : ajusté, ou remis à 0 en cas de mort totale
+      // Nombre de plants : ajusté, ou remis à 0 en cas de mort totale.
+      // Semis.Plantes de la ligne plante mère suit Nb_plants (lu par le plan et les étiquettes).
       lignesMeres.forEach((l, i) => {
         if (!effets[i].e.planteMere) {
           actions.push(["UpdateRecord", "Millesimes", l.id, { Nb_plants: 0 }]);
         } else if (l.saisie.statut === "Vivante" && l.saisie.ajuste) {
-          actions.push(["UpdateRecord", "Millesimes", l.id, { Nb_plants: Number(l.saisie.plants) }]);
+          const n = Number(l.saisie.plants);
+          actions.push(["UpdateRecord", "Millesimes", l.id, { Nb_plants: n }]);
+          const lignes = lignesSemisMere(l.id);
+          if (lignes.length === 1)
+            actions.push(["UpdateRecord", "Semis", lignes[0].id, { Plantes: n }]);
         }
       });
       // Lignes Semis des plantes mères : on retire les lieux morts ; mort totale : Plantes = 0
@@ -843,14 +944,12 @@ async function enregistrerTout() {
           actions.push(["UpdateRecord", "Semis", s.id, champs]);
         }
       }
-      // « Encore là » sans lieu connu : on écrit le lieu choisi (ligne Semis existante, sinon création)
+      // « Encore là » avec un lieu choisi (sans lieu connu, ou ajouté par « Ajuster ») : ligne Semis existante, sinon création
       for (const l of lignesMeres) {
         const nouveaux = l.saisie.ou || [];
         if (l.saisie.statut !== "Vivante" || nouveaux.length === 0) continue;
         const m = recordsParId.millesimes.get(l.id);
-        const existantes = [...recordsParId.semis.values()].filter(
-          (s) => s.millesimeId === l.id && estLigneMere(s),
-        );
+        const existantes = lignesSemisMere(l.id);
         if (existantes.length) {
           actions.push([
             "UpdateRecord",
@@ -869,7 +968,7 @@ async function enregistrerTout() {
               Date_s: m.anneePlantation
                 ? dateEnSecondes(`${m.anneePlantation}-01-01`)
                 : null,
-              Plantes: 1,
+              Plantes: l.saisie.ajuste ? Number(l.saisie.plants) : m.plants || 1,
               Ou: ["L", ...nouveaux],
               Nb_etiquettes: 0,
             },
@@ -881,15 +980,10 @@ async function enregistrerTout() {
     etat.saisies = {};
     etat.saisiesMeres = {};
     if (etat.brut) etat.brut = {};
-    afficherSucces(
-      `✓ ${n} ligne${n > 1 ? "s" : ""} mise${n > 1 ? "s" : ""} à jour.`,
-    );
+    afficherSucces(TEXTES.succes(n));
   } catch (err) {
     console.error(err);
-    etat.erreurs.general =
-      "Échec de l'enregistrement : " +
-      err.message +
-      " — tes saisies sont conservées.";
+    etat.erreurs.general = TEXTES.echecEnregistrement(err.message);
     etat.enregistrement = false;
     return;
   }
@@ -901,10 +995,7 @@ async function enregistrerTout() {
     recalculerTout();
   } catch (err) {
     console.error(err);
-    etat.erreurs.general =
-      "Enregistré, mais le rechargement a échoué : " +
-      err.message +
-      " — recharge le widget.";
+    etat.erreurs.general = TEXTES.echecRechargement(err.message);
   } finally {
     etat.enregistrement = false;
   }
@@ -924,7 +1015,7 @@ async function chargerChoix() {
     if (choix.Ou) LIEUX = choix.Ou;
   } catch (err) {
     console.error("Lecture des emplacements impossible :", err);
-    etat.message = "Emplacements (Où) non chargés : " + err.message;
+    etat.message = TEXTES.emplacementsNonCharges(err.message);
   }
 }
 // ===== Vue =====
@@ -935,11 +1026,7 @@ Vue.createApp({
 }).mount("#appEntete");
 Vue.createApp({
   setup() {
-    return { 
-      etat, 
-      nombreSaisies,
-      basculerTri, choisirTri
-   };
+    return { etat, basculerTri, choisirTri };
   },
 }).mount("#appRecherche");
 Vue.createApp({
@@ -947,14 +1034,15 @@ Vue.createApp({
     return {
       etat,
       recapGermes,
-      recapMeres,
       recapPlantation,
+      recapMeres,
       allerCarte,
       allerMere,
       retirerSaisie,
       retirerMere,
       typeInverse,
-
+      pluriel,
+      evolution,
     };
   },
 }).mount("#appEnCours");
@@ -963,17 +1051,18 @@ Vue.createApp({
     return {
       etat,
       libelle,
+      typeInverse,
+      dateAffichee,
+      pluriel,
       aGermes,
       valeurGermes,
       surGermes,
       basculerNG,
-      retirerSaisie,
-      allerCarte,
-      typeInverse,
       valeurAttente,
       basculerAttente,
-      dateAffichee,
       tropDeGermes,
+      totalGermes,
+      resteAGermer,
     };
   },
 }).mount("#appVerifier");
@@ -982,24 +1071,24 @@ Vue.createApp({
     return {
       etat,
       libelle,
+      typeInverse,
+      dateAffichee,
+      pluriel,
       aPlantationDe,
       valeurQuantite,
       surQuantite,
       toutPlanter,
+      totalSaisi,
+      casOu,
       lieuxChoisis,
-      ouvertOu,
       lieuxProposes,
+      ouvertOu,
       ouvrirOu,
       fermerOu,
       surRechercheOu,
       ajouterLieu,
       retirerLieu,
-      retirerSaisie,
-      allerCarte,
-      typeInverse,
-      dateAffichee,
-      casOu,
-      totalSaisi,
+      toutPlanteDe,
     };
   },
 }).mount("#appPlanter");
@@ -1009,22 +1098,24 @@ Vue.createApp({
       etat,
       libelle,
       typeInverse,
-      allerMere,
+      pluriel,
       statutMere,
       choisirStatutMere,
       lieuMort,
       basculerLieuMort,
+      ajusteMere,
+      ajusterMere,
+      plantsMere,
+      surPlantsMere,
       besoinLieuMere,
       lieuxChoisis,
-      ouvertOu,
       lieuxProposes,
+      ouvertOu,
       ouvrirOu,
       fermerOu,
       surRechercheOu,
       ajouterLieu,
       retirerLieu,
-      dateAffichee,
-      ajusteMere, plantsMere, ajusterMere, surPlantsMere
     };
   },
 }).mount("#appMeres");
@@ -1034,7 +1125,7 @@ Vue.createApp({
   },
 }).mount("#appEnregistrer");
 
-// Quand le texte de recherche change, on recalcule les deux listes
+// Quand la recherche, le tri ou une case d'option change, on recalcule les trois listes
 Vue.watch(
   () => [
     etat.recherche,
@@ -1065,5 +1156,5 @@ chargerSemis()
   })
   .catch((err) => {
     console.error(err);
-    etat.message = "Erreur de chargement : " + err.message;
+    etat.message = TEXTES.echecChargement(err.message);
   });

@@ -130,7 +130,7 @@
           <label class="texte--titre texte--discret" for="m-sachets-reels">Sachets réels (le tien + dons) <span class="badge badge--obligatoire">obligatoire</span></label>
           <input id="m-sachets-reels" class="champ" type="number" min="1" step="1" inputmode="numeric"
             v-model="etat.millesime.sachetsReels" />
-          <span v-if="donSachets !== null" class="texte texte--gras">Don : {{ donSachets }} sachet(s)</span>
+          <span v-if="donSachets !== null" class="texte texte--gras">Don : {{ donSachets }} {{ pluriel(donSachets, 'sachet') }}</span>
         </div>
 
         <div v-if="etat.millesime.planteMere">
@@ -148,7 +148,7 @@
           <div v-if="etat.choixTypePlant.length" class="bloc">
             <label class="texte--titre texte--discret" for="m-type-plant">Type de plant <span class="badge badge--obligatoire">obligatoire</span></label>
             <choix-unique champ-id="m-type-plant" v-model="etat.millesime.typePlant"
-              :options="etat.choixTypePlant" placeholder="Choisir une origine"></choix-unique>
+              :options="etat.choixTypePlant" placeholder="Choisir un type"></choix-unique>
           </div>
           <div class="bloc">
             <span class="texte--titre texte--discret">Emplacement(s) <span class="badge badge--obligatoire">obligatoire</span></span>
@@ -179,7 +179,7 @@
           <button type="button" class="btn" @click="reinitialiserVariete()">↩ Réinitialiser</button>
         </div>
         <p v-if="etat.bandeaux.variete" class="encart encart--succes texte texte--succes">
-          <template v-if="etat.bandeaux.variete.type === 'graines'">🔗 Graines à identifier ({{ etat.bandeaux.variete.nb }} étiquette(s)) : crée la variété, tu reviendras au millésime ensuite.</template>
+          <template v-if="etat.bandeaux.variete.type === 'graines'">🔗 Graines à identifier ({{ etat.bandeaux.variete.nb }} {{ pluriel(etat.bandeaux.variete.nb, 'étiquette') }}) : crée la variété, tu reviendras au millésime ensuite.</template>
           <template v-else>🔗 Espèce « {{ etat.bandeaux.variete.nom }} » créée — complétez maintenant sa première variété.</template>
         </p>
 
@@ -230,7 +230,7 @@
       <!-- ===== Espèce ===== -->
       <section v-show="etat.onglet === 'modele'">
         <div class="ligne ligne--entre">
-          <h2>🗂 Nouvelle espèce</h2>
+          <h2>Nouvelle espèce</h2>
           <button type="button" class="btn" @click="reinitialiserModele()">↩ Réinitialiser</button>
         </div>
 
@@ -287,7 +287,7 @@
         <div class="bloc">
           <label class="texte--titre texte--discret" :for="prefixe + '-arrosage'">Arrosage</label>
           <choix-unique :champ-id="prefixe + '-arrosage'" v-model="formulaire.arrosage"
-            :options="choix.Arrosage" placeholder=" Quel arrosage ?"></choix-unique>
+            :options="choix.Arrosage" placeholder="Quel arrosage ?"></choix-unique>
         </div>
         <div class="bloc">
           <label class="texte--titre texte--discret" :for="prefixe + '-conservation'">Conservation (ans)</label>
@@ -376,7 +376,7 @@
   <!-- Composant : choix unique (bouton qui ouvre une liste, comme « Trier par » dans à gérer) -->
   <template id="tpl-choix-unique">
     <div class="menu">
-      <button type="button" :id="champId || null" class="champ champ--deroulant"
+      <button type="button" :id="champId || null" class="champ champ--bouton champ--deroulant"
         :class="{ 'champ--vide': estVide }" :disabled="disabled" @click="basculer">{{ libelleChoisi || '\u00a0' }}</button>
       <ul class="menu__liste" v-show="ouvert" @mousedown.prevent>
         <li v-if="vide" class="menu__item" :class="{ 'menu__item--choisi': estVide }" @click="choisir('')">{{ vide }}</li>

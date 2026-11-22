@@ -1,20 +1,121 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
   <head>
-    <meta charset="UTF-8">
-    <title>Gestion des graines</title>
-  
-    <link rel="stylesheet" href="../../styles/main.css">
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cahier</title>
+    <link rel="stylesheet" href="../../styles/styles_communs_bem.css" />
+    <link rel="stylesheet" href="cahier.css" />
   </head>
   <body>
-    <div class="controls">
-      <span class="info" id="info-count">Chargement...</span>
-      <button class="btn" onclick="window.print()">🖨️ Imprimer</button>
+    <header id="appEntete" class="entete">
+      <h1>Cahier</h1>
+      <span class="statut">
+        <template v-if="!etat.charge">Chargement…</template>
+        <template v-else>✓ Chargé</template>
+      </span>
+      <nav class="ligne ligne--pleine">
+        <button type="button" class="btn" :disabled="!etat.charge || etat.nbVarietes === 0 || etat.colonnesManquantes.length > 0" @click="imprimer">🖨️ Imprimer</button>
+        <span v-if="etat.charge" class="texte texte--discret">{{ etat.nbVarietes }} {{ pluriel(etat.nbVarietes, 'variété') }} · {{ etat.pages.length }} {{ pluriel(etat.pages.length, 'page') }}</span>
+      </nav>
+      <p v-if="etat.colonnesManquantes.length" class="texte texte--erreur texte--gras">⚠ {{ pluriel(etat.colonnesManquantes.length, 'Colonne introuvable', 'Colonnes introuvables') }} : {{ etat.colonnesManquantes.join(', ') }}. Vérifie qu'elle existe dans Grist sous ce nom (et que le widget est lié à Millesimes) : sans elle, le cahier serait faux.</p>      
+      <p v-if="etat.erreur" class="texte texte--erreur texte--gras">{{ etat.erreur }}</p>
+    </header>
+
+    <div id="appPages">
+      <div v-for="(page, p) in etat.pages" :key="p" class="feuille" :style="{ '--zoom-ecran': etat.zoom }">
+        <table class="tableau">
+          <thead>
+            <tr>
+              <th class="tableau__titre col-type">Type</th>
+              <th class="tableau__titre col-nom">Nom-Variété</th>
+              <th class="tableau__titre col-ep">Ép.</th>
+              <th class="tableau__titre col-nb">Nb</th>
+              <th class="tableau__titre col-orig">Orig.</th>
+              <th class="tableau__titre col-sac">Sac.</th>
+              <th class="tableau__titre col-millesime">Millésime</th>
+              <th class="tableau__titre col-sais">Sais.</th>
+              <th class="tableau__titre col-qte">Qté</th>
+              <th class="tableau__titre col-germ">Germ.</th>
+              <th class="tableau__titre col-nb-gr">Nb.gr</th>
+              <th class="tableau__titre col-nb-go">Nb.go</th>
+              <th class="tableau__titre col-annee-s">Année.s</th>
+              <th class="tableau__titre col-date-s">Date.s</th>
+              <th class="tableau__titre col-germe">Germé</th>
+              <th class="tableau__titre col-oups">Oups</th>
+              <th class="tableau__titre col-plante">Planté</th>
+              <th class="tableau__titre col-date-p">Date.p</th>
+              <th class="tableau__titre col-ou">Où</th>
+              <th class="tableau__titre col-donne">Donné</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="g in page" :key="g.id" class="tableau__ligne">
+              <td class="tableau__cellule col-type">{{ g.type }}</td>
+              <td class="tableau__cellule col-nom">
+                <span class="tableau__nom">{{ g.nom }}</span>
+                <span v-if="g.variete" class="tableau__variete">{{ g.variete }}</span>
+              </td>
+              <td class="tableau__cellule col-ep">{{ g.num_epingle }}</td>
+              <td class="tableau__cellule tableau__cellule--gris col-nb">{{ g.nb_epingle }}</td>
+
+              <td class="tableau__cellule col-orig" :class="{ 'tableau__cellule--multi': g.sachets.length > 1 }">
+                <template v-if="g.sachets.length > 1">
+                  <span v-for="(s, k) in g.sachets" :key="k" class="tableau__sachet">{{ s.origine || '\u00A0' }}</span>
+                </template>
+                <template v-else>{{ g.sachets[0].origine || '\u00A0' }}</template>
+              </td>
+              <td class="tableau__cellule col-sac" :class="{ 'tableau__cellule--multi': g.sachets.length > 1 }">
+                <template v-if="g.sachets.length > 1">
+                  <span v-for="(s, k) in g.sachets" :key="k" class="tableau__sachet">{{ s.sachet || '\u00A0' }}</span>
+                </template>
+                <template v-else>{{ g.sachets[0].sachet || '\u00A0' }}</template>
+              </td>
+              <td class="tableau__cellule col-millesime" :class="{ 'tableau__cellule--multi': g.sachets.length > 1 }">
+                <template v-if="g.sachets.length > 1">
+                  <span v-for="(s, k) in g.sachets" :key="k" class="tableau__sachet">{{ s.annee || '\u00A0' }}</span>
+                </template>
+                <template v-else>{{ g.sachets[0].annee || '\u00A0' }}</template>
+              </td>
+              <td class="tableau__cellule col-sais" :class="{ 'tableau__cellule--multi': g.sachets.length > 1 }">
+                <template v-if="g.sachets.length > 1">
+                  <span v-for="(s, k) in g.sachets" :key="k" class="tableau__sachet">{{ s.saisons || '\u00A0' }}</span>
+                </template>
+                <template v-else>{{ g.sachets[0].saisons || '\u00A0' }}</template>
+              </td>
+              <td class="tableau__cellule col-qte" :class="{ 'tableau__cellule--multi': g.sachets.length > 1 }">
+                <template v-if="g.sachets.length > 1">
+                  <span v-for="(s, k) in g.sachets" :key="k" class="tableau__sachet">{{ s.qtte || '\u00A0' }}</span>
+                </template>
+                <template v-else>{{ g.sachets[0].qtte || '\u00A0' }}</template>
+              </td>
+              <td class="tableau__cellule col-germ" :class="{ 'tableau__cellule--multi': g.sachets.length > 1 }">
+                <template v-if="g.sachets.length > 1">
+                  <span v-for="(s, k) in g.sachets" :key="k" class="tableau__sachet">{{ s.germination || '\u00A0' }}</span>
+                </template>
+                <template v-else>{{ g.sachets[0].germination || '\u00A0' }}</template>
+              </td>
+
+              <td class="tableau__cellule tableau__cellule--bas col-nb-gr"><template v-if="g.profondeur">{{ g.profondeur }}&nbsp;cm</template></td>
+              <td class="tableau__cellule tableau__cellule--bas col-nb-go"><template v-if="g.germ_duree">{{ g.germ_duree.toLocaleString('fr-FR') }}&nbsp;j</template></td>
+              <td class="tableau__cellule tableau__cellule--bas col-annee-s">{{ g.germ_temp }}</td>
+              <td class="tableau__cellule tableau__cellule--bas col-date-s">{{ g.abri.join(' ') }}</td>
+              <td class="tableau__cellule tableau__cellule--bas col-germe">{{ g.semis_ext.join(' ') }}</td>
+              <td class="tableau__cellule col-oups"></td>
+              <td class="tableau__cellule tableau__cellule--bas col-plante">{{ g.arrosage }}</td>
+              <td class="tableau__cellule tableau__cellule--bas col-date-p">{{ g.exposition }}</td>
+              <td class="tableau__cellule tableau__cellule--bas col-ou">{{ g.ou.join(', ') }}</td>
+              <td class="tableau__cellule tableau__cellule--bas col-donne"><template v-if="g.conservation">{{ g.conservation.toLocaleString('fr-FR') }}&nbsp;{{ pluriel(g.conservation, 'an', 'ans') }}</template></td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="legende">Nb.gr = profondeur de semis · Nb.go = durée de germination · Année.s = température de germination · Date.s = mois de semis sous abri · Germé = mois de semis en pleine terre · Planté = arrosage · Date.p = exposition · Où = où cultiver · Donné = conservation.</p>
+      </div>
     </div>
-    <div id="pages"></div>
-  
+
     <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
+    <script src="https://unpkg.com/vue@3.4.38/dist/vue.global.prod.js"></script>
+    <script src="../../script/scriptcommun.js"></script>
     <script src="cahier.js"></script>
   </body>
 </html>
