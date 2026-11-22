@@ -17,18 +17,21 @@
       </span>
       <nav class="ligne ligne--pleine">
         <button type="button" class="btn" :disabled="etat.nbEtiquettes === 0 || etat.colonnesManquantes.length > 0" @click="imprimer">🖨️ Imprimer</button>
-        <button type="button" class="btn" :disabled="etat.nbEtiquettes === 0 || etat.colonnesManquantes.length > 0 || etat.enregistrement" @click="demanderMarquage">{{ etat.enregistrement ? 'Enregistrement…' : '✅ Marquer comme imprimées' }}</button>
+        <button type="button" class="btn" :disabled="etat.nbEtiquettes === 0 || etat.colonnesManquantes.length > 0 || etat.enregistrement || !etat.imprimeA || etat.impressionPerimee" @click="demanderMarquage">{{ etat.enregistrement ? 'Enregistrement…' : '✅ Marquer comme imprimées' }}</button>
         <span v-if="etat.charge && etat.nbEtiquettes > 0" class="texte texte--discret">{{ etat.nbEtiquettes }} {{ pluriel(etat.nbEtiquettes, 'étiquette') }} · {{ etat.nbLignes }} {{ pluriel(etat.nbLignes, 'ligne') }} de Semis · {{ etat.feuilles.length }} {{ pluriel(etat.feuilles.length, 'feuille') }}</span>
         <span v-else-if="etat.charge" class="texte texte--discret">Aucune étiquette à imprimer</span>
         <span v-if="etat.charge && etat.placesLibres > 0" class="texte texte--discret texte--gras">{{ etat.placesLibres }} {{ pluriel(etat.placesLibres, 'place libre', 'places libres') }} sur la dernière feuille</span>
-        </nav>
+        <span v-if="etat.imprimeA && !etat.impressionPerimee" class="texte texte--discret">🖨️ Imprimé à {{ etat.imprimeA }}</span>
+        <span v-else-if="etat.imprimeA" class="texte texte--erreur texte--gras">⚠ Modifié depuis l'impression de {{ etat.imprimeA }} : réimprime avant de marquer</span>
+        <span v-else-if="etat.charge && etat.nbEtiquettes > 0" class="texte texte--discret">Pas encore imprimé</span>
+      </nav>
       <p v-if="etat.colonnesManquantes.length" class="texte texte--erreur texte--gras">⚠ {{ pluriel(etat.colonnesManquantes.length, 'Colonne masquée', 'Colonnes masquées') }} dans la vue du widget : {{ etat.colonnesManquantes.join(', ') }}. Affiche-les dans le panneau « Données » du widget : sans elles, les étiquettes seraient fausses.</p>
       <p v-if="etat.erreur" class="texte texte--erreur texte--gras">{{ etat.erreur }}</p>
       <p v-if="etat.succes" class="encart encart--succes texte texte--succes">{{ etat.succes }}</p>
     </header>
 
     <div id="appFeuilles">
-      <div v-for="(feuille, f) in etat.feuilles" :key="f" class="feuille">
+      <div v-for="(feuille, f) in etat.feuilles" :key="f" class="feuille" :style="{ '--zoom-ecran': etat.zoom }">
         <div v-for="(rangee, r) in feuille" :key="r" class="rangee">
           <div
             v-for="(e, i) in rangee"

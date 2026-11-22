@@ -12,6 +12,7 @@
   font-family: Arial, 'Liberation Sans', Helvetica, sans-serif;
   font-size: 9px;
   color: #222;
+  zoom: var(--zoom-ecran, 1); /* aperçu réduit à l'écran, calculé par le JS */
 }
 
 @media print {
@@ -40,6 +41,7 @@
     border: none;
     page-break-after: always;
     break-after: page;
+    zoom: 1; /* impression toujours en taille réelle */
   }
   .feuille:last-child {
     page-break-after: avoid;

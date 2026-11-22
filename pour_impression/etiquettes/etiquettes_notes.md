@@ -79,7 +79,8 @@ Accès Grist : `full`. Versions dev (branche `Vue`) et prod (`main`).
 - Nettoyé par rapport à main.css : blocs `@media print` commentés, `padding: auto` invalide, `.infos .label` (jamais utilisé).
 - Utilisé du commun : `entete`, `statut`, `ligne` (+ `--pleine`), `btn` (+ `--enregistrer`), `texte` (+ `--discret`, `--gras`,
   `--erreur`, `--succes`, `--note`), `encart` (+ `--succes`), `confirmation` (+ `__boite`, `__boutons`), balises `h1`, `h2`.
-- #appFeuilles { overflow-x: auto } à l'écran (l'en-tête collé garde la largeur visible), overflow: visible à l'impression (sinon Firefox n'imprime qu'une feuille).  
+- #appFeuilles { overflow-x: auto } à l'écran (l'en-tête collé garde la largeur visible), overflow: visible à l'impression (sinon Firefox n'imprime qu'une feuille). 
+- Aperçu réduit à l'écran : zoom: var(--zoom-ecran, 1) sur .feuille, facteur calculé par ajusterZoom (ResizeObserver sur #appFeuilles, jamais au-delà de 1) ; zoom: 1 à l'impression. 
 
 ## Points de vigilance
 - Impression : tester l'aperçu en A4 paysage après toute modification du CSS (local ou commun : le `body` du commun compte).
