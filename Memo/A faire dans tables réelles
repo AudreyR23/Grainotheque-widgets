@@ -34,7 +34,7 @@ if m:
 return "Plant" if $Plante_mere else None
 
 
-/21/11 à 22h30
+21/11 à 22h30
 
 Dans Grist, table Millesimes, colonne Plantes, remplace la formule par
 if rec.Plante_mere:
@@ -43,9 +43,7 @@ return sum(g or 0 for g in Semis.lookupRecords(NomVariete=rec.NomVariete, Milles
 Or c'est Semis.Plantes que lisent le plan et les étiquettes. Dans la vraie base, s'il y a eu des ajustements avec l'ancienne version, il faut repérer les écarts une fois, à la main :
 
 Dans la table Semis, ajoute une colonne formule temporaire Ecart_mere :
-python
+**Trouver un écart :** 
 if not rec.Plante_mere or rec.Nb_godets or rec.Nb_graines:
     return ""
 return "" if (rec.Plantes or 0) == (rec.Millesime.Nb_plants or 0) else "écart"
-Filtre cette colonne sur « écart ». Pour chaque ligne trouvée, recopie dans Plantes le Nb_plants du millésime.
-Supprime la colonne Ecart_mere.

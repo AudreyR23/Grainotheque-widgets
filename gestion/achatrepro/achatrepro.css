@@ -30,7 +30,7 @@
 }
 /* Aspect « non choisie » seulement : une pastille choisie prend le style de .pastille--etape (commun) */
 .pastille--choix:not(.pastille--etape) {
-  background: var(--arriere-plan);
+  background: var(--blanc);
   border-color: var(--gris);
   color: var(--label);
 }
