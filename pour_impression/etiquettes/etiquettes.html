@@ -1,21 +1,99 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
   <head>
-    <meta charset="UTF-8">
-    <title>Etiquettes sur sachets</title>
-
-    <link rel="stylesheet" href="../../styles/main.css">
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Étiquettes sur sachets</title>
+    <link rel="stylesheet" href="../../styles/styles_communs_bem.css" />
+    <link rel="stylesheet" href="etiquettes.css" />
   </head>
   <body>
-    <div class="controls">
-      <span class="info" id="info-count">Chargement...</span>
-      <button class="btn" onclick="window.print()">🖨️ Imprimer</button>
-      <button class="btn" onclick="marquerImprimees()">✅ Marquer comme imprimées</button>
+    <header id="appEntete" class="entete">
+      <h1>Étiquettes sur sachets</h1>
+      <span class="statut">
+        <template v-if="!etat.charge">Chargement…</template>
+        <template v-else-if="etat.enregistrement">Enregistrement…</template>
+        <template v-else>✓ À jour</template>
+      </span>
+      <nav class="ligne ligne--pleine">
+        <button type="button" class="btn" :disabled="etat.nbEtiquettes === 0 || etat.colonnesManquantes.length > 0" @click="imprimer">🖨️ Imprimer</button>
+        <button type="button" class="btn" :disabled="etat.nbEtiquettes === 0 || etat.colonnesManquantes.length > 0 || etat.enregistrement || !etat.imprimeA || etat.impressionPerimee" @click="demanderMarquage">{{ etat.enregistrement ? 'Enregistrement…' : '✅ Marquer comme imprimées' }}</button>
+        <span v-if="etat.charge && etat.nbEtiquettes > 0" class="texte texte--discret">{{ etat.nbEtiquettes }} {{ pluriel(etat.nbEtiquettes, 'étiquette') }} · {{ etat.nbLignes }} {{ pluriel(etat.nbLignes, 'ligne') }} de Semis · {{ etat.feuilles.length }} {{ pluriel(etat.feuilles.length, 'feuille') }}</span>
+        <span v-else-if="etat.charge" class="texte texte--discret">Aucune étiquette à imprimer</span>
+        <span v-if="etat.charge && etat.placesLibres > 0" class="texte texte--discret texte--gras">{{ etat.placesLibres }} {{ pluriel(etat.placesLibres, 'place libre', 'places libres') }} sur la dernière feuille</span>
+        <span v-if="etat.imprimeA && !etat.impressionPerimee" class="texte texte--discret">🖨️ Imprimé à {{ etat.imprimeA }}</span>
+        <span v-else-if="etat.imprimeA" class="texte texte--erreur texte--gras">⚠ Modifié depuis l'impression de {{ etat.imprimeA }} : réimprime avant de marquer</span>
+        <span v-else-if="etat.charge && etat.nbEtiquettes > 0" class="texte texte--discret">Pas encore imprimé</span>
+      </nav>
+      <p v-if="etat.colonnesManquantes.length" class="texte texte--erreur texte--gras">⚠ {{ pluriel(etat.colonnesManquantes.length, 'Colonne masquée', 'Colonnes masquées') }} dans la vue du widget : {{ etat.colonnesManquantes.join(', ') }}. Affiche-les dans le panneau « Données » du widget : sans elles, les étiquettes seraient fausses.</p>
+      <p v-if="etat.erreur" class="texte texte--erreur texte--gras">{{ etat.erreur }}</p>
+      <p v-if="etat.succes" class="encart encart--succes texte texte--succes">{{ etat.succes }}</p>
+    </header>
+
+    <div id="appFeuilles">
+      <div v-for="(feuille, f) in etat.feuilles" :key="f" class="feuille" :style="{ '--zoom-ecran': etat.zoom }">
+        <div v-for="(rangee, r) in feuille" :key="r" class="rangee">
+          <div
+            v-for="(e, i) in rangee"
+            :key="i"
+            class="etiquette"
+            :class="{ 'etiquette--inversee': estInversee(i) }"
+          >
+            <div class="etiquette__cadre">
+              <svg v-if="estInversee(i)" class="etiquette__forme" viewBox="0 0 690 470" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <line x1="172.5" y1="0" x2="517.5" y2="0" stroke="#000" stroke-width="7" />
+                <line x1="0" y1="470" x2="690" y2="470" stroke="#000" stroke-width="7" />
+              </svg>
+              <svg v-else class="etiquette__forme" viewBox="0 0 690 470" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="0,0 690,0 517.5,470 172.5,470" fill="none" stroke="#000" stroke-width="7" />
+              </svg>
+              <div class="etiquette__contenu" :class="{ 'etiquette__contenu--retourne': estInversee(i) }">
+                <div class="etiquette__nom">{{ e.nom }}</div>
+                <div class="etiquette__variete">{{ e.variete }}</div>
+                <div class="etiquette__espace"></div>
+                <div class="etiquette__infos">
+                  <div class="etiquette__info">
+                    <span class="etiquette__libelle">Récolte :</span>
+                    <span class="etiquette__valeur">🌱 {{ anneeEnCours }}</span>
+                  </div>
+                  <div class="etiquette__info">
+                    <span class="etiquette__libelle">Origine :</span>
+                    <span class="etiquette__valeur">{{ e.versAR ? e.origine + ' → AR' : e.origine }}</span>
+                  </div>
+                  <div class="etiquette__info">
+                    <span class="etiquette__libelle">{{ e.libelleDate === 'plantation' ? 'Plantation' : 'Semis' }} :</span>
+                    <span class="etiquette__valeur">{{ e.annee }}</span>
+                  </div>
+                  <div class="etiquette__espace etiquette__espace--petit"></div>
+                </div>
+                <div class="etiquette__saisons">
+                  <template v-if="e.saisons === null">…… saison(s)</template>
+                  <template v-else>{{ e.saisons }} {{ pluriel(e.saisons, 'saison') }}</template>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div id="pages"></div>
+
+        <div id="appConfirmation">
+      <div v-if="etat.confirmation" class="confirmation">
+        <div class="confirmation__boite">
+          <h2>Marquer comme imprimées ?</h2>
+          <p class="texte">{{ etat.nbEtiquettes }} {{ pluriel(etat.nbEtiquettes, 'étiquette') }} ({{ etat.nbLignes }} {{ pluriel(etat.nbLignes, 'ligne') }} de Semis) {{ pluriel(etat.nbEtiquettes, 'passe', 'passent') }} en attente et {{ pluriel(etat.nbEtiquettes, 'sort', 'sortent') }} de ce widget.</p>
+          <p class="texte texte--note">À faire seulement après avoir imprimé.</p>
+          <div class="confirmation__boutons">
+            <button type="button" class="btn" @click="annulerMarquage">Annuler</button>
+            <button type="button" class="btn btn--enregistrer" @click="marquerImprimees">Confirmer</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
+    <script src="https://unpkg.com/vue@3.4.38/dist/vue.global.prod.js"></script>
+    <script src="../../script/scriptcommun.js"></script>
     <script src="etiquettes.js"></script>
   </body>
 </html>

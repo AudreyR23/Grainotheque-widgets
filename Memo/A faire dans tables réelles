@@ -47,3 +47,5 @@ Dans la table Semis, ajoute une colonne formule temporaire Ecart_mere :
 if not rec.Plante_mere or rec.Nb_godets or rec.Nb_graines:
     return ""
 return "" if (rec.Plantes or 0) == (rec.Millesime.Nb_plants or 0) else "écart"
+
+22/11
