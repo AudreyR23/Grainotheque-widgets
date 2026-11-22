@@ -1,44 +1,116 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Numérotation des variétés</title>
-  <link rel="stylesheet" href="../../styles/styles_commun.css">
-  <link rel="stylesheet" href="numerotation.css">
-  <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
-</head>
-<body>
-  <header>
-    <h1>Numérotation des variétés</h1>
-    <span id="statut" class="statut"></span>
-  </header>
-  <main>
-    <div id="anomalies" hidden>
-      <label> Anomalies </label>
-      <div id="anomalies-contenu" class="cadre-info"></div>
-    </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Numérotation des variétés</title>
+    <link rel="stylesheet" href="../../styles/styles_communs_bem.css" />
+    <link rel="stylesheet" href="numerotation.css" />
+  </head>
+  <body>
+    <header id="appEntete" class="entete">
+      <h1>Numérotation des variétés</h1>
+      <span class="statut" :class="{ 'statut--non-sauvegarde': nombreAttentes() > 0 }">
+        <template v-if="!etat.charge">Chargement…</template>
+        <template v-else-if="nombreAttentes() > 0">Non sauvegardé ({{ nombreAttentes() }})</template>
+        <template v-else>✓ À jour</template>
+      </span>
+      <p v-if="etat.colonnesManquantes.length" class="texte texte--erreur texte--gras">⚠ {{ pluriel(etat.colonnesManquantes.length, 'Colonne introuvable', 'Colonnes introuvables') }} : {{ etat.colonnesManquantes.join(', ') }}. Vérifie qu'elle existe dans Grist sous ce nom : sans elle, l'outil se tromperait.</p>
+      <p v-if="etat.succes" class="encart encart--succes texte texte--succes">{{ etat.succes }}</p>
+      <p v-if="etat.rappel" class="texte texte--gras">📌 Des numéros existants ont changé : refais les épingles concernées et réimprime la liste (Numéros d'épingle).</p>
+      <p v-if="etat.erreur" class="texte texte--erreur texte--gras">{{ etat.erreur }}</p>
+    </header>
 
-    <section id="fiche">
-      <label> Prochain numéro à attribuer </label>
-      <div class="ligne--info">
-        <span id="prochain" class="pastille-look-choix"></span>
+    <main>
+      <div id="appAnomalies">
+        <section v-if="etat.doublons.length || etat.invalides.length">
+          <h2>Anomalies</h2>
+          <div class="encart encart--anomalies">
+            <template v-if="etat.doublons.length">
+              <div class="texte texte--gras">⚠ {{ pluriel(etat.doublons.length, 'Doublon') }} ({{ etat.doublons.length }})</div>
+              <div v-for="d in etat.doublons" :key="d.numero">
+                <div class="texte texte--erreur texte--gras">N° {{ d.numero }}</div>
+                <div v-for="l in d.lignes" :key="l.id" class="ligne ligne--entre">
+                  <span class="texte">{{ l.nom }}<span v-if="l.type" class="texte texte--discret"> {{ typeInverse(l.type) }}</span> · <span v-if="l.dispo === 'aucun'" class="texte texte--erreur texte--gras">ni sachet ni plante mère</span><span v-else-if="l.dispo === 'sachet'" class="texte texte--discret">sachet</span><span v-else-if="l.dispo === 'mere'" class="texte texte--discret">🌱 plante mère</span><span v-else class="texte texte--discret">sachet et 🌱 plante mère</span></span>
+                  <span class="ligne">
+                    <button type="button" class="btn" :class="{ 'btn--etape': enAttente(l.id) }" @click="basculerRenumerotation(l.id)">Renuméroter</button>
+                    <button type="button" class="btn" :class="{ 'btn--etape': enLiberation(l.id) }" @click="basculerLiberation(l.id)">Libérer</button>
+                  </span>
+                </div>
+              </div>
+            </template>
+            <template v-if="etat.invalides.length">
+              <div class="texte texte--gras">⚠ {{ pluriel(etat.invalides.length, 'Numéro invalide', 'Numéros invalides') }} ({{ etat.invalides.length }})</div>
+              <div v-for="i in etat.invalides" :key="i.id" class="ligne ligne--entre">
+                <span class="texte"><span class="texte texte--erreur texte--gras">{{ i.nom }} : valeur « {{ i.valeur }} »</span><span v-if="i.type" class="texte texte--discret"> {{ typeInverse(i.type) }}</span> · <span v-if="i.dispo === 'aucun'" class="texte texte--erreur texte--gras">ni sachet ni plante mère</span><span v-else-if="i.dispo === 'sachet'" class="texte texte--discret">sachet</span><span v-else-if="i.dispo === 'mere'" class="texte texte--discret">🌱 plante mère</span><span v-else class="texte texte--discret">sachet et 🌱 plante mère</span></span>
+                <span class="ligne">
+                  <button type="button" class="btn" :class="{ 'btn--etape': enAttente(i.id) }" @click="basculerRenumerotation(i.id)">Renuméroter</button>
+                  <button type="button" class="btn" :class="{ 'btn--etape': enLiberation(i.id) }" @click="basculerLiberation(i.id)">Libérer</button>
+                </span>
+              </div>
+            </template>
+          </div>
+        </section>
       </div>
-<label for="recherche">Variété sans numéro</label>
-<div class="champ-liste">
-  <input id="recherche" type="search" class="champ" placeholder="Taper pour chercher…" autocomplete="off">
-  <ul id="liste" class="liste-choix" hidden></ul>
-</div>
-    </section>
 
-    <p id="message" class="info" hidden></p>
+      <div id="appFiche">
+        <section v-if="etat.charge && !etat.colonnesManquantes.length">
+          <h3>Prochain numéro à attribuer</h3>
+          <span class="pastille pastille--info">N° {{ etat.prochain.numero }}<template v-if="etat.prochain.nouveau"> (nouveau)</template></span>
+          <h3><label for="recherche">Variété sans numéro</label></h3>
+          <div class="ligne ligne--sur-champ">
+            <label class="case"><input type="checkbox" class="case__saisie" v-model="etat.seulementDisponibles" /><span class="case__texte">Seulement les variétés disponibles (sachet ou plante mère)</span></label>
+          </div>
+          <div class="menu">
+            <input id="recherche" type="search" class="champ" placeholder="Taper pour chercher…" autocomplete="off" v-model="etat.recherche" @focus="surFocus('attribuer', $event)" @input="ouvrirMenu('attribuer')" @blur="fermerMenu" />
+            <ul class="menu__liste" v-show="menuVisible('attribuer')" @mousedown.prevent>
+              <li v-for="v in etat.correspondances" :key="v.id" class="menu__item" @click="attribuer(v.id)">{{ v.nom }}</li>
+              <li v-if="!etat.correspondances.length" class="menu__item menu__item--vide"><template v-if="etat.seulementDisponibles">Aucune variété disponible trouvée (décoche la case pour voir les autres)</template><template v-else>Aucune variété trouvée</template></li>
+              <li v-else-if="etat.nbAutres" class="menu__item menu__item--vide">… {{ etat.nbAutres }} {{ pluriel(etat.nbAutres, 'autre') }}, précise ta recherche</li>
+            </ul>
+          </div>
+        </section>
+      </div>
 
-    <section id="en-attente" hidden>
-      <h2 id="titre-attentes"></h2>
-      <ul id="attentes" class="liste-etape-intermediaires"></ul>
-      <button id="sauvegarder" type="button" class="btn btn--enregistrer btn--grand">Enregistrer</button>
-    </section>
-  </main>
-  <script src="numerotation.js"></script>
-</body>
+      <div id="appLiberer">
+        <section v-if="etat.charge && !etat.colonnesManquantes.length">
+          <h3><label for="rechercheLiberer">Libérer un numéro (variété perdue)</label></h3>
+          <div class="ligne ligne--sur-champ">
+            <label class="case"><input type="checkbox" class="case__saisie" v-model="etat.seulementIndisponibles" /><span class="case__texte">Seulement les variétés indisponibles (ni sachet ni plante mère)</span></label>
+          </div>
+          <div class="menu">
+            <input id="rechercheLiberer" type="search" class="champ" placeholder="Nom ou numéro…" autocomplete="off" v-model="etat.rechercheLiberer" @focus="surFocus('liberer', $event)" @input="ouvrirMenu('liberer')" @blur="fermerMenu" />
+            <ul class="menu__liste" v-show="menuVisible('liberer')" @mousedown.prevent>
+              <li v-for="v in etat.correspondancesLiberer" :key="v.id" class="menu__item" @click="liberer(v.id)">N° {{ v.numero }} : {{ v.nom }}</li>
+              <li v-if="!etat.correspondancesLiberer.length" class="menu__item menu__item--vide"><template v-if="etat.seulementIndisponibles">Aucune variété indisponible trouvée (décoche la case pour voir les autres)</template><template v-else>Aucune variété trouvée</template></li>
+              <li v-else-if="etat.nbAutresLiberer" class="menu__item menu__item--vide">… {{ etat.nbAutresLiberer }} {{ pluriel(etat.nbAutresLiberer, 'autre') }}, précise ta recherche</li>
+            </ul>
+          </div>
+        </section>
+      </div>
+
+      <div id="appAttentes">
+        <section v-if="etat.charge && nombreAttentes() > 0">
+          <h2>À enregistrer ({{ nombreAttentes() }})</h2>
+          <ul class="liste-carte">
+            <li v-for="a in etat.attentes" :key="a.id" class="carte carte--etape">
+              <div class="carte__contenu">
+                <div><strong v-if="a.action === 'liberer' && a.valide">N° {{ a.numero }} libéré : {{ a.nom }}</strong><strong v-else-if="a.action === 'liberer'">Valeur « {{ a.numero }} » effacée : {{ a.nom }}</strong><strong v-else>N° {{ a.numero }} : {{ a.nom }}</strong><span v-if="a.type" class="carte__type">{{ typeInverse(a.type) }}</span></div>
+                <div v-if="a.cas === 'doublon'" class="texte texte--discret">était N° {{ a.ancien }}, doublon</div>
+                <div v-else-if="a.cas === 'invalide'" class="texte texte--discret">valeur invalide « {{ a.ancien }} »</div>
+                <div v-else-if="a.cas === 'doublon-libere'" class="texte texte--discret">était en doublon</div>
+              </div>
+              <button type="button" class="btn btn--suppr carte__action" title="Retirer de la liste" :aria-label="'Retirer ' + a.nom" @click="retirer(a.id)">✕</button>
+            </li>
+          </ul>
+          <button type="button" class="btn btn--enregistrer btn--grand" :disabled="etat.enCours" @click="enregistrer">{{ etat.enCours ? 'Enregistrement…' : 'Enregistrer' }}</button>
+        </section>
+      </div>
+    </main>
+
+    <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
+    <script src="https://unpkg.com/vue@3.4.38/dist/vue.global.prod.js"></script>
+    <script src="../../script/scriptcommun.js"></script>
+    <script src="numerotation.js"></script>
+  </body>
 </html>
