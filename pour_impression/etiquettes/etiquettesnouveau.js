@@ -1,16 +1,39 @@
+// ===== Messages (erreurs et succès) =====
+const TEXTES = {
+  sansNom: '(étiquette vierge)',
+  refusModifiees: (noms) => `Rien n'est enregistré. Modifié ou supprimé dans Grist depuis l'affichage : ${noms} — vérifie les étiquettes affichées (réimprime si besoin), puis marque à nouveau.`,
+  echec: (msg) => `Échec de l'enregistrement : ${msg} — vérifie dans Grist, puis réessaie si les étiquettes sont toujours affichées.`,
+  succes: (n) => `✓ ${n} ${pluriel(n, 'ligne passée', 'lignes passées')} en attente.`
+};
 // ===== Mise en page (identique à l'ancien main_etiquettes.js) =====
 const PAR_RANGEE = 5;
 const RANGEES_PAR_FEUILLE = 4;
 const ETIQUETTES_PAR_FEUILLE = PAR_RANGEE * RANGEES_PAR_FEUILLE; // 20
 const ANNEE_EN_COURS = new Date().getFullYear();
+// Colonnes que le widget doit recevoir : onRecords ne donne que les colonnes visibles dans la vue
+const COLONNES_NECESSAIRES = [
+  'Nom', 'Variete', 'Date_s', 'Nb_etiquettes', 'Etiq_en_attente', 'Nb_saisons_mil',
+  'Origine_or', 'Origine_millesime', 'Plante_mere', 'Annee_plantation_mil'
+];
 
 // ===== État global =====
+// Lignes à imprimer telles qu'affichées : idSemis → { id, nom, variete, nbEtiquettes, enAttente }
+const recordsParId = {
+  aImprimer: new Map()
+};
+
 // État lu par le HTML : Vue redessine quand il change
 const etat = Vue.reactive({
   feuilles: [],       // [feuille] ; feuille = [rangée] ; rangée = [étiquette] (5 au plus)
   nbEtiquettes: 0,    // total d'étiquettes affichées
   nbLignes: 0,        // lignes Semis qui ont au moins une étiquette
-  charge: false       // true après la première réception des lignes
+  placesLibres: 0,    // places vides sur la dernière feuille
+  colonnesManquantes: [],   // colonnes nécessaires masquées dans la vue du widget
+  charge: false,      // true après la première réception des lignes
+  confirmation: false,      // fenêtre « Marquer comme imprimées ? » ouverte
+  enregistrement: false,    // écriture en cours dans Grist
+  erreur: '',
+  succes: ''
 });
 
 // ===== Contenu d'une étiquette =====
@@ -80,21 +103,34 @@ function estInversee(i) {
   // 2e et 4e étiquettes d'une rangée : retournées pour imbriquer les trapèzes
   return i === 1 || i === 3;
 }
+function colonnesManquantes(lignes) {
+  // Une colonne masquée n'existe dans aucune ligne reçue (aucune ligne : rien à vérifier)
+  if (!lignes.length) return [];
+  return COLONNES_NECESSAIRES.filter(c => !(c in lignes[0]));
+}
 
 function afficherLignes(lignes) {
   // Une étiquette par unité de Nb_etiquettes, dans l'ordre de la vue Grist
+  etat.colonnesManquantes = colonnesManquantes(lignes);
+  recordsParId.aImprimer.clear();
   const etiquettes = [];
-  let nbLignes = 0;
   for (const r of lignes) {
     const nb = parseInt(r.Nb_etiquettes) || 0;
     if (nb <= 0) continue;
-    nbLignes++;
+    recordsParId.aImprimer.set(r.id, {
+      id: r.id,
+      nom: r.Nom || '',
+      variete: r.Variete || '',
+      nbEtiquettes: nb,
+      enAttente: r.Etiq_en_attente || 0
+    });
     const e = etiquetteDepuisLigne(r);
     for (let i = 0; i < nb; i++) etiquettes.push(e);
   }
   etat.nbEtiquettes = etiquettes.length;
-  etat.nbLignes = nbLignes;
+  etat.nbLignes = recordsParId.aImprimer.size;
   etat.feuilles = enFeuilles(etiquettes);
+  etat.placesLibres = etat.feuilles.length * ETIQUETTES_PAR_FEUILLE - etiquettes.length;
   etat.charge = true;
 }
 
@@ -102,12 +138,81 @@ function imprimer() {
   window.print();
 }
 
+// ===== Marquer comme imprimées =====
+const afficherSucces = creerMessageTemporaire(texte => { etat.succes = texte; }, 4000);
+
+function demanderMarquage() {
+  etat.confirmation = true;
+}
+
+function annulerMarquage() {
+  etat.confirmation = false;
+}
+async function relireSemis() {
+  // Table Semis telle qu'elle est dans Grist maintenant (toutes les colonnes) : id → ligne
+  const lignes = tableEnLignes(await grist.docApi.fetchTable('Semis'));
+  return new Map(lignes.map(l => [l.id, l]));
+}
+
+function lignesModifiees(affichees, actuelles) {
+  // Noms des lignes affichées qui ont changé ou disparu dans Grist depuis l'affichage
+  return affichees
+    .filter(a => {
+      const b = actuelles.get(a.id);
+      return !b ||
+        (parseInt(b.Nb_etiquettes) || 0) !== a.nbEtiquettes ||
+        (b.Etiq_en_attente || 0) !== a.enAttente;
+    })
+    .map(a => libelle(a) || TEXTES.sansNom);
+}
+async function marquerImprimees() {
+  // Etiq_en_attente += Nb_etiquettes, puis Nb_etiquettes = 0, en un seul envoi. Aucune suppression.
+  etat.confirmation = false;
+  const lignes = [...recordsParId.aImprimer.values()];
+  if (lignes.length === 0 || etat.enregistrement) return;
+  etat.enregistrement = true;
+  afficherSucces('');
+  etat.erreur = '';
+  try {
+    // 1. Vérification : une de ces lignes a-t-elle changé dans Grist depuis l'affichage ?
+    const actuelles = await relireSemis();
+    const modifiees = lignesModifiees(lignes, actuelles);
+    if (modifiees.length) {
+      etat.erreur = TEXTES.refusModifiees(modifiees.join(', '));
+      return;   // « finally » remet quand même enregistrement à false
+    }
+
+    // 2. Écriture, avec les valeurs qui viennent d'être relues
+    await grist.docApi.applyUserActions([
+      ['BulkUpdateRecord', 'Semis', lignes.map(l => l.id), {
+        Etiq_en_attente: lignes.map(l => (actuelles.get(l.id).Etiq_en_attente || 0) + l.nbEtiquettes),
+        Nb_etiquettes: lignes.map(() => 0)
+      }]
+    ]);
+    afficherSucces(TEXTES.succes(lignes.length));
+  } catch (err) {
+    console.error(err);
+    etat.erreur = TEXTES.echec(err.message);
+  } finally {
+    etat.enregistrement = false;
+  }
+}
+
+// Une erreur reste affichée jusqu'au prochain clic (phase de capture : effacée avant que le bouton agisse)
+document.addEventListener('click', () => { etat.erreur = ''; }, true);
+
 // ===== Zones Vue =====
 Vue.createApp({
   setup() {
-    return { etat, pluriel, imprimer };
+    return { etat, pluriel, imprimer, demanderMarquage };
   }
 }).mount('#appEntete');
+
+Vue.createApp({
+  setup() {
+    return { etat, pluriel, marquerImprimees, annulerMarquage };
+  }
+}).mount('#appConfirmation');
 
 Vue.createApp({
   setup() {
@@ -117,4 +222,5 @@ Vue.createApp({
 
 // ===== Initialisation =====
 grist.ready({ requiredAccess: 'full' });
-grist.onRecords(afficherLignes);
+// includeColumns : reçoit aussi les colonnes masquées dans la vue (l'alerte reste comme filet de sécurité)
+grist.onRecords(afficherLignes, { includeColumns: 'normal' });

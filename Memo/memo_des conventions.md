@@ -125,3 +125,23 @@ Vue.watch(() => [etat.saisies, etat.saisiesMeres], sauvegarderSaisies, { deep: t
 ## À traiter dans la discussion du commun
 - `styles_communs_bem.css` : `.btn--enregistrer` (`margin-top: 8px`) écrase `.btn--grand` (`margin-top: 14px`), plus bas dans le fichier. Garder l'un des deux.
 - Rapprocher `champ--bouton` (commun) et `champ--deroulant` (Achat-repro) si un autre outil a besoin de la flèche.
+
+## Outils d'impression
+- Lecture par `grist.onRecords(f, { includeColumns: 'normal' })` : reçoit toutes les colonnes, même masquées
+  dans la vue (testé). L'ordre et le filtre d'impression sont ceux de la vue Grist. Garder une alerte
+  « colonnes manquantes » (liste `COLONNES_NECESSAIRES`) comme filet de sécurité.
+- Dates reçues par `onRecords` : objet `Date` → `getTime() / 1000` avant `anneeDepuisDate`
+  (`dateEnSecondesGrist`, dans etiquettes.js, candidat au commun). Ne pas utiliser `keepEncoded: true` :
+  les dates arrivent codées `['d', secondes]` et `anneeDepuisDate` renvoie null.
+- Après un `applyUserActions`, `onRecords` renvoie lui-même les lignes à jour : pas de rechargement à faire.
+- Le `body` du commun change l'impression (police system-ui, `padding: 12px`, fond) : la feuille remet sa
+  police, sa taille et sa couleur, et à l'impression `body { padding: 0; background: white; }`, sinon la
+  feuille est décalée et déborde de l'A4.
+- Feuilles plus larges que le widget : elles défilent dans leur zone (`overflow-x: auto`) pour que l'en-tête
+  collé garde toute la largeur. À l'impression, cette zone repasse en `overflow: visible`, sinon Firefox
+  n'imprime que la première feuille.
+- En-tête et fenêtre de confirmation masqués dans `@media print`.
+- Test de chaque modification : PDF en A4 paysage, comparé à la version précédente (nombre de pages,
+  positions, pas de page blanche finale).
+- CSS d'impression partagé : section « candidat au commun impression » dans le CSS de l'outil, à déplacer
+  dans `styles_communs_impression_bem.css` (discussion du commun) quand un 2e outil d'impression est migré.

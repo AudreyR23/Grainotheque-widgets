@@ -8,17 +8,23 @@
     <link rel="stylesheet" href="etiquettesnouveau.css" />
   </head>
   <body>
-        <header id="appEntete" class="entete">
+    <header id="appEntete" class="entete">
       <h1>Étiquettes sur sachets</h1>
       <span class="statut">
         <template v-if="!etat.charge">Chargement…</template>
+        <template v-else-if="etat.enregistrement">Enregistrement…</template>
         <template v-else>✓ À jour</template>
       </span>
       <nav class="ligne ligne--pleine">
-        <button type="button" class="btn" :disabled="etat.nbEtiquettes === 0" @click="imprimer">🖨️ Imprimer</button>
+        <button type="button" class="btn" :disabled="etat.nbEtiquettes === 0 || etat.colonnesManquantes.length > 0" @click="imprimer">🖨️ Imprimer</button>
+        <button type="button" class="btn" :disabled="etat.nbEtiquettes === 0 || etat.colonnesManquantes.length > 0 || etat.enregistrement" @click="demanderMarquage">{{ etat.enregistrement ? 'Enregistrement…' : '✅ Marquer comme imprimées' }}</button>
         <span v-if="etat.charge && etat.nbEtiquettes > 0" class="texte texte--discret">{{ etat.nbEtiquettes }} {{ pluriel(etat.nbEtiquettes, 'étiquette') }} · {{ etat.nbLignes }} {{ pluriel(etat.nbLignes, 'ligne') }} de Semis · {{ etat.feuilles.length }} {{ pluriel(etat.feuilles.length, 'feuille') }}</span>
         <span v-else-if="etat.charge" class="texte texte--discret">Aucune étiquette à imprimer</span>
-      </nav>
+        <span v-if="etat.charge && etat.placesLibres > 0" class="texte texte--discret texte--gras">{{ etat.placesLibres }} {{ pluriel(etat.placesLibres, 'place libre', 'places libres') }} sur la dernière feuille</span>
+        </nav>
+      <p v-if="etat.colonnesManquantes.length" class="texte texte--erreur texte--gras">⚠ {{ pluriel(etat.colonnesManquantes.length, 'Colonne masquée', 'Colonnes masquées') }} dans la vue du widget : {{ etat.colonnesManquantes.join(', ') }}. Affiche-les dans le panneau « Données » du widget : sans elles, les étiquettes seraient fausses.</p>
+      <p v-if="etat.erreur" class="texte texte--erreur texte--gras">{{ etat.erreur }}</p>
+      <p v-if="etat.succes" class="encart encart--succes texte texte--succes">{{ etat.succes }}</p>
     </header>
 
     <div id="appFeuilles">
@@ -63,6 +69,20 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+        <div id="appConfirmation">
+      <div v-if="etat.confirmation" class="confirmation">
+        <div class="confirmation__boite">
+          <h2>Marquer comme imprimées ?</h2>
+          <p class="texte">{{ etat.nbEtiquettes }} {{ pluriel(etat.nbEtiquettes, 'étiquette') }} ({{ etat.nbLignes }} {{ pluriel(etat.nbLignes, 'ligne') }} de Semis) {{ pluriel(etat.nbEtiquettes, 'passe', 'passent') }} en attente et {{ pluriel(etat.nbEtiquettes, 'sort', 'sortent') }} de ce widget.</p>
+          <p class="texte texte--note">À faire seulement après avoir imprimé.</p>
+          <div class="confirmation__boutons">
+            <button type="button" class="btn" @click="annulerMarquage">Annuler</button>
+            <button type="button" class="btn btn--enregistrer" @click="marquerImprimees">Confirmer</button>
           </div>
         </div>
       </div>

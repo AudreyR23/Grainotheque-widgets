@@ -27,6 +27,13 @@
   .entete {
     display: none;
   }
+  .confirmation {
+    display: none;
+  }
+    /* À l'impression, la zone ne doit pas défiler : sinon Firefox n'imprime que la première feuille */
+  #appFeuilles {
+    overflow: visible;
+  }
   .feuille {
     width: 100%;
     margin: 0;
@@ -39,7 +46,12 @@
     break-after: avoid;
   }
 }
-
+/* ----- Zone des feuilles (écran) ----- */
+/* Les feuilles (297 mm) sont plus larges que le widget : elles défilent en largeur dans leur zone,
+   sans élargir la page. L'en-tête collé garde ainsi toute la largeur visible. */
+#appFeuilles {
+  overflow-x: auto;
+}
 /* ----- Rangée : 5 étiquettes, 4 rangées par feuille (190mm / 4 = 47mm) ----- */
 .rangee {
   display: flex;
@@ -134,4 +146,10 @@
 .etiquette__saisons {
   font-size: 11pt;
   padding-left: 10mm;
+}
+
+/* ----- Fenêtre de confirmation ----- */
+/* .btn--enregistrer a un margin-top : on aligne les deux boutons par le bas */
+.confirmation__boutons {
+  align-items: end;
 }
