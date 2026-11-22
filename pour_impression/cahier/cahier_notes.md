@@ -93,3 +93,6 @@ Volume : environ 449 variétés affichées (558 dans Varietes).
 - [ ] Discussion du commun : créer `styles_communs_impression_bem.css` (section `.feuille` + `@media print`), en tenant compte du padding propre à chaque outil (étiquettes 10mm, cahier 15mm 10mm 10mm 10mm) ; `ajusterZoom` / `dateEnSecondesGrist` candidats à `scriptcommun.js`.
 - [ ] Rééquilibrer les largeurs de colonnes (115 %) si besoin.
 - [ ] Éventuel : rafraîchir aussi quand Varietes change seule (bouton « Actualiser »).
+Section « Règles du cahier » : « NB_LIGNES_VIDES_PAR_TYPE = 3 lignes vides en fin de chaque type (fabriquées par ligneVide, hauteur d'une variété à 1 sachet, colonne Type pré-remplie), à remplir à la main. Elles comptent dans le nombre de pages mais pas dans « N variétés ». »
+Section « Fonctionnement » : « L'en-tête affiche aussi le nombre de pages (etat.pages.length). »
+Section « CSS » : remplacer la couleur de la légende et des infos grises par #777 (le gris plus clair ressortait noir dans le PDF de Firefox), et retirer le bloc de test red s'il en reste un.

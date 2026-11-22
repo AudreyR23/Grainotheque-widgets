@@ -8,6 +8,7 @@ const TEXTES = {
    CONFIGURATION
    ============================================= */
 const LIGNES_PAR_PAGE = 25;
+const NB_LIGNES_VIDES_PAR_TYPE = 3;   // lignes vides à remplir à la main, à la fin de chaque type
 const LARGEUR_FEUILLE_PX = 297 * 96 / 25.4;   // 297 mm en pixels d'écran (≈ 1123)
 // Colonnes lues : si l'une manque (renommée, supprimée), le cahier ne s'affiche pas
 const COLONNES_MILLESIMES = [
@@ -96,6 +97,18 @@ function colonnesAbsentes(lignes, liste) {
   if (!lignes.length) return [];
   return liste.filter(c => !(c in lignes[0]));
 }
+
+// Variété « vide » : mêmes champs qu'une vraie variété, tous vides (ligne à remplir à la main)
+function ligneVide(type, k) {
+  return {
+    id: `vide-${type}-${k}`,
+    type, nom: '', variete: '', num_epingle: '', nb_epingle: '',
+    profondeur: '', germ_duree: '', germ_temp: '',
+    abri: [], semis_ext: [], arrosage: '', exposition: '', ou: [], conservation: '',
+    sachets: [{ origine: '', sachet: '', annee: '', saisons: '', qtte: '', germination: '' }]
+  };
+}
+
 // Colonne « Sais. » : 'or.' reste 'or.', un nombre devient un entier, le reste est affiché tel quel
 function valeurSaisons(v) {
   if (!v) return '';
@@ -185,13 +198,23 @@ function recalculerPages() {
     return (a.variete || '').localeCompare(b.variete || '', 'fr');
   });
 
+  // Lignes vides à la fin de chaque type
+  const lignes = [];
+  graines.forEach((g, i) => {
+    lignes.push(g);
+    const suivant = graines[i + 1];
+    if (!suivant || suivant.type !== g.type) {
+      for (let k = 1; k <= NB_LIGNES_VIDES_PAR_TYPE; k++) lignes.push(ligneVide(g.type, k));
+    }
+  });
+
   // Pagination : un type ne partage jamais une page avec un autre ;
   // une variété à 1 sachet compte pour 2 lignes, sinon 1 ligne par sachet
   const pages = [];
   let typeCourant = null;
   let page = [];
   let lignesPage = 0;
-  for (const g of graines) {
+  for (const g of lignes) {
     const nbLignes = g.sachets.length === 1 ? 2 : g.sachets.length;
     const changeType = g.type !== typeCourant;
     if (page.length > 0 && (changeType || lignesPage + nbLignes > LIGNES_PAR_PAGE)) {
