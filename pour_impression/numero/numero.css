@@ -1,0 +1,75 @@
+/* ===== Outil « Numéros d'épingle » : seulement ce qui n'est pas dans les communs ===== */
+/* Dimensions reprises à l'identique de l'ancien main.css (section « épingles »). */
+
+/* ----- Feuille : 3 colonnes côte à côte ----- */
+/* Variante locale de .feuille (commun impression) : à poser avec la classe de base.
+   Colonnes alignées en haut : une colonne incomplète s'arrête à sa dernière épingle. */
+.feuille--epingles {
+  display: flex;
+  align-items: flex-start;
+  gap: 5mm;
+}
+
+/* ----- Colonne : 20 épingles au plus ----- */
+.liste-epingles {
+  flex: 1;
+  border-left: 1px solid #333;
+  border-top: 1px solid #333;
+}
+/* Colonne vide (dernière page) : gardée pour la largeur, sans traits */
+.liste-epingles--vide {
+  border: none;
+}
+/* ----- Épingle : type | nom et variété | numéro ----- */
+.epingle {
+  display: grid;
+  grid-template-columns: 75px 1fr 40px;
+  height: 9.2mm;
+  border-right: 1px solid #333;
+  border-bottom: 1px solid #333;
+}
+.epingle__cellule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1px 4px;
+  overflow: hidden;
+}
+.epingle__cellule--type {
+  font-size: 9px;
+  color: #111;
+  border-right: 1px solid #333;
+  text-align: center;
+  line-height: 1.2;
+  word-break: break-word;
+}
+.epingle__cellule--nom {
+  flex-direction: column;
+  border-right: 1px solid #333;
+  text-align: center;
+}
+.epingle__cellule--num {
+  font-size: 9px;
+  font-weight: 500;
+  color: #111;
+}
+.epingle__nom {
+  font-size: 12px;
+  font-weight: 700;
+  color: #111;
+  line-height: 1.2;
+}
+.epingle__variete {
+  font-size: 12px;
+  font-weight: 400;
+  color: #111;
+  line-height: 1.2;
+}
+
+/* ----- Impression : une épingle n'est jamais coupée entre deux pages ----- */
+@media print {
+  .epingle {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}

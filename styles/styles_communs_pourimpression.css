@@ -1,0 +1,57 @@
+/* ===== Styles communs aux outils d'impression (étiquettes, cahier, numéros) ===== */
+/* À charger APRÈS styles_communs_bem.css et AVANT le CSS de l'outil.
+   Le CSS de l'outil peut ainsi remplacer une valeur (ex. le padding de .feuille pour les étiquettes). */
+
+/* ----- Feuille A4 paysage ----- */
+/* Police, taille et couleur remises comme dans l'ancien main.css (le commun change le body). */
+.feuille {
+  width: 297mm;
+  margin: 0 auto;
+  padding: 15mm 10mm 10mm 10mm; /* cahier et numéros ; les étiquettes le remplacent par 10mm dans leur CSS */
+  background: white;
+  border: 0.5px solid #ddd;
+  font-family: Arial, 'Liberation Sans', Helvetica, sans-serif;
+  font-size: 9px;
+  color: #222;
+  zoom: var(--zoom-ecran, 1); /* aperçu réduit à l'écran, facteur calculé par le JS de l'outil (1 sinon) */
+}
+
+/* ----- Zone qui contient les feuilles (à l'écran) ----- */
+/* Les feuilles (297 mm) peuvent dépasser le widget : elles défilent dans leur zone, sans élargir la page.
+   L'en-tête collé garde ainsi toute la largeur visible. */
+.zone-feuilles {
+  overflow-x: auto;
+}
+
+/* ----- Impression ----- */
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 0;
+  }
+  /* Le commun met 12px de marge intérieure au body : sans ceci, la feuille serait décalée et déborderait */
+  body {
+    padding: 0;
+    background: white;
+  }
+  .entete,
+  .confirmation {
+    display: none;
+  }
+  /* La zone ne doit pas défiler à l'impression : sinon Firefox n'imprime que la première feuille */
+  .zone-feuilles {
+    overflow: visible;
+  }
+  .feuille {
+    width: 100%;
+    margin: 0;
+    border: none;
+    page-break-after: always;
+    break-after: page;
+    zoom: 1; /* impression toujours en taille réelle */
+  }
+  .feuille:last-child {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+}

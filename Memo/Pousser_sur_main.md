@@ -11,7 +11,7 @@ git commit -m "Description"
 git push
 
 ## 2. Vérifier les chemins des fichiers de l'outil
-git ls-tree -r Vue --name-only | grep nom_outil
+git ls-tree -r Vue --name-only | grep nom_outil | tr '\n' ' '
 
 ## 3. Copier seulement ces fichiers sur main
 git checkout main

@@ -143,5 +143,4 @@ Vue.watch(() => [etat.saisies, etat.saisiesMeres], sauvegarderSaisies, { deep: t
 - En-tête et fenêtre de confirmation masqués dans `@media print`.
 - Test de chaque modification : PDF en A4 paysage, comparé à la version précédente (nombre de pages,
   positions, pas de page blanche finale).
-- CSS d'impression partagé : section « candidat au commun impression » dans le CSS de l'outil, à déplacer
-  dans `styles_communs_impression_bem.css` (discussion du commun) quand un 2e outil d'impression est migré.
+- styles_communs_pourimpression.css est chargé entre le commun BEM et le CSS de l'outil. Il contient .feuille (padding 15mm 10mm 10mm 10mm, que l'outil peut remplacer), .zone-feuilles sur la zone Vue des feuilles, et @media print. Les lignes insécables restent dans l'outil.

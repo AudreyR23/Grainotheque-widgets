@@ -1,20 +1,46 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
   <head>
-    <meta charset="UTF-8">
-    <title>Gestion des épingles</title>
-
-    <link rel="stylesheet" href="../../styles/main.css">
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Numéros d'épingle</title>
+    <link rel="stylesheet" href="../../styles/styles_communs_bem.css" />
+    <link rel="stylesheet" href="../../styles/styles_communs_pourimpression.css" />    
+    <link rel="stylesheet" href="numero.css" />
   </head>
   <body>
-    <div class="controls">
-      <span class="info" id="info-count">Chargement...</span>
-      <button class="btn" onclick="window.print()">🖨️ Imprimer</button>
+    <header id="appEntete" class="entete">
+      <h1>Numéros d'épingle</h1>
+      <span class="statut">
+        <template v-if="!etat.charge">Chargement…</template>
+        <template v-else>✓ Chargé</template>
+      </span>
+      <nav class="ligne ligne--pleine">
+        <button type="button" class="btn" :disabled="!etat.charge || etat.nbNumeros === 0 || etat.colonnesManquantes.length > 0" @click="imprimer">🖨️ Imprimer</button>
+        <span v-if="etat.charge" class="texte texte--discret">{{ etat.nbNumeros }} {{ pluriel(etat.nbNumeros, 'graine') }} avec numéro d'épingle · {{ etat.pages.length }} {{ pluriel(etat.pages.length, 'page') }}</span>
+      </nav>
+      <p v-if="etat.colonnesManquantes.length" class="texte texte--erreur texte--gras">⚠ {{ pluriel(etat.colonnesManquantes.length, 'Colonne introuvable', 'Colonnes introuvables') }} : {{ etat.colonnesManquantes.join(', ') }}. Vérifie qu'elle existe dans Grist sous ce nom : sans elle, la liste serait fausse.</p>
+      <p v-if="etat.erreur" class="texte texte--erreur texte--gras">{{ etat.erreur }}</p>
+    </header>
+
+    <div id="appPages" class="zone-feuilles">
+      <div v-for="(page, p) in etat.pages" :key="p" class="feuille feuille--epingles" :style="{ '--zoom-ecran': etat.zoom }">
+        <div v-for="(colonne, c) in page" :key="c" class="liste-epingles" :class="{ 'liste-epingles--vide': !colonne.length }">
+          <div v-for="e in colonne" :key="e.id" class="epingle">
+            <div class="epingle__cellule epingle__cellule--type">{{ e.type }}</div>
+            <div class="epingle__cellule epingle__cellule--nom">
+              <span class="epingle__nom">{{ e.nom }}</span>
+              <span v-if="e.variete" class="epingle__variete">{{ e.variete }}</span>
+            </div>
+            <div class="epingle__cellule epingle__cellule--num">{{ e.num }}</div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div id="pages"></div>
-    
+
     <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
+    <script src="https://unpkg.com/vue@3.4.38/dist/vue.global.prod.js"></script>
+    <script src="../../script/scriptcommun.js"></script>
     <script src="numero.js"></script>
   </body>
 </html>
