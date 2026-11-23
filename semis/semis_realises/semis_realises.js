@@ -2,16 +2,15 @@
 const etat = Vue.reactive({
   modeSemis: 'godets',        // 'godets' ou 'pleine_terre'
   rechercheVariete: '',       // texte du champ Variété
+  varieteId: null,            // variété choisie (id de Varietes)
   resultatsVariete: [],       // [{ id, libelle }]
   autresVarietes: 0,          // nombre de résultats non affichés
   listeVarieteOuverte: false,
-  encart: null,               // null = pas d'encart ; sinon { infos, titre, mere, lignes, autres, alerte }
-  millesimes: [],             // [{ id, libelle }]
+  encart: null,               // null = pas d'encart ; sinon { type, dureeGerm, annee, nbSemis, mere, anneesPlantation, lignes, autres, dejaDansListe }
+  millesimes: [],             // [{ id, original, annee, origine, saisons }]
   millesimeId: null,          // millésime choisi
-  millesimeMessage: '— choisir une variété d\'abord —',   // texte du bouton quand rien n'est choisi
-  millesimeDesactive: true,
   listeMillesimeOuverte: false,
-  types: [],                  // [{ valeur, libelle }]
+  types: [],                  // choix de Semis.Type, tels qu'écrits dans Grist (« Fleurs 🌼 »)
   type: '',                   // valeur écrite dans Grist, ex. « Fleurs 🌼 »
   listeTypeOuverte: false,
    ouChoisis: [],              // lieux choisis (pleine terre)
@@ -19,22 +18,43 @@ const etat = Vue.reactive({
   listeOuOuverte: false,
   sachetVide: false,
   aProduire: false,
-  etapesIntermediaires: [],             // étapes en attente d'enregistrement (écran seulement)
+  etapesIntermediaires: [],   // étapes en attente d'enregistrement (copiées dans sessionStorage)
   erreur: '',
+  erreurFiche: '',            // erreur de saisie sous le formulaire
   succes: '',
   enregistrement: false,
   date: dateDuJour(),         // 'AAAA-MM-JJ'
   nbGodets: '',
   nbGraines: '',
-  message: ''                      
+  message: '',
+  charge: false               // devient vrai à la fin du chargement                      
 });
 
+// ===== Textes des messages (erreurs, succès) =====
+// Tous les messages construits par le JS sont ici, pour les relire et les comparer d'un outil à l'autre.
+// Une entrée « (x) => … » est une petite fonction : on lui donne des noms ou un nombre, elle renvoie la phrase.
+const TEXTES = {
+  // Contrôles avant « Ajouter à la liste »
+  varieteManquante: "Choisis une variété dans la liste.",
+  millesimeManquant: "Choisis un millésime.",
+  typeManquant: "Aucun type disponible (lecture des choix impossible) : recharge le widget.",
+  dateManquante: "Renseigne la date du semis.",
+  godetsManquants: "Nombre de godets : saisis un nombre entier (1 ou plus).",
+  grainesManquantes: "Nombre de graines : saisis un nombre entier (1 ou plus).",
+  lieuManquant: "Choisis au moins un emplacement (Où) pour un semis en pleine terre.",
+
+  // Chargement
+  erreurChargement: (detail) => "Erreur de chargement : " + detail,
+  choixIntrouvables: (noms) => "Choix introuvables dans Grist : " + noms,
+  choixNonCharges: (detail) => "Choix (Type, Où) non chargés : " + detail,
+
+  // Enregistrement
+  succes: (n) => `✓ ${n} ${pluriel(n, 'semis enregistré', 'semis enregistrés')} dans Semis.`,
+  echecEnregistrement: (detail) => "Échec de l'enregistrement : " + detail + " — tes lignes sont conservées."
+};
+
 // ===== État global =====
-let modifie = false;
-let varieteChoisieId = null;
-let millesimeChoisiId = null;
 let prochainIdEtapeIntermediaire= 1;
-let donneesChargees = false;
 let varietePendante = null;   // variété reçue avant la fin du chargement
 
 let TYPES = [];   // lus depuis Grist (choix de la colonne Type de Semis)
@@ -49,15 +69,15 @@ const recordsParId = {
 };
 
 // ===== Utilitaires =====
-
+function entierOuNull(valeur) {
+  // '12' → 12 ; vide ou autre chose qu'un entier → null (même fonction qu'Achat-repro, candidate au commun)
+  const t = String(valeur).trim();
+  return /^\d+$/.test(t) ? parseInt(t, 10) : null;
+}
 
 // ===== Statut =====
-function majStatut() {
-  const el = document.getElementById('statut');
-  const n = etat.etapesIntermediaires.length;
-  modifie = n > 0;
-  el.textContent = modifie ? `● Non sauvegardé (${n})` : '✓ À jour';
-  el.classList.toggle('non-sauvegarde', modifie);
+function nombreEtapes() {
+  return etat.etapesIntermediaires.length;
 }
 
 // ===== Chargement des données =====
@@ -81,7 +101,7 @@ async function chargerDonnees() {
     });
   }
 
-    for (const m of tableEnLignes(tabMillesimes)) {
+  for (const m of tableEnLignes(tabMillesimes)) {
     recordsParId.millesimes.set(m.id, {
       id: m.id,
       varieteId: m.NomVariete || 0,
@@ -90,7 +110,8 @@ async function chargerDonnees() {
       saisonsManuel: m.Nb_saisons_manuel || '',
       estOriginal: m.Nb_saisons_manuel === 'or.',
       planteMere: !!m.Plante_mere,
-      anneePlantation: m.Annee_plantation || null
+      anneePlantation: m.Annee_plantation || null,
+      epuise: !!m.Epuise          // formule Grist : sachet sans graines ni sachets
     });
   }
 }
@@ -113,7 +134,7 @@ function afficherResultats() {
 
 function surRechercheVariete(e) {
   etat.rechercheVariete = e.target.value;
-  varieteChoisieId = null;
+  etat.varieteId = null;
   remplirMillesimes(null);
   afficherDerniersSemis();
   afficherResultats();
@@ -122,13 +143,13 @@ function surRechercheVariete(e) {
 function surFocusVariete(e) {
   e.target.select();
   // Rouvre la liste seulement si une recherche est en cours (pas après un choix)
-  if (etat.rechercheVariete && varieteChoisieId === null) afficherResultats();
+  if (etat.rechercheVariete && etat.varieteId === null) afficherResultats();
 }
 
 function choisirVariete(id) {
   const v = recordsParId.varietes.get(id);
   if (!v) return;
-  varieteChoisieId = id;
+  etat.varieteId = id;
   etat.rechercheVariete = libelle(v);
   etat.listeVarieteOuverte = false;
   remplirMillesimes(id);
@@ -137,7 +158,7 @@ function choisirVariete(id) {
 }
 
 function reinitialiserVariete() {
-  varieteChoisieId = null;
+  etat.varieteId = null;
   etat.rechercheVariete = '';
   etat.listeVarieteOuverte = false;
   afficherDerniersSemis();
@@ -145,62 +166,64 @@ function reinitialiserVariete() {
 
 // ===== Sélecteur de millésime =====
 function millesimesDeVariete(varieteId) {
-  // Retenus : « or. » ou datés. Ordre : datés (récent d'abord), puis « or. » en dernier.
+  // Retenus : « or. » ou datés, ni épuisés, ni plantes mères. Ordre : datés (récent d'abord), puis « or. » en dernier.
   const retenus = [...recordsParId.millesimes.values()]
-    .filter(m => m.varieteId === varieteId && (m.estOriginal || m.annee !== null));
+    .filter(m => m.varieteId === varieteId && (m.estOriginal || m.annee !== null)
+      && !m.epuise && !m.planteMere);
   return retenus.sort((a, b) => {
     if (a.estOriginal !== b.estOriginal) return a.estOriginal ? 1 : -1;
     return (b.annee || 0) - (a.annee || 0);
   });
 }
 
-function libelleMillesime(m) {
-  const debut = m.estOriginal ? 'or. (originale)' : String(m.annee);
-  const origine = m.origine.length ? ' · ' + m.origine.join(', ') : '';
-  const saisons = !m.estOriginal && m.saisonsManuel ? ' · ' + m.saisonsManuel + ' saison(s)' : '';
-  return debut + origine + saisons;
-}
 
 function remplirMillesimes(varieteId) {
-  millesimeChoisiId = null;
   etat.millesimeId = null;
   etat.listeMillesimeOuverte = false;
 
   const liste = varieteId ? millesimesDeVariete(varieteId) : [];
-  etat.millesimes = liste.map(m => ({ id: m.id, libelle: libelleMillesime(m) }));
-  if (liste.length === 0) {
-    etat.millesimeMessage = varieteId
-      ? 'Aucun millésime disponible pour cette variété'
-      : '— choisir une variété d\'abord —';
-    etat.millesimeDesactive = true;
-    return;
-  }
-  etat.millesimeDesactive = false;
-  millesimeChoisiId = liste[0].id;   // le plus récent (ou « or. » s'il est seul)
-  etat.millesimeId = liste[0].id;
+  etat.millesimes = liste.map(m => ({
+    id: m.id,
+    original: m.estOriginal,
+    annee: m.annee,
+    origine: m.origine,
+    saisons: m.estOriginal ? null : (Number(m.saisonsManuel) || null)
+  }));
+  if (liste.length) etat.millesimeId = liste[0].id;   // le plus récent (ou « or. » s'il est seul)
 }
 
 function choisirMillesime(id) {
-  millesimeChoisiId = id;
   etat.millesimeId = id;
   etat.listeMillesimeOuverte = false;
 }
 
-function texteBoutonMillesime() {
-  const m = etat.millesimes.find(x => x.id === etat.millesimeId);
-  return m ? m.libelle : etat.millesimeMessage;
+function rafraichirFiche() {
+  // Après un rechargement des données : remet à jour les millésimes et l'encart de la variété en cours,
+  // en gardant le millésime choisi s'il est toujours proposé
+  if (!etat.varieteId) return;
+  const choisi = etat.millesimeId;
+  remplirMillesimes(etat.varieteId);
+  if (etat.millesimes.some(m => m.id === choisi)) etat.millesimeId = choisi;
+  afficherDerniersSemis();
+}
+
+function millesimeChoisi() {
+  return etat.millesimes.find(m => m.id === etat.millesimeId) || null;
 }
 
 // ===== Reste de la fiche =====
+function typeParDefaut() {
+  return TYPES.includes(TYPE_PAR_DEFAUT) ? TYPE_PAR_DEFAUT : (TYPES[0] || '');
+}
+
 function remplirTypes() {
-  etat.types = TYPES.map(t => ({ valeur: t, libelle: typeInverse(t) }));
-  etat.type = TYPES.includes(TYPE_PAR_DEFAUT) ? TYPE_PAR_DEFAUT : (TYPES[0] || '');
+  etat.types = [...TYPES];
+  etat.type = typeParDefaut();
 }
 
 function appliquerTypeVariete(varieteId) {
   const v = recordsParId.varietes.get(varieteId);
-  const parDefaut = TYPES.includes(TYPE_PAR_DEFAUT) ? TYPE_PAR_DEFAUT : (TYPES[0] || '');
-  etat.type = v && TYPES.includes(v.type) ? v.type : parDefaut;
+  etat.type = v && TYPES.includes(v.type) ? v.type : typeParDefaut();
 }
 
 async function chargerChoix() {
@@ -209,10 +232,10 @@ async function chargerChoix() {
     if (choix.Type) TYPES = choix.Type;
     if (choix.Ou) LIEUX = choix.Ou;
     const manquants = [!choix.Type && 'Type', !choix.Ou && 'Où'].filter(Boolean);
-    if (manquants.length) etat.message = 'Choix introuvables dans Grist : ' + manquants.join(', ');
+    if (manquants.length) etat.message = TEXTES.choixIntrouvables(manquants.join(', '));
   } catch (err) {
     console.error('Lecture des choix impossible :', err);
-    etat.message = 'Choix (Type, Où) non chargés : ' + err.message;
+    etat.message = TEXTES.choixNonCharges(err.message);
   }
 }
 
@@ -221,14 +244,9 @@ function choisirType(valeur) {
   etat.listeTypeOuverte = false;
 }
 
-function texteBoutonType() {
-  const t = etat.types.find(x => x.valeur === etat.type);
-  return t ? t.libelle : '';
-}
-
 function basculerListe(nom) {
   const ouvrir = nom === 'millesime'
-    ? !etat.listeMillesimeOuverte && !etat.millesimeDesactive
+    ? !etat.listeMillesimeOuverte && etat.millesimes.length > 0
     : !etat.listeTypeOuverte;
   etat.listeMillesimeOuverte = nom === 'millesime' && ouvrir;
   etat.listeTypeOuverte = nom === 'type' && ouvrir;
@@ -236,8 +254,8 @@ function basculerListe(nom) {
 
 // Un toucher en dehors d'un menu ferme les deux listes
 document.addEventListener('click', e => {
-  if (!e.target.closest('#appMillesime .champ-liste')) etat.listeMillesimeOuverte = false;
-  if (!e.target.closest('#appType .champ-liste')) etat.listeTypeOuverte = false;
+  if (!e.target.closest('#menuMillesime')) etat.listeMillesimeOuverte = false;
+  if (!e.target.closest('#menuType')) etat.listeTypeOuverte = false;
 });
 
 // --- Où (multi-sélection) ---
@@ -266,52 +284,47 @@ function appliquerMode(mode) {
   etat.ouChoisis = [];
   etat.rechercheOu = '';
   etat.listeOuOuverte = false;
-  afficherErreur('');
+  etat.erreurFiche = '';
 }
 
 function choisirMode(mode) {
   if (mode !== etat.modeSemis) appliquerMode(mode);
 }
 
-function afficherErreur(texte) {
-  const el = document.getElementById('erreurFiche');
-  el.textContent = texte;
-  el.hidden = !texte;
-}
-
 function lireFiche() {
   const pleineTerre = etat.modeSemis === 'pleine_terre';
+  const m = millesimeChoisi();
   return {
     mode: etat.modeSemis,
-    varieteId: varieteChoisieId,
-    millesimeId: millesimeChoisiId,
-       date: etat.date,
-    godets: pleineTerre ? 1 : Number(etat.nbGodets),
-    graines: Number(etat.nbGraines),
-       type: etat.type,
-      ou: pleineTerre ? [...etat.ouChoisis] : [],
+    varieteId: etat.varieteId,
+    millesimeId: etat.millesimeId,
+    millesime: m ? { ...m } : null,   // copie, pour l'affichage de la carte
+    date: etat.date,
+    godets: pleineTerre ? 1 : entierOuNull(etat.nbGodets),
+    graines: entierOuNull(etat.nbGraines),
+    type: etat.type,
+    ou: pleineTerre ? [...etat.ouChoisis] : [],
     sachetVide: etat.sachetVide,
     aProduire: etat.aProduire
   };
 }
 
 function validerFiche(f) {
-  if (!f.varieteId) return 'Choisis une variété dans la liste.';
-  if (!f.millesimeId) return 'Choisis un millésime.';
-  if (!f.type) return 'Aucun type disponible (lecture des choix impossible) : recharge le widget.';
-  if (!f.date) return 'Renseigne la date du semis.';
-  if (!(f.godets > 0)) return 'Renseigne le nombre de godets.';
-  if (!(f.graines > 0)) return 'Renseigne le nombre de graines.';
-  if (f.mode === 'pleine_terre' && f.ou.length === 0) return 'Choisis au moins un emplacement (Où) pour un semis en pleine terre.';
+  if (!f.varieteId) return TEXTES.varieteManquante;
+  if (!f.millesimeId) return TEXTES.millesimeManquant;
+  if (!f.type) return TEXTES.typeManquant;
+  if (!f.date) return TEXTES.dateManquante;
+  if (!(f.godets > 0)) return TEXTES.godetsManquants;
+  if (!(f.graines > 0)) return TEXTES.grainesManquantes;
+  if (f.mode === 'pleine_terre' && f.ou.length === 0) return TEXTES.lieuManquant;
   return '';
 }
 
 // ===== Etapes intermédiaires =====
 function ajouterEtapeIntermediaire() {
   const f = lireFiche();
-  const erreur = validerFiche(f);
-  afficherErreur(erreur);
-  if (erreur) return;
+  etat.erreurFiche = validerFiche(f);
+  if (etat.erreurFiche) return;
 
   f.id = prochainIdEtapeIntermediaire++;
   etat.etapesIntermediaires.push(f);
@@ -323,43 +336,49 @@ function ajouterEtapeIntermediaire() {
   etat.rechercheOu = '';
   etat.sachetVide = false;
   etat.aProduire = false;
-  majStatut();
-  document.getElementById('rechercheVariete').focus();
+  Vue.nextTick(() => document.getElementById('rechercheVariete').focus());
 }
-
 function retirerEtapeIntermediaire(id) {
   etat.etapesIntermediaires = etat.etapesIntermediaires.filter(b => b.id !== id);
-  majStatut();
-}
-
-function initialiserEtapesIntermediaires() {
-  document.getElementById('btnAjouter').addEventListener('click', ajouterEtapeIntermediaire);
 }
 
 function nomEtapeIntermediaire(b) {
   const v = recordsParId.varietes.get(b.varieteId);
   return v ? libelle(v) : '(variété inconnue)';
 }
+// ===== Étapes conservées au rechargement =====
+const CLE_SAISIES = 'semis_realises_saisies';
 
-function detailEtapeIntermediaire(b) {
-  const m = recordsParId.millesimes.get(b.millesimeId);
-  const quantite = b.mode === 'pleine_terre'
-    ? `${b.graines} graines`
-    : `${b.godets} godets × ${b.graines} graines`;
-  return `${m ? libelleMillesime(m) : '?'} · ${b.date} · ${quantite} · ${typeInverse(b.type)}` +
-    (b.ou.length ? ' · ' + b.ou.join(', ') : '') +
-    (b.sachetVide ? ' · sachet vidé' : '') +
-    (b.aProduire ? ' · à reproduire' : '');
+function sauvegarderSaisies() {
+  try {
+    if (!etat.etapesIntermediaires.length) sessionStorage.removeItem(CLE_SAISIES);
+    else sessionStorage.setItem(CLE_SAISIES, JSON.stringify(etat.etapesIntermediaires));
+  } catch (err) { console.warn(err); }
 }
 
+function restaurerSaisies() {
+  // À appeler après le chargement des données : écarte les étapes dont la variété ou le millésime n'existe plus
+  try {
+    const liste = JSON.parse(sessionStorage.getItem(CLE_SAISIES) || '[]');
+    etat.etapesIntermediaires = liste.filter(b =>
+      recordsParId.varietes.has(b.varieteId) && recordsParId.millesimes.has(b.millesimeId));
+    prochainIdEtapeIntermediaire = Math.max(0, ...etat.etapesIntermediaires.map(b => b.id)) + 1;
+  } catch (err) { console.warn(err); }
+}
 // ===== Enregistrement dans Semis =====
 
-const afficherSucces = creerMessageTemporaire(texte => { etat.succes = texte; });
+const afficherSucces = creerMessageTemporaire(texte => { etat.succes = texte; }, 4000);
+
+// Un clic efface les messages d'erreur. L'écouteur est en phase de capture : un clic sur « Ajouter »
+// ou « Enregistrer » efface l'ancienne erreur AVANT que le bouton revalide, donc elle réapparaît s'il reste un problème.
+document.addEventListener('click', () => {
+  etat.erreurFiche = '';
+  etat.erreur = '';
+}, true);
 
 async function enregistrerTout() {
   if (etat.etapesIntermediaires.length === 0 || etat.enregistrement) return;
   etat.enregistrement = true;
-  document.getElementById('btnAjouter').disabled = true;
   afficherSucces('');
   etat.erreur = '';
 
@@ -372,7 +391,7 @@ async function enregistrerTout() {
     Nb_godets: liste.map(b => b.godets),
     Nb_graines: liste.map(b => b.graines),
     Type: liste.map(b => b.type),
-    Ou: liste.map(b => b.ou.length ? ['L', ...b.ou] : null),
+    Ou: liste.map(b => b.ou.length ? enListeChoix(b.ou) : null),
     Germes: liste.map(() => null),
     A_produire: liste.map(b => !!b.aProduire)
   };
@@ -385,15 +404,17 @@ async function enregistrerTout() {
     }
     await grist.docApi.applyUserActions(actions);
     etat.etapesIntermediaires = [];
-    majStatut();
-    afficherSucces(`✓ ${n} semis enregistré${n > 1 ? 's' : ''} dans Semis.`);
-    try { await chargerSemis(); } catch (e) { console.error('Rechargement de Semis impossible :', e); }
+    afficherSucces(TEXTES.succes(n));
+    try {
+      await chargerDonnees();
+      await chargerSemis();
+      rafraichirFiche();
+    } catch (e) { console.error('Rechargement des données impossible :', e); }
   } catch (err) {
     console.error(err);
-    etat.erreur = 'Échec de l\'enregistrement : ' + err.message + ' — tes lignes sont conservées.';
+    etat.erreur = TEXTES.echecEnregistrement(err.message);
   } finally {
     etat.enregistrement = false;
-    document.getElementById('btnAjouter').disabled = false;
   }
 }
 // ===== Derniers semis =====
@@ -415,62 +436,66 @@ async function chargerSemis() {
 }
 
 function afficherDerniersSemis() {
-  if (!varieteChoisieId) { etat.encart = null; return; }
-  const v = recordsParId.varietes.get(varieteChoisieId);
+  if (!etat.varieteId) { etat.encart = null; return; }
+  const v = recordsParId.varietes.get(etat.varieteId);
   if (!v) { etat.encart = null; return; }
 
   const dateFiche = etat.date;
   const annee = dateFiche ? Number(dateFiche.slice(0, 4)) : new Date().getFullYear();
 
   const semis = [...recordsParId.semis.values()]
-    .filter(s => s.varieteId === varieteChoisieId && s.annee === annee && s.date !== null)
+    .filter(s => s.varieteId === etat.varieteId && s.annee === annee && s.date !== null)
     .sort((a, b) => b.date - a.date);
 
   const meres = [...recordsParId.millesimes.values()]
-    .filter(m => m.varieteId === varieteChoisieId && m.planteMere);
-  const anneesPlantation = meres.map(m => m.anneePlantation).filter(a => a).sort();
-  const dansListe = etat.etapesIntermediaires.filter(b => b.varieteId === varieteChoisieId).length;
-  const germ = v.dureeGerm ? `${v.dureeGerm} jours` : 'non renseignée';
+    .filter(m => m.varieteId === etat.varieteId && m.planteMere);
 
   etat.encart = {
-    infos: `${v.type ? typeInverse(v.type) : '—'} · Germination : ${germ}`,
-    titre: semis.length ? `Déjà semé en ${annee} (${semis.length}) :` : `Pas encore semé en ${annee}.`,
-    mere: meres.length
-      ? '🌱 Plante mère en place' + (anneesPlantation.length ? ` (plantée en ${anneesPlantation.join(', ')})` : '')
-      : '',
+    type: v.type,                       // valeur Grist, ex. « Arom.Méd 🌿 »
+    dureeGerm: v.dureeGerm,             // nombre de jours ou null
+    annee,                              // année de la date saisie
+    nbSemis: semis.length,
+    mere: meres.length > 0,
+    anneesPlantation: meres.map(m => m.anneePlantation).filter(a => a).sort(),
     lignes: semis.slice(0, 5).map(s => {
       const m = recordsParId.millesimes.get(s.millesimeId);
-      const mil = m ? (m.estOriginal ? 'or.' : m.annee) : '?';
       return {
         id: s.id,
-        texte: `${dateAffichee(s.date)} · mil. ${mil} · ${s.godets} × ${s.graines}` +
-          (s.ou.length ? ' · ' + s.ou.join(', ') : '')
+        date: s.date,
+        original: m ? m.estOriginal : false,
+        anneeMil: m ? m.annee : null,
+        godets: s.godets,
+        graines: s.graines,
+        ou: s.ou
       };
     }),
-    autres: semis.length > 5 ? `… et ${semis.length - 5} autre(s)` : '',
-    alerte: dansListe ? '⚠ Déjà dans ta liste à enregistrer' : ''
+    autres: Math.max(0, semis.length - 5),
+    dejaDansListe: etat.etapesIntermediaires.some(b => b.varieteId === etat.varieteId)
   };
 }
-window.addEventListener('beforeunload', e => {
-  if (modifie) { e.preventDefault(); e.returnValue = ''; }
-});
 
 // ===== Variété envoyée par « À semer » =====
 function varieteDemandee(id) {
-  if (!id || !donneesChargees) return;
+  if (!id || !etat.charge) return;
   if (recordsParId.varietes.has(id)) choisirVariete(id);
 }
-
-Vue.createApp({ setup() { return { etat, choisirMode }; } }).mount('#appBascule');
-Vue.createApp({ setup() { return { etat, surRechercheVariete, surFocusVariete, choisirVariete }; } }).mount('#appVariete');
-Vue.createApp({ setup() { return { etat, basculerListe, choisirMillesime, texteBoutonMillesime }; } }).mount('#appMillesime');
-Vue.createApp({ setup() { return { etat, basculerListe, choisirType, texteBoutonType }; } }).mount('#appType');
-Vue.createApp({ setup() { return { etat, lieuxProposes, surRechercheOu, ajouterLieu, retirerLieu }; } }).mount('#appOu');
-Vue.createApp({ setup() { return { etat }; } }).mount('#appCases');
-Vue.createApp({ setup() { return { etat, nomEtapeIntermediaire, detailEtapeIntermediaire, retirerEtapeIntermediaire, enregistrerTout }; } }).mount('#appEtapes');
-Vue.createApp({ setup() { return { etat }; } }).mount('#appSaisie');
+Vue.createApp({ setup() { return { etat, nombreEtapes }; } }).mount('#appEntete');
+Vue.createApp({ setup() { return {
+  etat, nomEtapeIntermediaire, retirerEtapeIntermediaire, enregistrerTout,
+  typeInverse, pluriel, dateAffichee, dateEnSecondes
+}; } }).mount('#appEtapes');
+Vue.createApp({ setup() { return {
+  etat, choisirMode, typeInverse, pluriel, dateAffichee,
+  surRechercheVariete, surFocusVariete, choisirVariete,
+  basculerListe, choisirMillesime, millesimeChoisi,
+  choisirType,
+  lieuxProposes, surRechercheOu, ajouterLieu, retirerLieu,
+  ajouterEtapeIntermediaire
+}; } }).mount('#appFiche');
 // Quand la date change, l'encart « déjà semé » se recalcule
 Vue.watch(() => etat.date, afficherDerniersSemis);
+// Chaque changement de la liste des étapes est copié dans sessionStorage
+Vue.watch(() => etat.etapesIntermediaires, sauvegarderSaisies, { deep: true });
 // ===== Initialisation =====
 grist.ready({
   requiredAccess: 'full'
@@ -479,18 +504,18 @@ grist.ready({
 const canal = new BroadcastChannel('granotheque-semer');
 canal.onmessage = e => {
   const id = e.data && e.data.varieteId;
-  if (donneesChargees) varieteDemandee(id); else varietePendante = id;
+  if (etat.charge) varieteDemandee(id); else varietePendante = id;
 };
 chargerDonnees()
   .then(chargerSemis)
   .then(chargerChoix)
   .then(() => {
     remplirTypes();
-    initialiserEtapesIntermediaires(); majStatut();
-    donneesChargees = true;
+    restaurerSaisies();
+    etat.charge = true;
     if (varietePendante) varieteDemandee(varietePendante);
   })
   .catch(err => {
     console.error(err);
-    etat.message = 'Erreur de chargement : ' + err.message;
+    etat.message = TEXTES.erreurChargement(err.message);
   });

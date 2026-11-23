@@ -1,35 +1,69 @@
-#fiche label { margin-top: 12px; }
-#appBascule + #appVariete label { margin-top: 0; }
-#fiche label.case { margin-top: 14px; }
+/* ===== Semis réalisés : uniquement ce qui n'est pas dans styles_communs_bem.css ===== */
 
+/* Message de succès dans le bandeau : sur sa propre ligne */
+.entete__message {
+  flex-basis: 100%;
+  margin: 0;
+}
+
+/* ===== Formulaire : groupes empilés, l'espacement vient du gap ===== */
+.fiche {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.fiche__groupe {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.fiche__label {
+  font-size: 0.9rem;
+}
+
+/* ===== Bascule Sous abri / Pleine terre ===== */
 .bascule {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
-  margin-bottom: 12px;
 }
-.bascule button { margin-top: 0; }
-
-/* Inactif */
-.bascule button.sousabri {
+.bascule__btn {
+  border-width: 2px;
+}
+/* Inactif : fond clair de la catégorie */
+.bascule__btn--sousabri {
   color: var(--sousabri-fonce);
   background: var(--sousabri-clair);
-  border: 2px solid var(--sousabri-moyen);
+  border-color: var(--sousabri-moyen);
 }
-.bascule button.pleineterre {
+.bascule__btn--pleineterre {
   color: var(--pleineterre-fonce);
   background: var(--pleineterre-clair);
-  border: 2px solid var(--pleineterre-moyen);
+  border-color: var(--pleineterre-moyen);
 }
-
-/* Actif : fond plein dans la couleur de la catégorie, texte clair */
-.bascule button.sousabri.actif {
-  border: 2px solid var(--sousabri-fonce);
+/* Actif : fond plein dans la couleur de la catégorie, texte clair (après les inactifs : à poids égal, il gagne) */
+.bascule__btn--sousabri-actif {
   color: var(--arriere-plan);
   background: var(--sousabri-moyen);
+  border-color: var(--sousabri-fonce);
 }
-.bascule button.pleineterre.actif {
-  border: 2px solid var(--pleineterre-fonce);
+.bascule__btn--pleineterre-actif {
   color: var(--arriere-plan);
   background: var(--pleineterre-moyen);
+  border-color: var(--pleineterre-fonce);
+}
+
+/* ===== Encart bleu : infos sur la variété choisie ===== */
+.encart--info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-color: var(--bleu-moyen);
+  background: var(--bleu-clair);
+}
+
+/* ===== Bouton-champ grisé (Millésime sans variété) ===== */
+.champ:disabled {
+  opacity: 0.6;
+  cursor: default;
 }

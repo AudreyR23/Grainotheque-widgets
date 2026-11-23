@@ -5,127 +5,138 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Semis réalisés</title>
   <link rel="stylesheet" href="../../styles/styles_communs.css">
-  <link rel="stylesheet" href="../../styles/exstyles_communs.css">
   <link rel="stylesheet" href="semis_realises.css">
 </head>
 <body>
-  <header>
+  <header id="appEntete" class="entete">
     <h1>Semis réalisés</h1>
-    <span id="statut" class="statut">Chargement…</span>
+    <span class="statut" :class="{ 'statut--non-sauvegarde': nombreEtapes() > 0 }">
+      <template v-if="!etat.charge">Chargement…</template>
+      <template v-else-if="nombreEtapes() > 0">● Non sauvegardé ({{ nombreEtapes() }})</template>
+      <template v-else>✓ À jour</template>
+    </span>
+    <p v-if="etat.succes" class="encart encart--succes texte texte--succes entete__message">{{ etat.succes }}</p>
   </header>
-    <main>
-    <section id="fiche">
-<div id="appBascule">
-<div class="bascule">
-<button type="button" class="btn btn--grand sousabri" :class="{ actif: etat.modeSemis === 'godets' }" @click="choisirMode('godets')">Sous abri</button>
-<button type="button" class="btn btn--grand pleineterre" :class="{ actif: etat.modeSemis === 'pleine_terre' }" @click="choisirMode('pleine_terre')">Pleine terre</button>
-</div>
-</div>
-<div id="appVariete">
-<label for="rechercheVariete">Variété</label>
-<div class="champ-liste">
-<input id="rechercheVariete" type="search" class="champ" placeholder="Taper pour chercher…" autocomplete="off"
-:value="etat.rechercheVariete" @input="surRechercheVariete" @focus="surFocusVariete" @blur="etat.listeVarieteOuverte = false">
-<ul class="liste-choix" v-show="etat.listeVarieteOuverte" @mousedown.prevent>
-<li v-for="v in etat.resultatsVariete" :key="v.id" @click="choisirVariete(v.id)">{{ v.libelle }}</li>
-<li v-if="etat.resultatsVariete.length === 0" class="vide">Aucune variété trouvée</li>
-<li v-else-if="etat.autresVarietes > 0" class="vide">… {{ etat.autresVarietes }} autres, précise ta recherche</li>
-</ul>
-</div>
-<div v-if="etat.encart" class="cadre-info">
-<div class="cadre-info-titre">{{ etat.encart.infos }}</div>
-<div class="cadre-info-ligne">{{ etat.encart.titre }}</div>
-<div v-if="etat.encart.mere" class="cadre-info-plantemere">{{ etat.encart.mere }}</div>
-<div v-for="l in etat.encart.lignes" :key="l.id" class="cadre-info-ligne">{{ l.texte }}</div>
-<div v-if="etat.encart.autres" class="cadre-info-ligne">{{ etat.encart.autres }}</div>
-<div v-if="etat.encart.alerte" class="erreur">{{ etat.encart.alerte }}</div>
-</div>
-</div>
-<div id="appMillesime">
-<label for="boutonMillesime">Millésime</label>
-<div class="champ-liste">
-<button id="boutonMillesime" type="button" class="champ champ-select" :disabled="etat.millesimeDesactive" @click="basculerListe('millesime')">{{ texteBoutonMillesime() }}</button>
-<ul class="liste-choix" v-show="etat.listeMillesimeOuverte" @mousedown.prevent>
-<li v-for="m in etat.millesimes" :key="m.id" :class="{ selection: m.id === etat.millesimeId }" @click="choisirMillesime(m.id)">{{ m.libelle }}</li>
-</ul>
-</div>
-</div>
-          <div id="appSaisie">
-<label for="dateSemis">Date du semis</label>
-<input id="dateSemis" type="date" class="champ" v-model="etat.date">
-<div class="deux-colonnes" :class="{ 'une-colonne': etat.modeSemis === 'pleine_terre' }">
-<div v-show="etat.modeSemis === 'godets'">
-<label for="nbGodets">Nb de godets</label>
-<input id="nbGodets" type="number" class="champ" min="1" step="1" inputmode="numeric" v-model="etat.nbGodets">
-</div>
-<div>
-<label for="nbGraines">{{ etat.modeSemis === 'pleine_terre' ? 'Nb de graines' : 'Graines par godet' }}</label>
-<input id="nbGraines" type="number" class="champ" min="1" step="1" inputmode="numeric" v-model="etat.nbGraines">
-</div>
-</div>
-</div>
 
-<div id="appType">
-<label for="boutonType">Type</label>
-<div class="champ-liste">
-<button id="boutonType" type="button" class="champ champ-select" @click="basculerListe('type')">{{ texteBoutonType() }}</button>
-<ul class="liste-choix" v-show="etat.listeTypeOuverte" @mousedown.prevent>
-<li v-for="t in etat.types" :key="t.valeur" :class="{ selection: t.valeur === etat.type }" @click="choisirType(t.valeur)">{{ t.libelle }}</li>
-</ul>
-</div>
-</div>
+  <main>
+    <section>
+      <div id="appFiche" class="fiche">
+        <div class="bascule">
+          <button type="button" class="btn btn--grand bascule__btn bascule__btn--sousabri" :class="{ 'bascule__btn--sousabri-actif': etat.modeSemis === 'godets' }" @click="choisirMode('godets')">Sous abri</button>
+          <button type="button" class="btn btn--grand bascule__btn bascule__btn--pleineterre" :class="{ 'bascule__btn--pleineterre-actif': etat.modeSemis === 'pleine_terre' }" @click="choisirMode('pleine_terre')">Pleine terre</button>
+        </div>
 
-           <div id="appOu">
-<div v-show="etat.modeSemis === 'pleine_terre'">
-<label for="rechercheOu">Où</label>
-<div class="ligne--info">
-<span v-for="lieu in etat.ouChoisis" :key="lieu" class="pastille-look-choix" @click="retirerLieu(lieu)">{{ lieu }} ✕</span>
-</div>
-<div class="champ-liste">
-<input id="rechercheOu" type="search" class="champ" placeholder="Chercher un emplacement…" autocomplete="off"
-:value="etat.rechercheOu" @input="surRechercheOu" @focus="etat.listeOuOuverte = true" @click="etat.listeOuOuverte = true" @blur="etat.listeOuOuverte = false">
-<ul class="liste-choix" v-show="etat.listeOuOuverte" @mousedown.prevent>
-<li v-for="lieu in lieuxProposes()" :key="lieu" @click="ajouterLieu(lieu)">{{ lieu }}</li>
-<li v-if="lieuxProposes().length === 0" class="vide">Aucun emplacement</li>
-</ul>
-</div>
-</div>
+        <div class="fiche__groupe">
+          <label class="fiche__label" for="rechercheVariete">Variété</label>
+          <div class="menu">
+            <input id="rechercheVariete" type="search" class="champ" placeholder="Taper pour chercher…" autocomplete="off" :value="etat.rechercheVariete" @input="surRechercheVariete" @focus="surFocusVariete" @blur="etat.listeVarieteOuverte = false">
+            <ul class="menu__liste" v-show="etat.listeVarieteOuverte" @mousedown.prevent>
+              <li v-for="v in etat.resultatsVariete" :key="v.id" class="menu__item" @click="choisirVariete(v.id)">{{ v.libelle }}</li>
+              <li v-if="etat.resultatsVariete.length === 0" class="menu__item menu__item--vide">Aucune variété trouvée</li>
+              <li v-else-if="etat.autresVarietes > 0" class="menu__item menu__item--vide">… {{ etat.autresVarietes }} autres, précise ta recherche</li>
+            </ul>
+          </div>
+          <div v-if="etat.encart" class="encart encart--info">
+            <div class="texte texte--gras">{{ etat.encart.type ? typeInverse(etat.encart.type) : '—' }} · Germination : <template v-if="etat.encart.dureeGerm">{{ etat.encart.dureeGerm }} {{ pluriel(etat.encart.dureeGerm, 'jour') }}</template><template v-else>non renseignée</template></div>
+            <div class="texte texte--discret">
+              <template v-if="etat.encart.nbSemis">Déjà semé en {{ etat.encart.annee }} ({{ etat.encart.nbSemis }}) :</template>
+              <template v-else>Pas encore semé en {{ etat.encart.annee }}.</template>
+            </div>
+            <div v-if="etat.encart.mere" class="texte texte--plantemere">🌱 Plante mère en place<template v-if="etat.encart.anneesPlantation.length"> (plantée en {{ etat.encart.anneesPlantation.join(', ') }})</template></div>
+            <div v-for="l in etat.encart.lignes" :key="l.id" class="texte texte--discret">{{ dateAffichee(l.date) }} · mil. {{ l.original ? 'or.' : (l.anneeMil || '?') }} · {{ l.godets }} × {{ l.graines }}<template v-if="l.ou.length"> · {{ l.ou.join(', ') }}</template></div>
+            <div v-if="etat.encart.autres" class="texte texte--discret">… et {{ etat.encart.autres }} {{ pluriel(etat.encart.autres, 'autre') }}</div>
+            <div v-if="etat.encart.dejaDansListe" class="texte texte--erreur texte--gras">⚠ Déjà dans ta liste à enregistrer</div>
+          </div>
+        </div>
+
+        <div class="fiche__groupe">
+          <label class="fiche__label" for="boutonMillesime">Millésime</label>
+          <div id="menuMillesime" class="menu">
+            <button id="boutonMillesime" type="button" class="champ champ--bouton" :disabled="etat.millesimes.length === 0" @click="basculerListe('millesime')">
+              <template v-if="millesimeChoisi()">{{ millesimeChoisi().original ? 'or. (originale)' : millesimeChoisi().annee }}<template v-if="millesimeChoisi().origine.length"> · {{ millesimeChoisi().origine.join(', ') }}</template><template v-if="millesimeChoisi().saisons"> · {{ millesimeChoisi().saisons }} {{ pluriel(millesimeChoisi().saisons, 'saison') }}</template></template>
+              <template v-else-if="etat.varieteId">Aucun millésime disponible pour cette variété</template>
+              <template v-else>— choisir une variété d'abord —</template>
+            </button>
+            <ul class="menu__liste" v-show="etat.listeMillesimeOuverte" @mousedown.prevent>
+              <li v-for="m in etat.millesimes" :key="m.id" class="menu__item" :class="{ 'menu__item--choisi': m.id === etat.millesimeId }" @click="choisirMillesime(m.id)">{{ m.original ? 'or. (originale)' : m.annee }}<template v-if="m.origine.length"> · {{ m.origine.join(', ') }}</template><template v-if="m.saisons"> · {{ m.saisons }} {{ pluriel(m.saisons, 'saison') }}</template></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="fiche__groupe">
+          <label class="fiche__label" for="dateSemis">Date du semis</label>
+          <input id="dateSemis" type="date" class="champ" v-model="etat.date">
+        </div>
+
+        <div :class="{ grille: etat.modeSemis === 'godets' }">
+          <div v-show="etat.modeSemis === 'godets'" class="fiche__groupe">
+            <label class="fiche__label" for="nbGodets">Nb de godets</label>
+            <input id="nbGodets" type="text" class="champ" inputmode="numeric" autocomplete="off" v-model="etat.nbGodets">
+          </div>
+          <div class="fiche__groupe">
+            <label class="fiche__label" for="nbGraines">{{ etat.modeSemis === 'pleine_terre' ? 'Nb de graines' : 'Graines par godet' }}</label>
+            <input id="nbGraines" type="text" class="champ" inputmode="numeric" autocomplete="off" v-model="etat.nbGraines">
+          </div>
+        </div>
+
+        <div class="fiche__groupe">
+          <label class="fiche__label" for="boutonType">Type</label>
+          <div id="menuType" class="menu">
+            <button id="boutonType" type="button" class="champ champ--bouton" @click="basculerListe('type')">{{ typeInverse(etat.type) }}</button>
+            <ul class="menu__liste" v-show="etat.listeTypeOuverte" @mousedown.prevent>
+              <li v-for="t in etat.types" :key="t" class="menu__item" :class="{ 'menu__item--choisi': t === etat.type }" @click="choisirType(t)">{{ typeInverse(t) }}</li>
+            </ul>
+          </div>
+        </div>
+
+        <div v-show="etat.modeSemis === 'pleine_terre'" class="fiche__groupe">
+          <label class="fiche__label" for="rechercheOu">Où</label>
+          <div v-if="etat.ouChoisis.length" class="ligne">
+            <span v-for="lieu in etat.ouChoisis" :key="lieu" class="pastille pastille--lieu" @click="retirerLieu(lieu)">{{ lieu }} ✕</span>
+          </div>
+          <div class="menu">
+            <input id="rechercheOu" type="search" class="champ" placeholder="Chercher un emplacement…" autocomplete="off" :value="etat.rechercheOu" @input="surRechercheOu" @focus="etat.listeOuOuverte = true" @click="etat.listeOuOuverte = true" @blur="etat.listeOuOuverte = false">
+            <ul class="menu__liste" v-show="etat.listeOuOuverte" @mousedown.prevent>
+              <li v-for="lieu in lieuxProposes()" :key="lieu" class="menu__item" @click="ajouterLieu(lieu)">{{ lieu }}</li>
+              <li v-if="lieuxProposes().length === 0" class="menu__item menu__item--vide">Aucun emplacement</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="fiche__groupe">
+          <label class="case"><input type="checkbox" class="case__saisie" v-model="etat.sachetVide"><span class="case__texte">Sachet vidé (millésime épuisé)</span></label>
+          <label class="case"><input type="checkbox" class="case__saisie" v-model="etat.aProduire"><span class="case__texte">À reproduire (produire des graines)</span></label>
+        </div>
+
+        <div v-if="etat.erreurFiche" class="texte texte--erreur texte--gras">{{ etat.erreurFiche }}</div>
+        <button type="button" class="btn btn--grand" :disabled="etat.enregistrement" @click="ajouterEtapeIntermediaire">Ajouter à la liste</button>
       </div>
-            <div id="appCases">
-<label class="case"><input type="checkbox" v-model="etat.sachetVide"> Sachet vidé (millésime épuisé)</label>
-<label class="case"><input type="checkbox" v-model="etat.aProduire"> À reproduire (produire des graines)</label>
-</div>
-<p id="erreurFiche" class="erreur" hidden></p>
-            <button id="btnAjouter" type="button" class="btn btn-ajouter btn--grand">Ajouter à la liste</button>    
     </section>
-        <div id="appEtapes">
-<p v-if="etat.succes" class="succes">{{ etat.succes }}</p>
-<p v-if="etat.message" class="message">{{ etat.message }}</p>
 
-<section v-show="etat.etapesIntermediaires.length > 0">
-<h2>À enregistrer ({{ etat.etapesIntermediaires.length }})</h2>
-<ul class="liste-carte">
-<li v-for="b in etat.etapesIntermediaires" :key="b.id" class="carte carte--etape">
-<div class="carte__contenu">
-<strong>{{ nomEtapeIntermediaire(b) }}</strong>
-<div class="carte-mention">
-<span class="pastille--categorie" :class="b.mode === 'pleine_terre' ? 'pastille-pleineterre' : 'pastille-sousabri'">{{ b.mode === 'pleine_terre' ? 'Pleine terre' : 'Sous abri' }}</span>
-</div>
-<div class="carte-detail">{{ detailEtapeIntermediaire(b) }}</div>
-</div>
-<button type="button" class="btn-suppr carte__action" title="Retirer de la liste" :aria-label="`Retirer ${nomEtapeIntermediaire(b)}`" @click="retirerEtapeIntermediaire(b.id)">✕</button>
-</li>
-</ul>
-<p v-if="etat.erreur" class="erreur">{{ etat.erreur }}</p>
-<button type="button" class="btn btn--enregistrer btn--grand" :disabled="etat.enregistrement" @click="enregistrerTout">
-{{ etat.enregistrement ? 'Enregistrement…' : 'Enregistrer' }}
-</button>
-</section>
-</div>
+    <div id="appEtapes">
+      <p v-if="etat.message" class="texte texte--note">{{ etat.message }}</p>
+
+      <section v-show="etat.etapesIntermediaires.length > 0">
+        <h2>À enregistrer ({{ etat.etapesIntermediaires.length }})</h2>
+        <ul class="liste-carte">
+          <li v-for="b in etat.etapesIntermediaires" :key="b.id" class="carte carte--etape">
+            <div class="carte__contenu">
+              <strong>{{ nomEtapeIntermediaire(b) }}</strong>
+              <div><span class="pastille pastille--categorie" :class="b.mode === 'pleine_terre' ? 'pastille--pleineterre' : 'pastille--sousabri'">{{ b.mode === 'pleine_terre' ? 'Pleine terre' : 'Sous abri' }}</span></div>
+              <div class="texte texte--discret">{{ b.millesime.original ? 'or. (originale)' : b.millesime.annee }}<template v-if="b.millesime.origine.length"> · {{ b.millesime.origine.join(', ') }}</template><template v-if="b.millesime.saisons"> · {{ b.millesime.saisons }} {{ pluriel(b.millesime.saisons, 'saison') }}</template> · {{ dateAffichee(dateEnSecondes(b.date)) }} · <template v-if="b.mode === 'pleine_terre'">{{ b.graines }} {{ pluriel(b.graines, 'graine') }}</template><template v-else>{{ b.godets }} {{ pluriel(b.godets, 'godet') }} × {{ b.graines }} {{ pluriel(b.graines, 'graine') }}</template> · {{ typeInverse(b.type) }}<template v-if="b.ou.length"> · {{ b.ou.join(', ') }}</template><template v-if="b.sachetVide"> · sachet vidé</template><template v-if="b.aProduire"> · à reproduire</template></div>
+            </div>
+            <button type="button" class="btn btn--suppr carte__action" title="Retirer de la liste" :aria-label="`Retirer ${nomEtapeIntermediaire(b)}`" @click="retirerEtapeIntermediaire(b.id)">✕</button>
+          </li>
+        </ul>
+        <p v-if="etat.erreur" class="texte texte--erreur texte--gras">{{ etat.erreur }}</p>
+        <button type="button" class="btn btn--enregistrer btn--grand" :disabled="etat.enregistrement" @click="enregistrerTout">{{ etat.enregistrement ? 'Enregistrement…' : 'Enregistrer' }}</button>
+      </section>
+    </div>
   </main>
-<script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
-<script src="https://unpkg.com/vue@3.4.38/dist/vue.global.prod.js"></script>
-<script src="../../script/scriptcommun.js"></script>
-<script src="semis_realises.js"></script>
+
+  <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
+  <script src="https://unpkg.com/vue@3.4.38/dist/vue.global.prod.js"></script>
+  <script src="../../script/scriptcommun.js"></script>
+  <script src="semis_realises.js"></script>
 </body>
 </html>
