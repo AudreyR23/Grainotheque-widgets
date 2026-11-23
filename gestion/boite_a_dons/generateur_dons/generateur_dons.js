@@ -44,7 +44,7 @@ async function generer() {
     if (!variete) continue;
     if (!donsParVariete.has(variete.id)) donsParVariete.set(variete.id, []);
     donsParVariete.get(variete.id).push({
-      sachets: m.Don
+      Nb_sachets: m.Don
     });
   }
 

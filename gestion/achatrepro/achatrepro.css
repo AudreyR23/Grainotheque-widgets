@@ -1,4 +1,4 @@
-/* ===== Css « achatrepro » : uniquement ce qui n'est pas dans styles_communs_bem.css ===== */
+/* ===== Css « achatrepro » : uniquement ce qui n'est pas dans styles_communs.css ===== */
 
 /* ===== Formulaire : un champ = un bloc (libellé au-dessus) ===== */
 .bloc {
@@ -48,11 +48,7 @@
 }
 
 /* ===== Encart d'alerte (doublon) ===== */
-.encart--alerte {
-  margin-top:6px;
-  background: var(--blanc);
-  border-left: 5px solid var(--erreur-moyen);
-}
+
 /* Éléments alignés par le bas (boutons avec ou sans marge haute, hauteurs différentes) */
 .ligne--bas {
   align-items: flex-end;

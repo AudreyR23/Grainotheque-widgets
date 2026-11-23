@@ -226,7 +226,7 @@ svg#plan {
   float: right;
   font-weight: normal;
   font-size: 8px;
-  color: #555;
+  color: var(--gris-fonce);
 }
  
 /* Contenu d'impression A3 : caché à l'écran */

@@ -1,295 +1,332 @@
+// ===== Messages (erreurs) =====
+const TEXTES = {
+  echec: (msg) => `Erreur de chargement : ${msg} (voir la console)`,
+  horsGrist: 'Page ouverte hors Grist : utilise cette URL comme widget Custom.'
+};
+
 /* =============================================
    CONFIGURATION
-   MOIS_PAR_PAGE    : nombre de mois par page (6 = 6 colonnes, une par mois,
-                      cohérent avec grid-template-columns dans calendrier.css)
-   LIGNES_PAR_PAGE  : nombre maximum de plantes par section
-                      (S/Abri ou P.Terre, empilées dans la colonne d'un mois)
-                      sur une page. Au-delà, la suite passe sur une page
-                      supplémentaire, avec l'en-tête du mois répété et la
-                      mention "(suite)".
-============================================= */
-const MOIS_PAR_PAGE = 3;
-const LIGNES_PAR_PAGE = 42;
+   ============================================= */
+// Colonnes lues : si l'une manque (renommée, supprimée), le calendrier ne s'affiche pas
+const COLONNES_MILLESIMES = ['NomVariete', 'Nb_sachets'];
+const COLONNES_VARIETES = ['Nom', 'Variete', 'Type', 'NomVariete', 'Semis_sous_abris', 'Semis_pleine_terre'];
 
-/* =============================================
-   DEFINITION DES MOIS
-============================================= */
-const MOIS_DEF = [
-  { num:1,  label:'Janvier',   abrevs:['Jan','Janvier'] },
-  { num:2,  label:'Février',   abrevs:['Fév','Février'] },
-  { num:3,  label:'Mars',      abrevs:['Mar','Mars'] },
-  { num:4,  label:'Avril',     abrevs:['Avr','Avril'] },
-  { num:5,  label:'Mai',       abrevs:['Mai'] },
-  { num:6,  label:'Juin',      abrevs:['Jui','Juin'] },
-  { num:7,  label:'Juillet',   abrevs:['Juil','Juillet'] },
-  { num:8,  label:'Août',      abrevs:['Aou','Août'] },
-  { num:9,  label:'Septembre', abrevs:['Sep','Septembre'] },
-  { num:10, label:'Octobre',   abrevs:['Oct','Octobre'] },
-  { num:11, label:'Novembre',  abrevs:['Nov','Novembre'] },
-  { num:12, label:'Décembre',  abrevs:['Déc','Décembre'] }
+// Mois : court = en-tête des colonnes ; valeurs = ce qu'on peut trouver dans Semis_sous_abris / Semis_pleine_terre
+const MOIS = [
+  { num: 1,  court: 'Jan',  long: 'janvier',   valeurs: ['Jan', 'Janvier'] },
+  { num: 2,  court: 'Fév',  long: 'février',   valeurs: ['Fév', 'Février'] },
+  { num: 3,  court: 'Mar',  long: 'mars',      valeurs: ['Mar', 'Mars'] },
+  { num: 4,  court: 'Avr',  long: 'avril',     valeurs: ['Avr', 'Avril'] },
+  { num: 5,  court: 'Mai',  long: 'mai',       valeurs: ['Mai'] },
+  { num: 6,  court: 'Juin', long: 'juin',      valeurs: ['Jui', 'Juin'] },
+  { num: 7,  court: 'Juil', long: 'juillet',   valeurs: ['Juil', 'Juillet'] },
+  { num: 8,  court: 'Août', long: 'août',      valeurs: ['Aou', 'Août'] },
+  { num: 9,  court: 'Sep',  long: 'septembre', valeurs: ['Sep', 'Septembre'] },
+  { num: 10, court: 'Oct',  long: 'octobre',   valeurs: ['Oct', 'Octobre'] },
+  { num: 11, court: 'Nov',  long: 'novembre',  valeurs: ['Nov', 'Novembre'] },
+  { num: 12, court: 'Déc',  long: 'décembre',  valeurs: ['Déc', 'Décembre'] }
 ];
+// 'Mar' → 3, 'Mars' → 3, etc.
+const NUMERO_MOIS = new Map(MOIS.flatMap(m => m.valeurs.map(v => [v, m.num])));
+const MOIS_COURANT = new Date().getMonth() + 1;   // colonne surlignée à l'écran (pas à l'impression)
+const LIGNES_PAR_COLONNE = 30;   // plantes par colonne (2 colonnes par feuille) : à ajuster après le test d'impression
+const LARGEUR_FEUILLE_PX = 297 * 96 / 25.4;   // 297 mm en pixels d'écran (≈ 1123)
+// Données lues dans Grist : id de ligne → ligne
+const recordsParId = {
+  varietes: new Map(),       // table Varietes : id → ligne
+  varietesParNom: new Map(), // mêmes lignes, trouvées par le texte NomVariete (ce que donne onRecords)
+  millesimes: new Map()      // table Millesimes, telle que reçue de onRecords
+};
+let numeroLecture = 0;       // sert à ignorer une lecture dépassée par une plus récente
 
-const MOIS_COURANT = new Date().getMonth() + 1;
-
-function iconeType(type) {
-  if (!type) return '';
-  const emojis = type.match(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu);
-  return emojis ? emojis[emojis.length - 1] : '';
-}
-
-/* =============================================
-   GRIST (2 tables : Millesimes liée au widget + Varietes)
-   fetchTable demande l'accès complet
-============================================= */
-grist.ready({ requiredAccess: 'full' });
-
-let varietesParId = {};
-let millesimesRecus = null;
-
-function chargerVarietes() {
-  grist.docApi.fetchTable('Varietes')
-    .then(data => {
-      const ids = data.id || [];
-      ids.forEach((id, i) => {
-        varietesParId[id] = {
-          Nom:        data.Nom        ? data.Nom[i]        : '',
-          Type:       data.Type       ? data.Type[i]       : '',
-          NomVariete: data.NomVariete ? data.NomVariete[i] : '',
-          Semis_sous_abris:   data.Semis_sous_abris   ? data.Semis_sous_abris[i]   : [],
-          Semis_pleine_terre: data.Semis_pleine_terre ? data.Semis_pleine_terre[i] : []
-        };
-      });
-      if (millesimesRecus) {
-        renderCalendrier(millesimesRecus);
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      const info = document.getElementById('info-count');
-      if (info) info.textContent = 'Erreur de chargement (voir la console)';
-    });
-}
-
-/* =============================================
-   DIFFÉRENCES ENTRE VARIÉTÉS D'UNE MÊME PLANTE
-============================================= */
-function differenceType(varietes, type) {
-  const signatures = varietes.map(v =>
-    JSON.stringify(type === 'abri' ? v.abri : v.terre)
-  );
-  return new Set(signatures).size > 1;
-}
-
-function voirDetails(varietes, mois, type) {
-  if (typeof varietes === 'string') {
-    varietes = JSON.parse(varietes);
-  }
-  const popup = document.getElementById('popup');
-  const moisObj = MOIS_DEF.find(m => m.label === mois);
-  let html = `
-    <span class="popup-close" onclick="fermerPopup()">✕</span>
-    <h2>⚠ Différences — ${mois}</h2>
-  `;
-
-  const absentes = [];
-  varietes.forEach(v => {
-    const liste = type === 'abri' ? v.abri : v.terre;
-    const present = liste.some(x => moisObj.abrevs.includes(x));
-    if (!present) {
-      absentes.push(v.nom);
-    }
-  });
-
-  if (absentes.length) {
-    html += `
-      <div class="popup-ligne">
-        ${type === 'abri'
-          ? '🏠 <b>Sous abri — pas de semis en ' + mois + '</b>'
-          : '🌿 <b>Pleine terre — pas de semis en ' + mois + '</b>'}
-        <br>
-        ${[...new Set(absentes)].join('<br>')}
-      </div>
-    `;
-  }
-
-  popup.innerHTML = html;
-  popup.style.display = 'block';
-}
-
-function fermerPopup() {
-  document.getElementById('popup').style.display = 'none';
-}
-
-/* =============================================
-   LISTES S/ABRI ET P.TERRE D'UN MOIS
-============================================= */
-function listesDuMois(liste, mois) {
-  const abri = [];
-  const terre = [];
-
-  liste.forEach(p => {
-    const planteAffichee = iconeType(p.type) + ' ' + p.nom;
-    let planteAbri  = planteAffichee;
-    let planteTerre = planteAffichee;
-
-    const idPopup = encodeURIComponent(JSON.stringify(p.varietes));
-
-    if (differenceType(p.varietes, 'abri')) {
-      planteAbri =
-        `<span class="ligne-alerte"
-          onclick="voirDetails(decodeURIComponent('${idPopup}'), '${mois.label}', 'abri')">
-          ${planteAffichee} *
-        </span>`;
-    }
-
-    if (differenceType(p.varietes, 'terre')) {
-      planteTerre =
-        `<span class="ligne-alerte"
-          onclick="voirDetails(decodeURIComponent('${idPopup}'), '${mois.label}', 'terre')">
-          ${planteAffichee} *
-        </span>`;
-    }
-
-    if (p.varietes.some(v => v.abri.some(x => mois.abrevs.includes(x)))) {
-      if (!abri.includes(planteAbri)) abri.push(planteAbri);
-    }
-
-    if (p.varietes.some(v => v.terre.some(x => mois.abrevs.includes(x)))) {
-      if (!terre.includes(planteTerre)) terre.push(planteTerre);
-    }
-  });
-
-  return { abri, terre };
-}
-
-/* =============================================
-   CARTE D'UN MOIS POUR UNE PAGE DONNÉE
-   (page = 0 pour la première page du groupe de mois,
-    1 pour la suite, etc.)
-   L'en-tête (titre + S/Abri + P.Terre) est répété.
-============================================= */
-function makeCard(mois, abri, terre, page) {
-  const debut = page * LIGNES_PAR_PAGE;
-  const fin = debut + LIGNES_PAR_PAGE;
-
-  function colonne(items) {
-    const part = items.slice(debut, fin);
-    if (part.length) {
-      return part.map(n => `<span class="variete-tag">${n}</span>`).join('');
-    }
-    return page === 0 ? '<span class="vide">—</span>' : '';
-  }
-
-  // "(suite)" seulement si ce mois continue réellement sur cette page
-  const continueIci = Math.max(abri.length, terre.length) > debut;
-  const suite = (page > 0 && continueIci)
-    ? ' <span class="mois-suite">(suite)</span>'
-    : '';
-
-  const card = document.createElement('div');
-  card.className = 'mois-card' + (mois.num === MOIS_COURANT ? ' actuel' : '');
-
-  card.innerHTML = `
-    <div class="mois-titre">${mois.label}${suite}</div>
-    <div class="mois-body">
-      <div class="col-abri">
-        <div class="col-label">🏠 S/Abri</div>
-        ${colonne(abri)}
-      </div>
-      <div class="col-terre">
-        <div class="col-label">🌿 P.Terre</div>
-        ${colonne(terre)}
-      </div>
-    </div>
-  `;
-
-  return card;
-}
-
-/* =============================================
-   RENDU DES PAGES
-   Les mois sont regroupés par MOIS_PAR_PAGE (ex. janvier-juin,
-   puis juillet-décembre). Chaque groupe prend autant de pages
-   que son mois le plus chargé l'exige.
-============================================= */
-function renderCalendrier(records) {
-  const plantes = {};
-
-  records
-    .filter(r => r.Sachets)
-    .forEach(r => {
-      const v = varietesParId[r.NomVariete] ||
-        Object.values(varietesParId).find(x => x.NomVariete === r.NomVariete);
-
-      if (!v) return;
-
-      const nom = v.Nom;
-
-      if (!plantes[nom]) {
-        plantes[nom] = { nom: nom, type: v.Type || '', varietes: [] };
-      }
-
-      let abri  = v.Semis_sous_abris   || [];
-      let terre = v.Semis_pleine_terre || [];
-
-      // ChoiceList Grist : enlève le "L"
-      if (Array.isArray(abri)  && abri[0]  === 'L') abri  = abri.slice(1);
-      if (Array.isArray(terre) && terre[0] === 'L') terre = terre.slice(1);
-
-      plantes[nom].varietes.push({ nom: v.NomVariete, abri: abri, terre: terre });
-    });
-
-  const liste = Object.values(plantes);
-
-  // Listes de chaque mois, calculées une seule fois
-  const parMois = MOIS_DEF.map(mois => ({ mois, ...listesDuMois(liste, mois) }));
-
-  // Groupes de mois (6 par page)
-  const groupes = [];
-  for (let i = 0; i < parMois.length; i += MOIS_PAR_PAGE) {
-    groupes.push(parMois.slice(i, i + MOIS_PAR_PAGE));
-  }
-
-  const pagesEl = document.getElementById('pages');
-  pagesEl.innerHTML = '';
-
-  let nbPagesTotal = 0;
-
-  groupes.forEach(groupe => {
-    const maxLignes = Math.max(0, ...groupe.map(m => Math.max(m.abri.length, m.terre.length)));
-    const nbPages = Math.max(1, Math.ceil(maxLignes / LIGNES_PAR_PAGE));
-
-    for (let p = 0; p < nbPages; p++) {
-      const page = document.createElement('div');
-      page.className = 'page-calendrier';
-
-      // Titre et légende uniquement sur la toute première page
-      if (nbPagesTotal === 0) {
-        page.innerHTML = `
-          <h1>🌱 Calendrier des semis</h1>
-          <div class="legende">* Plusieurs variétés avec des périodes de semis différentes</div>
-        `;
-      }
-
-      const grille = document.createElement('div');
-      grille.className = 'calendrier';
-      groupe.forEach(m => grille.appendChild(makeCard(m.mois, m.abri, m.terre, p)));
-
-      page.appendChild(grille);
-      pagesEl.appendChild(page);
-      nbPagesTotal++;
-    }
-  });
-
-  const info = document.getElementById('info-count');
-  if (info) info.textContent = liste.length + ' plantes · ' + nbPagesTotal + ' page(s)';
-}
-
-grist.onRecords(function (records) {
-  millesimesRecus = records;
-  if (Object.keys(varietesParId).length) {
-    renderCalendrier(records);
-  }
+// État lu par le HTML : Vue redessine quand il change
+const etat = Vue.reactive({
+  charge: false,             // true quand les données sont chargées
+  plantes: [],               // [plante] triées ; plante = { nom, type, varietes, mois: [12 cases] }
+  aRevoir: aRevoirVide(),    // données à corriger dans Grist (en-tête seulement, jamais imprimé)
+  pages: [],                 // [page] ; page = { type, suite, colonnes: [[plante]] } (1 ou 2 colonnes)
+  details: null,             // fenêtre de détails : null (fermée) ou { plante, mois, varietes: [{ id, nom, abri, terre }] }
+  zoom: 1,                   // réduction des feuilles à l'écran (1 = taille réelle ; sans effet à l'impression)
+  colonnesManquantes: [],    // colonnes nécessaires absentes (ex. 'Varietes.Type')
+  erreur: ''
 });
 
-chargerVarietes();
+function imprimer() {
+  window.print();
+}
+
+// Une erreur reste affichée jusqu'au prochain clic (phase de capture : effacée avant que le bouton agisse)
+document.addEventListener('click', () => { etat.erreur = ''; }, true);
+
+Vue.createApp({
+  setup() {
+    return { etat, pluriel, imprimer };
+  }
+}).mount('#appEntete');
+
+Vue.createApp({
+  setup() {
+    return { etat, MOIS, MOIS_COURANT, typeInverse, estPartielle, ouvrirDetails };
+  }
+}).mount('#appPages');
+
+Vue.createApp({
+  setup() {
+    return { etat, fermerDetails };
+  }
+}).mount('#appDetails');
+
+// Un clic ailleurs ferme la fenêtre (les clics sur une case et dans la fenêtre ne remontent pas jusqu'ici)
+document.addEventListener('click', fermerDetails);
+// ===== Aperçu à l'écran : feuilles réduites à la largeur du widget =====
+function ajusterZoom(largeur) {
+  // Jamais agrandi au-delà de la taille réelle ; arrondi vers le bas pour éviter une barre de défilement d'un pixel
+  etat.zoom = Math.min(1, Math.floor(largeur / LARGEUR_FEUILLE_PX * 1000) / 1000);
+}
+
+new ResizeObserver(entrees => ajusterZoom(entrees[0].contentRect.width))
+  .observe(document.getElementById('appPages'));
+/* =============================================
+   UTILITAIRES
+   ============================================= */
+// Colonnes de la liste absentes des lignes reçues (aucune ligne : rien à vérifier)
+function colonnesAbsentes(lignes, liste) {
+  if (!lignes.length) return [];
+  return liste.filter(c => !(c in lignes[0]));
+}
+
+// Points à corriger dans Grist (listes de noms ; le HTML écrit les phrases)
+function aRevoirVide() {
+  return { total: 0, nomsProches: [], plantesSansMois: [], varietesSansMois: [], typesDifferents: [], moisInconnus: [] };
+}
+
+// ChoiceList de mois ['L', 'Mar', 'Avr'] → [3, 4] ; une valeur non reconnue est ajoutée à inconnus (un Set)
+function moisDe(valeur, inconnus) {
+  const nums = [];
+  for (const v of listeChoix(valeur)) {
+    const n = NUMERO_MOIS.get(v);
+    if (n) nums.push(n);
+    else inconnus.add(v);
+  }
+  return nums;
+}
+
+// La référence NomVariete arrive en texte « Nom↵Variété » (ou en id selon la vue) : les deux sont gérés
+function varieteDuMillesime(r) {
+  return typeof r.NomVariete === 'number'
+    ? recordsParId.varietes.get(r.NomVariete)
+    : recordsParId.varietesParNom.get(r.NomVariete);
+}
+
+// Code d'une case : 'toutes' les variétés sèment ce mois-là, 'certaines', ou 'aucune'
+function casDuMois(varietes, cle, num) {
+  const n = varietes.filter(v => v[cle].includes(num)).length;
+  if (n === 0) return 'aucune';
+  return n === varietes.length ? 'toutes' : 'certaines';
+}
+
+/* =============================================
+   CALCUL DES PLANTES
+   ============================================= */
+function recalculerPlantes() {
+  const aRevoir = aRevoirVide();
+  const moisInconnus = new Set();     // Set : chaque valeur n'y est gardée qu'une fois
+  const typesDifferents = new Set();
+
+  // Regroupe par plante (Varietes.Nom) les variétés qui ont au moins un sachet
+  const parNom = new Map();   // nom → { nom, type, varietes: Map id → variété }
+  for (const r of recordsParId.millesimes.values()) {
+    if (!r.Nb_sachets) continue;                // sachet épuisé : absent du calendrier
+    const v = varieteDuMillesime(r);
+    if (!v || !v.Nom) continue;                 // pas de variété liée
+
+    if (!parNom.has(v.Nom)) parNom.set(v.Nom, { nom: v.Nom, type: v.Type || '', varietes: new Map() });
+    const plante = parNom.get(v.Nom);
+    if (plante.varietes.has(v.id)) continue;    // variété déjà comptée (plusieurs millésimes)
+    if ((v.Type || '') !== plante.type) typesDifferents.add(v.Nom);   // type de la première variété gardé
+    plante.varietes.set(v.id, {
+      id: v.id,
+      nom: v.Variete || v.Nom,
+      abri: moisDe(v.Semis_sous_abris, moisInconnus),
+      terre: moisDe(v.Semis_pleine_terre, moisInconnus)
+    });
+  }
+
+  const plantes = [];
+  for (const p of parNom.values()) {
+    // Une variété sans aucun mois renseigné est ignorée : c'est une info manquante, pas « ne sème jamais »
+    const varietes = [];
+    const sansMois = [];
+    for (const v of p.varietes.values()) {
+      if (v.abri.length || v.terre.length) varietes.push(v);
+      else sansMois.push(v.nom === p.nom ? p.nom : `${p.nom} (${v.nom})`);
+    }
+    const mois = MOIS.map(m => ({
+      abri: casDuMois(varietes, 'abri', m.num),
+      terre: casDuMois(varietes, 'terre', m.num)
+    }));
+    if (mois.every(c => c.abri === 'aucune' && c.terre === 'aucune')) {
+      aRevoir.plantesSansMois.push(p.nom);      // aucun mois de semis : plante absente du calendrier
+      continue;
+    }
+    aRevoir.varietesSansMois.push(...sansMois); // plante affichée, mais certaines variétés ignorées
+    plantes.push({ cle: 'plante-' + p.nom, nom: p.nom, type: p.type, varietes, mois });
+  }
+
+  // Noms qui ne diffèrent que par les accents, les majuscules ou les espaces (ex. Epinard / Épinard)
+  const parNomNormalise = new Map();
+  for (const nom of parNom.keys()) {
+    const cle = normaliser(nom);
+    if (!parNomNormalise.has(cle)) parNomNormalise.set(cle, []);
+    parNomNormalise.get(cle).push(nom);
+  }
+  aRevoir.nomsProches = [...parNomNormalise.values()].filter(noms => noms.length > 1);
+
+  const trier = liste => liste.sort((a, b) => a.localeCompare(b, 'fr'));
+  trier(aRevoir.plantesSansMois);
+  trier(aRevoir.varietesSansMois);
+  aRevoir.typesDifferents = trier([...typesDifferents]);
+  aRevoir.moisInconnus = trier([...moisInconnus]);
+  aRevoir.total = aRevoir.nomsProches.length + aRevoir.plantesSansMois.length + aRevoir.varietesSansMois.length
+    + aRevoir.typesDifferents.length + aRevoir.moisInconnus.length;
+  etat.aRevoir = aRevoir;
+
+  // Tri par type, puis par nom
+  plantes.sort((a, b) =>
+    a.type.localeCompare(b.type, 'fr') || a.nom.localeCompare(b.nom, 'fr'));
+
+  etat.plantes = plantes;
+}
+
+/* =============================================
+   PAGES : une page (ou plus) par type, deux colonnes par page
+   ============================================= */
+// Coupe une liste en morceaux de n éléments
+function morceaux(liste, n) {
+  const resultat = [];
+  for (let i = 0; i < liste.length; i += n) resultat.push(liste.slice(i, i + n));
+  return resultat;
+}
+
+// Ligne vide à remplir à la main : mêmes champs qu'une plante, sans nom ni semis
+function ligneVide(type, n) {
+  return {
+    cle: `vide-${type}-${n}`,
+    nom: '',
+    mois: MOIS.map(() => ({ abri: 'aucune', terre: 'aucune' }))
+  };
+}
+
+function recalculerPages() {
+  // Plantes (déjà triées par type puis nom) regroupées par type, ordre conservé
+  const parType = new Map();
+  for (const plante of etat.plantes) {
+    if (!parType.has(plante.type)) parType.set(plante.type, []);
+    parType.get(plante.type).push(plante);
+  }
+
+  const pages = [];
+  for (const [type, plantes] of parType) {
+    const morceauxDuType = morceaux(plantes, 2 * LIGNES_PAR_COLONNE);
+    morceauxDuType.forEach((morceau, k) => {
+      let lignes = morceau;
+
+      // Dernière page du type : lignes vides à la fin de l'alphabet (donc en bas de la colonne de droite).
+      // Nombre choisi pour que le total soit pair : les deux colonnes finissent à la même hauteur.
+      if (k === morceauxDuType.length - 1) {
+        const place = 2 * LIGNES_PAR_COLONNE - morceau.length;
+        let nbVides = morceau.length % 2 ? 3 : 2;   // impair : 3 ; pair : 2
+        if (nbVides > place) nbVides -= 2;           // pas assez de place : 1 (impair) ou 0 (pair)
+        const vides = Array.from({ length: nbVides }, (_, i) => ligneVide(type, i + 1));
+        lignes = [...morceau, ...vides];
+      }
+
+      // Deux colonnes : la gauche prend la moitié arrondie au-dessus, la lecture continue à droite
+      const milieu = Math.ceil(lignes.length / 2);
+      const colonnes = [lignes.slice(0, milieu), lignes.slice(milieu)].filter(c => c.length);
+      pages.push({ type, suite: k > 0, colonnes });
+    });
+  }
+  etat.pages = pages;
+}
+/* =============================================
+   FENÊTRE DE DÉTAILS (écran seulement)
+   ============================================= */
+// Case hachurée : seulement certaines variétés sèment ce mois-là (sous abri ou en pleine terre)
+function estPartielle(cas) {
+  return cas.abri === 'certaines' || cas.terre === 'certaines';
+}
+
+// Clic sur une case : ouvre la fenêtre si la case est hachurée, sinon ferme celle qui est ouverte
+function ouvrirDetails(plante, i) {
+  if (!estPartielle(plante.mois[i])) {
+    fermerDetails();
+    return;
+  }
+  const num = MOIS[i].num;
+  etat.details = {
+    plante: plante.nom,
+    mois: MOIS[i].long,
+    varietes: plante.varietes
+      .map(v => ({ id: v.id, nom: v.nom, abri: v.abri.includes(num), terre: v.terre.includes(num) }))
+      .sort((a, b) => a.nom.localeCompare(b.nom, 'fr'))
+  };
+}
+
+function fermerDetails() {
+  etat.details = null;
+}
+/* =============================================
+   LECTURE DES DONNÉES (API widget de Grist)
+   ============================================= */
+async function afficherMillesimes(lignes) {
+  // Appelée par Grist au chargement, puis à chaque modification de Millesimes
+  const numero = ++numeroLecture;
+  try {
+    const varietes = tableEnLignes(await grist.docApi.fetchTable('Varietes'));
+    if (numero !== numeroLecture) return;   // une lecture plus récente a pris le relais
+
+    etat.colonnesManquantes = [
+      ...colonnesAbsentes(lignes, COLONNES_MILLESIMES).map(c => 'Millesimes.' + c),
+      ...colonnesAbsentes(varietes, COLONNES_VARIETES).map(c => 'Varietes.' + c)
+    ];
+    if (etat.colonnesManquantes.length) {
+      etat.plantes = [];          // pas de calendrier faux : on n'affiche rien
+      etat.pages = [];
+      etat.aRevoir = aRevoirVide();
+      etat.charge = true;
+      return;
+    }
+
+    recordsParId.varietes.clear();
+    recordsParId.varietesParNom.clear();
+    for (const v of varietes) {
+      recordsParId.varietes.set(v.id, v);
+      if (recordsParId.varietesParNom.has(v.NomVariete)) {
+        console.warn('Deux variétés portent le même nom, la première est gardée :', v.NomVariete);
+      } else {
+        recordsParId.varietesParNom.set(v.NomVariete, v);
+      }
+    }
+    recordsParId.millesimes.clear();
+    for (const r of lignes) recordsParId.millesimes.set(r.id, r);
+
+    recalculerPlantes();
+    recalculerPages();
+    etat.erreur = '';
+    etat.charge = true;
+  } catch (err) {
+    console.error('❌ Erreur lors du chargement des données Grist :', err);
+    etat.erreur = TEXTES.echec(err.message);
+  }
+}
+
+const dansGrist = window.self !== window.top;
+
+if (dansGrist) {
+  grist.ready({ requiredAccess: 'full' });
+  // includeColumns : reçoit aussi les colonnes masquées dans la vue
+  grist.onRecords(afficherMillesimes, { includeColumns: 'normal' });
+} else {
+  etat.erreur = TEXTES.horsGrist;
+}

@@ -1,30 +1,60 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>À semer</title>
-<link rel="stylesheet" href="../../styles/gestion_commun.css">
-<link rel="stylesheet" href="a_semer.css">
-<script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
-</head>
-<body>
-<header>
-<h1 id="titre">À semer</h1>
-<button type="button" id="btnActualiser" class="btn" title="Recharger les données">↻ Actualiser</button>
-</header>
-<div id="filtres">
-<label>Mois <select id="selectMois" class="champ champ-filtre"></select></label>
-<label class="case"><input type="checkbox" id="caseDejaSemees"> Afficher aussi les déjà semées</label>
-<label>Tri
-<select id="selectTri" class="champ champ-filtre">
-<option value="nom">Nom</option>
-<option value="germination">% de germination</option>
-<option value="test">Test</option>
-</select>
-</label>
-</div>
-<ul id="liste" class="liste-semis"></ul>
-<script src="a_semer.js"></script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>À semer</title>
+    <link rel="stylesheet" href="../../styles/styles_communs.css" />
+    <link rel="stylesheet" href="a_semer.css" />
+  </head>
+  <body>
+    <header id="appEntete" class="entete">
+      <h1>À semer en {{ MOIS[etat.mois - 1] }} (<template v-if="etat.filtreActif">{{ etat.nbRetenues }} sur </template>{{ etat.nbTotal }})</h1>
+      <button type="button" class="btn" title="Recharger les données" :disabled="etat.chargement" @click="actualiser">↻ Actualiser</button>
+    </header>
+
+    <div id="appFiltres" class="ligne filtres">
+      <label class="filtres__groupe">Mois
+        <select v-model="etat.mois" class="champ champ--filtre">
+          <option v-for="(nom, i) in MOIS" :key="i" :value="i + 1">{{ nom }}</option>
+        </select>
+      </label>
+      <label class="case"><input type="checkbox" class="case__saisie" v-model="etat.afficherDejaSemees"><span class="case__texte">Afficher aussi les déjà semées</span></label>
+      <label class="case"><input type="checkbox" class="case__saisie" v-model="etat.filtreSousAbri"><span class="case__texte">Sous abri</span></label>
+      <label class="case"><input type="checkbox" class="case__saisie" v-model="etat.filtrePleineTerre"><span class="case__texte">Pleine terre</span></label>
+      <label class="filtres__groupe">Tri
+        <select v-model="etat.tri" class="champ champ--filtre">
+          <option value="nom">Nom</option>
+          <option value="germination">% de germination</option>
+          <option value="test">Test</option>
+        </select>
+      </label>
+    </div>
+
+    <main id="appListe">
+            <p v-if="etat.message" class="texte texte--note">{{ etat.message }}</p>
+      <ul class="liste-carte">
+        <li v-for="l in etat.lignes" :key="l.v.id" class="carte" :class="['carte--' + categorie(l), { 'carte--deja-semee': l.dejaSemee }]">
+          <div class="carte__contenu">
+            <div><strong>{{ libelle(l.v) }}</strong><span v-if="l.v.type" class="carte__type">{{ typeInverse(l.v.type) }}</span></div>
+            <div class="ligne">
+              <span v-if="l.sousAbris" class="pastille pastille--categorie pastille--sousabri">Sous abri</span>
+              <span v-if="l.pleineTerre" class="pastille pastille--categorie pastille--pleineterre">Pleine terre</span>
+            </div>
+            <div class="texte texte--discret">
+              <template v-if="!l.mil">Pas de graines</template>
+              <template v-else><template v-if="l.mil.estMelange">Sachet mélangé (plusieurs millésimes)</template><template v-else-if="l.mil.annee !== null">Millésime {{ l.mil.annee }}</template><template v-else>Millésime sans date</template> · <template v-if="l.germination !== null">germination {{ l.germination }} %</template><template v-else>germination inconnue</template> · <template v-if="l.anneesSansTest === null">jamais testé</template><template v-else-if="l.anneesSansTest === 0">testé cette année</template><template v-else>testé il y a {{ l.anneesSansTest }} {{ pluriel(l.anneesSansTest, 'an') }}</template></template>
+            </div>
+            <div class="texte texte--discret">Semis {{ MOIS[l.fenetre.debutMois - 1] }} → {{ MOIS[l.fenetre.finMois - 1] }}</div>
+            <div v-if="l.semisFait || l.plant"><span class="pastille pastille--info"><template v-if="l.semisFait">Déjà semée</template><template v-if="l.semisFait && l.plant"> · </template><template v-if="l.plant">🌱 {{ l.typePlant || 'plant' }} au jardin</template></span></div>
+          </div>
+          <button type="button" class="btn btn--enregistrer carte__action" :aria-label="`Semer ${libelle(l.v)}`" @click="semer(l.v.id)">Semer</button>
+        </li>
+      </ul>
+    </main>
+    <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
+    <script src="https://unpkg.com/vue@3.4.38/dist/vue.global.prod.js"></script>
+    <script src="../../script/scriptcommun.js"></script>
+    <script src="a_semer.js"></script>
+  </body>
 </html>

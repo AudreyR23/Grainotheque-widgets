@@ -7,7 +7,7 @@ Accès Grist : `full`. Versions dev (branche `Vue`) et prod (`main`).
 
 ## Fichiers
 - `gestion_etiquettes.html`, `gestion_etiquettes.js`, `gestion_etiquettes.css`
-- Commun : `../../script/scriptcommun.js`, `../../styles/styles_communs_bem.css`
+- Commun : `../../script/scriptcommun.js`, `../../styles/styles_communs.css`
 - Fonctions communes utilisées : `tableEnLignes`, `listeChoix`, `normaliser`, `correspondRecherche`, `libelle`,
   `typeInverse`, `dateAffichee`, `creerMessageTemporaire`, `pluriel`.
 

@@ -1,102 +1,34 @@
-/* ===== Outil « Cahier » ===== */
-/* Toutes les dimensions sont reprises à l'identique de l'ancien main.css. */
-
-/* ----- Candidat au commun impression (même section que dans etiquettes.css) ----- */
-/* Feuille A4 paysage. Police, taille et couleur remises comme dans main.css (le commun change le body). */
-.feuille {
-  width: 297mm;
-  margin: 0 auto;
-  padding: 15mm 10mm 10mm 10mm; /* propre au tableau et aux épingles (étiquettes : 10mm) */
-  background: white;
-  border: 0.5px solid #ddd;
-  font-family: Arial, 'Liberation Sans', Helvetica, sans-serif;
-  font-size: 9px;
-  color: #222;
-  zoom: var(--zoom-ecran, 1); /* aperçu réduit à l'écran, calculé par le JS */
-}
-
-/* ----- Zone des feuilles (écran) ----- */
-/* Les feuilles (297 mm) peuvent dépasser le widget : elles défilent dans leur zone, sans élargir la page.
-   L'en-tête collé garde ainsi toute la largeur visible. */
-#appPages {
-  overflow-x: auto;
-}
-
-@media print {
-  @page {
-    size: A4 landscape;
-    margin: 0;
-  }
-  /* Le commun met 12px de marge intérieure au body : sans ceci, la feuille serait décalée et déborderait */
-  body {
-    padding: 0;
-    background: white;
-  }
-  .entete {
-    display: none;
-  }
-    /* À l'impression, la zone ne doit pas défiler : sinon Firefox n'imprime que la première feuille */
-  #appPages {
-    overflow: visible;
-  }
-  .feuille {
-    width: 100%;
-    margin: 0;
-    border: none;
-    page-break-after: always;
-    break-after: page;
-    zoom: 1; /* impression toujours en taille réelle */    
-  }
-  .feuille:last-child {
-    page-break-after: avoid;
-    break-after: avoid;
-  }
-  .tableau__ligne {
-    page-break-inside: avoid;
-    break-inside: avoid;
-  }
-}
+/* ===== Outil « Cahier » : seulement ce qui n'est pas dans les communs ===== */
 
 /* ----- Tableau ----- */
-.tableau {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
-}
 .tableau__titre {
-  background: #e0e0e0;
-  color: #111;
+  background: var(--gris-clair);
+  color: var(--noir-intense);
   font-size: 8px;
   font-weight: 600;
   text-align: center;
   padding: 2px 1px;
-  border: 1px solid #999;
+  border: 1px solid var(--gris-bordure);
   line-height: 1.1;
   vertical-align: middle;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 }
 .tableau__cellule {
-  border: 1px solid #aaa;
+  border: 1px solid var(--gris);
   text-align: center;
   vertical-align: middle;
   padding: 1px 2px;
   font-size: 9px;
-  color: #111;
+  color: var(--noir-intense);
   line-height: 6mm;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 }
 /* Info de la variété, petite et grise en bas de case */
 .tableau__cellule--bas {
   vertical-align: bottom;
   font-size: 7px;
-  color: #777;
+  color: var(--gris-legende);
 }
 .tableau__cellule--gris {
-  color: #777;
+  color: var(--gris-legende);
 }
 /* Plusieurs sachets : une ligne par sachet */
 .tableau__cellule--multi {
@@ -107,7 +39,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--gris-clair);
   min-height: 6mm;
 }
 .tableau__sachet:last-child {
@@ -131,7 +63,7 @@
   margin-top: 2mm;
   font-size: 7px;
   line-height: 1.3;
-  color: #777;
+  color: var(--gris-legende);
   text-align: left;
 }
 

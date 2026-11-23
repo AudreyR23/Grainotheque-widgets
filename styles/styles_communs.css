@@ -1,0 +1,476 @@
+:root {
+  color-scheme: light;
+
+  --a-jour: #246d97;
+  /* catégorie « succes et récap »*/
+  --bleu-clair: #cde9fa;
+  --bleu-moyen: #59aada;
+  --bleu-fonce: #108ad1;
+
+  --erreur-clair: #fcebeb;
+  --erreur-moyen: #c96a6a; 
+  --erreur-fonce: #c62828;
+
+  --label: #2b2b2b;
+  --arriere-plan: #f7f7e4;
+
+  --blanc: #ffffff;
+
+  --noir-intense: #111;
+  --noir: #222;
+  --noir-clair : #333;
+  --gris-clair: #e0e0e0;
+  --gris: #aaa;
+  --gris-fonce: #555;
+  --gris-legende: #888;
+  --gris-bordure: #999;
+
+  
+    /* catégorie « plante-mère » */
+  --plantemere-clair: #f5fcd2;
+  --plantemere-moyen: #b0c06a;
+  --plantemere-fonce: #8cac02;
+
+
+  /* catégorie « sous abri » */
+  --sousabri-clair: #e3f1e3;
+  --sousabri-moyen: #2e7d32;
+  --sousabri-fonce: #2d5a39;
+
+  /* catégorie « pleine terre » */
+  --pleineterre-clair: #e6d8bc;
+  --pleineterre-moyen: #b8863b;
+  --pleineterre-fonce: #7a5518;
+
+  /* catégorie « etape-intermediaire, à ajouter » */
+  --orange-clair: #f8d8b3;
+  --orange-moyen: #f79e4c;
+  --orange-fonce: #ff7b00;
+
+  /* catégorie « localisation » */
+  --ici-clair: #e8def0;
+  --ici-moyen: #8e6bb0;
+  --ici-fonce: #5b2d82;
+}
+
+/* ===== Base ===== */
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: system-ui, sans-serif;
+  margin: 0;
+  padding: 12px;
+  color: var(--label);
+  background: var(--arriere-plan);
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+h1 {
+  font-size: 1.2rem;
+  margin: 0;
+}
+h2 {
+  font-size: 1.1rem;
+  margin: 8px 0 8px;
+}
+h3 {
+  font-size: 1rem;
+  margin: 16px 0 8px;
+}
+[hidden] {
+  display: none !important;
+}
+
+/* ===== Bandeau du haut, collé à l'écran ===== */
+.entete {
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: 6px 0;
+  background: var(--arriere-plan);
+}
+
+/* ===== Ligne (conteneur de mise en page) ===== */
+.ligne {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 8px;
+  row-gap: 4px;
+}
+.ligne--entre {
+  justify-content: space-between;
+}
+.ligne--pleine {
+  flex-basis: 100%;
+}
+/* Ecart de cette ligne avec l'objet en dessous */
+.ligne--sur-champ {
+  margin-bottom: 6px;
+}
+/* Grille 2 colonnes, 1 colonne sur écran étroit */
+.grille {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 12px;
+}
+@media (max-width: 600px) {
+  .grille {
+    grid-template-columns: 1fr;
+  }
+}
+/* ===== Champ ===== */
+.champ {
+  width: 100%;
+  font-size: 0.9rem;
+  padding: 10px;
+  border: 1px solid var(--gris);
+  border-radius: 6px;
+  background: var(--arriere-plan);
+  color: var(--label);
+}
+.champ:focus {
+  outline: 1px solid var(--orange-fonce);
+}
+.champ--flexible {
+  flex: 1;
+  min-width: 0;
+}
+.champ--bouton {
+  text-align: left;
+  cursor: pointer;
+}
+
+/* ===== Case à cocher ===== */
+.case {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.case__texte {
+  font-size: 0.9rem;
+  color: var(--label);
+}
+.case__saisie {
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  flex: none;
+  background: var(--arriere-plan);
+  border: 2px solid var(--gris);
+  border-radius: 6px;
+  cursor: pointer;
+}
+.case__saisie:checked {
+  background: var(--orange-fonce) center / 80% no-repeat
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E");
+  border-color: var(--orange-fonce);
+}
+.case__saisie:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* ===== Menu déroulant ===== */
+.menu {
+  position: relative;
+}
+.menu__liste {
+  list-style: none;
+  margin: 1px 0 0;
+  padding: 0;
+  position: absolute; 
+  top: 100%; 
+  left: 0; right: 0; 
+  z-index: 10;
+  max-height: 50vh;
+  overflow-y: auto;
+  font-size: 0.9rem;
+  background: var(--arriere-plan);
+  border: 1px solid var(--gris);
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  touch-action: pan-y;
+  overscroll-behavior: contain;
+}
+.menu__item {
+  padding: 10px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.menu__item:hover,
+.menu__item--choisi {
+  background: var(--orange-clair);
+}
+.menu__item--choisi {
+  font-weight: bold;
+}
+.menu__item--vide {
+  color: var(--gris);
+  font-style: italic;
+  text-align: center;
+  cursor: default;
+}
+
+/* ===== Pastille ===== */
+.pastille {
+  display: inline-block;
+  padding: 6px 12px;
+  border: 1px solid;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+.pastille--lieu {
+  background: var(--ici-clair);
+  border-color: var(--ici-moyen);
+  color: var(--ici-fonce);
+  cursor: pointer;
+  user-select: none;
+}
+.pastille--info {
+  background: var(--bleu-clair);
+  border-color: var(--bleu-moyen);
+}
+.pastille--categorie {
+  padding: 2px;
+  font-size: 0.75rem;
+}
+.pastille--sousabri {
+  background: var(--sousabri-clair);
+  color: var(--sousabri-fonce);
+  border-color: var(--sousabri-moyen);
+}
+.pastille--pleineterre {
+  background: var(--pleineterre-clair);
+  color: var(--pleineterre-fonce);
+  border-color: var(--pleineterre-moyen);
+}
+.pastille--plantemere {
+  background: var(--plantemere-clair);
+  color: var(--plantemere-fonce);
+  border-color: var(--plantemere-moyen);
+}
+.pastille--etape {
+  background: var(--orange-clair);
+  border-color: var(--orange-moyen);
+}
+
+/* ===== Carte ===== */
+.liste-carte {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.carte {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 10px;
+  margin: 6px 0;
+  background: var(--blanc);
+  border: 1px solid var(--gris);
+  border-radius: 6px;
+}
+.carte--colonne {
+  flex-direction: column;
+  align-items: stretch;
+}
+/* Contenu à gauche d'une carte : ses blocs s'empilent avec 6px entre chacun.
+   Le bloc à droite (✕, champ Nb) est un enfant de .carte, centré par .carte. */
+.carte__contenu {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+.carte--plantemere {
+  border-left: 5px solid var(--plantemere-moyen);
+}
+.carte--sousabri {
+  border-left: 5px solid var(--sousabri-moyen);
+}
+.carte--pleineterre {
+  border-left: 5px solid var(--pleineterre-moyen);
+}
+.carte--etape {
+  border-left: 5px solid var(--orange-moyen);
+}
+.carte--cliquable {
+  cursor: pointer;
+}
+
+.carte__type {
+  margin-left: 4px;
+  font-size: 0.85rem;
+  color: var(--gris-fonce);
+}
+.carte__action {
+  flex: none;
+}
+
+/* ===== Texte ===== */
+.texte {
+  font-size: 0.85rem;
+}
+.texte--titre {
+  font-size: 0.90rem;
+}
+.texte--discret {
+  color: var(--gris-fonce);
+}
+.texte--gras {
+  font-weight: bold;
+}
+.texte--ici {
+  color: var(--ici-fonce);
+}
+.texte--etape {
+  color: var(--orange-fonce);
+  font-weight: bold;
+}
+.texte--morte,
+.texte--erreur {
+  color: var(--erreur-fonce);
+}
+.texte--succes {
+  color: var(--bleu-fonce);
+}
+.texte--plantemere {
+  color: var(--plantemere-fonce);
+}
+.texte--note {
+  font-size: 0.75rem;
+  color: var(--gris-fonce);
+}
+
+/* ===== Encart (succès, info) ===== */
+.encart {
+  padding: 5px;
+  border: 1px solid;
+  border-radius: 6px;
+}
+.encart--succes {
+  margin-top: 14px;
+  border-color: var(--bleu-moyen);
+  background: var(--bleu-clair);
+}
+.encart--alerte {
+  margin-top: 14px;
+  background: var(--blanc);
+  border-left: 5px solid var(--erreur-moyen);
+}
+/* ===== Statut ===== */
+.statut {
+  font-size: 0.85rem;
+  color: var(--a-jour);
+}
+.statut--non-sauvegarde {
+  color: var(--erreur-fonce);
+  font-weight: bold;
+}
+
+/* ===== Bouton ===== */
+.btn {
+  font: inherit;
+  font-size: 0.9rem;
+  padding: 10px;
+  border: 1px solid var(--gris);
+  border-radius: 6px;
+  background: var(--arriere-plan);
+  color: var(--label);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.btn:focus-visible {
+  outline: 2px solid var(--sousabri-moyen);
+  outline-offset: 2px;
+}
+.btn--grand {
+  width: 100%;
+  padding: 14px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 8px;
+}
+.btn--etape,
+.btn--actif {
+  background: var(--orange-clair);
+  border-color: var(--orange-moyen);
+}
+.btn--danger {
+  color: var(--erreur-fonce);
+}
+.btn--enregistrer {
+  border-color: var(--bleu-fonce);
+  background: var(--bleu-moyen);
+  color: var(--arriere-plan);
+  font-weight: bold;
+  margin-top: 8px;
+}
+/* Bouton collé en bas de l'écran (à poser sur un enfant direct de la section ou d'une .zone-transparente) */
+.btn--collant {
+  position: sticky;
+  bottom: 8px;
+  z-index: 5;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+.btn--suppr {
+  flex: none;
+  align-self: flex-start;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  line-height: 1;
+  color: var(--gris-fonce);
+}
+
+/* ===== Conteneur Vue transparent (bouton sticky) ===== */
+.zone-transparente {
+  display: contents;
+}
+
+/* ===== Confirmation (si utilisée) ===== */
+.confirmation {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.45);
+}
+.confirmation__boite {
+  width: 100%;
+  max-width: 420px;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 16px;
+  background: var(--blanc);
+  border-radius: 10px;
+}
+.confirmation__boutons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  align-items: end;
+}
+input,
+select,
+button,
+textarea {
+  color-scheme: light;
+}

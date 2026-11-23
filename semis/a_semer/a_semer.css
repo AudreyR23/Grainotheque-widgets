@@ -1,7 +1,32 @@
-/* ===== Filtres ===== */
-#filtres { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin-bottom: 10px; font-size: .9rem; }
-#filtres label { display: flex; align-items: center; gap: 6px; margin: 0; }
-.champ-filtre { width: auto; font-size: 1rem; padding: 6px 8px; }
+/* ===== À semer : uniquement ce qui n'est pas dans styles_communs.css ===== */
 
-/* ===== Variété déjà semée ===== */
-.carte.deja-semee { opacity: .6; }
+/* ===== Filtres (la mise en ligne vient de .ligne du commun) ===== */
+.filtres {
+  column-gap: 16px;
+  row-gap: 8px;
+  margin-bottom: 10px;
+}
+.filtres__groupe {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.9rem;
+}
+/* Champ réduit à son contenu (annule le width: 100% de .champ) */
+.champ--filtre {
+  width: auto;
+  padding: 6px 8px;
+  font-size: 1rem;
+}
+
+/* ===== Carte ===== */
+.carte--deja-semee {
+  opacity: 0.6;
+}
+/* Liseré moitié vert (haut) / moitié marron (bas) : sous abri ET pleine terre (absent du commun) */
+.carte--sousabri-pleineterre {
+  border-left: 5px solid transparent;
+  background:
+    linear-gradient(to bottom, var(--sousabri-moyen) 50%, var(--pleineterre-moyen) 50%) left / 5px 100% no-repeat border-box,
+    var(--blanc);
+}

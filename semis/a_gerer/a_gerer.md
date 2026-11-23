@@ -9,7 +9,7 @@ Widget Grist pour le suivi de saison : noter la germination des semis, noter les
 | `a_gerer.html` | Structure et textes, 7 zones Vue |
 | `a_gerer.css` | Styles propres à l'outil (message du bandeau, lieu mort, défilement, tri) |
 | `a_gerer.js` | Données, calculs, enregistrement ; messages dans le bloc `TEXTES` en haut du fichier |
-| `../../styles/styles_communs_bem.css` | Variables, champs, cartes, boutons (nommage BEM) |
+| `../../styles/styles_communs.css` | Variables, champs, cartes, boutons (nommage BEM) |
 | `../../script/scriptcommun.js` | Fonctions communes |
 
 Scripts en fin de `<body>`, dans cet ordre : plugin Grist, Vue 3.4.38 (unpkg), `scriptcommun.js`, `a_gerer.js`. Accès Grist : `full`.
@@ -77,7 +77,7 @@ Un seul bouton « Enregistrer tout », collé en bas.
 - Fichier de textes : garder `TEXTES` dans `a_gerer.js`, ou un fichier à part (comme `achatrepro_textes.js`), après comparaison des messages des outils.
 
 ## Classes du commun non utilisées par cet outil
-(Relevé du 21/11/2026, `styles_communs_bem.css`. À ne pas supprimer sans vérifier les autres outils.)
+(Relevé du 21/11/2026, `styles_communs.css`. À ne pas supprimer sans vérifier les autres outils.)
 - Pastilles : `pastille--info`, `pastille--sousabri`, `pastille--pleineterre`, `pastille--etape`
 - Cartes : `carte--sousabri`, `carte--pleineterre`
 - Texte : `texte--titre`, `texte--plantemere`

@@ -1,55 +1,40 @@
 // ===== État global =====
-let moisChoisi = new Date().getMonth() + 1;   // 1 à 12 (mois en cours pour l'instant)
-let afficherDejaSemees = false;
-let tri = 'nom';
-
 const MOIS = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jui', 'Juil', 'Aou', 'Sep', 'Oct', 'Nov', 'Déc'];
+
+const etat = Vue.reactive({
+  lignes: [],
+  mois: new Date().getMonth() + 1,   // 1 à 12
+  afficherDejaSemees: false,
+  tri: 'nom',
+  nbTotal: 0,                        // variétés à semer (non estompées), sans les filtres Sous abri / Pleine terre
+  nbRetenues: 0,                     // idem, après ces filtres
+  filtreActif: false,                // une case Sous abri / Pleine terre est cochée
+  filtreSousAbri: false,
+  filtrePleineTerre: false,
+  chargement: false,
+  message: ''                        // erreur de chargement (reste affichée jusqu'au prochain chargement réussi)
+});
+
+
+// ===== Textes des messages =====
+// Tous les messages construits par le JS sont ici, pour les relire et les comparer d'un outil à l'autre.
+const TEXTES = {
+  erreurChargement: (detail) => "Erreur de chargement : " + detail
+};
 
 const recordsParId = {
   varietes: new Map(),
   millesimes: new Map(),
   semisParVariete: new Map(),   // id variété → liste des Date_s (en secondes)
-  varietesAvecPlant: new Map()   // id variété → 'Plant' | 'Rhizome' | 'Caïeux' | 'Bulbe' |
+  varietesAvecPlant: new Map()  // id variété → Type_plant de sa plante mère ('' si non renseigné)
 };
 
 // ===== Utilitaires =====
-function tableEnLignes(tableau) {
-  const colonnes = Object.keys(tableau);
-  const lignes = [];
-  for (let i = 0; i < tableau.id.length; i++) {
-    const ligne = {};
-    for (const c of colonnes) ligne[c] = tableau[c][i];
-    lignes.push(ligne);
-  }
-  return lignes;
-}
-
-function listeChoix(valeur) {
-  return Array.isArray(valeur) && valeur[0] === 'L' ? valeur.slice(1) : [];
-}
-
-function anneeDepuisDate(secondes) {
-  return typeof secondes === 'number' ? new Date(secondes * 1000).getUTCFullYear() : null;
-}
-
-function normaliser(texte) {
-  return String(texte || '')
-    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase().replace(/\s+/g, ' ').trim();
-}
 
 function moisDansListe(liste, mois) {
   // liste = ['Jan', 'Fév', ...] ; mois = 1 à 12
   const cible = normaliser(MOIS[mois - 1]);
   return liste.some(m => normaliser(m) === cible);
-}
-
-function typeDePlant(sachets) {
-  // « 1P. », « rhi », « c. », « b. » (avec ou sans nombre devant) → type de matériel vivant, sinon null
-  const s = normaliser(sachets).replace(/\s+/g, '');
-const m = s.match(/^\d+(p|rhi|c|b)\.?$/);
-  if (!m) return null;
-  return { p: 'Plant', rhi: 'Rhizome', c: 'Caïeux', b: 'Bulbe' }[m[1]];
 }
 
 function fenetreDeSemis(liste, mois, annee) {
@@ -98,24 +83,23 @@ async function chargerDonnees() {
       type: v.Type || '',
       sousAbris: listeChoix(v.Semis_sous_abris),
       pleineTerre: listeChoix(v.Semis_pleine_terre),
-      dejaSemeCetteAnnee: v.Deja_seme_cette_annee === true,
       anneesSansTest: v.Annees_sans_test
     });
   }
 
   for (const m of tableEnLignes(tabMillesimes)) {
-    const typePlant = typeDePlant(m.Sachets);
+    const estPlant = !!m.Plante_mere;   // plante mère vivante (À gérer décoche Plante_mere à sa mort)
     recordsParId.millesimes.set(m.id, {
       id: m.id,
       varieteId: m.NomVariete || 0,
       annee: anneeDepuisDate(m.Millesime),
       epuise: m.Epuise === true,
       germination: typeof m.Germination_affichee === 'number' ? m.Germination_affichee : null,
-      estPlant: typePlant !== null,
-      avecGraines: m.Qtte_graines > 0,
-      estMelange: normaliser(m.Sachets).startsWith('mel')
+      estPlant,
+      avecGraines: m.Qtte_graines > 0 || m.Nb_sachets > 0,
+      estMelange: !!m.Melange
     });
-    if (typePlant && m.NomVariete) recordsParId.varietesAvecPlant.set(m.NomVariete, typePlant);
+    if (estPlant && m.NomVariete) recordsParId.varietesAvecPlant.set(m.NomVariete, m.Type_plant || '');
   }
     for (const s of tableEnLignes(tabSemis)) {
     if (!s.NomVariete || typeof s.Date_s !== 'number') continue;
@@ -128,7 +112,8 @@ async function chargerDonnees() {
 function millesimeAUtiliser(varieteId) {
   // Millésimes non épuisés de la variété
   const candidats = [...recordsParId.millesimes.values()]
-    .filter(m => m.varieteId === varieteId && !m.epuise && (!m.estPlant || m.avecGraines));  if (candidats.length === 0) return null;
+    .filter(m => m.varieteId === varieteId && !m.epuise && (!m.estPlant || m.avecGraines));  
+    if (candidats.length === 0) return null;
 
   // 1) le plus récent (parmi ceux qui ont une date)
   const dates = candidats.filter(m => m.annee !== null).sort((a, b) => b.annee - a.annee);
@@ -141,12 +126,12 @@ function millesimeAUtiliser(varieteId) {
 
 function comparerSelonTri(a, b) {
   const parNom = (a.v.nom + a.v.variete).localeCompare(b.v.nom + b.v.variete, 'fr');
-  if (tri === 'germination') {
+  if (etat.tri === 'germination') {
     const ga = a.mil?.germination ?? -1;
     const gb = b.mil?.germination ?? -1;
     return (gb - ga) || parNom;
   }
-  if (tri === 'test') {
+  if (etat.tri === 'test') {
     const ta = typeof a.v.anneesSansTest === 'number' ? a.v.anneesSansTest : 999;   // « Jamais testé » en tête
     const tb = typeof b.v.anneesSansTest === 'number' ? b.v.anneesSansTest : 999;
     return (tb - ta) || parNom;
@@ -158,155 +143,75 @@ function varietesASemer() {
   const annee = new Date().getFullYear();
   const resultat = [];
   for (const v of recordsParId.varietes.values()) {
-    const sousAbris = moisDansListe(v.sousAbris, moisChoisi);
-    const pleineTerre = moisDansListe(v.pleineTerre, moisChoisi);
+    const sousAbris = moisDansListe(v.sousAbris, etat.mois);
+    const pleineTerre = moisDansListe(v.pleineTerre, etat.mois);
     if (!sousAbris && !pleineTerre) continue;     // pas dans la fenêtre de semis
 
-    const fenetre = fenetreDeSemis([...v.sousAbris, ...v.pleineTerre], moisChoisi, annee);
+    const fenetre = fenetreDeSemis([...v.sousAbris, ...v.pleineTerre], etat.mois, annee);
     const dates = recordsParId.semisParVariete.get(v.id) || [];
     const semisFait = dates.some(d => d >= fenetre.debut && d < fenetre.fin);
-    const plant = recordsParId.varietesAvecPlant.get(v.id) || null;
-    const dejaSemee = semisFait || plant !== null;
-    if (dejaSemee && !afficherDejaSemees) continue;
+    const plant = recordsParId.varietesAvecPlant.has(v.id);          // plante mère au jardin
+    const typePlant = recordsParId.varietesAvecPlant.get(v.id) || '';  // pieds, rhizome, caïeux, bulbe ou ''
+    const dejaSemee = semisFait || plant;
+    if (dejaSemee && !etat.afficherDejaSemees) continue;
 
     const mil = millesimeAUtiliser(v.id);
     if (!mil && !plant) continue;                 // ni graines, ni plant
-    resultat.push({ v, mil, sousAbris, pleineTerre, dejaSemee, semisFait, plant, fenetre });
+
+    // Valeurs pour l'affichage (le HTML écrit les phrases)
+    const g = mil ? mil.germination : null;
+    const germination = g === null ? null : Math.round(g <= 1 ? g * 100 : g);   // en %
+    const anneesSansTest = typeof v.anneesSansTest === 'number' ? v.anneesSansTest : null;   // null = jamais testé
+
+    resultat.push({ v, mil, sousAbris, pleineTerre, dejaSemee, semisFait, plant, typePlant, fenetre, germination, anneesSansTest });
   }
   return resultat.sort(comparerSelonTri);
 }
 
 // ===== Affichage =====
-function texteGermination(g) {
-  if (g === null) return 'germination inconnue';
-  return 'germination ' + Math.round(g <= 1 ? g * 100 : g) + ' %';
-}
-
-function texteTest(a) {
-  if (typeof a === 'number') return a === 0 ? 'testé cette année' : `testé il y a ${a} an${a > 1 ? 's' : ''}`;
-  return 'jamais testé';
-}
-
 function afficher() {
-  const liste = document.getElementById('liste');
-  liste.innerHTML = '';
-  const lignes = varietesASemer();
+  const toutes = varietesASemer();
+  const lignes = toutes.filter(l =>
+    (!etat.filtreSousAbri || l.sousAbris) && (!etat.filtrePleineTerre || l.pleineTerre));
+  etat.nbTotal = toutes.filter(l => !l.dejaSemee).length;
+  etat.nbRetenues = lignes.filter(l => !l.dejaSemee).length;
+  etat.filtreActif = etat.filtreSousAbri || etat.filtrePleineTerre;
+  etat.lignes = lignes;
+}
 
-  for (const { v, mil, sousAbris, pleineTerre, dejaSemee, semisFait, plant, fenetre } of lignes) {
-    const li = document.createElement('li');
-        // Liseré : vert (sous abri), marron (pleine terre), moitié-moitié si les deux
-    const categorie = sousAbris && pleineTerre ? 'sousabri-pleineterre' : sousAbris ? 'sousabri' : 'pleineterre';
-    li.className = 'carte ' + categorie + (dejaSemee ? ' deja-semee' : '');
-    
-    const texte = document.createElement('div');
-    texte.className = 'carte-texte';
-
-    // Nom
-    const nom = document.createElement('strong');
-    nom.textContent = v.variete ? `${v.nom} — ${v.variete}` : v.nom;
-    texte.appendChild(nom);
-
-    // Ligne colorée : Sous abri / Pleine terre
-    const mention = document.createElement('div');
-    mention.className = 'carte-mention';
-    const categories = [];
-    if (sousAbris) categories.push(['pastille-sousabri', 'Sous abri']);
-    if (pleineTerre) categories.push(['pastille-pleineterre', 'Pleine terre']);
-    for (const [classe, intitule] of categories) {
-      const p = document.createElement('span');
-      p.className = 'pastille-cat ' + classe;
-      p.textContent = intitule;
-      mention.appendChild(p);
-    }
-    texte.appendChild(mention);
-
-    // Détails en gris
-    const periode = `semis ${MOIS[fenetre.debutMois - 1]} → ${MOIS[fenetre.finMois - 1]}`;
-    const detail = document.createElement('div');
-    detail.className = 'carte-detail';
-    if (mil) {
-      const anneeMil = mil.estMelange ? 'sachet mélangé (plusieurs millésimes)'
-        : mil.annee !== null ? `millésime ${mil.annee}` : 'millésime sans date';
-      detail.textContent = `${anneeMil} · ${texteGermination(mil.germination)} · ${texteTest(v.anneesSansTest)} · ${periode}`;
-    } else {
-      detail.textContent = `pas de graines · ${periode}`;
-    }
-    texte.appendChild(detail);
-
-    // Cadre bleu : déjà semée / plant au jardin
-    const infos = [];
-    if (semisFait) infos.push('Déjà semée');
-    if (plant) infos.push(`${plant} au jardin`);
-    if (infos.length) {
-      const cadre = document.createElement('div');
-      cadre.className = 'cadre-info-a-jour';
-      const titre = document.createElement('div');
-      titre.className = 'cadre-info-a-jour-titre';
-      titre.textContent = infos.join(' · ');
-      cadre.appendChild(titre);
-      texte.appendChild(cadre);
-    }
-
-    // Bouton à droite, centré verticalement
-    const bouton = document.createElement('button');
-    bouton.type = 'button';
-    bouton.className = 'btn btn-enregistrer btn-semer carte-action';
-    bouton.textContent = 'Semer';
-    bouton.dataset.id = v.id;
-
-    li.append(texte, bouton);
-    liste.appendChild(li);
-  }
+// ===== Codes et actions utilisés par le HTML =====
+function categorie(l) {
+  // Code du liseré : 'sousabri', 'pleineterre' ou 'sousabri-pleineterre' (le HTML en fait la classe carte--…)
+  return l.sousAbris && l.pleineTerre ? 'sousabri-pleineterre' : l.sousAbris ? 'sousabri' : 'pleineterre';
+}
+function semer(id) {
+  canal.postMessage({ varieteId: id });
 }
 
 async function actualiser() {
-  const bouton = document.getElementById('btnActualiser');
-  bouton.disabled = true;
+  etat.chargement = true;
+  etat.message = '';
   try {
     await chargerDonnees();
     afficher();
   } catch (err) {
     console.error(err);
-    document.getElementById('message').textContent = 'Erreur de chargement : ' + err.message;
+    etat.message = TEXTES.erreurChargement(err.message);
   } finally {
-    bouton.disabled = false;
+    etat.chargement = false;
   }
 }
 
-// ===== Filtres =====
-function initialiserFiltres() {
-  const selectMois = document.getElementById('selectMois');
-  MOIS.forEach((nom, i) => {
-    const opt = document.createElement('option');
-    opt.value = i + 1;
-    opt.textContent = nom;
-    selectMois.appendChild(opt);
-  });
-  selectMois.value = String(moisChoisi);
-  selectMois.addEventListener('change', () => {
-    moisChoisi = Number(selectMois.value);
-    afficher();
-  });
-    document.getElementById('caseDejaSemees').addEventListener('change', e => {
-    afficherDejaSemees = e.target.checked;
-    afficher();
-  });
-    document.getElementById('selectTri').addEventListener('change', e => {
-    tri = e.target.value;
-    afficher();
-  });
-}
 
 // ===== Initialisation =====
 // 'full' est nécessaire pour lire plusieurs tables avec docApi.fetchTable, même si on n'écrit rien.
 grist.ready({ requiredAccess: 'full' });
 const canal = new BroadcastChannel('granotheque-semer');
-
-document.getElementById('liste').addEventListener('pointerdown', e => {
-  const btn = e.target.closest('.btn-semer');
-  if (!btn) return;
-  canal.postMessage({ varieteId: Number(btn.dataset.id) });
-});
-document.getElementById('btnActualiser').addEventListener('click', actualiser);
-initialiserFiltres();
+// Quand un filtre change, la liste se recalcule
+Vue.watch(() => [etat.mois, etat.afficherDejaSemees, etat.tri, etat.filtreSousAbri, etat.filtrePleineTerre], afficher);
+Vue.createApp({ setup() { return { etat, MOIS, actualiser }; } }).mount('#appEntete');
+Vue.createApp({ setup() { return { etat, MOIS }; } }).mount('#appFiltres');
+Vue.createApp({ setup() { return {
+  etat, MOIS, typeInverse, libelle, categorie, pluriel, semer
+}; } }).mount('#appListe');
 actualiser();
