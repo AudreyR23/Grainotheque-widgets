@@ -10,8 +10,8 @@
   --erreur-fonce: #c62828;
   --label: #2b2b2b;
   --arriere-plan: #f7f7e4;
-  --gris: #aaa;
-  --gris-fonce: #555;
+  --gris: var(--gris);
+  --gris-fonce: var(--gris-fonce);
   --blanc: #ffffff;
   
     /* catégorie « plante-mère » */

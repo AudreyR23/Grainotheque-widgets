@@ -7,7 +7,7 @@
 - Une discussion par outil. Les changements du commun (`scriptcommun.js`, CSS commun) se traitent à part.
 
 ## Fichiers et chargement
-- `outil.html`, `outil.js`, `outil.css` + commun : `../../script/scriptcommun.js` et `../../styles/styles_communs_bem.css`.
+- `outil.html`, `outil.js`, `outil.css` + commun : `../../script/scriptcommun.js` et `../../styles/styles_communs.css`.
 - Les outils pas encore migrés utilisent encore l'ancien `styles_commun.css`.
 - Scripts en fin de `<body>`, dans cet ordre : plugin Grist, Vue 3.4.38 (unpkg), `scriptcommun.js`, (`outil_textes.js` s'il existe), `outil.js`.
 - `grist.ready({ requiredAccess: 'full' })`.
@@ -123,7 +123,7 @@ Vue.watch(() => [etat.saisies, etat.saisiesMeres], sauvegarderSaisies, { deep: t
 - Vue du code de Grist (menu de gauche) : toutes les formules sur une page, pratique pour chercher qui lit une colonne.
 
 ## À traiter dans la discussion du commun
-- `styles_communs_bem.css` : `.btn--enregistrer` (`margin-top: 8px`) écrase `.btn--grand` (`margin-top: 14px`), plus bas dans le fichier. Garder l'un des deux.
+- `styles_communs.css` : `.btn--enregistrer` (`margin-top: 8px`) écrase `.btn--grand` (`margin-top: 14px`), plus bas dans le fichier. Garder l'un des deux.
 - Rapprocher `champ--bouton` (commun) et `champ--deroulant` (Achat-repro) si un autre outil a besoin de la flèche.
 
 ## Outils d'impression

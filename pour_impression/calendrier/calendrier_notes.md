@@ -81,7 +81,7 @@ Volume : environ 143 plantes affichées.
  
 ## Fichiers
 - `calendrier.html`, `calendrier.js`, `calendrier.css`
-- Commun : `../../script/scriptcommun.js`, `../../styles/styles_communs_bem.css`, `../../styles/styles_communs_pourimpression.css`
+- Commun : `../../script/scriptcommun.js`, `../../styles/styles_communs.css`, `../../styles/styles_communs_pourimpression.css`
   (chargé entre le commun BEM et le CSS de l'outil).
 - Fonctions communes utilisées : `tableEnLignes`, `listeChoix`, `normaliser`, `pluriel`, `typeInverse`.
 - N'utilise plus `main.css`.

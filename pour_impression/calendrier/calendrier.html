@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Calendrier des semis</title>
-    <link rel="stylesheet" href="../../styles/styles_communs_bem.css" />
+    <link rel="stylesheet" href="../../styles/styles_communs.css" />
     <link rel="stylesheet" href="../../styles/styles_communs_pourimpression.css" />
     <link rel="stylesheet" href="calendrier.css" />
   </head>
@@ -42,7 +42,7 @@
           </p>
         </div>
         <div class="calendrier__colonnes">
-          <table v-for="(colonne, c) in page.colonnes" :key="c" class="tableau-semis">
+          <table v-for="(colonne, c) in page.colonnes" :key="c" class="tableau tableau-semis">
             <colgroup>
               <col class="tableau-semis__col-nom">
               <col v-for="m in MOIS" :key="m.num">
@@ -54,8 +54,8 @@
               </tr>
             </thead>
                         <tbody>
-              <tr v-for="plante in colonne" :key="plante.cle" class="tableau-semis__ligne">
-                <td class="tableau-semis__nom">{{ plante.nom }}</td>
+              <tr v-for="plante in colonne" :key="plante.cle" class="tableau-semis__ligne insecable">
+                <td class="tableau-semis__nom tronque">{{ plante.nom }}</td>
                 <td v-for="(cas, i) in plante.mois" :key="i" class="tableau-semis__case" :class="{ 'tableau-semis__case--actuel': i + 1 === MOIS_COURANT, 'tableau-semis__case--cliquable': estPartielle(cas) }" @click.stop="ouvrirDetails(plante, i)">
                   <span class="barre barre--abri" :class="{ 'barre--abri-partielle': cas.abri === 'certaines', 'barre--vide': cas.abri === 'aucune' }"></span>
                   <span class="barre barre--terre" :class="{ 'barre--terre-partielle': cas.terre === 'certaines', 'barre--vide': cas.terre === 'aucune' }"></span>
@@ -67,7 +67,7 @@
       </div>
     </div>
         <div id="appDetails">
-      <div v-if="etat.details" class="fenetre" @click.stop>
+      <div v-if="etat.details" class="fenetre ecran-seulement" @click.stop>
         <div class="ligne ligne--entre">
           <p class="fenetre__titre">{{ etat.details.plante }} · {{ etat.details.mois }}</p>
           <button type="button" class="btn btn--suppr" aria-label="Fermer" @click="fermerDetails">✕</button>

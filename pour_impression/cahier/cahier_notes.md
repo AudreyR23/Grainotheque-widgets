@@ -10,7 +10,7 @@ Volume : environ 449 variétés affichées (558 dans Varietes).
 
 ## Fichiers
 - `cahier.html`, `cahier.js`, `cahier.css`
-- Commun : `../../script/scriptcommun.js`, `../../styles/styles_communs_bem.css`
+- Commun : `../../script/scriptcommun.js`, `../../styles/styles_communs.css`
 - Fonctions communes utilisées : `tableEnLignes`, `listeChoix`, `pluriel`.
 - N'utilise plus `main.css` (toujours utilisé par les épingles et l'ancien widget d'étiquettes).
 

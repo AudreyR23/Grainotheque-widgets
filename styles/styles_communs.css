@@ -13,9 +13,18 @@
 
   --label: #2b2b2b;
   --arriere-plan: #f7f7e4;
+
+  --blanc: #ffffff;
+
+  --noir-intense: #111;
+  --noir: #222;
+  --noir-clair : #333;
+  --gris-clair: #e0e0e0;
   --gris: #aaa;
   --gris-fonce: #555;
-  --blanc: #ffffff;
+  --gris-legende: #888;
+  --gris-bordure: #999;
+
   
     /* catégorie « plante-mère » */
   --plantemere-clair: #f5fcd2;
@@ -354,7 +363,11 @@ h3 {
   border-color: var(--bleu-moyen);
   background: var(--bleu-clair);
 }
-
+.encart--alerte {
+  margin-top: 14px;
+  background: var(--blanc);
+  border-left: 5px solid var(--erreur-moyen);
+}
 /* ===== Statut ===== */
 .statut {
   font-size: 0.85rem;
@@ -453,6 +466,7 @@ h3 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
+  align-items: end;
 }
 input,
 select,

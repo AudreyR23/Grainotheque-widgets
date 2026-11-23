@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Numéros d'épingle</title>
-    <link rel="stylesheet" href="../../styles/styles_communs_bem.css" />
+    <link rel="stylesheet" href="../../styles/styles_communs.css" />
     <link rel="stylesheet" href="../../styles/styles_communs_pourimpression.css" />    
     <link rel="stylesheet" href="numero.css" />
   </head>
@@ -26,7 +26,7 @@
     <div id="appPages" class="zone-feuilles">
       <div v-for="(page, p) in etat.pages" :key="p" class="feuille feuille--epingles" :style="{ '--zoom-ecran': etat.zoom }">
         <div v-for="(colonne, c) in page" :key="c" class="liste-epingles" :class="{ 'liste-epingles--vide': !colonne.length }">
-          <div v-for="e in colonne" :key="e.id" class="epingle">
+          <div v-for="e in colonne" :key="e.id" class="epingle insecable">
             <div class="epingle__cellule epingle__cellule--type">{{ e.type }}</div>
             <div class="epingle__cellule epingle__cellule--nom">
               <span class="epingle__nom">{{ e.nom }}</span>

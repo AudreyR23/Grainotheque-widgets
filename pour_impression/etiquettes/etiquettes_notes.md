@@ -7,7 +7,7 @@ Accès Grist : `full`. Versions dev (branche `Vue`) et prod (`main`).
 
 ## Fichiers
 - `etiquettes.html`, `etiquettes.js`, `etiquettes.css`
-- Commun : `../../script/scriptcommun.js`, `../../styles/styles_communs_bem.css`
+- Commun : `../../script/scriptcommun.js`, `../../styles/styles_communs.css`
 - Fonctions communes utilisées : `anneeDepuisDate`, `pluriel`, `libelle`, `tableEnLignes`, `creerMessageTemporaire`.
 - N'utilise plus `main.css` (toujours utilisé par le tableau et les épingles).
 
@@ -69,7 +69,7 @@ Accès Grist : `full`. Versions dev (branche `Vue`) et prod (`main`).
   Ne pas utiliser `keepEncoded: true` (les dates arrivent codées `['d', secondes]`).
 
 ## CSS (`etiquettes.css`)
-- Section « candidat au commun impression » : `.feuille` (A4 paysage, police Arial 9px #222 remise car le commun change
+- Section « candidat au commun impression » : `.feuille` (A4 paysage, police Arial 9px var(--noir) remise car le commun change
   le `body`), `@media print` (`@page` A4 paysage marge 0, `body` sans padding, `.entete` et `.confirmation` masqués,
   saut de page après chaque feuille). À déplacer dans `styles_communs_impression_bem.css` quand le tableau ou les épingles seront migrés.
   Le `padding: 10mm` de `.feuille` est propre aux étiquettes (tableau / épingles : 15mm 10mm 10mm 10mm).

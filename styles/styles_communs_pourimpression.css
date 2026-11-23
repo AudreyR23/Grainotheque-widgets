@@ -1,5 +1,5 @@
 /* ===== Styles communs aux outils d'impression (étiquettes, cahier, numéros) ===== */
-/* À charger APRÈS styles_communs_bem.css et AVANT le CSS de l'outil.
+/* À charger APRÈS styles_communs.css et AVANT le CSS de l'outil.
    Le CSS de l'outil peut ainsi remplacer une valeur (ex. le padding de .feuille pour les étiquettes). */
 
 /* ----- Feuille A4 paysage ----- */
@@ -12,7 +12,9 @@
   border: 0.5px solid #ddd;
   font-family: Arial, 'Liberation Sans', Helvetica, sans-serif;
   font-size: 9px;
-  color: #222;
+  color: var(--noir);
+  -webkit-print-color-adjust: exact; 
+  print-color-adjust: exact;
   zoom: var(--zoom-ecran, 1); /* aperçu réduit à l'écran, facteur calculé par le JS de l'outil (1 sinon) */
 }
 
@@ -21,6 +23,20 @@
    L'en-tête collé garde ainsi toute la largeur visible. */
 .zone-feuilles {
   overflow-x: auto;
+}
+
+/* ----- Texte coupé par ----- */
+.tronque { 
+  overflow: hidden; 
+  white-space: nowrap; 
+  text-overflow: ellipsis; 
+}
+
+/* ----- Tableau ----- */
+.tableau {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
 }
 
 /* ----- Impression ----- */
@@ -34,10 +50,11 @@
     padding: 0;
     background: white;
   }
-  .entete,
-  .confirmation {
-    display: none;
-  }
+    .entete, 
+    .confirmation, 
+    .ecran-seulement { 
+      display: none; 
+    }
   /* La zone ne doit pas défiler à l'impression : sinon Firefox n'imprime que la première feuille */
   .zone-feuilles {
     overflow: visible;
@@ -53,5 +70,9 @@
   .feuille:last-child {
     page-break-after: avoid;
     break-after: avoid;
+  }
+  .insecable { 
+    break-inside: avoid; 
+    page-break-inside: avoid; 
   }
 }

@@ -9,7 +9,7 @@ Accès Grist : `full`. Versions dev (branche `Vue`) et prod (`main`).
 
 ## Fichiers
 - `numero.html`, `numero.js`, `numero.css` (mêmes noms que l'ancien outil : remplacés, rien à supprimer)
-- Commun : `../../script/scriptcommun.js`, `../../styles/styles_communs_bem.css`,
+- Commun : `../../script/scriptcommun.js`, `../../styles/styles_communs.css`,
   `../../styles/styles_communs_impression_bem.css` (**premier outil à le charger**)
 - Ordre des CSS : commun BEM, commun impression, `numero.css`.
 - Fonctions communes utilisées : `tableEnLignes`, `pluriel`.
@@ -61,7 +61,7 @@ Accès Grist : `full`. Versions dev (branche `Vue`) et prod (`main`).
   `:style="{ '--zoom-ecran': etat.zoom }"` sur chaque `.feuille` ; `zoom: 1` à l'impression (commun impression).
 
 ## CSS
-- Du **commun impression** : `.feuille` (A4 paysage, padding `15mm 10mm 10mm 10mm`, police Arial 9px #222),
+- Du **commun impression** : `.feuille` (A4 paysage, padding `15mm 10mm 10mm 10mm`, police Arial 9px var(--noir)),
   `.zone-feuilles` (défilement à l'écran, `overflow: visible` à l'impression), `@media print`
   (`@page` A4 paysage marge 0, `body` sans padding, `.entete` masqué, saut de page après chaque feuille).
 - **Local** (`numero.css`) : `feuille--epingles` (flex, `align-items: flex-start` pour qu'une colonne incomplète

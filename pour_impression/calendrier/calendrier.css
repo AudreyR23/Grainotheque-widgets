@@ -1,6 +1,6 @@
 /* =============================================
    CALENDRIER DES SEMIS : styles propres à l'outil
-   Chargé après styles_communs_bem.css et styles_communs_pourimpression.css
+   Chargé après styles_communs.css et styles_communs_pourimpression.css
    (qui fournissent .entete, .btn, .feuille, .zone-feuilles et @media print)
    Feuille A4 paysage : zone utile 277 x 185 mm (padding de .feuille : 15/10/10/10 mm)
    ============================================= */
@@ -33,14 +33,14 @@
 .calendrier__suite {
   font-size: 10px;
   font-weight: normal;
-  color: #777;
+  color: var(--gris-legende);
 }
 .calendrier__legende {
   display: flex;
   gap: 5mm;
   margin: 0;
   font-size: 9px;
-  color: #555;
+  color: var(--gris-fonce);
 }
 .calendrier__cle {
   display: flex;
@@ -58,8 +58,6 @@
 /* ----- Tableau plante x mois ----- */
 .tableau-semis {
   width: calc((100% - 8mm) / 2);   /* moitié de la feuille, même s'il n'y a qu'un tableau */
-  border-collapse: collapse;
-  table-layout: fixed;
 }
 .tableau-semis__col-nom {
   width: 30mm;                      /* les 12 mois se partagent le reste (environ 8 mm chacun) */
@@ -70,7 +68,7 @@
   font-weight: bold;
   color: var(--sousabri-fonce);
   text-align: center;
-  border-bottom: 1px solid #999;
+  border-bottom: 1px solid var(--gris-bordure);
 }
 .tableau-semis__titre--nom {
   text-align: left;
@@ -83,16 +81,13 @@
 .tableau-semis__nom {
   padding: 0 1mm;
   font-size: 12px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  border-bottom: 0.5px solid #ddd;
+  border-bottom: 0.5px solid var(--gris-clair);
 }
 .tableau-semis__case {
   padding: 0 0.4mm;
   vertical-align: middle;
-  border-bottom: 0.5px solid #ddd;
-  border-left: 0.5px solid #eee;
+  border-bottom: 0.5px solid var(--gris-clair);
+  border-left: 0.5px solid #ffffff;
 }
 /* Mois courant (écran seulement, retiré à l'impression) */
 .tableau-semis__titre--actuel,
@@ -106,8 +101,6 @@
   height: 1.8mm;
   margin: 0.3mm 0;
   border-radius: 0.4mm;
-  -webkit-print-color-adjust: exact;
-  print-color-adjust: exact;
 }
 .barre--abri {
   background: var(--sousabri-moyen);
@@ -160,7 +153,7 @@
   background: var(--blanc);
   border: 2px solid var(--sousabri-moyen);
   border-radius: 10px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 5px 20px var(--noir-intense);
   font-size: 0.85rem;
 }
 .fenetre__titre {
@@ -186,7 +179,7 @@
 }
 .fenetre__cellule {
   padding: 4px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--gris-clair);
 }
 /* =============================================
    IMPRESSION (le reste vient de styles_communs_pourimpression.css)
@@ -195,13 +188,6 @@
   .tableau-semis__titre--actuel,
   .tableau-semis__case--actuel {
     background: none;
-  }
-  .tableau-semis__ligne {
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
-  .fenetre {
-    display: none;
   }
 }
 

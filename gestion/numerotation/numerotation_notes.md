@@ -14,7 +14,7 @@ Prévu pour PC et tablette. Lit `Varietes` et `Millesimes`, écrit seulement dan
 | `numerotation.html` | Structure et textes, 5 zones Vue |
 | `numerotation.css` | Styles propres à l'outil (une seule règle : `encart--anomalies`) |
 | `numerotation.js` | Données, calculs, enregistrement ; messages dans le bloc `TEXTES` en haut du fichier |
-| `../../styles/styles_communs_bem.css` | Variables, champs, cartes, boutons (nommage BEM) |
+| `../../styles/styles_communs.css` | Variables, champs, cartes, boutons (nommage BEM) |
 | `../../script/scriptcommun.js` | Fonctions communes |
 
 Scripts en fin de `<body>`, dans cet ordre : plugin Grist, Vue 3.4.38 (unpkg), `scriptcommun.js`, `numerotation.js`. Accès Grist : `full`.
@@ -129,7 +129,7 @@ Un Ctrl+Z dans Grist annule tout l'enregistrement d'un coup.
 Classe locale : `encart--anomalies` (variante de `encart`, fond et bord rouges, `word-break`).
 
 ## Classes du commun non utilisées par cet outil
-(Relevé du 22/11/2026, `styles_communs_bem.css`. À ne pas supprimer sans vérifier les autres outils.)
+(Relevé du 22/11/2026, `styles_communs.css`. À ne pas supprimer sans vérifier les autres outils.)
 - Ligne : `ligne--pleine`, `grille`
 - Champ : `champ--flexible`, `champ--bouton`
 - Menu : `menu__item--choisi`

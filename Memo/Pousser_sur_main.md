@@ -17,7 +17,7 @@ git ls-tree -r Vue --name-only | grep nom_outil | tr '\n' ' '
 git checkout main
 git pull
 git checkout Vue -- dossier/outil/outil.html dossier/outil/outil.js dossier/outil/outil.css
-# + si modifiés pour cet outil : script/scriptcommun.js  styles/styles_communs_bem.css
+# + si modifiés pour cet outil : script/scriptcommun.js  styles/styles_communs.css
 git status                          # contrôler la liste (fichiers en vert)
 
 ## 4. Contrôler un fichier partagé avant validation

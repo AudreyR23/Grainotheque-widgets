@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Cahier</title>
-    <link rel="stylesheet" href="../../styles/styles_communs_bem.css" />
+    <link rel="stylesheet" href="../../styles/styles_communs.css" />
+    <link rel="stylesheet" href="../../styles/styles_communs_pourimpression.css" />    
     <link rel="stylesheet" href="cahier.css" />
   </head>
   <body>
@@ -22,90 +23,90 @@
       <p v-if="etat.erreur" class="texte texte--erreur texte--gras">{{ etat.erreur }}</p>
     </header>
 
-    <div id="appPages">
+    <div id="appPages" class="zone-feuilles">
       <div v-for="(page, p) in etat.pages" :key="p" class="feuille" :style="{ '--zoom-ecran': etat.zoom }">
         <table class="tableau">
           <thead>
             <tr>
-              <th class="tableau__titre col-type">Type</th>
-              <th class="tableau__titre col-nom">Nom-Variété</th>
-              <th class="tableau__titre col-ep">Ép.</th>
-              <th class="tableau__titre col-nb">Nb</th>
-              <th class="tableau__titre col-orig">Orig.</th>
-              <th class="tableau__titre col-sac">Sac.</th>
-              <th class="tableau__titre col-millesime">Millésime</th>
-              <th class="tableau__titre col-sais">Sais.</th>
-              <th class="tableau__titre col-qte">Qté</th>
-              <th class="tableau__titre col-germ">Germ.</th>
-              <th class="tableau__titre col-nb-gr">Nb.gr</th>
-              <th class="tableau__titre col-nb-go">Nb.go</th>
-              <th class="tableau__titre col-annee-s">Année.s</th>
-              <th class="tableau__titre col-date-s">Date.s</th>
-              <th class="tableau__titre col-germe">Germé</th>
-              <th class="tableau__titre col-oups">Oups</th>
-              <th class="tableau__titre col-plante">Planté</th>
-              <th class="tableau__titre col-date-p">Date.p</th>
-              <th class="tableau__titre col-ou">Où</th>
-              <th class="tableau__titre col-donne">Donné</th>
+              <th class="tableau__titre tronque col-type">Type</th>
+              <th class="tableau__titre tronque col-nom">Nom-Variété</th>
+              <th class="tableau__titre tronque col-ep">Ép.</th>
+              <th class="tableau__titre tronque col-nb">Nb</th>
+              <th class="tableau__titre tronque col-orig">Orig.</th>
+              <th class="tableau__titre tronque col-sac">Sac.</th>
+              <th class="tableau__titre tronque col-millesime">Millésime</th>
+              <th class="tableau__titre tronque col-sais">Sais.</th>
+              <th class="tableau__titre tronque col-qte">Qté</th>
+              <th class="tableau__titre tronque col-germ">Germ.</th>
+              <th class="tableau__titre tronque col-nb-gr">Nb.gr</th>
+              <th class="tableau__titre tronque col-nb-go">Nb.go</th>
+              <th class="tableau__titre tronque col-annee-s">Année.s</th>
+              <th class="tableau__titre tronque col-date-s">Date.s</th>
+              <th class="tableau__titre tronque col-germe">Germé</th>
+              <th class="tableau__titre tronque col-oups">Oups</th>
+              <th class="tableau__titre tronque col-plante">Planté</th>
+              <th class="tableau__titre tronque col-date-p">Date.p</th>
+              <th class="tableau__titre tronque col-ou">Où</th>
+              <th class="tableau__titre tronque col-donne">Donné</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="g in page" :key="g.id" class="tableau__ligne">
-              <td class="tableau__cellule col-type">{{ g.type }}</td>
-              <td class="tableau__cellule col-nom">
+              <td class="tableau__cellule tronque col-type">{{ g.type }}</td>
+              <td class="tableau__cellule tronque col-nom">
                 <span class="tableau__nom">{{ g.nom }}</span>
                 <span v-if="g.variete" class="tableau__variete">{{ g.variete }}</span>
               </td>
-              <td class="tableau__cellule col-ep">{{ g.num_epingle }}</td>
-              <td class="tableau__cellule tableau__cellule--gris col-nb">{{ g.nb_epingle }}</td>
+              <td class="tableau__cellule tronque col-ep">{{ g.num_epingle }}</td>
+              <td class="tableau__cellule tronque tableau__cellule--gris col-nb">{{ g.nb_epingle }}</td>
 
-              <td class="tableau__cellule col-orig" :class="{ 'tableau__cellule--multi': g.sachets.length > 1 }">
+              <td class="tableau__cellule tronque col-orig" :class="{ 'tableau__cellule--multi': g.sachets.length > 1 }">
                 <template v-if="g.sachets.length > 1">
                   <span v-for="(s, k) in g.sachets" :key="k" class="tableau__sachet">{{ s.origine || '\u00A0' }}</span>
                 </template>
                 <template v-else>{{ g.sachets[0].origine || '\u00A0' }}</template>
               </td>
-              <td class="tableau__cellule col-sac" :class="{ 'tableau__cellule--multi': g.sachets.length > 1 }">
+              <td class="tableau__cellule tronque col-sac" :class="{ 'tableau__cellule--multi': g.sachets.length > 1 }">
                 <template v-if="g.sachets.length > 1">
                   <span v-for="(s, k) in g.sachets" :key="k" class="tableau__sachet">{{ s.sachet || '\u00A0' }}</span>
                 </template>
                 <template v-else>{{ g.sachets[0].sachet || '\u00A0' }}</template>
               </td>
-              <td class="tableau__cellule col-millesime" :class="{ 'tableau__cellule--multi': g.sachets.length > 1 }">
+              <td class="tableau__cellule tronque col-millesime" :class="{ 'tableau__cellule--multi': g.sachets.length > 1 }">
                 <template v-if="g.sachets.length > 1">
                   <span v-for="(s, k) in g.sachets" :key="k" class="tableau__sachet">{{ s.annee || '\u00A0' }}</span>
                 </template>
                 <template v-else>{{ g.sachets[0].annee || '\u00A0' }}</template>
               </td>
-              <td class="tableau__cellule col-sais" :class="{ 'tableau__cellule--multi': g.sachets.length > 1 }">
+              <td class="tableau__cellule tronque col-sais" :class="{ 'tableau__cellule--multi': g.sachets.length > 1 }">
                 <template v-if="g.sachets.length > 1">
                   <span v-for="(s, k) in g.sachets" :key="k" class="tableau__sachet">{{ s.saisons || '\u00A0' }}</span>
                 </template>
                 <template v-else>{{ g.sachets[0].saisons || '\u00A0' }}</template>
               </td>
-              <td class="tableau__cellule col-qte" :class="{ 'tableau__cellule--multi': g.sachets.length > 1 }">
+              <td class="tableau__cellule tronque col-qte" :class="{ 'tableau__cellule--multi': g.sachets.length > 1 }">
                 <template v-if="g.sachets.length > 1">
                   <span v-for="(s, k) in g.sachets" :key="k" class="tableau__sachet">{{ s.qtte || '\u00A0' }}</span>
                 </template>
                 <template v-else>{{ g.sachets[0].qtte || '\u00A0' }}</template>
               </td>
-              <td class="tableau__cellule col-germ" :class="{ 'tableau__cellule--multi': g.sachets.length > 1 }">
+              <td class="tableau__cellule tronque col-germ" :class="{ 'tableau__cellule--multi': g.sachets.length > 1 }">
                 <template v-if="g.sachets.length > 1">
                   <span v-for="(s, k) in g.sachets" :key="k" class="tableau__sachet">{{ s.germination || '\u00A0' }}</span>
                 </template>
                 <template v-else>{{ g.sachets[0].germination || '\u00A0' }}</template>
               </td>
 
-              <td class="tableau__cellule tableau__cellule--bas col-nb-gr"><template v-if="g.profondeur">{{ g.profondeur }}&nbsp;cm</template></td>
-              <td class="tableau__cellule tableau__cellule--bas col-nb-go"><template v-if="g.germ_duree">{{ g.germ_duree.toLocaleString('fr-FR') }}&nbsp;j</template></td>
-              <td class="tableau__cellule tableau__cellule--bas col-annee-s">{{ g.germ_temp }}</td>
-              <td class="tableau__cellule tableau__cellule--bas col-date-s">{{ g.abri.join(' ') }}</td>
-              <td class="tableau__cellule tableau__cellule--bas col-germe">{{ g.semis_ext.join(' ') }}</td>
-              <td class="tableau__cellule col-oups"></td>
-              <td class="tableau__cellule tableau__cellule--bas col-plante">{{ g.arrosage }}</td>
-              <td class="tableau__cellule tableau__cellule--bas col-date-p">{{ g.exposition }}</td>
-              <td class="tableau__cellule tableau__cellule--bas col-ou">{{ g.ou.join(', ') }}</td>
-              <td class="tableau__cellule tableau__cellule--bas col-donne"><template v-if="g.conservation">{{ g.conservation.toLocaleString('fr-FR') }}&nbsp;{{ pluriel(g.conservation, 'an', 'ans') }}</template></td>
+              <td class="tableau__cellule tronque tableau__cellule--bas col-nb-gr"><template v-if="g.profondeur">{{ g.profondeur }}&nbsp;cm</template></td>
+              <td class="tableau__cellule tronque tableau__cellule--bas col-nb-go"><template v-if="g.germ_duree">{{ g.germ_duree.toLocaleString('fr-FR') }}&nbsp;j</template></td>
+              <td class="tableau__cellule tronque tableau__cellule--bas col-annee-s">{{ g.germ_temp }}</td>
+              <td class="tableau__cellule tronque tableau__cellule--bas col-date-s">{{ g.abri.join(' ') }}</td>
+              <td class="tableau__cellule tronque tableau__cellule--bas col-germe">{{ g.semis_ext.join(' ') }}</td>
+              <td class="tableau__cellule tronque col-oups"></td>
+              <td class="tableau__cellule tronque tableau__cellule--bas col-plante">{{ g.arrosage }}</td>
+              <td class="tableau__cellule tronque tableau__cellule--bas col-date-p">{{ g.exposition }}</td>
+              <td class="tableau__cellule tronque tableau__cellule--bas col-ou">{{ g.ou.join(', ') }}</td>
+              <td class="tableau__cellule tronque tableau__cellule--bas col-donne"><template v-if="g.conservation">{{ g.conservation.toLocaleString('fr-FR') }}&nbsp;{{ pluriel(g.conservation, 'an', 'ans') }}</template></td>
             </tr>
           </tbody>
         </table>

@@ -22,7 +22,7 @@ Usage : PC et tablette. Pas d'impression depuis cet outil.
 | `achatrepro_textes.js` | `TEXTES` : messages après une action (erreurs de saisie, confirmations, erreurs d'écriture) et libellés fabriqués par le code. Chargé avant `achatrepro.js` |
 | `achatrepro.js` | Toute la logique (Vue 3.4.38 par unpkg) |
 | `achatrepro.css` | Uniquement ce qui n'est pas dans le commun |
-| `../../styles/styles_communs_bem.css` | Styles communs (BEM) |
+| `../../styles/styles_communs.css` | Styles communs (BEM) |
 | `../../script/scriptcommun.js` | Fonctions communes |
 
 Ordre des scripts dans le HTML : plugin Grist, Vue, `scriptcommun.js`, `achatrepro_textes.js`, `achatrepro.js`.
@@ -170,7 +170,7 @@ Si tu modifies l'un des deux outils, vérifie ce contrat : c'est lui qui évite 
 
 1. Sauvegarder les fichiers prod actuels de tous les outils concernés (achatrepro, étiquettes, semis réalisés) et le document de prod.
 2. Aligner la structure Grist de prod sur celle de test (section 2) : table `Especes`, `Semis_profondeur` en Texte (valeurs nettoyées), `Ou_semer`, `Nb_sachets` numérique, `Nb_plants`, `Type_plant` avec ses choix, `Etiq_en_attente` et `Note_attente` en colonnes de données, formules par défaut retirées.
-3. Vérifier que `scriptcommun.js` (avec `enListeChoix`) et `styles_communs_bem.css` sont à jour en prod.
+3. Vérifier que `scriptcommun.js` (avec `enListeChoix`) et `styles_communs.css` sont à jour en prod.
 4. Copier les outils en même temps (le contrat les lie), puis mettre à jour l'URL de chaque widget dans Grist.
 5. Tester : un sachet, une plante mère, le décochage de `A_produire`, un enchaînement espèce → variété → millésime, « Issu de mes étiquettes » (ligne sans variété, vrai semis, plante mère, plusieurs créations de suite), « Sachet vidé » dans « Semis réalisés », l'ajout d'une origine et d'une info (puis supprimer les valeurs de test).
 6. Supprimer les lignes de test dans Grist, puis retirer l'ancienne version de l'outil du dépôt.

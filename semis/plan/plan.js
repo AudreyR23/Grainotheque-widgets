@@ -90,7 +90,7 @@ const ZONES_DEF = [
   { id:'fontaine',        label:'Fontaine',          shape:'rect',        w:156, h:47,  fill:'#80deea', stroke:'#00838f', x:600, y:800 },
   { id:'figuier',         label:'Fig.J',             shape:'circle',      w:60,  h:60,  fill:'#ce93d8', stroke:'#6a1b9a', x:1400, y:200 },
   { id:'murier',          label:'Murier',            shape:'ellipse',     w:230, h:80,  fill:'#ce93d8', stroke:'#6a1b9a', x:1380, y:300 },
-  { id:'en-pot',          label:'En pot',            shape:'rect',        w:120, h:80,  fill:'#f5f5f5', stroke:'#999',    x:1400, y:500 },
+  { id:'en-pot',          label:'En pot',            shape:'rect',        w:120, h:80,  fill:'#f5f5f5', stroke:'var(--gris-bordure)',    x:1400, y:500 },
 ];
 /* =============================================
    COULEURS DES ÉTIQUETTES SELON LE TYPE DE CULTURE
@@ -484,8 +484,8 @@ function renderPlants() {
     g.innerHTML = `
       <title>${echapper(r.Nom)} — ${echapper(r.Variete)}</title>
       <rect x="0" y="0" width="${w}" height="${h}" rx="2" stroke-width="1"/>
-      <text x="3" y="10" font-size="8" font-weight="bold" font-family="Arial" fill="#333">${echapper(nom)}</text>
-      ${var_ ? `<text x="3" y="20" font-size="7" font-style="italic" font-family="Arial" fill="#555">${echapper(var_)}</text>` : ''}
+      <text x="3" y="10" font-size="8" font-weight="bold" font-family="Arial" fill="var(--noir-clair)">${echapper(nom)}</text>
+      ${var_ ? `<text x="3" y="20" font-size="7" font-style="italic" font-family="Arial" fill="var(--gris-fonce)">${echapper(var_)}</text>` : ''}
       <g data-remove="${p.uid}" style="cursor:pointer">
       <text x="${w - 9}" y="9" font-size="11" fill="#c62828" font-family="Arial"
         data-remove="${p.uid}" pointer-events="none">×</text>
@@ -554,7 +554,7 @@ function renderPanel() {
  
   list.innerHTML = '';
   if (!filtered.length) {
-    list.innerHTML = '<div style="color:#aaa;font-size:9px;padding:6px;text-align:center">Aucune plante</div>';
+    list.innerHTML = '<div style="color:var(--gris);font-size:9px;padding:6px;text-align:center">Aucune plante</div>';
     return;
   }
     const totaux = totauxPieds();
@@ -1013,7 +1013,7 @@ function imprimerA3() {
       repere.setAttribute('y', y0 + TUILE_H - 6);
       repere.setAttribute('font-size', '8');
       repere.setAttribute('font-family', 'Arial');
-      repere.setAttribute('fill', '#999');
+      repere.setAttribute('fill', 'var(--gris-bordure)');
       repere.textContent = `Feuille ${n}/${NB_COL * NB_LIG}`;
       s.appendChild(repere);
  

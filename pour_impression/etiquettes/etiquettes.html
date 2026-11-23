@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Étiquettes sur sachets</title>
-    <link rel="stylesheet" href="../../styles/styles_communs_bem.css" />
+    <link rel="stylesheet" href="../../styles/styles_communs.css" />
+    <link rel="stylesheet" href="../../styles/styles_communs_pourimpression.css" />    
     <link rel="stylesheet" href="etiquettes.css" />
   </head>
   <body>
@@ -30,7 +31,7 @@
       <p v-if="etat.succes" class="encart encart--succes texte texte--succes">{{ etat.succes }}</p>
     </header>
 
-    <div id="appFeuilles">
+    <div id="appFeuilles" class="zone-feuilles">
       <div v-for="(feuille, f) in etat.feuilles" :key="f" class="feuille" :style="{ '--zoom-ecran': etat.zoom }">
         <div v-for="(rangee, r) in feuille" :key="r" class="rangee">
           <div
@@ -48,7 +49,7 @@
                 <polygon points="0,0 690,0 517.5,470 172.5,470" fill="none" stroke="#000" stroke-width="7" />
               </svg>
               <div class="etiquette__contenu" :class="{ 'etiquette__contenu--retourne': estInversee(i) }">
-                <div class="etiquette__nom">{{ e.nom }}</div>
+                <div class="etiquette__nom tronque">{{ e.nom }}</div>
                 <div class="etiquette__variete">{{ e.variete }}</div>
                 <div class="etiquette__espace"></div>
                 <div class="etiquette__infos">

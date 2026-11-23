@@ -1,59 +1,11 @@
 /* ===== Outil « Étiquettes sur sachets » : seulement ce qui n'est pas dans le commun ===== */
 /* Toutes les dimensions sont reprises à l'identique de l'ancien main.css. */
 
-/* ----- Candidat au commun impression (à déplacer quand le tableau et les épingles seront migrés) ----- */
-/* Feuille A4 paysage. Police, taille et couleur remises comme dans main.css (le commun change le body). */
 .feuille {
-  width: 297mm;
-  margin: 0 auto;
   padding: 10mm; /* propre aux étiquettes (tableau et épingles : 15mm 10mm 10mm 10mm) */
-  background: white;
-  border: 0.5px solid #ddd;
-  font-family: Arial, 'Liberation Sans', Helvetica, sans-serif;
-  font-size: 9px;
-  color: #222;
-  zoom: var(--zoom-ecran, 1); /* aperçu réduit à l'écran, calculé par le JS */
 }
 
-@media print {
-  @page {
-    size: A4 landscape;
-    margin: 0;
-  }
-  /* Le commun met 12px de marge intérieure au body : sans ceci, la feuille serait décalée et déborderait */
-  body {
-    padding: 0;
-    background: white;
-  }
-  .entete {
-    display: none;
-  }
-  .confirmation {
-    display: none;
-  }
-    /* À l'impression, la zone ne doit pas défiler : sinon Firefox n'imprime que la première feuille */
-  #appFeuilles {
-    overflow: visible;
-  }
-  .feuille {
-    width: 100%;
-    margin: 0;
-    border: none;
-    page-break-after: always;
-    break-after: page;
-    zoom: 1; /* impression toujours en taille réelle */
-  }
-  .feuille:last-child {
-    page-break-after: avoid;
-    break-after: avoid;
-  }
-}
-/* ----- Zone des feuilles (écran) ----- */
-/* Les feuilles (297 mm) sont plus larges que le widget : elles défilent en largeur dans leur zone,
-   sans élargir la page. L'en-tête collé garde ainsi toute la largeur visible. */
-#appFeuilles {
-  overflow-x: auto;
-}
+
 /* ----- Rangée : 5 étiquettes, 4 rangées par feuille (190mm / 4 = 47mm) ----- */
 .rangee {
   display: flex;
@@ -89,7 +41,7 @@
   position: absolute;
   inset: 0;
   z-index: 2;
-  color: #000;
+  color: var(--noir-intense);
   display: flex;
   flex-direction: column;
   padding: 5mm 15mm 4mm 15mm;
@@ -104,9 +56,6 @@
   text-align: center;
   height: 6mm;
   line-height: 6mm;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
   margin: 0 -10mm;
 }
 .etiquette__variete {
@@ -148,10 +97,4 @@
 .etiquette__saisons {
   font-size: 11pt;
   padding-left: 10mm;
-}
-
-/* ----- Fenêtre de confirmation ----- */
-/* .btn--enregistrer a un margin-top : on aligne les deux boutons par le bas */
-.confirmation__boutons {
-  align-items: end;
 }

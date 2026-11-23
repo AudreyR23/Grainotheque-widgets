@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Numérotation des variétés</title>
-    <link rel="stylesheet" href="../../styles/styles_communs_bem.css" />
+    <link rel="stylesheet" href="../../styles/styles_communs.css" />
     <link rel="stylesheet" href="numerotation.css" />
   </head>
   <body>
@@ -25,7 +25,7 @@
       <div id="appAnomalies">
         <section v-if="etat.doublons.length || etat.invalides.length">
           <h2>Anomalies</h2>
-          <div class="encart encart--anomalies">
+          <div class="carte__contenu encart encart--alerte">
             <template v-if="etat.doublons.length">
               <div class="texte texte--gras">⚠ {{ pluriel(etat.doublons.length, 'Doublon') }} ({{ etat.doublons.length }})</div>
               <div v-for="d in etat.doublons" :key="d.numero">
