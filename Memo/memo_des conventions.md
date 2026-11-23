@@ -7,7 +7,7 @@
 - Une discussion par outil. Les changements du commun (`scriptcommun.js`, CSS commun) se traitent à part.
 
 ## Fichiers et chargement
-- `outil.html`, `outil.js`, `outil.css` + commun : `../../script/scriptcommun.js` et `../../styles/styles_communs.css`.
+- `outil.html`, `outil.js`, `outil.css` + commun : `../../script/scriptcommun.js` et `../../styles/styles_communs.css` (le commun **BEM** ; l'ancien nom `styles_communs_bem.css` n'existe plus).
 - Les outils pas encore migrés utilisent encore l'ancien `styles_commun.css`.
 - Scripts en fin de `<body>`, dans cet ordre : plugin Grist, Vue 3.4.38 (unpkg), `scriptcommun.js`, (`outil_textes.js` s'il existe), `outil.js`.
 - `grist.ready({ requiredAccess: 'full' })`.
@@ -39,12 +39,14 @@
 - Exceptions assumées : messages d'erreur et de succès construits au moment d'une décision. Ils sont tous regroupés dans un bloc `TEXTES` en haut de `outil.js` (une entrée `(noms) => …` pour une phrase qui contient des noms ou un nombre). Achat-repro les a dans un fichier à part, `achatrepro_textes.js`, chargé avant `achatrepro.js` : à harmoniser après comparaison des outils.
 - Les pluriels passent par `pluriel` : jamais « (s) » écrit à la main.
 - **Messages** : un succès disparaît après 4 s ; une **erreur reste affichée jusqu'au prochain clic**. Un écouteur `click` sur `document` en **phase de capture** (`addEventListener('click', f, true)`) efface l'ancienne erreur avant que le bouton « Créer » revalide : elle réapparaît donc s'il reste un problème. Sans la phase de capture, l'erreur serait effacée aussitôt qu'affichée.
+- **Erreur de chargement** : `TEXTES.erreurChargement(detail)` rangé dans `etat.message`, affiché en `texte texte--note` (Semis réalisés, À semer). Reste affichée jusqu'au prochain chargement réussi.
 - Zone Vue contenant un bouton `sticky` : `class="zone-transparente"` (`display: contents`).
 
 ## Fonctions communes (`scriptcommun.js`)
 - N'utilisent que leurs paramètres (jamais `etat`, `recordsParId`…). Seule exception : `lireChoixColonnes`, qui appelle `grist`.
 - Ne jamais redéfinir une fonction commune dans un outil : la copie locale la masque sans erreur.
 - Disponibles : `tableEnLignes`, `listeChoix`, `enListeChoix`, `normaliser`, `anneeDepuisDate`, `dateAffichee`, `dateDuJour`, `dateEnSecondes`, `typeInverse`, `libelle`, `lieuxFiltres`, `correspondRecherche`, `choixColonne`, `lireChoixColonnes`, `creerMessageTemporaire`, `pluriel`, `evolution`.
+- `libelle(v)` : « Nom - Variété » (tiret court).
 - `pluriel(n, singulier, formePluriel)` : 0 et 1 au singulier. Nombre d'abord : « 3 germés ».
 - `evolution(avant, apres, singulier, formePluriel)` : affichage « avant → après unité » (accord sur après) dans En cours. Le JS calcule avant et après, le HTML n'additionne rien.
 - Dates écrites dans Grist : `dateEnSecondes('AAAA-MM-JJ')`, jamais `Date.UTC` recopié dans un outil.
@@ -54,6 +56,7 @@
 - Dates : secondes UTC à minuit.
 - Colonnes écrites par un outil : colonnes de **données**, jamais des colonnes formule. Une colonne vide créée dans Grist est parfois une colonne de formule : la convertir en colonne de données.
 - Une colonne écrite par un outil doit exister dans **toutes** les tables visées : sinon `KeyError 'Nom_colonne'` (cas d'une colonne renommée, ex. `Sachets` → `Nb_sachets`).
+- **Colonne renommée et seulement lue** : aucune erreur, la valeur vaut `undefined` et la fonction s'éteint en silence (cas d'À semer avec `Sachets`). Après un renommage, chercher l'ancien nom dans tous les outils.
 - Les ids de tables différentes se recoupent : ne jamais les mélanger dans un même objet.
 - Quantités saisies = ajouts aux valeurs chargées (germés, plantés, oups, dons).
 - Nombres saisis : **entiers seulement** (`Number.isInteger` ou `entierOuNull`). Si la saisie n'est pas un entier, **un message d'erreur s'affiche** et rien n'est enregistré. Un `<input type="number">` renvoie une valeur vide pour `abc`, donc ne peut pas signaler l'erreur : utiliser un champ texte (`type="text" inputmode="numeric"`) avec un contrôle dans le JS.
@@ -62,6 +65,8 @@
 - Ajouter un choix à une colonne Choice / ChoiceList depuis un outil : relire les `widgetOptions` de la colonne (`_grist_Tables_column`), ajouter la valeur dans `choices`, puis `['ModifyColumn', table, colonne, { widgetOptions: JSON.stringify(options) }]`. Les couleurs et autres réglages sont conservés. Ne jamais réécrire les réglages à partir de zéro. Comparer sans casse ni accents pour éviter les doublons.
 - `Millesimes.Nb_sachets` est numérique (1 pour un sachet, vide pour épuisé) : pas de lettres.
 - Plante mère : une ligne `Millesimes` + une seule ligne `Semis` sans godets ni graines (`Ou`, `Plantes`). `Millesimes.Nb_plants` fait foi ; `Semis.Plantes` de cette ligne le suit (lu par le plan et les étiquettes) ; la formule `Millesimes.Plantes` renvoie `Nb_plants` pour une plante mère.
+- Plante mère = plant au jardin : `Type_plant` (pieds, rhizome, caïeux, bulbe). Jamais `Epuise` (formule) : l'exclure du choix d'un sachet sauf si elle a des graines (`Qtte_graines` ou `Nb_sachets`). À la mort totale, À gérer décoche `Plante_mere`.
+- Sachet mélangé : case `Millesimes.Melange`.
 
 ## Saisies conservées au rechargement
 - Toutes les saisies non enregistrées vivent dans des objets de `etat` (`saisies`, `saisiesMeres`).
@@ -109,6 +114,7 @@ Vue.watch(() => [etat.saisies, etat.saisiesMeres], sauvegarderSaisies, { deep: t
 - Avant de créer une variante, chercher dans le commun si elle existe déjà. Exemple : `champ--bouton` (texte à gauche, curseur main) fournit la base, et la classe locale `champ--deroulant` n'ajoute que la mise en ligne et la flèche (`class="champ champ--bouton champ--deroulant"`).
 - Classes ajoutées au commun : `entete`, `grille`, `ligne--sur-champ`, `btn--collant`.
 - `var(--erreur)` n'existe plus : utiliser `--erreur-clair`, `--erreur-moyen` ou `--erreur-fonce`.
+- Dans `carte__contenu` (colonne, `gap: 6px`), deux éléments à garder sur une même ligne (nom + type) se regroupent dans un `<div>`.
 
 ## Méthode de travail
 - Une modification à la fois, puis un test et la console (F12, filtre vidé).
@@ -123,8 +129,10 @@ Vue.watch(() => [etat.saisies, etat.saisiesMeres], sauvegarderSaisies, { deep: t
 - Vue du code de Grist (menu de gauche) : toutes les formules sur une page, pratique pour chercher qui lit une colonne.
 
 ## À traiter dans la discussion du commun
-- `styles_communs.css` : `.btn--enregistrer` (`margin-top: 8px`) écrase `.btn--grand` (`margin-top: 14px`), plus bas dans le fichier. Garder l'un des deux.
+- `styles_communs.css` : `.btn--enregistrer` (`margin-top: 8px`) écrase `.btn--grand` (`margin-top: 14px`), plus bas dans le fichier. Garder l'un des deux. Le même `margin-top` décale aussi le bouton « Semer » vers le bas dans les cartes d'À semer.
 - Rapprocher `champ--bouton` (commun) et `champ--deroulant` (Achat-repro) si un autre outil a besoin de la flèche.
+- **Couleur des erreurs de chargement** : aujourd'hui `texte--note` (gris) dans Semis réalisés et À semer ; passer en rouge (`texte--erreur`) dans tous les outils, conformément à « rouge = attention » ?
+- `carte--sousabri-pleineterre` (liseré moitié-moitié, local dans À semer) : au commun si Étiquettes l'utilise aussi.
 
 ## Outils d'impression
 - Lecture par `grist.onRecords(f, { includeColumns: 'normal' })` : reçoit toutes les colonnes, même masquées
