@@ -21,44 +21,11 @@ const etat = Vue.reactive({
 });
 // ===== Messages (erreurs et succès) =====
 const TEXTES = {
-  ligneInconnue: '(ligne inconnue)',
   erreurChargement: (msg) => `Erreur de chargement : ${msg}`,
-  refusModifiees: (noms) => `Rien n'est enregistré. Modifié ou supprimé dans Grist depuis l'affichage : ${noms} — vérifie les valeurs affichées, puis enregistre à nouveau.`,
   echec: (msg) => `Échec de l'enregistrement : ${msg} — tes saisies sont conservées.`,
   rechargementEchoue: (msg) => `Enregistré, mais le rechargement a échoué : ${msg} — recharge le widget.`,
   succes: (n) => `✓ ${n} ${pluriel(n, 'ligne mise', 'lignes mises')} à jour.`
 };
-
-// --- Sauvegarde des saisies dans l'onglet (survit à un rechargement du widget) ---
-const CLE_SAISIES = 'gestion_etiquettes_saisies';
-
-function sauvegarderSaisies() {
-  try {
-    if (Object.keys(etat.saisies).length === 0) sessionStorage.removeItem(CLE_SAISIES);
-    else sessionStorage.setItem(CLE_SAISIES, JSON.stringify(etat.saisies));
-  } catch (err) {
-    console.warn('Sauvegarde des saisies impossible :', err);
-  }
-}
-
-function restaurerSaisies() {
-  try {
-    const brut = sessionStorage.getItem(CLE_SAISIES);
-    if (!brut) return;
-    for (const [id, nb] of Object.entries(JSON.parse(brut))) {
-      if (Number.isInteger(nb) && nb > 0) etat.saisies[id] = nb;
-    }
-  } catch (err) {
-    console.warn('Lecture des saisies sauvegardées impossible :', err);
-  }
-}
-
-function purgerSaisiesOrphelines() {
-  // Supprime les saisies dont la ligne Semis n'existe plus
-  for (const id of Object.keys(etat.saisies)) {
-    if (!recordsParId.semis.has(Number(id))) delete etat.saisies[id];
-  }
-}
 
 // ===== Chargement =====
 async function chargerSemis() {
@@ -86,11 +53,6 @@ async function chargerSemis() {
 }
 
 // ===== Sélection =====
-function estLigneMere(s) {
-  // Ligne Semis d'une plante mère : millésime plante mère, sans godets ni graines (créée par « achat-repro »)
-  return s.planteMere && s.millesimeId > 0 && s.godets === 0 && s.graines === 0;
-}
-
 function entreesEtiquetables() {
   // Plantes mères : seulement leur ligne « mère » (année de plantation facultative).
   // Autres : lignes avec des plants plantés.
@@ -138,11 +100,16 @@ function valeurNb(idSemis) {
 
 function surNb(idSemis, e) {
   etat.brut[idSemis] = e.target.value;
-  const texte = e.target.value.trim();
-  const valeur = Number(texte);
-  const valide = texte !== '' && Number.isInteger(valeur) && valeur > 0;
-  if (valide) etat.saisies[idSemis] = valeur;
+  const valeur = entierOuNull(e.target.value);
+  if (valeur > 0) etat.saisies[idSemis] = valeur;
   else delete etat.saisies[idSemis];
+}
+
+function saisieInvalide(idSemis) {
+  // Texte tapé qui n'est pas un entier supérieur à 0 (champ vide : pas d'erreur)
+  const brut = etat.brut[idSemis];
+  if (brut === undefined || brut.trim() === '') return false;
+  return !(entierOuNull(brut) > 0);
 }
 
 function retirerSaisie(idSemis) {
@@ -151,11 +118,6 @@ function retirerSaisie(idSemis) {
 }
 
 // ===== Défilement =====
-function aller(id) {
-  const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
 async function allerCarte(idSemis) {
   const id = 'carte-' + idSemis;
   if (!document.getElementById(id)) {
@@ -172,24 +134,6 @@ async function allerCarte(idSemis) {
 // ===== Enregistrement =====
 const afficherSucces = creerMessageTemporaire(texte => { etat.succes = texte; });
 
-async function lignesModifiees(ids) {
-  // Recharge Semis et renvoie [{ id, nom }] pour les lignes (parmi ids) modifiées ou supprimées depuis l'affichage
-  const avant = new Map(ids.map(id => [id, recordsParId.semis.get(id)]));
-  await chargerSemis();
-  const modifiees = [];
-  for (const id of ids) {
-    const a = avant.get(id);
-    const b = recordsParId.semis.get(id);
-    const change = !a || !b ||
-      a.nbEtiquettes !== b.nbEtiquettes ||
-      a.enAttente !== b.enAttente;
-    if (change) {
-      modifiees.push({ id, nom: (a || b) ? libelle(a || b) : TEXTES.ligneInconnue });
-    }
-  }
-  return modifiees;
-}
-
 async function enregistrerTout() {
   const saisies = Object.entries(etat.saisies)
     .map(([id, nb]) => ({ idSemis: Number(id), nb }));
@@ -200,20 +144,7 @@ async function enregistrerTout() {
 
   const n = saisies.length;
   try {
-    // 1. Vérification : une de ces lignes a-t-elle changé dans Grist depuis l'affichage ?
-    const modifiees = await lignesModifiees(saisies.map(b => b.idSemis));
-    if (modifiees.length) {
-      // Une ligne supprimée n'a plus de carte : on retire sa saisie
-      for (const m of modifiees) {
-        if (!recordsParId.semis.has(m.id)) retirerSaisie(m.id);
-      }
-      afficherSelection();   // l'écran reprend les valeurs actuelles
-      etat.erreur = TEXTES.refusModifiees(modifiees.map(m => m.nom).join(', '));
-      etat.enregistrement = false;
-      return;
-    }
-
-    // 2. Écrire uniquement Nb_etiquettes (les valeurs viennent de la relecture qui vient d'être faite)
+    // Nb_etiquettes + saisie, calculé sur les valeurs chargées ; seule Nb_etiquettes est écrite
     const ids = saisies.map(b => b.idSemis);
     const valeurs = saisies.map(b => recordsParId.semis.get(b.idSemis).nbEtiquettes + b.nb);
     await grist.docApi.applyUserActions([
@@ -222,7 +153,7 @@ async function enregistrerTout() {
     etat.saisies = {};
     etat.brut = {};
     afficherSucces(TEXTES.succes(n));
-    } catch (err) {
+  } catch (err) {
     console.error(err);
     etat.erreur = TEXTES.echec(err.message);
     etat.enregistrement = false;
@@ -236,14 +167,13 @@ async function enregistrerTout() {
   } catch (err) {
     console.error(err);
     etat.erreur = TEXTES.rechargementEchoue(err.message);
-    } finally {
+  } finally {
     etat.enregistrement = false;
   }
 }
 
-window.addEventListener('beforeunload', e => {
-  if (nombreSaisies() > 0) { e.preventDefault(); e.returnValue = ''; }
-});
+// Une erreur reste affichée jusqu'au prochain clic
+effacerAuClic(() => { etat.erreur = ''; });
 
 // ===== Surveillances =====
 // Quand la recherche ou un filtre change, la liste se recalcule
@@ -251,9 +181,6 @@ Vue.watch(
   () => [etat.recherche, etat.filtreMeres, etat.filtreEtiquettes],
   afficherSelection
 );
-
-// Les saisies sont copiées dans l'onglet à chaque changement
-Vue.watch(() => etat.saisies, sauvegarderSaisies, { deep: true });
 
 // ===== Zones Vue =====
 Vue.createApp({
@@ -265,7 +192,7 @@ Vue.createApp({
 Vue.createApp({
   setup() {
     return {
-      etat, libelle, typeInverse, recapAjouts, retirerSaisie, enregistrerTout, allerCarte, pluriel,
+      etat, libelle, recapAjouts, retirerSaisie, enregistrerTout, allerCarte, pluriel,
     };
   }
 }).mount('#appAjouts');
@@ -273,7 +200,7 @@ Vue.createApp({
 Vue.createApp({
   setup() {
     return {
-      etat, libelle, typeInverse, dateAffichee, valeurNb, surNb, pluriel,
+      etat, libelle, dateAffichee, valeurNb, surNb, saisieInvalide, pluriel,
     };
   }
 }).mount('#appSelection');
@@ -289,8 +216,6 @@ grist.ready({ requiredAccess: 'full' });
 
 chargerSemis()
   .then(() => {
-    restaurerSaisies();
-    purgerSaisiesOrphelines();
     afficherSelection();
     etat.charge = true;
   })
