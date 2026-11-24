@@ -1,8 +1,5 @@
 // ===== Messages (erreurs et succès) =====
 const TEXTES = {
-  sansNom: '(étiquette vierge)',
-  refusNonImprime: "Rien n'est enregistré : les étiquettes ont changé depuis l'impression — réimprime-les, puis marque à nouveau.",
-  refusModifiees: (noms) => `Rien n'est enregistré. Modifié ou supprimé dans Grist depuis l'affichage : ${noms} — vérifie les étiquettes affichées (réimprime si besoin), puis marque à nouveau.`,
   echec: (msg) => `Échec de l'enregistrement : ${msg} — vérifie dans Grist, puis réessaie si les étiquettes sont toujours affichées.`,
   succes: (n) => `✓ ${n} ${pluriel(n, 'ligne passée', 'lignes passées')} en attente.`
 };
@@ -10,34 +7,30 @@ const TEXTES = {
 const PAR_RANGEE = 5;
 const RANGEES_PAR_FEUILLE = 4;
 const ETIQUETTES_PAR_FEUILLE = PAR_RANGEE * RANGEES_PAR_FEUILLE; // 20
-const ANNEE_EN_COURS = new Date().getFullYear();
-// Colonnes que le widget doit recevoir : onRecords ne donne que les colonnes visibles dans la vue
+// Colonnes que le widget doit recevoir (filet de sécurité : includeColumns les envoie normalement toutes)
 const COLONNES_NECESSAIRES = [
   'Nom', 'Variete', 'Date_s', 'Nb_etiquettes', 'Etiq_en_attente', 'Nb_saisons_mil',
   'Origine_or', 'Origine_millesime', 'Plante_mere', 'Annee_plantation_mil'
 ];
 
 // ===== État global =====
-// Lignes à imprimer telles qu'affichées : idSemis → { id, nom, variete, nbEtiquettes, enAttente }
+// Lignes à imprimer telles qu'affichées : idSemis → { id, nbEtiquettes, enAttente }
 const recordsParId = {
   aImprimer: new Map()
 };
-// Empreintes du contenu (texte) : affiché maintenant, et au moment de la dernière impression (null = rien d'imprimé)
-const impression = {
-  signatureAffichee: '',
-  signatureImprimee: null
-};
-
+// Dernières lignes reçues de Grist : pour recalculer les étiquettes quand l'année de récolte change
+let lignesRecues = [];
 // État lu par le HTML : Vue redessine quand il change
 const etat = Vue.reactive({
   feuilles: [],       // [feuille] ; feuille = [rangée] ; rangée = [étiquette] (5 au plus)
   nbEtiquettes: 0,    // total d'étiquettes affichées
   nbLignes: 0,        // lignes Semis qui ont au moins une étiquette
   placesLibres: 0,    // places vides sur la dernière feuille
+  saisieRecolte: String(anneeRecolteParDefaut()),  // texte du champ « Année de récolte »
+  anneeRecolte: anneeRecolteParDefaut(),           // année validée (null si la saisie n'est pas une année)
   zoom: 1,            // réduction des feuilles à l'écran (1 = taille réelle ; sans effet à l'impression)
   imprimeA: '',             // heure de la dernière impression ('' = pas encore imprimé)
-  impressionPerimee: false, // true si l'affichage a changé depuis cette impression
-  colonnesManquantes: [],   // colonnes nécessaires masquées dans la vue du widget
+  colonnesManquantes: [],   // colonnes nécessaires absentes des lignes reçues
   charge: false,      // true après la première réception des lignes
   confirmation: false,      // fenêtre « Marquer comme imprimées ? » ouverte
   enregistrement: false,    // écriture en cours dans Grist
@@ -46,6 +39,18 @@ const etat = Vue.reactive({
 });
 
 // ===== Contenu d'une étiquette =====
+function anneeRecolteParDefaut() {
+  // Janvier et février : étiquettes de la fin de saison précédente ; ensuite l'année en cours
+  const d = new Date();
+  return d.getMonth() <= 1 ? d.getFullYear() - 1 : d.getFullYear();
+}
+
+function lireAnneeRecolte(texte) {
+  // Année à 4 chiffres, sinon null
+  const n = entierOuNull(texte);
+  return n !== null && n >= 1000 && n <= 9999 ? n : null;
+}
+
 function origineAvecAR(e, origine) {
   // Semé ou plante mère : « origine → AR », ou « AR » seul si l'origine est vide ou déjà AR
   if (origine && origine !== 'AR') {
@@ -56,7 +61,7 @@ function origineAvecAR(e, origine) {
   }
 }
 
-function etiquetteDepuisLigne(r) {
+function etiquetteDepuisLigne(r, anneeRecolte) {
   // Renvoie des valeurs ; le HTML écrit les textes.
   // { nom, variete, origine, versAR, libelleDate: 'semis' | 'plantation', annee, saisons (nombre, ou null = « …… ») }
   const vierge = !r.Nom && !r.Variete;
@@ -81,7 +86,8 @@ function etiquetteDepuisLigne(r) {
     e.libelleDate = 'plantation';
     const annee = r.Annee_plantation_mil || null;
     e.annee = annee;
-    e.saisons = annee ? ANNEE_EN_COURS - annee + 1 : null;
+    // Saisons comptées jusqu'à l'année de récolte (pas l'année en cours)
+    e.saisons = annee && anneeRecolte ? anneeRecolte - annee + 1 : null;
   } else if (seme) {
     origineAvecAR(e, origine);
     const n = parseInt(r.Nb_saisons_mil);
@@ -109,42 +115,40 @@ function estInversee(i) {
   // 2e et 4e étiquettes d'une rangée : retournées pour imbriquer les trapèzes
   return i === 1 || i === 3;
 }
+function estDerniere(i, rangee) {
+  // Dernière étiquette de sa rangée : si elle est retournée, aucune voisine ne dessine son côté droit
+  return i === rangee.length - 1;
+}
 
 function afficherLignes(lignes) {
   // Une étiquette par unité de Nb_etiquettes, dans l'ordre de la vue Grist
+  lignesRecues = lignes;
+  etat.colonnesManquantes = colonnesAbsentes(lignes[0], COLONNES_NECESSAIRES);
   recordsParId.aImprimer.clear();
   const etiquettes = [];
-  const contenu = [];   // [id, nb, étiquette] par ligne : sert à l'empreinte
   for (const r of lignes) {
     const nb = parseInt(r.Nb_etiquettes) || 0;
     if (nb <= 0) continue;
     recordsParId.aImprimer.set(r.id, {
       id: r.id,
-      nom: r.Nom || '',
-      variete: r.Variete || '',
       nbEtiquettes: nb,
       enAttente: r.Etiq_en_attente || 0
     });
-    const e = etiquetteDepuisLigne(r);
-    contenu.push([r.id, nb, e]);
+    const e = etiquetteDepuisLigne(r, etat.anneeRecolte);
     for (let i = 0; i < nb; i++) etiquettes.push(e);
   }
   etat.nbEtiquettes = etiquettes.length;
   etat.nbLignes = recordsParId.aImprimer.size;
   etat.feuilles = enFeuilles(etiquettes);
   etat.placesLibres = etat.feuilles.length * ETIQUETTES_PAR_FEUILLE - etiquettes.length;
-  impression.signatureAffichee = JSON.stringify(contenu);
-  etat.impressionPerimee = impression.signatureImprimee !== null &&
-    impression.signatureImprimee !== impression.signatureAffichee;
   etat.charge = true;
 }
 
+// ===== Impression =====
 function noterImpression() {
   // Le navigateur ne dit pas si l'impression a été annulée : fermer la fenêtre d'impression compte comme imprimer
   if (etat.nbEtiquettes === 0) return;
-  impression.signatureImprimee = impression.signatureAffichee;
   etat.imprimeA = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-  etat.impressionPerimee = false;
 }
 
 function imprimer() {
@@ -162,56 +166,23 @@ function demanderMarquage() {
 function annulerMarquage() {
   etat.confirmation = false;
 }
-async function relireSemis() {
-  // Table Semis telle qu'elle est dans Grist maintenant (toutes les colonnes) : id → ligne
-  const lignes = tableEnLignes(await grist.docApi.fetchTable('Semis'));
-  return new Map(lignes.map(l => [l.id, l]));
-}
 
-function lignesModifiees(affichees, actuelles) {
-  // Noms des lignes affichées qui ont changé ou disparu dans Grist depuis l'affichage
-  return affichees
-    .filter(a => {
-      const b = actuelles.get(a.id);
-      return !b ||
-        (parseInt(b.Nb_etiquettes) || 0) !== a.nbEtiquettes ||
-        (b.Etiq_en_attente || 0) !== a.enAttente;
-    })
-    .map(a => libelle(a) || TEXTES.sansNom);
-}
 async function marquerImprimees() {
-  // Etiq_en_attente += Nb_etiquettes, puis Nb_etiquettes = 0, en un seul envoi. Aucune suppression.
+  // Etiq_en_attente += Nb_etiquettes, puis Nb_etiquettes = 0, en un seul envoi, avec les valeurs affichées. Aucune suppression.
   etat.confirmation = false;
   const lignes = [...recordsParId.aImprimer.values()];
   if (lignes.length === 0 || etat.enregistrement) return;
+  etat.enregistrement = true;
   afficherSucces('');
   etat.erreur = '';
-  // 0. L'affichage doit être celui qui a été imprimé (il a pu changer pendant que la confirmation était ouverte)
-  if (impression.signatureImprimee !== impression.signatureAffichee) {
-    etat.erreur = TEXTES.refusNonImprime;
-    return;
-  }
-  etat.enregistrement = true;
   try {
-    // 1. Vérification : une de ces lignes a-t-elle changé dans Grist depuis l'affichage ?
-    const actuelles = await relireSemis();
-    const modifiees = lignesModifiees(lignes, actuelles);
-    if (modifiees.length) {
-      etat.erreur = TEXTES.refusModifiees(modifiees.join(', '));
-      return;   // « finally » remet quand même enregistrement à false
-    }
-
-    // 2. Écriture, avec les valeurs qui viennent d'être relues
     await grist.docApi.applyUserActions([
       ['BulkUpdateRecord', 'Semis', lignes.map(l => l.id), {
-        Etiq_en_attente: lignes.map(l => (actuelles.get(l.id).Etiq_en_attente || 0) + l.nbEtiquettes),
+        Etiq_en_attente: lignes.map(l => l.enAttente + l.nbEtiquettes),
         Nb_etiquettes: lignes.map(() => 0)
       }]
     ]);
-    // 3. Ce qui était imprimé est marqué : on repart de zéro
-    impression.signatureImprimee = null;
-    etat.imprimeA = '';
-    etat.impressionPerimee = false;
+    etat.imprimeA = '';   // ce qui était imprimé est marqué : on repart de zéro
     afficherSucces(TEXTES.succes(lignes.length));
   } catch (err) {
     console.error(err);
@@ -225,6 +196,11 @@ async function marquerImprimees() {
 effacerAuClic(() => { etat.erreur = ''; });
 // Autres navigateurs (Safari) : print() n'attend pas, l'événement « afterprint » prévient à la fermeture
 window.addEventListener('afterprint', noterImpression);
+// Année de récolte modifiée : on la valide, puis les étiquettes se recalculent (si les lignes sont déjà arrivées)
+Vue.watch(() => etat.saisieRecolte, texte => {
+  etat.anneeRecolte = lireAnneeRecolte(texte);
+  if (etat.charge) afficherLignes(lignesRecues);
+});
 // ===== Zones Vue =====
 Vue.createApp({
   setup() {
@@ -240,7 +216,7 @@ Vue.createApp({
 
 Vue.createApp({
   setup() {
-    return { etat, estInversee, pluriel, anneeEnCours: ANNEE_EN_COURS };
+    return { etat, estInversee, estDerniere, pluriel };
   }
 }).mount('#appFeuilles');
 

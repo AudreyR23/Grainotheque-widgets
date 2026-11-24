@@ -6,6 +6,7 @@
 - Je ne suis pas développeuse : donne des modifications précises (fichier, endroit exact, fonction complète à remplacer), avec un test après chaque étape.
 - Une discussion par outil. Les changements du commun (`scriptcommun.js`, CSS communs) se traitent à part.
 - Outils : À gérer, Sélection pour étiquettes, Semis réalisés, À semer, Achat-repro (saisie) ; Étiquettes, Cahier, Calendrier, Numéros (impression) ; Numérotation. Boîte à dons et Plan : pas encore migrés.
+- Pas de Ferrari : écrire tout de suite quand l'action est petite et réversible (Ctrl+Z dans Grist) ; ne vérifier que ce qui arrive vraiment ; laisser à Grist ce qu'il sait faire (corriger une cellule, annuler, filtrer).
 
 ## Fichiers et chargement
 - `outil.html`, `outil.js`, `outil.css` + commun : `../../script/scriptcommun.js` et `../../styles/styles_communs.css`.
@@ -44,9 +45,10 @@
 - Zone Vue contenant un bouton `sticky` : `class="zone-transparente"` (`display: contents`).
 
 ## Fonctions communes (`scriptcommun.js`)
-- N'utilisent que leurs paramètres (jamais `etat`, `recordsParId`…). Exceptions : `lireChoixColonnes` appelle `grist` ; `aller` et `effacerAuClic` utilisent `document`.
+- N'utilisent que leurs paramètres (jamais `etat`, `recordsParId`…). Exceptions : `lireChoixColonnes` appelle `grist` ; `aller` et `effacerAuClic` utilisent `document` ; `numeroMois` lit `LISTE_MOIS`.
 - Ne jamais redéfinir une fonction commune dans un outil : la copie locale la masque sans erreur. Avant d'écrire une fonction utilitaire, chercher ici.
-- **Données Grist** : `tableEnLignes`, `listeChoix`, `enListeChoix`, `colonneGrist(tabTables, tabColonnes, tableId, colId)` (ligne de la colonne dans les métadonnées, ou null), `choixColonne`, `lireChoixColonnes(tableId, [colIds])`, `colonnesAbsentes(colonnes, liste)`, `estLigneMere(s)`.
+- Ne jamais déclarer dans un outil une `const` ou un `let` qui existe dans le commun (ex. `LISTE_MOIS`) : contrairement à une fonction, le doublon donne « Identifier … has already been declared » et **tout** le fichier de l'outil s'arrête. Une constante propre à une fonction commune se déclare **dans** la fonction (ex. la largeur de feuille dans `facteurZoom`).
+- **Données Grist** : `tableEnLignes`, `listeChoix`, `enListeChoix`, `colonneGrist(tabTables, tabColonnes, tableId, colId)` (ligne de la colonne dans les métadonnées, ou null), `choixColonne`, `lireChoixColonnes(tableId, [colIds])`, `colonnesAbsentes(colonnes, liste)`, `estLigneMere(s)` (`s` = ligne Semis préparée par l'outil avec `planteMere`, `millesimeId`, `godets`, `graines`).
 - **Dates** : `anneeDepuisDate(valeur)` (secondes de `fetchTable` **ou** objet `Date` de `onRecords`), `dateAffichee(secondes)`, `dateDuJour()` ('AAAA-MM-JJ'), `dateEnSecondes('AAAA-MM-JJ')`. Dates écrites dans Grist : toujours `dateEnSecondes`, jamais `Date.UTC` recopié dans un outil.
 - **Mois** : `LISTE_MOIS` (12 objets `{ num, court, long, initiale, valeurs }` ; `valeurs[0]` = valeur des listes de choix Grist, ex. 'Jui', 'Aou') et `numeroMois(valeur)` ('Mar' ou 'Mars' → 3, inconnu → null). Jamais de liste de mois locale.
 - **Textes** : `normaliser`, `correspondRecherche(texteNormalise, saisieNormalisee)`, `lieuxFiltres(lieux, choisis, saisie)`, `libelle(v)` (« Nom - Variété », tiret court), `pluriel(n, singulier, formePluriel)` (0 et 1 au singulier, nombre d'abord : « 3 germés »), `evolution(avant, apres, singulier, formePluriel)` (« avant → après unité », accord sur après ; le JS calcule avant et après, le HTML n'additionne rien).
@@ -57,45 +59,24 @@
 ## Données Grist
 - ChoiceList : `['L', 'a', 'b']` (`listeChoix()` pour lire, `enListeChoix()` pour écrire).
 - Dates : secondes UTC à minuit.
-- `Type` (Semis, Varietes, Especes) : l'emoji est en tête dans Grist (« 🌿 Arom.Méd ») : affiché tel quel, sans conversion.
+- `Type` : l'emoji est en tête dans Grist (« 🌿 Arom.Méd »), affiché tel quel, sans conversion. Choix saisis dans `Especes` et `Varietes` (mêmes textes dans les deux) ; `Semis.Type` et `Millesimes.Type` sont des formules `$NomVariete.Type`, jamais écrites par un outil.
 - Colonnes écrites par un outil : colonnes de **données**, jamais des colonnes formule. Une colonne vide créée dans Grist est parfois une colonne de formule : la convertir en colonne de données.
 - Une colonne écrite par un outil doit exister dans **toutes** les tables visées : sinon `KeyError 'Nom_colonne'` (cas d'une colonne renommée, ex. `Sachets` → `Nb_sachets`).
 - **Colonne renommée et seulement lue** : aucune erreur, la valeur vaut `undefined` et la fonction s'éteint en silence. Après un renommage, chercher l'ancien nom dans tous les outils. Les outils qui le peuvent vérifient leurs colonnes : liste `COLONNES_NECESSAIRES` + `etat.colonnesManquantes = colonnesAbsentes(...)` + alerte dans l'en-tête.
 - Les ids de tables différentes se recoupent : ne jamais les mélanger dans un même objet.
 - Quantités saisies = ajouts aux valeurs chargées (germés, plantés, oups, dons).
 - Nombres saisis : **entiers seulement** (`entierOuNull`). Si la saisie n'est pas un entier, **un message d'erreur s'affiche** et rien n'est enregistré. Un `<input type="number">` renvoie une valeur vide pour `abc`, donc ne peut pas signaler l'erreur : préférer un champ texte (`type="text" inputmode="numeric"`) avec un contrôle dans le JS.
-- Avant d'enregistrer : recharger la table, comparer les lignes concernées, refuser si l'une a changé.
-- **Un seul `applyUserActions` par enregistrement**, sauf quand une action a besoin d'un id créé par une autre (ex. la ligne `Semis` d'une plante mère a besoin de l'id du millésime) : alors **deux envois au maximum**, toutes les **lectures avant** la première écriture, et si le second envoi échoue, annuler le premier (`RemoveRecord` de la ligne créée) en prévenant si l'annulation échoue aussi.
+- Pas de relecture avant écriture (décision du 23/11) : les quantités s'ajoutent aux valeurs chargées, rafraîchies après chaque enregistrement.
+- **Un seul `applyUserActions` par enregistrement**, sauf quand une action a besoin d'un id créé par une autre (ex. la ligne `Semis` d'une plante mère a besoin de l'id du millésime) : alors **deux envois au maximum**, toutes les **lectures avant** la première écriture. Pas d'annulation automatique si le second échoue (décision du 23/11) : le message d'erreur dit quoi vérifier.
 - Ajouter un choix à une colonne Choice / ChoiceList (Achat-repro, `ajouterChoixColonne`) : relire les réglages de la colonne avec `colonneGrist`, ajouter la valeur dans `choices`, puis `['ModifyColumn', table, colonne, { widgetOptions: JSON.stringify(options) }]`. `ModifyColumn` remplace **tous** les réglages : toujours renvoyer ceux qu'on a lus, jamais seulement la liste. Comparer sans casse ni accents pour éviter les doublons.
 - `Millesimes.Nb_sachets` est numérique (1 pour un sachet, vide pour épuisé) : pas de lettres.
 - Plante mère : une ligne `Millesimes` + une seule ligne `Semis` sans godets ni graines (`Ou`, `Plantes`), reconnue par `estLigneMere(s)`. `Millesimes.Nb_plants` fait foi ; `Semis.Plantes` de cette ligne le suit (lu par le plan et les étiquettes) ; la formule `Millesimes.Plantes` renvoie `Nb_plants` pour une plante mère.
 - Plante mère = plant au jardin : `Type_plant` (pieds, rhizome, caïeux, bulbe). Jamais `Epuise` (formule) : l'exclure du choix d'un sachet sauf si elle a des graines (`Qtte_graines` ou `Nb_sachets`). À la mort totale, À gérer décoche `Plante_mere`.
 - Sachet mélangé : case `Millesimes.Melange`.
 
-## Saisies conservées au rechargement
-- Toutes les saisies non enregistrées vivent dans des objets de `etat` (`saisies`, `saisiesMeres`).
-- Un `Vue.watch` profond les copie dans `sessionStorage` ; au démarrage : restaurer, puis supprimer celles dont la carte n'existe plus.
-```js
-const CLE_SAISIES = "outil_saisies";
-function sauvegarderSaisies() {
-  try {
-    const vide = !Object.keys(etat.saisies).length && !Object.keys(etat.saisiesMeres).length;
-    if (vide) sessionStorage.removeItem(CLE_SAISIES);
-    else sessionStorage.setItem(CLE_SAISIES, JSON.stringify({ saisies: etat.saisies, meres: etat.saisiesMeres }));
-  } catch (err) { console.warn(err); }
-}
-function restaurerSaisies() {
-  try {
-    const d = JSON.parse(sessionStorage.getItem(CLE_SAISIES) || "{}");
-    for (const [id, s] of Object.entries(d.saisies || {})) etat.saisies[id] = { ...saisieVide(), ...s };
-    for (const [id, s] of Object.entries(d.meres || {})) etat.saisiesMeres[id] = { statut: s.statut, morts: s.morts || [], ou: s.ou || [] };
-  } catch (err) { console.warn(err); }
-}
-Vue.watch(() => [etat.saisies, etat.saisiesMeres], sauvegarderSaisies, { deep: true });
-// au démarrage : restaurerSaisies(); purgerSaisiesOrphelines(); recalculerTout();
-```
-- Restaurer tous les champs de la saisie (ex. À gérer : `ajuste`, `plants` en plus pour les plantes mères).
-- Contenu perdu à la fermeture de l'onglet : voulu. Changer la clé si le format change (inutile en base de test ouverte dans un seul onglet).
+## Saisies non enregistrées
+- Elles vivent dans des objets de `etat` (`saisies`, `saisiesMeres`) et sont perdues au rechargement : voulu (décision du 23/11, plus de `sessionStorage`).
+- Pas de `beforeunload` : le message « Quitter la page ? » ne s'affiche pas dans une iframe Grist.
 
 ## Couleurs
 - Neutre = sans info. Bleu = info à jour (`encart--succes`, `encart--info`, `pastille--info`).
@@ -139,6 +120,7 @@ Vue.watch(() => [etat.saisies, etat.saisiesMeres], sauvegarderSaisies, { deep: t
 ## Méthode de travail
 - Une modification à la fois, puis un test et la console (F12, filtre vidé).
 - Après un copier-coller, **relire le bloc autour** : un `return` grignoté, un `=` à la place d'un `<=`, un bloc collé au mauvais endroit (ou dans la mauvaise fonction : une fonction qui s'appelle elle-même donne « too much recursion »), une ligne supprimée au lieu d'être remplacée, ou un `id` en double ont causé la plupart des erreurs.
+- Retirer une fonction = retirer aussi tous ses appels, ses `watch` et sa place dans les `return` : Ctrl+Maj+F sur son nom doit donner 0 résultat ensuite.
 - Ctrl+Maj+F sur le nom qu'on vient de coller ou de supprimer : un compte inattendu trahit un doublon ou un reste. Exclure `node_modules` de la recherche.
 - Ctrl+F5 après un changement du CSS ou du JS commun ; ouvrir tous les outils qui en dépendent.
 - Après un déplacement de fichiers ou de dossiers : vérifier l'URL du widget dans Grist, les chemins relatifs du HTML, puis recharger de force. Une erreur qui cite un ancien nom (`KeyError 'Sachets'`) vient souvent d'une ancienne copie encore exécutée.
@@ -150,6 +132,8 @@ Vue.watch(() => [etat.saisies, etat.saisiesMeres], sauvegarderSaisies, { deep: t
 - Après une série de changements, redéposer dans le projet Claude les fichiers modifiés (HTML et CSS compris) : sinon les vérifications portent sur d'anciennes copies.
 
 ## Points ouverts
-- À gérer et Sélection pour étiquettes ont encore des `<input type="number">` pour les quantités : pas de message si la saisie n'est pas un entier (voir « Nombres saisis »).
+- Saisies conservées (`sessionStorage`), relecture avant écriture et annulation du 1er envoi : encore présentes dans certains outils, à retirer au nettoyage de chacun.
+- `Semis.Type` et `Millesimes.Type` : vérifier qu'elles sont bien passées en formules, et que Semis réalisés et Achat-repro n'écrivent plus `Type`.
+- `scriptcommun.js` : `anneeDepuisDate` est définie deux fois (supprimer l'ancienne, en haut) ; `typeInverse` est en commentaire : vérifier par Ctrl+Maj+F qu'aucun outil ne l'appelle encore, puis la supprimer ; mettre à jour le commentaire de tête (exceptions : voir ce mémo).
 - Boîte à dons : passer à `LISTE_MOIS` lors de sa refonte.
 - `achatrepro_textes.js` et `scriptcommun.md` ne servent plus : à supprimer du dépôt et du projet.

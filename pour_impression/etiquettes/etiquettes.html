@@ -17,18 +17,22 @@
         <template v-else>✓ À jour</template>
       </span>
       <nav class="ligne ligne--pleine">
-        <button type="button" class="btn" :disabled="etat.nbEtiquettes === 0 || etat.colonnesManquantes.length > 0" @click="imprimer">🖨️ Imprimer</button>
-        <button type="button" class="btn" :disabled="etat.nbEtiquettes === 0 || etat.colonnesManquantes.length > 0 || etat.enregistrement || !etat.imprimeA || etat.impressionPerimee" @click="demanderMarquage">{{ etat.enregistrement ? 'Enregistrement…' : '✅ Marquer comme imprimées' }}</button>
+        <label class="ligne">
+          <span class="texte">Récolte</span>
+          <input type="text" inputmode="numeric" class="champ champ--compact champ--annee" v-model="etat.saisieRecolte" />
+        </label>
+        <button type="button" class="btn" :disabled="etat.nbEtiquettes === 0 || etat.colonnesManquantes.length > 0 || etat.anneeRecolte === null" @click="imprimer">🖨️ Imprimer</button>
+        <button type="button" class="btn" :disabled="etat.nbEtiquettes === 0 || etat.colonnesManquantes.length > 0 || etat.enregistrement || !etat.imprimeA" @click="demanderMarquage">{{ etat.enregistrement ? 'Enregistrement…' : '✅ Marquer comme imprimées' }}</button>
         <span v-if="etat.charge && etat.nbEtiquettes > 0" class="texte texte--discret">{{ etat.nbEtiquettes }} {{ pluriel(etat.nbEtiquettes, 'étiquette') }} · {{ etat.nbLignes }} {{ pluriel(etat.nbLignes, 'ligne') }} de Semis · {{ etat.feuilles.length }} {{ pluriel(etat.feuilles.length, 'feuille') }}</span>
         <span v-else-if="etat.charge" class="texte texte--discret">Aucune étiquette à imprimer</span>
         <span v-if="etat.charge && etat.placesLibres > 0" class="texte texte--discret texte--gras">{{ etat.placesLibres }} {{ pluriel(etat.placesLibres, 'place libre', 'places libres') }} sur la dernière feuille</span>
-        <span v-if="etat.imprimeA && !etat.impressionPerimee" class="texte texte--discret">🖨️ Imprimé à {{ etat.imprimeA }}</span>
-        <span v-else-if="etat.imprimeA" class="texte texte--erreur texte--gras">⚠ Modifié depuis l'impression de {{ etat.imprimeA }} : réimprime avant de marquer</span>
+        <span v-if="etat.imprimeA" class="texte texte--discret">🖨️ Imprimé à {{ etat.imprimeA }}</span>
         <span v-else-if="etat.charge && etat.nbEtiquettes > 0" class="texte texte--discret">Pas encore imprimé</span>
       </nav>
-      <p v-if="etat.colonnesManquantes.length" class="texte texte--erreur texte--gras">⚠ {{ pluriel(etat.colonnesManquantes.length, 'Colonne masquée', 'Colonnes masquées') }} dans la vue du widget : {{ etat.colonnesManquantes.join(', ') }}. Affiche-les dans le panneau « Données » du widget : sans elles, les étiquettes seraient fausses.</p>
-      <p v-if="etat.erreur" class="texte texte--erreur texte--gras">{{ etat.erreur }}</p>
-      <p v-if="etat.succes" class="encart encart--succes texte texte--succes">{{ etat.succes }}</p>
+      <p v-if="etat.anneeRecolte === null" class="texte texte--erreur texte--gras entete__message">⚠ Année de récolte invalide : tape une année à 4 chiffres (ex. 2026).</p>      
+      <p v-if="etat.colonnesManquantes.length" class="texte texte--erreur texte--gras entete__message">⚠ {{ pluriel(etat.colonnesManquantes.length, 'Colonne absente', 'Colonnes absentes') }} : {{ etat.colonnesManquantes.join(', ') }}. Vérifie leur nom dans la table Semis : sans elles, les étiquettes seraient fausses.</p>
+      <p v-if="etat.erreur" class="texte texte--erreur texte--gras entete__message">{{ etat.erreur }}</p>
+      <p v-if="etat.succes" class="encart encart--succes texte texte--succes entete__message">{{ etat.succes }}</p>
     </header>
 
     <div id="appFeuilles" class="zone-feuilles">
@@ -44,6 +48,7 @@
               <svg v-if="estInversee(i)" class="etiquette__forme" viewBox="0 0 690 470" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
                 <line x1="172.5" y1="0" x2="517.5" y2="0" stroke="#000" stroke-width="7" />
                 <line x1="0" y1="470" x2="690" y2="470" stroke="#000" stroke-width="7" />
+                <line v-if="estDerniere(i, rangee)" x1="517.5" y1="0" x2="690" y2="470" stroke="#000" stroke-width="7" />
               </svg>
               <svg v-else class="etiquette__forme" viewBox="0 0 690 470" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
                 <polygon points="0,0 690,0 517.5,470 172.5,470" fill="none" stroke="#000" stroke-width="7" />
@@ -55,7 +60,7 @@
                 <div class="etiquette__infos">
                   <div class="etiquette__info">
                     <span class="etiquette__libelle">Récolte :</span>
-                    <span class="etiquette__valeur">🌱 {{ anneeEnCours }}</span>
+                    <span class="etiquette__valeur">🌱 {{ etat.anneeRecolte }}</span>
                   </div>
                   <div class="etiquette__info">
                     <span class="etiquette__libelle">Origine :</span>

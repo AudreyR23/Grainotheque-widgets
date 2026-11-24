@@ -98,3 +98,9 @@
   font-size: 11pt;
   padding-left: 10mm;
 }
+
+/* ----- Champ « Année de récolte » (en-tête) : complète .champ et .champ--compact du commun ----- */
+.champ--annee {
+  width: 5rem;
+  text-align: center;
+}
