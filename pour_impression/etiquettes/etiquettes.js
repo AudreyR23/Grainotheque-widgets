@@ -12,7 +12,6 @@ const RANGEES_PAR_FEUILLE = 4;
 const ETIQUETTES_PAR_FEUILLE = PAR_RANGEE * RANGEES_PAR_FEUILLE; // 20
 const ANNEE_EN_COURS = new Date().getFullYear();
 // Colonnes que le widget doit recevoir : onRecords ne donne que les colonnes visibles dans la vue
-const LARGEUR_FEUILLE_PX = 297 * 96 / 25.4;   // 297 mm en pixels d'écran (≈ 1123)
 const COLONNES_NECESSAIRES = [
   'Nom', 'Variete', 'Date_s', 'Nb_etiquettes', 'Etiq_en_attente', 'Nb_saisons_mil',
   'Origine_or', 'Origine_millesime', 'Plante_mere', 'Annee_plantation_mil'
@@ -56,10 +55,7 @@ function origineAvecAR(e, origine) {
     e.origine = 'AR';
   }
 }
-function dateEnSecondesGrist(valeur) {
-  // onRecords donne une date Grist sous forme d'objet Date : on la remet en secondes pour anneeDepuisDate
-  return valeur instanceof Date ? valeur.getTime() / 1000 : valeur;
-}
+
 function etiquetteDepuisLigne(r) {
   // Renvoie des valeurs ; le HTML écrit les textes.
   // { nom, variete, origine, versAR, libelleDate: 'semis' | 'plantation', annee, saisons (nombre, ou null = « …… ») }
@@ -75,7 +71,7 @@ function etiquetteDepuisLigne(r) {
     origine: '',
     versAR: false,
     libelleDate: 'semis',
-    annee: seme ? anneeDepuisDate(dateEnSecondesGrist(r.Date_s)) : null,
+    annee: seme ? anneeDepuisDate(r.Date_s) : null,
     saisons: null
   };
   if (vierge) return e;   // champs vides, « …… saison(s) »
@@ -113,15 +109,9 @@ function estInversee(i) {
   // 2e et 4e étiquettes d'une rangée : retournées pour imbriquer les trapèzes
   return i === 1 || i === 3;
 }
-function colonnesManquantes(lignes) {
-  // Une colonne masquée n'existe dans aucune ligne reçue (aucune ligne : rien à vérifier)
-  if (!lignes.length) return [];
-  return COLONNES_NECESSAIRES.filter(c => !(c in lignes[0]));
-}
 
 function afficherLignes(lignes) {
   // Une étiquette par unité de Nb_etiquettes, dans l'ordre de la vue Grist
-  etat.colonnesManquantes = colonnesManquantes(lignes);
   recordsParId.aImprimer.clear();
   const etiquettes = [];
   const contenu = [];   // [id, nb, étiquette] par ligne : sert à l'empreinte
@@ -163,7 +153,7 @@ function imprimer() {
 }
 
 // ===== Marquer comme imprimées =====
-const afficherSucces = creerMessageTemporaire(texte => { etat.succes = texte; }, 4000);
+const afficherSucces = creerMessageTemporaire(texte => { etat.succes = texte; });
 
 function demanderMarquage() {
   etat.confirmation = true;
@@ -232,7 +222,7 @@ async function marquerImprimees() {
 }
 
 // Une erreur reste affichée jusqu'au prochain clic (phase de capture : effacée avant que le bouton agisse)
-document.addEventListener('click', () => { etat.erreur = ''; }, true);
+effacerAuClic(() => { etat.erreur = ''; });
 // Autres navigateurs (Safari) : print() n'attend pas, l'événement « afterprint » prévient à la fermeture
 window.addEventListener('afterprint', noterImpression);
 // ===== Zones Vue =====
@@ -255,12 +245,7 @@ Vue.createApp({
 }).mount('#appFeuilles');
 
 // ===== Aperçu à l'écran : feuilles réduites à la largeur du widget =====
-function ajusterZoom(largeur) {
-  // Jamais agrandi au-delà de la taille réelle ; arrondi vers le bas pour éviter une barre de défilement d'un pixel
-  etat.zoom = Math.min(1, Math.floor(largeur / LARGEUR_FEUILLE_PX * 1000) / 1000);
-}
-
-new ResizeObserver(entrees => ajusterZoom(entrees[0].contentRect.width))
+new ResizeObserver(entrees => { etat.zoom = facteurZoom(entrees[0].contentRect.width); })
   .observe(document.getElementById('appFeuilles'));
 
 // ===== Initialisation =====

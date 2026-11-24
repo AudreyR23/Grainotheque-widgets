@@ -12,7 +12,6 @@
 .champ--nb {
   flex: none;
   width: 4.5rem;
-  padding: 10px 4px;
   text-align: center;
 }
 
@@ -20,16 +19,3 @@
 #etapeIntermediaire {
   margin-bottom: 12px;
 }
-
-/* Marge de défilement : l'en-tête collé en haut ne doit pas cacher la cible */
-#etapeIntermediaire,
-#appSelection,
-#appSelection li {
-  scroll-margin-top: 90px;
-}
-
-/* Chaque carte garde sa propre hauteur, même à côté d'une carte plus grande 
-#appSelection .grille,
-#etapeIntermediaire .grille {
-  align-items: start;
-}*/

@@ -1,7 +1,7 @@
 // État lu par le HTML : Vue met la page à jour quand il change
 const etat = Vue.reactive({
   recherche: "", // texte tapé dans le champ de recherche
-  saisies: {}, saisies: {}, // idSemis → { germes, attente, plantes, oups, don, ou } : ajouts pas encore enregistrés
+  saisies: {}, // idSemis → { germes, attente, plantes, oups, don, ou } : ajouts pas encore enregistrés
   listeVerifier: [], // semis affichés dans « À vérifier » (après recherche)
   totalVerifier: 0, // nombre de semis à vérifier, sans la recherche
   inclureSansDuree: true, // afficher aussi les semis dont la variété n'a pas de durée de germination
@@ -264,11 +264,6 @@ function retirerSaisie(idSemis) {
 }
 
 // ===== Défilement =====
-function aller(id) {
-  const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
 async function allerCarte(section, idSemis) {
   const id = section + "-" + idSemis; // 'verifier-12' ou 'planter-12'
   if (!document.getElementById(id)) {
@@ -294,6 +289,8 @@ async function allerMere(idMillesime) {
 function effacerErreurs() {
   etat.erreurs = { verifier: "", planter: "", meres: "", general: "" };
 }
+// Une erreur reste affichée jusqu'au prochain clic
+effacerAuClic(effacerErreurs);
 
 async function refuser(section, texte) {
   etat.erreurs[section] = texte;
@@ -367,10 +364,6 @@ function meresAControler() {
     .sort((a, b) => libelle(a).localeCompare(libelle(b), "fr") || a.id - b.id);
 }
 
-function estLigneMere(s) {
-  // Ligne Semis d'une plante mère : millésime plante mère, sans godets ni graines (créée par « achat-repro »)
-  return s.planteMere && s.millesimeId > 0 && s.godets === 0 && s.graines === 0;
-}
 function lignesSemisMere(idMillesime) {
   // Ligne(s) Semis de cette plante mère (en principe une seule)
   return [...recordsParId.semis.values()].filter(
@@ -465,7 +458,7 @@ function surPlantsMere(m, e) {
 }
 
 function plantsValide(saisie) {
-  const n = Number(saisie.plants);
+  const n = entierOuNull(saisie.plants); return n !== null && n >= 1;
   return String(saisie.plants).trim() !== "" && Number.isInteger(n) && n >= 1;
 }
 // ===== Affichage =====
@@ -530,7 +523,7 @@ function surGermes(idSemis, e) {
   const texte = e.target.value.trim();
   const valeur = Number(texte);
   const valide = texte !== "" && Number.isInteger(valeur) && valeur >= 0;
-  majSaisie(idSemis, champsGermes(idSemis, valide ? valeur : null));
+  majSaisie(idSemis, champsGermes(idSemis, entierOuNull(e.target.value)));
 }
 
 function basculerNG(idSemis) {
@@ -634,7 +627,7 @@ function valeurQuantite(idSemis, cle) {
 
 function surQuantite(idSemis, cle, e) {
   etat.brut[`${idSemis}:${cle}`] = e.target.value;
-  const v = Number(e.target.value);
+  const v = entierOuNull(e.target.value); majSaisie(idSemis, { [cle]: v > 0 ? v : 0 });
   majSaisie(idSemis, { [cle]: Number.isInteger(v) && v > 0 ? v : 0 });
 }
 
@@ -1040,7 +1033,7 @@ Vue.createApp({
       allerMere,
       retirerSaisie,
       retirerMere,
-      typeInverse,
+      
       pluriel,
       evolution,
     };
@@ -1051,7 +1044,7 @@ Vue.createApp({
     return {
       etat,
       libelle,
-      typeInverse,
+      
       dateAffichee,
       pluriel,
       aGermes,
@@ -1071,7 +1064,7 @@ Vue.createApp({
     return {
       etat,
       libelle,
-      typeInverse,
+      
       dateAffichee,
       pluriel,
       aPlantationDe,
@@ -1097,7 +1090,7 @@ Vue.createApp({
     return {
       etat,
       libelle,
-      typeInverse,
+      
       pluriel,
       statutMere,
       choisirStatutMere,

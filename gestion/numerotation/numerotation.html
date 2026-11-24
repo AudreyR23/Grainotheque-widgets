@@ -31,7 +31,7 @@
               <div v-for="d in etat.doublons" :key="d.numero">
                 <div class="texte texte--erreur texte--gras">N° {{ d.numero }}</div>
                 <div v-for="l in d.lignes" :key="l.id" class="ligne ligne--entre">
-                  <span class="texte">{{ l.nom }}<span v-if="l.type" class="texte texte--discret"> {{ typeInverse(l.type) }}</span> · <span v-if="l.dispo === 'aucun'" class="texte texte--erreur texte--gras">ni sachet ni plante mère</span><span v-else-if="l.dispo === 'sachet'" class="texte texte--discret">sachet</span><span v-else-if="l.dispo === 'mere'" class="texte texte--discret">🌱 plante mère</span><span v-else class="texte texte--discret">sachet et 🌱 plante mère</span></span>
+                  <span class="texte">{{ l.nom }}<span v-if="l.type" class="texte texte--discret"> {{ (l.type) }}</span> · <span v-if="l.dispo === 'aucun'" class="texte texte--erreur texte--gras">ni sachet ni plante mère</span><span v-else-if="l.dispo === 'sachet'" class="texte texte--discret">sachet</span><span v-else-if="l.dispo === 'mere'" class="texte texte--discret">🌱 plante mère</span><span v-else class="texte texte--discret">sachet et 🌱 plante mère</span></span>
                   <span class="ligne">
                     <button type="button" class="btn" :class="{ 'btn--etape': enAttente(l.id) }" @click="basculerRenumerotation(l.id)">Renuméroter</button>
                     <button type="button" class="btn" :class="{ 'btn--etape': enLiberation(l.id) }" @click="basculerLiberation(l.id)">Libérer</button>
@@ -42,7 +42,7 @@
             <template v-if="etat.invalides.length">
               <div class="texte texte--gras">⚠ {{ pluriel(etat.invalides.length, 'Numéro invalide', 'Numéros invalides') }} ({{ etat.invalides.length }})</div>
               <div v-for="i in etat.invalides" :key="i.id" class="ligne ligne--entre">
-                <span class="texte"><span class="texte texte--erreur texte--gras">{{ i.nom }} : valeur « {{ i.valeur }} »</span><span v-if="i.type" class="texte texte--discret"> {{ typeInverse(i.type) }}</span> · <span v-if="i.dispo === 'aucun'" class="texte texte--erreur texte--gras">ni sachet ni plante mère</span><span v-else-if="i.dispo === 'sachet'" class="texte texte--discret">sachet</span><span v-else-if="i.dispo === 'mere'" class="texte texte--discret">🌱 plante mère</span><span v-else class="texte texte--discret">sachet et 🌱 plante mère</span></span>
+                <span class="texte"><span class="texte texte--erreur texte--gras">{{ i.nom }} : valeur « {{ i.valeur }} »</span><span v-if="i.type" class="texte texte--discret"> {{ (i.type) }}</span> · <span v-if="i.dispo === 'aucun'" class="texte texte--erreur texte--gras">ni sachet ni plante mère</span><span v-else-if="i.dispo === 'sachet'" class="texte texte--discret">sachet</span><span v-else-if="i.dispo === 'mere'" class="texte texte--discret">🌱 plante mère</span><span v-else class="texte texte--discret">sachet et 🌱 plante mère</span></span>
                 <span class="ligne">
                   <button type="button" class="btn" :class="{ 'btn--etape': enAttente(i.id) }" @click="basculerRenumerotation(i.id)">Renuméroter</button>
                   <button type="button" class="btn" :class="{ 'btn--etape': enLiberation(i.id) }" @click="basculerLiberation(i.id)">Libérer</button>
@@ -95,7 +95,7 @@
           <ul class="liste-carte">
             <li v-for="a in etat.attentes" :key="a.id" class="carte carte--etape">
               <div class="carte__contenu">
-                <div><strong v-if="a.action === 'liberer' && a.valide">N° {{ a.numero }} libéré : {{ a.nom }}</strong><strong v-else-if="a.action === 'liberer'">Valeur « {{ a.numero }} » effacée : {{ a.nom }}</strong><strong v-else>N° {{ a.numero }} : {{ a.nom }}</strong><span v-if="a.type" class="carte__type">{{ typeInverse(a.type) }}</span></div>
+                <div><strong v-if="a.action === 'liberer' && a.valide">N° {{ a.numero }} libéré : {{ a.nom }}</strong><strong v-else-if="a.action === 'liberer'">Valeur « {{ a.numero }} » effacée : {{ a.nom }}</strong><strong v-else>N° {{ a.numero }} : {{ a.nom }}</strong><span v-if="a.type" class="carte__type">{{ (a.type) }}</span></div>
                 <div v-if="a.cas === 'doublon'" class="texte texte--discret">était N° {{ a.ancien }}, doublon</div>
                 <div v-else-if="a.cas === 'invalide'" class="texte texte--discret">valeur invalide « {{ a.ancien }} »</div>
                 <div v-else-if="a.cas === 'doublon-libere'" class="texte texte--discret">était en doublon</div>

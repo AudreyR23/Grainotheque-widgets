@@ -9,7 +9,7 @@ Accès Grist : `full`. Versions dev (branche `Vue`) et prod (`main`).
 - `gestion_etiquettes.html`, `gestion_etiquettes.js`, `gestion_etiquettes.css`
 - Commun : `../../script/scriptcommun.js`, `../../styles/styles_communs.css`
 - Fonctions communes utilisées : `tableEnLignes`, `listeChoix`, `normaliser`, `correspondRecherche`, `libelle`,
-  `typeInverse`, `dateAffichee`, `creerMessageTemporaire`, `pluriel`.
+  ``, `dateAffichee`, `creerMessageTemporaire`, `pluriel`.
 
 ## Circuit des étiquettes (3 outils)
 1. **Cet outil** : `Nb_etiquettes += saisie` (refusé si la ligne a changé dans Grist).
@@ -50,7 +50,7 @@ Lues : `Nom`, `Variete`, `Type`, `Annee_graine`, `Plantes`, `Date_p`, `Ou`, `Nb_
 - `.carte__contenu` (commun) est en colonne avec `gap: 6px` : le bloc à droite (✕, champ Nb) est centré par `.carte`.
 
 ## Points de vigilance
-- Chaque zone Vue a son propre `return` : toute fonction utilisée dans le HTML (`pluriel`, `typeInverse`…) doit y figurer.
+- Chaque zone Vue a son propre `return` : toute fonction utilisée dans le HTML (`pluriel`, ``…) doit y figurer.
 - Dans `#appAjouts` la ligne Semis s'appelle `b.s` (boucle `b`), dans `#appSelection` elle s'appelle `s`.
 - Ne jamais lancer « Mettre en forme le document » sur le HTML (coupe les chaînes).
 - Dans Grist, une cellule en cours d'édition n'est pas écrite : valider avant de tester la vérification.

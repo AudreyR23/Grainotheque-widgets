@@ -67,7 +67,7 @@ Chaque variété a deux boutons, **Renuméroter** et **Libérer**. Ils s'excluen
 - recherche par nom ou par numéro, liste « N° 12 : Nom » ;
 - un clic met la libération en attente. Le numéro devient aussitôt le prochain proposé (s'il n'y a pas de trou plus petit).
 
-**À enregistrer (N)** : une carte orange par ligne en attente, triée par numéro, avec le type (`typeInverse`) et un ✕ pour annuler.
+**À enregistrer (N)** : une carte orange par ligne en attente, triée par numéro, avec le type (``) et un ✕ pour annuler.
 - « N° 12 : Nom » : attribution. Mention « était N° 12, doublon » ou « valeur invalide « 2.5 » » pour une renumérotation.
 - « N° 12 libéré : Nom » (mention « était en doublon » si besoin) ou « Valeur « 2.5 » effacée : Nom ».
 
@@ -106,7 +106,7 @@ Un Ctrl+Z dans Grist annule tout l'enregistrement d'un coup.
 - **Listes déroulantes** : `etat.menuOuvert` vaut `''`, `'attribuer'` ou `'liberer'`. Les fonctions `menuVisible`, `surFocus`, `ouvrirMenu` et `fermerMenu` servent aux deux champs. `@mousedown.prevent` garde le focus, `@click` (pas `pointerup`) évite une attribution au défilement.
 - **Le JS calcule, le HTML met en forme** : le JS renvoie des codes (`action: 'attribuer' | 'liberer'`, `cas: 'doublon' | 'invalide' | 'doublon-libere'`), les textes sont dans le HTML. Exception : les messages d'erreur et de succès, dans `TEXTES`.
 - **Lignes en attente conservées au rechargement** : `Vue.watch` profond vers `sessionStorage` (clé `numerotation_saisies`), relues au démarrage par `restaurerSaisies()`, puis vérifiées au premier chargement par `nettoyerAttentes()`.
-- **Fonctions du commun utilisées** : `tableEnLignes`, `normaliser`, `correspondRecherche`, `pluriel`, `typeInverse`, `creerMessageTemporaire`.
+- **Fonctions du commun utilisées** : `tableEnLignes`, `normaliser`, `correspondRecherche`, `pluriel`, ``, `creerMessageTemporaire`.
 
 ## Contrat avec les autres outils
 - **Numéros d'épingle** (`numero`) lit `Num_epingle` pour imprimer la liste. Il ignore les doublons sans message, car cet outil-ci les signale. Après une libération ou une renumérotation, réimprimer.

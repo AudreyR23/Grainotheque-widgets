@@ -13,7 +13,6 @@ const TABLE_ESPECES = 'Especes';     // identifiant de la table des espèces dan
 const TABLE_VARIETES = 'Varietes';
 const TABLE_MILLESIMES = 'Millesimes';
 const TABLE_SEMIS = 'Semis';
-const MOIS = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jui', 'Juil', 'Aou', 'Sep', 'Oct', 'Nov', 'Déc'];
 const NB_FAVORIS = 6;                // les 6 premiers choix de Origine sont des pastilles, les autres un menu
 const NB_SAISONS_MAX = 20;           // nombre de saisons maximum proposé (menu et préremplissage)
 const NB_SAISONS = ['or.', ...Array.from({ length: NB_SAISONS_MAX }, (_, i) => String(i + 1))];
@@ -95,7 +94,70 @@ const etat = Vue.reactive({
 });
 
 // ===== 3. Messages =====
-const afficherMessage = creerMessageTemporaire(texte => { etat.message = texte; }, 4000);
+
+// ===== Textes de l'outil Achat / repro =====
+// Tous les messages affichés après une action (erreurs de saisie, confirmations, erreurs d'écriture)
+// et les libellés fabriqués par le code sont ici. Les libellés fixes (titres, champs, boutons,
+// bandeaux, avertissements) sont dans achatrepro.html. Chargé AVANT achatrepro.js.
+ 
+const TEXTES = {
+  // --- Contrôles de saisie : espèce et variété ---
+  nomObligatoire: 'Le nom est obligatoire.',
+  conservationEntier: "La conservation doit être un nombre entier d'années.",
+  dureeEntier: 'La durée de germination doit être un nombre entier de jours.',
+  profondeurFormat: 'La profondeur de semis doit être un nombre ou une fourchette (ex. 1 ou 1-2).',
+ 
+  // --- Contrôles de saisie : millésime ---
+  varieteObligatoire: 'Choisir une variété.',
+  anneeMillesime: (min, max) => `L'année du millésime doit avoir 4 chiffres (entre ${min} et ${max}).`,
+  origineObligatoire: "L'origine est obligatoire.",
+  natureObligatoire: 'Cocher Sachet ou Plante mère.',
+  quantiteObligatoire: 'Indiquer la quantité de graines.',
+  anneePlantation: (min, max) => `L'année de plantation doit avoir 4 chiffres (entre ${min} et ${max}).`,
+  nbPlantsObligatoire: 'Indiquer le nombre de plants (entier, au moins 1).',
+  typePlantObligatoire: 'Choisir le type de plant.',
+  lieuxObligatoires: 'Choisir au moins un emplacement pour la plante mère.',
+  ligneObligatoire: 'Choisir une ligne d\'étiquettes, ou décocher "Issu de mes étiquettes".',
+  sachetsReelsObligatoire: 'Indiquer le nombre de sachets réels (au moins 1).',
+ 
+  // --- Erreurs d'écriture et de lecture ---
+  erreur: e => '❌ Erreur : ' + e,
+  detectionImpossible: e => '⚠️ Détection impossible : ' + e,
+  varieteIntrouvable: 'Variété introuvable dans la liste (recharge le widget).',
+  originePasAjoutee: e => '❌ Origine non ajoutée : ' + e,
+  infoPasAjoutee: e => '❌ Info non ajoutée : ' + e,
+  erreurChargement: e => 'Erreur de chargement : ' + e,
+  aucunChoixLieux: 'aucun choix trouvé pour Semis.Ou',
+  lieuxNonCharges: e => 'Emplacements non chargés : ' + e + ' (impossible de créer une plante mère).',
+  lectureImpossible: e => '⚠️ Lecture impossible, rien n\'a été créé : ' + e,
+  ligneModifiee: 'Cette ligne d\'étiquettes a changé dans Grist : choisis-la de nouveau.',
+  suiteEchouee: e => '❌ Rien n\'a été créé : ' + e,
+  suiteEtAnnulationEchouees: e => '⚠️ Millésime créé, mais la suite a échoué (' + e + ') et il n\'a pas pu être annulé : vérifie Millesimes, puis les semis de la variété et la ligne d\'étiquettes.',
+
+  // --- Confirmations ---
+  especeCreee: nom => 'Espèce créée : ' + nom,
+  varieteCreee: nom => 'Variété créée : ' + nom,
+    millesimeCree: (annee, nom, planteMere, nbDecoches, don) =>
+    ' Millésime ' + annee + ' créé pour ' + nom +
+    (planteMere ? ' (ajouté aussi dans Semis)' : '') +
+    (nbDecoches ? ' · "À produire" décoché sur ' + nbDecoches + ' semis' : '') +
+    (don > 0 ? ' · Don : ' + don + ' ' + pluriel(don, 'sachet') : ''),
+  origineExiste: nom => `Cette origine existe déjà : « ${nom} » est sélectionnée.`,
+  origineAjoutee: nom => 'Origine ajoutée : ' + nom,
+  infoAjoutee: nom => 'Info ajoutée : ' + nom,
+ 
+  // --- Libellés fabriqués par le code (listes) ---
+  orOriginal: 'or. (original)',
+  varieteInconnue: '(variété inconnue)',
+   graineAIdentifier: (note, nb) =>
+    'Graines à identifier' + (note ? ' (' + note + ')' : '') + ' · ' + nb + ' ' + pluriel(nb, 'étiquette'),
+  ligneAttente: (variete, type, nb) => variete + ' · ' + type + ' · ' + nb + ' ' + pluriel(nb, 'étiquette'),
+  typeMere: 'plante mère',
+  typeSemis: 'semis',
+  typeHorsSachet: 'récupération hors sachet'
+};
+ 
+const afficherMessage = creerMessageTemporaire(texte => { etat.message = texte; });
 
 function dire(texte, erreur = false, panneau = etat.onglet) {
   etat.panneauMessage = panneau;
@@ -110,17 +172,9 @@ function dire(texte, erreur = false, panneau = etat.onglet) {
 
 // Un clic efface un message d'erreur. L'écouteur est en phase de capture : un clic sur « Créer »
 // efface l'ancienne erreur AVANT que le bouton revalide, donc elle réapparaît s'il reste un problème.
-document.addEventListener('click', () => {
-  if (etat.erreur && etat.message) etat.message = '';
-}, true);
+effacerAuClic(() => { if (etat.erreur && etat.message) etat.message = ''; });
 
 // ===== 4. Utilitaires =====
-function entierOuNull(valeur) {
-  // '12' → 12 ; vide ou autre chose qu'un entier → null
-  const t = String(valeur).trim();
-  return /^\d+$/.test(t) ? parseInt(t, 10) : null;
-}
-
 function anneeValide(valeur) {
   // 4 chiffres, entre ANNEE_MIN et l'année en cours
   const t = String(valeur).trim();
@@ -490,7 +544,7 @@ async function creerVariete(forcer = false) {
 
   /* NomVariete = "Nom\nVariété", ou "Nom" s'il n'y a pas de variété */
   const nomVariete = variete ? nom + '\n' + variete : nom;
-  const libelleCree = variete ? nom + ' — ' + variete : nom;
+  const libelleCree = libelle({ nom, variete });
 
   etat.enregistrement = true;
   let nouvelId = null;
@@ -730,7 +784,6 @@ async function creerMillesime(forcer = false) {
       const resultat = await grist.docApi.applyUserActions([
         ['AddRecord', TABLE_MILLESIMES, null, {
           NomVariete: varId,
-          Type: typeDeLaVariete,
           Millesime: dateEnSecondes(annee + '-01-01'),   // 1er janvier
           Nb_saisons_manuel: m.nbSaisons || null,
           Origine: enListeChoix([m.origine]),
@@ -762,7 +815,6 @@ async function creerMillesime(forcer = false) {
         NomVariete: varId,
         Millesime: nouveauMillesimeId,
         Date_s: dateEnSecondes(anneePlantation + '-01-01'),
-        Type: typeDeLaVariete,
         Plantes: nbPlants,
         Ou: enListeChoix(m.lieux),
         Nb_etiquettes: 0
@@ -793,15 +845,13 @@ async function creerMillesime(forcer = false) {
 
 // ===== 10. Ajouter un choix à une colonne (Origine, Infos) =====
 async function ajouterChoixColonne(tableId, colId, valeur) {
-  // Ajoute un choix à la liste d'une colonne Choice / ChoiceList. Les autres réglages
-  // de la colonne (couleurs des choix existants comprises) sont relus puis conservés tels quels.
+  // Ajoute un choix à une colonne Choice / ChoiceList. Les autres réglages de la colonne
+  // sont relus puis renvoyés tels quels (ModifyColumn remplace tous les réglages).
   const [tabTables, tabColonnes] = await Promise.all([
     grist.docApi.fetchTable('_grist_Tables'),
     grist.docApi.fetchTable('_grist_Tables_column')
   ]);
-  const table = tableEnLignes(tabTables).find(t => t.tableId === tableId);
-  if (!table) throw new Error('table ' + tableId + ' introuvable');
-  const colonne = tableEnLignes(tabColonnes).find(c => c.parentId === table.id && c.colId === colId);
+  const colonne = colonneGrist(tabTables, tabColonnes, tableId, colId);
   if (!colonne) throw new Error('colonne ' + colId + ' introuvable dans ' + tableId);
 
   let options = {};
@@ -887,9 +937,7 @@ app.component('champs-culture', {
     choix: { type: Object, required: true },
     prefixe: { type: String, default: 'x' }   // préfixe des id (pour relier libellés et champs)
   },
-  data() {
-    return { MOIS };
-  },
+data() { return { MOIS: LISTE_MOIS.map(m => m.valeurs[0]) }; },
   methods: {
     async ajouterInfo(texte) {
       const valeur = await ajouterInfoGrist(texte);

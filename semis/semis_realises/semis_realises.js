@@ -58,7 +58,7 @@ let prochainIdEtapeIntermediaire= 1;
 let varietePendante = null;   // variété reçue avant la fin du chargement
 
 let TYPES = [];   // lus depuis Grist (choix de la colonne Type de Semis)
-const TYPE_PAR_DEFAUT = 'Arom.Méd 🌿';
+const TYPE_PAR_DEFAUT = '🌿 Arom.Méd';
 
 let LIEUX = [];   // lus depuis Grist (choix de la colonne Ou de Semis)
 
@@ -67,13 +67,6 @@ const recordsParId = {
   millesimes: new Map(),
   semis: new Map()
 };
-
-// ===== Utilitaires =====
-function entierOuNull(valeur) {
-  // '12' → 12 ; vide ou autre chose qu'un entier → null (même fonction qu'Achat-repro, candidate au commun)
-  const t = String(valeur).trim();
-  return /^\d+$/.test(t) ? parseInt(t, 10) : null;
-}
 
 // ===== Statut =====
 function nombreEtapes() {
@@ -367,14 +360,11 @@ function restaurerSaisies() {
 }
 // ===== Enregistrement dans Semis =====
 
-const afficherSucces = creerMessageTemporaire(texte => { etat.succes = texte; }, 4000);
+const afficherSucces = creerMessageTemporaire(texte => { etat.succes = texte; });
 
 // Un clic efface les messages d'erreur. L'écouteur est en phase de capture : un clic sur « Ajouter »
 // ou « Enregistrer » efface l'ancienne erreur AVANT que le bouton revalide, donc elle réapparaît s'il reste un problème.
-document.addEventListener('click', () => {
-  etat.erreurFiche = '';
-  etat.erreur = '';
-}, true);
+effacerAuClic(() => { etat.erreur = ''; });
 
 async function enregistrerTout() {
   if (etat.etapesIntermediaires.length === 0 || etat.enregistrement) return;
@@ -390,7 +380,6 @@ async function enregistrerTout() {
     Date_s: liste.map(b => dateEnSecondes(b.date)),
     Nb_godets: liste.map(b => b.godets),
     Nb_graines: liste.map(b => b.graines),
-    Type: liste.map(b => b.type),
     Ou: liste.map(b => b.ou.length ? enListeChoix(b.ou) : null),
     Germes: liste.map(() => null),
     A_produire: liste.map(b => !!b.aProduire)
@@ -482,10 +471,10 @@ function varieteDemandee(id) {
 Vue.createApp({ setup() { return { etat, nombreEtapes }; } }).mount('#appEntete');
 Vue.createApp({ setup() { return {
   etat, nomEtapeIntermediaire, retirerEtapeIntermediaire, enregistrerTout,
-  typeInverse, pluriel, dateAffichee, dateEnSecondes
+  pluriel, dateAffichee, dateEnSecondes
 }; } }).mount('#appEtapes');
 Vue.createApp({ setup() { return {
-  etat, choisirMode, typeInverse, pluriel, dateAffichee,
+  etat, choisirMode, pluriel, dateAffichee,
   surRechercheVariete, surFocusVariete, choisirVariete,
   basculerListe, choisirMillesime, millesimeChoisi,
   choisirType,

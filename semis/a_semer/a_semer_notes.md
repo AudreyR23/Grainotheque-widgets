@@ -24,7 +24,7 @@ Rappeler les variétés à semer **au mois choisi** (mois en cours par défaut) 
 - Scripts en fin de `<body>` : plugin Grist, Vue 3.4.38 (unpkg), `scriptcommun.js`, `a_semer.js`.
 - Grist : données **Varietes**, « Sélectionner par » vide, accès **full** (nécessaire pour `fetchTable`, même sans écrire).
 - Semis réalisés doit être **sur la même page** Grist (voir 9).
-- Fonctions du commun utilisées : `tableEnLignes`, `listeChoix`, `normaliser`, `anneeDepuisDate`, `typeInverse`, `libelle` (« Nom - Variété », tiret court), `pluriel`.
+- Fonctions du commun utilisées : `tableEnLignes`, `listeChoix`, `normaliser`, `anneeDepuisDate`, ``, `libelle` (« Nom - Variété », tiret court), `pluriel`.
 
 ## 3. Données lues (`fetchTable`)
 
@@ -55,7 +55,7 @@ Les conditions 2 et 3 font une variété « déjà semée » : masquée par déf
 
 ### Carte
 - Liseré : vert (`carte--sousabri`), marron (`carte--pleineterre`), moitié vert / moitié marron (`carte--sousabri-pleineterre`, local).
-- Nom en gras + type en petit gris, emoji d'abord (`typeInverse`).
+- Nom en gras + type en petit gris, emoji d'abord (``).
 - Pastilles du commun « Sous abri » / « Pleine terre » (`pastille--categorie`).
 - Ligne grise 1 : millésime (ou « Sachet mélangé (plusieurs millésimes) », « Millésime sans date », « Pas de graines »), germination en %, ancienneté du test (« testé il y a 2 ans », « testé cette année », « jamais testé »).
 - Ligne grise 2 : période de semis (« Semis Nov → Fév »).
@@ -77,7 +77,7 @@ Les conditions 2 et 3 font une variété « déjà semée » : masquée par déf
 Case `Millesimes.Melange`. Traité comme un millésime normal ; s'il est choisi, la carte affiche « Sachet mélangé (plusieurs millésimes) ».
 
 ### Erreur de chargement
-Message `TEXTES.erreurChargement` rangé dans `etat.message`, affiché au-dessus de la liste en `texte texte--note` (comme Semis réalisés). Effacé au début de chaque « Actualiser ».
+Message `TEXTES.erreurChargement` rangé dans `etat.message`, affiché au-dessus de la liste en `texte texte--erreur` (comme Semis réalisés). Effacé au début de chaque « Actualiser ».
 
 ## 5. Période de semis
 
@@ -97,7 +97,7 @@ Germination en % : si la valeur est ≤ 1, elle est multipliée par 100.
 - **3 zones**, montées séparément, toutes sur le même `etat` :
   - `#appEntete` (`<header class="entete">`, collé en haut) : titre, Actualiser. `return { etat, MOIS, actualiser }`.
   - `#appFiltres` (`class="ligne filtres"`) : mois, cases (`case__saisie` + `case__texte`), tri. `return { etat, MOIS }`.
-  - `#appListe` (`<main>`) : message d'erreur, cartes. `return { etat, MOIS, typeInverse, libelle, categorie, pluriel, semer }`.
+  - `#appListe` (`<main>`) : message d'erreur, cartes. `return { etat, MOIS, libelle, categorie, pluriel, semer }`.
 - **État** : `lignes`, `mois`, `afficherDejaSemees`, `tri`, `nbTotal`, `nbRetenues`, `filtreActif`, `filtreSousAbri`, `filtrePleineTerre`, `chargement`, `message`.
 - **Le JS calcule, le HTML met en forme** : chaque ligne contient `{ v, mil, sousAbris, pleineTerre, dejaSemee, semisFait, plant, typePlant, fenetre, germination, anneesSansTest }` ; `categorie(l)` renvoie un code (`sousabri`, `pleineterre`, `sousabri-pleineterre`) que le HTML transforme en `carte--…`. Phrases et pluriels (`pluriel(n, 'an')`) dans le HTML.
 - **Flux** : `actualiser()` → `chargerDonnees()` → `afficher()` ; `Vue.watch` sur `[mois, afficherDejaSemees, tri, filtreSousAbri, filtrePleineTerre]` → `afficher()`.
@@ -141,7 +141,7 @@ Germination en % : si la valeur est ≤ 1, elle est multipliée par 100.
 - [ ] Lire les libellés de mois depuis Grist.
 - [ ] Séparer Sous abri / Pleine terre dans « déjà semée » ; choisir l'année.
 - [ ] Export `.ics`, rappel automatique (chantiers à part).
-- [ ] **Discussion du commun** : couleur des erreurs de chargement (`texte--note` gris ou `texte--erreur` rouge, dans tous les outils) ; `margin-top` de `btn--enregistrer` ; `carte--sousabri-pleineterre` (si Étiquettes l'utilise aussi).
+- [ ] **Discussion du commun** : couleur des erreurs de chargement (`texte--erreur` gris ou `texte--erreur` rouge, dans tous les outils) ; `margin-top` de `btn--enregistrer` ; `carte--sousabri-pleineterre` (si Étiquettes l'utilise aussi).
 - [ ] **Semis réalisés** : revoir le libellé « Nom - Variété » (tiret court) dans sa discussion.
 
 ## 12. Journal
@@ -150,7 +150,7 @@ Germination en % : si la valeur est ≤ 1, elle est multipliée par 100.
 17. (23/11/2026) Migration conventions :
     - commun BEM (`styles_communs.css`) ;
     - 3 zones Vue, entête collée ;
-    - cartes en BEM, correction du `v-if="typeInverse"` toujours vrai ;
+    - cartes en BEM, correction du `v-if=""` toujours vrai ;
     - `texteDetail`, `textePeriode`, `texteInfos`, `texteGermination`, `texteTest` supprimées : valeurs dans le JS, phrases dans le HTML, `pluriel` ; titre depuis `nbTotal` / `nbRetenues` / `filtreActif` ;
     - filtres en BEM (`case__saisie`, `champ--filtre`), `a_semer.css` réécrit ;
     - bloc `TEXTES`, erreur de chargement visible ;

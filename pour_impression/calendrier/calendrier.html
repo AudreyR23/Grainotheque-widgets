@@ -34,7 +34,7 @@
     <div id="appPages" class="zone-feuilles">
       <div v-for="(page, p) in etat.pages" :key="p" class="feuille" :style="{ '--zoom-ecran': etat.zoom }">
         <div class="calendrier__haut">
-          <p class="calendrier__titre">🌱 Calendrier des semis<template v-if="page.type"> · {{ typeInverse(page.type) }}</template><span v-if="page.suite" class="calendrier__suite"> (suite)</span></p>
+          <p class="calendrier__titre">🌱 Calendrier des semis<template v-if="page.type"> · {{ (page.type) }}</template><span v-if="page.suite" class="calendrier__suite"> (suite)</span></p>
           <p class="calendrier__legende">
             <span class="calendrier__cle"><span class="barre barre--legende barre--abri"></span>Sous abri (barre du haut)</span>
             <span class="calendrier__cle"><span class="barre barre--legende barre--terre"></span>Pleine terre (barre du bas)</span>

@@ -23,7 +23,7 @@ Saisir rapidement les semis d'une journée dans la table **Semis** via un formul
 
 - Scripts en fin de `<body>` : plugin Grist, Vue 3.4.38 (unpkg), `scriptcommun.js`, `semis_realises.js`.
 - Grist : widget personnalisé, accès **complet** (`grist.ready({ requiredAccess: 'full' })`).
-- Fonctions du commun utilisées : `tableEnLignes`, `listeChoix`, `enListeChoix`, `normaliser`, `anneeDepuisDate`, `dateAffichee`, `dateDuJour`, `dateEnSecondes`, `typeInverse`, `libelle`, `lieuxFiltres`, `correspondRecherche`, `lireChoixColonnes`, `creerMessageTemporaire`, `pluriel`.
+- Fonctions du commun utilisées : `tableEnLignes`, `listeChoix`, `enListeChoix`, `normaliser`, `anneeDepuisDate`, `dateAffichee`, `dateDuJour`, `dateEnSecondes`, ``, `libelle`, `lieuxFiltres`, `correspondRecherche`, `lireChoixColonnes`, `creerMessageTemporaire`, `pluriel`.
 
 ## 3. Données
 

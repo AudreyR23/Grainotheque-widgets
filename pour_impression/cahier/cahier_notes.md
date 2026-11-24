@@ -90,7 +90,7 @@ Volume : environ 449 variétés affichées (558 dans Varietes).
 ## Reste à faire
 - [ ] Mise en prod : copier les 3 fichiers sur `main`, changer l'URL du widget dans Grist (lié à Millesimes), Ctrl+F5, test d'impression. Aucun changement du commun.
 - [ ] Ancien `main_cahier.js` et ancien `cahier.html` : à supprimer après la mise en prod. La section « tableau » de `main.css` ne sert plus qu'à eux : à retirer lors de la migration des épingles.
-- [ ] Discussion du commun : créer `styles_communs_impression_bem.css` (section `.feuille` + `@media print`), en tenant compte du padding propre à chaque outil (étiquettes 10mm, cahier 15mm 10mm 10mm 10mm) ; `ajusterZoom` / `dateEnSecondesGrist` candidats à `scriptcommun.js`.
+- [x] Discussion du commun : créer `styles_communs_impression_bem.css` (section `.feuille` + `@media print`), en tenant compte du padding propre à chaque outil (étiquettes 10mm, cahier 15mm 10mm 10mm 10mm) ; `ajusterZoom` / `dateEnSecondesGrist` candidats à `scriptcommun.js`.
 - [ ] Rééquilibrer les largeurs de colonnes (115 %) si besoin.
 - [ ] Éventuel : rafraîchir aussi quand Varietes change seule (bouton « Actualiser »).
 Section « Règles du cahier » : « NB_LIGNES_VIDES_PAR_TYPE = 3 lignes vides en fin de chaque type (fabriquées par ligneVide, hauteur d'une variété à 1 sachet, colonne Type pré-remplie), à remplir à la main. Elles comptent dans le nombre de pages mais pas dans « N variétés ». »

@@ -86,11 +86,6 @@ async function chargerSemis() {
 }
 
 // ===== Sélection =====
-function estLigneMere(s) {
-  // Ligne Semis d'une plante mère : millésime plante mère, sans godets ni graines (créée par « achat-repro »)
-  return s.planteMere && s.millesimeId > 0 && s.godets === 0 && s.graines === 0;
-}
-
 function entreesEtiquetables() {
   // Plantes mères : seulement leur ligne « mère » (année de plantation facultative).
   // Autres : lignes avec des plants plantés.
@@ -139,7 +134,7 @@ function valeurNb(idSemis) {
 function surNb(idSemis, e) {
   etat.brut[idSemis] = e.target.value;
   const texte = e.target.value.trim();
-  const valeur = Number(texte);
+const valeur = entierOuNull(e.target.value); if (valeur > 0) etat.saisies[idSemis] = valeur; else delete etat.saisies[idSemis];
   const valide = texte !== '' && Number.isInteger(valeur) && valeur > 0;
   if (valide) etat.saisies[idSemis] = valeur;
   else delete etat.saisies[idSemis];
@@ -151,11 +146,6 @@ function retirerSaisie(idSemis) {
 }
 
 // ===== Défilement =====
-function aller(id) {
-  const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
 async function allerCarte(idSemis) {
   const id = 'carte-' + idSemis;
   if (!document.getElementById(id)) {
@@ -245,6 +235,9 @@ window.addEventListener('beforeunload', e => {
   if (nombreSaisies() > 0) { e.preventDefault(); e.returnValue = ''; }
 });
 
+// Une erreur reste affichée jusqu'au prochain clic
+effacerAuClic(() => { etat.erreur = ''; });
+
 // ===== Surveillances =====
 // Quand la recherche ou un filtre change, la liste se recalcule
 Vue.watch(
@@ -265,7 +258,7 @@ Vue.createApp({
 Vue.createApp({
   setup() {
     return {
-      etat, libelle, typeInverse, recapAjouts, retirerSaisie, enregistrerTout, allerCarte, pluriel,
+      etat, libelle, recapAjouts, retirerSaisie, enregistrerTout, allerCarte, pluriel,
     };
   }
 }).mount('#appAjouts');
@@ -273,7 +266,7 @@ Vue.createApp({
 Vue.createApp({
   setup() {
     return {
-      etat, libelle, typeInverse, dateAffichee, valeurNb, surNb, pluriel,
+      etat, libelle, dateAffichee, valeurNb, surNb, pluriel,
     };
   }
 }).mount('#appSelection');

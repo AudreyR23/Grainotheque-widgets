@@ -15,11 +15,11 @@
       <h1>Achat / repro</h1>
       <span v-if="!etat.charge" class="statut">Chargement…</span>
       <nav class="ligne ligne--pleine">
-        <button type="button" class="btn" :class="{ 'btn--actif': etat.onglet === 'millesime' }"
+        <button type="button" class="btn" :class="{ 'btn--etape': etat.onglet === 'millesime' }"
           @click="etat.onglet = 'millesime'">Nouveau millésime</button>
-        <button type="button" class="btn" :class="{ 'btn--actif': etat.onglet === 'variete' }"
+        <button type="button" class="btn" :class="{ 'btn--etape': etat.onglet === 'variete' }"
           @click="etat.onglet = 'variete'">Nouvelle variété</button>
-        <button type="button" class="btn" :class="{ 'btn--actif': etat.onglet === 'modele' }"
+        <button type="button" class="btn" :class="{ 'btn--etape': etat.onglet === 'modele' }"
           @click="etat.onglet = 'modele'">Nouvelle espèce</button>
       </nav>
       <div class="ligne">
@@ -48,14 +48,14 @@
           <span class="case__texte">Issu de mes étiquettes</span>
         </label>
               </div>
-        <div v-if="etat.issuEtiquettes" class="bloc">
+        <div v-if="etat.issuEtiquettes" class="groupe">
           <label class="texte texte--discret" for="m-attente">Étiquettes imprimées en attente</label>
           <choix-unique champ-id="m-attente" v-model="etat.ligneAttenteId" :options="optionsAttenteMenu"
             vide="— Choisir une ligne —"></choix-unique>
           <p v-if="etat.etiquettesChargees && !optionsAttenteMenu.length" class="texte texte--erreur texte--gras">Aucune étiquette en attente dans Semis.</p>
           <p v-if="etat.erreurEtiquettes" class="texte texte--erreur texte--gras">Lecture des étiquettes en attente impossible : {{ etat.erreurEtiquettes }}</p>
         </div>
-        <div v-if="ligneSansVariete" class="bloc">
+        <div v-if="ligneSansVariete" class="groupe">
           <span class="texte texte--discret">Variété déjà dans la liste : choisis-la dans le menu « Variété » ci-dessous. Sinon :</span>
           <div class="ligne">
             <button type="button" class="btn" @click="allerCreerVariete()">➕ Créer la variété</button>
@@ -64,29 +64,29 @@
         </div>
 
         <div class="grille">
-          <div class="bloc">
-            <label class="texte--titre texte--discret" for="m-variete">Variété <span class="badge badge--obligatoire">obligatoire</span></label>
+          <div class="groupe">
+            <label class="texte texte--titre texte--discret" for="m-variete">Variété <span class="badge badge--obligatoire">obligatoire</span></label>
             <choix-recherche champ-id="m-variete" v-model="etat.millesime.varieteId" :options="optionsVarietes"
               placeholder="Chercher une variété…" :disabled="varieteVerrouillee"></choix-recherche>
           </div>
-          <div class="bloc">
-            <label class="texte--titre texte--discret" for="m-type">Type</label>
+          <div class="groupe">
+            <label class="texte texte--titre texte--discret" for="m-type">Type</label>
             <input id="m-type" class="champ" type="text" readonly :value="typeVariete" />
           </div>
-          <div class="bloc">
-            <label class="texte--titre texte--discret" for="m-nb-saisons">Nb saisons</label>
+          <div class="groupe">
+            <label class="texte texte--titre texte--discret" for="m-nb-saisons">Nb saisons</label>
             <choix-unique champ-id="m-nb-saisons" v-model="etat.millesime.nbSaisons"
               :options="optionsNbSaisons"></choix-unique>
           </div>
-          <div class="bloc">
-            <label class="texte--titre texte--discret" for="m-annee">Millésime (année)</label>
+          <div class="groupe">
+            <label class="texte texte--titre texte--discret" for="m-annee">Millésime (année)</label>
             <input id="m-annee" class="champ" type="number" min="2000" max="2100" inputmode="numeric"
               v-model="etat.millesime.annee" />
           </div>
         </div>
 
-        <div class="bloc">
-          <span class="texte--titre texte--discret">Origine <span class="badge badge--obligatoire">obligatoire</span></span>
+        <div class="groupe">
+          <span class="texte texte--titre texte--discret">Origine <span class="badge badge--obligatoire">obligatoire</span></span>
           <div class="ligne">
             <span v-for="o in origineFavorites" :key="o" class="pastille pastille--choix"
               :class="{ 'pastille--etape': etat.millesime.origine === o }"
@@ -96,12 +96,12 @@
               @click="etat.autresOrigines = !etat.autresOrigines">{{ origineAutre || 'Autre origine' }}</span>
           </div>  
           <div v-if="etat.autresOrigines" class="grille">
-          <div class="bloc">
+          <div class="groupe">
                         <choix-unique champ-id="m-origine-autre" :model-value="origineAutre"
               @update:model-value="choisirOrigine" :options="origineAutres"
                               placeholder="Choisir une origine"></choix-unique>
           </div>
-          <div class="bloc">    
+          <div class="groupe">    
             <ajout-choix libelle="Nouvelle origine" :sur-ajout="ajouterOrigine"></ajout-choix>
           </div>
           </div>
@@ -120,14 +120,14 @@
         </div>
 
         <div class="grille">
-        <div v-if="etat.millesime.sachet" class="bloc">
-          <label class="texte--titre texte--discret" for="m-qtte">Quantité de graines <span class="badge badge--obligatoire">obligatoire</span></label>
-          <input id="m-qtte" class="champ" type="number" min="0" inputmode="numeric" placeholder="ex: 50"
+        <div v-if="etat.millesime.sachet" class="groupe">
+          <label class="texte texte--titre texte--discret" for="m-qtte">Quantité de graines <span class="badge badge--obligatoire">obligatoire</span></label>
+          <input id="m-qtte" class="champ" type="text" min="0" inputmode="numeric" placeholder="ex: 50"
             v-model="etat.millesime.qtte" />
         </div>
         </div>
-        <div v-if="ligneAttente && etat.millesime.sachet" class="bloc">
-          <label class="texte--titre texte--discret" for="m-sachets-reels">Sachets réels (le tien + dons) <span class="badge badge--obligatoire">obligatoire</span></label>
+        <div v-if="ligneAttente && etat.millesime.sachet" class="groupe">
+          <label class="texte texte--titre texte--discret" for="m-sachets-reels">Sachets réels (le tien + dons) <span class="badge badge--obligatoire">obligatoire</span></label>
           <input id="m-sachets-reels" class="champ" type="number" min="1" step="1" inputmode="numeric"
             v-model="etat.millesime.sachetsReels" />
           <span v-if="donSachets !== null" class="texte texte--gras">Don : {{ donSachets }} {{ pluriel(donSachets, 'sachet') }}</span>
@@ -135,23 +135,23 @@
 
         <div v-if="etat.millesime.planteMere">
           <div class="grille">
-            <div class="bloc">
-              <label class="texte--titre texte--discret" for="m-annee-plantation">Année de plantation <span class="badge badge--obligatoire">obligatoire</span></label>
+            <div class="groupe">
+              <label class="texte texte--titre texte--discret" for="m-annee-plantation">Année de plantation <span class="badge badge--obligatoire">obligatoire</span></label>
               <input id="m-annee-plantation" class="champ" type="number" min="2000" max="2100" inputmode="numeric"
                 v-model="etat.millesime.anneePlantation" />
             </div>
-            <div class="bloc">
-              <label class="texte--titre texte--discret" for="m-nb-plants">Nombre de plants <span class="badge badge--obligatoire">obligatoire</span></label>
+            <div class="groupe">
+              <label class="texte texte--titre texte--discret" for="m-nb-plants">Nombre de plants <span class="badge badge--obligatoire">obligatoire</span></label>
               <input id="m-nb-plants" class="champ" type="number" min="1" step="1" inputmode="numeric"
                 placeholder="ex: 2" v-model="etat.millesime.nbPlants" />
             </div>
-          <div v-if="etat.choixTypePlant.length" class="bloc">
-            <label class="texte--titre texte--discret" for="m-type-plant">Type de plant <span class="badge badge--obligatoire">obligatoire</span></label>
+          <div v-if="etat.choixTypePlant.length" class="groupe">
+            <label class="texte texte--titre texte--discret" for="m-type-plant">Type de plant <span class="badge badge--obligatoire">obligatoire</span></label>
             <choix-unique champ-id="m-type-plant" v-model="etat.millesime.typePlant"
               :options="etat.choixTypePlant" placeholder="Choisir un type"></choix-unique>
           </div>
-          <div class="bloc">
-            <span class="texte--titre texte--discret">Emplacement(s) <span class="badge badge--obligatoire">obligatoire</span></span>
+          <div class="groupe">
+            <span class="texte texte--titre texte--discret">Emplacement(s) <span class="badge badge--obligatoire">obligatoire</span></span>
             <choix-multiple v-model="etat.millesime.lieux" :choix="etat.lieux" menu lieu></choix-multiple>
           </div>
           </div>
@@ -163,7 +163,7 @@
           <div v-if="etat.doublonsMillesime.length && !etat.doublonMillesimeMasque" class="encart encart--alerte encart--cote texte texte--erreur">
             <div>⚠️ {{ etat.doublonsMillesime.length > 1 ? etat.doublonsMillesime.length + ' millésimes existent déjà' : 'Un millésime existe déjà' }} :
               <span class="texte--erreur texte--gras"> année : {{ etat.doublonsMillesime[0].annee }}, origine : {{ etat.doublonsMillesime[0].origine || '—' }}, quantité : {{ etat.doublonsMillesime[0].qtte != null ? etat.doublonsMillesime[0].qtte : '—' }}.</span></div>
-            <div class="ligne ligne--bas">
+            <div class="ligne">
               <button type="button" class="btn btn--enregistrer" :disabled="etat.enregistrement" @click="creerMillesime(true)">Créer quand même</button>
               <button type="button" class="btn" @click="etat.doublonMillesimeMasque = true">Annuler</button>
             </div>
@@ -183,20 +183,20 @@
           <template v-else>🔗 Espèce « {{ etat.bandeaux.variete.nom }} » créée — complétez maintenant sa première variété.</template>
         </p>
 
-        <div class="bloc">
-          <label class="texte--titre texte--discret" for="v-base">Modèle de base (pré-remplit le formulaire)</label>
+        <div class="groupe">
+          <label class="texte texte--titre texte--discret" for="v-base">Modèle de base (pré-remplit le formulaire)</label>
           <choix-recherche champ-id="v-base" v-model="etat.varieteBase" :options="optionsModeles"
             placeholder="Chercher un modèle…"></choix-recherche>
         </div>
 
         <div class="grille">
-          <div class="bloc">
-            <label class="texte--titre texte--discret" for="v-nom">Nom</label>
+          <div class="groupe">
+            <label class="texte texte--titre texte--discret" for="v-nom">Nom</label>
             <input id="v-nom" class="champ" type="text" placeholder="Tomate" autocomplete="off"
               v-model="etat.variete.nom" />
           </div>
-          <div class="bloc">
-            <label class="texte--titre texte--discret" for="v-variete">Variété</label>
+          <div class="groupe">
+            <label class="texte texte--titre texte--discret" for="v-variete">Variété</label>
             <input id="v-variete" class="champ" type="text" placeholder="Orange Bourgoin" autocomplete="off"
               v-model="etat.variete.variete" />
           </div>
@@ -204,8 +204,8 @@
 
         <champs-culture :formulaire="etat.variete" :choix="etat.choixVariete" prefixe="v"></champs-culture>
 
-        <div class="bloc">
-          <label class="texte--titre texte--discret" for="v-description">Description</label>
+        <div class="groupe">
+          <label class="texte texte--titre texte--discret" for="v-description">Description</label>
           <textarea id="v-description" class="champ" rows="4" placeholder="Description libre de la variété…"
             v-model="etat.variete.description"></textarea>
         </div>
@@ -234,14 +234,14 @@
           <button type="button" class="btn" @click="reinitialiserModele()">↩ Réinitialiser</button>
         </div>
 
-        <div class="bloc">
-          <label class="texte--titre texte--discret" for="e-base">Partir d'un modèle existant (optionnel)</label>
+        <div class="groupe">
+          <label class="texte texte--titre texte--discret" for="e-base">Partir d'un modèle existant (optionnel)</label>
           <choix-recherche champ-id="e-base" v-model="etat.modeleBase" :options="optionsModeles"
             placeholder="Chercher un modèle (ou laisser vide)…"></choix-recherche>
         </div>
 
-        <div class="bloc">
-          <label class="texte--titre texte--discret" for="e-nom">Nom de l'espèce</label>
+        <div class="groupe">
+          <label class="texte texte--titre texte--discret" for="e-nom">Nom de l'espèce</label>
           <input id="e-nom" class="champ" type="text" placeholder="Tomate" autocomplete="off"
             v-model="etat.modele.nom" />
         </div>
@@ -274,86 +274,86 @@
     <div>
       <h3>Culture</h3>
       <div class="grille">
-        <div class="bloc">
-          <label class="texte--titre texte--discret" :for="prefixe + '-type'">Type</label>
+        <div class="groupe">
+          <label class="texte texte--titre texte--discret" :for="prefixe + '-type'">Type</label>
           <choix-unique :champ-id="prefixe + '-type'" v-model="formulaire.type" :options="choix.Type"
             placeholder="Choisir un type"></choix-unique>
         </div>
-        <div class="bloc">
-          <label class="texte--titre texte--discret" :for="prefixe + '-exposition'">Exposition</label>
+        <div class="groupe">
+          <label class="texte texte--titre texte--discret" :for="prefixe + '-exposition'">Exposition</label>
           <choix-unique :champ-id="prefixe + '-exposition'" v-model="formulaire.exposition"
             :options="choix.Exposition" placeholder="Quelle exposition ?"></choix-unique>
         </div>
-        <div class="bloc">
-          <label class="texte--titre texte--discret" :for="prefixe + '-arrosage'">Arrosage</label>
+        <div class="groupe">
+          <label class="texte texte--titre texte--discret" :for="prefixe + '-arrosage'">Arrosage</label>
           <choix-unique :champ-id="prefixe + '-arrosage'" v-model="formulaire.arrosage"
             :options="choix.Arrosage" placeholder="Quel arrosage ?"></choix-unique>
         </div>
-        <div class="bloc">
-          <label class="texte--titre texte--discret" :for="prefixe + '-conservation'">Conservation (ans)</label>
+        <div class="groupe">
+          <label class="texte texte--titre texte--discret" :for="prefixe + '-conservation'">Conservation (ans)</label>
           <input :id="prefixe + '-conservation'" class="champ" type="text" inputmode="numeric"
             placeholder="ex : 3" autocomplete="off" v-model="formulaire.conservation" />
         </div>
       </div>
 
-      <div class="bloc">
-        <span class="texte--titre texte--discret">Famille</span>
+      <div class="groupe">
+        <span class="texte texte--titre texte--discret">Famille</span>
         <choix-multiple v-model="formulaire.famille" :choix="choix.Famille"></choix-multiple>
       </div>
 
       <h3>Semis et germination</h3>
       <div class="grille">
-        <div class="bloc">
-          <label class="texte--titre texte--discret" :for="prefixe + '-profondeur'">Profondeur de semis (cm)</label>
+        <div class="groupe">
+          <label class="texte texte--titre texte--discret" :for="prefixe + '-profondeur'">Profondeur de semis (cm)</label>
           <input :id="prefixe + '-profondeur'" class="champ" type="text" inputmode="decimal"
             placeholder="ex : 1 ou 1-2" autocomplete="off" v-model="formulaire.profondeur" />
         </div>
-        <div class="bloc">
-          <label class="texte--titre texte--discret" :for="prefixe + '-duree-germ'">Durée germination (jours)</label>
+        <div class="groupe">
+          <label class="texte texte--titre texte--discret" :for="prefixe + '-duree-germ'">Durée germination (jours)</label>
           <input :id="prefixe + '-duree-germ'" class="champ" type="text" inputmode="numeric"
             placeholder="ex : 14" autocomplete="off" v-model="formulaire.dureeGerm" />
         </div>
-        <div class="bloc">
-          <label class="texte--titre texte--discret" :for="prefixe + '-temp-germ'">Température germination</label>
+        <div class="groupe">
+          <label class="texte texte--titre texte--discret" :for="prefixe + '-temp-germ'">Température germination</label>
           <input :id="prefixe + '-temp-germ'" class="champ" type="text" placeholder="ex: 20-25°" autocomplete="off"
             v-model="formulaire.tempGerm" />
         </div>
       </div>
 
-      <div class="bloc">
-        <span class="texte--titre texte--discret">Semis sous abri 🏠</span>
+      <div class="groupe">
+        <span class="texte texte--titre texte--discret">Semis sous abri 🏠</span>
         <choix-multiple v-model="formulaire.abri" :choix="MOIS"></choix-multiple>
       </div>
-      <div class="bloc">
-        <span class="texte--titre texte--discret">Semis pleine terre 🌿</span>
+      <div class="groupe">
+        <span class="texte texte--titre texte--discret">Semis pleine terre 🌿</span>
         <choix-multiple v-model="formulaire.terre" :choix="MOIS"></choix-multiple>
       </div>
-      <div class="bloc">
-        <span class="texte--titre texte--discret">Récolte / Floraison 🌼</span>
+      <div class="groupe">
+        <span class="texte texte--titre texte--discret">Récolte / Floraison 🌼</span>
         <choix-multiple v-model="formulaire.recolte" :choix="MOIS"></choix-multiple>
       </div>
 
       <h3>Sol et lieu</h3>
-      <div class="bloc">
-        <span class="texte--titre texte--discret">Nature du sol</span>
+      <div class="groupe">
+        <span class="texte texte--titre texte--discret">Nature du sol</span>
         <choix-multiple v-model="formulaire.natureSol" :choix="choix.Nature_du_sol"></choix-multiple>
       </div>
-      <div class="bloc">
-        <span class="texte--titre texte--discret">Qualité du sol</span>
+      <div class="groupe">
+        <span class="texte texte--titre texte--discret">Qualité du sol</span>
         <choix-multiple v-model="formulaire.qualiteSol" :choix="choix.Qualite_du_sol"></choix-multiple>
       </div>
       <div class="grille">
-      <div class="bloc">
-        <span class="texte--titre texte--discret">Où cultiver</span>
+      <div class="groupe">
+        <span class="texte texte--titre texte--discret">Où cultiver</span>
         <choix-multiple v-model="formulaire.ouCultiver" :choix="choix.Ou_cultiver"></choix-multiple>
       </div>
-        <div class="bloc">
-          <span class="texte--titre texte--discret">Où semer</span>
+        <div class="groupe">
+          <span class="texte texte--titre texte--discret">Où semer</span>
         <choix-multiple v-model="formulaire.semisGpt" :choix="choix.Ou_semer"></choix-multiple>
               </div>
       </div>
-      <div class="bloc">
-        <span class="texte--titre texte--discret">Infos</span>
+      <div class="groupe">
+        <span class="texte texte--titre texte--discret">Infos</span>
         <choix-multiple v-model="formulaire.infos" :choix="choix.Infos" menu></choix-multiple>
         <ajout-choix libelle="Nouvelle info" :sur-ajout="ajouterInfo"></ajout-choix>
       </div>
@@ -432,7 +432,6 @@
   <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
   <script src="https://unpkg.com/vue@3.4.38/dist/vue.global.prod.js"></script>
   <script src="../../script/scriptcommun.js"></script>
-  <script src="achatrepro_textes.js"></script>
   <script src="achatrepro.js"></script>
 </body>
 

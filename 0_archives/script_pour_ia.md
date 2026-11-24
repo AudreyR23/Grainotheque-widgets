@@ -25,7 +25,7 @@ Conventions : variables en français, état global en haut du fichier, `recordsP
 - Règle : une classe est dans le commun si au moins deux outils s'en servent à l'identique. Une règle qui cite un id de l'outil reste dans son CSS.
 - Convention BEM (`bloc__element`, `bloc--variante`) : décidée comme amélioration future, **pas appliquée** pour l'instant. Ne renomme pas l'existant.
 ### JS commun : `gestion_commun.js`
-Fonctions : `tableEnLignes`, `listeChoix`, `normaliser`, `anneeDepuisDate`, `dateAffichee`, `typeInverse` (emoji d'abord).
+Fonctions : `tableEnLignes`, `listeChoix`, `normaliser`, `anneeDepuisDate`, `dateAffichee`, `` (emoji d'abord).
 - Règle : uniquement des fonctions qui n'utilisent **que leurs paramètres** (jamais `etat`, `modifie`, `recordsParId`).
 - Ne jamais redéfinir une fonction commune dans un outil : la copie locale masque le commun, et un `const` du même nom bloque tout le fichier.
 - Modifier le commun touche tous les outils : je teste les autres ensuite. En prod, je mets à jour le commun avant les outils.

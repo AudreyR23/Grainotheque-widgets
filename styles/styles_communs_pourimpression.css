@@ -1,4 +1,4 @@
-/* ===== Styles communs aux outils d'impression (étiquettes, cahier, numéros) ===== */
+/* ===== Styles communs aux outils d'impression (étiquettes, cahier, numéros, calendrier) ===== */
 /* À charger APRÈS styles_communs.css et AVANT le CSS de l'outil.
    Le CSS de l'outil peut ainsi remplacer une valeur (ex. le padding de .feuille pour les étiquettes). */
 

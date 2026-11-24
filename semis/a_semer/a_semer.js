@@ -1,6 +1,4 @@
 // ===== État global =====
-const MOIS = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jui', 'Juil', 'Aou', 'Sep', 'Oct', 'Nov', 'Déc'];
-
 const etat = Vue.reactive({
   lignes: [],
   mois: new Date().getMonth() + 1,   // 1 à 12
@@ -32,17 +30,15 @@ const recordsParId = {
 // ===== Utilitaires =====
 
 function moisDansListe(liste, mois) {
-  // liste = ['Jan', 'Fév', ...] ; mois = 1 à 12
-  const cible = normaliser(MOIS[mois - 1]);
-  return liste.some(m => normaliser(m) === cible);
+  return liste.some(v => numeroMois(v) === mois);
 }
 
 function fenetreDeSemis(liste, mois, annee) {
   // Fenêtre continue de mois (Sous abris + Pleine terre) qui contient « mois »
   const ensemble = new Set();
   for (const choix of liste) {
-    const i = MOIS.findIndex(m => normaliser(m) === normaliser(choix));
-    if (i >= 0) ensemble.add(i + 1);
+    const n = numeroMois(choix);
+    if (n) ensemble.add(n);
   }
   const prec = m => (m === 1 ? 12 : m - 1);
   const suiv = m => (m === 12 ? 1 : m + 1);
@@ -209,9 +205,9 @@ grist.ready({ requiredAccess: 'full' });
 const canal = new BroadcastChannel('granotheque-semer');
 // Quand un filtre change, la liste se recalcule
 Vue.watch(() => [etat.mois, etat.afficherDejaSemees, etat.tri, etat.filtreSousAbri, etat.filtrePleineTerre], afficher);
-Vue.createApp({ setup() { return { etat, MOIS, actualiser }; } }).mount('#appEntete');
-Vue.createApp({ setup() { return { etat, MOIS }; } }).mount('#appFiltres');
+Vue.createApp({ setup() { return { etat, LISTE_MOIS, actualiser }; } }).mount('#appEntete');
+Vue.createApp({ setup() { return { etat, LISTE_MOIS }; } }).mount('#appFiltres');
 Vue.createApp({ setup() { return {
-  etat, MOIS, typeInverse, libelle, categorie, pluriel, semer
+  etat, LISTE_MOIS, libelle, categorie, pluriel, semer
 }; } }).mount('#appListe');
 actualiser();

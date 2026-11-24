@@ -61,7 +61,7 @@ let disponibles = new Set();        // ids de Varietes avec au moins un sachet o
 let avecSachet = new Set();         // ids de Varietes avec au moins un millésime à Nb_sachets >= 1
 let plantesMeres = new Set();       // ids de Varietes avec au moins un millésime Plante_mere
 let numeroLecture = 0;              // sert à ignorer une lecture dépassée par une plus récente
-const afficherSucces = creerMessageTemporaire(texte => { etat.succes = texte; }, 4000);
+const afficherSucces = creerMessageTemporaire(texte => { etat.succes = texte; });
 
 // ===== Outils =====
 function estNumeroValide(valeur) {
@@ -87,11 +87,6 @@ function enAttente(id) {
 
 function enLiberation(id) {
   return id in etat.liberations;
-}
-
-// Colonnes absentes d'une table lue par fetchTable, au format 'Table.Colonne'
-function colonnesAbsentes(tableId, table, colonnes) {
-  return colonnes.filter(c => !(c in table)).map(c => `${tableId}.${c}`);
 }
 
 // Variétés disponibles : au moins un millésime avec un sachet (Nb_sachets >= 1) ou une plante mère.
@@ -378,7 +373,7 @@ function basculerLiberation(id) {
 async function relireMillesimes() {
   try {
     const millesimes = await grist.docApi.fetchTable(TABLE_MILLESIMES);
-    if (colonnesAbsentes(TABLE_MILLESIMES, millesimes, COLONNES_MILLESIMES).length) return;   // charger() le signale
+if (colonnesAbsentes(millesimes, COLONNES_MILLESIMES).length) return;
     disponibles = varietesDisponibles(tableEnLignes(millesimes));
     if (!etat.colonnesManquantes.length) recalculer();
   } catch (err) { console.warn(err); }
@@ -407,7 +402,7 @@ async function enregistrer() {
   try {
     // Contrôle 1 : relire Varietes juste avant d'écrire
     const table = await grist.docApi.fetchTable(TABLE);
-    const manquantes = colonnesAbsentes(TABLE, table, COLONNES_NECESSAIRES);
+const manquantes = colonnesAbsentes(table, COLONNES_NECESSAIRES).map(c => TABLE + '.' + c);
     if (manquantes.length) {
       etat.colonnesManquantes = manquantes;   // le message de l'en-tête explique
       return;
@@ -502,7 +497,7 @@ Vue.watch(() => [etat.attributions, etat.anciens, etat.liberations], sauvegarder
 // ===== Zones Vue =====
 // Une erreur reste affichée jusqu'au prochain clic (phase de capture : effacée avant que le bouton agisse)
 // Au prochain clic, les messages précédents s'effacent (phase de capture : avant que le bouton agisse)
-document.addEventListener('click', () => { etat.erreur = ''; etat.succes = ''; etat.rappel = false; }, true);
+effacerAuClic(() => { etat.erreur = ''; });
 
 Vue.createApp({
   setup() {
@@ -512,7 +507,7 @@ Vue.createApp({
 
 Vue.createApp({
   setup() {
-    return { etat, pluriel, typeInverse, enAttente, enLiberation, basculerRenumerotation, basculerLiberation };
+    return { etat, pluriel, enAttente, enLiberation, basculerRenumerotation, basculerLiberation };
   }
 }).mount('#appAnomalies');
 
@@ -530,7 +525,7 @@ Vue.createApp({
 
 Vue.createApp({
   setup() {
-    return { etat, retirer, enregistrer, typeInverse, nombreAttentes };
+    return { etat, retirer, enregistrer, nombreAttentes };
   }
 }).mount('#appAttentes');
 
@@ -545,10 +540,10 @@ async function charger() {
     ]);
     if (numero !== numeroLecture) return;   // une lecture plus récente a pris le relais
 
-    etat.colonnesManquantes = [
-      ...colonnesAbsentes(TABLE, table, COLONNES_NECESSAIRES),
-      ...colonnesAbsentes(TABLE_MILLESIMES, millesimes, COLONNES_MILLESIMES)
-    ];
+etat.colonnesManquantes = [
+  ...colonnesAbsentes(table, COLONNES_NECESSAIRES).map(c => TABLE + '.' + c),
+  ...colonnesAbsentes(millesimes, COLONNES_MILLESIMES).map(c => TABLE_MILLESIMES + '.' + c)
+];
     if (etat.colonnesManquantes.length) {
       recordsParId = new Map();   // pas de proposition fausse : on ne garde rien
       disponibles = new Set();

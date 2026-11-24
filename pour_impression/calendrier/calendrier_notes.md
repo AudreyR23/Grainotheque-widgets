@@ -13,7 +13,7 @@ Volume : environ 143 plantes affichées.
 - `calendrier.html`, `calendrier.js`, `calendrier.css`
 - Commun : `../../script/scriptcommun.js`, `../../styles/styles_communs.css`, `../../styles/styles_communs_pourimpression.css`
   (chargé entre le commun BEM et le CSS de l'outil).
-- Fonctions communes utilisées : `tableEnLignes`, `listeChoix`, `normaliser`, `pluriel`, `typeInverse`.
+- Fonctions communes utilisées : `tableEnLignes`, `listeChoix`, `normaliser`, `pluriel`, ``.
 - N'utilise plus `main.css`.
 ## Données
 - Widget lié à **Millesimes** : `grist.onRecords(afficherMillesimes, { includeColumns: 'normal' })`
@@ -47,7 +47,7 @@ Volume : environ 143 plantes affichées.
   de la colonne de droite, l'alphabet n'est jamais coupé) : 3 si le nombre de plantes est impair, 2 s'il est pair, pour que le
   total soit pair et que les deux colonnes finissent à la même hauteur. Pas assez de place : 1 (impair) ou 0 (pair).
   Fabriquées par `ligneVide` (12 cases `'aucune'`) ; elles ne comptent pas dans « N plantes ».
-- Titre de chaque feuille : « 🌱 Calendrier des semis · » + `typeInverse(type)` (+ « (suite) ») ;
+- Titre de chaque feuille : « 🌱 Calendrier des semis · » + `(type)` (+ « (suite) ») ;
   légende sur chaque feuille : « Sous abri (barre du haut) », « Pleine terre (barre du bas) », « Certaines variétés seulement ».
 ## Fonctionnement
 - **En-tête collé** (masqué à l'impression) : statut (Chargement… / ✓ Chargé), bouton Imprimer, « N plantes · P pages »,

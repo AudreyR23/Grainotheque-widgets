@@ -34,11 +34,10 @@
           À étiqueter ({{ etat.totalEntrees }})
         </button>
       </nav>
-      <p v-if="etat.succes" class="encart encart--succes texte texte--succes">
+      <p v-if="etat.succes" class="encart encart--succes texte texte--succes entete__message">
         {{ etat.succes }}
       </p>
-      <p v-if="etat.message" class="texte texte--note">{{ etat.message }}</p>
-    </header>
+      <p v-if="etat.message" class="texte texte--erreur texte--gras entete__message">{{ etat.message }}</p>    </header>
     <main>
       <div id="appRecherche">
         <input
@@ -82,7 +81,7 @@
               <div class="carte__contenu">
                 <div>
 <strong>{{ b.s ? libelle(b.s) : '(ligne inconnue)' }}</strong
-><span v-if="b.s && b.s.type" class="carte__type">{{ typeInverse(b.s.type) }}</span>
+><span v-if="b.s && b.s.type" class="carte__type">{{ (b.s.type) }}</span>
 </div>                
 <div class="ligne">
                   <span
@@ -152,7 +151,7 @@
                               <div>
               <strong>{{ libelle(s) }}</strong>
               <span v-if="s.type" class="carte__type"
-                >{{ typeInverse(s.type) }}</span
+                >{{ (s.type) }}</span
               >
               </div>
               <div class="ligne">
@@ -191,7 +190,7 @@
               placeholder="Nb"
               :aria-label="`Nombre d'étiquettes pour ${libelle(s)}`"
               title="Nombre d'étiquettes à ajouter"
-              class="champ champ--nb"
+              class="champ champ--compact champ--nb"
               :value="valeurNb(s.id)"
               @input="surNb(s.id, $event)"
             />

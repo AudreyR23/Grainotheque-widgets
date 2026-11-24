@@ -9,21 +9,22 @@
   </head>
   <body>
     <header id="appEntete" class="entete">
-      <h1>À semer en {{ MOIS[etat.mois - 1] }} (<template v-if="etat.filtreActif">{{ etat.nbRetenues }} sur </template>{{ etat.nbTotal }})</h1>
+      <h1>{{ LISTE_MOIS[etat.mois - 1].court }} (<template v-if="etat.filtreActif">{{ etat.nbRetenues }} sur </template>{{ etat.nbTotal }})</h1>
       <button type="button" class="btn" title="Recharger les données" :disabled="etat.chargement" @click="actualiser">↻ Actualiser</button>
+      <p v-if="etat.message" class="texte texte--erreur">{{ etat.message }}</p>
     </header>
 
     <div id="appFiltres" class="ligne filtres">
       <label class="filtres__groupe">Mois
-        <select v-model="etat.mois" class="champ champ--filtre">
-          <option v-for="(nom, i) in MOIS" :key="i" :value="i + 1">{{ nom }}</option>
+        <select v-model="etat.mois" class="champ champ--compact champ--filtre">
+          <option v-for="m in LISTE_MOIS" :key="m.num" :value="m.num">{{ m.court }}</option>
         </select>
       </label>
       <label class="case"><input type="checkbox" class="case__saisie" v-model="etat.afficherDejaSemees"><span class="case__texte">Afficher aussi les déjà semées</span></label>
       <label class="case"><input type="checkbox" class="case__saisie" v-model="etat.filtreSousAbri"><span class="case__texte">Sous abri</span></label>
       <label class="case"><input type="checkbox" class="case__saisie" v-model="etat.filtrePleineTerre"><span class="case__texte">Pleine terre</span></label>
       <label class="filtres__groupe">Tri
-        <select v-model="etat.tri" class="champ champ--filtre">
+        <select v-model="etat.tri" class="champ champ--compact champ--filtre">
           <option value="nom">Nom</option>
           <option value="germination">% de germination</option>
           <option value="test">Test</option>
@@ -32,11 +33,10 @@
     </div>
 
     <main id="appListe">
-            <p v-if="etat.message" class="texte texte--note">{{ etat.message }}</p>
       <ul class="liste-carte">
         <li v-for="l in etat.lignes" :key="l.v.id" class="carte" :class="['carte--' + categorie(l), { 'carte--deja-semee': l.dejaSemee }]">
           <div class="carte__contenu">
-            <div><strong>{{ libelle(l.v) }}</strong><span v-if="l.v.type" class="carte__type">{{ typeInverse(l.v.type) }}</span></div>
+            <div><strong>{{ libelle(l.v) }}</strong><span v-if="l.v.type" class="carte__type">{{ (l.v.type) }}</span></div>
             <div class="ligne">
               <span v-if="l.sousAbris" class="pastille pastille--categorie pastille--sousabri">Sous abri</span>
               <span v-if="l.pleineTerre" class="pastille pastille--categorie pastille--pleineterre">Pleine terre</span>
@@ -45,7 +45,7 @@
               <template v-if="!l.mil">Pas de graines</template>
               <template v-else><template v-if="l.mil.estMelange">Sachet mélangé (plusieurs millésimes)</template><template v-else-if="l.mil.annee !== null">Millésime {{ l.mil.annee }}</template><template v-else>Millésime sans date</template> · <template v-if="l.germination !== null">germination {{ l.germination }} %</template><template v-else>germination inconnue</template> · <template v-if="l.anneesSansTest === null">jamais testé</template><template v-else-if="l.anneesSansTest === 0">testé cette année</template><template v-else>testé il y a {{ l.anneesSansTest }} {{ pluriel(l.anneesSansTest, 'an') }}</template></template>
             </div>
-            <div class="texte texte--discret">Semis {{ MOIS[l.fenetre.debutMois - 1] }} → {{ MOIS[l.fenetre.finMois - 1] }}</div>
+            <div class="texte texte--discret">Semis {{ LISTE_MOIS[l.fenetre.debutMois - 1].court }} → {{ LISTE_MOIS[l.fenetre.finMois - 1].court }}</div>
             <div v-if="l.semisFait || l.plant"><span class="pastille pastille--info"><template v-if="l.semisFait">Déjà semée</template><template v-if="l.semisFait && l.plant"> · </template><template v-if="l.plant">🌱 {{ l.typePlant || 'plant' }} au jardin</template></span></div>
           </div>
           <button type="button" class="btn btn--enregistrer carte__action" :aria-label="`Semer ${libelle(l.v)}`" @click="semer(l.v.id)">Semer</button>

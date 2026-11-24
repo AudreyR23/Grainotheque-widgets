@@ -1,10 +1,4 @@
-/* ===== Semis réalisés : uniquement ce qui n'est pas dans styles_communs_bem.css ===== */
-
-/* Message de succès dans le bandeau : sur sa propre ligne */
-.entete__message {
-  flex-basis: 100%;
-  margin: 0;
-}
+/* ===== Semis réalisés : uniquement ce qui n'est pas dans styles_communs.css ===== */
 
 /* ===== Formulaire : groupes empilés, l'espacement vient du gap ===== */
 .fiche {
@@ -51,19 +45,4 @@
   color: var(--arriere-plan);
   background: var(--pleineterre-moyen);
   border-color: var(--pleineterre-fonce);
-}
-
-/* ===== Encart bleu : infos sur la variété choisie ===== */
-.encart--info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  border-color: var(--bleu-moyen);
-  background: var(--bleu-clair);
-}
-
-/* ===== Bouton-champ grisé (Millésime sans variété) ===== */
-.champ:disabled {
-  opacity: 0.6;
-  cursor: default;
 }

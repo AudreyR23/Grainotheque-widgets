@@ -40,9 +40,10 @@
           À contrôler ({{ etat.totalMeres }})
         </button>
       </nav>
-      <p v-if="etat.succes" class="encart encart--succes texte texte--succes">
+      <p v-if="etat.succes" class="encart encart--succes texte texte--succes entete__message">
         {{ etat.succes }}
       </p>
+      <p v-if="etat.message" class="texte texte--erreur">{{ etat.message }}</p>
       <p
         v-if="etat.erreurs.general"
         class="texte texte--erreur texte--gras entete__message"
@@ -71,7 +72,7 @@
                   <div>
                   <strong>{{ r.nom }}</strong
                   ><span v-if="r.type" class="carte__type"
-                    >{{ typeInverse(r.type) }}</span
+                    >{{ (r.type) }}</span
                   >
                   </div>
                   <div class="ligne">
@@ -118,7 +119,7 @@
                   <div>
                   <strong>{{ r.nom }}</strong
                   ><span v-if="r.type" class="carte__type"
-                    >{{ typeInverse(r.type) }}</span
+                    >{{ (r.type) }}</span
                   ></div>
                   <div class="ligne">
                     <span v-if="r.plantes > 0" class="texte texte--etape"
@@ -180,7 +181,7 @@
                   <div>
                   <strong>{{ r.nom }}</strong
                   ><span v-if="r.type" class="carte__type"
-                    >{{ typeInverse(r.type) }}</span
+                    >{{ (r.type) }}</span
                   >
                   </div>
                   <div class="ligne">
@@ -277,7 +278,7 @@
             <button
               id="boutonTri"
               type="button"
-              class="champ champ--bouton champ--petit"
+              class="champ champ--bouton champ--compact"
               @click="basculerTri()"
             >
               {{ etat.tri === 'nom' ? 'Nom' : 'Ordre habituel (retard / ancienneté)' }}
@@ -346,7 +347,7 @@
             <div>
               <strong>{{ libelle(s) }}</strong
               ><span v-if="s.type" class="carte__type"
-                >{{ typeInverse(s.type) }}</span
+                >{{ (s.type) }}</span
               >
             </div>
             <div class="ligne">
@@ -445,7 +446,7 @@
             <div>
               <strong>{{ libelle(s) }}</strong>
               <span v-if="s.type" class="carte__type"
-                >{{ typeInverse(s.type) }}</span
+                >{{ (s.type) }}</span
               >
             </div>
             <div class="ligne">
@@ -622,7 +623,7 @@
               <div>
                 <strong>{{ libelle(m) }}</strong
                 ><span v-if="m.type" class="carte__type"
-                  >{{ typeInverse(m.type) }}</span
+                  >{{ (m.type) }}</span
                 >
               </div>
               <div class="ligne">
@@ -779,7 +780,6 @@
         >
           {{ etat.enregistrement ? 'Enregistrement…' : 'Enregistrer tout' }}
         </button>
-        <p v-if="etat.message" class="texte texte--note">{{ etat.message }}</p>
       </div>
     </main>
  
