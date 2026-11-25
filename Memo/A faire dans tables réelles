@@ -66,3 +66,6 @@ python
 any(Semis.lookupRecords(NomVariete=$id).A_produire)
 Dans le panneau de droite, mets le type de la colonne en Booléen (affichage en case ou en interrupteur, au choix).
 Toujours dans le panneau de droite, rubrique « Comportement de la colonne », choisis « Convertir en colonne de données ». Les valeurs sont figées et la colonne devient modifiable : c'est le point important, car un outil ne doit jamais écrire dans une colonne formule.
+
+Colonne Disponible dans Variété :
+any(not m.Epuise for m in Millesimes.lookupRecords(NomVariete=$id))

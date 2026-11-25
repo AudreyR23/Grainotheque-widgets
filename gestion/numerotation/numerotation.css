@@ -1,9 +1,0 @@
-/* ===== Outil « Numérotation » : seulement ce qui n'est pas dans le commun ===== */
-
-/* Encart des anomalies (doublons, numéros invalides) : rouge = attention.
-   Variante locale de .encart (commun), à poser avec la classe de base. */
-.encart--anomalies {
-  border-color: var(--erreur-moyen);
-  background: var(--erreur-clair);
-  word-break: break-word;
-}
