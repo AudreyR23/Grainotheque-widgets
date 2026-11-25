@@ -59,7 +59,7 @@ class Millesimes:
     return rec.NomVariete.Type
 
   @grist.formulaType(grist.Numeric())
-  def Germination_2026(rec, table):
+  def Germination_semis(rec, table):
     if rec.Plante_mere:
         return None
     semis = Semis.lookupRecords(NomVariete=rec.NomVariete, Millesime=rec.id)
@@ -70,7 +70,7 @@ class Millesimes:
   def Germination_affichee(rec, table):
     if rec.Plante_mere:
         return None
-    return rec.Germination_2026 if rec.Germination_2026 is not None else rec.Germination_historique
+    return rec.Germination_semis if rec.Germination_semis is not None else rec.Germination_historique
 
   @grist.formulaType(grist.Bool())
   def Millesime_recent(rec, table):
@@ -115,7 +115,7 @@ class Millesimes:
     if rec.Plante_mere:
         if not rec.Annee_plantation:
             return "or."
-        return int(TODAY().year - rec.Annee_plantation + 1)  # 2026 = année actuelle, +1 pour compter l'année de plantation
+        return int(TODAY().year - rec.Annee_plantation + 1)
     else:
         return rec.Nb_saisons_manuel
 
@@ -162,7 +162,6 @@ class Semis:
   Ou = grist.ChoiceList()
   Don_p = grist.Numeric()
   Millesime = grist.Reference('Millesimes')
-  A_produire = grist.Bool()
   Nb_etiquettes = grist.Numeric()
 
   def _default_Date_creation(rec, table, value, user):
@@ -172,7 +171,6 @@ class Semis:
   def _default_Date_modif(rec, table, value, user):
     return NOW()
   Date_modif = grist.DateTime('Europe/Paris')
-  Graines_exterieures = grist.Bool()
   Positions = grist.Text()
   Etiq_en_attente = grist.Numeric()
   Note_attente = grist.Text()
@@ -220,6 +218,10 @@ class Semis:
     total_germes = sum(g or 0 for g in semis.Germes)
     return round(total_germes / total_semes, 3) if total_semes else None
 
+  @grist.formulaType(grist.Bool())
+  def A_produire(rec, table):
+    return rec.NomVariete.A_reproduire
+
   def Nom(rec, table):
     return rec.NomVariete.Nom
 
@@ -249,10 +251,6 @@ class Semis:
     if isinstance(origine, (list, tuple)):
         return ", ".join(str(v) for v in origine)
     return str(origine)
-
-  @grist.formulaType(grist.Bool())
-  def Origine_locale(rec, table):
-    return rec.Millesime.Nb_saisons_manuel != "or."
 
   @grist.formulaType(grist.Numeric())
   def Annee_plantation_mil(rec, table):
@@ -304,9 +302,6 @@ class Varietes:
   def _default_Date_modif(rec, table, value, user):
     return NOW()
   Date_modif = grist.DateTime('Europe/Paris')
-
-  def _default_A_reproduire(rec, table, value, user):
-    return any(Semis.lookupRecords(NomVariete=rec.id).A_produire)
   A_reproduire = grist.Bool()
 
   @grist.formulaType(grist.Text())
@@ -316,16 +311,6 @@ class Varietes:
   @grist.formulaType(grist.Text())
   def Variete(rec, table):
     return rec.NomVariete.split("\n")[1] if "\n" in rec.NomVariete else ""
-
-  def A_semer_bientot(rec, table):
-    mois = {1:"Jan", 2:"Fév", 3:"Mar", 4:"Avr", 5:"Mai", 6:"Jui", 7:"Juil", 8:"Aou", 9:"Sep", 10:"Oct", 11:"Nov", 12:"Déc"}
-    mois_actuel = mois[TODAY().month]
-    mois_suivant = mois[TODAY().month % 12 + 1]
-    return any(m in (rec.Semis_sous_abris or []) or m in (rec.Semis_pleine_terre or []) for m in [mois_actuel, mois_suivant])
-
-  @grist.formulaType(grist.Bool())
-  def En_production(rec, table):
-    return any(Semis.lookupRecords(NomVariete=rec.id).A_produire)
 
   @grist.formulaType(grist.Bool())
   def Deja_seme_cette_annee(rec, table):
@@ -340,8 +325,8 @@ class Varietes:
   def Annees_sans_test(rec, table):
     if rec.Dernier_semis:
         return TODAY().year - rec.Dernier_semis.year
-    ref = Millesimes.lookupOne(NomVariete=rec.id).Annee_germination_ref
-    return (TODAY().year - ref) if ref else "Jamais testé"
+    refs = [m.Annee_germination_ref for m in Millesimes.lookupRecords(NomVariete=rec.id) if m.Annee_germination_ref]
+    return (TODAY().year - max(refs)) if refs else "Jamais testé"
 
   def A_donner(rec, table):
     return any(m.Don > 0 for m in Millesimes.lookupRecords(NomVariete=rec.id))

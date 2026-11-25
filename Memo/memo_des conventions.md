@@ -5,7 +5,7 @@
 - Je travaille en français et je suis débutante en Vue : explique brièvement les notions nouvelles.
 - Je ne suis pas développeuse : donne des modifications précises (fichier, endroit exact, fonction complète à remplacer), avec un test après chaque étape.
 - Une discussion par outil. Les changements du commun (`scriptcommun.js`, CSS communs) se traitent à part.
-- Outils : À gérer, Sélection pour étiquettes, Semis réalisés, À semer, Achat-repro (saisie) ; Étiquettes, Cahier, Calendrier, Numéros (impression) ; Numérotation. Boîte à dons et Plan : pas encore migrés.
+- Outils : À gérer, Sélection pour étiquettes, Semis réalisés, Achat-repro (saisie) ; Étiquettes, Cahier, Calendrier, Numéros (impression) ; Numérotation. Boîte à dons et Plan : pas encore migrés.
 - Pas de Ferrari : écrire tout de suite quand l'action est petite et réversible (Ctrl+Z dans Grist) ; ne vérifier que ce qui arrive vraiment ; laisser à Grist ce qu'il sait faire (corriger une cellule, annuler, filtrer).
 
 ## Fichiers et chargement
@@ -48,7 +48,7 @@
 - N'utilisent que leurs paramètres (jamais `etat`, `recordsParId`…). Exceptions : `lireChoixColonnes` appelle `grist` ; `aller` et `effacerAuClic` utilisent `document` ; `numeroMois` lit `LISTE_MOIS`.
 - Ne jamais redéfinir une fonction commune dans un outil : la copie locale la masque sans erreur. Avant d'écrire une fonction utilitaire, chercher ici.
 - Ne jamais déclarer dans un outil une `const` ou un `let` qui existe dans le commun (ex. `LISTE_MOIS`) : contrairement à une fonction, le doublon donne « Identifier … has already been declared » et **tout** le fichier de l'outil s'arrête. Une constante propre à une fonction commune se déclare **dans** la fonction (ex. la largeur de feuille dans `facteurZoom`).
-- **Données Grist** : `tableEnLignes`, `listeChoix`, `enListeChoix`, `colonneGrist(tabTables, tabColonnes, tableId, colId)` (ligne de la colonne dans les métadonnées, ou null), `choixColonne`, `lireChoixColonnes(tableId, [colIds])`, `colonnesAbsentes(colonnes, liste)`, `estLigneMere(s)` (`s` = ligne Semis préparée par l'outil avec `planteMere`, `millesimeId`, `godets`, `graines`), indexerVarietes(lignes)( -> { parId, parNom, doublons }) et varieteReferencee(index, reference)(id ou texte « Nom↵Variété » de onRecords).
+- **Données Grist** : `tableEnLignes`, `listeChoix`, `enListeChoix`, `colonneGrist(tabTables, tabColonnes, tableId, colId)` (ligne de la colonne dans les métadonnées, ou null), `choixColonne`, `lireChoixColonnes(tableId, [colIds])`, `colonnesAbsentes(colonnes, liste)`, `estLigneMere(s)` (`s` = ligne Semis préparée par l'outil avec `planteMere`, `millesimeId`, `godets`, `graines`), `indexerVarietes`(lignes)( -> { parId, parNom, doublons }) et `varieteReferencee`(index, reference)(id ou texte « Nom↵Variété » de onRecords).
 - **Dates** : `anneeDepuisDate(valeur)` (secondes de `fetchTable` **ou** objet `Date` de `onRecords`), `dateAffichee(secondes)`, `dateDuJour()` ('AAAA-MM-JJ'), `dateEnSecondes('AAAA-MM-JJ')`. Dates écrites dans Grist : toujours `dateEnSecondes`, jamais `Date.UTC` recopié dans un outil.
 - **Mois** : `LISTE_MOIS` (12 objets `{ num, court, long, initiale, valeurs }` ; `valeurs[0]` = valeur des listes de choix Grist, ex. 'Jui', 'Aou') et `numeroMois(valeur)` ('Mar' ou 'Mars' → 3, inconnu → null). Jamais de liste de mois locale.
 - **Textes** : `normaliser`, `correspondRecherche(texteNormalise, saisieNormalisee)`, `lieuxFiltres(lieux, choisis, saisie)`, `libelle(v)` (« Nom - Variété », tiret court), `pluriel(n, singulier, formePluriel)` (0 et 1 au singulier, nombre d'abord : « 3 germés »), `evolution(avant, apres, singulier, formePluriel)` (« avant → après unité », accord sur après ; le JS calcule avant et après, le HTML n'additionne rien).
@@ -116,6 +116,7 @@
 - Feuilles plus larges que le widget : elles défilent dans `.zone-feuilles` (`overflow-x: auto`) pour que l'en-tête collé garde toute la largeur. À l'impression, cette zone repasse en `overflow: visible`, sinon Firefox n'imprime que la première feuille.
 - En-tête, fenêtre de confirmation et `.ecran-seulement` masqués dans `@media print`.
 - Test de chaque modification : PDF en A4 paysage, comparé à la version précédente (nombre de pages, positions, pas de page blanche finale).
+- onRecords livre les listes de choix sans le 'L' : ne pas leur appliquer listeChoix (réservé à fetchTable)
 
 ## Méthode de travail
 - Une modification à la fois, puis un test et la console (F12, filtre vidé).
@@ -132,8 +133,4 @@
 - Après une série de changements, redéposer dans le projet Claude les fichiers modifiés (HTML et CSS compris) : sinon les vérifications portent sur d'anciennes copies.
 
 ## Points ouverts
-- « Sélection pour étiquettes a encore des <input type="number"> pour les quantités : pas de message si la saisie n'est pas un entier (voir « Nombres saisis »). À gérer est fait : à prendre pour modèle (etat.brut, saisieInvalide, refus à l'enregistrement). »
-Saisies conservées (`sessionStorage`), relecture avant écriture et annulation du 1er envoi : encore présentes dans certains outils, à retirer au nettoyage de chacun.
-- `Semis.Type` et `Millesimes.Type` : vérifier qu'elles sont bien passées en formules, et que Semis réalisés et Achat-repro n'écrivent plus `Type`. À gérer : fait le 25/11.
 - Boîte à dons : passer à `LISTE_MOIS` lors de sa refonte.
-- `achatrepro_textes.js` et `scriptcommun.md` ne servent plus : à supprimer du dépôt et du projet.

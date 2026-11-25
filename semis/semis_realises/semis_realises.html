@@ -105,7 +105,7 @@
               <template v-else>— choisir une variété d'abord —</template>
             </button>
             <ul class="menu__liste" v-show="etat.listeMillesimeOuverte" @mousedown.prevent>
-              <li v-for="m in etat.millesimes" :key="m.id" class="menu__item" :class="{ 'menu__item--choisi': m.id === etat.millesimeId }" @click="choisirMillesime(m.id)">{{ libelleMillesime(m) }}</template></li>
+              <li v-for="m in etat.millesimes" :key="m.id" class="menu__item" :class="{ 'menu__item--choisi': m.id === etat.millesimeId }" @click="choisirMillesime(m.id)">{{ libelleMillesime(m) }}</li>
             </ul>
           </div>
         </div>

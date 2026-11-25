@@ -20,7 +20,7 @@ const etat = Vue.reactive({
   pages: [],                // [page] ; page = [colonne] (3) ; colonne = [épingle] (20 au plus)
   zoom: 1,                  // réduction des feuilles à l'écran (1 = taille réelle ; sans effet à l'impression)
   colonnesManquantes: [],   // colonnes nécessaires absentes (ex. 'Varietes.Num_epingle')
-  erreur: ''
+  message: ''
 });
 
 function imprimer() {
@@ -28,7 +28,7 @@ function imprimer() {
 }
 
 // Une erreur reste affichée jusqu'au prochain clic (phase de capture : effacée avant que le bouton agisse)
-effacerAuClic(() => { etat.erreur = ''; });
+effacerAuClic(() => { etat.message = ''; });
 
 Vue.createApp({
   setup() {
@@ -98,11 +98,11 @@ async function charger() {
     const vides = Array.from({ length: NB_EMPLACEMENTS_VIDES }, (_, k) => emplacementVide(dernier + k + 1));
     etat.pages = enPages([...epingles, ...vides]);   // les vides comptent dans les pages, pas dans « N graines »
     etat.nbNumeros = epingles.length;
-    etat.erreur = '';
+    etat.message = '';
     etat.charge = true;
   } catch (err) {
     console.error('❌ Erreur lors du chargement des données Grist :', err);
-    etat.erreur = TEXTES.echec(err.message);
+    etat.message = TEXTES.echec(err.message);
   }
 }
 

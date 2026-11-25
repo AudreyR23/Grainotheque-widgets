@@ -32,15 +32,12 @@ const etat = Vue.reactive({
   pages: [],         // [page] ; page = [variété] ; variété = { …, sachets: [sachet] }
   zoom: 1,           // réduction des feuilles à l'écran (1 = taille réelle ; sans effet à l'impression)
   colonnesManquantes: [],   // colonnes nécessaires absentes (ex. 'Millesimes.Epuise')
-  erreur: ''
+  message: ''
 });
 
 function imprimer() {
   window.print();
 }
-
-// Une erreur reste affichée jusqu'au prochain clic (phase de capture : effacée avant que le bouton agisse)
-effacerAuClic(() => { etat.erreur = ''; });
 
 Vue.createApp({
   setup() {
@@ -120,10 +117,7 @@ function buildGrainesMap(lignes) {
       });
     }
 
-    const origine = Array.isArray(r.Origine)
-      ? listeChoix(r.Origine).join(', ')
-      : r.Origine || '';
-
+const origine = (r.Origine || []).filter(x => x !== 'L').join(', ');
     map.get(v.id).sachets.push({
       origine: origine,
       sachet: r.Nb_sachets ? String(r.Nb_sachets) : '',
@@ -210,11 +204,11 @@ async function afficherMillesimes(lignes) {
     for (const r of lignes) recordsParId.millesimes.set(r.id, r);
 
     recalculerPages();
-    etat.erreur = '';
+    etat.message = '';
     etat.charge = true;
   } catch (err) {
     console.error('❌ Erreur lors du chargement des données Grist :', err);
-    etat.erreur = TEXTES.echec(err.message);
+    etat.message = TEXTES.echec(err.message);
   }
 }
 

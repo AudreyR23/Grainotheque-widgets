@@ -69,3 +69,14 @@ Toujours dans le panneau de droite, rubrique « Comportement de la colonne », c
 
 Colonne Disponible dans Variété :
 any(not m.Epuise for m in Millesimes.lookupRecords(NomVariete=$id))
+
+Une page « Graines trouvées » dans Grist
+
+Ajoute une page qui affiche la table Semis.
+Filtre-la sur « Date_s vide » et « Plantes vide ou 0 ». Elle ne montre alors que les lignes de transit.
+Garde seulement les colonnes NomVariete, Note_attente et Nb_etiquettes.
+Si tu veux, mets en tête de page une carte de texte : « Graines trouvées : 1. une ligne ici (variété, ou une note si tu ne la connais pas), 2. imprimer avec Étiquettes, 3. Achat-repro → Issu de mes étiquettes. »
+
+Ensuite, il te suffit d'ajouter une ligne sur cette page : le nom te rappelle la marche à suivre. La page te sert aussi de contrôle, puisqu'une ligne qui y reste après le passage dans Achat-repro signale un oubli. Achat-repro supprime ces lignes de transit dès que le millésime est créé, donc la page se vide toute seule.
+
+Si un jour ce parcours devient fréquent, la vraie simplification serait un bouton « Graines trouvées » dans Sélection pour étiquettes, qui créerait cette ligne pour toi. Pour l'instant, la page Grist suffit.
