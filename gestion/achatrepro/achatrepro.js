@@ -1,6 +1,6 @@
 // ===== Achat / repro : outil en Vue =====
 // Les textes affichés après une action sont dans l'objet TEXTES (section 3) ;
-// les libellés fixes, bandeaux et avertissements sont dans achatrepro.html.//
+// les libellés fixes, bandeaux et avertissements sont dans achatrepro.html.
 // Plan du fichier :
 //   1. Constantes            5. Valeurs calculées       9. Millésimes
 //   2. État                  6. Observateurs (watch)   10. Ajouter un choix (Origine, Infos)
@@ -20,7 +20,7 @@ const ORIGINE_PRODUCTION = 'Monjardin';   // choix de la colonne Origine affich�
 const ANNEE_MIN = 2000;
 const MOTIF_PROFONDEUR = /^\d+([.,]\d+)?(\s*-\s*\d+([.,]\d+)?)?$/;   // 1, 0,5, 1-2
 // Colonnes de choix lues dans Varietes
-const COLONNES_CHOIX_ESPECE = [
+const COLONNES_CHOIX = [
   'Type', 'Exposition', 'Arrosage', 'Famille', 'Nature_du_sol', 'Qualite_du_sol', 'Ou_cultiver', 'Infos', 'Ou_semer'
 ];
 
@@ -53,9 +53,9 @@ const etat = Vue.reactive({
   enregistrement: false,
   message: '',
   erreur: false,
-  panneauMessage: '',        // panneau où le message s'affiche : 'espece' | 'variete' | 'millesime'
+  panneauMessage: '',        // panneau où le message s'affiche : 'variete' | 'millesime'
   // Bandeaux d'enchaînement : le texte est dans le HTML, ici seulement la situation et ses données
-  //   variete  : { type: 'graines', nb }
+  //   variete  : { nb }
   //   millesime: { type: 'variete', nom } | { type: 'graines', nom }
   bandeaux: { millesime: null, variete: null },
 
@@ -63,7 +63,7 @@ const etat = Vue.reactive({
   especes: [],               // espèces existantes
 
   // Variétés
-  choixVariete: Object.fromEntries(COLONNES_CHOIX_ESPECE.map(c => [c, []])),
+  choixVariete: Object.fromEntries(COLONNES_CHOIX.map(c => [c, []])),
   varietes: [],              // variétés existantes
   varieteBase: '',           // id de l'espèce choisie comme modèle de base (panneau Variété)
   variete: { nom: '', variete: '', description: '', ...champsVides() },
@@ -84,7 +84,7 @@ const etat = Vue.reactive({
   erreurEtiquettes: '',      // erreur de lecture de la liste
   semisEnAttente: [],        // lignes Semis avec Etiq_en_attente > 0
   ligneAttenteId: '',        // ligne choisie dans la liste
-  parcoursLigne: false       // true pendant le trajet ligne sans variété → espèce → variété → millésime
+  parcoursLigne: false       // true pendant le trajet ligne sans variété → variété → millésime
 });
 
 // ===== 3. Messages =====
@@ -126,8 +126,7 @@ const TEXTES = {
   suiteEchouee: e => '⚠️ Millésime créé, mais la suite a échoué (' + e + ') : vérifie Millesimes, les semis de la variété et la ligne d\'étiquettes.',
   // --- Confirmations ---
   varieteCreee: nom => 'Variété créée : ' + nom,
-  millesimeCree: (annee, nom, planteMere, decoche, don) =>
-    ' Millésime ' + annee + ' créé pour ' + nom +
+  millesimeCree: (annee, nom, planteMere, decoche, don) => 'Millésime ' + annee + ' créé pour ' + nom +
     (planteMere ? ' (ajouté aussi dans Semis)' : '') +
     (decoche ? ' · « À reproduire » décoché' : '') +
     (don > 0 ? ' · Don : ' + don + ' ' + pluriel(don, 'sachet') : ''),
@@ -279,7 +278,7 @@ const optionsEspeces = Vue.computed(() =>
 const optionsNbSaisons = NB_SAISONS.map(s => ({ valeur: s, libelle: s === 'or.' ? TEXTES.orOriginal : s }));
 
 // ===== 6. Observateurs (watch) =====
-// Choisir une espèce comme point de départ (panneau Espèce) ou comme modèle de base (panneau Variété) :
+// Choisir une espèce comme modèle de base (panneau Variété) :
 // copie ses champs dans le formulaire, le nom n'est pas copié
 Vue.watch(() => etat.varieteBase, id => {
   const m = etat.especes.find(x => x.id === id);
@@ -322,6 +321,14 @@ Vue.watch(() => etat.issuEtiquettes, async actif => {
 
 // Choix d'une ligne dans la liste des étiquettes en attente
 Vue.watch(() => etat.ligneAttenteId, () => chargerLigneAttente());
+
+// Corriger l'année du millésime recalcule Nb saisons (ligne d'étiquettes avec variété choisie)
+Vue.watch(() => etat.millesime.annee, () => {
+  const l = ligneAttente.value;
+  if (l && l.varId && anneeValide(etat.millesime.annee)) {
+    etat.millesime.nbSaisons = saisonsPourLigne(l, parseInt(etat.millesime.annee));
+  }
+});
 
 // ===== 7. Lecture des données =====
 function especeDepuisLigne(m) {
@@ -393,7 +400,6 @@ async function chargerSemisEnAttente() {
       varId: semis.NomVariete[i] || 0,
       nb,
       note: ((semis.Note_attente || [])[i] || '').trim(),
-      seme: !!semis.Date_s[i],
       seme: !!semis.Date_s[i],
       transit: !semis.Date_s[i] && !semis.Nb_graines[i] && !semis.Nb_godets[i]
         && !semis.Germes[i] && !semis.Plantes[i] && !(semis.Nb_etiquettes[i] > 0),
@@ -517,12 +523,13 @@ function libelleAttente(l) {
   return TEXTES.ligneAttente(v ? libelle(v) : TEXTES.varieteInconnue, type, l.nb);
 }
 
-function saisonsPourLigne(l) {
-  // Nb de saisons du nouveau millésime : même règle que l'étiquette
+function saisonsPourLigne(l, anneeRef) {
+  // Nb de saisons du nouveau millésime : même règle que l'étiquette.
+  // Pour une plante mère, on compte jusqu'à l'année du millésime saisi (la récolte), pas jusqu'à aujourd'hui.
   let n;
   if (l.mil && l.mil.planteMere) {
     if (!l.mil.anneePlantation) return 'or.';
-    n = new Date().getFullYear() - l.mil.anneePlantation + 1;
+    n = anneeRef - l.mil.anneePlantation + 1;
   } else if (!l.seme) {
     return 'or.';
   } else {
@@ -568,7 +575,7 @@ function chargerLigneAttente() {
   }
   m.varieteId = l.varId;
   m.annee = new Date().getFullYear();
-  m.nbSaisons = saisonsPourLigne(l);
+  m.nbSaisons = saisonsPourLigne(l, parseInt(m.annee));
   const produit = (l.mil && l.mil.planteMere) || l.seme;
   const origine = produit ? ORIGINE_PRODUCTION : (l.originesOr[0] || '');
   m.origine = etat.choixOrigine.includes(origine) ? origine : '';   // vide : le HTML invite à la choisir
@@ -992,12 +999,12 @@ grist.ready({ requiredAccess: 'full' });
 async function demarrer() {
   try {
        const [choixVariete, choixMillesime] = await Promise.all([
-      lireChoixColonnes(TABLE_VARIETES, COLONNES_CHOIX_ESPECE),
+      lireChoixColonnes(TABLE_VARIETES, COLONNES_CHOIX),
       lireChoixColonnes(TABLE_MILLESIMES, ['Origine', 'Type_plant']),
       chargerEspeces(),
       chargerVarietes()
     ]);
-    for (const c of COLONNES_CHOIX_ESPECE) etat.choixVariete[c] = choixVariete[c] || [];
+    for (const c of COLONNES_CHOIX) etat.choixVariete[c] = choixVariete[c] || [];
     etat.choixOrigine = choixMillesime.Origine || [];
     etat.choixTypePlant = choixMillesime.Type_plant || [];
   } catch (err) {

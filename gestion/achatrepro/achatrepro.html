@@ -159,7 +159,7 @@
           <button type="button" class="btn btn--enregistrer" :disabled="etat.enregistrement" @click="creerMillesime()">Créer le millésime</button>
           <div v-if="etat.doublonsMillesime.length && !etat.doublonMillesimeMasque" class="encart encart--alerte encart--cote texte texte--erreur">
             <div>⚠️ {{ etat.doublonsMillesime.length > 1 ? etat.doublonsMillesime.length + ' millésimes existent déjà' : 'Un millésime existe déjà' }} :
-              <span class="texte--erreur texte--gras"> année : {{ etat.doublonsMillesime[0].annee }}, origine : {{ etat.doublonsMillesime[0].origine || '—' }}, quantité : {{ etat.doublonsMillesime[0].qtte != null ? etat.doublonsMillesime[0].qtte : '—' }}.</span></div>
+              <span class="texte texte--erreur texte--gras"> année : {{ etat.doublonsMillesime[0].annee }}, origine : {{ etat.doublonsMillesime[0].origine || '—' }}, quantité : {{ etat.doublonsMillesime[0].qtte != null ? etat.doublonsMillesime[0].qtte : '—' }}.</span></div>
             <div class="ligne">
               <button type="button" class="btn btn--enregistrer" :disabled="etat.enregistrement" @click="creerMillesime(true)">Créer quand même</button>
               <button type="button" class="btn" @click="etat.doublonMillesimeMasque = true">Annuler</button>
@@ -210,7 +210,7 @@
 
         <div v-if="doublonsVariete.length && !etat.doublonVarieteMasque" class="encart encart--alerte encart--cote texte texte--erreur">
           <div>⚠️ {{ doublonsVariete.length > 1 ? doublonsVariete.length + ' variétés existent déjà' : 'Une variété existe déjà' }} :
-            <span class="texte--erreur texte--gras"> {{ doublonsVariete[0].nom }}{{ doublonsVariete[0].variete ? ' — ' + doublonsVariete[0].variete : '' }}.</span></div>
+            <span class="texte texte--erreur texte--gras"> {{ doublonsVariete[0].nom }}{{ doublonsVariete[0].variete ? ' - ' + doublonsVariete[0].variete : '' }}.</span></div>
           <div class="ligne">
             <button type="button" class="btn btn--enregistrer" :disabled="etat.enregistrement" @click="creerVariete(true)">Créer quand même</button>
             <button type="button" class="btn" @click="etat.doublonVarieteMasque = true">Annuler</button>

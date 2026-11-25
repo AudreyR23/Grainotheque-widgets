@@ -87,7 +87,7 @@
   padding: 0 0.4mm;
   vertical-align: middle;
   border-bottom: 0.5px solid var(--gris-clair);
-  border-left: 0.5px solid #ffffff;
+  border-left: 0.5px solid var(--blanc);
 }
 /* Mois courant (écran seulement, retiré à l'impression) */
 .tableau-semis__titre--actuel,

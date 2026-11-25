@@ -104,7 +104,7 @@ Boutons « Ajouter » et « Enregistrer » grisés pendant l'écriture ; cartes 
 - **watch** : `etat.date` → `afficherDerniersSemis` ; filtres de `etat.aSemer` → `afficherASemer`.
 - **Bouton Semer** : `btn--etape` **ou** `btn--enregistrer`, jamais les deux (`btn--enregistrer` est après `btn--etape` dans le commun et l'emporterait).
 - **Fermeture du menu Millésime** : écouteur `click` sur `document` avec `closest('#menuMillesime')`. Cet `id` doit rester.
-- **Libellé du millésime** écrit **3 fois** dans le HTML (bouton, liste, carte) : changer les trois ensemble.
+- **Libellé du millésime** (« 2024 · Kokopelli · 2 saisons ») : fabriqué par `libelleMillesime(m)` pour le bouton, la liste et la carte (un seul endroit à modifier). Fonction du JS et non `<template>` partagé, car la carte est dans une autre zone Vue (même principe que `libelle(v)` du commun).
 
 ## 6. CSS local (`semis_realises.css`)
 
@@ -157,10 +157,10 @@ Boutons « Ajouter » et « Enregistrer » grisés pendant l'écriture ; cartes 
   - [ ] `Graines_exterieures` : vérifier qu'aucune formule ni vue ne la lit, puis supprimer la colonne.
   - [ ] `Varietes.A_semer_bientot` : même calcul que la section À semer ; supprimer si aucune vue ne l'utilise.
   - [x] Retirer le widget À semer de la page Grist, puis le dossier `a_semer` du dépôt et du projet (avec `a_semer_notes.md`).
-- [ ] Tests tablette (zones tactiles, défilement des listes, clavier numérique, section repliée).
-- [ ] **Tri « Test » : à réfléchir.** Il trie sur `Varietes.Annees_sans_test` (années depuis le dernier semis **de la variété**), pas sur le sachet affiché : un sachet neuf d'une variété semée l'an dernier affiche « testé il y a 1 an ». Sans semis, la formule prend `Annee_germination_ref` d'un millésime pris au hasard (`lookupOne`). Option : lire `Millesimes.Annees_sans_test` du millésime affiché.
-- [ ] **Sachets de mélange de variétés** (chantier Grist, hors de cet outil) : aujourd'hui une ligne par variété pour un seul sachet (stock compté N fois, N cartes À semer, semis attribué à une variété au hasard). Piste retenue à étudier : une variété « Tournesol - Mélange » qui porte le sachet ; les variétés du mélange gardent leurs millésimes de récolte quand elles sont reconnues.
-- [ ] Libellé du millésime écrit 3 fois : le regrouper seulement si on le modifie.
+- [x] Tests tablette (zones tactiles, défilement des listes, clavier numérique, section repliée).
+- [x] **Tri « Test » : à réfléchir.** Il trie sur `Varietes.Annees_sans_test` (années depuis le dernier semis **de la variété**), pas sur le sachet affiché : un sachet neuf d'une variété semée l'an dernier affiche « testé il y a 1 an ». Sans semis, la formule prend `Annee_germination_ref` d'un millésime pris au hasard (`lookupOne`). Forumle mise à jour. [Option : lire `Millesimes.Annees_sans_test` du millésime affiché.]
+- [ ] **Sachets de mélange de variétés** (chantier Grist, hors de cet outil). **Décision du 25/11/2026** : un mélange devient **une variété à part entière** (ex. « Tournesol - Mélange ») qui porte le sachet ; les variétés du mélange restent dans `Varietes` et reçoivent leurs millésimes de récolte quand elles sont reconnues. Rien à changer dans cet outil. Reste à faire dans Grist : regrouper les lignes existantes (une par variété pour un seul sachet) sur la variété mélange, sans oublier les `Semis` qui pointent vers elles ;
+- [ ] décider du sort de la case `Millesimes.Melange` (redondante avec le nom de la variété : la retirer de cet outil, d'Achat-repro et du mémo, puis supprimer la colonne).
 - [ ] Discussion du commun : `.groupe` a un `margin-bottom: 10px` (contraire à « pas d'espacement externe ») qui s'ajoute au `gap` de `.fiche`.
 
 ## 11. Checklist de test
@@ -183,4 +183,6 @@ Boutons « Ajouter » et « Enregistrer » grisés pendant l'écriture ; cartes 
   - « À reproduire » écrit dans `Varietes.A_reproduire` (case préremplie, écrite si changée) ; `Semis.A_produire` n'est plus écrit ;
   - fusion d'À semer : section en haut, repliable, « Semer » remplit la fiche, plus de `BroadcastChannel` ni de `varietePendante`, mise à jour automatique après Enregistrer, `fenetreDeSemis` par `dateEnSecondes`, Semer masqué sans graines, message de liste vide, pastille « Dans ta liste » ;
   - erreurs de saisie effacées au clic ; erreurs de chargement et d'enregistrement dans l'en-tête (`entete__message`) ;
-  - vérification des colonnes de `Varietes` (`COLONNES_VARIETES`).
+  - vérification des colonnes de `Varietes` (`COLONNES_VARIETES`) ;
+  - libellé du millésime regroupé dans `libelleMillesime` (au lieu de 3 copies dans le HTML) ;
+  - décision sur les mélanges de variétés : une variété « … - Mélange » (chantier Grist, voir 10).

@@ -121,7 +121,7 @@ function buildGrainesMap(lignes) {
     }
 
     const origine = Array.isArray(r.Origine)
-      ? r.Origine.filter(item => item !== 'L').join(', ')
+      ? listeChoix(r.Origine).join(', ')
       : r.Origine || '';
 
     map.get(v.id).sachets.push({
@@ -206,9 +206,6 @@ async function afficherMillesimes(lignes) {
     }
 
     indexVarietes = indexerVarietes(varietes);
-    for (const nom of indexVarietes.doublons) {
-      console.warn('Deux variétés portent le même nom, la première est gardée :', nom);
-    }
     recordsParId.millesimes.clear();
     for (const r of lignes) recordsParId.millesimes.set(r.id, r);
 

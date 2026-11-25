@@ -99,12 +99,11 @@ Accès Grist : `full`. Versions dev (branche `Vue`) et prod (`main`).
 - Un plant acheté sans `Date_s` (non plante mère) donne « origine seule, …… saison(s) » : règle partagée avec achat-repro.
 
 ## Reste à faire
-- [ ] Mise en prod : commun d'abord s'il a changé, puis les 3 fichiers sur `main` ; vérifier l'URL du widget dans Grist,
+- [x] Mise en prod : commun d'abord s'il a changé, puis les 3 fichiers sur `main` ; vérifier l'URL du widget dans Grist,
       Ctrl+F5, test d'impression.
-- [ ] Après la mise en prod : supprimer l'ancien widget (`main_etiquettes.js`, ancien `etiquettes.html`) et `main.css`
+- [x] Après la mise en prod : supprimer l'ancien widget (`main_etiquettes.js`, ancien `etiquettes.html`) et `main.css`
       (vérifier d'abord par Ctrl+Maj+F qu'aucun outil ne le charge encore).
-- [ ] **achat-repro** (`saisonsPourLigne`) : compter les saisons d'une plante mère jusqu'à l'**année de récolte** (même
+- [ x] **achat-repro** (`saisonsPourLigne`) : compter les saisons d'une plante mère jusqu'à l'**année de récolte** (même
       préremplissage : année précédente en janvier-février), pas l'année en cours. Sinon, en janvier-février, le millésime
       créé a une saison de plus que l'étiquette.
-- [ ] Mémo gestion_etiquettes : cocher les points « Widget d'impression » et `saisonsPourLigne` (mère sans année = « or. »,
-      pas de borne sur l'étiquette).
+- [x] Mémo gestion_etiquettes : cocher les points « Widget d'impression » et `saisonsPourLigne` (mère sans année = « or. », pas de borne sur l'étiquette).

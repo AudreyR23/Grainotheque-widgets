@@ -76,13 +76,14 @@ Principe : tu récoltes, tu remplis `Nb_etiquettes` dans Semis, tu imprimes, tu 
 
 | Type de ligne | Reconnaissance | Variété | Origine préremplie | Nb saisons préparé |
 |---|---|---|---|---|
-| Plante mère | millésime lié avec `Plante_mere` | verrouillée | `Monjardin` | année en cours − année de plantation + 1 |
+| Plante mère | millésime lié avec `Plante_mere` | verrouillée | `Monjardin` | **année du millésime saisi** − année de plantation + 1 |
 | Vrai semis | `Date_s` renseignée | verrouillée | `Monjardin` | saisons du millésime source + 1 |
 | Hors sachet, variété connue | pas de `Date_s`, variété renseignée | verrouillée | première origine du millésime « or. » de la variété | `or.` |
 | **Graines à identifier** | **pas de variété** | **libre** | **aucune (à choisir)** | `or.` |
 
 Le nouveau millésime est toujours un **sachet**. `Nb saisons` est borné entre 1 et `NB_SAISONS_MAX` (20), qui fixe aussi les entrées du menu.
 
+- **Nb saisons d'une plante mère** : compté jusqu'à l'**année du millésime saisie** (la récolte), pas jusqu'à aujourd'hui, comme l'étiquette (`saisonsPourLigne(l, anneeRef)`). Un `watch` sur `etat.millesime.annee` recalcule `Nb saisons` quand l'année est corrigée (année valide seulement, ligne avec variété choisie). Sans cela, une étiquette imprimée en décembre et un millésime créé en mars donnaient 3 puis 4 saisons. Si la récolte date de l'année précédente, **corriger l'année du millésime** (elle est préremplie avec l'année en cours).
 - **Sachets réels** : prérempli avec le nombre d'étiquettes, à corriger si tu en as imprimé trop. `Don` = sachets réels − 1 (la colonne `Don` compte des **sachets**). Si sachets réels = 1, `Don` n'est pas écrit. La quantité de graines de **ton** sachet reste obligatoire.
 - **Graines à identifier** : un seul bouton, « ➕ Créer la variété » (pour créer une espèce, passer par la table `Especes`). La note préremplit le nom (modifiable). Pendant ce trajet (`etat.parcoursLigne`), l'enchaînement est **forcé** jusqu'au millésime, même si « Enchaîner automatiquement » est décoché. Le bandeau du panneau Variété indique le nombre d'étiquettes (`etat.bandeaux.variete = { nb }`). À l'arrivée : variété présélectionnée, `or.`, sachets réels prérempli ; reste l'origine et la quantité.
 - **Nettoyage à la création** : `Etiq_en_attente` est vidé ; la ligne est **supprimée** seulement si c'est une ligne de transit (ni `Date_s`, ni `Nb_graines`, ni `Nb_godets`, ni `Germes`, ni `Plantes`, et `Nb_etiquettes` ≤ 0). Le caractère « transit » est calculé **au chargement de la liste** (`chargerSemisEnAttente`, champ `transit`), sans relecture à la création. Un vrai semis ou la ligne d'une plante mère n'est jamais supprimé.
@@ -157,7 +158,7 @@ Si tu modifies l'un des deux outils, vérifie ce contrat : c'est lui qui évite 
 - **Champ numérique et lettres** : `type="number"` renvoie une valeur vide pour `abc`, donc aucune erreur : champ texte + contrôle.
 - **Gabarits dans le HTML** : pas de balises de composant auto-fermantes ; `<template id>` **hors** de `#app` ; attributs en kebab-case (`champ-id`, `sur-ajout`, `@update:model-value`) ; un composant n'a pas accès à `etat`.
 - **Colonne absente d'une table** : `KeyError` (cas de `Semis_GPT`). Les colonnes écrites par `colonnesCommunes` doivent exister dans `Varietes`.
-- **Les `watch` s'enchaînent** : `etat.ligneAttenteId` déclenche `chargerLigneAttente`, et `reinitialiserMillesime` remet cet id à vide, ce qui déclenche aussi `annulerLigneAttente`. Voulu et sans effet de bord.
+- **Les `watch` s'enchaînent** : `etat.ligneAttenteId` déclenche `chargerLigneAttente`, et `reinitialiserMillesime` remet cet id à vide, ce qui déclenche aussi `annulerLigneAttente`. De même, `chargerLigneAttente` écrit l'année, ce qui déclenche le `watch` de l'année (même résultat, sans effet de bord).
 - **`parcoursLigne` reste vrai si le trajet est abandonné** : remis à faux dans `annulerLigneAttente`, `chargerLigneAttente`, `reinitialiserMillesime` et à l'arrivée dans Millésime.
 - **Deux envois, pas un** : la ligne `Semis` d'une plante mère a besoin de l'id du millésime tout juste créé.
 - `ORIGINE_PRODUCTION` doit correspondre exactement à un choix de la colonne `Origine`.
@@ -173,15 +174,15 @@ Si tu modifies l'un des deux outils, vérifie ce contrat : c'est lui qui évite 
 2. Aligner la structure Grist de prod sur celle de test (section 2) : `Especes`, `Semis_profondeur` en Texte, `Ou_semer`, `Varietes.A_reproduire`, `Nb_sachets` numérique, `Nb_plants`, `Type_plant` avec ses choix, `Etiq_en_attente` et `Note_attente` en colonnes de données.
 3. Vérifier que `scriptcommun.js` (avec `enListeChoix`, `entierOuNull`) et `styles_communs.css` sont à jour en prod.
 4. Copier `achatrepro.html`, `achatrepro.js` et `achatrepro.css`, **supprimer `achatrepro_textes.js`** de la prod, puis (si l'outil d'étiquettes a changé) copier aussi ses fichiers : le contrat les lie. Vérifier l'URL du widget dans Grist.
-5. Tester : un sachet, une plante mère, le décochage de `A_reproduire`, un doublon (« Créer quand même », « Annuler »), un enchaînement variété → millésime, « Issu de mes étiquettes » (ligne de transit, vrai semis, plante mère, ligne sans variété), des saisies non numériques dans chaque champ, l'ajout d'une origine et d'une info (puis supprimer les valeurs de test).
+5. Tester : un sachet, une plante mère, le décochage de `A_reproduire`, un doublon (« Créer quand même », « Annuler »), un enchaînement variété → millésime, « Issu de mes étiquettes » (ligne de transit, vrai semis, plante mère avec changement d'année, ligne sans variété), des saisies non numériques dans chaque champ, l'ajout d'une origine et d'une info (puis supprimer les valeurs de test).
 6. Supprimer les lignes de test dans Grist.
 
 ## 7. Reste à faire / idées
 
-- [ ] Pousser la refonte en prod (section 6).
-- [ ] `Especes.Date_creaction` : faute de frappe dans le nom de la colonne (les autres tables ont `Date_creation`).
+- [x] Pousser la refonte en prod (section 6).
+- [x] `Especes.Date_creaction` : faute de frappe dans le nom de la colonne (les autres tables ont `Date_creation`).
 - [ ] Doublons de plante mère : comparer sur l'**année de plantation** plutôt que l'année du millésime, si l'usage le demande.
-- [ ] Étiquette : le texte « Récolte : » affiche toujours l'année en cours, pas l'année du millésime saisi (outil étiquettes).
+- [x] Étiquette : le texte « Récolte : » est prérempli avec l'année précédente en janvier-février, sinon l'année en cours (outil étiquettes) : cohérent avec Achat-repro tant que l'année du millésime saisie est la bonne.
 - [ ] Graines à identifier : l'origine n'est jamais devinée ; envisager `Monjardin` par défaut.
 - [ ] Doublon en direct du panneau Variété (computed) : à garder ou à ramener au clic comme pour le millésime.
 - [ ] Choix dupliqués entre `Especes`, `Varietes` et `Millesimes` (Famille, Infos…) : liste unique plus sûre, mais chantier Grist.
@@ -190,6 +191,7 @@ Si tu modifies l'un des deux outils, vérifie ce contrat : c'est lui qui évite 
 - Abandonné : plusieurs origines par millésime (une seule, décision du 25/10/2026).
 - Abandonné : créer l'espèce automatiquement à la création d'une variété ; panneau « Nouvelle espèce » (retiré le 25/11).
 - Clos : décocher `A_reproduire` seulement pour certaines origines (toujours décoché).
+- Clos : écart de Nb saisons entre l'étiquette et le millésime d'une plante mère (corrigé le 25/11).
 
 ### Piste à discuter à part : sachets de mélange
 Un sachet de mélange enregistré comme N lignes (une par variété) compte le stock N fois, affiche N cartes dans « À semer », attribue la germination à une variété au hasard, et « Sachet vidé » ne vide qu'une ligne. **Piste retenue pour la pratique, sans changer d'outil** : une variété « Tournesol - Mélange » (rattachée à son espèce, contenu décrit dans la Description) avec un seul millésime par sachet ; les variétés contenues restent dans `Varietes` sans sachet ; à la récolte, millésime « Monjardin » sur la variété reconnue, sinon sur le mélange. Attention : la case `Millesimes.Melange` signifie « plusieurs millésimes d'une même variété », pas un mélange de variétés ; la renommer (par exemple `Plusieurs_millesimes`) imposerait de chercher l'ancien nom dans tous les outils (Achat-repro ne l'utilise pas). Question qui concerne tous les outils : à traiter dans une discussion dédiée.
@@ -204,3 +206,4 @@ Alignement sur le mémo des conventions, en étapes testées une à une :
 5. Structure : un `#app` + composants conservé (section 4) ; `modele(s)` renommé `espece(s)`.
 7. Panneau « Nouvelle espèce » retiré (`creerEspece`, `reinitialiserEspece`, `allerCreerEspece`, `doublonsEspece`, `especeCreee`, onglet et section HTML) ; le trajet « Graines à identifier » garde « Créer la variété ».
 8. Allègements : plus de lecture ni d'écriture des choix de `Especes` (`etat.choix` supprimé, `ajouterInfoGrist` n'écrit que dans `Varietes.Infos`) ; une seule liste `optionsAttente` ; bandeau « graines à identifier » réduit à `{ nb }`.
+9. `saisonsPourLigne(l, anneeRef)` : le Nb saisons d'une plante mère se compte jusqu'à l'année du millésime saisi, recalculé par un `watch` quand l'année change.

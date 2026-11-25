@@ -16,12 +16,19 @@ class Especes:
   Nature_du_sol = grist.ChoiceList()
   Qualite_du_sol = grist.ChoiceList()
   Famille = grist.ChoiceList()
+
+  def _default_Date_modif(rec, table, value, user):
+    return NOW()
+  Date_modif = grist.DateTime('Europe/Paris')
+
+  def _default_Date_creation(rec, table, value, user):
+    return NOW()
+  Date_creation = grist.DateTime('Europe/Paris')
   Ou_semer = grist.ChoiceList()
 
 
 @grist.UserTable
 class Millesimes:
-  Type = grist.Choice()
   NomVariete = grist.Reference('Varietes')
   Origine = grist.ChoiceList()
   Nb_sachets = grist.Numeric()
@@ -46,6 +53,10 @@ class Millesimes:
   Nb_plants = grist.Numeric()
   Melange = grist.Bool()
   Type_plant = grist.Choice()
+
+  @grist.formulaType(grist.Choice())
+  def Type(rec, table):
+    return rec.NomVariete.Type
 
   @grist.formulaType(grist.Numeric())
   def Germination_2026(rec, table):
@@ -81,7 +92,7 @@ class Millesimes:
     return rec.NomVariete.Nom
 
   def Variete(rec, table):
-    return rec.Annees_sans_test
+    return rec.NomVariete.Variete
 
   def Annees_sans_test(rec, table):
     if rec.Plante_mere:
@@ -150,7 +161,6 @@ class Semis:
   Date_p = grist.Date()
   Ou = grist.ChoiceList()
   Don_p = grist.Numeric()
-  Type = grist.Choice()
   Millesime = grist.Reference('Millesimes')
   A_produire = grist.Bool()
   Nb_etiquettes = grist.Numeric()
@@ -168,6 +178,10 @@ class Semis:
   Note_attente = grist.Text()
   Germes_attente = grist.Bool()
 
+  @grist.formulaType(grist.Choice())
+  def Type(rec, table):
+    return rec.NomVariete.Type
+
   def Jours_ecoules(rec, table):
     return "" if not rec.Date_s else (TODAY() - rec.Date_s).days
 
@@ -176,7 +190,7 @@ class Semis:
     return (rec.Nb_graines * rec.Nb_godets) if rec.Nb_graines and rec.Nb_godets else 0
 
   def Info_germination(rec, table):
-    if not rec.Jours_ecoules:
+    if rec.Jours_ecoules == "":
         return ""
     duree = rec.NomVariete.Duree_germ
     if not duree:
@@ -291,6 +305,10 @@ class Varietes:
     return NOW()
   Date_modif = grist.DateTime('Europe/Paris')
 
+  def _default_A_reproduire(rec, table, value, user):
+    return any(Semis.lookupRecords(NomVariete=rec.id).A_produire)
+  A_reproduire = grist.Bool()
+
   @grist.formulaType(grist.Text())
   def Nom(rec, table):
     return rec.NomVariete.split("\n")[0] if "\n" in rec.NomVariete else rec.NomVariete
@@ -327,3 +345,7 @@ class Varietes:
 
   def A_donner(rec, table):
     return any(m.Don > 0 for m in Millesimes.lookupRecords(NomVariete=rec.id))
+
+  @grist.formulaType(grist.Bool())
+  def Disponible(rec, table):
+    return any(not m.Epuise for m in Millesimes.lookupRecords(NomVariete=rec.id))

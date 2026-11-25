@@ -100,12 +100,12 @@
           <label class="fiche__label" for="boutonMillesime">Millésime</label>
           <div id="menuMillesime" class="menu">
             <button id="boutonMillesime" type="button" class="champ champ--bouton champ--deroulant" :disabled="etat.millesimes.length === 0" @click="basculerListeMillesime">
-              <template v-if="millesimeChoisi()">{{ millesimeChoisi().original ? 'or. (originale)' : millesimeChoisi().annee }}<template v-if="millesimeChoisi().origine.length"> · {{ millesimeChoisi().origine.join(', ') }}</template><template v-if="millesimeChoisi().saisons"> · {{ millesimeChoisi().saisons }} {{ pluriel(millesimeChoisi().saisons, 'saison') }}</template></template>
+              <template v-if="millesimeChoisi()">{{ libelleMillesime(millesimeChoisi()) }}</template>
               <template v-else-if="etat.varieteId">Aucun millésime disponible pour cette variété</template>
               <template v-else>— choisir une variété d'abord —</template>
             </button>
             <ul class="menu__liste" v-show="etat.listeMillesimeOuverte" @mousedown.prevent>
-              <li v-for="m in etat.millesimes" :key="m.id" class="menu__item" :class="{ 'menu__item--choisi': m.id === etat.millesimeId }" @click="choisirMillesime(m.id)">{{ m.original ? 'or. (originale)' : m.annee }}<template v-if="m.origine.length"> · {{ m.origine.join(', ') }}</template><template v-if="m.saisons"> · {{ m.saisons }} {{ pluriel(m.saisons, 'saison') }}</template></li>
+              <li v-for="m in etat.millesimes" :key="m.id" class="menu__item" :class="{ 'menu__item--choisi': m.id === etat.millesimeId }" @click="choisirMillesime(m.id)">{{ libelleMillesime(m) }}</template></li>
             </ul>
           </div>
         </div>
@@ -158,7 +158,7 @@
             <div class="carte__contenu">
               <strong>{{ nomDeCarte(b) }}</strong>
               <div><span class="pastille pastille--categorie" :class="b.mode === 'pleine_terre' ? 'pastille--pleineterre' : 'pastille--sousabri'">{{ b.mode === 'pleine_terre' ? 'Pleine terre' : 'Sous abri' }}</span></div>
-              <div class="texte texte--discret">{{ b.millesime.original ? 'or. (originale)' : b.millesime.annee }}<template v-if="b.millesime.origine.length"> · {{ b.millesime.origine.join(', ') }}</template><template v-if="b.millesime.saisons"> · {{ b.millesime.saisons }} {{ pluriel(b.millesime.saisons, 'saison') }}</template> · {{ dateAffichee(dateEnSecondes(b.date)) }} · <template v-if="b.mode === 'pleine_terre'">{{ b.graines }} {{ pluriel(b.graines, 'graine') }}</template><template v-else>{{ b.godets }} {{ pluriel(b.godets, 'godet') }} × {{ b.graines }} {{ pluriel(b.graines, 'graine') }}</template><template v-if="b.ou.length"> · {{ b.ou.join(', ') }}</template><template v-if="b.sachetVide"> · sachet vidé</template><template v-if="b.reproduire === true"> · à reproduire</template><template v-else-if="b.reproduire === false"> · ne plus reproduire</template></div>
+              <div class="texte texte--discret">{{ libelleMillesime(b.millesime) }} · {{ dateAffichee(dateEnSecondes(b.date)) }} · <template v-if="b.mode === 'pleine_terre'">{{ b.graines }} {{ pluriel(b.graines, 'graine') }}</template><template v-else>{{ b.godets }} {{ pluriel(b.godets, 'godet') }} × {{ b.graines }} {{ pluriel(b.graines, 'graine') }}</template><template v-if="b.ou.length"> · {{ b.ou.join(', ') }}</template><template v-if="b.sachetVide"> · sachet vidé</template><template v-if="b.reproduire === true"> · à reproduire</template><template v-else-if="b.reproduire === false"> · ne plus reproduire</template></div>
             </div>
             <button type="button" class="btn btn--suppr carte__action" title="Retirer de la liste" :aria-label="`Retirer ${nomDeCarte(b)}`" @click="retirerDeLaListe(b.id)">✕</button>
           </li>

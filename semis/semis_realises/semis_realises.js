@@ -235,6 +235,13 @@ function millesimeChoisi() {
   return etat.millesimes.find(m => m.id === etat.millesimeId) || null;
 }
  
+function libelleMillesime(m) {
+  // « 2024 · Kokopelli · 2 saisons » : bouton, liste et carte (un seul endroit à modifier)
+  const morceaux = [m.original ? 'or. (originale)' : m.annee];
+  if (m.origine.length) morceaux.push(m.origine.join(', '));
+  if (m.saisons) morceaux.push(`${m.saisons} ${pluriel(m.saisons, 'saison')}`);
+  return morceaux.join(' · ');
+}
 // ===== Reste de la fiche =====
 async function chargerChoix() {
   try {
@@ -587,14 +594,14 @@ function semer(l) {
 Vue.createApp({ setup() { return { etat, nombreAEnregistrer }; } }).mount('#appEntete');
 Vue.createApp({ setup() { return {
   etat, nomDeCarte, retirerDeLaListe, enregistrerTout,
-  pluriel, dateAffichee, dateEnSecondes
+  pluriel, dateAffichee, dateEnSecondes, libelleMillesime
 }; } }).mount('#appEtapes');
 Vue.createApp({ setup() { return {
   etat, choisirMode, pluriel, dateAffichee,
   surRechercheVariete, surFocusVariete, choisirVariete,
   basculerListeMillesime, choisirMillesime, millesimeChoisi,
   lieuxProposes, surRechercheOu, ajouterLieu, retirerLieu,
-  ajouterALaListe
+  ajouterALaListe, libelleMillesime
 }; } }).mount('#appFiche');
 Vue.createApp({ setup() { return {
   etat, LISTE_MOIS, libelle, pluriel, categorie, dansLaListe, semer
