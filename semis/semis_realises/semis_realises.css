@@ -1,21 +1,10 @@
-/* ===== Semis réalisés : uniquement ce qui n'est pas dans styles_communs_bem.css ===== */
-
-/* Message de succès dans le bandeau : sur sa propre ligne */
-.entete__message {
-  flex-basis: 100%;
-  margin: 0;
-}
+/* ===== Semis réalisés : uniquement ce qui n'est pas dans styles_communs.css ===== */
 
 /* ===== Formulaire : groupes empilés, l'espacement vient du gap ===== */
 .fiche {
   display: flex;
   flex-direction: column;
   gap: 12px;
-}
-.fiche__groupe {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
 }
 .fiche__label {
   font-size: 0.9rem;
@@ -53,17 +42,23 @@
   border-color: var(--pleineterre-fonce);
 }
 
-/* ===== Encart bleu : infos sur la variété choisie ===== */
-.encart--info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  border-color: var(--bleu-moyen);
-  background: var(--bleu-clair);
+/* ===== Section « À semer » : filtres (la mise en ligne vient de .ligne du commun) ===== */
+.filtres {
+  column-gap: 16px;
+  row-gap: 8px;
+  margin-bottom: 10px;
 }
-
-/* ===== Bouton-champ grisé (Millésime sans variété) ===== */
-.champ:disabled {
+.filtres__groupe {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.9rem;
+}
+/* Menu réduit à son contenu (annule le width: 100% de .champ et de .champ--compact) */
+.champ--filtre {
+  width: auto;
+  font-size: 1rem;
+}
+.carte--deja-semee {
   opacity: 0.6;
-  cursor: default;
 }

@@ -187,3 +187,23 @@ function colonneGrist(tabTables, tabColonnes, tableId, colId) {
   if (!table) throw new Error(`table ${tableId} introuvable dans les métadonnées`);
   return tableEnLignes(tabColonnes).find(c => c.parentId === table.id && c.colId === colId) || null;
 }
+function indexerVarietes(varietes) {
+  // Lignes de Varietes (après tableEnLignes) → { parId, parNom, doublons }
+  //   parId : id → ligne ; parNom : texte NomVariete (« Nom↵Variété », ce que onRecords donne pour une référence) → ligne
+  //   doublons : NomVariete portés par plusieurs lignes (la première est gardée dans parNom)
+  const parId = new Map();
+  const parNom = new Map();
+  const doublons = new Set();
+  for (const v of varietes) {
+    parId.set(v.id, v);
+    if (parNom.has(v.NomVariete)) doublons.add(v.NomVariete);
+    else parNom.set(v.NomVariete, v);
+  }
+  return { parId, parNom, doublons: [...doublons] };
+}
+
+function varieteReferencee(index, reference) {
+  // Variété pointée par une colonne Référence vers Varietes : un id (nombre) ou le texte « Nom↵Variété » (onRecords)
+  // index : résultat de indexerVarietes ; renvoie undefined si rien ne correspond
+  return typeof reference === 'number' ? index.parId.get(reference) : index.parNom.get(reference);
+}

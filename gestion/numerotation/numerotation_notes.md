@@ -1,167 +1,122 @@
 # Outil « Numérotation » (`numerotation`)
 
-## Rôle
+> Dernière mise à jour : 25/11/2026
+> Statut : **dev validé** (refonte « pas de Ferrari »). **Prod et test tablette à faire.**
+
+## 1. Rôle
 Widget Grist pour gérer les numéros d'épingle (`Varietes.Num_epingle`) :
 - attribuer un numéro aux variétés qui n'en ont pas, en comblant d'abord les trous ;
-- libérer le numéro d'une variété perdue, pour le réutiliser ;
-- corriger les anomalies (doublons, valeurs invalides) en renumérotant ou en libérant.
+- libérer le numéro d'une variété qui n'a plus rien de disponible, pour le réutiliser ;
+- signaler les anomalies (doublons, valeurs invalides), corrigées à la main dans Grist.
 
-Prévu pour PC et tablette. Lit `Varietes` et `Millesimes`, écrit seulement dans `Varietes`.
+Prévu pour PC et tablette. Pas d'impression (la liste s'imprime avec **Numéros d'épingle**). Lit et écrit seulement `Varietes`.
 
-## Fichiers
+## 2. Fichiers
 | Fichier | Rôle |
 |---|---|
 | `numerotation.html` | Structure et textes, 5 zones Vue |
-| `numerotation.css` | Styles propres à l'outil (une seule règle : `encart--anomalies`) |
-| `numerotation.js` | Données, calculs, enregistrement ; messages dans le bloc `TEXTES` en haut du fichier |
-| `../../styles/styles_communs.css` | Variables, champs, cartes, boutons (nommage BEM) |
+| `numerotation.js` | Données, calculs, enregistrement ; messages dans le bloc `TEXTES` en haut du fichier (≈ 230 lignes) |
+| `../../styles/styles_communs.css` | Tout le CSS : l'outil n'a **pas** de CSS propre (`numerotation.css` supprimé) |
 | `../../script/scriptcommun.js` | Fonctions communes |
 
-Scripts en fin de `<body>`, dans cet ordre : plugin Grist, Vue 3.4.38 (unpkg), `scriptcommun.js`, `numerotation.js`. Accès Grist : `full`.
+- Scripts en fin de `<body>` : plugin Grist, Vue 3.4.38 (unpkg), `scriptcommun.js`, `numerotation.js`. Accès Grist : `full`.
+- Fonctions du commun utilisées : `tableEnLignes`, `colonnesAbsentes`, `libelle`, `normaliser`, `correspondRecherche`, `pluriel`, `creerMessageTemporaire`, `effacerAuClic`.
 
-## Configuration dans Grist
-- Widget personnalisé posé sur une vue de **`Varietes`** : c'est elle qui prévient l'outil d'un changement (`onRecords` sert seulement de signal).
-- **Aucune colonne à associer** dans le panneau : l'outil lit les colonnes par leur nom. Une colonne absente déclenche l'alerte « Colonne introuvable » et rien n'est proposé.
+## 3. Configuration dans Grist
+- Widget personnalisé posé sur une vue de **`Varietes`** : elle prévient l'outil d'un changement (`onRecords` ne sert que de signal).
+- **Aucune colonne à associer** dans le panneau : colonnes lues par leur nom.
 - Le filtre et le tri de la vue n'ont **aucun effet** : l'outil lit toute la table (`fetchTable`).
+- Colonne formule **`Varietes.Disponible`** (Booléen), créée le 25/11/2026 pour cet outil :
+  ```python
+  any(not m.Epuise for m in Millesimes.lookupRecords(NomVariete=$id))
+  ```
+  Vraie si la variété a au moins un millésime non épuisé (sachet, graines en vrac ou plante mère, voir la formule `Millesimes.Epuise`). Fausse s'il n'y a aucun millésime ou que des millésimes épuisés. Comme elle est dans `Varietes`, un sachet vidé ailleurs (Semis réalisés) prévient le widget tout seul.
+  Une vue de `Varietes` filtrée sur `Disponible` = faux donne la liste de toutes les variétés épuisées, sans outil.
 
-## Données
-- `Varietes` lues : `NomVariete`, `Num_epingle`, `Lettre`, `Type` (liste `COLONNES_NECESSAIRES`).
-- `Millesimes` lues (seulement pour le filtre « disponible ») : `NomVariete`, `Nb_sachets`, `Plante_mere` (liste `COLONNES_MILLESIMES`).
-- Écrites : `Varietes.Num_epingle` et `Varietes.Lettre` (colonnes de données).
+## 4. Données
+- Lues (`COLONNES_NECESSAIRES`) : `Nom`, `Variete` (formules), `Type`, `Num_epingle`, `Lettre`, `Disponible` (formule). Une colonne absente → alerte « Colonne introuvable » dans l'en-tête et rien n'est proposé.
+- Écrites : `Num_epingle` et `Lettre` (colonnes de données).
 
-## Règles métier
-- Numéro **valide** : entier ≥ 1. Cellule **vide** (`null`, `''`) : la variété peut recevoir un numéro. Toute autre valeur (0, décimal, négatif, texte) est **invalide**.
-- Prochain numéro : premier trou entre 1 et le max, sinon max + 1 (« nouveau »). Il tient compte des lignes en attente : numéros déjà donnés, numéros libérés.
-- Un numéro valide et unique **n'est jamais changé en un autre**. Il peut seulement être **libéré** (variété perdue) : `Num_epingle` vidé.
-- Doublons et valeurs invalides : signalés. On peut les **renuméroter** (prochain numéro libre) ou les **libérer**.
-- `Lettre` : **vidée** quand une variété reçoit un numéro (attribution ou renumérotation). **Inchangée** quand un numéro est libéré. Elle sert à identifier sur les godets une variété sans numéro.
-- Variété **disponible** : au moins un millésime avec `Nb_sachets` ≥ 1 ou `Plante_mere` cochée. À gérer décoche `Plante_mere` quand une plante est déclarée morte. Une plante mère jamais contrôlée compte donc comme vivante.
-- Numéro libéré ou renuméroté : **refaire l'épingle physique** et réimprimer la liste (outil Numéros d'épingle).
+## 5. Règles métier
+- Numéro **valide** : entier ≥ 1. Cellule **vide** : la variété peut recevoir un numéro. Toute autre valeur (0, décimal, négatif, texte) est **invalide**.
+- Prochain numéro : premier trou entre 1 et le max, sinon max + 1 (« nouveau »). Il compte les numéros en attente d'attribution.
+- Un numéro **en cours de libération reste pris jusqu'à l'enregistrement** : pour le réutiliser, libérer, enregistrer, puis attribuer.
+- Un numéro valide n'est jamais changé en un autre : il peut seulement être libéré (`Num_epingle` vidé).
+- `Lettre` : **vidée** quand une variété reçoit un numéro ; **inchangée** quand un numéro est libéré (elle sert à repérer sur les godets une variété sans numéro).
+- Doublons et valeurs invalides : signalés, jamais corrigés par l'outil. On vide (ou corrige) la cellule dans Grist ; une variété vidée repasse dans « Variété sans numéro ».
+- Numéro libéré : **refaire l'épingle physique** et réimprimer la liste (Numéros d'épingle).
 
-## Fonctionnement
-**En-tête** collé en haut :
-- titre et statut (« Chargement… », « ✓ À jour », « Non sauvegardé (N) ») ;
-- alerte des colonnes manquantes ;
-- message de succès : effacé au prochain clic, sinon après 4 s ;
-- message d'erreur : jusqu'au prochain clic ;
-- rappel 📌 « Des numéros existants ont changé : refais les épingles concernées et réimprime la liste » après un enregistrement qui contient une libération ou une renumérotation, jusqu'au prochain clic.
+## 6. Fonctionnement
+**En-tête** collé : titre ; statut « Chargement… », « ⚠ Erreur de chargement », « ● Non sauvegardé (N) » ou « ✓ À jour » ; alerte des colonnes manquantes ; message de succès (4 s) ; erreur de chargement (jusqu'au prochain chargement réussi) ; erreur d'enregistrement (jusqu'au prochain clic). Tous portent `entete__message`.
 
-**Anomalies** (encart rouge, visible seulement s'il y en a) :
-- doublons : le numéro, puis une ligne par variété qui le porte ;
-- numéros invalides : le nom et la valeur.
+**Anomalies** (`encart--alerte`, visible seulement s'il y en a) : consigne « À corriger dans Grist… », doublons (« N° 12 : Nom | Nom ») et numéros invalides (« Nom : valeur « 2.5 » »). Lecture seule.
 
-Chaque variété affiche aussi son type et sa disponibilité (« sachet », « 🌱 plante mère », « sachet et 🌱 plante mère », ou en rouge « ni sachet ni plante mère »). Cela aide à choisir laquelle garde le numéro.
+**Numéros réutilisables (N)** : section repliable (Afficher / Masquer, repliée au départ). Variétés numérotées dont `Disponible` est faux, « N° 12 : Nom » + type, triées par numéro. Bouton **Libérer** : 1er clic, carte en attente et bouton orange (`btn--etape`) ; 2e clic, annulé. Pas de fenêtre de confirmation.
 
-Chaque variété a deux boutons, **Renuméroter** et **Libérer**. Ils s'excluent. Le bouton choisi est en orange (`btn--etape`), un second clic annule.
+**Prochain numéro à attribuer** : pastille bleue `N° 197` ou `N° 252 (nouveau)`.
 
-**Prochain numéro à attribuer** : pastille bleue `N° 197`, ou `N° 252 (nouveau)`.
+**Variété sans numéro** : case « Seulement les variétés disponibles » (cochée par défaut, s'appuie sur `Disponible`) ; recherche sans accents, à plusieurs mots ; liste triée par nom, 40 au plus puis « … N autres, précise ta recherche » ; un clic met l'attribution en attente, le champ est vidé et garde le focus.
 
-**Variété sans numéro** :
-- case « Seulement les variétés disponibles (sachet ou plante mère) », cochée par défaut ;
-- recherche sans accents, à plusieurs mots ;
-- liste triée par nom, 40 au plus, puis « … N autres, précise ta recherche » ;
-- un clic attribue le prochain numéro, en attente. Le champ est vidé et garde le focus.
+**À enregistrer (N)** : une carte orange par ligne, triée par numéro, avec le type et ✕ :
+- « N° 12 : Nom » : attribution ;
+- « N° 12 libéré : Nom » + « Épingle à refaire, liste à réimprimer (Numéros d'épingle). »
 
-**Libérer un numéro (variété perdue)** :
-- case « Seulement les variétés indisponibles (ni sachet ni plante mère) », cochée par défaut ;
-- recherche par nom ou par numéro, liste « N° 12 : Nom » ;
-- un clic met la libération en attente. Le numéro devient aussitôt le prochain proposé (s'il n'y a pas de trou plus petit).
+Puis le bouton « Enregistrer ». Lignes en attente perdues au rechargement : voulu.
 
-**À enregistrer (N)** : une carte orange par ligne en attente, triée par numéro, avec le type (`typeInverse`) et un ✕ pour annuler.
-- « N° 12 : Nom » : attribution. Mention « était N° 12, doublon » ou « valeur invalide « 2.5 » » pour une renumérotation.
-- « N° 12 libéré : Nom » (mention « était en doublon » si besoin) ou « Valeur « 2.5 » effacée : Nom ».
+## 7. Enregistrement
+- **Un seul `applyUserActions`**, deux `BulkUpdateRecord` au plus : libérées (`Num_epingle` vide) ; numérotées (`Num_epingle` + `Lettre` vidée). Un Ctrl+Z dans Grist annule tout l'enregistrement.
+- **Pas de relecture avant écriture** (décision du 23/11).
+- Juste après l'écriture, la copie locale (`recordsParId`) reçoit les nouvelles valeurs et `recalculer()` repart d'elles : un clic rapide, avant que Grist renvoie les lignes, ne peut pas redonner un numéro qui vient d'être écrit. Grist confirme ensuite par `onRecords`.
+- Message « Enregistré : 3 variétés numérotées et 1 numéro libéré. »
 
-Puis le bouton « Enregistrer ».
+## 8. Choix techniques
+- **Pas de Ferrari** : retirés à la refonte du 25/11 : `sessionStorage`, relecture avant écriture, renumérotation depuis les anomalies, libération qui libérait le numéro avant l'enregistrement (avec ses recalculs après annulation), boucle de nettoyage, relecture de `Millesimes` au clic, `numeroLecture`, `horsGrist`, rappel 📌, fenêtre de confirmation, CSS local. 480 → ≈ 230 lignes.
+- **Zones Vue** : `#appEntete`, `#appAnomalies`, `#appReutilisables`, `#appFiche`, `#appAttentes`.
+- **Un seul `etat`**. Lignes en attente : `etat.attributions` et `etat.liberations` (`{ id: numéro }`) ; une variété n'est jamais dans les deux (attributions = sans numéro, libérations = numérotées).
+- Hors de `etat` : `recordsParId` (Map), `numerosPris` (Set), `sansNumero`.
+- `recalculer()` range les variétés, remplit `doublons`, `invalides`, `reutilisables`, retire **sans message** les cartes devenues fausses après un changement dans Grist (variété numérotée ou numéro pris ailleurs ; libération dont le numéro a changé), puis appelle `recalculerSaisies()` (prochain numéro, liste, cartes).
+- Liste déroulante : `@mousedown.prevent` garde le focus ; `@click` (pas `pointerup`) évite une attribution au défilement.
+- Le JS renvoie des codes (`action: 'attribuer' | 'liberer'`), les textes sont dans le HTML ; messages construits dans `TEXTES`.
 
-## Enregistrement
-1. `Varietes` est relue. Si une colonne manque, rien n'est écrit.
-2. Les lignes en attente sont revérifiées (`nettoyerAttentes`) :
-   - libération : la variété porte toujours la même valeur ;
-   - attribution : la variété existe, est toujours sans numéro, et le numéro n'est pas occupé ;
-   - renumérotation : la variété porte toujours la même valeur fautive, et celle-ci est toujours un doublon ou invalide.
+## 9. Contrat avec les autres outils
+- **Numéros d'épingle** (`numero`) lit `Num_epingle` pour imprimer la liste ; il ignore les doublons (cet outil les signale). Réimprimer après une libération.
+- **Semis réalisés** (« Sachet vidé ») et **À gérer** (plante mère morte : `Plante_mere` décochée) rendent un millésime épuisé, donc peuvent faire passer `Disponible` à faux.
+- **Achat-repro** crée des millésimes : la variété redevient disponible.
 
-   Si une ligne tombe, rien n'est écrit et un message rouge dit combien de lignes ont été retirées.
-3. Pas de numéro en double parmi les attributions, uniquement des entiers ≥ 1.
-4. **Un seul `applyUserActions`** avec deux `BulkUpdateRecord` :
-   - libérées : `Num_epingle` vide ;
-   - numérotées : `Num_epingle` et `Lettre` vidée.
-5. Seules les lignes enregistrées sont retirées de l'attente. L'outil relit Grist (`charger()`) : l'affichage repart des valeurs écrites. Message « Enregistré : 3 variétés numérotées et 1 numéro libéré. », plus le rappel 📌 si des numéros existants ont changé.
-
-Un Ctrl+Z dans Grist annule tout l'enregistrement d'un coup.
-
-## Choix techniques
-- **Vue 3 sans compilation** : 5 zones (`appEntete`, `appAnomalies`, `appFiche`, `appLiberer`, `appAttentes`), chacune montée par son `Vue.createApp(...).mount(...)`.
-- **Un seul état réactif** (`etat`). Lignes en attente :
-  - `etat.attributions` `{ id: numéro }` ;
-  - `etat.anciens` `{ id: valeur fautive }` pour les renumérotations ;
-  - `etat.liberations` `{ id: valeur actuelle }`.
-
-  Une variété est soit dans `attributions`, soit dans `liberations`, jamais dans les deux.
-- Données Grist hors de `etat` (Vue ne suit pas les `Map`/`Set`) : `recordsParId`, `numerosPris`, `numerosEnDoublon`, `porteursParNumero`, `sansNumero`, `numerotees`, `disponibles`. `recalculer()` copie dans `etat` ce que le HTML affiche ; `recalculerSaisies()` recalcule ce qui dépend des lignes en attente.
-- **Numéros libérés** (`numerosLiberes`) : un numéro est libre quand **toutes** les variétés qui le portent sont libérées ou renumérotées. Libérer une seule variété d'un doublon ne libère pas le numéro.
-- **Annulation** (✕, second clic) : `apresAnnulation()` relance `nettoyerAttentes()`. Si un numéro libéré puis réattribué redevient occupé, l'attribution est retirée avec le message « Numéro de nouveau occupé… ». `nettoyerAttentes` boucle jusqu'à ce que tout tienne : retirer une attribution peut en invalider une autre.
-- **Lectures** : `numeroLecture` fait ignorer une lecture dépassée par une plus récente. `enregistrer()` l'incrémente quand il relit la table, et relance `charger()` après l'écriture.
-- **`Millesimes` relue à chaque clic dans un champ de recherche** (`relireMillesimes()`, appelée par `surFocus`), car Grist ne prévient le widget que des changements de `Varietes`. `varietesDisponibles()` remplit aussi `avecSachet` et `plantesMeres` ; `dispoDe(id)` renvoie `'les-deux' | 'sachet' | 'mere' | 'aucun'` pour les anomalies.
-- **Messages** : un seul écouteur `click` en phase de capture efface `erreur`, `succes` et `rappel` avant que le bouton agisse.
-- **Listes déroulantes** : `etat.menuOuvert` vaut `''`, `'attribuer'` ou `'liberer'`. Les fonctions `menuVisible`, `surFocus`, `ouvrirMenu` et `fermerMenu` servent aux deux champs. `@mousedown.prevent` garde le focus, `@click` (pas `pointerup`) évite une attribution au défilement.
-- **Le JS calcule, le HTML met en forme** : le JS renvoie des codes (`action: 'attribuer' | 'liberer'`, `cas: 'doublon' | 'invalide' | 'doublon-libere'`), les textes sont dans le HTML. Exception : les messages d'erreur et de succès, dans `TEXTES`.
-- **Lignes en attente conservées au rechargement** : `Vue.watch` profond vers `sessionStorage` (clé `numerotation_saisies`), relues au démarrage par `restaurerSaisies()`, puis vérifiées au premier chargement par `nettoyerAttentes()`.
-- **Fonctions du commun utilisées** : `tableEnLignes`, `normaliser`, `correspondRecherche`, `pluriel`, `typeInverse`, `creerMessageTemporaire`.
-
-## Contrat avec les autres outils
-- **Numéros d'épingle** (`numero`) lit `Num_epingle` pour imprimer la liste. Il ignore les doublons sans message, car cet outil-ci les signale. Après une libération ou une renumérotation, réimprimer.
-- **À gérer** décoche `Millesimes.Plante_mere` quand une plante mère est déclarée morte : c'est ce qui la rend « indisponible » ici.
-
-## Limites
-- Les changements de `Millesimes` (sachets, plantes mères) sont vus au prochain clic dans un champ de recherche, au rechargement ou après une modification de `Varietes`. Pas avant : la disponibilité affichée dans les anomalies peut donc avoir un temps de retard.
+## 10. Limites
 - On ne choisit pas soi-même le numéro : c'est toujours le prochain libre.
-- Libérer une seule variété d'un doublon ne rend pas le numéro libre : l'autre le garde.
-- La revérification avant écriture ne porte que sur `Num_epingle` : un changement de `Lettre` fait entre-temps n'empêche pas l'enregistrement (la lettre est vidée de toute façon pour une variété numérotée).
+- Un numéro libéré n'est réutilisable qu'après l'enregistrement.
+- Une carte devenue fausse disparaît sans message.
 
-## Pièges rencontrés
+## 11. Pièges rencontrés
 - `grist.selectedTable.update([...])` avec `mapColumnNamesBack` : erreur `Invalid column "id"`. Solution : `applyUserActions` + `BulkUpdateRecord`.
-- `onRecords` ne donne que les lignes visibles dans la vue : un filtre faisait proposer un numéro déjà pris par une variété masquée. Solution : `fetchTable`.
-- Un `BulkUpdateRecord` écrit les mêmes colonnes pour toutes ses lignes : pour vider `Num_epingle` sans toucher à `Lettre`, les libérations ont leur propre `BulkUpdateRecord`, dans le même envoi.
+- `onRecords` ne donne que les lignes visibles dans la vue : un filtre faisait proposer un numéro déjà pris. Solution : `fetchTable`.
+- Un `BulkUpdateRecord` écrit les mêmes colonnes pour toutes ses lignes : les libérations ont leur propre `BulkUpdateRecord` pour ne pas toucher à `Lettre`.
+- Refonte du 25/11 : un collage a supprimé la fonction `enregistrer()` (seul son titre restait) et la dernière ligne de `recalculer()` (`recalculerSaisies();`). Effet : `enregistrer is not defined`, la suite du script ne s'exécute plus. Après un remplacement de fonction, Ctrl+Maj+F sur son nom.
 
-## Classes du commun utilisées
-`entete`, `statut`, `statut--non-sauvegarde`, `texte`, `texte--erreur`, `texte--gras`, `texte--succes`, `texte--discret`, `encart`, `encart--succes`, `ligne`, `ligne--entre`, `ligne--sur-champ`, `pastille`, `pastille--info`, `case`, `case__saisie`, `case__texte`, `champ`, `menu`, `menu__liste`, `menu__item`, `menu__item--vide`, `liste-carte`, `carte`, `carte--etape`, `carte__contenu`, `carte__type`, `carte__action`, `btn`, `btn--etape`, `btn--suppr`, `btn--enregistrer`, `btn--grand`.
+## 12. Classes du commun utilisées
+`entete`, `entete__message`, `statut` (+ `--non-sauvegarde`), `texte` (+ `--erreur`, `--gras`, `--succes`, `--discret`), `encart` (+ `--succes`, `--alerte`), `ligne` (+ `--entre`, `--sur-champ`), `pastille` (+ `--info`), `case` (+ `__saisie`, `__texte`), `champ`, `menu` (+ `__liste`, `__item`, `__item--vide`), `liste-carte`, `carte` (+ `--etape`, `__contenu`, `__type`, `__action`), `btn` (+ `--etape`, `--suppr`, `--enregistrer`, `--grand`).
 
-Classe locale : `encart--anomalies` (variante de `encart`, fond et bord rouges, `word-break`).
-
-## Classes du commun non utilisées par cet outil
-(Relevé du 22/11/2026, `styles_communs.css`. À ne pas supprimer sans vérifier les autres outils.)
-- Ligne : `ligne--pleine`, `grille`
-- Champ : `champ--flexible`, `champ--bouton`
-- Menu : `menu__item--choisi`
-- Pastilles : `pastille--lieu`, `pastille--categorie`, `pastille--sousabri`, `pastille--pleineterre`, `pastille--plantemere`, `pastille--etape`
-- Cartes : `carte--colonne`, `carte--plantemere`, `carte--sousabri`, `carte--pleineterre`, `carte--cliquable`
-- Texte : `texte--titre`, `texte--ici`, `texte--etape`, `texte--morte`, `texte--plantemere`, `texte--note`
-- Boutons : `btn--actif`, `btn--danger`, `btn--collant`
-- `zone-transparente`, `confirmation`, `confirmation__boite`, `confirmation__boutons`
-- Règle `[hidden]` (aucun attribut `hidden` dans le HTML)
-
-## Reste à faire
-- [ ] Test au doigt sur tablette après la mise en prod : faire défiler les listes déroulantes, aucune attribution ni libération ne doit se déclencher.
-- [ ] Discussion du commun : `.btn--enregistrer` (`margin-top: 8px`) écrase `.btn--grand` (14px).
+## 13. Reste à faire
+- [ ] Mise en prod : commun d'abord s'il a changé, puis les fichiers sur `main` (sans `numerotation.css`) ; vérifier l'URL du widget, Ctrl+F5 ; créer la colonne `Disponible` dans la base de prod.
+- [ ] Test au doigt sur tablette : faire défiler la liste déroulante, aucune attribution ne doit se déclencher.
 - [ ] Supprimer les anciens fichiers s'ils existent encore : `../script/numerotation.js`, `../styles/numerotation.css`, ancien mémo.
-- [ ] Ancien `styles_commun.css` : `.liste-choix.integree` à supprimer et arrondi des `pastille-orga` à vérifier dans « Semis réalisés » (reliquats de l'ancienne version de cet outil).
+- [ ] Ancien `styles_commun.css` : `.liste-choix.integree` à supprimer, arrondi des `pastille-orga` à vérifier (reliquats de l'ancienne version).
+- [ ] À trancher plus tard : fusion avec Numéros d'épingle (onglets Attribuer / Imprimer).
 
-## Idées pour plus tard
-- Choisir soi-même le numéro (un trou précis).
-- Alerte à la fermeture avec des lignes non enregistrées (écartée pour l'instant).
+## 14. Test de recette
+1. Statut « Chargement… » puis « ✓ À jour » ; aucune association demandée ; le filtre de la vue ne change pas le prochain numéro.
+2. Colonne `Disponible` renommée : alerte « Colonne introuvable ».
+3. Anomalies : un doublon et une valeur `2.5` apparaissent sans recharger, avec la consigne ; vidées dans Grist, elles disparaissent et la variété repasse « sans numéro ».
+4. Recherche : accents ignorés, plusieurs mots, limite de 40 ; case cochée : une variété avec `Disponible` faux n'apparaît pas.
+5. Sachet vidé dans Semis réalisés, sans recharger : la variété quitte la recherche (case cochée) et, si elle est numérotée, entre dans « Numéros réutilisables ».
+6. Attribuer 2 variétés, en retirer une (✕) : son numéro est reproposé ; statut « ● Non sauvegardé (n) ».
+7. Libérer : bouton orange, carte « N° 12 libéré », prochain numéro inchangé ; 2e clic ou ✕ : annulé.
+8. Enregistrer une attribution et une libération : message « Enregistré : 1 variété numérotée et 1 numéro libéré. » ; dans Grist, `Lettre` vidée pour la numérotée, inchangée pour la libérée ; un seul Ctrl+Z annule tout.
+9. Après l'enregistrement : le numéro libéré est proposé ; une attribution faite aussitôt reçoit un numéro différent de ceux qui viennent d'être écrits.
+10. Numéro tapé dans Grist sur une variété en attente : sa carte disparaît.
+11. F5 avec des cartes en attente : perdues (voulu).
 
-## Test de recette
-1. Statut « ✓ À jour » ; aucune association demandée dans le panneau ; le filtre de la vue ne change pas le prochain numéro.
-2. Anomalies : un doublon et une valeur `2.5` apparaissent sans recharger, puis disparaissent une fois corrigés.
-3. Recherche : accents ignorés, plusieurs mots, limite de 40, « Aucune variété (disponible) trouvée ». Case « disponibles » : une variété sans sachet ni plante mère n'apparaît que case décochée.
-4. Attribuer 3 variétés, en retirer une (✕) : le numéro libéré est reproposé. Enregistrer : numéros écrits, `Lettre` vidée pour elles seules, un seul Ctrl+Z annule tout.
-5. Renuméroter un doublon et une valeur invalide : cartes avec l'ancienne valeur ; enregistrer : anomalies disparues.
-6. Libérer une variété indisponible : le prochain numéro devient le sien ; l'attribuer à une autre variété puis enregistrer : `Num_epingle` vide et `Lettre` inchangée pour l'ancienne, numéro et `Lettre` vidée pour la nouvelle.
-7. Annuler une libération dont le numéro a été réattribué : l'attribution est retirée, avec un message rouge.
-8. Changement dans Grist pendant une attente (numéro donné ailleurs, valeur corrigée) : la carte disparaît.
-9. Rechargement (F5) avec des lignes en attente : elles reviennent, sans section vide affichée pendant le chargement ; fermeture de l'onglet : perdues.
-10. Statut « Non sauvegardé (N) » : N compte les attributions et les libérations.
-11. Enregistrement avec une libération ou une renumérotation : rappel 📌, effacé au clic suivant. Attribution seule : pas de rappel. Le message de succès s'efface au clic suivant.
-12. Juste après un enregistrement, les variétés numérotées n'apparaissent plus dans la recherche.
-13. `Nb_sachets` changé dans Grist pendant que l'outil est ouvert : pris en compte au clic suivant dans un champ de recherche.
-14. Anomalies : type et disponibilité affichés pour chaque variété (« ni sachet ni plante mère » en rouge).
+## 15. Journal
+- 22/11/2026 : migration Vue (zones, `etat`, CSS BEM), `fetchTable`, filtre « disponibles », libération, renumérotation des anomalies, `sessionStorage`.
+- 25/11/2026 : refonte « pas de Ferrari » : retrait de la relecture avant écriture, de `sessionStorage`, de la renumérotation, de la relecture de `Millesimes`, de la confirmation et du CSS local ; colonne formule `Varietes.Disponible` (règle `Epuise`) ; section « Numéros réutilisables » ; anomalies en lecture seule ; libération en attente, numéro libre après l'enregistrement ; nom par `libelle()`.

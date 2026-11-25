@@ -1,7 +1,6 @@
 // ===== Messages (erreurs) =====
 const TEXTES = {
-  echec: (msg) => `Erreur de chargement : ${msg} (voir la console)`,
-  horsGrist: 'Page ouverte hors Grist : utilise cette URL comme widget Custom.'
+  erreurChargement: (detail) => `Erreur de chargement : ${detail} (voir la console)`
 };
 
 /* =============================================
@@ -10,53 +9,27 @@ const TEXTES = {
 // Colonnes lues : si l'une manque (renommée, supprimée), le calendrier ne s'affiche pas
 const COLONNES_MILLESIMES = ['NomVariete', 'Nb_sachets'];
 const COLONNES_VARIETES = ['Nom', 'Variete', 'Type', 'NomVariete', 'Semis_sous_abris', 'Semis_pleine_terre'];
-
-// Mois : court = en-tête des colonnes ; valeurs = ce qu'on peut trouver dans Semis_sous_abris / Semis_pleine_terre
-const MOIS = [
-  { num: 1,  court: 'Jan',  long: 'janvier',   valeurs: ['Jan', 'Janvier'] },
-  { num: 2,  court: 'Fév',  long: 'février',   valeurs: ['Fév', 'Février'] },
-  { num: 3,  court: 'Mar',  long: 'mars',      valeurs: ['Mar', 'Mars'] },
-  { num: 4,  court: 'Avr',  long: 'avril',     valeurs: ['Avr', 'Avril'] },
-  { num: 5,  court: 'Mai',  long: 'mai',       valeurs: ['Mai'] },
-  { num: 6,  court: 'Juin', long: 'juin',      valeurs: ['Jui', 'Juin'] },
-  { num: 7,  court: 'Juil', long: 'juillet',   valeurs: ['Juil', 'Juillet'] },
-  { num: 8,  court: 'Août', long: 'août',      valeurs: ['Aou', 'Août'] },
-  { num: 9,  court: 'Sep',  long: 'septembre', valeurs: ['Sep', 'Septembre'] },
-  { num: 10, court: 'Oct',  long: 'octobre',   valeurs: ['Oct', 'Octobre'] },
-  { num: 11, court: 'Nov',  long: 'novembre',  valeurs: ['Nov', 'Novembre'] },
-  { num: 12, court: 'Déc',  long: 'décembre',  valeurs: ['Déc', 'Décembre'] }
-];
-// 'Mar' → 3, 'Mars' → 3, etc.
-const NUMERO_MOIS = new Map(MOIS.flatMap(m => m.valeurs.map(v => [v, m.num])));
 const MOIS_COURANT = new Date().getMonth() + 1;   // colonne surlignée à l'écran (pas à l'impression)
 const LIGNES_PAR_COLONNE = 30;   // plantes par colonne (2 colonnes par feuille) : à ajuster après le test d'impression
-const LARGEUR_FEUILLE_PX = 297 * 96 / 25.4;   // 297 mm en pixels d'écran (≈ 1123)
-// Données lues dans Grist : id de ligne → ligne
+// Données lues dans Grist
 const recordsParId = {
-  varietes: new Map(),       // table Varietes : id → ligne
-  varietesParNom: new Map(), // mêmes lignes, trouvées par le texte NomVariete (ce que donne onRecords)
-  millesimes: new Map()      // table Millesimes, telle que reçue de onRecords
+  varietes: indexerVarietes([]),   // { parId, parNom, doublons } (voir indexerVarietes dans scriptcommun.js)
+  millesimes: new Map()            // table Millesimes : id → ligne, telle que reçue de onRecords
 };
-let numeroLecture = 0;       // sert à ignorer une lecture dépassée par une plus récente
-
 // État lu par le HTML : Vue redessine quand il change
 const etat = Vue.reactive({
   charge: false,             // true quand les données sont chargées
-  plantes: [],               // [plante] triées ; plante = { nom, type, varietes, mois: [12 cases] }
+  plantes: [],               // [plante] triées ; plante = { cle, nom, type, mois: [12 cases] }
   aRevoir: aRevoirVide(),    // données à corriger dans Grist (en-tête seulement, jamais imprimé)
   pages: [],                 // [page] ; page = { type, suite, colonnes: [[plante]] } (1 ou 2 colonnes)
-  details: null,             // fenêtre de détails : null (fermée) ou { plante, mois, varietes: [{ id, nom, abri, terre }] }
   zoom: 1,                   // réduction des feuilles à l'écran (1 = taille réelle ; sans effet à l'impression)
   colonnesManquantes: [],    // colonnes nécessaires absentes (ex. 'Varietes.Type')
-  erreur: ''
+  message: ''                // erreur de chargement, affichée dans l'en-tête jusqu'au prochain chargement réussi
 });
 
 function imprimer() {
   window.print();
 }
-
-// Une erreur reste affichée jusqu'au prochain clic (phase de capture : effacée avant que le bouton agisse)
-document.addEventListener('click', () => { etat.erreur = ''; }, true);
 
 Vue.createApp({
   setup() {
@@ -66,56 +39,30 @@ Vue.createApp({
 
 Vue.createApp({
   setup() {
-    return { etat, MOIS, MOIS_COURANT, typeInverse, estPartielle, ouvrirDetails };
+    return { etat, LISTE_MOIS, MOIS_COURANT };
   }
 }).mount('#appPages');
 
-Vue.createApp({
-  setup() {
-    return { etat, fermerDetails };
-  }
-}).mount('#appDetails');
-
-// Un clic ailleurs ferme la fenêtre (les clics sur une case et dans la fenêtre ne remontent pas jusqu'ici)
-document.addEventListener('click', fermerDetails);
 // ===== Aperçu à l'écran : feuilles réduites à la largeur du widget =====
-function ajusterZoom(largeur) {
-  // Jamais agrandi au-delà de la taille réelle ; arrondi vers le bas pour éviter une barre de défilement d'un pixel
-  etat.zoom = Math.min(1, Math.floor(largeur / LARGEUR_FEUILLE_PX * 1000) / 1000);
-}
-
-new ResizeObserver(entrees => ajusterZoom(entrees[0].contentRect.width))
+new ResizeObserver(entrees => {etat.zoom = facteurZoom(entrees[0].contentRect.width); })
   .observe(document.getElementById('appPages'));
 /* =============================================
    UTILITAIRES
    ============================================= */
-// Colonnes de la liste absentes des lignes reçues (aucune ligne : rien à vérifier)
-function colonnesAbsentes(lignes, liste) {
-  if (!lignes.length) return [];
-  return liste.filter(c => !(c in lignes[0]));
-}
-
 // Points à corriger dans Grist (listes de noms ; le HTML écrit les phrases)
 function aRevoirVide() {
-  return { total: 0, nomsProches: [], plantesSansMois: [], varietesSansMois: [], typesDifferents: [], moisInconnus: [] };
+  return { total: 0, nomsEnDouble: [], nomsProches: [], plantesSansMois: [], varietesSansMois: [], typesDifferents: [], moisInconnus: [] };
 }
 
 // ChoiceList de mois ['L', 'Mar', 'Avr'] → [3, 4] ; une valeur non reconnue est ajoutée à inconnus (un Set)
 function moisDe(valeur, inconnus) {
   const nums = [];
   for (const v of listeChoix(valeur)) {
-    const n = NUMERO_MOIS.get(v);
+const n = numeroMois(v);
     if (n) nums.push(n);
     else inconnus.add(v);
   }
   return nums;
-}
-
-// La référence NomVariete arrive en texte « Nom↵Variété » (ou en id selon la vue) : les deux sont gérés
-function varieteDuMillesime(r) {
-  return typeof r.NomVariete === 'number'
-    ? recordsParId.varietes.get(r.NomVariete)
-    : recordsParId.varietesParNom.get(r.NomVariete);
 }
 
 // Code d'une case : 'toutes' les variétés sèment ce mois-là, 'certaines', ou 'aucune'
@@ -137,7 +84,7 @@ function recalculerPlantes() {
   const parNom = new Map();   // nom → { nom, type, varietes: Map id → variété }
   for (const r of recordsParId.millesimes.values()) {
     if (!r.Nb_sachets) continue;                // sachet épuisé : absent du calendrier
-    const v = varieteDuMillesime(r);
+    const v = varieteReferencee(recordsParId.varietes, r.NomVariete);
     if (!v || !v.Nom) continue;                 // pas de variété liée
 
     if (!parNom.has(v.Nom)) parNom.set(v.Nom, { nom: v.Nom, type: v.Type || '', varietes: new Map() });
@@ -145,7 +92,6 @@ function recalculerPlantes() {
     if (plante.varietes.has(v.id)) continue;    // variété déjà comptée (plusieurs millésimes)
     if ((v.Type || '') !== plante.type) typesDifferents.add(v.Nom);   // type de la première variété gardé
     plante.varietes.set(v.id, {
-      id: v.id,
       nom: v.Variete || v.Nom,
       abri: moisDe(v.Semis_sous_abris, moisInconnus),
       terre: moisDe(v.Semis_pleine_terre, moisInconnus)
@@ -161,7 +107,7 @@ function recalculerPlantes() {
       if (v.abri.length || v.terre.length) varietes.push(v);
       else sansMois.push(v.nom === p.nom ? p.nom : `${p.nom} (${v.nom})`);
     }
-    const mois = MOIS.map(m => ({
+    const mois = LISTE_MOIS.map(m => ({
       abri: casDuMois(varietes, 'abri', m.num),
       terre: casDuMois(varietes, 'terre', m.num)
     }));
@@ -170,7 +116,7 @@ function recalculerPlantes() {
       continue;
     }
     aRevoir.varietesSansMois.push(...sansMois); // plante affichée, mais certaines variétés ignorées
-    plantes.push({ cle: 'plante-' + p.nom, nom: p.nom, type: p.type, varietes, mois });
+    plantes.push({ cle: 'plante-' + p.nom, nom: p.nom, type: p.type, mois });
   }
 
   // Noms qui ne diffèrent que par les accents, les majuscules ou les espaces (ex. Epinard / Épinard)
@@ -183,12 +129,13 @@ function recalculerPlantes() {
   aRevoir.nomsProches = [...parNomNormalise.values()].filter(noms => noms.length > 1);
 
   const trier = liste => liste.sort((a, b) => a.localeCompare(b, 'fr'));
+  aRevoir.nomsEnDouble = trier([...recordsParId.varietes.doublons]);   // même NomVariete sur deux lignes de Varietes
   trier(aRevoir.plantesSansMois);
   trier(aRevoir.varietesSansMois);
   aRevoir.typesDifferents = trier([...typesDifferents]);
   aRevoir.moisInconnus = trier([...moisInconnus]);
-  aRevoir.total = aRevoir.nomsProches.length + aRevoir.plantesSansMois.length + aRevoir.varietesSansMois.length
-    + aRevoir.typesDifferents.length + aRevoir.moisInconnus.length;
+  aRevoir.total = aRevoir.nomsEnDouble.length + aRevoir.nomsProches.length + aRevoir.plantesSansMois.length
+    + aRevoir.varietesSansMois.length + aRevoir.typesDifferents.length + aRevoir.moisInconnus.length;
   etat.aRevoir = aRevoir;
 
   // Tri par type, puis par nom
@@ -213,7 +160,7 @@ function ligneVide(type, n) {
   return {
     cle: `vide-${type}-${n}`,
     nom: '',
-    mois: MOIS.map(() => ({ abri: 'aucune', terre: 'aucune' }))
+    mois: LISTE_MOIS.map(() => ({ abri: 'aucune', terre: 'aucune' }))
   };
 }
 
@@ -249,84 +196,41 @@ function recalculerPages() {
   }
   etat.pages = pages;
 }
-/* =============================================
-   FENÊTRE DE DÉTAILS (écran seulement)
-   ============================================= */
-// Case hachurée : seulement certaines variétés sèment ce mois-là (sous abri ou en pleine terre)
-function estPartielle(cas) {
-  return cas.abri === 'certaines' || cas.terre === 'certaines';
-}
 
-// Clic sur une case : ouvre la fenêtre si la case est hachurée, sinon ferme celle qui est ouverte
-function ouvrirDetails(plante, i) {
-  if (!estPartielle(plante.mois[i])) {
-    fermerDetails();
-    return;
-  }
-  const num = MOIS[i].num;
-  etat.details = {
-    plante: plante.nom,
-    mois: MOIS[i].long,
-    varietes: plante.varietes
-      .map(v => ({ id: v.id, nom: v.nom, abri: v.abri.includes(num), terre: v.terre.includes(num) }))
-      .sort((a, b) => a.nom.localeCompare(b.nom, 'fr'))
-  };
-}
-
-function fermerDetails() {
-  etat.details = null;
-}
 /* =============================================
    LECTURE DES DONNÉES (API widget de Grist)
    ============================================= */
 async function afficherMillesimes(lignes) {
   // Appelée par Grist au chargement, puis à chaque modification de Millesimes
-  const numero = ++numeroLecture;
   try {
-    const varietes = tableEnLignes(await grist.docApi.fetchTable('Varietes'));
-    if (numero !== numeroLecture) return;   // une lecture plus récente a pris le relais
+    const tableVarietes = await grist.docApi.fetchTable('Varietes');
 
     etat.colonnesManquantes = [
-      ...colonnesAbsentes(lignes, COLONNES_MILLESIMES).map(c => 'Millesimes.' + c),
-      ...colonnesAbsentes(varietes, COLONNES_VARIETES).map(c => 'Varietes.' + c)
+      ...colonnesAbsentes(lignes[0], COLONNES_MILLESIMES).map(c => 'Millesimes.' + c),
+      ...colonnesAbsentes(tableVarietes, COLONNES_VARIETES).map(c => 'Varietes.' + c)
     ];
     if (etat.colonnesManquantes.length) {
       etat.plantes = [];          // pas de calendrier faux : on n'affiche rien
       etat.pages = [];
       etat.aRevoir = aRevoirVide();
+      etat.message = '';
       etat.charge = true;
       return;
     }
 
-    recordsParId.varietes.clear();
-    recordsParId.varietesParNom.clear();
-    for (const v of varietes) {
-      recordsParId.varietes.set(v.id, v);
-      if (recordsParId.varietesParNom.has(v.NomVariete)) {
-        console.warn('Deux variétés portent le même nom, la première est gardée :', v.NomVariete);
-      } else {
-        recordsParId.varietesParNom.set(v.NomVariete, v);
-      }
-    }
-    recordsParId.millesimes.clear();
-    for (const r of lignes) recordsParId.millesimes.set(r.id, r);
+    recordsParId.varietes = indexerVarietes(tableEnLignes(tableVarietes));
+    recordsParId.millesimes = new Map(lignes.map(r => [r.id, r]));
 
     recalculerPlantes();
     recalculerPages();
-    etat.erreur = '';
+    etat.message = '';
     etat.charge = true;
   } catch (err) {
     console.error('❌ Erreur lors du chargement des données Grist :', err);
-    etat.erreur = TEXTES.echec(err.message);
+    etat.message = TEXTES.erreurChargement(err.message);
   }
 }
 
-const dansGrist = window.self !== window.top;
-
-if (dansGrist) {
-  grist.ready({ requiredAccess: 'full' });
-  // includeColumns : reçoit aussi les colonnes masquées dans la vue
-  grist.onRecords(afficherMillesimes, { includeColumns: 'normal' });
-} else {
-  etat.erreur = TEXTES.horsGrist;
-}
+grist.ready({ requiredAccess: 'full' });
+// includeColumns : reçoit aussi les colonnes masquées dans la vue
+grist.onRecords(afficherMillesimes, { includeColumns: 'normal' });

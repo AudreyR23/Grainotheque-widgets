@@ -5,20 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Numérotation des variétés</title>
     <link rel="stylesheet" href="../../styles/styles_communs.css" />
-    <link rel="stylesheet" href="numerotation.css" />
   </head>
   <body>
     <header id="appEntete" class="entete">
       <h1>Numérotation des variétés</h1>
       <span class="statut" :class="{ 'statut--non-sauvegarde': nombreAttentes() > 0 }">
-        <template v-if="!etat.charge">Chargement…</template>
-        <template v-else-if="nombreAttentes() > 0">Non sauvegardé ({{ nombreAttentes() }})</template>
+        <template v-if="etat.message">⚠ Erreur de chargement</template>
+        <template v-else-if="!etat.charge">Chargement…</template>
+        <template v-else-if="nombreAttentes() > 0">● Non sauvegardé ({{ nombreAttentes() }})</template>
         <template v-else>✓ À jour</template>
       </span>
-      <p v-if="etat.colonnesManquantes.length" class="texte texte--erreur texte--gras">⚠ {{ pluriel(etat.colonnesManquantes.length, 'Colonne introuvable', 'Colonnes introuvables') }} : {{ etat.colonnesManquantes.join(', ') }}. Vérifie qu'elle existe dans Grist sous ce nom : sans elle, l'outil se tromperait.</p>
-      <p v-if="etat.succes" class="encart encart--succes texte texte--succes">{{ etat.succes }}</p>
-      <p v-if="etat.rappel" class="texte texte--gras">📌 Des numéros existants ont changé : refais les épingles concernées et réimprime la liste (Numéros d'épingle).</p>
-      <p v-if="etat.erreur" class="texte texte--erreur texte--gras">{{ etat.erreur }}</p>
+      <p v-if="etat.colonnesManquantes.length" class="texte texte--erreur texte--gras entete__message">⚠ {{ pluriel(etat.colonnesManquantes.length, 'Colonne introuvable', 'Colonnes introuvables') }} : {{ etat.colonnesManquantes.join(', ') }}. Vérifie qu'elle existe dans Grist sous ce nom : sans elle, l'outil se tromperait.</p>
+      <p v-if="etat.succes" class="encart encart--succes texte texte--succes entete__message">{{ etat.succes }}</p>
+      <p v-if="etat.message" class="texte texte--erreur texte--gras entete__message">{{ etat.message }}</p>
+      <p v-if="etat.erreur" class="texte texte--erreur texte--gras entete__message">{{ etat.erreur }}</p>
     </header>
 
     <main>
@@ -26,29 +26,35 @@
         <section v-if="etat.doublons.length || etat.invalides.length">
           <h2>Anomalies</h2>
           <div class="carte__contenu encart encart--alerte">
+            <div class="texte texte--discret">À corriger dans Grist : vide (ou corrige) la cellule « N° épingle » de la variété concernée. Une variété vidée repasse dans « Variété sans numéro ».</div>
             <template v-if="etat.doublons.length">
               <div class="texte texte--gras">⚠ {{ pluriel(etat.doublons.length, 'Doublon') }} ({{ etat.doublons.length }})</div>
-              <div v-for="d in etat.doublons" :key="d.numero">
-                <div class="texte texte--erreur texte--gras">N° {{ d.numero }}</div>
-                <div v-for="l in d.lignes" :key="l.id" class="ligne ligne--entre">
-                  <span class="texte">{{ l.nom }}<span v-if="l.type" class="texte texte--discret"> {{ typeInverse(l.type) }}</span> · <span v-if="l.dispo === 'aucun'" class="texte texte--erreur texte--gras">ni sachet ni plante mère</span><span v-else-if="l.dispo === 'sachet'" class="texte texte--discret">sachet</span><span v-else-if="l.dispo === 'mere'" class="texte texte--discret">🌱 plante mère</span><span v-else class="texte texte--discret">sachet et 🌱 plante mère</span></span>
-                  <span class="ligne">
-                    <button type="button" class="btn" :class="{ 'btn--etape': enAttente(l.id) }" @click="basculerRenumerotation(l.id)">Renuméroter</button>
-                    <button type="button" class="btn" :class="{ 'btn--etape': enLiberation(l.id) }" @click="basculerLiberation(l.id)">Libérer</button>
-                  </span>
-                </div>
-              </div>
+              <div v-for="d in etat.doublons" :key="d.numero" class="texte texte--erreur texte--gras">N° {{ d.numero }} : {{ d.noms.join('  |  ') }}</div>
             </template>
             <template v-if="etat.invalides.length">
               <div class="texte texte--gras">⚠ {{ pluriel(etat.invalides.length, 'Numéro invalide', 'Numéros invalides') }} ({{ etat.invalides.length }})</div>
-              <div v-for="i in etat.invalides" :key="i.id" class="ligne ligne--entre">
-                <span class="texte"><span class="texte texte--erreur texte--gras">{{ i.nom }} : valeur « {{ i.valeur }} »</span><span v-if="i.type" class="texte texte--discret"> {{ typeInverse(i.type) }}</span> · <span v-if="i.dispo === 'aucun'" class="texte texte--erreur texte--gras">ni sachet ni plante mère</span><span v-else-if="i.dispo === 'sachet'" class="texte texte--discret">sachet</span><span v-else-if="i.dispo === 'mere'" class="texte texte--discret">🌱 plante mère</span><span v-else class="texte texte--discret">sachet et 🌱 plante mère</span></span>
-                <span class="ligne">
-                  <button type="button" class="btn" :class="{ 'btn--etape': enAttente(i.id) }" @click="basculerRenumerotation(i.id)">Renuméroter</button>
-                  <button type="button" class="btn" :class="{ 'btn--etape': enLiberation(i.id) }" @click="basculerLiberation(i.id)">Libérer</button>
-                </span>
-              </div>
+              <div v-for="i in etat.invalides" :key="i.id" class="texte texte--erreur texte--gras">{{ i.nom }} : valeur « {{ i.valeur }} »</div>
             </template>
+          </div>
+        </section>
+      </div>
+
+      <div id="appReutilisables">
+        <section v-if="etat.charge && etat.reutilisables.length">
+          <div class="ligne ligne--entre">
+            <h2>Numéros réutilisables ({{ etat.reutilisables.length }})</h2>
+            <button type="button" class="btn" @click="etat.reutilisablesOuvert = !etat.reutilisablesOuvert">{{ etat.reutilisablesOuvert ? 'Masquer' : 'Afficher' }}</button>
+          </div>
+          <div v-show="etat.reutilisablesOuvert">
+            <p class="texte texte--discret">Variétés numérotées qui n'ont plus rien de disponible (aucun millésime, ou que des millésimes épuisés). « Libérer » vide leur numéro à l'enregistrement : il servira ensuite à une autre variété.</p></p>
+            <ul class="liste-carte">
+              <li v-for="r in etat.reutilisables" :key="r.id" class="carte">
+                <div class="carte__contenu">
+                  <div><strong>N° {{ r.numero }} : {{ r.nom }}</strong><span v-if="r.type" class="carte__type">{{ r.type }}</span></div>
+                </div>
+                <button type="button" class="btn carte__action" :class="{ 'btn--etape': enLiberation(r.id) }" @click="basculerLiberation(r)">Libérer</button>
+              </li>
+            </ul>
           </div>
         </section>
       </div>
@@ -59,31 +65,14 @@
           <span class="pastille pastille--info">N° {{ etat.prochain.numero }}<template v-if="etat.prochain.nouveau"> (nouveau)</template></span>
           <h3><label for="recherche">Variété sans numéro</label></h3>
           <div class="ligne ligne--sur-champ">
-            <label class="case"><input type="checkbox" class="case__saisie" v-model="etat.seulementDisponibles" /><span class="case__texte">Seulement les variétés disponibles (sachet ou plante mère)</span></label>
+            <label class="case"><input type="checkbox" class="case__saisie" v-model="etat.seulementDisponibles" /><span class="case__texte">Seulement les variétés disponibles</span></label>
           </div>
           <div class="menu">
-            <input id="recherche" type="search" class="champ" placeholder="Taper pour chercher…" autocomplete="off" v-model="etat.recherche" @focus="surFocus('attribuer', $event)" @input="ouvrirMenu('attribuer')" @blur="fermerMenu" />
-            <ul class="menu__liste" v-show="menuVisible('attribuer')" @mousedown.prevent>
+            <input id="recherche" type="search" class="champ" placeholder="Taper pour chercher…" autocomplete="off" v-model="etat.recherche" @focus="surFocus" @input="ouvrirMenu" @blur="fermerMenu" />
+            <ul class="menu__liste" v-show="menuVisible()" @mousedown.prevent>
               <li v-for="v in etat.correspondances" :key="v.id" class="menu__item" @click="attribuer(v.id)">{{ v.nom }}</li>
               <li v-if="!etat.correspondances.length" class="menu__item menu__item--vide"><template v-if="etat.seulementDisponibles">Aucune variété disponible trouvée (décoche la case pour voir les autres)</template><template v-else>Aucune variété trouvée</template></li>
               <li v-else-if="etat.nbAutres" class="menu__item menu__item--vide">… {{ etat.nbAutres }} {{ pluriel(etat.nbAutres, 'autre') }}, précise ta recherche</li>
-            </ul>
-          </div>
-        </section>
-      </div>
-
-      <div id="appLiberer">
-        <section v-if="etat.charge && !etat.colonnesManquantes.length">
-          <h3><label for="rechercheLiberer">Libérer un numéro (variété perdue)</label></h3>
-          <div class="ligne ligne--sur-champ">
-            <label class="case"><input type="checkbox" class="case__saisie" v-model="etat.seulementIndisponibles" /><span class="case__texte">Seulement les variétés indisponibles (ni sachet ni plante mère)</span></label>
-          </div>
-          <div class="menu">
-            <input id="rechercheLiberer" type="search" class="champ" placeholder="Nom ou numéro…" autocomplete="off" v-model="etat.rechercheLiberer" @focus="surFocus('liberer', $event)" @input="ouvrirMenu('liberer')" @blur="fermerMenu" />
-            <ul class="menu__liste" v-show="menuVisible('liberer')" @mousedown.prevent>
-              <li v-for="v in etat.correspondancesLiberer" :key="v.id" class="menu__item" @click="liberer(v.id)">N° {{ v.numero }} : {{ v.nom }}</li>
-              <li v-if="!etat.correspondancesLiberer.length" class="menu__item menu__item--vide"><template v-if="etat.seulementIndisponibles">Aucune variété indisponible trouvée (décoche la case pour voir les autres)</template><template v-else>Aucune variété trouvée</template></li>
-              <li v-else-if="etat.nbAutresLiberer" class="menu__item menu__item--vide">… {{ etat.nbAutresLiberer }} {{ pluriel(etat.nbAutresLiberer, 'autre') }}, précise ta recherche</li>
             </ul>
           </div>
         </section>
@@ -95,10 +84,8 @@
           <ul class="liste-carte">
             <li v-for="a in etat.attentes" :key="a.id" class="carte carte--etape">
               <div class="carte__contenu">
-                <div><strong v-if="a.action === 'liberer' && a.valide">N° {{ a.numero }} libéré : {{ a.nom }}</strong><strong v-else-if="a.action === 'liberer'">Valeur « {{ a.numero }} » effacée : {{ a.nom }}</strong><strong v-else>N° {{ a.numero }} : {{ a.nom }}</strong><span v-if="a.type" class="carte__type">{{ typeInverse(a.type) }}</span></div>
-                <div v-if="a.cas === 'doublon'" class="texte texte--discret">était N° {{ a.ancien }}, doublon</div>
-                <div v-else-if="a.cas === 'invalide'" class="texte texte--discret">valeur invalide « {{ a.ancien }} »</div>
-                <div v-else-if="a.cas === 'doublon-libere'" class="texte texte--discret">était en doublon</div>
+                <div><strong v-if="a.action === 'liberer'">N° {{ a.numero }} libéré : {{ a.nom }}</strong><strong v-else>N° {{ a.numero }} : {{ a.nom }}</strong><span v-if="a.type" class="carte__type">{{ a.type }}</span></div>
+                <div v-if="a.action === 'liberer'" class="texte texte--discret">Épingle à refaire, liste à réimprimer (Numéros d'épingle).</div>
               </div>
               <button type="button" class="btn btn--suppr carte__action" title="Retirer de la liste" :aria-label="'Retirer ' + a.nom" @click="retirer(a.id)">✕</button>
             </li>

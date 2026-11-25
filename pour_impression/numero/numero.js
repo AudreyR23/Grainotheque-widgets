@@ -1,7 +1,6 @@
 // ===== Messages (erreurs) =====
 const TEXTES = {
-  echec: (msg) => `Erreur de chargement : ${msg} (voir la console)`,
-  horsGrist: 'Page ouverte hors Grist : utilise cette URL comme widget Custom.'
+  echec: (msg) => `Erreur de chargement : ${msg} (voir la console)`
 };
 
 /* =============================================
@@ -11,11 +10,9 @@ const LIGNES_PAR_COLONNE = 20;
 const COLONNES_PAR_PAGE = 3;
 const PAR_PAGE = LIGNES_PAR_COLONNE * COLONNES_PAR_PAGE;
 const NB_EMPLACEMENTS_VIDES = 10;   // emplacements à remplir à la main, après le dernier numéro
-const LARGEUR_FEUILLE_PX = 297 * 96 / 25.4;   // 297 mm en pixels d'écran (≈ 1123)
 // Colonnes lues : si l'une manque (renommée, supprimée), rien ne s'affiche
 const COLONNES_NECESSAIRES = ['Type', 'Nom', 'Variete', 'Num_epingle'];
 
-// État lu par le HTML : Vue redessine quand il change
 // État lu par le HTML : Vue redessine quand il change
 const etat = Vue.reactive({
   charge: false,            // true quand les données sont chargées
@@ -25,14 +22,13 @@ const etat = Vue.reactive({
   colonnesManquantes: [],   // colonnes nécessaires absentes (ex. 'Varietes.Num_epingle')
   erreur: ''
 });
-let numeroLecture = 0;    // sert à ignorer une lecture dépassée par une plus récente
 
 function imprimer() {
   window.print();
 }
 
 // Une erreur reste affichée jusqu'au prochain clic (phase de capture : effacée avant que le bouton agisse)
-document.addEventListener('click', () => { etat.erreur = ''; }, true);
+effacerAuClic(() => { etat.erreur = ''; });
 
 Vue.createApp({
   setup() {
@@ -47,12 +43,7 @@ Vue.createApp({
 }).mount('#appPages');
 
 // ===== Aperçu à l'écran : feuilles réduites à la largeur du widget =====
-function ajusterZoom(largeur) {
-  // Jamais agrandi au-delà de la taille réelle ; arrondi vers le bas pour éviter une barre de défilement d'un pixel
-  etat.zoom = Math.min(1, Math.floor(largeur / LARGEUR_FEUILLE_PX * 1000) / 1000);
-}
-
-new ResizeObserver(entrees => ajusterZoom(entrees[0].contentRect.width))
+new ResizeObserver(entrees => {etat.zoom = facteurZoom(entrees[0].contentRect.width); })
   .observe(document.getElementById('appPages'));
 
 /* =============================================
@@ -93,14 +84,9 @@ function enPages(epingles) {
    ============================================= */
 async function charger() {
   // Appelée par Grist au chargement, puis à chaque modification de Varietes
-  const numero = ++numeroLecture;
   try {
     const table = await grist.docApi.fetchTable('Varietes');   // toute la table, sans les filtres de la vue
-    if (numero !== numeroLecture) return;   // une lecture plus récente a pris le relais
-
-    etat.colonnesManquantes = COLONNES_NECESSAIRES
-      .filter(c => !(c in table))
-      .map(c => 'Varietes.' + c);
+    etat.colonnesManquantes = colonnesAbsentes(table, COLONNES_NECESSAIRES).map(c => 'Varietes.' + c);
     if (etat.colonnesManquantes.length) {
       etat.pages = [];          // pas de liste fausse : on n'affiche rien
       etat.nbNumeros = 0;
@@ -120,12 +106,6 @@ async function charger() {
   }
 }
 
-const dansGrist = window.self !== window.top;
-
-if (dansGrist) {
-  grist.ready({ requiredAccess: 'full' });
-  // onRecords ne sert que de signal « Varietes a changé » ; includeColumns : réagit aussi aux colonnes masquées dans la vue
-  grist.onRecords(charger, { includeColumns: 'normal' });
-} else {
-  etat.erreur = TEXTES.horsGrist;
-}
+grist.ready({ requiredAccess: 'full' });
+// onRecords ne sert que de signal « Varietes a changé » ; includeColumns : réagit aussi aux colonnes masquées dans la vue
+grist.onRecords(charger, { includeColumns: 'normal' });
