@@ -1,7 +1,6 @@
 // ===== Messages (erreurs) =====
 const TEXTES = {
-  echec: (msg) => `Erreur de chargement : ${msg} (voir la console)`,
-  horsGrist: 'Page ouverte hors Grist : utilise cette URL comme widget Custom.'
+  echec: (msg) => `Erreur de chargement : ${msg} (voir la console)`
 };
 
 /* =============================================
@@ -9,7 +8,6 @@ const TEXTES = {
    ============================================= */
 const LIGNES_PAR_PAGE = 25;
 const NB_LIGNES_VIDES_PAR_TYPE = 3;   // lignes vides à remplir à la main, à la fin de chaque type
-const LARGEUR_FEUILLE_PX = 297 * 96 / 25.4;   // 297 mm en pixels d'écran (≈ 1123)
 // Colonnes lues : si l'une manque (renommée, supprimée), le cahier ne s'affiche pas
 const COLONNES_MILLESIMES = [
   'NomVariete', 'Type', 'Origine', 'Nb_sachets', 'Millesime', 'Nb_saisons',
@@ -27,7 +25,6 @@ const recordsParId = {
   varietesParNom: new Map(), // même lignes, trouvées par le texte NomVariete (ce que donne onRecords)
   millesimes: new Map()     // table Millesimes (les sachets), telle que reçue de onRecords
 };
-let numeroLecture = 0;    // sert à ignorer une lecture dépassée par une plus récente
 
 // État lu par le HTML : Vue redessine quand il change
 const etat = Vue.reactive({
@@ -44,7 +41,7 @@ function imprimer() {
 }
 
 // Une erreur reste affichée jusqu'au prochain clic (phase de capture : effacée avant que le bouton agisse)
-document.addEventListener('click', () => { etat.erreur = ''; }, true);
+effacerAuClic(() => { etat.erreur = ''; });
 
 Vue.createApp({
   setup() {
@@ -60,42 +57,15 @@ Vue.createApp({
 
 
 // ===== Aperçu à l'écran : feuilles réduites à la largeur du widget =====
-function ajusterZoom(largeur) {
-  // Jamais agrandi au-delà de la taille réelle ; arrondi vers le bas pour éviter une barre de défilement d'un pixel
-  etat.zoom = Math.min(1, Math.floor(largeur / LARGEUR_FEUILLE_PX * 1000) / 1000);
-}
-
-new ResizeObserver(entrees => ajusterZoom(entrees[0].contentRect.width))
+new ResizeObserver(entrees => { etat.zoom = facteurZoom(entrees[0].contentRect.width); })
   .observe(document.getElementById('appPages'));
-
-/* Abréviations mois */
-const MOIS = {
-  "Jan": "J", "Fév": "F", "Mar": "M", "Avr": "A", "Mai": "Ma",
-  "Jui": "Ju", "Juil": "Jl", "Aou": "Ao", "Sep": "S", "Oct": "O", "Nov": "N", "Déc": "D",
-  "Janvier": "J", "Février": "F", "Mars": "M", "Avril": "A", "Juin": "Ju",
-  "Juillet": "Jl", "Août": "Ao", "Septembre": "S", "Octobre": "O",
-  "Novembre": "N", "Décembre": "D"
-};
 
 /* =============================================
    UTILITAIRES
    ============================================= */
-function fmtAnnee(v) {
-  if (!v) return '';
-  if (typeof v === 'number') return new Date(v * 1000).getFullYear().toString();
-  if (v instanceof Date) return v.getFullYear().toString();
-  if (typeof v === 'string' && v.includes('-')) return v.substring(0, 4);
-  return String(v).substring(0, 4);
-}
-
 // Mois d'une liste de choix → abréviations (['Jan', 'Fév'] → ['J', 'F'])
 function moisAbreges(liste) {
-  return liste.map(m => MOIS[m] || m);
-}
-// Colonnes de la liste absentes des lignes reçues (aucune ligne : rien à vérifier)
-function colonnesAbsentes(lignes, liste) {
-  if (!lignes.length) return [];
-  return liste.filter(c => !(c in lignes[0]));
+  return liste.map(v => { const n = numeroMois(v); return n ? LISTE_MOIS[n - 1].initiale : v; });
 }
 
 // Variété « vide » : mêmes champs qu'une vraie variété, tous vides (ligne à remplir à la main)
@@ -117,21 +87,6 @@ function valeurSaisons(v) {
   if (!isNaN(val)) return parseInt(val);
   return v;
 }
-
-/* =============================================
-   EN-TÊTE DU TABLEAU
-   ============================================= */
-
-
-/* =============================================
-   CONSTRUCTION D'UNE LIGNE
-   ============================================= */
-
-
-/* =============================================
-   RENDU DES PAGES
-   ============================================= */
-
 
 /* =============================================
    CONSTRUCTION DE LA MAP DES GRAINES
@@ -173,7 +128,7 @@ function buildGrainesMap(lignes) {
     map.get(v.id).sachets.push({
       origine: origine,
       sachet: r.Nb_sachets ? String(r.Nb_sachets) : '',
-      annee: fmtAnnee(r.Millesime),
+      annee: anneeDepuisDate(r.Millesime) ?? '',
       saisons: valeurSaisons(r.Nb_saisons || r.Nb_saisons_manuel || ''),
       qtte: r.Qtte_graines || '',
       germination: typeof r.Germination_cahier === 'string' ? r.Germination_cahier : ''
@@ -184,7 +139,7 @@ function buildGrainesMap(lignes) {
 }
 
 /* =============================================
-   INITIALISATION (données via l'API widget de Grist)
+   CALCUL DES PAGES
    ============================================= */
 function recalculerPages() {
   const graines = [...buildGrainesMap([...recordsParId.millesimes.values()]).values()];
@@ -232,16 +187,17 @@ function recalculerPages() {
   etat.nbVarietes = graines.length;
 }
 
+/* =============================================
+   LECTURE DES DONNÉES (API widget de Grist)
+   ============================================= */
 async function afficherMillesimes(lignes) {
   // Appelée par Grist au chargement, puis à chaque modification de Millesimes
-  const numero = ++numeroLecture;
   try {
     const varietes = tableEnLignes(await grist.docApi.fetchTable('Varietes'));
-    if (numero !== numeroLecture) return;   // une lecture plus récente a pris le relais
 
     etat.colonnesManquantes = [
-      ...colonnesAbsentes(lignes, COLONNES_MILLESIMES).map(c => 'Millesimes.' + c),
-      ...colonnesAbsentes(varietes, COLONNES_VARIETES).map(c => 'Varietes.' + c)
+      ...colonnesAbsentes(lignes[0], COLONNES_MILLESIMES).map(c => 'Millesimes.' + c),
+      ...colonnesAbsentes(varietes[0], COLONNES_VARIETES).map(c => 'Varietes.' + c)
     ];
     if (etat.colonnesManquantes.length) {
       etat.pages = [];          // pas de cahier faux : on n'affiche rien
@@ -272,12 +228,6 @@ async function afficherMillesimes(lignes) {
   }
 }
 
-const dansGrist = window.self !== window.top;
-
-if (dansGrist) {
-  grist.ready({ requiredAccess: 'full' });
-  // includeColumns : reçoit aussi les colonnes masquées dans la vue
-  grist.onRecords(afficherMillesimes, { includeColumns: 'normal' });
-} else {
-  etat.erreur = TEXTES.horsGrist;
-}
+grist.ready({ requiredAccess: 'full' });
+// includeColumns : reçoit aussi les colonnes masquées dans la vue
+grist.onRecords(afficherMillesimes, { includeColumns: 'normal' });

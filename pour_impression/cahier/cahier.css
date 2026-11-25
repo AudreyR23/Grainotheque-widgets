@@ -67,24 +67,24 @@
   text-align: left;
 }
 
-/* ----- Largeurs des colonnes (total 115 %, identique à main.css : à rééquilibrer plus tard si besoin) ----- */
-.col-type { width: 7.5%; }
-.col-nom { width: 12.5%; }
-.col-ep { width: 2.5%; }
-.col-nb { width: 2.5%; }
-.col-orig { width: 5%; }
-.col-sac { width: 2.5%; }
-.col-millesime { width: 5%; }
-.col-sais { width: 2.5%; }
-.col-qte { width: 5%; }
-.col-germ { width: 5%; }
-.col-nb-gr { width: 5%; }
-.col-nb-go { width: 5%; }
-.col-annee-s { width: 5%; }
-.col-date-s { width: 10%; }
-.col-germe { width: 5%; }
-.col-oups { width: 5%; }
-.col-plante { width: 5%; }
-.col-date-p { width: 10%; }
-.col-ou { width: 10%; }
-.col-donne { width: 5%; }
+/* ----- Largeurs des colonnes ----- */
+.col-type { width: 6.52%; }
+.col-nom { width: 10.85%; }
+.col-ep { width: 2.17%; }
+.col-nb { width: 2.17%; }
+.col-orig { width: 4.35%; }
+.col-sac { width: 2.17%; }
+.col-millesime { width: 4.35%; }
+.col-sais { width: 2.17%; }
+.col-qte { width: 4.35%; }
+.col-germ { width: 4.35%; }
+.col-nb-gr { width: 4.35%; }
+.col-nb-go { width: 4.35%; }
+.col-annee-s { width: 4.35%; }
+.col-date-s { width: 8.7%; }
+.col-germe { width: 4.35%; }
+.col-oups { width: 4.35%; }
+.col-plante { width: 4.35%; }
+.col-date-p { width: 8.7%; }
+.col-ou { width: 8.7%; }
+.col-donne { width: 4.35%; }
