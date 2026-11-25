@@ -1,7 +1,6 @@
 // ===== Messages (erreurs) =====
 const TEXTES = {
-  echec: (msg) => `Erreur de chargement : ${msg} (voir la console)`,
-  horsGrist: 'Page ouverte hors Grist : utilise cette URL comme widget Custom.'
+  echec: (msg) => `Erreur de chargement : ${msg} (voir la console)`
 };
 
 /* =============================================
@@ -26,7 +25,6 @@ const recordsParId = {
   varietesParNom: new Map(), // même lignes, trouvées par le texte NomVariete (ce que donne onRecords)
   millesimes: new Map()     // table Millesimes (les sachets), telle que reçue de onRecords
 };
-let numeroLecture = 0;    // sert à ignorer une lecture dépassée par une plus récente
 
 // État lu par le HTML : Vue redessine quand il change
 const etat = Vue.reactive({
@@ -91,21 +89,6 @@ function valeurSaisons(v) {
 }
 
 /* =============================================
-   EN-TÊTE DU TABLEAU
-   ============================================= */
-
-
-/* =============================================
-   CONSTRUCTION D'UNE LIGNE
-   ============================================= */
-
-
-/* =============================================
-   RENDU DES PAGES
-   ============================================= */
-
-
-/* =============================================
    CONSTRUCTION DE LA MAP DES GRAINES
    ============================================= */
 function buildGrainesMap(lignes) {
@@ -156,7 +139,7 @@ function buildGrainesMap(lignes) {
 }
 
 /* =============================================
-   INITIALISATION (données via l'API widget de Grist)
+   CALCUL DES PAGES
    ============================================= */
 function recalculerPages() {
   const graines = [...buildGrainesMap([...recordsParId.millesimes.values()]).values()];
@@ -204,17 +187,18 @@ function recalculerPages() {
   etat.nbVarietes = graines.length;
 }
 
+/* =============================================
+   LECTURE DES DONNÉES (API widget de Grist)
+   ============================================= */
 async function afficherMillesimes(lignes) {
   // Appelée par Grist au chargement, puis à chaque modification de Millesimes
-  const numero = ++numeroLecture;
   try {
     const varietes = tableEnLignes(await grist.docApi.fetchTable('Varietes'));
-    if (numero !== numeroLecture) return;   // une lecture plus récente a pris le relais
 
-etat.colonnesManquantes = [
-  ...colonnesAbsentes(lignes[0], COLONNES_MILLESIMES).map(c => 'Millesimes.' + c),
-  ...colonnesAbsentes(varietes[0], COLONNES_VARIETES).map(c => 'Varietes.' + c)
-];
+    etat.colonnesManquantes = [
+      ...colonnesAbsentes(lignes[0], COLONNES_MILLESIMES).map(c => 'Millesimes.' + c),
+      ...colonnesAbsentes(varietes[0], COLONNES_VARIETES).map(c => 'Varietes.' + c)
+    ];
     if (etat.colonnesManquantes.length) {
       etat.pages = [];          // pas de cahier faux : on n'affiche rien
       etat.nbVarietes = 0;
@@ -244,12 +228,6 @@ etat.colonnesManquantes = [
   }
 }
 
-const dansGrist = window.self !== window.top;
-
-if (dansGrist) {
-  grist.ready({ requiredAccess: 'full' });
-  // includeColumns : reçoit aussi les colonnes masquées dans la vue
-  grist.onRecords(afficherMillesimes, { includeColumns: 'normal' });
-} else {
-  etat.erreur = TEXTES.horsGrist;
-}
+grist.ready({ requiredAccess: 'full' });
+// includeColumns : reçoit aussi les colonnes masquées dans la vue
+grist.onRecords(afficherMillesimes, { includeColumns: 'normal' });
