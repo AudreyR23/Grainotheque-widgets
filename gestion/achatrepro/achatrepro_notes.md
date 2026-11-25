@@ -190,3 +190,38 @@ Si tu modifies l'un des deux outils, vérifie ce contrat : c'est lui qui évite 
 - Abandonné : fusionner la quantité dans un millésime existant (deux sachets = deux lignes, le second va à la boîte à dons).
 - Abandonné : plusieurs origines par millésime (une seule, décision du 25/10/2026).
 - Abandonné : créer l'espèce automatiquement à la création d'une variété (peu utile).
+### « À reproduire » : passage sur Varietes (25/11/2026)
+
+**Pourquoi** : le besoin de produire des graines concerne une variété, pas un semis. La case est maintenant `Varietes.A_reproduire` (booléen, **colonne de données**). `Semis.A_produire` devient une formule `$NomVariete.A_reproduire` (lue par le Plan, plus jamais écrite).
+
+**Décochage automatique** (remplace l'ancien paragraphe « Décochage automatique de « À produire » ») :
+- À la création d'un millésime, le second envoi contient toujours `['UpdateRecord', 'Varietes', varId, { A_reproduire: false }]`, pour tous les types de millésime et **toutes les origines**. La question « décocher seulement pour certaines origines ? » est close.
+- Écrit sans relecture : si la case est déjà vide, Grist ne change rien. C'est juste même si la case a été cochée dans Grist après l'ouverture du widget.
+- `chargerVarietes` lit `A_reproduire` (`aReproduire`) **seulement pour le message**. Après la création, `v.aReproduire = false`.
+- Message : « · « À reproduire » décoché » si la variété était cochée au chargement (`TEXTES.millesimeCree(annee, nom, planteMere, decoche, don)`).
+
+**Code retiré** : `trouverSemisAProduire` (plus de lecture de `Semis` pour cela), `idsADecocher`, le `BulkUpdateRecord` sur `Semis.A_produire`, le paramètre `nbDecoches`.
+
+**Conséquence** : le second envoi a maintenant toujours lieu. L'annulation du millésime en cas d'échec de la suite (Ferrari à retirer au nettoyage de l'outil) peut donc se déclencher à chaque création.
+
+**Colonnes** : `Varietes.A_reproduire` s'ajoute aux colonnes écrites ; `Semis.A_produire` en sort.
+
+**Reste à faire** : retirer la ligne « Décocher `A_produire` seulement pour certaines origines ? ».
+
+Peut-être à réfléchir ici : Tu as raison : ce n'est pas une question propre à Semis réalisés. C'est une question sur la façon de ranger les données dans Grist. Elle concerne aussi Achat-repro (création des sachets), À gérer, les étiquettes et la boîte à dons. Elle mérite une discussion à part. Voici de quoi y réfléchir.
+
+Ce que ta façon actuelle provoque. Un sachet de mélange enregistré comme N lignes, une par variété, crée plusieurs décalages :
+
+Le stock est compté N fois. Un seul sachet physique apparaît comme N sachets.
+La liste « À semer » montre N cartes, une par variété, pour un seul sachet.
+À la saisie d'un semis, tu dois choisir une variété au hasard parmi les N. La germination calculée lui est attribuée à tort, et les autres restent « jamais testées ».
+« Sachet vidé » ne vide qu'une seule ligne. Les autres restent en stock.
+
+Une piste simple, sans changer aucun outil : traiter le mélange comme une variété à part entière, par exemple « Tournesol - Mélange ».
+
+Le sachet acheté devient un seul millésime de cette variété. Le stock, la liste « À semer », les semis et la germination portent sur le sachet réel.
+Les variétés du mélange (« Tournesol - Velvet Queen », etc.) restent dans Varietes, mais sans sachet au départ.
+À la récolte, si tu reconnais une variété à sa couleur, tu fais ton millésime « Monjardin » sur cette variété-là. Si tu ne la reconnais pas, tu le fais sur « Tournesol - Mélange ». Achat-repro sait déjà faire les deux.
+Pour savoir quelles variétés contient le mélange, une phrase dans la Description de la variété mélange suffit. Un vrai lien dans Grist (une colonne qui pointe vers les variétés) serait plus solide, mais aucun outil ne s'en servirait pour l'instant.
+
+Un risque de confusion à noter : dans tes données, la case Melange veut dire « plusieurs millésimes d'une même variété ». Ce n'est pas un mélange de variétés. Si tu adoptes la piste ci-dessus, il vaudrait peut-être renommer cette case, par exemple Plusieurs_millesimes, pour ne pas mélanger les deux sens. Comme tout renommage de colonne, il faudrait alors chercher l'ancien nom dans tous les outils.

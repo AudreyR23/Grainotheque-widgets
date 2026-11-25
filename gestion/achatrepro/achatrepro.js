@@ -137,10 +137,10 @@ const TEXTES = {
   // --- Confirmations ---
   especeCreee: nom => 'Espèce créée : ' + nom,
   varieteCreee: nom => 'Variété créée : ' + nom,
-    millesimeCree: (annee, nom, planteMere, nbDecoches, don) =>
+  millesimeCree: (annee, nom, planteMere, decoche, don) =>
     ' Millésime ' + annee + ' créé pour ' + nom +
     (planteMere ? ' (ajouté aussi dans Semis)' : '') +
-    (nbDecoches ? ' · "À produire" décoché sur ' + nbDecoches + ' semis' : '') +
+    (decoche ? ' · « À reproduire » décoché' : '') +
     (don > 0 ? ' · Don : ' + don + ' ' + pluriel(don, 'sachet') : ''),
   origineExiste: nom => `Cette origine existe déjà : « ${nom} » est sélectionnée.`,
   origineAjoutee: nom => 'Origine ajoutée : ' + nom,
@@ -383,7 +383,7 @@ async function chargerModeles() {
 async function chargerVarietes() {
   const tab = await grist.docApi.fetchTable(TABLE_VARIETES);
   etat.varietes = tableEnLignes(tab)
-    .map(v => ({ id: v.id, nom: v.Nom || '', variete: v.Variete || '', type: v.Type || '' }))
+    .map(v => ({ id: v.id, nom: v.Nom || '', variete: v.Variete || '', type: v.Type || '', aReproduire: !!v.A_reproduire }))
     .sort((a, b) => (a.nom + a.variete).localeCompare(b.nom + b.variete, 'fr'));
 }
 
@@ -435,16 +435,6 @@ async function rafraichirEtiquettes() {
   } catch (e) {
     console.error('Rafraîchissement des étiquettes en attente impossible :', e);
   }
-}
-
-async function trouverSemisAProduire(varId) {
-  // Ids des lignes Semis de cette variété dont « A produire » est coché
-  const data = await grist.docApi.fetchTable(TABLE_SEMIS);
-  const ids = [];
-  data.id.forEach((id, i) => {
-    if (data.NomVariete[i] === varId && data.A_produire[i]) ids.push(id);
-  });
-  return ids;
 }
 
 async function trouverDoublonsMillesime(varId, annee, origine, planteMere) {
@@ -761,11 +751,10 @@ async function creerMillesime(forcer = false) {
     const v = etat.varietes.find(x => x.id === varId);
     const typeDeLaVariete = typeVariete.value || null;
 
-    // 3) Lectures préalables : rien n'est encore écrit si l'une d'elles échoue
-    let idsADecocher = [];
+    // 3) Lecture préalable : rien n'est encore écrit si elle échoue
+    const etaitAReproduire = !!(v && v.aReproduire);   // pour le message seulement
     let actionLigne = null;
     try {
-      idsADecocher = await trouverSemisAProduire(varId);
       if (ligne) actionLigne = await actionNettoyageLigne(ligne);
     } catch (e) {
       dire(TEXTES.lectureImpossible(e.message), true);
@@ -805,10 +794,9 @@ async function creerMillesime(forcer = false) {
     }
 
     // 5) Second envoi : tout le reste d'un seul coup (tout ou rien)
-    const actions = [];
-    if (idsADecocher.length) {   // « A produire » décoché sur les semis de cette variété
-      actions.push(['BulkUpdateRecord', TABLE_SEMIS, idsADecocher, { A_produire: idsADecocher.map(() => false) }]);
-    }
+    // « À reproduire » décoché sur la variété : le besoin de graines est satisfait
+    // (écrit même si la case semblait vide : rien à relire, Grist ne change rien si elle l'est déjà)
+    const actions = [['UpdateRecord', TABLE_VARIETES, varId, { A_reproduire: false }]];
     if (actionLigne) actions.push(actionLigne);   // ligne d'étiquettes : vidée, ou supprimée si ligne de transit
     if (planteMere && nouveauMillesimeId) {       // plante mère : une ligne Semis sans godets ni graines
       actions.push(['AddRecord', TABLE_SEMIS, null, {
@@ -836,7 +824,8 @@ async function creerMillesime(forcer = false) {
       }
     }
 
-    dire(TEXTES.millesimeCree(annee, v ? v.nom : '', planteMere, idsADecocher.length, sachetsReels > 1 ? sachetsReels - 1 : 0));
+    if (v) v.aReproduire = false;
+    dire(TEXTES.millesimeCree(annee, v ? v.nom : '', planteMere, etaitAReproduire, sachetsReels > 1 ? sachetsReels - 1 : 0));
     reinitialiserMillesime();
   } finally {
     etat.enregistrement = false;

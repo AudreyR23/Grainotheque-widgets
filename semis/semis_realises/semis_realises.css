@@ -6,11 +6,6 @@
   flex-direction: column;
   gap: 12px;
 }
-.fiche__groupe {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
 .fiche__label {
   font-size: 0.9rem;
 }
@@ -45,4 +40,25 @@
   color: var(--arriere-plan);
   background: var(--pleineterre-moyen);
   border-color: var(--pleineterre-fonce);
+}
+
+/* ===== Section « À semer » : filtres (la mise en ligne vient de .ligne du commun) ===== */
+.filtres {
+  column-gap: 16px;
+  row-gap: 8px;
+  margin-bottom: 10px;
+}
+.filtres__groupe {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.9rem;
+}
+/* Menu réduit à son contenu (annule le width: 100% de .champ et de .champ--compact) */
+.champ--filtre {
+  width: auto;
+  font-size: 1rem;
+}
+.carte--deja-semee {
+  opacity: 0.6;
 }

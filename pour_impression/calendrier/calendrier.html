@@ -19,22 +19,23 @@
         <button type="button" class="btn" :disabled="!etat.charge || etat.plantes.length === 0 || etat.colonnesManquantes.length > 0" @click="imprimer">🖨️ Imprimer</button>
         <span v-if="etat.charge" class="texte texte--discret">{{ etat.plantes.length }} {{ pluriel(etat.plantes.length, 'plante') }} · {{ etat.pages.length }} {{ pluriel(etat.pages.length, 'page') }}</span>
         </nav>
-      <p v-if="etat.colonnesManquantes.length" class="texte texte--erreur texte--gras">⚠ {{ pluriel(etat.colonnesManquantes.length, 'Colonne introuvable', 'Colonnes introuvables') }} : {{ etat.colonnesManquantes.join(', ') }}. Vérifie qu'elle existe dans Grist sous ce nom (et que le widget est lié à Millesimes) : sans elle, le calendrier serait faux.</p>
+      <p v-if="etat.colonnesManquantes.length" class="texte texte--erreur texte--gras entete__message">⚠ {{ pluriel(etat.colonnesManquantes.length, 'Colonne introuvable', 'Colonnes introuvables') }} : {{ etat.colonnesManquantes.join(', ') }}. Vérifie qu'elle existe dans Grist sous ce nom (et que le widget est lié à Millesimes) : sans elle, le calendrier serait faux.</p>
       <details v-if="etat.aRevoir.total" class="a-revoir">
         <summary class="texte texte--gras a-revoir__resume">⚠ {{ etat.aRevoir.total }} {{ pluriel(etat.aRevoir.total, 'point') }} à revoir dans Grist (sans effet sur l'impression)</summary>
+        <p v-if="etat.aRevoir.nomsEnDouble.length" class="texte texte--discret a-revoir__ligne"><span class="texte texte--gras">Variétés en double dans Varietes</span> (même nom et même variété, la première est gardée) : {{ etat.aRevoir.nomsEnDouble.map(n => n.replace('\n', ' - ')).join(', ') }}</p>
         <p v-if="etat.aRevoir.nomsProches.length" class="texte texte--discret a-revoir__ligne"><span class="texte texte--gras">Noms presque identiques</span> (comptés comme plantes différentes) : {{ etat.aRevoir.nomsProches.map(noms => noms.join(' / ')).join(' · ') }}</p>
         <p v-if="etat.aRevoir.plantesSansMois.length" class="texte texte--discret a-revoir__ligne"><span class="texte texte--gras">Plantes sans aucun mois de semis</span> (absentes du calendrier) : {{ etat.aRevoir.plantesSansMois.join(', ') }}</p>
         <p v-if="etat.aRevoir.varietesSansMois.length" class="texte texte--discret a-revoir__ligne"><span class="texte texte--gras">Variétés sans aucun mois de semis</span> (ignorées) : {{ etat.aRevoir.varietesSansMois.join(', ') }}</p>
         <p v-if="etat.aRevoir.typesDifferents.length" class="texte texte--discret a-revoir__ligne"><span class="texte texte--gras">Types différents selon les variétés</span> (type de la première gardé) : {{ etat.aRevoir.typesDifferents.join(', ') }}</p>
         <p v-if="etat.aRevoir.moisInconnus.length" class="texte texte--discret a-revoir__ligne"><span class="texte texte--gras">Mois non reconnus</span> dans Semis_sous_abris / Semis_pleine_terre : {{ etat.aRevoir.moisInconnus.join(', ') }}</p>
       </details>
-      <p v-if="etat.erreur" class="texte texte--erreur texte--gras">{{ etat.erreur }}</p>
+      <p v-if="etat.message" class="texte texte--erreur texte--gras entete__message">{{ etat.message }}</p>
     </header>
 
     <div id="appPages" class="zone-feuilles">
       <div v-for="(page, p) in etat.pages" :key="p" class="feuille" :style="{ '--zoom-ecran': etat.zoom }">
         <div class="calendrier__haut">
-          <p class="calendrier__titre">🌱 Calendrier des semis<template v-if="page.type"> · {{ (page.type) }}</template><span v-if="page.suite" class="calendrier__suite"> (suite)</span></p>
+          <p class="calendrier__titre">🌱 Calendrier des semis<template v-if="page.type"> · {{ page.type }}</template><span v-if="page.suite" class="calendrier__suite"> (suite)</span></p>
           <p class="calendrier__legende">
             <span class="calendrier__cle"><span class="barre barre--legende barre--abri"></span>Sous abri (barre du haut)</span>
             <span class="calendrier__cle"><span class="barre barre--legende barre--terre"></span>Pleine terre (barre du bas)</span>
@@ -45,18 +46,18 @@
           <table v-for="(colonne, c) in page.colonnes" :key="c" class="tableau tableau-semis">
             <colgroup>
               <col class="tableau-semis__col-nom">
-              <col v-for="m in MOIS" :key="m.num">
+              <col v-for="m in LISTE_MOIS" :key="m.num">
             </colgroup>
             <thead>
               <tr>
                 <th class="tableau-semis__titre tableau-semis__titre--nom">Plante</th>
-                <th v-for="m in MOIS" :key="m.num" class="tableau-semis__titre" :class="{ 'tableau-semis__titre--actuel': m.num === MOIS_COURANT }">{{ m.court }}</th>
+                <th v-for="m in LISTE_MOIS" :key="m.num" class="tableau-semis__titre" :class="{ 'tableau-semis__titre--actuel': m.num === MOIS_COURANT }">{{ m.court }}</th>
               </tr>
             </thead>
                         <tbody>
               <tr v-for="plante in colonne" :key="plante.cle" class="tableau-semis__ligne insecable">
                 <td class="tableau-semis__nom tronque">{{ plante.nom }}</td>
-                <td v-for="(cas, i) in plante.mois" :key="i" class="tableau-semis__case" :class="{ 'tableau-semis__case--actuel': i + 1 === MOIS_COURANT, 'tableau-semis__case--cliquable': estPartielle(cas) }" @click.stop="ouvrirDetails(plante, i)">
+                <td v-for="(cas, i) in plante.mois" :key="i" class="tableau-semis__case" :class="{ 'tableau-semis__case--actuel': i + 1 === MOIS_COURANT }">
                   <span class="barre barre--abri" :class="{ 'barre--abri-partielle': cas.abri === 'certaines', 'barre--vide': cas.abri === 'aucune' }"></span>
                   <span class="barre barre--terre" :class="{ 'barre--terre-partielle': cas.terre === 'certaines', 'barre--vide': cas.terre === 'aucune' }"></span>
                 </td>
@@ -64,30 +65,6 @@
             </tbody>
           </table>
         </div>
-      </div>
-    </div>
-        <div id="appDetails">
-      <div v-if="etat.details" class="fenetre ecran-seulement" @click.stop>
-        <div class="ligne ligne--entre">
-          <p class="fenetre__titre">{{ etat.details.plante }} · {{ etat.details.mois }}</p>
-          <button type="button" class="btn btn--suppr" aria-label="Fermer" @click="fermerDetails">✕</button>
-        </div>
-        <table class="fenetre__tableau">
-          <thead>
-            <tr>
-              <th class="fenetre__entete fenetre__entete--nom">Variété</th>
-              <th class="fenetre__entete">Sous abri</th>
-              <th class="fenetre__entete">Pleine terre</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="v in etat.details.varietes" :key="v.id">
-              <td class="fenetre__cellule">{{ v.nom }}</td>
-              <td class="fenetre__cellule"><span v-if="v.abri" class="barre barre--fenetre barre--abri"></span></td>
-              <td class="fenetre__cellule"><span v-if="v.terre" class="barre barre--fenetre barre--terre"></span></td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </div>
     <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>

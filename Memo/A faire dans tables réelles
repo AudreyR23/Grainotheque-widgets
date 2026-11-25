@@ -57,3 +57,12 @@ Garder en local :
 étiquettes : .feuille { padding: 10mm; } ;
 cahier : @media print { .tableau__ligne { break-inside: avoid; … } }.
 Test d'impression de chacun, comparé à un PDF fait avant le changement.
+
+25/11
+Étape 1 : créer Varietes.A_reproduire (Grist seulement)
+Dans la table Varietes, ajoute une colonne nommée A_reproduire.
+Donne-lui cette formule. C'est la même que celle d'En_production : elle recopie l'état actuel des semis.
+python
+any(Semis.lookupRecords(NomVariete=$id).A_produire)
+Dans le panneau de droite, mets le type de la colonne en Booléen (affichage en case ou en interrupteur, au choix).
+Toujours dans le panneau de droite, rubrique « Comportement de la colonne », choisis « Convertir en colonne de données ». Les valeurs sont figées et la colonne devient modifiable : c'est le point important, car un outil ne doit jamais écrire dans une colonne formule.

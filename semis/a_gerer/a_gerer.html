@@ -43,7 +43,7 @@
       <p v-if="etat.succes" class="encart encart--succes texte texte--succes entete__message">
         {{ etat.succes }}
       </p>
-      <p v-if="etat.message" class="texte texte--erreur">{{ etat.message }}</p>
+      <p v-if="etat.message" class="texte texte--erreur texte--gras entete__message">{{ etat.message }}</p>
       <p
         v-if="etat.erreurs.general"
         class="texte texte--erreur texte--gras entete__message"
@@ -72,7 +72,7 @@
                   <div>
                   <strong>{{ r.nom }}</strong
                   ><span v-if="r.type" class="carte__type"
-                    >{{ (r.type) }}</span
+                    >{{ r.type }}</span
                   >
                   </div>
                   <div class="ligne">
@@ -119,7 +119,7 @@
                   <div>
                   <strong>{{ r.nom }}</strong
                   ><span v-if="r.type" class="carte__type"
-                    >{{ (r.type) }}</span
+                    >{{ r.type }}</span
                   ></div>
                   <div class="ligne">
                     <span v-if="r.plantes > 0" class="texte texte--etape"
@@ -181,7 +181,7 @@
                   <div>
                   <strong>{{ r.nom }}</strong
                   ><span v-if="r.type" class="carte__type"
-                    >{{ (r.type) }}</span
+                    >{{ r.type }}</span
                   >
                   </div>
                   <div class="ligne">
@@ -377,11 +377,10 @@
             </div>
             <div class="ligne ligne--entre">
               <input
-                type="number"
+                type="text"
                 class="champ champ--flexible"
-                min="0"
-                step="1"
                 inputmode="numeric"
+                autocomplete="off"
                 :placeholder="s.germes > 0 ? 'Nouveaux germés' : 'Germes'"
                 :value="valeurGermes(s.id)"
                 @input="surGermes(s.id, $event)"
@@ -389,7 +388,7 @@
               <button
                 type="button"
                 class="btn"
-                :class="{ 'btn--etape': valeurGermes(s.id) === 0 }"
+                :class="{ 'btn--etape': estNG(s.id) }"
                 @click="basculerNG(s.id)"
               >
                 NG
@@ -408,6 +407,9 @@
 
             <div v-if="tropDeGermes(s)" class="texte texte--erreur texte--gras">
               ⚠ {{ totalGermes(s) }} {{ pluriel(totalGermes(s), 'germé') }} pour seulement {{ s.semees }} {{ pluriel(s.semees, 'graine semée', 'graines semées') }}.
+            </div>
+            <div v-if="saisieInvalide(s.id, 'germes')" class="texte texte--erreur texte--gras">
+              ⚠ Nombre entier attendu (ex. 3), sans virgule ni lettre.
             </div>
           </li>
         </ul>
@@ -470,30 +472,24 @@
             </div>
             <div class="ligne ligne--entre">
               <input
-                type="number"
+                type="text"
                 class="champ champ--flexible"
-                min="0"
-                step="1"
                 inputmode="numeric"
                 placeholder="Plantés"
                 :value="valeurQuantite(s.id, 'plantes')"
                 @input="surQuantite(s.id, 'plantes', $event)"
               />
               <input
-                type="number"
+                type="text"
                 class="champ champ--flexible"
-                min="0"
-                step="1"
                 inputmode="numeric"
                 placeholder="Oups"
                 :value="valeurQuantite(s.id, 'oups')"
                 @input="surQuantite(s.id, 'oups', $event)"
               />
               <input
-                type="number"
+                type="text"
                 class="champ champ--flexible"
-                min="0"
-                step="1"
                 inputmode="numeric"
                 placeholder="Don"
                 :value="valeurQuantite(s.id, 'don')"
@@ -568,6 +564,9 @@
               >
                 ⚠ {{ totalSaisi(s.id) }} {{ pluriel(totalSaisi(s.id), 'saisi') }} pour seulement {{ s.reste }} {{ pluriel(s.reste, 'restant') }}.
               </div>
+              <div v-if="quantiteInvalide(s.id)" class="texte texte--erreur texte--gras">
+                ⚠ Nombre entier attendu (ex. 3), sans virgule ni lettre.
+              </div>              
             </div>
           </li>
         </ul>
@@ -693,20 +692,22 @@
                   >
                 </template>
               </div>
-              <div v-if="ajusteMere(m.id)" class="ligne">
+              <div v-if="champPlantsMere(m)" class="ligne">
                 <label class="texte texte--discret" :for="'plants-' + m.id"
                   >Nombre de plants</label
                 >
                 <input
                   :id="'plants-' + m.id"
-                  type="number"
+                  type="text"
                   class="champ champ--flexible"
-                  min="1"
-                  step="1"
                   inputmode="numeric"
+                  autocomplete="off"
                   :value="plantsMere(m.id)"
                   @input="surPlantsMere(m, $event)"
                 />
+                <span v-if="plantsMereInvalide(m.id)" class="texte texte--erreur texte--gras"
+                  >⚠ Nombre entier, 1 au minimum.</span
+                >
               </div>
               <div v-if="besoinLieuMere(m)">
                 <div

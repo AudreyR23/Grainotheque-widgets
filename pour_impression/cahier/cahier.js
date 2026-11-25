@@ -21,10 +21,9 @@ const COLONNES_VARIETES = [
 
 // Données lues dans Grist : id de ligne → ligne
 const recordsParId = {
-  varietes: new Map(),      // table Varietes : id → ligne
-  varietesParNom: new Map(), // même lignes, trouvées par le texte NomVariete (ce que donne onRecords)
   millesimes: new Map()     // table Millesimes (les sachets), telle que reçue de onRecords
 };
+let indexVarietes = indexerVarietes([]);   // table Varietes indexée par id et par nom (voir le commun)
 
 // État lu par le HTML : Vue redessine quand il change
 const etat = Vue.reactive({
@@ -97,7 +96,7 @@ function buildGrainesMap(lignes) {
 
   for (const r of lignes) {
     if (r.Epuise) continue;                                  // sachet épuisé : absent du cahier
-    const v = recordsParId.varietesParNom.get(r.NomVariete); // onRecords donne le texte de la référence
+    const v = varieteReferencee(indexVarietes, r.NomVariete);
     if (!v || (!v.Nom && !v.Variete)) continue;              // pas de variété liée
 
     if (!map.has(v.id)) {
@@ -206,15 +205,9 @@ async function afficherMillesimes(lignes) {
       return;
     }
 
-    recordsParId.varietes.clear();
-    recordsParId.varietesParNom.clear();
-    for (const v of varietes) {
-      recordsParId.varietes.set(v.id, v);
-      if (recordsParId.varietesParNom.has(v.NomVariete)) {
-        console.warn('Deux variétés portent le même nom, la première est gardée :', v.NomVariete);
-      } else {
-        recordsParId.varietesParNom.set(v.NomVariete, v);
-      }
+    indexVarietes = indexerVarietes(varietes);
+    for (const nom of indexVarietes.doublons) {
+      console.warn('Deux variétés portent le même nom, la première est gardée :', nom);
     }
     recordsParId.millesimes.clear();
     for (const r of lignes) recordsParId.millesimes.set(r.id, r);

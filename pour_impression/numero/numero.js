@@ -1,7 +1,6 @@
 // ===== Messages (erreurs) =====
 const TEXTES = {
-  echec: (msg) => `Erreur de chargement : ${msg} (voir la console)`,
-  horsGrist: 'Page ouverte hors Grist : utilise cette URL comme widget Custom.'
+  echec: (msg) => `Erreur de chargement : ${msg} (voir la console)`
 };
 
 /* =============================================
@@ -15,7 +14,6 @@ const NB_EMPLACEMENTS_VIDES = 10;   // emplacements à remplir à la main, aprè
 const COLONNES_NECESSAIRES = ['Type', 'Nom', 'Variete', 'Num_epingle'];
 
 // État lu par le HTML : Vue redessine quand il change
-// État lu par le HTML : Vue redessine quand il change
 const etat = Vue.reactive({
   charge: false,            // true quand les données sont chargées
   nbNumeros: 0,             // nombre d'épingles imprimées
@@ -24,7 +22,6 @@ const etat = Vue.reactive({
   colonnesManquantes: [],   // colonnes nécessaires absentes (ex. 'Varietes.Num_epingle')
   erreur: ''
 });
-let numeroLecture = 0;    // sert à ignorer une lecture dépassée par une plus récente
 
 function imprimer() {
   window.print();
@@ -87,10 +84,8 @@ function enPages(epingles) {
    ============================================= */
 async function charger() {
   // Appelée par Grist au chargement, puis à chaque modification de Varietes
-  const numero = ++numeroLecture;
   try {
     const table = await grist.docApi.fetchTable('Varietes');   // toute la table, sans les filtres de la vue
-    if (numero !== numeroLecture) return;   // une lecture plus récente a pris le relais
     etat.colonnesManquantes = colonnesAbsentes(table, COLONNES_NECESSAIRES).map(c => 'Varietes.' + c);
     if (etat.colonnesManquantes.length) {
       etat.pages = [];          // pas de liste fausse : on n'affiche rien
@@ -111,12 +106,6 @@ async function charger() {
   }
 }
 
-const dansGrist = window.self !== window.top;
-
-if (dansGrist) {
-  grist.ready({ requiredAccess: 'full' });
-  // onRecords ne sert que de signal « Varietes a changé » ; includeColumns : réagit aussi aux colonnes masquées dans la vue
-  grist.onRecords(charger, { includeColumns: 'normal' });
-} else {
-  etat.erreur = TEXTES.horsGrist;
-}
+grist.ready({ requiredAccess: 'full' });
+// onRecords ne sert que de signal « Varietes a changé » ; includeColumns : réagit aussi aux colonnes masquées dans la vue
+grist.onRecords(charger, { includeColumns: 'normal' });
