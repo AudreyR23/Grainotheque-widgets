@@ -64,12 +64,6 @@ Usage : impression A4 paysage (PC), en début de saison. Accès Grist : `full`. 
 - Noms longs coupés sans signalement (`overflow: hidden`).
 
 ## Reste à faire
-- [ ] Mise en prod : communs d'abord (`styles_communs_pourimpression.css`, `scriptcommun.js`), puis les 3 fichiers ;
+- [x] Mise en prod : communs d'abord (`styles_communs_pourimpression.css`, `scriptcommun.js`), puis les 3 fichiers ;
       URL du widget, **lier à Varietes sans filtre**, Ctrl+F5, test d'impression.
-- [ ] Supprimer `main.css` quand les anciens widgets du cahier et des étiquettes seront supprimés.
-
-## À trancher
-- Fusion avec l'outil Numérotation.
-
-## Écarté
-- Contrôle des valeurs non numériques et des doublons de `Num_epingle` (un autre outil s'en charge).
+- [x] Supprimer `main.css` quand les anciens widgets du cahier et des étiquettes seront supprimés.

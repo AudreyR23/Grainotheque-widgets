@@ -46,7 +46,7 @@
             <button type="button" class="btn" @click="etat.reutilisablesOuvert = !etat.reutilisablesOuvert">{{ etat.reutilisablesOuvert ? 'Masquer' : 'Afficher' }}</button>
           </div>
           <div v-show="etat.reutilisablesOuvert">
-            <p class="texte texte--discret">Variétés numérotées qui n'ont plus rien de disponible (aucun millésime, ou que des millésimes épuisés). « Libérer » vide leur numéro à l'enregistrement : il servira ensuite à une autre variété.</p></p>
+            <p class="texte texte--discret">Variétés numérotées qui n'ont plus rien de disponible (aucun millésime, ou que des millésimes épuisés). « Libérer » vide leur numéro à l'enregistrement : il servira ensuite à une autre variété.</p>
             <ul class="liste-carte">
               <li v-for="r in etat.reutilisables" :key="r.id" class="carte">
                 <div class="carte__contenu">

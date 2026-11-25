@@ -105,7 +105,17 @@ Volume : environ 449 variétés affichées (558 dans Varietes).
 - Le texte coupé par `ellipsis` (colonnes étroites) n'est pas signalé : vérifier « 1-2 cm » et « 10 ans » à l'impression.
 
 ## Reste à faire
-- [ ] Mise en prod : commun d'abord, puis copier les 3 fichiers sur `main`, changer l'URL du widget dans Grist (lié à Millesimes), Ctrl+F5, test d'impression.
-- [ ] Supprimer l'ancien `main_cahier.js` et l'ancien `cahier.html` après la mise en prod. La section « tableau » de `main.css` ne sert plus qu'à eux : à retirer lors de la migration des épingles.
-- [ ] Calendrier (sa discussion) : filtrer sur `Epuise` au lieu de `Nb_sachets` ; retirer `numeroLecture` et `horsGrist` ; utiliser `indexerVarietes` / `varieteReferencee` (et supprimer `varieteDuMillesime`) ; retirer la `LARGEUR_FEUILLE_PX` inutilisée ; utiliser `effacerAuClic`.
-- [ ] Éventuel : rafraîchir aussi quand Varietes change seule (bouton « Actualiser »).
+- [x] Mise en prod : commun d'abord, puis copier les 3 fichiers sur `main`, changer l'URL du widget dans Grist (lié à Millesimes), Ctrl+F5, test d'impression.
+- [x] Supprimer l'ancien `main_cahier.js` et l'ancien `cahier.html` après la mise en prod. La section « tableau » de `main.css` ne sert plus qu'à eux : à retirer lors de la migration des épingles.
+- [x] Calendrier (sa discussion) : filtrer sur `Epuise` au lieu de `Nb_sachets` ; retirer `numeroLecture` et `horsGrist` ; utiliser `indexerVarietes` / `varieteReferencee` (et supprimer `varieteDuMillesime`) ; retirer la `LARGEUR_FEUILLE_PX` inutilisée ; utiliser `effacerAuClic`.
+- [x] Éventuel : rafraîchir aussi quand Varietes change seule (bouton « Actualiser »).
+- [ ] Pour le problème d'Origine dans le Cahier, il existe une autre solution, à prendre seulement si tu n'as pas encore fait la correction locale. Tu peux faire accepter à listeChoix les deux formes de liste, celle de fetchTable (avec 'L') et celle de onRecords (sans 'L') :
+
+js
+function listeChoix(valeur) {
+  // ChoiceList Grist : ['L', 'a', 'b'] (fetchTable) ou ['a', 'b'] (onRecords) → ['a', 'b']
+  if (!Array.isArray(valeur)) return [];
+  return valeur[0] === 'L' ? valeur.slice(1) : valeur;
+}
+
+Le Cahier pourrait alors garder listeChoix(r.Origine), et la règle à ajouter au mémo deviendrait inutile. Tu as déjà coché la correction locale, donc tu n'as rien à faire de plus. C'est juste une possibilité pour plus tard.

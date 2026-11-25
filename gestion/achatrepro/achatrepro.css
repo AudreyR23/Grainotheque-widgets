@@ -1,23 +1,6 @@
 /* ===== Css « achatrepro » : uniquement ce qui n'est pas dans styles_communs.css ===== */
 
-/* ===== Formulaire : un champ = un bloc (libellé au-dessus) ===== */
-.bloc {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin-bottom: 10px;
-}
-
-/* ===== Menu à choix unique : bouton avec une flèche (liste = .menu__liste du commun) ===== */
-.champ--deroulant {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-}
-.champ--deroulant::after {
-  content: '▾';
-}
+/* ===== Bouton de menu sans choix : texte grisé ===== */
 .champ--vide {
   color: var(--gris-fonce);
 }
@@ -49,13 +32,13 @@
 
 /* ===== Encart d'alerte (doublon) ===== */
 
-/* Éléments alignés par le bas (boutons avec ou sans marge haute, hauteurs différentes) */
-.ligne--bas {
-  align-items: flex-end;
-}
-
 /* Encart d'alerte à côté d'un bouton : prend la place restante, passe dessous si c'est trop étroit */
 .encart--cote {
   flex: 0 1 auto;    /* largeur du contenu, rétrécit si la place manque */
   margin-top: 0;
+}
+
+/* Espacement entre les groupes (ils ne sont pas dans un parent avec gap) */
+.groupe {
+  margin-bottom: 10px;
 }

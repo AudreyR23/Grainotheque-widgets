@@ -98,11 +98,11 @@ Puis le bouton « Enregistrer ». Lignes en attente perdues au rechargement : vo
 `entete`, `entete__message`, `statut` (+ `--non-sauvegarde`), `texte` (+ `--erreur`, `--gras`, `--succes`, `--discret`), `encart` (+ `--succes`, `--alerte`), `ligne` (+ `--entre`, `--sur-champ`), `pastille` (+ `--info`), `case` (+ `__saisie`, `__texte`), `champ`, `menu` (+ `__liste`, `__item`, `__item--vide`), `liste-carte`, `carte` (+ `--etape`, `__contenu`, `__type`, `__action`), `btn` (+ `--etape`, `--suppr`, `--enregistrer`, `--grand`).
 
 ## 13. Reste à faire
-- [ ] Mise en prod : commun d'abord s'il a changé, puis les fichiers sur `main` (sans `numerotation.css`) ; vérifier l'URL du widget, Ctrl+F5 ; créer la colonne `Disponible` dans la base de prod.
-- [ ] Test au doigt sur tablette : faire défiler la liste déroulante, aucune attribution ne doit se déclencher.
-- [ ] Supprimer les anciens fichiers s'ils existent encore : `../script/numerotation.js`, `../styles/numerotation.css`, ancien mémo.
-- [ ] Ancien `styles_commun.css` : `.liste-choix.integree` à supprimer, arrondi des `pastille-orga` à vérifier (reliquats de l'ancienne version).
-- [ ] À trancher plus tard : fusion avec Numéros d'épingle (onglets Attribuer / Imprimer).
+- [x] Mise en prod : commun d'abord s'il a changé, puis les fichiers sur `main` (sans `numerotation.css`) ; vérifier l'URL du widget, Ctrl+F5 ; créer la colonne `Disponible` dans la base de prod.
+- [x] Test au doigt sur tablette : faire défiler la liste déroulante, aucune attribution ne doit se déclencher.
+- [x] Supprimer les anciens fichiers s'ils existent encore : `../script/numerotation.js`, `../styles/numerotation.css`, ancien mémo.
+- [x] Ancien `styles_commun.css` : `.liste-choix.integree` à supprimer, arrondi des `pastille-orga` à vérifier (reliquats de l'ancienne version).
+- [x] Pas de fusion avec Numéros d'épingle (onglets Attribuer / Imprimer).
 
 ## 14. Test de recette
 1. Statut « Chargement… » puis « ✓ À jour » ; aucune association demandée ; le filtre de la vue ne change pas le prochain numéro.

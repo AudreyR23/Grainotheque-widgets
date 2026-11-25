@@ -105,8 +105,8 @@ Volume : environ 143 plantes affichées.
 - Noms longs coupés par « … » (colonne de 30 mm) : passer à 32 mm si un nom important est illisible.
 
 ## Reste à faire
-- [ ] Corriger dans Grist les points listés par l'encart « à revoir » (doublons, types douteux : Haricot en 🌼, Pois et Haricots en 🍅, mois manquants).
-- [ ] Mise en prod : commun d'abord (`scriptcommun.js` avec `indexerVarietes` / `varieteReferencee`, `styles_communs_pourimpression.css`),
+- [x] Corriger dans Grist les points listés par l'encart « à revoir » (doublons, types douteux : Haricot en 🌼, Pois et Haricots en 🍅, mois manquants).
+- [x] Mise en prod : commun d'abord (`scriptcommun.js` avec `indexerVarietes` / `varieteReferencee`, `styles_communs_pourimpression.css`),
       puis les 3 fichiers ; URL du widget dans Grist (lié à Millesimes, accès complet au document), Ctrl+F5, test d'impression.
-- [ ] Discussion du Cahier : adopter `indexerVarietes` / `varieteReferencee` ; corriger sa note qui qualifie le filtre `Nb_sachets`
+- [x] Discussion du Cahier : adopter `indexerVarietes` / `varieteReferencee` ; corriger sa note qui qualifie le filtre `Nb_sachets`
       du Calendrier d'« erreur » (c'est un choix). L'encart « points à revoir » pourrait lui servir (mêmes doublons de noms).

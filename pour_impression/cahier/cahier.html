@@ -20,7 +20,7 @@
         <span v-if="etat.charge" class="texte texte--discret">{{ etat.nbVarietes }} {{ pluriel(etat.nbVarietes, 'variété') }} · {{ etat.pages.length }} {{ pluriel(etat.pages.length, 'page') }}</span>
       </nav>
       <p v-if="etat.colonnesManquantes.length" class="texte texte--erreur texte--gras">⚠ {{ pluriel(etat.colonnesManquantes.length, 'Colonne introuvable', 'Colonnes introuvables') }} : {{ etat.colonnesManquantes.join(', ') }}. Vérifie qu'elle existe dans Grist sous ce nom (et que le widget est lié à Millesimes) : sans elle, le cahier serait faux.</p>      
-      <p v-if="etat.erreur" class="texte texte--erreur texte--gras">{{ etat.erreur }}</p>
+      <p v-if="etat.message" class="texte texte--erreur texte--gras entete__message">{{ etat.message }}</p>
     </header>
 
     <div id="appPages" class="zone-feuilles">

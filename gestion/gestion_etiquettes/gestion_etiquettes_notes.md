@@ -104,8 +104,8 @@ Lues : `Nom`, `Variete`, `Type`, `Annee_graine`, `Plantes`, `Date_p`, `Ou`, `Nb_
 - [x] Widget d'impression : bouton désactivé, `try/catch`, alerte colonnes, `.infos .label` (fait dans `etiquettes.js` / `etiquettes.css`).
 - [x] `aller()`, `estLigneMere()`, `entierOuNull`, `effacerAuClic`, `champ--compact` : passés dans le commun.
 - [x] Refonte du 24/11 : nettoyage, retrait de `sessionStorage` et de la relecture, message de saisie invalide.
-- [ ] Facultatif : alerte « colonnes manquantes » (`COLONNES_NECESSAIRES` + `colonnesAbsentes(tab, …)` après `fetchTable`, message dans l'en-tête).
+- [] Facultatif : alerte « colonnes manquantes » (`COLONNES_NECESSAIRES` + `colonnesAbsentes(tab, …)` après `fetchTable`, message dans l'en-tête).
 - [x] Mémo, « Points ouverts » : retirer les mentions de Sélection pour étiquettes (`input type="number"`, saisies conservées, relecture).
-- [ ] Étiquettes à la récolte (depuis l'outil millésime) : discussion séparée.
-- [ ] Commun : `align-items: start` sur `.grille` (cartes de taille indépendante) si souhaité ; `.btn--enregistrer` écrase `.btn--grand` (margin-top). **Encore le cas ? Etonnant**
-- [ ] Mise en prod : commun d'abord (`scriptcommun.js`, `styles_communs.css`), puis cet outil ; Ctrl+F5 ; ouvrir aussi les autres outils.
+- [x] Étiquettes à la récolte (depuis l'outil millésime) : discussion séparée.
+- [x] Commun : `align-items: start` sur `.grille` (cartes de taille indépendante) si souhaité ; `.btn--enregistrer` écrase `.btn--grand` (margin-top). **Encore le cas ? Etonnant**
+- [x] Mise en prod : commun d'abord (`scriptcommun.js`, `styles_communs.css`), puis cet outil ; Ctrl+F5 ; ouvrir aussi les autres outils.

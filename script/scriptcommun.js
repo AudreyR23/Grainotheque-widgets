@@ -1,6 +1,7 @@
 // ===== Fonctions communes aux outils =====
 // Règle : uniquement des fonctions qui n'utilisent que leurs paramètres
-// (aucune variable propre à un outil : etat, modifie, recordsParId...).
+// (aucune variable propre à un outil : etat, modifie, recordsParId...)
+// exceptions : voir le mémo.
 
 function tableEnLignes(tableau) {
   // fetchTable renvoie {colonne: [valeurs...]} → [{id, colonne...}, ...]
@@ -43,12 +44,6 @@ function dateEnSecondes(iso) {
 const [a, m, j] = iso.split('-').map(Number);
 return Date.UTC(a, m - 1, j) / 1000;
 }
-
-/*function typeInverse(type) {
-  // « Arom.Méd 🌿 » → « 🌿 Arom.Méd » (emoji d'abord, puis le texte)
-  const m = String(type || '').match(/^(.*?)\s*(\p{Extended_Pictographic}.*)$/u);
-  return m ? `${m[2]} ${m[1]}`.trim() : String(type || '');
-}*/
 
 function libelle(v) {
   return v.variete ? `${v.nom} - ${v.variete}` : v.nom;
