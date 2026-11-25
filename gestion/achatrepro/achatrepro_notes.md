@@ -1,14 +1,16 @@
 # Outil Achat-repro (Granothèque Grist) — version Vue
 
-Dernière mise à jour : 21 novembre 2026. Version concernée : **prod** (poussée le 20 novembre 2026, puis testée sur téléphone). La copie de test de la granothèque sert aux essais.
+Dernière mise à jour : 25 novembre 2026 (refonte « sans Ferrari », voir section 8). Version concernée : **test**. La prod (poussée le 20 novembre 2026) n'a pas encore la refonte : à pousser en suivant la section 6.
 Outils liés : **Étiquettes sur sachets** (contrat en section 4) et **Semis réalisés** (écrit `Nb_sachets`). Outil de référence pour le style et les conventions : **À gérer**.
 
 ## 1. Rôle
 
-Ajouter rapidement des sachets de graines et des plantes mères vivaces dans la table `Millesimes`. Trois onglets :
+Ajouter rapidement des sachets de graines et des plantes mères vivaces dans la table `Millesimes`. Deux onglets :
 
 - **Nouveau millésime** (le plus utilisé, ouvert au démarrage) ;
-- **Nouvelle variété** et **Nouvelle espèce**, pour créer ce qui manque en amont, avec enchaînement automatique espèce → variété → millésime.
+- **Nouvelle variété**, pour créer ce qui manque en amont, avec enchaînement automatique variété → millésime.
+
+Il n'y a plus d'onglet « Nouvelle espèce » (retiré le 25/11) : une nouvelle espèce se crée directement dans la table `Especes` de Grist. La variété peut partir d'une espèce existante (« modèle de base »).
 
 L'onglet Millésime sait aussi **reprendre les sachets étiquetés** (étiquettes imprimées, sachets pas encore ajoutés dans `Millesimes`).
 
@@ -18,54 +20,59 @@ Usage : PC et tablette. Pas d'impression depuis cet outil.
 
 | Fichier | Rôle |
 |---|---|
-| `achatrepro.html` | Structure : 3 panneaux, 5 composants (`<template id=…>`), un seul point de montage `#app` |
-| `achatrepro_textes.js` | `TEXTES` : messages après une action (erreurs de saisie, confirmations, erreurs d'écriture) et libellés fabriqués par le code. Chargé avant `achatrepro.js` |
-| `achatrepro.js` | Toute la logique (Vue 3.4.38 par unpkg) |
+| `achatrepro.html` | Structure : 2 panneaux, 5 composants (`<template id=…>`), un seul point de montage `#app` |
+| `achatrepro.js` | Toute la logique (Vue 3.4.38 par unpkg) et l'objet `TEXTES` (section 3 du fichier) |
 | `achatrepro.css` | Uniquement ce qui n'est pas dans le commun |
 | `../../styles/styles_communs.css` | Styles communs (BEM) |
 | `../../script/scriptcommun.js` | Fonctions communes |
 
-Ordre des scripts dans le HTML : plugin Grist, Vue, `scriptcommun.js`, `achatrepro_textes.js`, `achatrepro.js`.
+`achatrepro_textes.js` n'existe plus (supprimé le 25/11). Ordre des scripts dans le HTML : plugin Grist, Vue, `scriptcommun.js`, `achatrepro.js`.
 
 Accès : `grist.ready({ requiredAccess: 'full' })` (nécessaire aussi pour modifier les choix d'une colonne).
 
-**Tables** (constantes en haut du JS) : `TABLE_ESPECES = 'Especes'` (anciennement `Modele`), `TABLE_VARIETES`, `TABLE_MILLESIMES`, `TABLE_SEMIS`. Un renommage dans Grist impose de changer la constante.
+**Tables** (constantes en haut du JS) : `TABLE_ESPECES = 'Especes'`, `TABLE_VARIETES`, `TABLE_MILLESIMES`, `TABLE_SEMIS`. Un renommage dans Grist impose de changer la constante. `Especes` n'est plus que **lue** (modèle de base d'une variété).
 
 **Structure Grist attendue** :
 
 | Table | Colonne | Remarque |
 |---|---|---|
 | `Especes`, `Varietes` | `Semis_profondeur` | **Texte** : nombre ou fourchette, sans l'unité (`1`, `1-2`, `0,5`) |
-| `Especes`, `Varietes` | `Ou_semer` | Choix multiple, mêmes 5 choix dans les deux tables (anciennement `Semis_GPT`). Libellé du formulaire : « Où semer ». **Nom interne du champ dans le code : `semisGpt`** |
-| `Millesimes` | `Nb_sachets` | **Numérique** (anciennement `Sachets`) : 1 pour un sachet, vide pour une plante mère |
+| `Especes`, `Varietes` | `Ou_semer` | Choix multiple. Libellé du formulaire : « Où semer ». Nom du champ dans le code : `ouSemer` |
+| `Varietes` | `A_reproduire` | Booléen, **colonne de données** (voir section « À reproduire ») |
+| `Millesimes` | `Nb_sachets` | **Numérique** : 1 pour un sachet, vide pour une plante mère |
 | `Millesimes` | `Nb_plants` | Numérique : nombre de plants d'une plante mère (ajustable dans `a_gerer`) |
 | `Millesimes` | `Type_plant` | Choix : type de plant d'une plante mère |
-| `Millesimes` | `Nb_saisons_manuel` | Choix : `or.` puis 1 à 20 (à garder alignés avec `NB_SAISONS_MAX` ; une valeur hors liste est acceptée mais s'affiche en gris) |
+| `Millesimes` | `Nb_saisons_manuel` | Choix : `or.` puis 1 à 20 (à garder alignés avec `NB_SAISONS_MAX`) |
 | `Semis` | `Etiq_en_attente` | Numérique, **colonne de données** : sachets imprimés, pas encore ajoutés dans `Millesimes` |
-| `Semis` | `Note_attente` | Texte, **colonne de données** (pas de formule) : libellé d'une ligne sans variété, saisi à la main dans Semis |
+| `Semis` | `Note_attente` | Texte, **colonne de données** : libellé d'une ligne sans variété, saisi à la main dans Semis |
 | `Semis` | `Germes_attente` | Booléen (utilisé par `a_gerer`) |
 
-**Fonctions du commun utilisées** : `tableEnLignes`, `listeChoix`, `enListeChoix`, `normaliser`, `anneeDepuisDate`, `dateEnSecondes`, `lieuxFiltres`, `correspondRecherche`, `lireChoixColonnes`, `creerMessageTemporaire`, `libelle`, `pluriel`.
+**Fonctions du commun utilisées** : `tableEnLignes`, `listeChoix`, `enListeChoix`, `normaliser`, `anneeDepuisDate`, `dateEnSecondes`, `lieuxFiltres`, `correspondRecherche`, `lireChoixColonnes`, `colonneGrist`, `creerMessageTemporaire`, `effacerAuClic`, `entierOuNull`, `libelle`, `pluriel`.
 
 ## 3. Fonctionnalités
 
 ### Onglet Millésime
 - Variété (menu avec recherche, le Type s'affiche en lecture seule), Nb saisons (`or.` par défaut), année du millésime (année en cours par défaut).
-- **Origine obligatoire, une seule au total** : les 6 premiers choix de `Origine` sont des pastilles (`NB_FAVORIS`), suivies d'un bouton « Autre origine » qui ouvre un panneau avec le menu des autres origines et **« ➕ Nouvelle origine… »**. Une seule valeur `etat.millesime.origine`, donc rien à synchroniser. Le nom de l'origine choisie dans le menu s'affiche sur le bouton, et le panneau se referme à chaque choix. Une nouvelle origine est ajoutée aux choix de `Millesimes.Origine` dans Grist et sélectionnée ; une origine déjà existante (casse ou accents près) est simplement sélectionnée.
+- **Origine obligatoire, une seule au total** : les 6 premiers choix de `Origine` sont des pastilles (`NB_FAVORIS`), suivies d'un bouton « Autre origine » qui ouvre un panneau avec le menu des autres origines et **« ➕ Nouvelle origine… »**. Une seule valeur `etat.millesime.origine`. Une nouvelle origine est ajoutée aux choix de `Millesimes.Origine` dans Grist et sélectionnée ; une origine déjà existante (casse ou accents près) est simplement sélectionnée.
 - **Sachet** ou **Plante mère** (cases exclusives) :
-  - Sachet : quantité de graines obligatoire (entier). `Nb_sachets` = 1, `Nb_plants` vide.
-  - Plante mère : année de plantation, **nombre de plants** (entier ≥ 1), **type de plant** (si la colonne a des choix) et **emplacement(s)** (au moins un, menu avec recherche, pastilles violettes comme dans `a_gerer`), tous obligatoires. `Nb_plants` = nombre de plants, `Nb_sachets` vide.
-- **Années** : 4 chiffres, de `ANNEE_MIN` (2000) à l'année en cours, pour l'année du millésime et l'année de plantation.
-- **Convention « une ligne `Semis` par plante mère »** : créée avec `Plantes` = nombre de plants, `Ou` = emplacements, `Date_s` = 1er janvier de l'année de plantation, `Nb_etiquettes` = 0, sans godets ni graines renseignés (ils restent à 0, valeur par défaut de Grist). C'est ce qui permet à `a_gerer` de la reconnaître.
-- `Controle_mere` et `Statut_mere` ne sont **jamais** écrits sur `Millesimes` : la plante est proposée au contrôle l'année suivante.
-- **Doublon** (encart d'alerte en direct, à côté du bouton « Créer », avec « Créer quand même » et « Annuler », plus un contrôle à la création) : variété + année + origine + nature (sachet ou plante mère).
+  - Sachet : quantité de graines obligatoire (entier ≥ 1). `Nb_sachets` = 1, `Nb_plants` vide.
+  - Plante mère : année de plantation, **nombre de plants** (entier ≥ 1), **type de plant** (si la colonne a des choix) et **emplacement(s)** (au moins un, menu avec recherche, pastilles violettes), tous obligatoires. `Nb_plants` = nombre de plants, `Nb_sachets` vide.
+- **Champs numériques** (année du millésime, quantité, sachets réels, année de plantation, nombre de plants) : champs **texte** (`type="text" inputmode="numeric"`), contrôlés dans le JS ; une saisie qui n'est pas un entier donne un message d'erreur et rien n'est créé.
+- **Années** : 4 chiffres, de `ANNEE_MIN` (2000) à l'année en cours.
+- **Convention « une ligne `Semis` par plante mère »** : créée avec `Plantes` = nombre de plants, `Ou` = emplacements, `Date_s` = 1er janvier de l'année de plantation, `Nb_etiquettes` = 0, sans godets ni graines renseignés. C'est ce qui permet à `a_gerer` de la reconnaître.
+- `Controle_mere` et `Statut_mere` ne sont **jamais** écrits sur `Millesimes`.
+- **Doublon** : contrôlé **au clic** sur « Créer le millésime » (variété + année + origine + nature). S'il existe, un encart d'alerte apparaît à côté du bouton avec « Créer quand même » et « Annuler », et rien n'est créé. L'encart disparaît dès qu'on change la variété, l'année, l'origine ou la nature.
 - Le bouton **« ↩ Réinitialiser »** est en haut de chaque panneau, à droite du titre.
 
-### Décochage automatique de « À produire »
-À la création d'un millésime, toutes les lignes `Semis` de la **même variété** dont `A_produire` est coché sont décochées (le besoin de produire est satisfait). Tous les types de millésime, sans filtre par origine. `Varietes.En_production` repasse à faux. Le message indique le nombre de semis concernés. La ligne `Semis` d'une plante mère est créée **après** ce décochage, donc jamais concernée.
+### « À reproduire » (décochage automatique)
+Le besoin de produire des graines concerne une variété : la case est `Varietes.A_reproduire` (colonne de données). `Semis.A_produire` est une formule `$NomVariete.A_reproduire` (lue par le Plan, jamais écrite).
+- À la création d'un millésime, le second envoi contient toujours `['UpdateRecord', 'Varietes', varId, { A_reproduire: false }]`, pour tous les types de millésime et **toutes les origines**. Écrit sans relecture : si la case est déjà vide, Grist ne change rien.
+- `chargerVarietes` lit `A_reproduire` (`aReproduire`) **seulement pour le message** ; après la création, `v.aReproduire = false`.
+- Message : « · « À reproduire » décoché » si la variété était cochée au chargement.
+- `Varietes.En_production` = `any(Semis.lookupRecords(NomVariete=rec.id).A_produire)` : bascule après le décochage.
 
 ### « Issu de mes étiquettes »
-Principe : tu récoltes, tu remplis `Nb_etiquettes` dans Semis, tu imprimes, tu colles les étiquettes, **puis** tu ajoutes les sachets comme millésimes (un pour toi, le reste en `Don`). La case liste les lignes `Semis` dont `Etiq_en_attente` > 0 (menu à choix unique). Décochée : fonctionnement habituel (achats, réceptions).
+Principe : tu récoltes, tu remplis `Nb_etiquettes` dans Semis, tu imprimes, tu colles les étiquettes, **puis** tu ajoutes les sachets comme millésimes (un pour toi, le reste en `Don`). La case liste les lignes `Semis` dont `Etiq_en_attente` > 0 (menu à choix unique, `optionsAttente`). Décochée : fonctionnement habituel (achats, réceptions).
 
 | Type de ligne | Reconnaissance | Variété | Origine préremplie | Nb saisons préparé |
 |---|---|---|---|---|
@@ -77,43 +84,39 @@ Principe : tu récoltes, tu remplis `Nb_etiquettes` dans Semis, tu imprimes, tu 
 Le nouveau millésime est toujours un **sachet**. `Nb saisons` est borné entre 1 et `NB_SAISONS_MAX` (20), qui fixe aussi les entrées du menu.
 
 - **Sachets réels** : prérempli avec le nombre d'étiquettes, à corriger si tu en as imprimé trop. `Don` = sachets réels − 1 (la colonne `Don` compte des **sachets**). Si sachets réels = 1, `Don` n'est pas écrit. La quantité de graines de **ton** sachet reste obligatoire.
-- **Graines à identifier** : deux boutons, « Créer la variété » et « Créer l'espèce ». La note préremplit le nom (modifiable). Pendant ce trajet (`etat.parcoursLigne`), l'enchaînement est **forcé** jusqu'au millésime, même si « Enchaîner automatiquement » est décoché. À l'arrivée : variété présélectionnée, `or.`, sachets réels prérempli ; reste l'origine et la quantité.
-- **Nettoyage à la création** : `Etiq_en_attente` est vidé ; la ligne est **supprimée** seulement si c'est une ligne de transit (ni `Date_s`, ni `Nb_graines`, ni `Nb_godets`, ni `Germes`, ni `Plantes`, et `Nb_etiquettes` ≤ 0). Un vrai semis ou la ligne d'une plante mère n'est jamais supprimé.
+- **Graines à identifier** : un seul bouton, « ➕ Créer la variété » (pour créer une espèce, passer par la table `Especes`). La note préremplit le nom (modifiable). Pendant ce trajet (`etat.parcoursLigne`), l'enchaînement est **forcé** jusqu'au millésime, même si « Enchaîner automatiquement » est décoché. Le bandeau du panneau Variété indique le nombre d'étiquettes (`etat.bandeaux.variete = { nb }`). À l'arrivée : variété présélectionnée, `or.`, sachets réels prérempli ; reste l'origine et la quantité.
+- **Nettoyage à la création** : `Etiq_en_attente` est vidé ; la ligne est **supprimée** seulement si c'est une ligne de transit (ni `Date_s`, ni `Nb_graines`, ni `Nb_godets`, ni `Germes`, ni `Plantes`, et `Nb_etiquettes` ≤ 0). Le caractère « transit » est calculé **au chargement de la liste** (`chargerSemisEnAttente`, champ `transit`), sans relecture à la création. Un vrai semis ou la ligne d'une plante mère n'est jamais supprimé.
 - Après une création, la case reste cochée et la liste est rechargée (dans `reinitialiserMillesime`).
 
-### Onglets Variété et Espèce
+### Onglet Variété
 - **Rien d'obligatoire sauf le nom.**
-- Variété : modèle de base (menu avec recherche, copie les champs de l'espèce choisie, pas le nom), Nom + Variété, champs communs, Description. `NomVariete` = `Nom\nVariété` (ou `Nom` seul). `Num_epingle` est envoyé à `null` (vide, pas 0). Doublon sur Nom + Variété (sans casse ni accents).
-- Espèce : mêmes champs sans Description, point de départ optionnel. Doublon sur le nom.
+- Modèle de base (menu avec recherche, copie les champs de l'**espèce** choisie, pas le nom), Nom + Variété, champs communs, Description. `NomVariete` = `Nom\nVariété` (ou `Nom` seul). `Num_epingle` est envoyé à `null` (vide, pas 0). Doublon sur Nom + Variété (sans casse ni accents), affiché en direct pendant la saisie.
 - **Champs communs** (composant `champs-culture`) : Type, Exposition, Arrosage, Conservation, Famille ; profondeur, durée et température de germination, mois de semis sous abri / pleine terre / récolte ; nature et qualité du sol, où cultiver, **où semer** ; Infos.
-- **Contrôles des champs numériques** (messages d'erreur qui restent affichés jusqu'au prochain clic) : conservation et durée de germination = entiers ; profondeur = nombre ou fourchette, `1 cm` devient `1`, les tirets longs deviennent `-`, le point devient une virgule. Ces champs sont en texte : un champ numérique renverrait une valeur vide pour `abc`, sans erreur visible.
-- **Listes de choix** : pastilles pour les mois, Famille, nature et qualité du sol, où cultiver, où semer (les choix vides de Grist sont ignorés). Menu avec recherche pour les **Infos**, avec **« ➕ Nouvelle info… »** : l'info est ajoutée aux choix de `Especes.Infos` **et** de `Varietes.Infos` (une variété créée à la suite d'une espèce reçoit ainsi ses infos) et sélectionnée.
+- **Contrôles des champs numériques** (messages qui restent affichés jusqu'au prochain clic) : conservation et durée de germination = entiers ; profondeur = nombre ou fourchette, `1 cm` devient `1`, les tirets longs deviennent `-`, le point devient une virgule.
+- **Listes de choix** (lues dans `Varietes`) : pastilles pour les mois, Famille, nature et qualité du sol, où cultiver, où semer (les choix vides de Grist sont ignorés). Menu avec recherche pour les **Infos**, avec **« ➕ Nouvelle info… »** : l'info est ajoutée aux choix de `Varietes.Infos` seulement, et sélectionnée.
 
 ### Enchaînement (case « Enchaîner automatiquement »)
-- Espèce → Variété : espèce présélectionnée comme modèle (champs copiés), nom repris, curseur dans « Variété ».
 - Variété → Millésime : variété présélectionnée.
 
 ## 4. Choix techniques
 
-- **Un seul point de montage Vue** (`#app`) : les trois panneaux partagent l'état (enchaînement, listes, `parcoursLigne`). Les panneaux sont en `v-show` pour garder leur saisie quand on change d'onglet.
-- **État** : un objet `etat` réactif. Formulaires `etat.modele`, `etat.variete`, `etat.millesime` ; fabriques `champsVides()` et `millesimeVide()` pour les réinitialiser. Listes : `modeles`, `varietes`, `semisEnAttente`. Choix Grist : `choix`, `choixVariete`, `choixOrigine`, `choixTypePlant`, `lieux`.
+- **Un seul point de montage Vue** (`#app`) et des **composants** : choix assumé le 25/11. Cet outil est le seul à réutiliser les mêmes blocs plusieurs fois (`choix-unique` une dizaine de fois) ; une zone Vue par bloc obligerait à les recopier. Les panneaux partagent l'état et sont en `v-show` pour garder leur saisie quand on change d'onglet.
+- **État** : un objet `etat` réactif. Formulaires `etat.variete`, `etat.millesime` ; fabriques `champsVides()` et `millesimeVide()` pour les réinitialiser. Listes : `especes`, `varietes`, `semisEnAttente`. Choix Grist : `choixVariete`, `choixOrigine`, `choixTypePlant`, `lieux`.
 - **Composants** (gabarits `<template id>` dans le HTML, hors de `#app`) :
-  - `champs-culture` : champs communs espèce / variété (props `formulaire`, `choix`, `prefixe` pour les `id`) ;
-  - `choix-multiple` : pastilles, ou champ de recherche + pastilles à retirer avec l'attribut `menu` ; l'attribut `lieu` colore les pastilles choisies en violet ;
-  - `choix-unique` : bouton qui ouvre une liste (comme « Trier par » dans `a_gerer`). `vide` ajoute une entrée « rien de choisi » dans la liste ; `placeholder` n'écrit le texte que sur le bouton, sans entrée. Se ferme par un clic n'importe où ailleurs (écouteur sur `document`, car Safari ne donne pas le focus aux boutons) ;
-  - `choix-recherche` : champ de saisie, liste qui se réduit à chaque lettre (40 résultats maximum) ; ne permet pas de revenir à « rien » (on utilise « Réinitialiser ») ;
-  - `ajout-choix` : bouton qui ouvre un petit champ pour ajouter un choix ; reçoit une fonction `sur-ajout` qui renvoie `true` si l'ajout a réussi.
-- **Choix des listes** : lus dans les métadonnées Grist avec `lireChoixColonnes`. **Ajout d'un choix** : `ajouterChoixColonne` relit les réglages de la colonne, ajoute le choix et écrit avec `ModifyColumn` (`widgetOptions`) ; les couleurs et autres réglages existants sont conservés.
-- **Format ChoiceList** : `enListeChoix(valeurs)` (commun) ajoute le `"L"` en un seul endroit ; `listeChoix` le retire à la lecture.
-- **Dates** : `Millesime` et `Date_s` en secondes depuis epoch, au 1er janvier en UTC (`dateEnSecondes(annee + '-01-01')`), lues avec `anneeDepuisDate`.
-- **Doublon en direct** : un `watch` sur variété / année / origine / nature relance `verifierDoublonMillesime`, protégé par un compteur `numeroVerification`. Millésimes et Semis sont relus par `fetchTable` à chaque besoin, donc toujours à jour.
-- **Où sont les textes** : libellés fixes, bandeaux d'enchaînement, avertissements, encarts de doublon et « Don : N sachet(s) » dans le HTML (le JS ne garde que les données : `etat.bandeaux.variete = { type: 'espece', nom }`, `donSachets`, `etat.doublonsMillesime`) ; messages après une action et libellés de listes dans `TEXTES`. Restent dans le JS : les erreurs techniques (`throw new Error(...)`, `console.error`) et les commentaires.
-- **Messages** : `dire(texte, erreur, panneau)` ; un succès disparaît après 4 s, une **erreur reste affichée jusqu'au prochain clic** (écouteur de `document` en phase de capture : un clic sur « Créer » efface l'ancienne erreur avant que le bouton revalide, donc elle réapparaît s'il reste un problème) ; chaque message s'affiche seulement dans son panneau (`etat.panneauMessage`).
+  - `champs-culture` : champs communs (props `formulaire`, `choix`, `prefixe`) ; n'est plus utilisé qu'une fois (variété), gardé pour alléger le HTML ;
+  - `choix-multiple` : pastilles, ou champ de recherche + pastilles à retirer avec l'attribut `menu` ; `lieu` colore en violet ;
+  - `choix-unique` : bouton qui ouvre une liste. `vide` ajoute une entrée « rien de choisi » ; `placeholder` n'écrit le texte que sur le bouton. Se ferme par un clic ailleurs (écouteur sur `document`, pour Safari) ;
+  - `choix-recherche` : champ de saisie, liste qui se réduit à chaque lettre (40 résultats maximum) ;
+  - `ajout-choix` : bouton qui ouvre un petit champ ; reçoit `sur-ajout`, qui renvoie `true` si l'ajout a réussi.
+- **Ajout d'un choix** : `ajouterChoixColonne` relit les réglages de la colonne, ajoute le choix et écrit avec `ModifyColumn` (`widgetOptions`) ; les autres réglages sont conservés. Candidate au passage dans `scriptcommun.js` (avec `existeDeja`) si un autre outil en a besoin.
+- **Format ChoiceList** : `enListeChoix(valeurs)` (commun) / `listeChoix` à la lecture.
+- **Dates** : `Millesime` et `Date_s` en secondes UTC, au 1er janvier (`dateEnSecondes(annee + '-01-01')`), lues avec `anneeDepuisDate`.
+- **Où sont les textes** : libellés fixes, bandeaux d'enchaînement, avertissements, encarts de doublon et « Don : N sachet(s) » dans le HTML ; messages après une action et libellés de listes dans `TEXTES` (en haut de `achatrepro.js`).
+- **Messages** : `dire(texte, erreur, panneau)` ; un succès disparaît après 4 s, une **erreur reste jusqu'au prochain clic** (écouteur en phase de capture) ; chaque message ne s'affiche que dans son panneau (`etat.panneauMessage`).
 - **Validations** : `entierOuNull`, `anneeValide`, `nettoyerProfondeur`, `MOTIF_PROFONDEUR`, `erreurChampsCommuns`.
-- **Origine de production** : `ORIGINE_PRODUCTION = 'Monjardin'` (choix stocké dans `Origine`, affiché « AR » sur l'étiquette).
-- **Sachets et plants** : valeurs numériques, plus de lettres. `NB_SACHETS = 1` dans `Nb_sachets` pour un sachet ; `Nb_plants` et `Type_plant` pour une plante mère. `Epuise` teste `Plante_mere`, donc une plante mère n'est jamais « épuisée ».
-- **Styles** : pastille choisie = `pastille--etape` (commun), pastille non choisie = `pastille--choix:not(.pastille--etape)` (local). Bouton principal bleu = `btn--enregistrer` (commun) ; `btn--collant` (commun) le colle en bas de l'écran, non utilisé dans cet outil. Rangée de pastilles posée sur un champ = `ligne--sur-champ` (commun). Locaux : `.bloc`, `.badge`, `.encart--alerte`, `.encart--cote`, `.ligne--bas`, `.champ--deroulant` (la flèche ; s'ajoute à `champ--bouton` du commun, qui fournit le texte à gauche et le curseur main), `.champ--vide`, `.pastille--choix`. `.grille` et `.entete` sont dans le commun.
-- **Pluriels et dates** : `pluriel(n, 'étiquette')` (commun) pour « 1 étiquette » / « 4 étiquettes » ; `dateEnSecondes` (commun) pour les dates écrites dans Grist.
+- **Origine de production** : `ORIGINE_PRODUCTION = 'Monjardin'` (affiché « AR » sur l'étiquette).
+- **Sachets et plants** : `NB_SACHETS = 1` dans `Nb_sachets` pour un sachet ; `Nb_plants` et `Type_plant` pour une plante mère. `Epuise` teste `Plante_mere` : une plante mère n'est jamais « épuisée ».
+- **Styles** : pastille choisie = `pastille--etape` (commun), non choisie = `pastille--choix:not(.pastille--etape)` (local). Bouton principal = `btn--enregistrer`. Rangée de pastilles posée sur un champ = `ligne--sur-champ` (commun). Locaux : `.groupe` (marge basse), `.badge`, `.encart--cote`, `.champ--deroulant`, `.champ--vide`, `.pastille--choix`.
 
 ### Contrat entre les deux outils (achatrepro ↔ étiquettes)
 
@@ -136,92 +139,68 @@ Si tu modifies l'un des deux outils, vérifie ce contrat : c'est lui qui évite 
 ### Ordre des opérations dans `creerMillesime(forcer)`
 1. Contrôles de saisie (variété, année sur 4 chiffres, origine, nature, quantité ou année de plantation + nombre de plants + type de plant + emplacements).
 2. Contrôles « étiquettes » : ligne choisie si la case est cochée, sachets réels ≥ 1.
-3. Détection de doublon (sauf si `forcer`).
-4. **Lectures préalables** (avant toute écriture) : lignes `Semis` de la variété dont `A_produire` est coché ; ligne d'étiquettes choisie (`actionNettoyageLigne` renvoie l'action à envoyer, ou `null` si la ligne a disparu ou changé : message « Cette ligne d'étiquettes a changé », rien n'est créé, la liste est rechargée).
-5. **Premier envoi** : création du millésime (avec `Don` si sachets réels > 1). Erreur : message rouge + arrêt.
-6. **Second envoi, un seul pour tout le reste** (tout ou rien) : décochage de `A_produire`, nettoyage de la ligne d'étiquettes, ligne `Semis` de la plante mère. S'il échoue, le millésime créé à l'étape 5 est supprimé (`RemoveRecord`) ; si cette suppression échoue aussi, un message le dit.
-7. Message de succès + `reinitialiserMillesime()` (qui recharge la liste des étiquettes).
+3. Détection de doublon (sauf si `forcer`) : seule lecture avant écriture.
+4. **Premier envoi** : création du millésime (avec `Don` si sachets réels > 1). Erreur : message rouge + arrêt.
+5. **Second envoi, un seul pour tout le reste** : `A_reproduire` décoché sur la variété, nettoyage de la ligne d'étiquettes (`actionLigneEtiquettes(ligne)`, d'après le champ `transit`), ligne `Semis` de la plante mère. **Pas d'annulation** s'il échoue : le message dit quoi vérifier (Millesimes, semis de la variété, ligne d'étiquettes). Ctrl+Z dans Grist reste possible.
+6. Message de succès + `reinitialiserMillesime()` (qui recharge la liste des étiquettes).
 
 ### Dépendances avec les formules Grist
-- `Varietes.En_production` = `any(Semis.lookupRecords(NomVariete=rec.id).A_produire)` : bascule après le décochage.
 - `a_gerer` reconnaît une ligne de plante mère avec `millesimeId > 0`, godets = 0 et graines = 0 ; il lit `Ou` pour l'emplacement et `Nb_plants` pour l'effectif.
 - Une ligne `Semis` sans `Date_s` ne perturbe pas `Germination_2026`, `Annees_sans_test`, `Dernier_semis`, `Deja_seme_cette_annee` ni `En_production`.
 - L'outil « Semis réalisés » écrit aussi dans `Millesimes` (case « Sachet vidé » : `Qtte_graines` et `Nb_sachets` à `null`).
 
 ## 5. Pièges rencontrés
 
-- **Copier-coller** : un `return` grignoté a supprimé le contrôle du nombre de plants ; un bloc remplacé au mauvais endroit a laissé deux champs avec le même `id` ; un `=` à la place d'un `<=` dans un gabarit a modifié la longueur d'une liste (cases vides). Après chaque modification, relire le bloc autour.
-- **Classes renommées** : quand une classe est renommée dans le commun (par exemple `pastille--choisie` devenue `pastille--etape`), vérifier les règles locales qui s'y appuient : à spécificité égale, la règle écrite en dernier gagne, et `achatrepro.css` est chargé après le commun.
-- **Chemins et cache** : après un déplacement de dossiers, vérifier l'URL du widget dans Grist, les chemins relatifs du HTML, puis faire un rechargement forcé. L'erreur `KeyError 'Sachets'` venait d'une ancienne copie encore exécutée.
-- **Champ numérique et lettres** : un champ `type="number"` renvoie une valeur vide pour `abc`, donc aucune erreur. Pour obtenir un message, utiliser un champ texte avec un contrôle.
-- **Gabarits dans le HTML** : pas de balises de composant auto-fermantes, et les `<template id>` doivent rester **hors** de `#app`. Dans un gabarit du DOM, les attributs sont en minuscules : utiliser `champ-id`, `sur-ajout`, `@update:model-value`. Un composant n'a pas accès à `etat` : seulement à ses props.
-- **Champ de la colonne qui n'existe pas dans une table** : un champ écrit dans une table sans cette colonne donne `KeyError` (cas de `Semis_GPT` puis `SemisGpt`). Les colonnes écrites par `colonnesCommunes` doivent exister dans `Especes` **et** `Varietes`.
-- **Les `watch` s'enchaînent** : `etat.ligneAttenteId` déclenche `chargerLigneAttente`, et `reinitialiserMillesime` remet cet id à vide, ce qui déclenche aussi `annulerLigneAttente`. C'est voulu et sans effet de bord ; à garder en tête avant de les modifier.
-- **`parcoursLigne` reste vrai si le trajet est abandonné** (clic sur « Créer la variété » puis retour manuel au millésime). Il est remis à faux dans `annulerLigneAttente`, `chargerLigneAttente`, `reinitialiserMillesime` et à l'arrivée dans Millésime.
-- **Deux envois, pas un** : la ligne `Semis` d'une plante mère a besoin de l'id du millésime tout juste créé. D'où deux `applyUserActions` : le millésime, puis tout le reste. Si le second échoue, le millésime est annulé ; seul cas résiduel : si l'annulation échoue aussi, il faut vérifier `Millesimes`, les semis de la variété et la ligne d'étiquettes à la main.
-- `ORIGINE_PRODUCTION` doit correspondre exactement à un choix de la colonne `Origine`, sinon « Origine non reconnue » et l'origine est à choisir à la main.
-- **`Note_attente` doit être une colonne de données** : si c'est une colonne de formule, on ne peut pas y saisir de note et l'outil lit toujours vide.
-- **Lecture de `Semis.Ou` en échec** : un message s'affiche dans l'en-tête et la création d'une plante mère est impossible ; le reste de l'outil fonctionne.
-- **`Nb_godets` / `Nb_graines` à 0, pas vides**, sur la ligne de plante mère : normal (valeur par défaut de Grist), `a_gerer` l'accepte.
-- **Messages de la console sans gravité** : « Erreur de sécurité … file:/// » (vient du serveur local Live Server, absente en prod) ; « accès partitionné à un cookie ou au stockage » (information de Firefox pour un widget affiché dans Grist) ; messages RPC de Grist.
-- Dans la console Grist, choisir l'iframe du widget dans le menu « top ».
+- **Copier-coller** : un `return` grignoté a supprimé un contrôle ; un bloc remplacé au mauvais endroit a laissé deux champs avec le même `id` ; un `=` à la place d'un `<=` a modifié la longueur d'une liste. Après chaque modification, relire le bloc autour.
+- **Classes renommées** dans le commun : vérifier les règles locales qui s'y appuient (`achatrepro.css` est chargé après le commun).
+- **Chemins et cache** : après un déplacement de dossiers, vérifier l'URL du widget dans Grist, les chemins relatifs du HTML, puis recharger de force. `KeyError 'Sachets'` venait d'une ancienne copie encore exécutée.
+- **Champ numérique et lettres** : `type="number"` renvoie une valeur vide pour `abc`, donc aucune erreur : champ texte + contrôle.
+- **Gabarits dans le HTML** : pas de balises de composant auto-fermantes ; `<template id>` **hors** de `#app` ; attributs en kebab-case (`champ-id`, `sur-ajout`, `@update:model-value`) ; un composant n'a pas accès à `etat`.
+- **Colonne absente d'une table** : `KeyError` (cas de `Semis_GPT`). Les colonnes écrites par `colonnesCommunes` doivent exister dans `Varietes`.
+- **Les `watch` s'enchaînent** : `etat.ligneAttenteId` déclenche `chargerLigneAttente`, et `reinitialiserMillesime` remet cet id à vide, ce qui déclenche aussi `annulerLigneAttente`. Voulu et sans effet de bord.
+- **`parcoursLigne` reste vrai si le trajet est abandonné** : remis à faux dans `annulerLigneAttente`, `chargerLigneAttente`, `reinitialiserMillesime` et à l'arrivée dans Millésime.
+- **Deux envois, pas un** : la ligne `Semis` d'une plante mère a besoin de l'id du millésime tout juste créé.
+- `ORIGINE_PRODUCTION` doit correspondre exactement à un choix de la colonne `Origine`.
+- **`Note_attente` doit être une colonne de données** (pas une formule).
+- **Lecture de `Semis.Ou` en échec** : message dans l'en-tête, création d'une plante mère impossible ; le reste fonctionne.
+- **`Nb_godets` / `Nb_graines` à 0, pas vides**, sur la ligne de plante mère : normal, `a_gerer` l'accepte.
+- **Renommage global** (`modele` → `espece`, `semisGpt` → `ouSemer`) : Remplacer dans les fichiers, casse respectée, dans l'ordre `MODELE`, `Modele`, `modele` ; les textes accentués (« Modèle de base ») ne bougent pas.
+- **Messages de la console sans gravité** : « Erreur de sécurité … file:/// » (Live Server), « accès partitionné à un cookie ou au stockage » (Firefox), messages RPC de Grist.
 
-## 6. Procédure de passage en prod (checklist pour les prochaines fois)
+## 6. Procédure de passage en prod (checklist)
 
-1. Sauvegarder les fichiers prod actuels de tous les outils concernés (achatrepro, étiquettes, semis réalisés) et le document de prod.
-2. Aligner la structure Grist de prod sur celle de test (section 2) : table `Especes`, `Semis_profondeur` en Texte (valeurs nettoyées), `Ou_semer`, `Nb_sachets` numérique, `Nb_plants`, `Type_plant` avec ses choix, `Etiq_en_attente` et `Note_attente` en colonnes de données, formules par défaut retirées.
-3. Vérifier que `scriptcommun.js` (avec `enListeChoix`) et `styles_communs.css` sont à jour en prod.
-4. Copier les outils en même temps (le contrat les lie), puis mettre à jour l'URL de chaque widget dans Grist.
-5. Tester : un sachet, une plante mère, le décochage de `A_produire`, un enchaînement espèce → variété → millésime, « Issu de mes étiquettes » (ligne sans variété, vrai semis, plante mère, plusieurs créations de suite), « Sachet vidé » dans « Semis réalisés », l'ajout d'une origine et d'une info (puis supprimer les valeurs de test).
-6. Supprimer les lignes de test dans Grist, puis retirer l'ancienne version de l'outil du dépôt.
+1. Sauvegarder les fichiers prod actuels de tous les outils concernés et le document de prod.
+2. Aligner la structure Grist de prod sur celle de test (section 2) : `Especes`, `Semis_profondeur` en Texte, `Ou_semer`, `Varietes.A_reproduire`, `Nb_sachets` numérique, `Nb_plants`, `Type_plant` avec ses choix, `Etiq_en_attente` et `Note_attente` en colonnes de données.
+3. Vérifier que `scriptcommun.js` (avec `enListeChoix`, `entierOuNull`) et `styles_communs.css` sont à jour en prod.
+4. Copier `achatrepro.html`, `achatrepro.js` et `achatrepro.css`, **supprimer `achatrepro_textes.js`** de la prod, puis (si l'outil d'étiquettes a changé) copier aussi ses fichiers : le contrat les lie. Vérifier l'URL du widget dans Grist.
+5. Tester : un sachet, une plante mère, le décochage de `A_reproduire`, un doublon (« Créer quand même », « Annuler »), un enchaînement variété → millésime, « Issu de mes étiquettes » (ligne de transit, vrai semis, plante mère, ligne sans variété), des saisies non numériques dans chaque champ, l'ajout d'une origine et d'une info (puis supprimer les valeurs de test).
+6. Supprimer les lignes de test dans Grist.
 
 ## 7. Reste à faire / idées
 
-- [ ] Renommer `semisGpt` en `ouSemer` dans le code (`champsVides`, `modeleDepuisLigne`, `colonnesCommunes`, HTML) : le champ s'appelle encore comme l'ancienne colonne `Semis_GPT`.
-- [ ] Nettoyage du code et du CSS signalé lors de l'audit du 20 novembre (voir la liste communiquée).
+- [ ] Pousser la refonte en prod (section 6).
 - [ ] `Especes.Date_creaction` : faute de frappe dans le nom de la colonne (les autres tables ont `Date_creation`).
-- [ ] Décocher `A_produire` seulement pour certaines origines (par exemple pas pour un don ou un achat) ? Actuellement : toujours.
 - [ ] Doublons de plante mère : comparer sur l'**année de plantation** plutôt que l'année du millésime, si l'usage le demande.
-- [ ] Étiquette : le texte « Récolte : » affiche toujours l'année en cours, pas l'année du millésime saisi.
-- [ ] Graines à identifier : l'origine n'est jamais devinée ; envisager `Monjardin` par défaut si ces graines viennent toujours de ton jardin.
-- [ ] Choix dupliqués entre `Especes`, `Varietes` et `Millesimes` (Famille, Infos…) : une liste unique serait plus sûre, mais c'est un chantier Grist.
-- [ ] Rapprochements avec le commun : `.encart--alerte`, `.pastille--choix`, `.badge`, `.bloc`, `.champ--deroulant` (déjà associée à `champ--bouton` du commun), et les composants `choix-unique` / `choix-recherche` si `a_gerer` en a besoin. `ajouterChoixColonne` et `existeDeja` pourraient rejoindre `scriptcommun.js` si un autre outil en a besoin.
-- [ ] Renommer `modele(s)` en `especes` dans le JS (confort de lecture seulement).
+- [ ] Étiquette : le texte « Récolte : » affiche toujours l'année en cours, pas l'année du millésime saisi (outil étiquettes).
+- [ ] Graines à identifier : l'origine n'est jamais devinée ; envisager `Monjardin` par défaut.
+- [ ] Doublon en direct du panneau Variété (computed) : à garder ou à ramener au clic comme pour le millésime.
+- [ ] Choix dupliqués entre `Especes`, `Varietes` et `Millesimes` (Famille, Infos…) : liste unique plus sûre, mais chantier Grist.
+- [ ] Rapprochements avec le commun : `.encart--cote`, `.pastille--choix`, `.badge`, `.champ--deroulant`, composants `choix-unique` / `choix-recherche`, `ajouterChoixColonne` et `existeDeja`.
 - Abandonné : fusionner la quantité dans un millésime existant (deux sachets = deux lignes, le second va à la boîte à dons).
 - Abandonné : plusieurs origines par millésime (une seule, décision du 25/10/2026).
-- Abandonné : créer l'espèce automatiquement à la création d'une variété (peu utile).
-### « À reproduire » : passage sur Varietes (25/11/2026)
+- Abandonné : créer l'espèce automatiquement à la création d'une variété ; panneau « Nouvelle espèce » (retiré le 25/11).
+- Clos : décocher `A_reproduire` seulement pour certaines origines (toujours décoché).
 
-**Pourquoi** : le besoin de produire des graines concerne une variété, pas un semis. La case est maintenant `Varietes.A_reproduire` (booléen, **colonne de données**). `Semis.A_produire` devient une formule `$NomVariete.A_reproduire` (lue par le Plan, plus jamais écrite).
+### Piste à discuter à part : sachets de mélange
+Un sachet de mélange enregistré comme N lignes (une par variété) compte le stock N fois, affiche N cartes dans « À semer », attribue la germination à une variété au hasard, et « Sachet vidé » ne vide qu'une ligne. **Piste retenue pour la pratique, sans changer d'outil** : une variété « Tournesol - Mélange » (rattachée à son espèce, contenu décrit dans la Description) avec un seul millésime par sachet ; les variétés contenues restent dans `Varietes` sans sachet ; à la récolte, millésime « Monjardin » sur la variété reconnue, sinon sur le mélange. Attention : la case `Millesimes.Melange` signifie « plusieurs millésimes d'une même variété », pas un mélange de variétés ; la renommer (par exemple `Plusieurs_millesimes`) imposerait de chercher l'ancien nom dans tous les outils (Achat-repro ne l'utilise pas). Question qui concerne tous les outils : à traiter dans une discussion dédiée.
 
-**Décochage automatique** (remplace l'ancien paragraphe « Décochage automatique de « À produire » ») :
-- À la création d'un millésime, le second envoi contient toujours `['UpdateRecord', 'Varietes', varId, { A_reproduire: false }]`, pour tous les types de millésime et **toutes les origines**. La question « décocher seulement pour certaines origines ? » est close.
-- Écrit sans relecture : si la case est déjà vide, Grist ne change rien. C'est juste même si la case a été cochée dans Grist après l'ouverture du widget.
-- `chargerVarietes` lit `A_reproduire` (`aReproduire`) **seulement pour le message**. Après la création, `v.aReproduire = false`.
-- Message : « · « À reproduire » décoché » si la variété était cochée au chargement (`TEXTES.millesimeCree(annee, nom, planteMere, decoche, don)`).
+## 8. Refonte du 25/11/2026 (« sans Ferrari »)
 
-**Code retiré** : `trouverSemisAProduire` (plus de lecture de `Semis` pour cela), `idsADecocher`, le `BulkUpdateRecord` sur `Semis.A_produire`, le paramètre `nbDecoches`.
-
-**Conséquence** : le second envoi a maintenant toujours lieu. L'annulation du millésime en cas d'échec de la suite (Ferrari à retirer au nettoyage de l'outil) peut donc se déclencher à chaque création.
-
-**Colonnes** : `Varietes.A_reproduire` s'ajoute aux colonnes écrites ; `Semis.A_produire` en sort.
-
-**Reste à faire** : retirer la ligne « Décocher `A_produire` seulement pour certaines origines ? ».
-
-Peut-être à réfléchir ici : Tu as raison : ce n'est pas une question propre à Semis réalisés. C'est une question sur la façon de ranger les données dans Grist. Elle concerne aussi Achat-repro (création des sachets), À gérer, les étiquettes et la boîte à dons. Elle mérite une discussion à part. Voici de quoi y réfléchir.
-
-Ce que ta façon actuelle provoque. Un sachet de mélange enregistré comme N lignes, une par variété, crée plusieurs décalages :
-
-Le stock est compté N fois. Un seul sachet physique apparaît comme N sachets.
-La liste « À semer » montre N cartes, une par variété, pour un seul sachet.
-À la saisie d'un semis, tu dois choisir une variété au hasard parmi les N. La germination calculée lui est attribuée à tort, et les autres restent « jamais testées ».
-« Sachet vidé » ne vide qu'une seule ligne. Les autres restent en stock.
-
-Une piste simple, sans changer aucun outil : traiter le mélange comme une variété à part entière, par exemple « Tournesol - Mélange ».
-
-Le sachet acheté devient un seul millésime de cette variété. Le stock, la liste « À semer », les semis et la germination portent sur le sachet réel.
-Les variétés du mélange (« Tournesol - Velvet Queen », etc.) restent dans Varietes, mais sans sachet au départ.
-À la récolte, si tu reconnais une variété à sa couleur, tu fais ton millésime « Monjardin » sur cette variété-là. Si tu ne la reconnais pas, tu le fais sur « Tournesol - Mélange ». Achat-repro sait déjà faire les deux.
-Pour savoir quelles variétés contient le mélange, une phrase dans la Description de la variété mélange suffit. Un vrai lien dans Grist (une colonne qui pointe vers les variétés) serait plus solide, mais aucun outil ne s'en servirait pour l'instant.
-
-Un risque de confusion à noter : dans tes données, la case Melange veut dire « plusieurs millésimes d'une même variété ». Ce n'est pas un mélange de variétés. Si tu adoptes la piste ci-dessus, il vaudrait peut-être renommer cette case, par exemple Plusieurs_millesimes, pour ne pas mélanger les deux sens. Comme tout renommage de colonne, il faudrait alors chercher l'ancien nom dans tous les outils.
+Alignement sur le mémo des conventions, en étapes testées une à une :
+1. `creerMillesime` : plus de relecture de la ligne d'étiquettes (champ `transit` calculé au chargement, `actionLigneEtiquettes`) ni d'annulation du millésime si le second envoi échoue ; `TEXTES.suiteEchouee` dit quoi vérifier.
+2. Doublon du millésime : contrôle au clic seulement ; un `watch` efface juste l'encart quand variété, année, origine ou nature changent.
+3. Nombres en champs texte avec contrôle entier ; `donSachets` et `nbPlants` passent par `entierOuNull` ; tutoiement des bandeaux.
+4. `achatrepro_textes.js` supprimé ; `semisGpt` renommé `ouSemer`.
+5. Structure : un `#app` + composants conservé (section 4) ; `modele(s)` renommé `espece(s)`.
+7. Panneau « Nouvelle espèce » retiré (`creerEspece`, `reinitialiserEspece`, `allerCreerEspece`, `doublonsEspece`, `especeCreee`, onglet et section HTML) ; le trajet « Graines à identifier » garde « Créer la variété ».
+8. Allègements : plus de lecture ni d'écriture des choix de `Especes` (`etat.choix` supprimé, `ajouterInfoGrist` n'écrit que dans `Varietes.Infos`) ; une seule liste `optionsAttente` ; bandeau « graines à identifier » réduit à `{ nb }`.
