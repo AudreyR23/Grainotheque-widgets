@@ -21,7 +21,22 @@
   </header>
 
   <main>
-        <section id="appASemer">
+    <div id="appEtapes">
+      <section v-show="etat.aEnregistrer.length > 0">
+        <h2>À enregistrer ({{ etat.aEnregistrer.length }})</h2>
+        <ul class="liste-carte">
+          <li v-for="b in etat.aEnregistrer" :key="b.id" class="carte carte--etape">
+            <div class="carte__contenu">
+              <strong>{{ nomDeCarte(b) }}</strong>
+              <div><span class="pastille pastille--categorie" :class="b.mode === 'pleine_terre' ? 'pastille--pleineterre' : 'pastille--sousabri'">{{ b.mode === 'pleine_terre' ? 'Pleine terre' : 'Sous abri' }}</span></div>
+              <div class="texte texte--discret">{{ libelleMillesime(b.millesime) }} · {{ dateAffichee(dateEnSecondes(b.date)) }} · <template v-if="b.mode === 'pleine_terre'">{{ b.graines }} {{ pluriel(b.graines, 'graine') }}</template><template v-else>{{ b.godets }} {{ pluriel(b.godets, 'godet') }} × {{ b.graines }} {{ pluriel(b.graines, 'graine') }}</template><template v-if="b.ou.length"> · {{ b.ou.join(', ') }}</template><template v-if="b.sachetVide"> · sachet vidé</template><template v-if="b.reproduire === true"> · à reproduire</template><template v-else-if="b.reproduire === false"> · ne plus reproduire</template></div>
+            </div>
+            <button type="button" class="btn btn--suppr carte__action" title="Retirer de la liste" :aria-label="`Retirer ${nomDeCarte(b)}`" @click="retirerDeLaListe(b.id)">✕</button>
+          </li>
+        </ul>
+      </section>
+    </div>
+    <section id="appASemer">
       <div class="ligne ligne--entre">
         <h2>À semer en {{ LISTE_MOIS[etat.aSemer.mois - 1].long }} (<template v-if="etat.aSemer.filtreActif">{{ etat.aSemer.nbRetenues }} sur </template>{{ etat.aSemer.nbTotal }})</h2>
         <button type="button" class="btn" @click="etat.aSemer.ouvert = !etat.aSemer.ouvert">{{ etat.aSemer.ouvert ? 'Masquer' : 'Afficher' }}</button>
@@ -56,7 +71,7 @@
               </div>
               <div class="texte texte--discret">
                 <template v-if="!l.mil">Pas de graines</template>
-                <template v-else><template v-if="l.mil.estMelange">Sachet mélangé (plusieurs variétés)</template><template v-else-if="l.mil.annee !== null">Millésime {{ l.mil.annee }}</template><template v-else>Millésime sans date</template> · <template v-if="l.germination !== null">germination {{ l.germination }} %</template><template v-else>germination inconnue</template> · <template v-if="l.v.anneesSansTest === null">jamais testé</template><template v-else-if="l.v.anneesSansTest === 0">testé cette année</template><template v-else>testé il y a {{ l.v.anneesSansTest }} {{ pluriel(l.v.anneesSansTest, 'an') }}</template></template>
+                <template v-else><template v-if="l.mil.annee !== null">Millésime {{ l.mil.annee }}</template><template v-else>Millésime sans date</template> · <template v-if="l.germination !== null">germination {{ l.germination }} %</template><template v-else>germination inconnue</template> · <template v-if="l.v.anneesSansTest === null">jamais testé</template><template v-else-if="l.v.anneesSansTest === 0">testé cette année</template><template v-else>testé il y a {{ l.v.anneesSansTest }} {{ pluriel(l.v.anneesSansTest, 'an') }}</template></template>
               </div>
               <div class="texte texte--discret">Semis {{ LISTE_MOIS[l.fenetre.debutMois - 1].court }} → {{ LISTE_MOIS[l.fenetre.finMois - 1].court }}</div>
               <div v-if="l.semisFait || l.plant"><span class="pastille pastille--info"><template v-if="l.semisFait">Déjà semée</template><template v-if="l.semisFait && l.plant"> · </template><template v-if="l.plant">🌱 {{ l.typePlant || 'plant' }} au jardin</template></span></div>
@@ -149,24 +164,9 @@
         <button type="button" class="btn btn--grand" :disabled="etat.enregistrement" @click="ajouterALaListe">Ajouter à la liste</button>
       </div>
     </section>
-
-    <div id="appEtapes">
-      <section v-show="etat.aEnregistrer.length > 0">
-        <h2>À enregistrer ({{ etat.aEnregistrer.length }})</h2>
-        <ul class="liste-carte">
-          <li v-for="b in etat.aEnregistrer" :key="b.id" class="carte carte--etape">
-            <div class="carte__contenu">
-              <strong>{{ nomDeCarte(b) }}</strong>
-              <div><span class="pastille pastille--categorie" :class="b.mode === 'pleine_terre' ? 'pastille--pleineterre' : 'pastille--sousabri'">{{ b.mode === 'pleine_terre' ? 'Pleine terre' : 'Sous abri' }}</span></div>
-              <div class="texte texte--discret">{{ libelleMillesime(b.millesime) }} · {{ dateAffichee(dateEnSecondes(b.date)) }} · <template v-if="b.mode === 'pleine_terre'">{{ b.graines }} {{ pluriel(b.graines, 'graine') }}</template><template v-else>{{ b.godets }} {{ pluriel(b.godets, 'godet') }} × {{ b.graines }} {{ pluriel(b.graines, 'graine') }}</template><template v-if="b.ou.length"> · {{ b.ou.join(', ') }}</template><template v-if="b.sachetVide"> · sachet vidé</template><template v-if="b.reproduire === true"> · à reproduire</template><template v-else-if="b.reproduire === false"> · ne plus reproduire</template></div>
-            </div>
-            <button type="button" class="btn btn--suppr carte__action" title="Retirer de la liste" :aria-label="`Retirer ${nomDeCarte(b)}`" @click="retirerDeLaListe(b.id)">✕</button>
-          </li>
-        </ul>
-        <button type="button" class="btn btn--enregistrer btn--grand" :disabled="etat.enregistrement" @click="enregistrerTout">{{ etat.enregistrement ? 'Enregistrement…' : 'Enregistrer' }}</button>
-      </section>
+    <div id="appEnregistrer" class="zone-transparente">
+      <button type="button" class="btn btn--enregistrer btn--collant btn--grand" v-show="etat.aEnregistrer.length > 0" :disabled="etat.enregistrement" @click="enregistrerTout">{{ etat.enregistrement ? 'Enregistrement…' : 'Enregistrer' }}</button>
     </div>
- 
   </main>
 
   <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>

@@ -6,7 +6,7 @@ const TEXTES = {
 /* =============================================
    CONFIGURATION
    ============================================= */
-const LIGNES_PAR_PAGE = 25;
+const LIGNES_PAR_PAGE = 26;
 const NB_LIGNES_VIDES_PAR_TYPE = 3;   // lignes vides à remplir à la main, à la fin de chaque type
 // Colonnes lues : si l'une manque (renommée, supprimée), le cahier ne s'affiche pas
 const COLONNES_MILLESIMES = [
@@ -64,11 +64,13 @@ function moisAbreges(liste) {
   return liste.map(v => { const n = numeroMois(v); return n ? LISTE_MOIS[n - 1].initiale : v; });
 }
 
-// Variété « vide » : mêmes champs qu'une vraie variété, tous vides (ligne à remplir à la main)
+// Variété « vide » : mêmes champs qu'une vraie variété, tous vides (ligne à remplir à la main).
+// nom et variete contiennent une espace insécable : sans texte, leurs <span> n'auraient aucune hauteur,
+// et la ligne ferait la moitié d'une variété à un sachet (2 lignes, comme le compte recalculerPages).
 function ligneVide(type, k) {
   return {
     id: `vide-${type}-${k}`,
-    type, nom: '', variete: '', num_epingle: '', nb_epingle: '',
+    type, nom: '\u00A0', variete: '\u00A0', num_epingle: '', nb_epingle: '',
     profondeur: '', germ_duree: '', germ_temp: '',
     abri: [], semis_ext: [], arrosage: '', exposition: '', ou: [], conservation: '',
     sachets: [{ origine: '', sachet: '', annee: '', saisons: '', qtte: '', germination: '' }]

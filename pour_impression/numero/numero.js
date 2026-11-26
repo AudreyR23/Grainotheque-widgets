@@ -9,7 +9,7 @@ const TEXTES = {
 const LIGNES_PAR_COLONNE = 20;
 const COLONNES_PAR_PAGE = 3;
 const PAR_PAGE = LIGNES_PAR_COLONNE * COLONNES_PAR_PAGE;
-const NB_EMPLACEMENTS_VIDES = 10;   // emplacements à remplir à la main, après le dernier numéro
+const NB_EMPLACEMENTS_VIDES = 10;   // emplacements à remplir à la main, après le plus grand numéro (en plus des numéros libres)
 // Colonnes lues : si l'une manque (renommée, supprimée), rien ne s'affiche
 const COLONNES_NECESSAIRES = ['Type', 'Nom', 'Variete', 'Num_epingle'];
 
@@ -65,6 +65,16 @@ function epinglesTriees(lignes) {
 function emplacementVide(num) {
   return { id: `vide-${num}`, type: '', nom: '', variete: '', num };
 }
+// Série complète, de 1 au plus grand numéro + NB_EMPLACEMENTS_VIDES : un numéro sans variété devient un emplacement vide
+function serieComplete(epingles) {
+  const parNumero = new Map(epingles.map(e => [e.num, e]));
+  const dernier = epingles.length ? epingles[epingles.length - 1].num : 0;   // liste triée : le plus grand numéro est le dernier
+  const serie = [];
+  for (let n = 1; n <= dernier + NB_EMPLACEMENTS_VIDES; n++) {
+    serie.push(parNumero.get(n) || emplacementVide(n));
+  }
+  return serie;
+}
 // Pages de 3 colonnes de 20, remplies colonne par colonne (1-20, 21-40, 41-60)
 function enPages(epingles) {
   const pages = [];
@@ -94,9 +104,7 @@ async function charger() {
       return;
     }
     const epingles = epinglesTriees(tableEnLignes(table));
-    const dernier = epingles.length ? epingles[epingles.length - 1].num : 0;   // liste triée : le plus grand numéro est le dernier
-    const vides = Array.from({ length: NB_EMPLACEMENTS_VIDES }, (_, k) => emplacementVide(dernier + k + 1));
-    etat.pages = enPages([...epingles, ...vides]);   // les vides comptent dans les pages, pas dans « N graines »
+    etat.pages = enPages(serieComplete(epingles));   // les cases vides comptent dans les pages, pas dans « N graines »
     etat.nbNumeros = epingles.length;
     etat.message = '';
     etat.charge = true;

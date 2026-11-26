@@ -125,7 +125,6 @@ async function chargerDonnees() {
       epuise: !!m.Epuise,         // formule Grist : sachet sans graines ni sachets
       germination: typeof m.Germination_affichee === 'number' ? m.Germination_affichee : null,
       avecGraines: m.Qtte_graines > 0 || m.Nb_sachets > 0,
-      estMelange: !!m.Melange,
       typePlant: m.Type_plant || ''
     });
   }
@@ -593,9 +592,10 @@ function semer(l) {
  
 Vue.createApp({ setup() { return { etat, nombreAEnregistrer }; } }).mount('#appEntete');
 Vue.createApp({ setup() { return {
-  etat, nomDeCarte, retirerDeLaListe, enregistrerTout,
+  etat, nomDeCarte, retirerDeLaListe,
   pluriel, dateAffichee, dateEnSecondes, libelleMillesime
 }; } }).mount('#appEtapes');
+Vue.createApp({ setup() { return { etat, enregistrerTout }; } }).mount('#appEnregistrer');
 Vue.createApp({ setup() { return {
   etat, choisirMode, pluriel, dateAffichee,
   surRechercheVariete, surFocusVariete, choisirVariete,

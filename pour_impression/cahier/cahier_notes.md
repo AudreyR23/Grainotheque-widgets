@@ -44,7 +44,7 @@ Volume : environ 449 variétés affichées (558 dans Varietes).
   Le Calendrier filtre sur `Nb_sachets` : c'est une erreur du Calendrier, à corriger dans sa discussion (utiliser `Epuise`).
 - Tri : type, nom, variété (`localeCompare` en `'fr'`).
 - Pagination (`recalculerPages`) : un type ne partage jamais une page avec un autre ;
-  `LIGNES_PAR_PAGE = 25` ; une variété à 1 sachet compte pour 2 lignes, sinon 1 ligne par sachet.
+  `LIGNES_PAR_PAGE = 26` ; une variété à 1 sachet compte pour 2 lignes, sinon 1 ligne par sachet.
 - **Lignes vides** : `NB_LIGNES_VIDES_PAR_TYPE = 3` en fin de chaque type (fabriquées par `ligneVide`,
   hauteur d'une variété à 1 sachet, colonne Type pré-remplie), à remplir à la main.
   Elles comptent dans le nombre de pages mais pas dans « N variétés ».
@@ -96,6 +96,16 @@ Volume : environ 449 variétés affichées (558 dans Varietes).
 - 25/11 : retrait de `numeroLecture` (une lecture dépassée par une plus récente pouvait écraser l'affichage ; le risque,
   deux modifications très rapprochées dans Grist, est accepté : rechargement ou modification suivante) et de `horsGrist`.
 - 25/11 : pas de fusion avec le Calendrier ; deux widgets, lecture de Varietes mise en commun (`indexerVarietes`, `varieteReferencee`).
+- 26/11 : pas de bouton Actualiser, le rechargement du widget suffit.
+- 26/11 : Pour le problème d'Origine dans le Cahier, il existe une autre solution écartée car demande de repasser sur ous les outils pour un gain d'une ligne dans Cahier. Tu peux faire accepter à listeChoix les deux formes de liste, celle de fetchTable (avec 'L') et celle de onRecords (sans 'L') :
+js
+function listeChoix(valeur) {
+  // ChoiceList Grist : ['L', 'a', 'b'] (fetchTable) ou ['a', 'b'] (onRecords) → ['a', 'b']
+  if (!Array.isArray(valeur)) return [];
+  return valeur[0] === 'L' ? valeur.slice(1) : valeur;
+}
+Le Cahier pourrait alors garder listeChoix(r.Origine), et la règle à ajouter au mémo deviendrait inutile. Tu as déjà coché la correction locale, donc tu n'as rien à faire de plus. C'est juste une possibilité pour plus tard.
+
 
 ## Points de vigilance
 - Impression : tester l'aperçu en A4 paysage après toute modification du CSS (local ou commun : le `body` du commun compte).
@@ -108,14 +118,4 @@ Volume : environ 449 variétés affichées (558 dans Varietes).
 - [x] Mise en prod : commun d'abord, puis copier les 3 fichiers sur `main`, changer l'URL du widget dans Grist (lié à Millesimes), Ctrl+F5, test d'impression.
 - [x] Supprimer l'ancien `main_cahier.js` et l'ancien `cahier.html` après la mise en prod. La section « tableau » de `main.css` ne sert plus qu'à eux : à retirer lors de la migration des épingles.
 - [x] Calendrier (sa discussion) : filtrer sur `Epuise` au lieu de `Nb_sachets` ; retirer `numeroLecture` et `horsGrist` ; utiliser `indexerVarietes` / `varieteReferencee` (et supprimer `varieteDuMillesime`) ; retirer la `LARGEUR_FEUILLE_PX` inutilisée ; utiliser `effacerAuClic`.
-- [x] Éventuel : rafraîchir aussi quand Varietes change seule (bouton « Actualiser »).
-- [ ] Pour le problème d'Origine dans le Cahier, il existe une autre solution, à prendre seulement si tu n'as pas encore fait la correction locale. Tu peux faire accepter à listeChoix les deux formes de liste, celle de fetchTable (avec 'L') et celle de onRecords (sans 'L') :
-
-js
-function listeChoix(valeur) {
-  // ChoiceList Grist : ['L', 'a', 'b'] (fetchTable) ou ['a', 'b'] (onRecords) → ['a', 'b']
-  if (!Array.isArray(valeur)) return [];
-  return valeur[0] === 'L' ? valeur.slice(1) : valeur;
-}
-
-Le Cahier pourrait alors garder listeChoix(r.Origine), et la règle à ajouter au mémo deviendrait inutile. Tu as déjà coché la correction locale, donc tu n'as rien à faire de plus. C'est juste une possibilité pour plus tard.
+- [] 
