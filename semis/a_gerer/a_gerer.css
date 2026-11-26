@@ -19,14 +19,6 @@
   width: max-content;
   max-width: 100%;
 }
-/* Copie invisible du plus long choix : le bouton garde la même largeur quel que soit le tri */
-.reserve {
-  display: block;
-  height: 0;
-  overflow: hidden;
-  visibility: hidden;
-}
-
 /* Filtre et tri dans l'en-tête collé : seuls sur leur ligne */
 .entete__filtres {
   flex-basis: 100%;
