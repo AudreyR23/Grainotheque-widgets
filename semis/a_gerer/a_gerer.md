@@ -6,8 +6,8 @@ Widget Grist pour le suivi de saison : noter la germination des semis, noter les
 ## Fichiers
 | Fichier | Rôle |
 |---|---|
-| `a_gerer.html` | Structure et textes, 7 zones Vue |
-| `a_gerer.css` | Styles propres à l'outil (lieu mort, tri) |
+| `a_gerer.html` | Structure et textes, 7 zones Vue (en-tête avec filtre et tri, En cours, À vérifier, À planter, À contrôler, Fin de saison, Enregistrer) |
+| `a_gerer.css` | Styles propres à l'outil (lieu mort, filtres dans l'en-tête, tri) |
 | `a_gerer.js` | Données, calculs, enregistrement ; messages dans le bloc `TEXTES` en haut du fichier |
 | `../../styles/styles_communs.css` | Variables, champs, cartes, boutons (nommage BEM) |
 | `../../script/scriptcommun.js` | Fonctions communes (dont `aller`, `estLigneMere`, `effacerAuClic`, `entierOuNull`, `enListeChoix`) |
@@ -18,15 +18,17 @@ Scripts en fin de `<body>`, dans cet ordre : plugin Grist, Vue 3.4.38 (unpkg), `
 - `Semis` lues : `Nom`, `Variete`, `Type`, `Date_s`, `Nb_godets`, `Nb_graines`, `Graines_semees`, `Germes`, `Germes_attente`, `Germination_duree`, `Info_germination`, `Plantes`, `Oups`, `Don_p`, `Reste_a_planter`, `Date_p`, `Plante_mere`, `Ou`, `Millesime`.
 - `Millesimes` lues : `Nom`, `Variete`, `Type`, `NomVariete`, `Plante_mere`, `Annee_plantation`, `Statut_mere`, `Controle_mere`, `Nb_plants`.
 - Les choix de `Semis.Ou` (emplacements) sont lus dans les métadonnées Grist.
-- Écrites : `Semis` (`Germes`, `Germes_attente`, `Plantes`, `Date_p`, `Ou`, `Oups`, `Don_p`) ; `Millesimes` (`Statut_mere`, `Controle_mere`, `Plante_mere`, `Nb_plants`) ; création possible d'une ligne `Semis` pour une plante mère.
-- Colonnes de **données** (pas des formules) : `Semis.Germes_attente` (case), `Millesimes.Statut_mere` (Choix : `Vivante`, `Morte`), `Millesimes.Controle_mere` (Date), `Millesimes.Nb_plants` (Numérique), `Millesimes.Plante_mere` (case).
+- Lues aussi : `Semis.Cloture`, `Semis.Nb_etiquettes`, `Semis.Etiq_en_attente` ; `Millesimes.Germination_semis` (formule).
+- Écrites : `Semis` (`Germes`, `Germes_attente`, `Plantes`, `Date_p`, `Ou`, `Oups`, `Don_p`, `Cloture`) ; `Millesimes` (`Statut_mere`, `Controle_mere`, `Plante_mere`, `Nb_plants`, `Germination_historique`, `Annee_germination_ref`) ; création possible d'une ligne `Semis` pour une plante mère.
+- Colonnes de **données** (pas des formules) : `Semis.Germes_attente` (case), `Semis.Cloture` (case), `Millesimes.Statut_mere` (Choix : `Vivante`, `Morte`), `Millesimes.Controle_mere` (Date), `Millesimes.Nb_plants` (Numérique), `Millesimes.Plante_mere` (case), `Millesimes.Germination_historique` et `Annee_germination_ref` (Numérique).
+- Ligne `Semis` avec `Cloture` cochée : ignorée partout dans l'outil (sautée au chargement, seulement comptée), en attendant sa suppression à la main dans Grist.
 - Une plante mère = une ligne `Millesimes` (`Plante_mere` cochée, `Nb_plants`) + **une seule** ligne `Semis` sans godets ni graines (`estLigneMere`), qui porte `Ou` et `Plantes` (créée par Achat-repro, ou par cet outil s'il n'y en a pas). Vérifié le 25/11/2026 : aucune plante mère n'a plus d'une ligne.
 - Plante mère : `Nb_plants` fait foi. `Semis.Plantes` de sa ligne le suit, car il est lu par le **plan** (nombre de pieds à poser) et par les **étiquettes** (« N plantés »). La formule `Millesimes.Plantes` renvoie `Nb_plants` pour une plante mère, sinon la somme des `Semis.Plantes`.
 
 ## Fonctionnement
-**Bandeau** collé en haut : statut (« À jour » / « Non sauvegardé (n) »), boutons de navigation (En cours, À vérifier, À planter, À contrôler), message de succès (4 s), erreur de chargement et erreur d'enregistrement (`entete__message`).
+**Bandeau** collé en haut : statut (« À jour » / « Non sauvegardé (n) »), boutons de navigation (En cours, À vérifier, À planter, À contrôler), filtre et tri (`entete__filtres`), message de succès (4 s), erreur de chargement et erreur d'enregistrement (`entete__message`).
 
-**Filtrer/Trier** : recherche par nom ou variété (accents ignorés, plusieurs mots) ; tri habituel ou par nom.
+**Filtrer/Trier** (dans le bandeau, donc utilisable depuis n'importe quelle section) : recherche par nom ou variété (accents ignorés, plusieurs mots), appliquée à À vérifier, À planter, À contrôler et aux cartes « Au jardin » du volet Fin de saison ; tri habituel ou par nom. Le menu de tri est géré par la zone `#appEntete` (pas de zone à part).
 
 **En cours** : récapitulatif des saisies pas encore enregistrées (germination, plantation, plantes mères), au format « avant → après » (`evolution()` du commun). Un clic ramène à la carte, ✕ annule. En orange : l'essentiel de l'étape (germés, plantés, statut et plants d'une plante mère) ; le reste en gris. « Fin de l'attente » quand une carte en attente est décochée.
 
@@ -49,6 +51,16 @@ Scripts en fin de `<body>`, dans cet ordre : plugin Grist, Vue 3.4.38 (unpkg), `
   - Mort partielle : les lieux cochés sont retirés ; le champ « Nombre de plants » apparaît, prérempli avec le nombre actuel.
 - Nombre de plants (Ajuster ou mort partielle, `avecNombrePlants`) : écrit dans `Nb_plants` **et** dans `Semis.Plantes` de la ligne plante mère (la première s'il y en avait plusieurs).
 - Ligne Semis créée pour une plante mère sans ligne : `Plantes` = nombre de plants (ajusté, sinon `Nb_plants`, sinon 1).
+
+**Fin de saison** (volet replié en bas, case « Préparer la fin de saison (N lignes) ») : lignes datées, hors plantes mères, qui ne sont ni dans « À vérifier » (compté avec les semis sans durée, quelle que soit la case), ni dans « À planter », ni « En attente » de germination dans Grist. Code `casFinSaison(s)` :
+- `jardin` (`Plantes` > 0) : carte « Au jardin, à décider » avec un bouton « Clôturer » (orange quand il est choisi, second clic : annule). Sans clic, la ligne est gardée et reviendra l'an prochain : rappel pour en faire une plante mère dans Achat-repro.
+- `etiquettes` (`Nb_etiquettes` ou `Etiq_en_attente` > 0) : carte dans le même groupe, sans bouton, « Étiquettes en attente : passe d'abord par Achat-repro ».
+- `sans-plant` (semis ratés, tout perdu ou donné) : pas de carte, une ligne « N lignes sans plant au jardin » et un bouton « Tout clôturer » (second clic : annule).
+- Rappel gris : « N lignes clôturées, à supprimer dans Grist (filtre Cloture) ».
+- Dans « En cours » : une seule carte « N lignes à clôturer » (clic : ouvre le volet ; ✕ : tout annuler). Compte dans « Non sauvegardé (n) ».
+- À l'enregistrement : `Cloture` cochée, et pour chaque millésime qui a au moins une ligne clôturée et une `Germination_semis` calculée : `Germination_historique` = `Germination_semis` (écrase l'ancienne), `Annee_germination_ref` = année du dernier semis du millésime dont les germés sont notés. Dans le même `applyUserActions` : la copie ne peut pas être oubliée.
+- Suppression : à la main dans Grist (filtre `Cloture`), après avoir vérifié la colonne « Germ. » du cahier.
+- Plante mère morte (mort totale) : sa ligne Semis (`Plante_mere` décochée sur le millésime, `Ou` vide, `Plantes` = 0) n'est plus une ligne de plante mère et arrive d'elle-même dans « Sans plant au jardin » (ou « Au jardin, à décider » si elle a des étiquettes). Pas de germination copiée (`Germination_semis` vide). Le millésime est gardé (« Morte », date du contrôle, 0 plant). Mort partielle : la ligne reste plante mère, jamais clôturée.
 
 ## Enregistrement
 Un seul bouton « Enregistrer tout », collé en bas.
@@ -75,8 +87,9 @@ Un seul bouton « Enregistrer tout », collé en bas.
 - Nombre de plants baissé : les pieds déjà posés sur le plan restent (à gérer dans l'outil Plan, à sa refonte).
 - Pas d'écoute des changements faits ailleurs dans Grist : recharger le widget.
 
-## À décider plus tard
-- Clôture de saison : les semis des années passées restés sans germes ou avec un reste encombrent « À vérifier » et « À planter ». Piste : un filtre dans cet outil, une fois la clôture définie.
+- Fin de saison : les vieux restes d'« À vérifier » et d'« À planter » ne vont pas dans le volet ; les sortir d'abord par NG ou Oups.
+- Millésime dont une partie des lignes est gardée : après suppression des autres, `Germination_semis` est recalculée sur les lignes gardées seulement, et `Germination_affichee` la préfère à l'historique.
+- Les autres outils (Plan, Sélection pour étiquettes, Semis réalisés) ne lisent pas `Cloture` : supprimer les lignes clôturées sans trop attendre.
 
 ## Classes du commun non utilisées par cet outil
 (Relevé du 21/11/2026, `styles_communs.css`, à revérifier. À ne pas supprimer sans vérifier les autres outils.)
@@ -88,7 +101,7 @@ Un seul bouton « Enregistrer tout », collé en bas.
 - Règle `[hidden]` (aucun attribut `hidden` dans le HTML)
 
 ## Test de recette
-1. Statut « À jour » ; titres et boutons du bandeau justes ; types affichés sur les cartes.
+1. Statut « À jour » ; titres et boutons du bandeau justes ; types affichés sur les cartes. Filtre tapé depuis le bas de page : les cartes sont filtrées sans remonter ; le menu de tri s'ouvre par-dessus les cartes et se ferme au clic ailleurs.
 2. Germes, NG, « En attente » : liseré orange, ligne dans « En cours » au format « avant → après ».
 3. Germés additifs : 4 en Grist + 2 saisis → 6. Carte en attente : case cochée par défaut ; décochée → « Fin de l'attente », la carte quitte À vérifier.
 4. Plus de germés que de graines : avertissement rouge, enregistré au 1er clic.
@@ -97,3 +110,6 @@ Un seul bouton « Enregistrer tout », collé en bas.
 7. Plante mère : « Encore là », « Ajuster » (nombre et lieu : `Nb_plants` et `Semis.Plantes` suivent), « Morte » à un lieu, mort partielle avec nouveau nombre de plants, mort totale.
 8. Erreur affichée : disparaît au clic suivant. Erreur de chargement (`fetchTable("SemisX")`) : en rouge gras dans l'en-tête.
 9. Saisie puis F5 : la saisie disparaît (voulu).
+10. Fin de saison : aucune carte d'« À vérifier », « À planter » ou « À contrôler » dans le volet (même case « sans durée » décochée) ; « Clôturer » et « Tout clôturer » en orange, second clic annule ; carte « N lignes à clôturer » dans En cours.
+11. Enregistrement d'une clôture : `Cloture` cochée, ligne ignorée après rechargement, rappel « N lignes clôturées » ; `Germination_historique` et `Annee_germination_ref` du millésime remplis ; après suppression dans Grist, la colonne « Germ. » du cahier garde la valeur.
+12. Plante mère de test à un lieu marquée « Morte » et enregistrée : « lignes sans plant au jardin » augmente de 1 ; « Tout clôturer » coche sa `Cloture` sans toucher à `Germination_historique`.

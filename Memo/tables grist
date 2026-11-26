@@ -175,6 +175,7 @@ class Semis:
   Etiq_en_attente = grist.Numeric()
   Note_attente = grist.Text()
   Germes_attente = grist.Bool()
+  Cloture = grist.Bool()
 
   @grist.formulaType(grist.Choice())
   def Type(rec, table):
@@ -329,7 +330,7 @@ class Varietes:
     return (TODAY().year - max(refs)) if refs else "Jamais testé"
 
   def A_donner(rec, table):
-    return any(m.Don > 0 for m in Millesimes.lookupRecords(NomVariete=rec.id))
+    return any((m.Don or 0) > 0 for m in Millesimes.lookupRecords(NomVariete=rec.id))
 
   @grist.formulaType(grist.Bool())
   def Disponible(rec, table):

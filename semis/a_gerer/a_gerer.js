@@ -23,6 +23,13 @@ const etat = Vue.reactive({
   ouOuvert: null, // 'semis-12' ou 'mere-12' : sélecteur « Où » ouvert
   rechercheOu: "",
   listeTriOuverte: false,
+  finSaison: false, // afficher le volet « Fin de saison »
+  clotures: {}, // idSemis → true : lignes à clôturer, pas encore enregistrées
+  listeAuJardin: [], // volet : lignes au jardin ou bloquées par des étiquettes (après recherche)
+  totalAuJardin: 0,
+  idsSansPlant: [], // volet : lignes sans plant au jardin et sans étiquettes
+  totalFinSaison: 0, // lignes du volet, sans la recherche
+  totalClotures: 0, // lignes déjà clôturées dans Grist, pas encore supprimées
 });
 
 // ===== Textes des messages (erreurs, succès) =====
@@ -48,7 +55,7 @@ const TEXTES = {
   meresLieuxMortsNonCoches: (noms) =>
     "Coche les lieux où la plante est morte : " + noms,
   meresPlantsInvalides: (noms) =>
-    "Nombre de plants invalide (1 au minimum, sinon marque « Morte ») : " +
+    "Nombre de plants invalide (nombre entier, 1 au minimum) : " +
     noms,
 
   // Résultat de l'enregistrement
@@ -216,7 +223,7 @@ function recapMeres() {
 
 function retirerSaisie(idSemis) {
   delete etat.saisies[idSemis];
-  for (const cle of Object.keys(etat.brut || {})) {
+  for (const cle of Object.keys(etat.brut)) {
     if (cle.startsWith(idSemis + ":")) delete etat.brut[cle];
   }
 }
@@ -262,7 +269,13 @@ async function refuser(section, texte) {
 async function chargerSemis() {
   const tab = await grist.docApi.fetchTable("Semis");
   recordsParId.semis.clear();
+  let clotures = 0;
   for (const s of tableEnLignes(tab)) {
+    // Ligne déjà clôturée : ignorée partout, en attendant sa suppression dans Grist
+    if (s.Cloture) {
+      clotures++;
+      continue;
+    }
     recordsParId.semis.set(s.id, {
       id: s.id,
       nom: s.Nom || "",
@@ -284,8 +297,10 @@ async function chargerSemis() {
       info: s.Info_germination, // 'En attente' | nombre (jours de retard) | 'OK' | 'NG' | ''
       type: s.Type || "",
       attente: !!s.Germes_attente,
+      etiquettes: (s.Nb_etiquettes || 0) + (s.Etiq_en_attente || 0), // à imprimer ou en attente
     });
   }
+  etat.totalClotures = clotures;
 }
 // ===== Plantes mères (table Millesimes) =====
 async function chargerMillesimes() {
@@ -303,6 +318,7 @@ async function chargerMillesimes() {
       anneePlantation: m.Annee_plantation || null,
       statut: m.Statut_mere || "", // '' | 'Vivante' | 'Morte'
       anneeControle: anneeDepuisDate(m.Controle_mere),
+      germinationSemis: typeof m.Germination_semis === "number" ? m.Germination_semis : null,
     });
   }
 }
@@ -451,7 +467,7 @@ function choisirTri(valeur) {
 }
 // Un toucher en dehors du menu le ferme
 document.addEventListener("click", (e) => {
-  if (!e.target.closest("#appRecherche .menu")) etat.listeTriOuverte = false;
+  if (!e.target.closest("#appEntete .menu")) etat.listeTriOuverte = false;
 });
 
 function recalculerListe(cle, tous) {
@@ -476,6 +492,7 @@ function recalculerTout() {
   recalculerVerifier();
   recalculerPlanter();
   recalculerMeres();
+  recalculerFinSaison();
 }
 
 // ===== À vérifier =====
@@ -587,7 +604,7 @@ function totalSaisi(idSemis) {
 
 const UN_AN = 365 * 24 * 3600; // en secondes
 
-function semisAVerifier() {
+function semisAVerifier(avecSansDuree = etat.inclureSansDuree) {
   const maintenant = Date.now() / 1000;
   const base = [...recordsParId.semis.values()].filter(
     (s) => s.date !== null && !sansQuantite(s),
@@ -601,7 +618,7 @@ function semisAVerifier() {
   const enAttente = base
     .filter((s) => s.attente && s.germes !== null && s.germes !== undefined)
     .sort((a, b) => a.date - b.date);
-  const sansDuree = etat.inclureSansDuree
+  const sansDuree = avecSansDuree
     ? sansGermes
         .filter((s) => !s.duree && maintenant - s.date < UN_AN)
         .sort((a, b) => a.date - b.date)
@@ -627,7 +644,8 @@ function nombreSaisies() {
   return (
     saisiesGermes().length +
     saisiesPlantation().length +
-    Object.keys(etat.saisiesMeres).length
+    Object.keys(etat.saisiesMeres).length +
+    nombreClotures()
   );
 }
 
@@ -734,6 +752,88 @@ function besoinLieuMere(m) {
     statutMere(m.id) === "Vivante" && (m.ou.length === 0 || ajusteMere(m.id))
   );
 }
+// ===== Fin de saison =====
+function semisFinSaison() {
+  // Lignes datées, hors plantes mères, qui ne sont ni à vérifier, ni à planter, ni en train de germer
+  const ailleurs = new Set([...semisAVerifier(true), ...semisAPlanter()].map((s) => s.id));
+  return [...recordsParId.semis.values()]
+    .filter((s) => s.date !== null && !s.planteMere && s.info !== "En attente" && !ailleurs.has(s.id))
+    .sort((a, b) => a.date - b.date);
+}
+
+function casFinSaison(s) {
+  // 'etiquettes' : à finir d'abord dans Achat-repro ; 'jardin' : à décider ; 'sans-plant' : groupe « Tout clôturer »
+  if (s.etiquettes > 0) return "etiquettes";
+  return s.plantes > 0 ? "jardin" : "sans-plant";
+}
+
+function recalculerFinSaison() {
+  const tous = semisFinSaison();
+  etat.totalFinSaison = tous.length;
+  recalculerListe("AuJardin", tous.filter((s) => casFinSaison(s) !== "sans-plant"));
+  etat.idsSansPlant = tous.filter((s) => casFinSaison(s) === "sans-plant").map((s) => s.id);
+}
+
+function aCloturer(idSemis) {
+  return !!etat.clotures[idSemis];
+}
+
+function basculerCloture(idSemis) {
+  // Un second clic annule
+  if (etat.clotures[idSemis]) delete etat.clotures[idSemis];
+  else etat.clotures[idSemis] = true;
+}
+
+function sansPlantTousChoisis() {
+  return etat.idsSansPlant.length > 0 && etat.idsSansPlant.every((id) => etat.clotures[id]);
+}
+
+function toutCloturerSansPlant() {
+  // 1er clic : toutes les lignes sans plant ; 2e clic : on annule
+  const annuler = sansPlantTousChoisis();
+  for (const id of etat.idsSansPlant) {
+    if (annuler) delete etat.clotures[id];
+    else etat.clotures[id] = true;
+  }
+}
+
+function nombreClotures() {
+  return Object.keys(etat.clotures).length;
+}
+
+function annulerClotures() {
+  etat.clotures = {};
+}
+
+async function allerFinSaison() {
+  etat.finSaison = true; // ouvre le volet
+  await Vue.nextTick();
+  aller("appFinSaison");
+}
+
+function actionsGermination(idsClotures) {
+  // Avant la suppression des lignes : germination de chaque millésime concerné → Millesimes
+  const anneeParMillesime = new Map(); // idMillesime → année du dernier semis dont les germés sont notés
+  for (const id of idsClotures) {
+    const s = recordsParId.semis.get(id);
+    if (s.millesimeId) anneeParMillesime.set(s.millesimeId, 0);
+  }
+  for (const s of recordsParId.semis.values()) {
+    if (!anneeParMillesime.has(s.millesimeId)) continue;
+    if (s.germes === null || s.germes === undefined || s.date === null) continue;
+    const annee = anneeDepuisDate(s.date);
+    if (annee > anneeParMillesime.get(s.millesimeId)) anneeParMillesime.set(s.millesimeId, annee);
+  }
+  const actions = [];
+  for (const [idMillesime, annee] of anneeParMillesime) {
+    const m = recordsParId.millesimes.get(idMillesime);
+    if (!m || m.germinationSemis === null) continue; // pas de germination calculée : on ne touche à rien
+    const champs = { Germination_historique: m.germinationSemis };
+    if (annee) champs.Annee_germination_ref = annee;
+    actions.push(["UpdateRecord", "Millesimes", idMillesime, champs]);
+  }
+  return actions;
+}
 
 // ===== Enregistrement =====
 const afficherSucces = creerMessageTemporaire((texte) => {
@@ -746,10 +846,14 @@ async function enregistrerTout() {
   const lignesMeres = Object.entries(etat.saisiesMeres)
     .map(([id, saisie]) => ({ id: Number(id), saisie }))
     .filter((l) => recordsParId.millesimes.has(l.id));
+  const lignesClotures = Object.keys(etat.clotures)
+    .map(Number)
+    .filter((id) => recordsParId.semis.has(id));    
   if (
     (lignesGermes.length === 0 &&
       lignesPlantation.length === 0 &&
-      lignesMeres.length === 0) ||
+      lignesMeres.length === 0 &&
+      lignesClotures.length === 0) ||
     etat.enregistrement
   )
     return;
@@ -824,7 +928,7 @@ async function enregistrerTout() {
   afficherSucces("");
   etat.enregistrement = true;
 
-  const n = lignesGermes.length + lignesPlantation.length + lignesMeres.length;
+  const n = lignesGermes.length + lignesPlantation.length + lignesMeres.length + lignesClotures.length;
   try {
     const actions = [];
     if (lignesGermes.length) {
@@ -934,10 +1038,21 @@ async function enregistrerTout() {
         }
       }
     }
+    // Fin de saison : case Cloture + copie de la germination, dans le même envoi
+    if (lignesClotures.length) {
+      actions.push([
+        "BulkUpdateRecord",
+        "Semis",
+        lignesClotures,
+        { Cloture: lignesClotures.map(() => true) },
+      ]);
+      actions.push(...actionsGermination(lignesClotures));
+    }    
     await grist.docApi.applyUserActions(actions);
     etat.saisies = {};
     etat.saisiesMeres = {};
-    if (etat.brut) etat.brut = {};
+    etat.clotures = {};    
+    etat.brut = {};
     afficherSucces(TEXTES.succes(n));
   } catch (err) {
     console.error(err);
@@ -972,14 +1087,9 @@ async function chargerChoix() {
 // ===== Vue =====
 Vue.createApp({
   setup() {
-    return { etat, nombreSaisies, aller };
+    return { etat, nombreSaisies, aller, basculerTri, choisirTri };
   },
 }).mount("#appEntete");
-Vue.createApp({
-  setup() {
-    return { etat, basculerTri, choisirTri };
-  },
-}).mount("#appRecherche");
 Vue.createApp({
   setup() {
     return {
@@ -991,7 +1101,9 @@ Vue.createApp({
       allerMere,
       retirerSaisie,
       retirerMere,
-
+      nombreClotures,
+      annulerClotures,
+      allerFinSaison,
       pluriel,
       evolution,
     };
@@ -1023,7 +1135,6 @@ Vue.createApp({
     return {
       etat,
       libelle,
-
       dateAffichee,
       pluriel,
       aPlantationDe,
@@ -1050,7 +1161,6 @@ Vue.createApp({
     return {
       etat,
       libelle,
-
       pluriel,
       statutMere,
       choisirStatutMere,
@@ -1076,11 +1186,26 @@ Vue.createApp({
 }).mount("#appMeres");
 Vue.createApp({
   setup() {
+    return {
+      etat,
+      libelle,
+      dateAffichee,
+      pluriel,
+      casFinSaison,
+      aCloturer,
+      basculerCloture,
+      sansPlantTousChoisis,
+      toutCloturerSansPlant,
+    };
+  },
+}).mount("#appFinSaison");
+Vue.createApp({
+  setup() {
     return { etat, nombreSaisies, enregistrerTout };
   },
 }).mount("#appEnregistrer");
 
-// Quand la recherche, le tri ou une case d'option change, on recalcule les trois listes
+// Quand la recherche, le tri ou une case d'option change, on recalcule les quatre listes
 Vue.watch(
   () => [
     etat.recherche,

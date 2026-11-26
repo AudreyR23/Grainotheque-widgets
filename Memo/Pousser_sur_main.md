@@ -11,8 +11,11 @@ git commit -m "Description"
 git push
 
 ## 2. Vérifier les chemins des fichiers de l'outil
-git ls-tree -r Vue --name-only | grep nom_outil | tr '\n' ' '
+git ls-tree -r Vue --name-only | grep gestion | tr '\n' ' '
+git ls-tree -r Vue --name-only | grep pour_impression | tr '\n' ' '
+git ls-tree -r Vue --name-only | grep semis | tr '\n' ' '
 
+gestion/achatrepro/achatrepro.css gestion/achatrepro/achatrepro.html gestion/achatrepro/achatrepro.js gestion/achatrepro/achatrepro_notes.md gestion/boite_a_dons/boite_a_dons.css gestion/boite_a_dons/boite_a_dons.html gestion/boite_a_dons/boite_a_dons.js gestion/boite_a_dons/boite_a_dons_notes.md gestion/boite_a_dons/dons.json gestion/boite_a_dons/generateur_dons/generateur_dons.css gestion/boite_a_dons/generateur_dons/generateur_dons.html gestion/boite_a_dons/generateur_dons/generateur_dons.js gestion/gestion_etiquettes/gestion_etiquettes.css gestion/gestion_etiquettes/gestion_etiquettes.html gestion/gestion_etiquettes/gestion_etiquettes.js gestion/gestion_etiquettes/gestion_etiquettes_notes.md gestion/numerotation/numerotation.html gestion/numerotation/numerotation.js gestion/numerotation/numerotation_notes.md pour_impression/cahier/cahier.css pour_impression/cahier/cahier.html pour_impression/cahier/cahier.js pour_impression/cahier/cahier_notes.md pour_impression/calendrier/calendrier.css pour_impression/calendrier/calendrier.html pour_impression/calendrier/calendrier.js pour_impression/calendrier/calendrier_notes.md pour_impression/etiquettes/etiquettes.css pour_impression/etiquettes/etiquettes.html pour_impression/etiquettes/etiquettes.js pour_impression/etiquettes/etiquettes_notes.md pour_impression/numero/numero.css pour_impression/numero/numero.html pour_impression/numero/numero.js pour_impression/numero/numero_notes.md semis/a_gerer/a_gerer.css semis/a_gerer/a_gerer.html semis/a_gerer/a_gerer.js semis/a_gerer/a_gerer.md semis/plan/plan.css semis/plan/plan.html semis/plan/plan.js semis/plan/plan_notes.md semis/semis_realises/semis_realises.css semis/semis_realises/semis_realises.html semis/semis_realises/semis_realises.js semis/semis_realises/semis_realises_notes.md script/scriptcommun.js  styles/styles_communs.css
 ## 3. Copier seulement ces fichiers sur main
 git checkout main
 git pull

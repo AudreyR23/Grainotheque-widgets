@@ -26,3 +26,8 @@
   overflow: hidden;
   visibility: hidden;
 }
+
+/* Filtre et tri dans l'en-tête collé : seuls sur leur ligne */
+.entete__filtres {
+  flex-basis: 100%;
+}

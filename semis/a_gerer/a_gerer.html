@@ -40,6 +40,46 @@
           À contrôler ({{ etat.totalMeres }})
         </button>
       </nav>
+      <div class="entete__filtres">
+        <input
+          id="recherche"
+          class="champ champ--compact"
+          type="search"
+          placeholder="Filtrer par nom de variété…"
+          autocomplete="off"
+          v-model="etat.recherche"
+        />
+        <div class="ligne ligne--tri">
+          <label class="texte texte--discret" for="boutonTri">Trier par</label>
+          <div class="menu menu--auto">
+            <button
+              id="boutonTri"
+              type="button"
+              class="champ champ--bouton champ--compact"
+              @click="basculerTri()"
+            >
+              {{ etat.tri === 'nom' ? 'Nom' : 'Ordre habituel (retard / ancienneté)' }}
+              <span class="reserve" aria-hidden="true">Ordre habituel (retard / ancienneté)</span>
+            </button>
+            <ul class="menu__liste" v-show="etat.listeTriOuverte" @mousedown.prevent>
+              <li
+                class="menu__item"
+                :class="{ 'menu__item--choisi': etat.tri === 'defaut' }"
+                @click="choisirTri('defaut')"
+              >
+                Ordre habituel (retard / ancienneté)
+              </li>
+              <li
+                class="menu__item"
+                :class="{ 'menu__item--choisi': etat.tri === 'nom' }"
+                @click="choisirTri('nom')"
+              >
+                Nom
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>      
       <p v-if="etat.succes" class="encart encart--succes texte texte--succes entete__message">
         {{ etat.succes }}
       </p>
@@ -55,7 +95,7 @@
     <main>
       <div id="appEnCours">
         <section
-          v-if="recapGermes().length || recapPlantation().length || recapMeres().length "
+          v-if="recapGermes().length || recapPlantation().length || recapMeres().length || nombreClotures()"
         >
           <h2>En cours : pas encore enregistré</h2>
  
@@ -260,54 +300,26 @@
               </li>
             </ul>
           </div>
-        </section>
-      </div>
-      <h3>Filtrer/Trier</h3>
-      <div id="appRecherche">
-        <input
-          id="recherche"
-          class="champ"
-          type="search"
-          placeholder="Filtrer par nom de variété…"
-          autocomplete="off"
-          v-model="etat.recherche"
-        />
-        <div class="ligne ligne--tri">
-          <label class="texte texte--discret" for="boutonTri">Trier par</label>
-          <div class="menu menu--auto">
-            <button
-              id="boutonTri"
-              type="button"
-              class="champ champ--bouton champ--compact"
-              @click="basculerTri()"
-            >
-              {{ etat.tri === 'nom' ? 'Nom' : 'Ordre habituel (retard / ancienneté)' }}
-              <span class="reserve" aria-hidden="true"
-                >Ordre habituel (retard / ancienneté)</span
-              >
-            </button>
-            <ul
-              class="menu__liste"
-              v-show="etat.listeTriOuverte"
-              @mousedown.prevent
-            >
-              <li
-                class="menu__item"
-                :class="{ 'menu__item--choisi': etat.tri === 'defaut' }"
-                @click="choisirTri('defaut')"
-              >
-                Ordre habituel (retard / ancienneté)
-              </li>
-              <li
-                class="menu__item"
-                :class="{ 'menu__item--choisi': etat.tri === 'nom' }"
-                @click="choisirTri('nom')"
-              >
-                Nom
+                    <div v-if="nombreClotures()">
+            <h3>🧹 Fin de saison</h3>
+            <ul class="liste-carte grille">
+              <li class="carte carte--etape carte--cliquable" @click="allerFinSaison()">
+                <div class="carte__contenu">
+                  <span class="texte texte--etape">{{ nombreClotures() }} {{ pluriel(nombreClotures(), 'ligne à clôturer', 'lignes à clôturer') }}</span>
+                </div>
+                <button
+                  type="button"
+                  class="btn btn--suppr carte__action"
+                  title="Tout annuler"
+                  aria-label="Annuler la fin de saison"
+                  @click.stop="annulerClotures()"
+                >
+                  ✕
+                </button>
               </li>
             </ul>
           </div>
-        </div>
+        </section>
       </div>
  
       <div id="appVerifier">
@@ -347,7 +359,7 @@
             <div>
               <strong>{{ libelle(s) }}</strong
               ><span v-if="s.type" class="carte__type"
-                >{{ (s.type) }}</span
+                >{{ s.type }}</span
               >
             </div>
             <div class="ligne">
@@ -448,7 +460,7 @@
             <div>
               <strong>{{ libelle(s) }}</strong>
               <span v-if="s.type" class="carte__type"
-                >{{ (s.type) }}</span
+                >{{ s.type }}</span
               >
             </div>
             <div class="ligne">
@@ -622,7 +634,7 @@
               <div>
                 <strong>{{ libelle(m) }}</strong
                 ><span v-if="m.type" class="carte__type"
-                  >{{ (m.type) }}</span
+                  >{{ m.type }}</span
                 >
               </div>
               <div class="ligne">
@@ -770,7 +782,64 @@
           Aucune plante mère à contrôler cette année.
         </p>
       </div>
- 
+      <div id="appFinSaison">
+        <h2>🧹 Fin de saison</h2>
+        <div class="ligne">
+          <label class="case">
+            <input type="checkbox" class="case__saisie" v-model="etat.finSaison" />
+            <span class="case__texte">Préparer la fin de saison ({{ etat.totalFinSaison }} {{ pluriel(etat.totalFinSaison, 'ligne') }})</span>
+          </label>
+        </div>
+        <p v-if="etat.totalClotures" class="texte texte--discret">
+          {{ etat.totalClotures }} {{ pluriel(etat.totalClotures, 'ligne clôturée', 'lignes clôturées') }}, à supprimer dans Grist (filtre Cloture).
+        </p>
+        <section v-if="etat.finSaison">
+          <h3>Au jardin, à décider ({{ etat.listeAuJardin.length }})</h3>
+          <ul class="liste-carte grille">
+            <li
+              v-for="s in etat.listeAuJardin"
+              :key="s.id"
+              :id="'cloture-' + s.id"
+              class="carte carte--colonne"
+              :class="{ 'carte--etape': aCloturer(s.id) }"
+            >
+              <div>
+                <strong>{{ libelle(s) }}</strong><span v-if="s.type" class="carte__type">{{ s.type }}</span>
+              </div>
+              <div class="ligne">
+                <span class="texte texte--discret">semé le {{ dateAffichee(s.date) }} ·</span>
+                <span v-if="s.plantes > 0" class="texte texte--discret">{{ s.plantes }} {{ pluriel(s.plantes, 'planté') }} ·</span>
+                <span v-if="s.ou.length" class="texte texte--ici">📍 {{ s.ou.join(', ') }}</span>
+              </div>
+              <div class="ligne">
+                <span v-if="casFinSaison(s) === 'etiquettes'" class="texte texte--erreur texte--gras">⚠ Étiquettes en attente : passe d'abord par Achat-repro.</span>
+                <button
+                  v-else
+                  type="button"
+                  class="btn"
+                  :class="{ 'btn--etape': aCloturer(s.id) }"
+                  @click="basculerCloture(s.id)"
+                >
+                  Clôturer
+                </button>
+              </div>
+            </li>
+          </ul>
+          <h3>Sans plant au jardin</h3>
+          <div class="ligne">
+            <span class="texte texte--discret">{{ etat.idsSansPlant.length }} {{ pluriel(etat.idsSansPlant.length, 'ligne sans plant au jardin', 'lignes sans plant au jardin') }}</span>
+            <button
+              v-if="etat.idsSansPlant.length"
+              type="button"
+              class="btn"
+              :class="{ 'btn--etape': sansPlantTousChoisis() }"
+              @click="toutCloturerSansPlant()"
+            >
+              Tout clôturer
+            </button>
+          </div>
+        </section>
+      </div> 
       <div id="appEnregistrer" class="zone-transparente">
         <button
           type="button"
