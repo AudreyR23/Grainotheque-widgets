@@ -26,7 +26,7 @@ Scripts en fin de `<body>`, dans cet ordre : plugin Grist, Vue 3.4.38 (unpkg), `
 - Plante mère : `Nb_plants` fait foi. `Semis.Plantes` de sa ligne le suit, car il est lu par le **plan** (nombre de pieds à poser) et par les **étiquettes** (« N plantés »). La formule `Millesimes.Plantes` renvoie `Nb_plants` pour une plante mère, sinon la somme des `Semis.Plantes`.
 
 ## Fonctionnement
-**Bandeau** collé en haut : statut (« À jour » / « Non sauvegardé (n) »), boutons de navigation (En cours, À vérifier, À planter, À contrôler), filtre et tri (`entete__filtres`), message de succès (4 s), erreur de chargement et erreur d'enregistrement (`entete__message`).
+**Bandeau** collé en haut : statut (« À jour » / « Non sauvegardé (n) »), boutons de navigation (En cours, À vérifier, À planter, À contrôler, À cloturer), filtre et tri (`entete__filtres`), message de succès (4 s), erreur de chargement et erreur d'enregistrement (`entete__message`).
 
 **Filtrer/Trier** (dans le bandeau, donc utilisable depuis n'importe quelle section) : recherche par nom ou variété (accents ignorés, plusieurs mots), appliquée à À vérifier, À planter, À contrôler et aux cartes « Au jardin » du volet Fin de saison ; tri habituel ou par nom. Le menu de tri est géré par la zone `#appEntete` (pas de zone à part).
 

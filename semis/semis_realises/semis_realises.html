@@ -27,11 +27,11 @@
         <ul class="liste-carte">
           <li v-for="b in etat.aEnregistrer" :key="b.id" class="carte carte--etape">
             <div class="carte__contenu">
-              <strong>{{ nomDeCarte(b) }}</strong>
+<div><strong>{{ libelle(b.variete) }}</strong><span v-if="b.variete.type" class="carte__type">{{ b.variete.type }}</span></div>
               <div><span class="pastille pastille--categorie" :class="b.mode === 'pleine_terre' ? 'pastille--pleineterre' : 'pastille--sousabri'">{{ b.mode === 'pleine_terre' ? 'Pleine terre' : 'Sous abri' }}</span></div>
               <div class="texte texte--discret">{{ libelleMillesime(b.millesime) }} · {{ dateAffichee(dateEnSecondes(b.date)) }} · <template v-if="b.mode === 'pleine_terre'">{{ b.graines }} {{ pluriel(b.graines, 'graine') }}</template><template v-else>{{ b.godets }} {{ pluriel(b.godets, 'godet') }} × {{ b.graines }} {{ pluriel(b.graines, 'graine') }}</template><template v-if="b.ou.length"> · {{ b.ou.join(', ') }}</template><template v-if="b.sachetVide"> · sachet vidé</template><template v-if="b.reproduire === true"> · à reproduire</template><template v-else-if="b.reproduire === false"> · ne plus reproduire</template></div>
             </div>
-            <button type="button" class="btn btn--suppr carte__action" title="Retirer de la liste" :aria-label="`Retirer ${nomDeCarte(b)}`" @click="retirerDeLaListe(b.id)">✕</button>
+            <button type="button" class="btn btn--suppr carte__action" title="Retirer de la liste" :aria-label="`Retirer ${libelle(b.variete)}`" @click="retirerDeLaListe(b.id)">✕</button>
           </li>
         </ul>
       </section>
