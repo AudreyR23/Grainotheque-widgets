@@ -51,7 +51,6 @@ class Millesimes:
   Statut_mere = grist.Choice()
   Controle_mere = grist.Date()
   Nb_plants = grist.Numeric()
-  Melange = grist.Bool()
   Type_plant = grist.Choice()
 
   @grist.formulaType(grist.Choice())
@@ -136,6 +135,17 @@ class Millesimes:
     if annee:
         txt += "({:02d})".format(int(annee) % 100)
     return txt
+
+  @grist.formulaType(grist.Text())
+  def Lieu_cahier(rec, table):
+    if not rec.Plante_mere:
+      return ""
+    lieux = []
+    for s in Semis.lookupRecords(Millesime=rec.id):
+      for l in (s.Ou or []):
+        if l not in lieux:
+          lieux.append(l)
+    return ", ".join(lieux)
 
 
 @grist.UserTable

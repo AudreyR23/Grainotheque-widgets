@@ -4,6 +4,7 @@
 - Widgets Grist en HTML/CSS/JS hébergés sur GitHub (branche de dev `Vue`, branche en ligne `main`).
 - Je travaille en français et je suis débutante en Vue : explique brièvement les notions nouvelles.
 - Je ne suis pas développeuse : donne des modifications précises (fichier, endroit exact, fonction complète à remplacer), avec un test après chaque étape.
+- **Une seule mécanique à comprendre** : tous les outils sont écrits de la même façon (zones Vue, pas de composants). Pas de « bonne pratique » qui ajoute une seconde mécanique.
 - Une discussion par outil. Les changements du commun (`scriptcommun.js`, CSS communs) se traitent à part.
 - Outils : À gérer, Sélection pour étiquettes, Semis réalisés, Achat-repro (saisie) ; Étiquettes, Cahier, Calendrier, Numéros (impression) ; Numérotation. Boîte à dons et Plan : pas encore migrés.
 - Pas de Ferrari : écrire tout de suite quand l'action est petite et réversible (Ctrl+Z dans Grist) ; ne vérifier que ce qui arrive vraiment ; laisser à Grist ce qu'il sait faire (corriger une cellule, annuler, filtrer).
@@ -13,23 +14,30 @@
 - Outils d'impression : `../../styles/styles_communs_pourimpression.css` en plus, chargé **entre** le commun et le CSS de l'outil.
 - Les outils pas encore migrés utilisent encore l'ancien `styles_commun.css`.
 - Scripts en fin de `<body>`, dans cet ordre : plugin Grist, Vue 3.4.38 (unpkg), `scriptcommun.js`, `outil.js`.
-- Les textes (`TEXTES`) sont dans `outil.js`, Achat-repro compris (`achatrepro_textes.js` n'est plus chargé).
+- Les textes (`TEXTES`) sont dans `outil.js`, jamais dans un fichier à part.
 - `grist.ready({ requiredAccess: 'full' })`.
 
 ## Vue (sans compilation)
-- Une zone `<div id="appXxx">` par bloc, montée par `Vue.createApp({ setup() { return {...} } }).mount('#appXxx')`. Vue reconstruit la zone : un écouteur JS posé dessus est perdu.
-- Exception : **Achat-repro** n'a qu'un seul point de montage (`#app`) et des **composants** (`app.component('nom', {...})`) dont les gabarits sont des `<template id="tpl-nom">` placés **hors** de `#app`. Règles des gabarits : pas de balise de composant auto-fermante (`<choix-multiple></choix-multiple>`), attributs en minuscules et en kebab-case (`champ-id`, `sur-ajout`, `@update:model-value`). Un gabarit ne voit que les props, `data`, `computed` et `methods` de son composant (pas `etat`) : une valeur globale se déclare dans `data()` (ex. `MOIS: LISTE_MOIS.map(m => m.valeurs[0])`).
-- Un seul état réactif `etat = Vue.reactive({...})`, en haut du fichier.
-- Toute fonction ou valeur appelée par le HTML doit figurer dans le `return` du `setup` de la zone. Un oubli (ou un nom qui n'existe plus) donne `Property "xxx" was accessed during render…` ou `xxx is not defined`, et la zone disparaît. Ne mettre dans le `return` que ce que la zone utilise.
+- Une zone `<div id="appXxx">` par bloc, montée par `Vue.createApp({ setup() { return {...} } }).mount('#appXxx')`. Vue reconstruit la zone : un écouteur JS posé dessus est perdu. Un `v-show` ou un `v-if` sur le bloc se met **dans** la zone (sur un `<section>` à l'intérieur du `<div id="appXxx">`), pas sur l'élément monté. L'en-tête peut être sa propre zone : `<header id="appEntete" class="entete">`.
+- **Pas de composants** (`app.component`, `<template id="tpl-…">`) : un bloc qui se répète s'écrit en entier dans le HTML, avec des fonctions du JS. Achat-repro en avait ; il a été migré le 26/11.
+- Un seul état réactif `etat = Vue.reactive({...})`, en haut du fichier, **partagé par toutes les zones** de l'outil (c'est ce qui permet l'enchaînement d'un panneau à l'autre).
+- Toute fonction ou valeur appelée par le HTML doit figurer dans le `return` du `setup` de **sa** zone. Un oubli (ou un nom qui n'existe plus) donne `Property "xxx" was accessed during render…` ou `xxx is not defined`, et la zone disparaît. Ne mettre dans le `return` que ce que la zone utilise.
 - Une expression invalide dans le HTML (ex. `:class="menu__item {…}"`) fait afficher les `{{ }}` bruts sur toute la zone.
 - Vue ne suit pas les `Map` : les données restent dans des `Map` (`recordsParId`), et les listes affichées sont copiées dans `etat` par des fonctions `recalculer…()`.
 - Un `Vue.watch` recalcule les listes quand un filtre change. Les `watch` peuvent s'enchaîner (un `watch` qui modifie l'état en déclenche un autre) : vérifier avant d'en ajouter.
 - `@click` (pas `pointerdown`) dans les listes qui défilent. `@mousedown.prevent` sur un menu déroulant garde le focus dans le champ. Pour fermer un menu par un clic ailleurs, utiliser un écouteur `click` sur `document` (Safari ne donne pas le focus aux boutons).
 - Bouton dont le choix est en cours (et onglet ouvert) : `:class="{ 'btn--etape': condition }"`, la condition venant d'une fonction du JS (ex. `toutPlanteDe(s)`).
 - `v-else-if` / `v-else` doivent suivre directement la balise qui porte le `v-if`.
-- Pas de `createElement`, `innerHTML` ni `getElementById` pour écrire dans l'interface (donner le focus à un champ avec `getElementById(...).focus()` dans un `Vue.nextTick` est toléré).
+- Pas de `createElement`, `innerHTML` ni `getElementById` pour écrire dans l'interface (donner le focus à un champ avec `getElementById(...).focus()` dans un `Vue.nextTick` est toléré : `donnerLeFocus(id)` d'Achat-repro).
 - Ne jamais lancer « Mettre en forme le document » sur un fichier **HTML** : le formateur coupe les lignes longues, y compris au milieu d'un texte entre apostrophes dans un `{{ }}` ou un `:class`. Une chaîne coupée sur deux lignes fait planter toute la zone (« string literal contains an unescaped line break »). Sur un fichier **JS**, c'est sans danger. Si c'est arrivé : Ctrl+Z, ou comparer avec la version Git, puis recoller sur une seule ligne les textes coupés.
 - Vue compile le HTML au `.mount()` : une erreur dans le HTML est signalée à la ligne `.mount(...)` du JS, pas dans le HTML. Lire le texte de l'erreur, pas seulement la ligne.
+
+### Menus et choix écrits à la main (modèle : Achat-repro)
+- **Menu à choix unique** : `<div class="menu">` > bouton `champ champ--bouton champ--deroulant` + `<ul class="menu__liste" v-show="etat.menuOuvert === 'nom'" @mousedown.prevent>`. `etat.menuOuvert` contient le nom du menu ouvert (un seul à la fois). Fonctions : `basculerMenu(nom)`, `choisir(objet, cle, valeur)` (écrit le choix et ferme), `libelleDe(options, valeur)` (libellé d'une option `{ valeur, libelle }`). Un écouteur `click` sur `document` ferme le menu ouvert si le clic est hors d'un `.menu`.
+- **Champ avec recherche** : `<input type="search">` dans un `menu`, texte tapé dans `etat.recherches[nom]`, fonctions `ouvrirRecherche`, `saisirRecherche`, `fermerRecherche`, `choisirRecherche`. Liste filtrée par `chercher(options, saisie)` (40 résultats au plus, `LIMITE_RECHERCHE`) ou `lieuxFiltres` (choix multiple), dans une valeur calculée (`Vue.computed`).
+- **Pastilles** (choix multiple) : `v-for` sur la liste des choix, `:class="{ 'pastille--etape': liste.includes(c) }"`, `@click="basculerDans(liste, c)"` (ajoute ou retire sur place). Pour une liste avec recherche : pastilles choisies (`ligne--sur-champ`, retrait par clic) + champ + `ajouterDans(nom, liste, valeur)`.
+- **Ajout d'un choix** : `etat.ajout = { cible, texte, enCours }` (un seul petit champ ouvert à la fois), `ouvrirAjout`, `annulerAjout`, `validerAjout`.
+- Les choix vides de Grist sont ignorés **au chargement** (`sansVides(liste)`), pas dans le HTML.
 
 ## Principe : le JS calcule, le HTML met en forme
 - Le JS renvoie des valeurs ou des codes (`casOu(s)` → `'reste' | 'manquant' | 'aucun'`, `cas: 'morte'`), jamais des phrases ni des classes de style.
@@ -67,12 +75,13 @@
 - Quantités saisies = ajouts aux valeurs chargées (germés, plantés, oups, dons).
 - Nombres saisis : **entiers seulement** (`entierOuNull`). Si la saisie n'est pas un entier, **un message d'erreur s'affiche** et rien n'est enregistré. Un `<input type="number">` renvoie une valeur vide pour `abc`, donc ne peut pas signaler l'erreur : préférer un champ texte (`type="text" inputmode="numeric"`) avec un contrôle dans le JS.
 - Pas de relecture avant écriture (décision du 23/11) : les quantités s'ajoutent aux valeurs chargées, rafraîchies après chaque enregistrement.
-- **Un seul `applyUserActions` par enregistrement**, sauf quand une action a besoin d'un id créé par une autre (ex. la ligne `Semis` d'une plante mère a besoin de l'id du millésime) : alors **deux envois au maximum**, toutes les **lectures avant** la première écriture. Pas d'annulation automatique si le second échoue (décision du 23/11) : le message d'erreur dit quoi vérifier.
+- **Un seul `applyUserActions` par enregistrement**, sauf quand une action a besoin d'un id créé par une autre (ex. la ligne `Semis` d'une plante mère a besoin de l'id du millésime) : alors **deux envois au maximum**, toutes les **lectures avant** la première écriture. Pas d'annulation automatique si le second échoue (décision du 23/11) : le message d'erreur dit quoi vérifier. Achat-repro applique cette règle depuis le 25/11.
 - Ajouter un choix à une colonne Choice / ChoiceList (Achat-repro, `ajouterChoixColonne`) : relire les réglages de la colonne avec `colonneGrist`, ajouter la valeur dans `choices`, puis `['ModifyColumn', table, colonne, { widgetOptions: JSON.stringify(options) }]`. `ModifyColumn` remplace **tous** les réglages : toujours renvoyer ceux qu'on a lus, jamais seulement la liste. Comparer sans casse ni accents pour éviter les doublons.
 - `Millesimes.Nb_sachets` est numérique (1 pour un sachet, vide pour épuisé) : pas de lettres.
 - Plante mère : une ligne `Millesimes` + une seule ligne `Semis` sans godets ni graines (`Ou`, `Plantes`), reconnue par `estLigneMere(s)`. `Millesimes.Nb_plants` fait foi ; `Semis.Plantes` de cette ligne le suit (lu par le plan et les étiquettes) ; la formule `Millesimes.Plantes` renvoie `Nb_plants` pour une plante mère.
 - Plante mère = plant au jardin : `Type_plant` (pieds, rhizome, caïeux, bulbe). Jamais `Epuise` (formule) : l'exclure du choix d'un sachet sauf si elle a des graines (`Qtte_graines` ou `Nb_sachets`). À la mort totale, À gérer décoche `Plante_mere`.
-- Sachet mélangé : case `Millesimes.Melange`.
+- Sachet mélangé : case `Millesimes.Melange` (sens actuel : plusieurs millésimes d'une même variété, pas un mélange de variétés ; un vrai mélange = une variété « Espèce - Mélange », voir les notes d'Achat-repro).
+- « À reproduire » : colonne de données `Varietes.A_reproduire` ; `Semis.A_produire` est une formule qui la lit.
 
 ## Saisies non enregistrées
 - Elles vivent dans des objets de `etat` (`saisies`, `saisiesMeres`) et sont perdues au rechargement : voulu (décision du 23/11, plus de `sessionStorage`).
@@ -120,9 +129,11 @@
 
 ## Méthode de travail
 - Une modification à la fois, puis un test et la console (F12, filtre vidé).
+- **Partir du fichier réel** : avant de proposer un remplacement, relire le fichier de l'outil (les copies du projet peuvent dater d'avant les dernières étapes : les redéposer) et reprendre ses noms exacts. Un nom recopié de mémoire (ex. une ancienne constante) fait échouer le remplacement.
 - Après un copier-coller, **relire le bloc autour** : un `return` grignoté, un `=` à la place d'un `<=`, un bloc collé au mauvais endroit (ou dans la mauvaise fonction : une fonction qui s'appelle elle-même donne « too much recursion »), une ligne supprimée au lieu d'être remplacée, ou un `id` en double ont causé la plupart des erreurs.
 - Retirer une fonction = retirer aussi tous ses appels, ses `watch` et sa place dans les `return` : Ctrl+Maj+F sur son nom doit donner 0 résultat ensuite.
 - Ctrl+Maj+F sur le nom qu'on vient de coller ou de supprimer : un compte inattendu trahit un doublon ou un reste. Exclure `node_modules` de la recherche.
+- Renommage global (`modele` → `espece`) : Remplacer dans les fichiers de l'outil, **casse respectée**, du plus long au plus court (`MODELE`, `Modele`, `modele`), puis Ctrl+Maj+F sur l'ancien nom.
 - Ctrl+F5 après un changement du CSS ou du JS commun ; ouvrir tous les outils qui en dépendent.
 - Après un déplacement de fichiers ou de dossiers : vérifier l'URL du widget dans Grist, les chemins relatifs du HTML, puis recharger de force. Une erreur qui cite un ancien nom (`KeyError 'Sachets'`) vient souvent d'une ancienne copie encore exécutée.
 - Un commit avant chaque série de changements.
@@ -134,3 +145,5 @@
 
 ## Points ouverts
 - Boîte à dons : passer à `LISTE_MOIS` lors de sa refonte.
+- Achat-repro : `ajouterChoixColonne`, `existeDeja`, `sansVides`, `basculerDans` et `chercher` pourraient rejoindre le commun si un autre outil en a besoin (discussion à part). Les menus de À gérer (`ouvertOu`, `lieuxProposes`) et ceux d'Achat-repro (`etat.menuOuvert`, `etat.recherches`) font la même chose avec deux écritures : à rapprocher si un outil est repris.
+- Sachets de mélange : piste « une variété Espèce - Mélange » à discuter à part (touche tous les outils), avec le renommage éventuel de `Millesimes.Melange`.

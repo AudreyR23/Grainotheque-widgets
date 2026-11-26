@@ -4,8 +4,8 @@
 // Plan du fichier :
 //   1. Constantes            5. Valeurs calculées       9. Millésimes
 //   2. État                  6. Observateurs (watch)   10. Ajouter un choix (Origine, Infos)
-//   3. Messages              7. Lecture des données    11. Application Vue et composants
-//   4. Utilitaires           8. Espèces et variétés    12. Initialisation
+//   3. Messages              7. Lecture des données    11. Applications Vue (une zone par bloc)
+//   4. Utilitaires (dont menus et choix)   8. Variétés   12. Initialisation
 
 // ===== 1. Constantes =====
 const TABLE_ESPECES = 'Especes';     // identifiant de la table des espèces dans Grist
@@ -23,7 +23,8 @@ const MOTIF_PROFONDEUR = /^\d+([.,]\d+)?(\s*-\s*\d+([.,]\d+)?)?$/;   // 1, 0,5, 
 const COLONNES_CHOIX = [
   'Type', 'Exposition', 'Arrosage', 'Famille', 'Nature_du_sol', 'Qualite_du_sol', 'Ou_cultiver', 'Infos', 'Ou_semer'
 ];
-
+const MOIS_VALEURS = LISTE_MOIS.map(m => m.valeurs[0]);   // valeurs des listes de mois dans Grist
+const LIMITE_RECHERCHE = 40;         // nombre de résultats affichés dans une liste avec recherche
 // Champs communs à une espèce et à une variété : mêmes noms dans le formulaire
 function champsVides() {
   return {
@@ -77,6 +78,9 @@ const etat = Vue.reactive({
   doublonsMillesime: [],     // millésimes existants de même variété + année + origine + nature
   doublonMillesimeMasque: false,
   autresOrigines: false,     // panneau « Autre origine » ouvert
+  menuOuvert: '',            // nom du menu déroulant ouvert ('' si aucun)
+  recherches: { 'm-variete': '', 'v-base': '', 'v-infos': '', 'm-lieux': '' },   // texte tapé dans chaque champ de recherche (clé = nom du menu)
+  ajout: { cible: '', texte: '', enCours: false },   // petit champ « ➕ Nouvelle origine / info » ouvert : 'origine' | 'info'
 
   // Étiquettes en attente (Semis.Etiq_en_attente)
   issuEtiquettes: false,     // case « Issu de mes étiquettes »
@@ -95,7 +99,7 @@ const etat = Vue.reactive({
 // bandeaux, avertissements) sont dans achatrepro.html.
  
 const TEXTES = {
-  // --- Contrôles de saisie : espèce et variété ---
+  // --- Contrôles de saisie : variété ---
   nomObligatoire: 'Le nom est obligatoire.',
   conservationEntier: "La conservation doit être un nombre entier d'années.",
   dureeEntier: 'La durée de germination doit être un nombre entier de jours.',
@@ -233,7 +237,69 @@ function cleOrigine(liste) {
   // ['Achat', 'Don'] ou ['L', 'Achat', 'Don'] → 'Achat|Don' (trié, sans le L) pour comparer
   return (Array.isArray(liste) ? liste : []).filter(v => v && v !== 'L').sort().join('|');
 }
+// Menus déroulants à choix unique : un seul ouvert à la fois, fermé par un clic ailleurs
+function basculerMenu(nom) {
+  etat.menuOuvert = etat.menuOuvert === nom ? '' : nom;
+}
 
+function choisir(objet, cle, valeur) {
+  objet[cle] = valeur;
+  etat.menuOuvert = '';
+}
+
+function libelleDe(options, valeur) {
+  // Libellé de l'option { valeur, libelle } choisie ('' si aucune)
+  const o = options.find(x => x.valeur === valeur);
+  return o ? o.libelle : '';
+}
+
+// Menus avec recherche : le texte tapé est dans etat.recherches[nom], la liste se réduit à chaque lettre
+function chercher(options, saisie) {
+  const s = normaliser(saisie);
+  const trouves = options.filter(o => correspondRecherche(normaliser(o.libelle), s));
+  return { affiches: trouves.slice(0, LIMITE_RECHERCHE), autres: Math.max(0, trouves.length - LIMITE_RECHERCHE) };
+}
+
+function ouvrirRecherche(nom) {
+  etat.menuOuvert = nom;
+}
+
+function saisirRecherche(nom, e) {
+  etat.recherches[nom] = e.target.value;
+  etat.menuOuvert = nom;
+}
+
+function fermerRecherche(nom) {
+  if (etat.menuOuvert === nom) etat.menuOuvert = '';
+  etat.recherches[nom] = '';
+}
+
+function choisirRecherche(nom, objet, cle, valeur) {
+  choisir(objet, cle, valeur);
+  etat.recherches[nom] = '';
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.menu')) etat.menuOuvert = '';
+});
+
+function sansVides(liste) {
+  return (liste || []).filter(c => String(c).trim() !== '');   // choix vides de Grist ignorés
+}
+
+// Choix multiples : pastilles ou liste avec recherche
+function basculerDans(liste, valeur) {
+  // Ajoute la valeur si elle n'y est pas, la retire sinon
+  const i = liste.indexOf(valeur);
+  if (i >= 0) liste.splice(i, 1);
+  else liste.push(valeur);
+}
+
+function ajouterDans(nom, liste, valeur) {
+  liste.push(valeur);
+  etat.recherches[nom] = '';
+  etat.menuOuvert = '';   // la liste se rouvre au toucher du champ
+}
 // ===== 5. Valeurs calculées =====
 // Variétés : doublons
 const doublonsVariete = Vue.computed(() => {
@@ -276,6 +342,10 @@ const optionsVarietes = Vue.computed(() =>
 const optionsEspeces = Vue.computed(() =>
   etat.especes.map(m => ({ valeur: m.id, libelle: m.nom })));
 const optionsNbSaisons = NB_SAISONS.map(s => ({ valeur: s, libelle: s === 'or.' ? TEXTES.orOriginal : s }));
+const resultatsVariete = Vue.computed(() => chercher(optionsVarietes.value, etat.recherches['m-variete']));
+const resultatsEspece = Vue.computed(() => chercher(optionsEspeces.value, etat.recherches['v-base']));
+const infosProposees = Vue.computed(() => lieuxFiltres(etat.choixVariete.Infos, etat.variete.infos, etat.recherches['v-infos']));
+const lieuxProposes = Vue.computed(() => lieuxFiltres(etat.lieux, etat.millesime.lieux, etat.recherches['m-lieux']));
 
 // ===== 6. Observateurs (watch) =====
 // Choisir une espèce comme modèle de base (panneau Variété) :
@@ -289,8 +359,10 @@ Vue.watch(() => etat.varieteBase, id => {
 Vue.watch(() => [etat.variete.nom, etat.variete.variete], () => { etat.doublonVarieteMasque = false; });
 
 // Une origine choisie (pastille, menu, ajout, ligne d'étiquettes) referme le panneau « Autre origine »
-Vue.watch(() => etat.millesime.origine, () => { etat.autresOrigines = false; });
-
+Vue.watch(() => etat.millesime.origine, () => {
+  etat.autresOrigines = false;
+  if (etat.ajout.cible === 'origine') annulerAjout();
+});
 // Le bandeau « doublon » disparaît dès qu'on change la variété, l'année, l'origine ou la nature
 Vue.watch(
   () => [etat.millesime.varieteId, etat.millesime.annee, etat.millesime.origine, etat.millesime.planteMere],
@@ -500,9 +572,6 @@ async function creerVariete(forcer = false) {
 }
 
 // ===== 9. Millésimes =====
-function choisirOrigine(origine) {
-  etat.millesime.origine = origine;   // une seule origine au total (pastille ou menu)
-}
 
 function reinitialiserMillesime() {
   Object.assign(etat.millesime, millesimeVide());
@@ -735,7 +804,28 @@ async function ajouterChoixColonne(tableId, colId, valeur) {
     ['ModifyColumn', tableId, colId, { widgetOptions: JSON.stringify(options) }]
   ]);
 }
+function ouvrirAjout(cible) {
+  etat.ajout.cible = cible;
+  etat.ajout.texte = '';
+  donnerLeFocus('ajout-' + cible);
+}
 
+function annulerAjout() {
+  etat.ajout.cible = '';
+  etat.ajout.texte = '';
+}
+
+async function validerAjout() {
+  const texte = etat.ajout.texte.trim();
+  if (!texte || etat.ajout.enCours) return;
+  etat.ajout.enCours = true;
+  try {
+    const reussi = etat.ajout.cible === 'origine' ? await ajouterOrigine(texte) : await ajouterInfo(texte);
+    if (reussi) annulerAjout();
+  } finally {
+    etat.ajout.enCours = false;
+  }
+}
 async function ajouterOrigine(texte) {
   // Renvoie true si le champ de saisie peut se refermer
   const existante = etat.choixOrigine.find(c => normaliser(c) === normaliser(texte));
@@ -756,8 +846,8 @@ async function ajouterOrigine(texte) {
   return true;
 }
 
-async function ajouterInfoGrist(texte) {
-  // Ajoute l'info aux choix de Varietes.Infos. Renvoie la valeur à sélectionner, ou null en cas d'erreur.
+async function ajouterInfo(texte) {
+  // Ajoute l'info aux choix de Varietes.Infos, puis la sélectionne dans la variété. Renvoie true si l'ajout a réussi.
   const existante = etat.choixVariete.Infos.find(c => normaliser(c) === normaliser(texte));
   const valeur = existante || texte;
   if (!existante) {
@@ -766,232 +856,53 @@ async function ajouterInfoGrist(texte) {
       etat.choixVariete.Infos = [...etat.choixVariete.Infos, valeur];
     } catch (e) {
       dire(TEXTES.infoPasAjoutee(e.message), true);
-      return null;
+      return false;
     }
   }
+  if (!etat.variete.infos.includes(valeur)) etat.variete.infos = [...etat.variete.infos, valeur];
   dire(TEXTES.infoAjoutee(valeur));
-  return valeur;
+  return true;
 }
+// ===== 11. Applications Vue (une zone par bloc, un seul état commun) =====
+// En-tête : titre, onglets, enchaînement
+Vue.createApp({
+  setup() {
+    return { etat };
+  }
+}).mount('#appEntete');
 
-// ===== 11. Application Vue (un seul point de montage) et composants =====
-const app = Vue.createApp({
+// Panneau « Nouveau millésime »
+Vue.createApp({
   setup() {
     return {
       etat, pluriel,
-      doublonsVariete,
-      origineFavorites, origineAutres, origineAutre, choisirOrigine, typeVariete,
-      creerVariete, reinitialiserVariete,
+      origineFavorites, origineAutres, origineAutre, typeVariete,
       creerMillesime, reinitialiserMillesime,
       ligneAttente, ligneSansVariete, varieteVerrouillee, donSachets,
       allerCreerVariete,
-      optionsVarietes, optionsEspeces, optionsAttente, optionsNbSaisons,
-      ajouterOrigine
+      optionsVarietes, optionsAttente, optionsNbSaisons, resultatsVariete,
+      ouvrirRecherche, saisirRecherche, fermerRecherche, choisirRecherche,
+      basculerMenu, choisir, libelleDe,
+      ouvrirAjout, annulerAjout, validerAjout,
+      basculerDans, ajouterDans, lieuxProposes
     };
   }
-});
+}).mount('#appMillesime');
 
-// Composant « champs communs » : les champs qu'ont en commun une espèce et une variété
-app.component('champs-culture', {
-  template: '#tpl-champs-culture',
-  props: {
-    formulaire: { type: Object, required: true },
-    choix: { type: Object, required: true },
-    prefixe: { type: String, default: 'x' }   // préfixe des id (pour relier libellés et champs)
-  },
-data() { return { MOIS: LISTE_MOIS.map(m => m.valeurs[0]) }; },
-  methods: {
-    async ajouterInfo(texte) {
-      const valeur = await ajouterInfoGrist(texte);
-      if (valeur === null) return false;
-      if (!this.formulaire.infos.includes(valeur)) {
-        this.formulaire.infos = [...this.formulaire.infos, valeur];   // la nouvelle info est sélectionnée
-      }
-      return true;
-    }
+// Panneau « Nouvelle variété »
+Vue.createApp({
+  setup() {
+    return {
+      etat, pluriel,
+      doublonsVariete, creerVariete, reinitialiserVariete,
+      optionsEspeces, resultatsEspece,
+      ouvrirRecherche, saisirRecherche, fermerRecherche, choisirRecherche,
+      basculerMenu, choisir, libelleDe,
+      ouvrirAjout, annulerAjout, validerAjout,
+      MOIS_VALEURS, basculerDans, ajouterDans, infosProposees
+    };
   }
-});
-
-// Composant « choix multiple » : pastilles, ou champ de recherche + liste avec l'attribut « menu »
-app.component('choix-multiple', {
-  template: '#tpl-choix-multiple',
-  props: {
-    modelValue: { type: Array, default: () => [] },
-    choix: { type: Array, default: () => [] },
-    menu: { type: Boolean, default: false },   // true : champ de recherche + liste ; false : pastilles
-    lieu: { type: Boolean, default: false }    // true : les pastilles choisies prennent la couleur « lieu » (violet)
-  },
-  emits: ['update:modelValue'],
-  data() {
-    return { recherche: '', ouvert: false };
-  },
-  computed: {
-    valides() {
-      // les choix vides ou réduits à des espaces sont ignorés
-      return this.choix.filter(c => String(c).trim() !== '');
-    },
-    proposes() {
-      return lieuxFiltres(this.valides, this.modelValue, this.recherche);
-    }
-  },
-  methods: {
-    basculer(c) {
-      const suivant = this.modelValue.includes(c)
-        ? this.modelValue.filter(x => x !== c)
-        : [...this.modelValue, c];
-      this.$emit('update:modelValue', suivant);
-    },
-    ajouter(c) {
-      this.$emit('update:modelValue', [...this.modelValue, c]);
-      this.recherche = '';
-      this.ouvert = false;   // se rouvre au toucher du champ
-    },
-    retirer(c) {
-      this.$emit('update:modelValue', this.modelValue.filter(x => x !== c));
-    },
-    surSaisie(e) {
-      this.recherche = e.target.value;
-      this.ouvert = true;
-    },
-    fermer() {
-      this.ouvert = false;
-      this.recherche = '';
-    }
-  }
-});
-
-// Composant « choix unique » : un bouton qui ouvre une liste (comme « Trier par » dans à gérer)
-app.component('choix-unique', {
-  template: '#tpl-choix-unique',
-  props: {
-    modelValue: { type: [String, Number], default: '' },
-    options: { type: Array, default: () => [] },   // chaînes, ou { valeur, libelle }
-    vide: { type: String, default: '' },           // texte de l'entrée « rien de choisi » (si absent : pas d'entrée)
-    champId: { type: String, default: '' },        // id du bouton (pour le libellé et le focus)
-    disabled: { type: Boolean, default: false },
-    placeholder: { type: String, default: '' }     // texte du bouton quand rien n'est choisi (sans entrée dans la liste)
-  },
-  emits: ['update:modelValue'],
-  data() {
-    return { ouvert: false };
-  },
-  computed: {
-    liste() {
-      return this.options
-        .map(o => (typeof o === 'object' ? o : { valeur: o, libelle: o }))
-        .filter(o => String(o.libelle).trim() !== '');   // les choix vides sont ignorés
-    },
-    estVide() {
-      return !this.liste.some(o => o.valeur === this.modelValue);
-    },
-    libelleChoisi() {
-      const o = this.liste.find(x => x.valeur === this.modelValue);
-      return o ? o.libelle : (this.vide || this.placeholder);
-    }
-  },
-  methods: {
-    basculer() {
-      if (!this.disabled) this.ouvert = !this.ouvert;
-    },
-    choisir(valeur) {
-      this.$emit('update:modelValue', valeur);
-      this.ouvert = false;
-    },
-    fermerSiDehors(e) {
-      if (!this.$el.contains(e.target)) this.ouvert = false;   // un toucher ailleurs ferme la liste
-    }
-  },
-  mounted() {
-    document.addEventListener('click', this.fermerSiDehors);
-  },
-  beforeUnmount() {
-    document.removeEventListener('click', this.fermerSiDehors);
-  }
-});
-
-// Composant « choix avec recherche » : champ de saisie, la liste se réduit à chaque lettre
-app.component('choix-recherche', {
-  template: '#tpl-choix-recherche',
-  props: {
-    modelValue: { type: [String, Number], default: '' },
-    options: { type: Array, default: () => [] },   // { valeur, libelle }
-    placeholder: { type: String, default: '' },
-    champId: { type: String, default: '' },
-    disabled: { type: Boolean, default: false },
-    max: { type: Number, default: 40 }             // nombre de résultats affichés
-  },
-  emits: ['update:modelValue'],
-  data() {
-    return { texte: '', ouvert: false };
-  },
-  computed: {
-    libelleChoisi() {
-      const o = this.options.find(x => x.valeur === this.modelValue);
-      return o ? o.libelle : '';
-    },
-    trouves() {
-      const saisie = normaliser(this.texte);
-      return this.options.filter(o => correspondRecherche(normaliser(o.libelle), saisie));
-    },
-    affiches() {
-      return this.trouves.slice(0, this.max);
-    },
-    nbAutres() {
-      return Math.max(0, this.trouves.length - this.max);
-    }
-  },
-  methods: {
-    ouvrir() {
-      if (!this.disabled) this.ouvert = true;
-    },
-    surSaisie(e) {
-      this.texte = e.target.value;
-      this.ouvrir();
-    },
-    choisir(valeur) {
-      this.$emit('update:modelValue', valeur);
-      this.texte = '';
-      this.ouvert = false;
-    },
-    fermer() {
-      this.ouvert = false;
-      this.texte = '';
-    }
-  }
-});
-
-// Composant « ajout d'un choix » : un bouton qui ouvre un petit champ de saisie
-app.component('ajout-choix', {
-  template: '#tpl-ajout-choix',
-  props: {
-    libelle: { type: String, default: '' },
-    surAjout: { type: Function, required: true }   // reçoit le texte, renvoie true si l'ajout a réussi
-  },
-  data() {
-    return { ouvert: false, texte: '', enCours: false };
-  },
-  methods: {
-    ouvrir() {
-      this.ouvert = true;
-      this.$nextTick(() => { if (this.$refs.champ) this.$refs.champ.focus(); });
-    },
-    annuler() {
-      this.ouvert = false;
-      this.texte = '';
-    },
-    async valider() {
-      const texte = this.texte.trim();
-      if (!texte || this.enCours) return;
-      this.enCours = true;
-      try {
-        if (await this.surAjout(texte)) this.annuler();
-      } finally {
-        this.enCours = false;
-      }
-    }
-  }
-});
-
-app.mount('#app');
+}).mount('#appVariete');
 
 // ===== 12. Initialisation =====
 grist.ready({ requiredAccess: 'full' });
@@ -1004,9 +915,9 @@ async function demarrer() {
       chargerEspeces(),
       chargerVarietes()
     ]);
-    for (const c of COLONNES_CHOIX) etat.choixVariete[c] = choixVariete[c] || [];
-    etat.choixOrigine = choixMillesime.Origine || [];
-    etat.choixTypePlant = choixMillesime.Type_plant || [];
+    for (const c of COLONNES_CHOIX) etat.choixVariete[c] = sansVides(choixVariete[c]);
+    etat.choixOrigine = sansVides(choixMillesime.Origine);
+    etat.choixTypePlant = sansVides(choixMillesime.Type_plant);
   } catch (err) {
     console.error(err);
     etat.erreurChargement = TEXTES.erreurChargement(err.message);
@@ -1015,7 +926,7 @@ async function demarrer() {
   // Emplacements des plantes mères : une erreur ici ne bloque que la création d'une plante mère
   try {
     const choixSemis = await lireChoixColonnes(TABLE_SEMIS, ['Ou']);
-    etat.lieux = choixSemis.Ou || [];
+    etat.lieux = sansVides(choixSemis.Ou);
     if (!etat.lieux.length) throw new Error(TEXTES.aucunChoixLieux);
   } catch (err) {
     console.error(err);
