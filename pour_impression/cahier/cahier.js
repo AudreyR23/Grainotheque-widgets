@@ -11,7 +11,8 @@ const NB_LIGNES_VIDES_PAR_TYPE = 3;   // lignes vides à remplir à la main, à 
 // Colonnes lues : si l'une manque (renommée, supprimée), le cahier ne s'affiche pas
 const COLONNES_MILLESIMES = [
   'NomVariete', 'Type', 'Origine', 'Nb_sachets', 'Millesime', 'Nb_saisons',
-  'Nb_saisons_manuel', 'Qtte_graines', 'Germination_cahier', 'Epuise'
+  'Nb_saisons_manuel', 'Qtte_graines', 'Germination_cahier', 'Epuise',
+  'Plante_mere', 'Lieu_cahier'
 ];
 const COLONNES_VARIETES = [
   'Type', 'Nom', 'Variete', 'NomVariete', 'Num_epingle', 'Nb_epingle', 'Semis_profondeur',
@@ -70,10 +71,11 @@ function moisAbreges(liste) {
 function ligneVide(type, k) {
   return {
     id: `vide-${type}-${k}`,
+    avecMere: false,
     type, nom: '\u00A0', variete: '\u00A0', num_epingle: '', nb_epingle: '',
     profondeur: '', germ_duree: '', germ_temp: '',
     abri: [], semis_ext: [], arrosage: '', exposition: '', ou: [], conservation: '',
-    sachets: [{ origine: '', sachet: '', annee: '', saisons: '', qtte: '', germination: '' }]
+    sachets: [{ origine: '', sachet: '', annee: '', saisons: '', qtte: '', germination: '', mere: false, lieu: '' }]
   };
 }
 
@@ -101,6 +103,7 @@ function buildGrainesMap(lignes) {
     if (!map.has(v.id)) {
       map.set(v.id, {
         id: v.id,
+        avecMere: false,   // au moins une plante mère : la case Qté + Germ. est fusionnée pour sa ligne        
         type: v.Type || r.Type || '',
         nom: v.Nom || '',
         variete: v.Variete || '',
@@ -126,8 +129,11 @@ const origine = (r.Origine || []).filter(x => x !== 'L').join(', ');
       annee: anneeDepuisDate(r.Millesime) ?? '',
       saisons: valeurSaisons(r.Nb_saisons || r.Nb_saisons_manuel || ''),
       qtte: r.Qtte_graines || '',
-      germination: typeof r.Germination_cahier === 'string' ? r.Germination_cahier : ''
+      germination: typeof r.Germination_cahier === 'string' ? r.Germination_cahier : '',
+      mere: Boolean(r.Plante_mere),                                     // plante mère : la case Qté montre le lieu
+      lieu: typeof r.Lieu_cahier === 'string' ? r.Lieu_cahier : ''
     });
+      if (r.Plante_mere) map.get(v.id).avecMere = true;
   }
 
   return map;

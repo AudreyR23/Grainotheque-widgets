@@ -46,6 +46,28 @@
   border-bottom: none;
   padding-bottom: 1px;
 }
+/* Case Qté + Germ. fusionnée : deux moitiés égales (les deux colonnes ont la même largeur), séparées comme deux cellules */
+.tableau__demi {
+  flex: 1 1 0;
+  min-width: 0;
+  align-self: stretch;
+  line-height: 6mm;
+  text-align: center;
+}
+.tableau__demi--droite {
+  border-left: 1px solid var(--gris);
+}
+/* Ligne de plante mère : les lieux occupent les deux cases (Qté + Germ.), 2 lignes au plus */
+.tableau__lieu {
+  flex: 1 1 0;
+  min-width: 0;
+  max-height: 6mm;
+  overflow: hidden;
+  font-size: 7.5px;
+  line-height: 3mm;
+  text-align: center;
+  white-space: normal;
+}
 .tableau__nom {
   font-weight: 700;
   font-size: 9px;
@@ -58,6 +80,8 @@
   display: block;
   padding-bottom: 1px;
 }
+
+
 /* Légende en bas de chaque feuille */
 .legende {
   margin-top: 2mm;
