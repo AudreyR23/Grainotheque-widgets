@@ -246,7 +246,12 @@ h3 {
   text-align: center;
   cursor: default;
 }
-
+/* Menu aussi large que son plus long texte, sans s'étirer (même règle qu'À gérer) */
+.menu--auto {
+  flex: 0 0 auto;
+  width: max-content;
+  max-width: 100%;
+}
 /* ===== Pastille ===== */
 .pastille {
   display: inline-block;

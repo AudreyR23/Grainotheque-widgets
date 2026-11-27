@@ -13,12 +13,6 @@
   gap: 8px;
   margin-top: 6px;
 }
-/* Menu aussi large que son plus long texte, sans s'étirer */
-.menu--auto {
-  flex: 0 0 auto;
-  width: max-content;
-  max-width: 100%;
-}
 /* Filtre et tri dans l'en-tête collé : seuls sur leur ligne */
 .entete__filtres {
   flex-basis: 100%;

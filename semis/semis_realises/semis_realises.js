@@ -37,7 +37,9 @@ const etat = Vue.reactive({
     filtreActif: false,                // une case Sous abri / Pleine terre est cochée
     filtreSousAbri: false,
     filtrePleineTerre: false,
-    ouvert: true                       // section dépliée
+    ouvert: true,                      // section dépliée
+    listeTriOuverte: false,             // menu Tri ouvert                       // section dépliée
+    listeMoisOuverte: false            // menu Mois ouvert
   }
 });
  
@@ -215,9 +217,11 @@ function basculerListeMillesime() {
   etat.listeMillesimeOuverte = !etat.listeMillesimeOuverte && etat.millesimes.length > 0;
 }
  
-// Un toucher en dehors du menu Millésime le ferme
+// Un toucher en dehors d'un menu le ferme
 document.addEventListener('click', e => {
   if (!e.target.closest('#menuMillesime')) etat.listeMillesimeOuverte = false;
+  if (!e.target.closest('#menuTriASemer')) etat.aSemer.listeTriOuverte = false;
+  if (!e.target.closest('#menuMoisASemer')) etat.aSemer.listeMoisOuverte = false;  
 });
  
 function rafraichirFiche() {
@@ -393,7 +397,7 @@ async function enregistrerTout() {
     etat.enregistrement = false;
   }
 }
- 
+
 // ===== Derniers semis =====
 async function chargerSemis() {
   const tab = await grist.docApi.fetchTable('Semis');
@@ -449,6 +453,23 @@ function afficherDerniersSemis() {
     autres: Math.max(0, semis.length - 5),
     dejaDansListe: etat.aEnregistrer.some(b => b.varieteId === etat.varieteId)
   };
+}
+function basculerTriASemer() {
+  etat.aSemer.listeTriOuverte = !etat.aSemer.listeTriOuverte;
+}
+
+function choisirTriASemer(tri) {
+  etat.aSemer.tri = tri;               // le watch sur les filtres recalcule la liste
+  etat.aSemer.listeTriOuverte = false;
+}
+
+function basculerMoisASemer() {
+  etat.aSemer.listeMoisOuverte = !etat.aSemer.listeMoisOuverte;
+}
+
+function choisirMoisASemer(num) {
+  etat.aSemer.mois = num;              // le watch sur les filtres recalcule la liste
+  etat.aSemer.listeMoisOuverte = false;
 }
 // ===== Section « À semer » =====
 // Variétés à semer au mois choisi, pas encore semées dans leur période de semis.
@@ -587,21 +608,20 @@ function semer(l) {
   aller('appFiche');
 } 
  
-Vue.createApp({ setup() { return { etat, nombreAEnregistrer }; } }).mount('#appEntete');
+Vue.createApp({ setup() { return { etat, nombreAEnregistrer, aller }; } }).mount('#appEntete');
 Vue.createApp({ setup() { return {
   etat, libelle, retirerDeLaListe,
-  pluriel, dateAffichee, dateEnSecondes, libelleMillesime
+  pluriel, dateAffichee, dateEnSecondes, libelleMillesime, aller
 }; } }).mount('#appEtapes');
-Vue.createApp({ setup() { return { etat, enregistrerTout }; } }).mount('#appEnregistrer');
 Vue.createApp({ setup() { return {
   etat, choisirMode, pluriel, dateAffichee,
   surRechercheVariete, surFocusVariete, choisirVariete,
   basculerListeMillesime, choisirMillesime, millesimeChoisi,
   lieuxProposes, surRechercheOu, ajouterLieu, retirerLieu,
-  ajouterALaListe, libelleMillesime
+  ajouterALaListe, libelleMillesime, aller
 }; } }).mount('#appFiche');
 Vue.createApp({ setup() { return {
-  etat, LISTE_MOIS, libelle, pluriel, categorie, dansLaListe, semer
+  etat, LISTE_MOIS, libelle, pluriel, categorie, dansLaListe, semer, aller, basculerTriASemer, choisirTriASemer, basculerMoisASemer, choisirMoisASemer
 }; } }).mount('#appASemer');
 
 // Quand la date change, l'encart « déjà semé » se recalcule
