@@ -1,6 +1,6 @@
 # Granothèque Grist : widget « Cahier » (cahier)
 
-> Dernière mise à jour : 26/11/2026
+> Dernière mise à jour : 27/11/2026
 
 ## Rôle
 Imprimer le cahier papier emporté au potager : un tableau A4 paysage, une ligne par variété,
@@ -31,7 +31,8 @@ Volume : environ 449 variétés affichées (558 dans Varietes).
   et les autres outils s'appuient là-dessus).
 - `Millesimes.Variete` est la formule `Annees_sans_test` (un nombre) : ne jamais l'utiliser pour retrouver une variété.
 - Colonnes Millesimes : `NomVariete`, `Type`, `Origine`, `Nb_sachets`, `Millesime`, `Nb_saisons`,
-  `Nb_saisons_manuel`, `Qtte_graines`, `Germination_cahier`, `Epuise`, `Plante_mere`, `Lieu_cahier` (liste `COLONNES_MILLESIMES`).
+  `Nb_saisons_manuel`, `Qtte_graines`, `Germination_cahier`, `Epuise`, `Plante_mere`, `Lieu_cahier`, `Annee_plantation`
+  (liste `COLONNES_MILLESIMES`).
 - Colonnes Varietes : `Type`, `Nom`, `Variete`, `NomVariete`, `Num_epingle`, `Nb_epingle`, `Semis_profondeur`,
   `Duree_germ`, `Temp_germ`, `Semis_sous_abris`, `Semis_pleine_terre`, `Arrosage`, `Exposition`,
   `Ou_cultiver`, `Conservation` (liste `COLONNES_VARIETES`).
@@ -60,7 +61,15 @@ Volume : environ 449 variétés affichées (558 dans Varietes).
   Les plantes mères (jamais épuisées) et les sachets avec `Qtte_graines` mais sans `Nb_sachets` apparaissent : voulu.
   Le Calendrier filtre volontairement sur `Nb_sachets` (décision du 25/11) : ces plantes mères et ces sachets en vrac
   sont dans le Cahier mais pas dans le Calendrier.
-- Tri : type, nom, variété (`localeCompare` en `'fr'`).
+- Tri des variétés : type, nom, variété (`localeCompare` en `'fr'`).
+- **Ordre des sachets dans une variété** (`trierSachets`, depuis le 27/11) : d'abord les sachets, du millésime le plus ancien
+  au plus récent ; puis les plantes mères, de l'année de plantation (`Annee_plantation`) la plus ancienne à la plus récente.
+  Sans année : en dernier de leur groupe. À égalité : ordre de la vue Grist. Clé de tri : `anneeTri` de chaque sachet.
+- **Colonne « Millésime »** : année de `Millesime` pour un sachet ; **année de plantation** (`Annee_plantation`) pour une plante mère
+  (vide si inconnue), comme l'étiquette (« Plantation » + année). L'en-tête reste « Millésime ».
+- **Saisons** : colonne `Nb_saisons` de Grist, jamais recalculée par le Cahier. Pour une mère, `année en cours − Annee_plantation + 1`
+  (l'année de plantation compte pour la saison 1 ; se recalcule à chaque ouverture) ; même règle que l'étiquette et Achat-repro.
+  Pour que l'âge soit juste, `Annee_plantation` doit être l'année où la plante a commencé (semée ou plantée), toujours la même convention.
 - **Pagination** (`recalculerPages`) : un type ne partage jamais une page avec un autre ;
   `LIGNES_PAR_PAGE = 26` ; une variété à 1 sachet compte pour 2 lignes, sinon 1 ligne par sachet.
   Mesures (26/11) : une ligne de variété à 1 sachet ≈ 13,3 mm, donc 1 unité ≈ 6,7 mm ; la zone utile (185 mm moins
@@ -101,7 +110,8 @@ Volume : environ 449 variétés affichées (558 dans Varietes).
 - Zones Vue : `#appEntete`, `#appPages` ; un seul `etat` (`charge`, `nbVarietes`, `pages`, `zoom`, `colonnesManquantes`, `erreur`).
 - `recordsParId.millesimes` (Map) et `indexVarietes` (résultat de `indexerVarietes`, deux Maps). La liste affichée est copiée
   dans `etat.pages` par `recalculerPages()` ; `etat.pages` = pages → variétés → sachets (trois `v-for` imbriqués).
-- Un sachet : `{ origine, sachet, annee, saisons, qtte, germination, mere, lieu }`. Une variété : `{ id, avecMere, … , sachets }`.
+- Un sachet : `{ origine, sachet, annee, saisons, qtte, germination, mere, lieu, anneeTri }`.
+  Une variété : `{ id, avecMere, … , sachets }`.
 - Le JS renvoie des valeurs (listes d'initiales de mois, nombres, `listeChoix`) ; le HTML met en forme (unités, `join`).
 - Pas de `watch` (pas de filtre).
 - **Zoom d'aperçu** : `zoom: var(--zoom-ecran, 1)` sur `.feuille` (commun) ; facteur `facteurZoom` du commun,
@@ -138,6 +148,9 @@ Volume : environ 449 variétés affichées (558 dans Varietes).
 - 26/11 : `listeChoix` du commun non modifiée pour `Origine` (la correction locale suffit, voir « Données »).
 - 26/11 : lieu des plantes mères dans la case « Qté », colonne formule `Lieu_cahier` dans Millesimes (plutôt qu'une lecture
   de Semis dans le Cahier). Fusion Qté + Germ. limitée aux variétés qui ont une mère (jamais pour un simple sachet).
+- 27/11 : ordre des sachets fixé par `trierSachets` (sachets par millésime croissant, puis mères par année de plantation croissante),
+  indépendant du tri de la vue Grist. Année affichée d'une mère = année de plantation.
+- 27/11 : règle des saisons inchangée (formule `Nb_saisons` de Grist, même règle que l'étiquette et Achat-repro).
 
 ## Points de vigilance
 - Impression : tester l'aperçu en A4 paysage après toute modification du CSS (local ou commun : le `body` du commun compte).
@@ -148,9 +161,11 @@ Volume : environ 449 variétés affichées (558 dans Varietes).
   ainsi que les listes de lieux des plantes mères (coupées au-delà de 2 lignes).
 - Après un changement de police, de padding ou de hauteur de ligne dans le CSS : refaire le PDF, car `LIGNES_PAR_PAGE` suppose
   une unité de 6,7 mm.
+- Contrôle de l'ordre des mères : dans une variété avec plusieurs mères, la colonne « Sais. » doit diminuer de haut en bas.
 
 ## Reste à faire
 - [x] Mise en prod : commun d'abord, puis copier les 3 fichiers sur `main`, changer l'URL du widget dans Grist (lié à Millesimes), Ctrl+F5, test d'impression.
 - [x] Supprimer l'ancien `main_cahier.js` et l'ancien `cahier.html` après la mise en prod. La section « tableau » de `main.css` ne sert plus qu'à eux : à retirer lors de la migration des épingles.
 - [x] Calendrier (sa discussion) : traité dans ses propres notes.
-- [ ] Remettre en prod après l'ajout des lieux des plantes mères (`Lieu_cahier` d'abord dans Grist, puis les 3 fichiers du Cahier).
+- [ ] Remettre en prod après les ajouts du 26-27/11 : lieux des plantes mères (`Lieu_cahier` d'abord dans Grist, déjà fait), puis
+  les 3 fichiers du Cahier (ordre des sachets, année de plantation, fusion Qté + Germ. pour les mères).

@@ -54,11 +54,6 @@
   gap: 4px;
   font-size: 0.9rem;
 }
-/* Menu réduit à son contenu (annule le width: 100% de .champ et de .champ--compact) */
-.champ--filtre {
-  width: auto;
-  font-size: 1rem;
-}
 .carte--deja-semee {
   opacity: 0.6;
 }

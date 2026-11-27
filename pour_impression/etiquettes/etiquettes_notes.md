@@ -67,7 +67,7 @@ Accès Grist : `full`. Versions dev (branche `Vue`) et prod (`main`).
   Tous les messages de l'en-tête portent `entete__message`.
 
 ## Choix techniques
-- Zones Vue : `#appEntete`, `#appFeuilles`, `#appConfirmation` ; un seul `etat`.
+- Zones Vue : `#appEntete`, `#appPages`, `#appConfirmation` ; un seul `etat`.
 - Lignes à imprimer : `recordsParId.aImprimer` (Map id → `{ id, nbEtiquettes, enAttente }`).
   Dernières lignes reçues : `lignesRecues` (recalcul quand l'année de récolte change).
 - `etat.feuilles` : feuilles → rangées (5) → étiquettes ; 20 par feuille. Trois `v-for` imbriqués dans le HTML.
@@ -76,7 +76,7 @@ Accès Grist : `full`. Versions dev (branche `Vue`) et prod (`main`).
   `etiquette__contenu--retourne` (rotation 180°). Leur SVG ne dessine que les deux traits horizontaux : les côtés en biais
   sont ceux des voisines normales. Retournée et dernière de sa rangée (`estDerniere(i, rangee)`) : elle dessine son côté
   droit (`x1=517.5 y1=0 x2=690 y2=470`).
-- Aperçu réduit à l'écran : `ResizeObserver` sur `#appFeuilles` → `etat.zoom = facteurZoom(largeur)` →
+- Aperçu réduit à l'écran : `ResizeObserver` sur `#appPages` → `etat.zoom = facteurZoom(largeur)` →
   `:style="{ '--zoom-ecran': etat.zoom }"` sur chaque `.feuille`.
 
 ## CSS

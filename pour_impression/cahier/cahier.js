@@ -12,7 +12,7 @@ const NB_LIGNES_VIDES_PAR_TYPE = 3;   // lignes vides à remplir à la main, à 
 const COLONNES_MILLESIMES = [
   'NomVariete', 'Type', 'Origine', 'Nb_sachets', 'Millesime', 'Nb_saisons',
   'Nb_saisons_manuel', 'Qtte_graines', 'Germination_cahier', 'Epuise',
-  'Plante_mere', 'Lieu_cahier'
+  'Plante_mere', 'Lieu_cahier', 'Annee_plantation'
 ];
 const COLONNES_VARIETES = [
   'Type', 'Nom', 'Variete', 'NomVariete', 'Num_epingle', 'Nb_epingle', 'Semis_profondeur',
@@ -87,6 +87,12 @@ function valeurSaisons(v) {
   if (!isNaN(val)) return parseInt(val);
   return v;
 }
+// Ordre des sachets d'une variété : les sachets d'abord (millésime du plus ancien au plus récent), puis les plantes mères
+// (année de plantation du plus ancien au plus récent). Sans année : en dernier de son groupe. À égalité : ordre de la vue Grist.
+function trierSachets(sachets) {
+  const cle = s => s.anneeTri ?? 9999;
+  return sachets.sort((a, b) => (a.mere - b.mere) || (cle(a) - cle(b)));
+}
 
 /* =============================================
    CONSTRUCTION DE LA MAP DES GRAINES
@@ -123,17 +129,18 @@ function buildGrainesMap(lignes) {
     }
 
 const origine = (r.Origine || []).filter(x => x !== 'L').join(', ');
-    map.get(v.id).sachets.push({
+        map.get(v.id).sachets.push({
       origine: origine,
       sachet: r.Nb_sachets ? String(r.Nb_sachets) : '',
-      annee: anneeDepuisDate(r.Millesime) ?? '',
+      annee: r.Plante_mere ? (r.Annee_plantation || '') : (anneeDepuisDate(r.Millesime) ?? ''),
       saisons: valeurSaisons(r.Nb_saisons || r.Nb_saisons_manuel || ''),
       qtte: r.Qtte_graines || '',
       germination: typeof r.Germination_cahier === 'string' ? r.Germination_cahier : '',
-      mere: Boolean(r.Plante_mere),                                     // plante mère : la case Qté montre le lieu
-      lieu: typeof r.Lieu_cahier === 'string' ? r.Lieu_cahier : ''
+      mere: Boolean(r.Plante_mere),                       // plante mère : la case Qté montre le lieu
+      lieu: typeof r.Lieu_cahier === 'string' ? r.Lieu_cahier : '',
+      anneeTri: r.Plante_mere ? (r.Annee_plantation || null) : anneeDepuisDate(r.Millesime)   // clé de tri : voir trierSachets
     });
-      if (r.Plante_mere) map.get(v.id).avecMere = true;
+    if (r.Plante_mere) map.get(v.id).avecMere = true;
   }
 
   return map;
@@ -144,7 +151,7 @@ const origine = (r.Origine || []).filter(x => x !== 'L').join(', ');
    ============================================= */
 function recalculerPages() {
   const graines = [...buildGrainesMap([...recordsParId.millesimes.values()]).values()];
-
+  for (const g of graines) trierSachets(g.sachets);
   // Tri par type, puis nom, puis variété
   graines.sort((a, b) => {
     const t = (a.type || '').localeCompare(b.type || '', 'fr');

@@ -22,7 +22,7 @@
   --gris-clair: #e0e0e0;
   --gris: #aaa;
   --gris-fonce: #555;
-  --gris-legende: #888;
+  --gris-moyen: #777;
   --gris-bordure: #999;
 
   
@@ -100,6 +100,10 @@ h3 {
   z-index: 20;
   padding: 6px 0;
   background: var(--arriere-plan);
+}
+/* Filtre et tri dans l'en-tête collé : seuls sur leur ligne */
+.entete__filtres {
+  flex-basis: 100%;
 }
 /* ===== Ligne (conteneur de mise en page) ===== */
 .ligne {
@@ -246,7 +250,12 @@ h3 {
   text-align: center;
   cursor: default;
 }
-
+/* Menu aussi large que son plus long texte, sans s'étirer (même règle qu'À gérer) */
+.menu--auto {
+  flex: 0 0 auto;
+  width: max-content;
+  max-width: 100%;
+}
 /* ===== Pastille ===== */
 .pastille {
   display: inline-block;
@@ -376,7 +385,8 @@ h3 {
 .texte--erreur {
   color: var(--erreur-fonce);
 }
-.texte--succes {
+.texte--succes,
+.texte--info {
   color: var(--bleu-fonce);
 }
 .texte--plantemere {
@@ -455,6 +465,7 @@ h3 {
 .btn--etape {
   background: var(--orange-clair);
   border-color: var(--orange-moyen);
+  color: var(--orange-fonce);
 }
 .btn--enregistrer {
   border-color: var(--bleu-fonce);

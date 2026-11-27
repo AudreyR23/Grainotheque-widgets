@@ -46,9 +46,7 @@
        class="texte texte--erreur texte--gras entete__message">
       {{ etat.message }}
     </p>
-  </header>
-  <main>
-    <div id="appRecherche">
+        <div class="ligne entete__filtres">
       <input id="recherche"
              class="champ"
              type="search"
@@ -70,8 +68,9 @@
         </label>
       </div>
     </div>
-
-    <div id="appAjouts">
+  </header>
+  <main class="page">
+    <div id="appEnCours">
       <section id="etapeIntermediaire"
                v-show="recapAjouts().length > 0">
         <h2>À ajouter ({{ recapAjouts().length }})</h2>

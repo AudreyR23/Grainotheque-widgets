@@ -37,7 +37,9 @@ const etat = Vue.reactive({
     filtreActif: false,                // une case Sous abri / Pleine terre est cochée
     filtreSousAbri: false,
     filtrePleineTerre: false,
-    ouvert: true                       // section dépliée
+    ouvert: true,                      // section dépliée
+    listeTriOuverte: false,             // menu Tri ouvert                       // section dépliée
+    listeMoisOuverte: false            // menu Mois ouvert
   }
 });
  
@@ -124,8 +126,7 @@ async function chargerDonnees() {
       anneePlantation: m.Annee_plantation || null,
       epuise: !!m.Epuise,         // formule Grist : sachet sans graines ni sachets
       germination: typeof m.Germination_affichee === 'number' ? m.Germination_affichee : null,
-      avecGraines: m.Qtte_graines > 0 || m.Nb_sachets > 0,
-      typePlant: m.Type_plant || ''
+      avecGraines: m.Qtte_graines > 0 || m.Nb_sachets > 0
     });
   }
 }
@@ -215,9 +216,11 @@ function basculerListeMillesime() {
   etat.listeMillesimeOuverte = !etat.listeMillesimeOuverte && etat.millesimes.length > 0;
 }
  
-// Un toucher en dehors du menu Millésime le ferme
+// Un toucher en dehors d'un menu le ferme
 document.addEventListener('click', e => {
   if (!e.target.closest('#menuMillesime')) etat.listeMillesimeOuverte = false;
+  if (!e.target.closest('#menuTriASemer')) etat.aSemer.listeTriOuverte = false;
+  if (!e.target.closest('#menuMoisASemer')) etat.aSemer.listeMoisOuverte = false;  
 });
  
 function rafraichirFiche() {
@@ -393,7 +396,7 @@ async function enregistrerTout() {
     etat.enregistrement = false;
   }
 }
- 
+
 // ===== Derniers semis =====
 async function chargerSemis() {
   const tab = await grist.docApi.fetchTable('Semis');
@@ -411,7 +414,10 @@ async function chargerSemis() {
     });
   }
 }
- 
+function meresDe(varieteId) {
+  // Millésimes « plante mère » de la variété (plants au jardin)
+  return [...recordsParId.millesimes.values()].filter(m => m.varieteId === varieteId && m.planteMere);
+} 
 function afficherDerniersSemis() {
   if (!etat.varieteId) { etat.encart = null; return; }
   const v = recordsParId.varietes.get(etat.varieteId);
@@ -424,8 +430,7 @@ function afficherDerniersSemis() {
     .filter(s => s.varieteId === etat.varieteId && s.annee === annee && s.date !== null)
     .sort((a, b) => b.date - a.date);
  
-  const meres = [...recordsParId.millesimes.values()]
-    .filter(m => m.varieteId === etat.varieteId && m.planteMere);
+  const meres = meresDe(etat.varieteId);
  
   etat.encart = {
     type: v.type,                       // valeur Grist, ex. « 🌿 Arom.Méd »
@@ -449,6 +454,23 @@ function afficherDerniersSemis() {
     autres: Math.max(0, semis.length - 5),
     dejaDansListe: etat.aEnregistrer.some(b => b.varieteId === etat.varieteId)
   };
+}
+function basculerTriASemer() {
+  etat.aSemer.listeTriOuverte = !etat.aSemer.listeTriOuverte;
+}
+
+function choisirTriASemer(tri) {
+  etat.aSemer.tri = tri;               // le watch sur les filtres recalcule la liste
+  etat.aSemer.listeTriOuverte = false;
+}
+
+function basculerMoisASemer() {
+  etat.aSemer.listeMoisOuverte = !etat.aSemer.listeMoisOuverte;
+}
+
+function choisirMoisASemer(num) {
+  etat.aSemer.mois = num;              // le watch sur les filtres recalcule la liste
+  etat.aSemer.listeMoisOuverte = false;
 }
 // ===== Section « À semer » =====
 // Variétés à semer au mois choisi, pas encore semées dans leur période de semis.
@@ -519,16 +541,12 @@ function varietesASemer() {
   const mois = etat.aSemer.mois;
   const annee = new Date().getFullYear();
 
-  // Dates de semis par variété, et plantes mères au jardin (id variété → Type_plant)
+  // Dates de semis par variété
   const datesParVariete = new Map();
   for (const s of recordsParId.semis.values()) {
     if (s.date === null) continue;
     if (!datesParVariete.has(s.varieteId)) datesParVariete.set(s.varieteId, []);
     datesParVariete.get(s.varieteId).push(s.date);
-  }
-  const plants = new Map();
-  for (const m of recordsParId.millesimes.values()) {
-    if (m.planteMere) plants.set(m.varieteId, m.typePlant);
   }
 
   const resultat = [];
@@ -540,7 +558,7 @@ function varietesASemer() {
     const fenetre = fenetreDeSemis([...v.sousAbris, ...v.pleineTerre], mois, annee);
     const dates = datesParVariete.get(v.id) || [];
     const semisFait = dates.some(d => d >= fenetre.debut && d < fenetre.fin);
-    const plant = plants.has(v.id);               // plante mère au jardin
+        const plant = meresDe(v.id).length > 0;       // plante mère au jardin
     const dejaSemee = semisFait || plant;
     if (dejaSemee && !etat.aSemer.afficherDejaSemees) continue;
 
@@ -553,7 +571,7 @@ function varietesASemer() {
 
     resultat.push({
       v, mil, sousAbris, pleineTerre, dejaSemee, semisFait, plant,
-      typePlant: plants.get(v.id) || '', fenetre, germination
+      fenetre, germination
     });
   }
   return resultat.sort(comparerSelonTri);
@@ -587,21 +605,20 @@ function semer(l) {
   aller('appFiche');
 } 
  
-Vue.createApp({ setup() { return { etat, nombreAEnregistrer }; } }).mount('#appEntete');
+Vue.createApp({ setup() { return { etat, nombreAEnregistrer, aller }; } }).mount('#appEntete');
 Vue.createApp({ setup() { return {
-  etat, libelle, retirerDeLaListe,
+  etat, libelle, retirerDeLaListe, enregistrerTout,
   pluriel, dateAffichee, dateEnSecondes, libelleMillesime
 }; } }).mount('#appEtapes');
-Vue.createApp({ setup() { return { etat, enregistrerTout }; } }).mount('#appEnregistrer');
 Vue.createApp({ setup() { return {
   etat, choisirMode, pluriel, dateAffichee,
   surRechercheVariete, surFocusVariete, choisirVariete,
   basculerListeMillesime, choisirMillesime, millesimeChoisi,
   lieuxProposes, surRechercheOu, ajouterLieu, retirerLieu,
-  ajouterALaListe, libelleMillesime
+  ajouterALaListe, libelleMillesime,
 }; } }).mount('#appFiche');
 Vue.createApp({ setup() { return {
-  etat, LISTE_MOIS, libelle, pluriel, categorie, dansLaListe, semer
+  etat, LISTE_MOIS, libelle, pluriel, categorie, dansLaListe, semer, basculerTriASemer, choisirTriASemer, basculerMoisASemer, choisirMoisASemer
 }; } }).mount('#appASemer');
 
 // Quand la date change, l'encart « déjà semé » se recalcule

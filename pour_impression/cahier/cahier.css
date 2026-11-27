@@ -13,7 +13,7 @@
   vertical-align: middle;
 }
 .tableau__cellule {
-  border: 1px solid var(--gris);
+  border: 1px solid var(--gris-moyen);
   text-align: center;
   vertical-align: middle;
   padding: 1px 2px;
@@ -25,10 +25,10 @@
 .tableau__cellule--bas {
   vertical-align: bottom;
   font-size: 7px;
-  color: var(--gris-legende);
+  color: var(--gris-fonce);
 }
 .tableau__cellule--gris {
-  color: var(--gris-legende);
+  color: var(--gris-fonce);
 }
 /* Plusieurs sachets : une ligne par sachet */
 .tableau__cellule--multi {
@@ -39,7 +39,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-bottom: 1px solid var(--gris-clair);
+  border-bottom: 1px solid var(--gris-moyen);
   min-height: 6mm;
 }
 .tableau__sachet:last-child {
@@ -55,7 +55,7 @@
   text-align: center;
 }
 .tableau__demi--droite {
-  border-left: 1px solid var(--gris);
+  border-left: 1px solid var(--gris-moyen);
 }
 /* Ligne de plante mère : les lieux occupent les deux cases (Qté + Germ.), 2 lignes au plus */
 .tableau__lieu {
@@ -87,7 +87,7 @@
   margin-top: 2mm;
   font-size: 7px;
   line-height: 1.3;
-  color: var(--gris-legende);
+  color: var(--gris-moyen);
   text-align: left;
 }
 
