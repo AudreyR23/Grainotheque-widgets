@@ -381,7 +381,8 @@ h3 {
 .texte--erreur {
   color: var(--erreur-fonce);
 }
-.texte--succes {
+.texte--succes,
+.texte--info {
   color: var(--bleu-fonce);
 }
 .texte--plantemere {
@@ -460,6 +461,7 @@ h3 {
 .btn--etape {
   background: var(--orange-clair);
   border-color: var(--orange-moyen);
+  color: var(--orange-fonce);
 }
 .btn--enregistrer {
   border-color: var(--bleu-fonce);

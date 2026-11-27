@@ -15,7 +15,7 @@
 <body>
   <header id="appEntete"
           class="entete">
-    <h1>Semer</h1>
+    <h1>À semer</h1>
     <span class="statut"
           :class="{ 'statut--non-sauvegarde': nombreAEnregistrer() > 0 }">
       <template v-if="!etat.charge">Chargement…</template>
@@ -32,7 +32,7 @@
       <button type="button"
               class="btn"
               @click="aller('appASemer')">
-        À semer ({{ etat.aSemer.nbTotal }})
+        Ce mois-ci ({{ etat.aSemer.nbTotal }})
       </button>
       <button type="button"
               class="btn"
@@ -70,13 +70,10 @@
                     @click="retirerDeLaListe(b.id)">✕</button>
           </li>
         </ul>
-        <div class="zone-transparente">
-          <button type="button"
-                  class="btn btn--enregistrer btn--grand"
-                  v-show="etat.aEnregistrer.length > 0"
-                  :disabled="etat.enregistrement"
-                  @click="enregistrerTout">{{ etat.enregistrement ? 'Enregistrement…' : 'Enregistrer' }}</button>
-        </div>
+        <button type="button"
+                class="btn btn--enregistrer btn--grand"
+                :disabled="etat.enregistrement"
+                @click="enregistrerTout">{{ etat.enregistrement ? 'Enregistrement…' : 'Enregistrer' }}</button>
       </section>
     </div>
     <section id="appASemer">
@@ -167,7 +164,7 @@
                 <span v-if="l.pleineTerre"
                       class="pastille pastille--categorie pastille--pleineterre">Pleine terre</span>
                 <span v-if="l.plant"
-                      class="pastille pastille--categorie pastille--plantemere texte--plantemere">🌱 {{ l.typePlant || 'plant' }}</span>
+                      class="pastille pastille--categorie pastille--plantemere">🌱 Plante mère</span>
                 <span v-if="dansLaListe(l.v.id)"
                       class="pastille pastille--categorie pastille--etape">Dans ta liste</span>
               </div>
@@ -177,7 +174,7 @@
               </div>
               <div class="texte texte--discret">Semis {{ LISTE_MOIS[l.fenetre.debutMois - 1].court }} → {{ LISTE_MOIS[l.fenetre.finMois - 1].court }}</div>
               <div class="ligne"
-                   v-if="l.semisFait"><span class="pastille pastille--info"><template v-if="l.semisFait">Déjà semée</template></span>
+                   v-if="l.semisFait"><span class="pastille pastille--categorie pastille--info texte--info"><template v-if="l.semisFait">Déjà semée</template></span>
               </div>
             </div>
             <button v-if="l.mil"
@@ -193,7 +190,9 @@
     <section>
       <div id="appFiche"
            class="fiche">
-        <div class="bascule">
+        <h2>Semis réalisés</h2>
+           <div class="bascule">
+
           <button type="button"
                   class="btn btn--grand bascule__btn bascule__btn--sousabri"
                   :class="{ 'bascule__btn--sousabri-actif': etat.modeSemis === 'godets' }"
@@ -234,17 +233,19 @@
                class="encart encart--info">
             <div class="texte"> <span class="texte--gras">{{ etat.encart.type ? (etat.encart.type) : '—' }} ·</span>
               Germination : <template v-if="etat.encart.dureeGerm">{{ etat.encart.dureeGerm }} {{ pluriel(etat.encart.dureeGerm, 'jour') }}</template><template v-else>non renseignée</template></div>
-            <div class="texte texte--discret">
+            <div class="texte texte--discret"
+                 v-if="etat.encart.mere"> 
+                 <span class="pastille pastille--categorie pastille--plantemere">🌱 Plante mère</span> en place<template v-if="etat.encart.anneesPlantation.length"> (plantée en {{ etat.encart.anneesPlantation.join(', ') }})</template>
+            </div>
+              <div class="texte texte--discret">
               <template v-if="etat.encart.nbSemis">Déjà semé en {{ etat.encart.annee }} ({{ etat.encart.nbSemis }}) :</template>
               <template v-else>Pas encore semé en {{ etat.encart.annee }}.</template>
             </div>
-            <div class="texte texte--discret"
-                 v-if="etat.encart.mere"> <span class="pastille pastille--categorie pastille--plantemere texte--plantemere">🌱 Plante mère</span> en place<template v-if="etat.encart.anneesPlantation.length"> (plantée en {{ etat.encart.anneesPlantation.join(', ') }})</template></div>
             <div v-for="l in etat.encart.lignes"
                  :key="l.id"
-                 class="texte texte--discret">{{ dateAffichee(l.date) }} · mil. {{ l.original ? 'or.' : (l.anneeMil || '?') }} · {{ l.godets }} × {{ l.graines }}<template v-if="l.ou.length"> · {{ l.ou.join(', ') }}</template></div>
+                 class="texte texte--info">{{ dateAffichee(l.date) }} · mil. {{ l.original ? 'or.' : (l.anneeMil || '?') }} · {{ l.godets }} × {{ l.graines }}<template v-if="l.ou.length"> · {{ l.ou.join(', ') }}</template></div>
             <div v-if="etat.encart.autres"
-                 class="texte texte--discret">… et {{ etat.encart.autres }} {{ pluriel(etat.encart.autres, 'autre') }}</div>
+                 class="texte texte--info">… et {{ etat.encart.autres }} {{ pluriel(etat.encart.autres, 'autre') }}</div>
             <div v-if="etat.encart.dejaDansListe"
                  class="texte texte--erreur texte--gras">⚠ Déjà dans ta liste à enregistrer</div>
           </div>
