@@ -117,7 +117,7 @@ Volume : environ 449 variétés affichées (558 dans Varietes).
   en noir dans le PDF. Ce n'était pas un problème de finesse du trait.
 - `cahier.css` : `tableau__titre`, `tableau__cellule` (+ `--bas`, `--gris`, `--multi`), `tableau__sachet`, `tableau__nom`,
   `tableau__variete`, `tableau__demi` (+ `--droite`), `tableau__lieu`, `legende`.
-  Le gris des infos et de la légende est `var(--gris-legende)` (`#888`, variable du commun).
+  Le gris des infos et de la légende est `var(--gris-moyen)` (`#888`, variable du commun).
 - Lignes du tableau : classe `insecable` (commun) sur le `<tr>` ; plus de `tableau__ligne`.
 - Classes de colonnes (largeur seule) d'après l'en-tête papier : `col-type`, `col-nom`, `col-ep`, `col-nb`,
   `col-orig`, `col-sac`, `col-millesime`, `col-sais`, `col-qte`, `col-germ`, `col-nb-gr`, `col-nb-go`,

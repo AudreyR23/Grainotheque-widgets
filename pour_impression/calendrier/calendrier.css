@@ -33,7 +33,7 @@
 .calendrier__suite {
   font-size: 10px;
   font-weight: normal;
-  color: var(--gris-legende);
+  color: var(--gris-moyen);
 }
 .calendrier__legende {
   display: flex;

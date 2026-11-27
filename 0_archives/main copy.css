@@ -116,11 +116,11 @@ th, td {
 td.info-bas {
   vertical-align: bottom !important;
   font-size: 7px;
-  color: var(--gris-legende);
+  color: var(--gris-moyen);
 }
 
 .info-gris {
-  color: var(--gris-legende);
+  color: var(--gris-moyen);
   vertical-align: middle;
 }
 
