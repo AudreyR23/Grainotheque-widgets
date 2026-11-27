@@ -51,7 +51,7 @@ Lues : `Nom`, `Variete`, `Type`, `Annee_graine`, `Plantes`, `Date_p`, `Ou`, `Nb_
 - Messages dans le bloc `TEXTES` en haut du JS (chargement, échec, rechargement échoué, succès).
 
 ## Choix techniques
-- Zones Vue : `#appEntete`, `#appRecherche`, `#appAjouts`, `#appSelection` ; un seul `etat`.
+- Zones Vue : `#appEntete`, `#appRecherche`, `#appEnCours`, `#appSelection` ; un seul `etat`.
 - Données dans `recordsParId.semis` (Map) ; listes affichées copiées dans `etat` par `afficherSelection()`.
 - Chaque info d'une carte est un `<span>` avec son « · » final ; pastille verte « 🌱 Plante mère » comme dans a_gerer.
 - Orange = saisie en cours (À ajouter) ; gris gras = information de Grist importante (à imprimer, en attente) ; rouge = alerte.
@@ -68,7 +68,7 @@ Lues : `Nom`, `Variete`, `Type`, `Annee_graine`, `Plantes`, `Date_p`, `Ou`, `Nb_
 
 ## Points de vigilance
 - Chaque zone Vue a son propre `return` : toute fonction utilisée dans le HTML (`pluriel`, `saisieInvalide`…) doit y figurer.
-- Dans `#appAjouts` la ligne Semis s'appelle `b.s` (boucle `b`), dans `#appSelection` elle s'appelle `s`.
+- Dans `#appEnCours` la ligne Semis s'appelle `b.s` (boucle `b`), dans `#appSelection` elle s'appelle `s`.
 - Ne jamais lancer « Mettre en forme le document » sur le HTML (peut couper une chaîne dans un `{{ }}`). Le HTML actuel a été mis en forme
   sans dégât : aucune chaîne entre apostrophes n'est coupée. À vérifier après chaque mise en forme.
 - Dans Grist, une cellule en cours d'édition n'est pas écrite : valider (Entrée) avant de tester.

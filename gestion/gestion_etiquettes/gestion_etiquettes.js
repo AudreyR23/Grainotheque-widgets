@@ -185,17 +185,11 @@ Vue.watch(
 // ===== Zones Vue =====
 Vue.createApp({
   setup() {
-    return { etat };
-  }
-}).mount('#appRecherche');
-
-Vue.createApp({
-  setup() {
     return {
       etat, libelle, recapAjouts, retirerSaisie, enregistrerTout, allerCarte, pluriel,
     };
   }
-}).mount('#appAjouts');
+}).mount('#appEnCours');
 
 Vue.createApp({
   setup() {

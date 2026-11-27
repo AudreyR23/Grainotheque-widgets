@@ -218,11 +218,11 @@ Vue.createApp({
   setup() {
     return { etat, estInversee, estDerniere, pluriel };
   }
-}).mount('#appFeuilles');
+}).mount('#appPages');
 
 // ===== Aperçu à l'écran : feuilles réduites à la largeur du widget =====
 new ResizeObserver(entrees => { etat.zoom = facteurZoom(entrees[0].contentRect.width); })
-  .observe(document.getElementById('appFeuilles'));
+  .observe(document.getElementById('appPages'));
 
 // ===== Initialisation =====
 grist.ready({ requiredAccess: 'full' });

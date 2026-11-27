@@ -13,8 +13,8 @@
 /* ----- Colonne : 20 épingles au plus ----- */
 .liste-epingles {
   flex: 1;
-  border-left: 1px solid var(--gris-bordure);
-  border-top: 1px solid var(--gris-bordure);
+  border-left: 1px solid var(--gris-moyen);
+  border-top: 1px solid var(--gris-moyen);
 }
 /* Colonne vide (dernière page) : gardée pour la largeur, sans traits */
 .liste-epingles--vide {
@@ -25,8 +25,8 @@
   display: grid;
   grid-template-columns: 75px 1fr 40px;
   height: 9.2mm;
-  border-right: 1px solid var(--gris-bordure);
-  border-bottom: 1px solid var(--gris-bordure);
+  border-right: 1px solid var(--gris-moyen);
+  border-bottom: 1px solid var(--gris-moyen);
 }
 .epingle__cellule {
   display: flex;
@@ -38,14 +38,14 @@
 .epingle__cellule--type {
   font-size: 9px;
   color: var(--noir-intense);
-  border-right: 1px solid var(--gris-bordure);
+  border-right: 1px solid var(--gris-moyen);
   text-align: center;
   line-height: 1.2;
   word-break: break-word;
 }
 .epingle__cellule--nom {
   flex-direction: column;
-  border-right: 1px solid var(--gris-bordure);
+  border-right: 1px solid var(--gris-moyen);
   text-align: center;
 }
 .epingle__cellule--num {

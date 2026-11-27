@@ -35,7 +35,7 @@
       <p v-if="etat.succes" class="encart encart--succes texte texte--succes entete__message">{{ etat.succes }}</p>
     </header>
 
-    <div id="appFeuilles" class="zone-feuilles">
+    <div id="appPages" class="zone-feuilles">
       <div v-for="(feuille, f) in etat.feuilles" :key="f" class="feuille" :style="{ '--zoom-ecran': etat.zoom }">
         <div v-for="(rangee, r) in feuille" :key="r" class="rangee">
           <div

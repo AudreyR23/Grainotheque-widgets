@@ -101,6 +101,10 @@ h3 {
   padding: 6px 0;
   background: var(--arriere-plan);
 }
+/* Filtre et tri dans l'en-tête collé : seuls sur leur ligne */
+.entete__filtres {
+  flex-basis: 100%;
+}
 /* ===== Ligne (conteneur de mise en page) ===== */
 .ligne {
   display: flex;

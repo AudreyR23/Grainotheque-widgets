@@ -51,7 +51,7 @@ return "" if (rec.Plantes or 0) == (rec.Millesime.Nb_plants or 0) else "écart"
 22/11
 Cahier et étiquettes, pour qu'ils utilisent le commun impression :
 
-HTML : ajouter <link rel="stylesheet" href="../../styles/styles_communs_impression_bem.css" /> entre le CSS commun et le CSS de l'outil. Ajouter aussi class="zone-feuilles" sur #appPages (cahier) et #appFeuilles (étiquettes).
+HTML : ajouter <link rel="stylesheet" href="../../styles/styles_communs_impression_bem.css" /> entre le CSS commun et le CSS de l'outil. Ajouter aussi class="zone-feuilles" sur #appPages (cahier) et #appPages (étiquettes).
 CSS de l'outil : supprimer la section « candidat au commun ». Cela comprend .feuille, la règle overflow-x sur l'id et, dans @media print, les règles @page, body, .entete, .confirmation, l'id, .feuille et .feuille:last-child.
 Garder en local :
 étiquettes : .feuille { padding: 10mm; } ;

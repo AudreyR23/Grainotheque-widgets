@@ -2,35 +2,46 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plan du jardin</title>
+<link rel="stylesheet" href="../../styles/styles_communs.css">
 <link rel="stylesheet" href="plan.css">
 </head>
 <body>
 
-<div class="toolbar">
-  <span class="mode-badge mode-view" id="mode-badge">VUE</span>
-  <div class="sep"></div>
-  <button class="btn btn-edit"    onclick="setMode('edit')" title="Déplacer et pivoter les zones">✏️ Éditer zones</button>
-  <button class="btn btn-lock"    onclick="setMode('plant')" title="Placer les plantes">🌱 Placer plantes</button>
-  <button class="btn btn-select"  onclick="setMode('select')" title="Sélectionner une surface et la déplacer">⬚ Sélection</button>
-  <button class="btn"             onclick="setMode('view')" title="Vue normale">👁 Vue</button>
-  <div class="sep"></div>
-  <button class="btn btn-primary" onclick="sauvegarder()">💾 Sauvegarder</button>
-  <button class="btn" onclick="resetPlantes()">↩ Réinit. plantes</button>
-  <div class="sep"></div>
-  <button class="btn" onclick="zoomIn()">🔍+</button>
-  <button class="btn" onclick="zoomOut()">🔍−</button>
-  <button class="btn" onclick="zoomReset()">⊡</button>
-  <div class="sep"></div>
-<label class="taille-etiq" title="Taille des étiquettes">🏷️
-  <input type="range" id="taille-etiq" min="50" max="150" step="5" value="100"
-         oninput="changerTaille(this.value)" onchange="sauverTaille(this.value)">
-</label>
-  <div class="sep"></div>
-  <button class="btn" id="btn-tablette" onclick="changerModeTablette()" title="Interface tactile">🖐 Auto</button>
-  <button class="btn" onclick="toggleCoupures()">✂️ Coupures A3</button>
-  <button class="btn" onclick="imprimerA3()">🖨️ Imprimer A3</button>
-  <span class="status" id="status">Chargement…</span>
-</div>
+<header id="appBarre" class="entete barre">
+  <nav class="ligne">
+    <button type="button" class="btn" :class="{ 'btn--compact': !tabletteActive(), 'btn--etape': etat.mode === 'edit' }" title="Déplacer et pivoter les zones" @click="choisirMode('edit')">✏️ Éditer zones</button>
+    <button type="button" class="btn" :class="{ 'btn--compact': !tabletteActive(), 'btn--etape': etat.mode === 'plant' }" title="Placer les plantes" @click="choisirMode('plant')">🌱 Placer plantes</button>
+    <button type="button" class="btn" :class="{ 'btn--compact': !tabletteActive(), 'btn--etape': etat.mode === 'select' }" title="Sélectionner une surface et la déplacer" @click="choisirMode('select')">⬚ Sélection</button>
+    <button type="button" class="btn" :class="{ 'btn--compact': !tabletteActive(), 'btn--etape': etat.mode === 'view' }" title="Vue normale" @click="choisirMode('view')">👁 Vue</button>
+    <span class="barre__separateur"></span>
+    <button type="button" class="btn btn--enregistrer" :class="{ 'btn--compact': !tabletteActive() }" :disabled="!etat.charge || etat.enCours || etat.colonnesManquantes.length > 0" @click="sauvegarder">💾 Sauvegarder</button>
+    <button type="button" class="btn" :class="{ 'btn--compact': !tabletteActive() }" @click="reinitialiserPlantes">↩ Réinit. plantes</button>
+    <span class="barre__separateur"></span>
+    <button type="button" class="btn" :class="{ 'btn--compact': !tabletteActive() }" title="Zoomer" @click="agrandir">🔍+</button>
+    <button type="button" class="btn" :class="{ 'btn--compact': !tabletteActive() }" title="Dézoomer" @click="reduire">🔍−</button>
+    <button type="button" class="btn" :class="{ 'btn--compact': !tabletteActive() }" title="Tout le plan dans la fenêtre" @click="ajusterZoom">⊡</button>
+    <span class="barre__separateur"></span>
+    <label class="ligne texte" title="Taille des étiquettes">🏷️
+      <input type="range" class="barre__curseur" min="50" max="150" step="5" :value="Math.round(etat.tailleEtiquettes * 100)" @input="changerTaille($event.target.value)" @change="sauverTaille($event.target.value)">
+    </label>
+    <span class="barre__separateur"></span>
+    <button type="button" class="btn" :class="{ 'btn--compact': !tabletteActive() }" title="Interface tactile" @click="changerModeTablette">🖐 {{ { auto: 'Auto', oui: 'Tablette', non: 'PC' }[etat.modeTablette] }}</button>
+    <button type="button" class="btn" :class="{ 'btn--compact': !tabletteActive(), 'btn--etape': etat.coupuresVisibles }" @click="basculerCoupures">✂️ Coupures A3</button>
+    <button type="button" class="btn" :class="{ 'btn--compact': !tabletteActive() }" @click="imprimerA3">🖨️ Imprimer A3</button>
+  </nav>
+  <span class="statut" :class="{ 'statut--non-sauvegarde': etat.modifie && !etat.enCours }">
+    <template v-if="!etat.charge">Chargement…</template>
+    <template v-else-if="etat.enCours">Sauvegarde…</template>
+    <template v-else-if="etat.succes">{{ etat.succes }}</template>
+    <template v-else-if="etat.modifie">● Non sauvegardé · {{ etat.nbPlantes }} {{ pluriel(etat.nbPlantes, 'plante') }}</template>
+    <template v-else>✓ {{ etat.nbPlantes }} {{ pluriel(etat.nbPlantes, 'plante') }}</template>
+  </span>
+  <p v-if="etat.erreur" class="texte texte--erreur texte--gras entete__message">{{ etat.erreur }}</p>
+  <p v-if="etat.colonnesManquantes.length" class="texte texte--erreur texte--gras entete__message">⚠ {{ pluriel(etat.colonnesManquantes.length, 'Colonne introuvable', 'Colonnes introuvables') }} : {{ etat.colonnesManquantes.join(', ') }}. Vérifie qu'elle existe dans Grist sous ce nom (et que le widget est lié à Semis) : sans elle, le plan serait faux. Aucune étiquette n'est affichée et la sauvegarde est bloquée.</p>
+  <p v-if="etat.message" class="texte texte--erreur texte--gras entete__message">{{ etat.message }}</p>
+</header>
 
 <div class="app">
   <!-- Panel gauche -->
@@ -66,6 +77,8 @@
 
 <div id="print-root"></div>
 <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
-    <script src="plan.js"></script>
+<script src="https://unpkg.com/vue@3.4.38/dist/vue.global.prod.js"></script>
+<script src="../../script/scriptcommun.js"></script>
+<script src="plan.js"></script>
 </body>
 </html>
