@@ -358,6 +358,7 @@ async function enregistrerTout() {
     NomVariete: liste.map(b => b.varieteId),
     Millesime: liste.map(b => b.millesimeId),
     Date_s: liste.map(b => dateEnSecondes(b.date)),
+    Date_p: liste.map(b => b.mode === 'pleine_terre' ? dateEnSecondes(b.date) : null), // pleine terre : planté le jour du semis
     Nb_godets: liste.map(b => b.godets),
     Nb_graines: liste.map(b => b.graines),
     Ou: liste.map(b => b.ou.length ? enListeChoix(b.ou) : null),
