@@ -650,6 +650,10 @@ function nombreSaisies() {
 }
 
 // ===== À planter =====
+function enPleineTerre(s) {
+  // Semé en pleine terre : Semis réalisés écrit une date de plantation égale à la date de semis
+  return !s.planteMere && s.date !== null && s.datePlantation === s.date;
+}
 function semisAPlanter() {
   return [...recordsParId.semis.values()]
     .filter((s) => s.germes > 0 && s.reste > 0 && !s.planteMere)
@@ -944,6 +948,12 @@ async function enregistrerTout() {
         },
       ]);
     }
+        // Semis en pleine terre : déjà au jardin, les germés sont aussi les plantés (lu par le Plan et les étiquettes)
+    for (const b of lignesGermes) {
+      const s = recordsParId.semis.get(b.idSemis);
+      if (enPleineTerre(s))
+        actions.push(["UpdateRecord", "Semis", b.idSemis, { Plantes: (s.germes || 0) + b.germes }]);
+    }
     for (const p of lignesPlantation) {
       const s = recordsParId.semis.get(p.idSemis);
       if (!s) continue;
@@ -1106,6 +1116,7 @@ Vue.createApp({
       allerFinSaison,
       pluriel,
       evolution,
+      nombreSaisies, enregistrerTout 
     };
   },
 }).mount("#appEnCours");
@@ -1127,6 +1138,7 @@ Vue.createApp({
       tropDeGermes,
       totalGermes,
       resteAGermer,
+
     };
   },
 }).mount("#appVerifier");
@@ -1199,11 +1211,6 @@ Vue.createApp({
     };
   },
 }).mount("#appFinSaison");
-Vue.createApp({
-  setup() {
-    return { etat, nombreSaisies, enregistrerTout };
-  },
-}).mount("#appEnregistrer");
 
 // Quand la recherche, le tri ou une case d'option change, on recalcule les quatre listes
 Vue.watch(

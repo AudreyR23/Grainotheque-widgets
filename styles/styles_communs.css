@@ -86,7 +86,12 @@ h3 {
 [hidden] {
   display: none !important;
 }
-
+/* ===== Page : les blocs de <main> s'empilent avec un écart régulier ===== */
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
 /* ===== Bandeau du haut, collé à l'écran ===== */
 .entete {
   flex-wrap: wrap;

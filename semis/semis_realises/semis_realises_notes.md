@@ -43,7 +43,7 @@
 - **`Semis`** (`BulkAddRecord`) : `NomVariete`, `Millesime`, `Date_s`, `Nb_godets`, `Nb_graines`, `Ou` (`enListeChoix` ou `null`), `Germes` (= `null` explicite, sinon Grist met 0 et `Info_germination` conclut « NG »).
 - **`Millesimes`** (`UpdateRecord`, si « Sachet vidé ») : `Qtte_graines` et `Nb_sachets` à `null` (la formule `Epuise` exige les deux vides).
 - **`Varietes`** (`UpdateRecord`, si la case « À reproduire » a changé) : `A_reproduire` (`true` ou `false`), une écriture par variété.
-- **Jamais envoyées** : `Type` et `A_produire` (formules `$NomVariete.Type` et `$NomVariete.A_reproduire`), `Positions`, `Nb_etiquettes`, `Graines_exterieures`, `Plantes`, `Oups`, `Date_p`, `Don_p`, `Date_creation`, `Date_modif`.
+- **Jamais envoyées** : `Type` et `A_produire` (formules `$NomVariete.Type` et `$NomVariete.A_reproduire`), `Positions`, `Nb_etiquettes`, `Graines_exterieures`, `Plantes`, `Oups`, `Don_p`, `Date_creation`, `Date_modif`.
 - Pas de relecture avant écriture : on n'ajoute que des lignes, « Sachet vidé » écrase le stock, « À reproduire » écrit la valeur de la case (décision du 23/11/2026).
 
 ### Liens avec les autres outils
@@ -51,7 +51,7 @@
 - **Achat-repro** décoche `Varietes.A_reproduire` à chaque création d'un millésime de la variété ; il écrit aussi `Nb_sachets`.
 - **Plan** lit `Semis.A_produire` (formule `$NomVariete.A_reproduire`) : rien à changer de son côté.
 - **Numérotation** : « Sachet vidé » rend le millésime `Epuise` ; si c'était le dernier, la formule `Varietes.Disponible` passe à faux tout seule (la variété apparaît dans « Numéros réutilisables »). Une plante mère n'est jamais épuisée : sa variété reste disponible.
-- Pleine terre reconnaissable dans `Semis` par `Nb_godets = 1` ; plante mère (À gérer, Achat-repro) par godets = 0 et graines = 0.
+- Pleine terre reconnaissable dans `Semis` par `Date_p` = `Date_s` ; plante mère (À gérer, Achat-repro) par godets = 0 et graines = 0.
 - Plus de `BroadcastChannel` : l'ancien widget À semer est intégré (section « À semer »).
 
 ## 4. Fonctionnalités

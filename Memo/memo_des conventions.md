@@ -16,6 +16,7 @@
 - Scripts en fin de `<body>`, dans cet ordre : plugin Grist, Vue 3.4.38 (unpkg), `scriptcommun.js`, `outil.js`.
 - Les textes (`TEXTES`) sont dans `outil.js`, jamais dans un fichier à part.
 - `grist.ready({ requiredAccess: 'full' })`.
+- Dossier de travail : `Grist_potager/Grainotheque-widgets` seulement. `node_modules` et `data` (anciens tests hors Grist : CSV → JSON, cors-anywhere) supprimés le 27/11 : pas de npm dans ce projet.
 
 ## Vue (sans compilation)
 - Une zone `<div id="appXxx">` par bloc, montée par `Vue.createApp({ setup() { return {...} } }).mount('#appXxx')`. Vue reconstruit la zone : un écouteur JS posé dessus est perdu. Un `v-show` ou un `v-if` sur le bloc se met **dans** la zone (sur un `<section>` à l'intérieur du `<div id="appXxx">`), pas sur l'élément monté. L'en-tête peut être sa propre zone : `<header id="appEntete" class="entete">`.
@@ -29,7 +30,7 @@
 - Bouton dont le choix est en cours (et onglet ouvert) : `:class="{ 'btn--etape': condition }"`, la condition venant d'une fonction du JS (ex. `toutPlanteDe(s)`).
 - `v-else-if` / `v-else` doivent suivre directement la balise qui porte le `v-if`.
 - Pas de `createElement`, `innerHTML` ni `getElementById` pour écrire dans l'interface (donner le focus à un champ avec `getElementById(...).focus()` dans un `Vue.nextTick` est toléré : `donnerLeFocus(id)` d'Achat-repro).
-- Ne jamais lancer « Mettre en forme le document » sur un fichier **HTML** : le formateur coupe les lignes longues, y compris au milieu d'un texte entre apostrophes dans un `{{ }}` ou un `:class`. Une chaîne coupée sur deux lignes fait planter toute la zone (« string literal contains an unescaped line break »). Sur un fichier **JS**, c'est sans danger. Si c'est arrivé : Ctrl+Z, ou comparer avec la version Git, puis recoller sur une seule ligne les textes coupés.
+- Une chaîne entre apostrophes coupée sur deux lignes dans un `{{ }}` ou un `:class` fait planter toute la zone (« string literal contains an unescaped line break ») : la recoller sur une seule ligne. Mise en forme des HTML : voir **Éditeur**.
 - Vue compile le HTML au `.mount()` : une erreur dans le HTML est signalée à la ligne `.mount(...)` du JS, pas dans le HTML. Lire le texte de l'erreur, pas seulement la ligne.
 
 ### Menus et choix écrits à la main (modèle : Achat-repro)
@@ -127,12 +128,21 @@
 - Test de chaque modification : PDF en A4 paysage, comparé à la version précédente (nombre de pages, positions, pas de page blanche finale).
 - onRecords livre les listes de choix sans le 'L' : ne pas leur appliquer listeChoix (réservé à fetchTable)
 
+## Éditeur (VS Codium, Linux)
+- **Jamais Prettier sur un HTML** (constaté le 27/11 sur À gérer) : il traite les `{{ }}` comme du texte et coupe les lignes sur n'importe quelle espace, y compris au milieu d'un texte entre apostrophes (`'NG : aucun↵germe'`). La zone ne se monte plus.
+- **Prettier pour CSS et JS seulement** : `"[css]"` et `"[javascript]"` avec `"editor.defaultFormatter": "esbenp.prettier-vscode"`, plus `"prettier.singleQuote": true` (garde les apostrophes du JS).
+- **HTML : formateur intégré** : `"[html]": { "editor.defaultFormatter": "vscode.html-language-features" }`, `"html.format.templating": true` (respecte les `{{ }}`), `"html.format.wrapLineLength": 0` (ne coupe jamais une ligne), `"html.format.wrapAttributes": "force-aligned"` (un attribut par ligne, alignés, `>` sur la dernière ligne ; à confirmer à l'usage, sinon `"force-expand-multiline"` ou `"auto"`).
+- Réglages dans les paramètres utilisateur : Ctrl+Maj+P > « Préférences : Ouvrir les paramètres utilisateur (JSON) » (`~/.config/VSCodium/User/settings.json`).
+- Commit avant chaque mise en forme d'un fichier entier, puis relire le comparatif Git et ouvrir l'outil (console).
+- Extensions gardées : Prettier, Live Server, French Language Pack, Error Lens (`usernamehw.errorlens`), HTML CSS Support (`ecmel.vscode-html-css`), Path Intellisense (`christian-kohler.path-intellisense`). « Non vérifié » dans VS Codium (catalogue Open VSX) n'est pas un signe de danger. Inutiles ici : Vue Official (fichiers `.vue` seulement), Git History et File Git History (le panneau Contrôle de code source et le volet Chronologie sont intégrés).
+- Historique d'un fichier : volet **Chronologie** en bas de l'explorateur, clic sur un commit = comparaison avant/après.
+
 ## Méthode de travail
 - Une modification à la fois, puis un test et la console (F12, filtre vidé).
 - **Partir du fichier réel** : avant de proposer un remplacement, relire le fichier de l'outil (les copies du projet peuvent dater d'avant les dernières étapes : les redéposer) et reprendre ses noms exacts. Un nom recopié de mémoire (ex. une ancienne constante) fait échouer le remplacement.
 - Après un copier-coller, **relire le bloc autour** : un `return` grignoté, un `=` à la place d'un `<=`, un bloc collé au mauvais endroit (ou dans la mauvaise fonction : une fonction qui s'appelle elle-même donne « too much recursion »), une ligne supprimée au lieu d'être remplacée, ou un `id` en double ont causé la plupart des erreurs.
 - Retirer une fonction = retirer aussi tous ses appels, ses `watch` et sa place dans les `return` : Ctrl+Maj+F sur son nom doit donner 0 résultat ensuite.
-- Ctrl+Maj+F sur le nom qu'on vient de coller ou de supprimer : un compte inattendu trahit un doublon ou un reste. Exclure `node_modules` de la recherche.
+- Ctrl+Maj+F sur le nom qu'on vient de coller ou de supprimer : un compte inattendu trahit un doublon ou un reste.
 - Renommage global (`modele` → `espece`) : Remplacer dans les fichiers de l'outil, **casse respectée**, du plus long au plus court (`MODELE`, `Modele`, `modele`), puis Ctrl+Maj+F sur l'ancien nom.
 - Ctrl+F5 après un changement du CSS ou du JS commun ; ouvrir tous les outils qui en dépendent.
 - Après un déplacement de fichiers ou de dossiers : vérifier l'URL du widget dans Grist, les chemins relatifs du HTML, puis recharger de force. Une erreur qui cite un ancien nom (`KeyError 'Sachets'`) vient souvent d'une ancienne copie encore exécutée.
@@ -147,3 +157,4 @@
 - Boîte à dons : passer à `LISTE_MOIS` lors de sa refonte.
 - Achat-repro : `ajouterChoixColonne`, `existeDeja`, `sansVides`, `basculerDans` et `chercher` pourraient rejoindre le commun si un autre outil en a besoin (discussion à part). Les menus de À gérer (`ouvertOu`, `lieuxProposes`) et ceux d'Achat-repro (`etat.menuOuvert`, `etat.recherches`) font la même chose avec deux écritures : à rapprocher si un outil est repris.
 - Sachets de mélange : piste « une variété Espèce - Mélange » à discuter à part (touche tous les outils), avec le renommage éventuel de `Millesimes.Melange`.
+- Autres HTML déjà passés par Prettier : chercher les textes entre apostrophes coupés sur deux lignes dans les `{{ }}`, ou repartir de la version Git d'avant.

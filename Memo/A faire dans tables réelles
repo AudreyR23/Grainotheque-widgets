@@ -80,3 +80,6 @@ Si tu veux, mets en tête de page une carte de texte : « Graines trouvées : 1.
 Ensuite, il te suffit d'ajouter une ligne sur cette page : le nom te rappelle la marche à suivre. La page te sert aussi de contrôle, puisqu'une ligne qui y reste après le passage dans Achat-repro signale un oubli. Achat-repro supprime ces lignes de transit dès que le millésime est créé, donc la page se vide toute seule.
 
 Si un jour ce parcours devient fréquent, la vraie simplification serait un bouton « Graines trouvées » dans Sélection pour étiquettes, qui créerait cette ligne pour toi. Pour l'instant, la page Grist suffit.
+
+27/11 :
+- 2. Les anciens semis en pleine terre, dans Grist. Ajoute temporairement la colonne Test_pleine_terre (formule du message précédent) et filtre-la sur « vrai ». Vérifie à l'œil que ce sont bien des semis en pleine terre, puis, pour ces lignes, sélectionne la colonne Date_s, copie-la et colle-la dans Date_p. Supprime ensuite la colonne de test.
