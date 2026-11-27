@@ -295,6 +295,7 @@ function lireFiche() {
     varieteId: etat.varieteId,
     millesimeId: etat.millesimeId,
     millesime: m ? { ...m } : null,   // copie, pour l'affichage de la carte
+    variete: v ? { nom: v.nom, variete: v.variete, type: v.type } : null,   // copie, pour l'affichage de la carte
     date: etat.date,
     godets: pleineTerre ? 1 : entierOuNull(etat.nbGodets),
     graines: entierOuNull(etat.nbGraines),
@@ -336,11 +337,6 @@ function ajouterALaListe() {
  
 function retirerDeLaListe(id) {
   etat.aEnregistrer = etat.aEnregistrer.filter(b => b.id !== id);
-}
- 
-function nomDeCarte(b) {
-  const v = recordsParId.varietes.get(b.varieteId);
-  return v ? libelle(v) : '(variété inconnue)';
 }
  
 // ===== Enregistrement dans Semis =====
@@ -592,7 +588,7 @@ function semer(l) {
  
 Vue.createApp({ setup() { return { etat, nombreAEnregistrer }; } }).mount('#appEntete');
 Vue.createApp({ setup() { return {
-  etat, nomDeCarte, retirerDeLaListe,
+  etat, libelle, retirerDeLaListe,
   pluriel, dateAffichee, dateEnSecondes, libelleMillesime
 }; } }).mount('#appEtapes');
 Vue.createApp({ setup() { return { etat, enregistrerTout }; } }).mount('#appEnregistrer');

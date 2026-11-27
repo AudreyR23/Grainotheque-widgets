@@ -84,18 +84,31 @@
                 </template>
                 <template v-else>{{ g.sachets[0].saisons || '\u00A0' }}</template>
               </td>
-              <td class="tableau__cellule tronque col-qte" :class="{ 'tableau__cellule--multi': g.sachets.length > 1 }">
-                <template v-if="g.sachets.length > 1">
-                  <span v-for="(s, k) in g.sachets" :key="k" class="tableau__sachet">{{ s.qtte || '\u00A0' }}</span>
-                </template>
-                <template v-else>{{ g.sachets[0].qtte || '\u00A0' }}</template>
-              </td>
-              <td class="tableau__cellule tronque col-germ" :class="{ 'tableau__cellule--multi': g.sachets.length > 1 }">
-                <template v-if="g.sachets.length > 1">
-                  <span v-for="(s, k) in g.sachets" :key="k" class="tableau__sachet">{{ s.germination || '\u00A0' }}</span>
-                </template>
-                <template v-else>{{ g.sachets[0].germination || '\u00A0' }}</template>
-              </td>
+               <template v-if="g.avecMere">
+                <td colspan="2" class="tableau__cellule" :class="{ 'tableau__cellule--multi': g.sachets.length > 1 }">
+                  <span v-for="(s, k) in g.sachets" :key="k" class="tableau__sachet">
+                    <span v-if="s.mere" class="tableau__lieu">{{ s.lieu || '\u00A0' }}</span>
+                    <template v-else>
+                      <span class="tableau__demi tronque">{{ s.qtte || '\u00A0' }}</span>
+                      <span class="tableau__demi tableau__demi--droite tronque">{{ s.germination || '\u00A0' }}</span>
+                    </template>
+                  </span>
+                </td>
+              </template>
+              <template v-else>
+                <td class="tableau__cellule tronque col-qte" :class="{ 'tableau__cellule--multi': g.sachets.length > 1 }">
+                  <template v-if="g.sachets.length > 1">
+                    <span v-for="(s, k) in g.sachets" :key="k" class="tableau__sachet">{{ s.qtte || '\u00A0' }}</span>
+                  </template>
+                  <template v-else>{{ g.sachets[0].qtte || '\u00A0' }}</template>
+                </td>
+                <td class="tableau__cellule tronque col-germ" :class="{ 'tableau__cellule--multi': g.sachets.length > 1 }">
+                  <template v-if="g.sachets.length > 1">
+                    <span v-for="(s, k) in g.sachets" :key="k" class="tableau__sachet">{{ s.germination || '\u00A0' }}</span>
+                  </template>
+                  <template v-else>{{ g.sachets[0].germination || '\u00A0' }}</template>
+                </td>
+              </template>
 
               <td class="tableau__cellule tronque tableau__cellule--bas col-nb-gr"><template v-if="g.profondeur">{{ g.profondeur }}&nbsp;cm</template></td>
               <td class="tableau__cellule tronque tableau__cellule--bas col-nb-go"><template v-if="g.germ_duree">{{ g.germ_duree.toLocaleString('fr-FR') }}&nbsp;j</template></td>

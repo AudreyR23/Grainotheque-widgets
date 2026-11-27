@@ -62,3 +62,10 @@
 .carte--deja-semee {
   opacity: 0.6;
 }
+
+/* ===== Page : les blocs de <main> s'empilent avec un écart régulier ===== */
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}

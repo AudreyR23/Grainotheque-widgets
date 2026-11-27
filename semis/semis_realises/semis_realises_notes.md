@@ -59,7 +59,7 @@
 Ordre de la page (comme À gérer) : en-tête collé, cartes **« À enregistrer »** (s'il y en a), section **« À semer »**, **fiche**, bouton **Enregistrer collé en bas de l'écran**.
 
 ### Cartes « À enregistrer » (en haut, `#appEtapes`)
-Liseré orange, pastille de mode, détail (millésime, date, quantités, lieux, « sachet vidé », « à reproduire » / « ne plus reproduire » si la case a changé), ✕ pour retirer. Chaque carte garde une copie du millésime (`b.millesime`) pour son affichage. **Perdues au rechargement** (voulu, plus de `sessionStorage`). Section masquée quand la liste est vide.
+Liseré orange, nom + type, pastille de mode, détail (millésime, date, quantités, lieux, « sachet vidé », « à reproduire » / « ne plus reproduire » si la case a changé), ✕ pour retirer. Chaque carte garde une copie de la variété (`b.variete`) et du millésime(`b.millesime`) pour son affichage. **Perdues au rechargement** (voulu, plus de `sessionStorage`). Section masquée quand la liste est vide.
 
 ### Section « À semer » (`#appASemer`)
 Une variété s'affiche si :
@@ -102,8 +102,9 @@ Bouton bleu **collé en bas de l'écran** (`btn--collant`), visible dès qu'il y
 
 - **5 zones Vue**, toutes sur le même `etat` : `#appEntete` (titre, statut, messages), `#appEtapes` (cartes à enregistrer), `#appASemer` (section À semer), `#appFiche` (formulaire, erreur de saisie, Ajouter), `#appEnregistrer` (bouton Enregistrer).
 - **Bouton collé** : `#appEnregistrer` est une `zone-transparente` (`display: contents`) placée **juste avant `</main>`**, pour que le bouton soit un enfant direct de `<main>` et reste collé sur toute la page (dans `#appEtapes`, il ne resterait collé que tant que cette section est visible). Même montage qu'À gérer.
+- **`#appEtapes` en `zone-transparente`** : sans carte, sa section masquée ne compte pas dans le `gap` de `.page` (pas d'écart vide en haut).
 - **État** : un seul `etat` ; la section À semer a son sous-objet `etat.aSemer` (`lignes`, `mois`, `afficherDejaSemees`, `tri`, `nbTotal`, `nbRetenues`, `filtreActif`, `filtreSousAbri`, `filtrePleineTerre`, `ouvert`). Liste à enregistrer : `etat.aEnregistrer`.
-- **Noms** : `ajouterALaListe`, `retirerDeLaListe`, `nomDeCarte`, `prochainIdCarte`, `nombreAEnregistrer` (anciens noms en « étape intermédiaire » supprimés).
+- **Noms** : `ajouterALaListe`, `retirerDeLaListe`, `prochainIdCarte`, `nombreAEnregistrer` (anciens noms en « étape intermédiaire » supprimés).
 - **Données** : `recordsParId.varietes / millesimes / semis` (Map, non suivies par Vue), chargées une seule fois pour la fiche et la section.
 - **Le JS calcule, le HTML met en forme** : chaque ligne À semer contient `{ v, mil, sousAbris, pleineTerre, dejaSemee, semisFait, plant, typePlant, fenetre, germination }` ; `categorie(l)` renvoie un code que le HTML transforme en `carte--…`. Carte à enregistrer : `reproduire` vaut `true`, `false` ou `null` (rien à écrire).
 - **watch** : `etat.date` → `afficherDerniersSemis` ; filtres de `etat.aSemer` → `afficherASemer`.
@@ -121,6 +122,8 @@ Bouton bleu **collé en bas de l'écran** (`btn--collant`), visible dès qu'il y
 | `.filtres`, `.filtres__groupe` | Filtres de la section À semer (complètent `.ligne`) |
 | `.champ--filtre` | Menu réduit à son contenu (`width: auto` ; `champ--compact` du commun garde `width: 100%`) |
 | `.carte--deja-semee` | Carte estompée (opacité 0.6) |
+| `.page` | `<main>` en colonne, `gap: 16px` entre les blocs (cartes, À semer, fiche, bouton) |
+| `.reserve` | Copie invisible de « Afficher » dans le bouton Masquer / Afficher : largeur fixe (même règle qu'À gérer, à passer dans le commun) |
 
 ## 7. Règles métier
 
@@ -200,3 +203,6 @@ Bouton bleu **collé en bas de l'écran** (`btn--collant`), visible dès qu'il y
   - formule `Varietes.Annees_sans_test` : `Annee_germination_ref` la plus récente au lieu de `lookupOne` ;
   - `Nb_saisons_manuel` gardé tel quel (voir 3).
   - colonne `Millesimes.Melange` supprimée : `estMelange` retiré du JS, texte « Sachet mélangé » retiré de la carte À semer.
+  - carte « À enregistrer » : copie de la variété (`b.variete`), nom par `libelle`, type réaffiché ; `nomDeCarte` supprimée.
+  - écart entre les blocs : `<main class="page">` (`gap: 16px`), `#appEtapes` en `zone-transparente`.
+  - bouton Masquer / Afficher à largeur fixe (`.reserve`).

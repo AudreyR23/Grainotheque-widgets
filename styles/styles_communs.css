@@ -478,7 +478,13 @@ h3 {
 .zone-transparente {
   display: contents;
 }
-
+/* Copie invisible du plus long texte : le bouton Masquer / Afficher garde la même largeur */
+.reserve {
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
 /* ===== Confirmation (si utilisée) ===== */
 .confirmation {
   position: fixed;
