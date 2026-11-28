@@ -5,6 +5,7 @@ Choisir, parmi les lignes de Semis déjà plantées ou plantes mères, combien d
 Il n'imprime rien : il écrit seulement `Semis.Nb_etiquettes`. Migré en Vue, CSS commun BEM.
 Accès Grist : `full`. Versions dev (branche `Vue`) et prod (`main`).
 Refonte du 24/11/2026 : nettoyage selon le mémo des conventions (plus de `sessionStorage`, de relecture avant écriture ni de `beforeunload`).
+28/11/2026 : cases « Semis » et « Masquer les clôturées ».
 
 ## Fichiers
 - `gestion_etiquettes.html`, `gestion_etiquettes.js`, `gestion_etiquettes.css`
@@ -25,14 +26,19 @@ Refonte du 24/11/2026 : nettoyage selon le mémo des conventions (plus de `sessi
 
 ## Données (table Semis, lue par `fetchTable`)
 Lues : `Nom`, `Variete`, `Type`, `Annee_graine`, `Plantes`, `Date_p`, `Ou`, `Nb_etiquettes`, `Etiq_en_attente`,
-`Plante_mere`, `Annee_plantation_mil`, `Nb_godets`, `Nb_graines`, `Millesime`.
+`Plante_mere`, `Annee_plantation_mil`, `Nb_godets`, `Nb_graines`, `Millesime`, `Cloture`.
 Écrite : `Nb_etiquettes` uniquement (un seul `BulkUpdateRecord`).
 
 ## Quelles cartes apparaissent (« À étiqueter »)
 - Plante mère : seulement sa ligne « mère » (`estLigneMere`, dans le commun : millésime plante mère, sans godets ni graines,
   créée par achat-repro). Année de plantation facultative (« année de plantation inconnue »).
 - Autres : lignes avec `Plantes > 0`.
-- Tri par nom ; recherche texte ; filtres « Plantes mères » et « Déjà des étiquettes ».
+- **Lignes clôturées** (`Semis.Cloture`, cochée par À gérer en fin de saison) : masquées par défaut (case « Masquer les clôturées »,
+  `etat.masquerCloturees`, cochée au démarrage). Décochée, elles reviennent. Appliqué dans `entreesEtiquetables()` : le nombre de
+  « À étiqueter (n) » en tient compte.
+- Tri par nom ; recherche texte ; filtres « Plantes mères », « Semis » (lignes qui ne sont pas des plantes mères) et « Déjà des étiquettes ».
+  « Plantes mères » + « Semis » cochées ensemble = les deux types (liste complète) : `if (etat.filtreMeres !== etat.filtreSemis)`.
+- Titre : « À étiqueter (y) », ou « (x sur y) » quand la liste est réduite (une seule interpolation, sans `<template>`, sur une ligne).
 - Une plante mère sans année s'imprime avec « …… saison(s) » (règle du widget d'impression et d'achat-repro).
 
 ## Fonctionnement
@@ -40,8 +46,8 @@ Lues : `Nom`, `Variete`, `Type`, `Annee_graine`, `Plantes`, `Date_p`, `Ou`, `Nb_
   `etat.saisies` (idSemis → nombre) et `etat.brut` (texte tapé). Un texte invalide (« abc », « 2,5 », « 0 », « -1 ») n'est pas pris en compte
   et la carte affiche « ⚠ Nombre entier supérieur à 0 attendu » (`saisieInvalide`).
   `type="number"` n'est pas utilisé : il renvoie une chaîne vide pour un texte invalide, donc impossible de signaler l'erreur.
-- **À ajouter** : récapitulatif trié par nom ; clic sur une carte = défilement jusqu'à sa carte (recherche et filtres
-  remis à zéro si elle est masquée) ; ✕ retire la saisie (`@click.stop`). Alerte si la ligne a déjà des étiquettes à imprimer ou en attente.
+- **À ajouter** : récapitulatif trié par nom ; clic sur une carte = défilement jusqu'à sa carte (recherche, filtres et case
+  « Masquer les clôturées » remis à zéro si elle est masquée) ; ✕ retire la saisie (`@click.stop`). Alerte si la ligne a déjà des étiquettes à imprimer ou en attente.
 - **En-tête collé** : statut (Chargement / À jour / Non sauvegardé (n) / Erreur de chargement), boutons « À ajouter » et « À étiqueter »,
   message de succès (4 s) et message d'erreur de chargement (`entete__message`).
 - **Enregistrer** : calcule `Nb_etiquettes + saisie` sur les valeurs chargées (rafraîchies après chaque enregistrement) et écrit
@@ -51,8 +57,9 @@ Lues : `Nom`, `Variete`, `Type`, `Annee_graine`, `Plantes`, `Date_p`, `Ou`, `Nb_
 - Messages dans le bloc `TEXTES` en haut du JS (chargement, échec, rechargement échoué, succès).
 
 ## Choix techniques
-- Zones Vue : `#appEntete`, `#appRecherche`, `#appEnCours`, `#appSelection` ; un seul `etat`.
+- Zones Vue : `#appEntete`, `#appRecherche`, `#appAjouts`, `#appSelection` ; un seul `etat`.
 - Données dans `recordsParId.semis` (Map) ; listes affichées copiées dans `etat` par `afficherSelection()`.
+  Un seul `Vue.watch` (recherche + 3 filtres + case clôturées) : pas de `watch` en chaîne.
 - Chaque info d'une carte est un `<span>` avec son « · » final ; pastille verte « 🌱 Plante mère » comme dans a_gerer.
 - Orange = saisie en cours (À ajouter) ; gris gras = information de Grist importante (à imprimer, en attente) ; rouge = alerte.
 - CSS local : marge de `#appRecherche` et `#etapeIntermediaire`, largeur du champ « Nb » (`.champ--nb`, avec `champ--compact` du commun).
@@ -68,21 +75,22 @@ Lues : `Nom`, `Variete`, `Type`, `Annee_graine`, `Plantes`, `Date_p`, `Ou`, `Nb_
 
 ## Points de vigilance
 - Chaque zone Vue a son propre `return` : toute fonction utilisée dans le HTML (`pluriel`, `saisieInvalide`…) doit y figurer.
-- Dans `#appEnCours` la ligne Semis s'appelle `b.s` (boucle `b`), dans `#appSelection` elle s'appelle `s`.
-- Ne jamais lancer « Mettre en forme le document » sur le HTML (peut couper une chaîne dans un `{{ }}`). Le HTML actuel a été mis en forme
-  sans dégât : aucune chaîne entre apostrophes n'est coupée. À vérifier après chaque mise en forme.
+- Dans `#appAjouts` la ligne Semis s'appelle `b.s` (boucle `b`), dans `#appSelection` elle s'appelle `s`.
+- Ne jamais lancer « Mettre en forme le document » sur le HTML (peut couper une chaîne dans un `{{ }}`, et le retour à la ligne
+  ajoute une espace visible, par ex. dans le titre « À étiqueter (… »). Le titre doit rester sur une seule ligne.
 - Dans Grist, une cellule en cours d'édition n'est pas écrite : valider (Entrée) avant de tester.
 - La ligne vide du bas de la table Semis crée une vraie ligne dès qu'on y saisit quelque chose.
 - Le `Nb_etiquettes` d'une ligne est additionné : saisir 2 sur une ligne qui en a déjà 3 donne 5.
 - Si la ligne a été supprimée dans Grist depuis l'ouverture, l'enregistrement échoue (message « Échec… »), rien n'est écrit.
 - Colonne renommée dans Grist : la valeur est lue `undefined` et le `|| 0` le masque ; l'écriture de `Nb_etiquettes` donnerait `KeyError`.
+  Même effet pour `Cloture` : si elle était renommée, la case « Masquer les clôturées » ne masquerait plus rien, sans erreur.
 - Lignes mères : à la mort totale, À gérer décoche `Plante_mere` (la ligne sort de cette liste). achat-repro peut supprimer une ligne
   `Plantes = 0` sans `Date_s` comme ligne de transit : la ligne est alors inutile, risque accepté.
 
 ## CSS du commun non utilisé par cet outil
 (établi le 21/11/2026, à revérifier : le commun et le HTML ont changé depuis)
 
-**Mise en page** : `.ligne--entre`, `.ligne--sur-champ`, `.zone-transparente`, `.groupe`, `h3` (balise)
+**Mise en page** : `.ligne--entre`, `.ligne--sur-champ`, `.zone-transparente`, `.groupe`, `.page`, `.reserve`, `h3` (balise)
 **Champ, case** : `.champ--flexible`, `.champ--bouton`, `.champ--deroulant`, `.case__saisie:disabled`
 **Menu déroulant (bloc entier)** : `.menu`, `.menu__liste`, `.menu__item`, `.menu__item--choisi`, `.menu__item--vide`
 **Pastille** : `.pastille--lieu`, `.pastille--info`, `.pastille--sousabri`, `.pastille--pleineterre`, `.pastille--etape`
@@ -104,8 +112,11 @@ Lues : `Nom`, `Variete`, `Type`, `Annee_graine`, `Plantes`, `Date_p`, `Ou`, `Nb_
 - [x] Widget d'impression : bouton désactivé, `try/catch`, alerte colonnes, `.infos .label` (fait dans `etiquettes.js` / `etiquettes.css`).
 - [x] `aller()`, `estLigneMere()`, `entierOuNull`, `effacerAuClic`, `champ--compact` : passés dans le commun.
 - [x] Refonte du 24/11 : nettoyage, retrait de `sessionStorage` et de la relecture, message de saisie invalide.
-- [] Facultatif : alerte « colonnes manquantes » (`COLONNES_NECESSAIRES` + `colonnesAbsentes(tab, …)` après `fetchTable`, message dans l'en-tête).
-- [x] Mémo, « Points ouverts » : retirer les mentions de Sélection pour étiquettes (`input type="number"`, saisies conservées, relecture).
+- [x] Mémo, « Points ouverts » : mentions de Sélection pour étiquettes retirées.
 - [x] Étiquettes à la récolte (depuis l'outil millésime) : discussion séparée.
-- [x] Commun : `align-items: start` sur `.grille` (cartes de taille indépendante) si souhaité ; `.btn--enregistrer` écrase `.btn--grand` (margin-top). **Encore le cas ? Etonnant**
+- [x] Commun : `.btn--enregistrer` n'a plus de `margin-top` (vérifié le 28/11 : plus d'écrasement de `.btn--grand`).
+- [x] Cases « Semis » et « Masquer les clôturées » (28/11).
 - [x] Mise en prod : commun d'abord (`scriptcommun.js`, `styles_communs.css`), puis cet outil ; Ctrl+F5 ; ouvrir aussi les autres outils.
+- [ ] Facultatif : alerte « colonnes manquantes » (`COLONNES_NECESSAIRES` + `colonnesAbsentes(tab, …)` après `fetchTable`, message dans l'en-tête).
+- [ ] Facultatif, commun : `.grille` n'a pas `align-items: start` (vérifié le 28/11) : les cartes d'une même rangée s'étirent à la hauteur
+  de la plus grande. À ajouter dans le commun seulement si les autres outils le veulent aussi.

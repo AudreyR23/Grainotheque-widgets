@@ -8,7 +8,9 @@ const recordsParId = {
 const etat = Vue.reactive({
   recherche: '',          // texte tapé dans le champ de recherche
   filtreMeres: false,
+  filtreSemis: false,  
   filtreEtiquettes: false,
+  masquerCloturees: true,   // case cochée par défaut : les lignes clôturées sont masquées
   entrees: [],            // cartes affichées (après recherche et filtres)
   totalEntrees: 0,        // nombre de cartes sans recherche ni filtres
   saisies: {},            // idSemis → nombre d'étiquettes à ajouter (pas encore enregistré)
@@ -47,7 +49,8 @@ async function chargerSemis() {
       type: s.Type || '',
       godets: s.Nb_godets || 0,
       graines: s.Nb_graines || 0,
-      millesimeId: s.Millesime || 0
+      millesimeId: s.Millesime || 0,
+      cloture: !!s.Cloture      
     });
   }
 }
@@ -55,9 +58,10 @@ async function chargerSemis() {
 // ===== Sélection =====
 function entreesEtiquetables() {
   // Plantes mères : seulement leur ligne « mère » (année de plantation facultative).
-  // Autres : lignes avec des plants plantés.
+  // Autres : lignes avec des plants plantés. Lignes clôturées masquées si la case est cochée.
   return [...recordsParId.semis.values()].filter(s =>
-    s.planteMere ? estLigneMere(s) : s.plantes > 0);
+    (s.planteMere ? estLigneMere(s) : s.plantes > 0) &&
+    !(etat.masquerCloturees && s.cloture));
 }
 
 function filtrerParRecherche(semis) {
@@ -70,7 +74,10 @@ function afficherSelection() {
   const tous = entreesEtiquetables().sort((a, b) =>
     libelle(a).localeCompare(libelle(b), 'fr') || a.id - b.id);
   let semis = filtrerParRecherche(tous);
-  if (etat.filtreMeres) semis = semis.filter(s => s.planteMere);
+  if (etat.filtreMeres !== etat.filtreSemis) {
+    // une seule des deux cases cochée : on garde ce type ; aucune ou les deux : tout
+    semis = semis.filter(s => s.planteMere === etat.filtreMeres);
+  }
   if (etat.filtreEtiquettes) semis = semis.filter(s => s.nbEtiquettes > 0 || s.enAttente > 0);
   etat.totalEntrees = tous.length;
   etat.entrees = semis;
@@ -124,7 +131,9 @@ async function allerCarte(idSemis) {
     // carte masquée par la recherche ou un filtre : on les enlève
     etat.recherche = '';
     etat.filtreMeres = false;
+    etat.filtreSemis = false;    
     etat.filtreEtiquettes = false;
+    etat.masquerCloturees = false;    
     afficherSelection();   // recalcule tout de suite, sans attendre le watch
     await Vue.nextTick();
   }
@@ -178,7 +187,7 @@ effacerAuClic(() => { etat.erreur = ''; });
 // ===== Surveillances =====
 // Quand la recherche ou un filtre change, la liste se recalcule
 Vue.watch(
-  () => [etat.recherche, etat.filtreMeres, etat.filtreEtiquettes],
+  () => [etat.recherche, etat.filtreMeres, etat.filtreSemis, etat.filtreEtiquettes, etat.masquerCloturees],
   afficherSelection
 );
 

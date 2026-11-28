@@ -22,7 +22,7 @@
           <input type="text" inputmode="numeric" class="champ champ--compact champ--annee" v-model="etat.saisieRecolte" />
         </label>
         <button type="button" class="btn" :disabled="etat.nbEtiquettes === 0 || etat.colonnesManquantes.length > 0 || etat.anneeRecolte === null" @click="imprimer">🖨️ Imprimer</button>
-        <button type="button" class="btn" :disabled="etat.nbEtiquettes === 0 || etat.colonnesManquantes.length > 0 || etat.enregistrement || !etat.imprimeA" @click="demanderMarquage">{{ etat.enregistrement ? 'Enregistrement…' : '✅ Marquer comme imprimées' }}</button>
+        <button type="button" class="btn" :disabled="etat.nbEtiquettes === 0 || etat.colonnesManquantes.length > 0 || etat.enregistrement || !etat.imprimeA" @click="marquerImprimees">{{ etat.enregistrement ? 'Enregistrement…' : '✅ Marquer comme imprimées' }}</button>
         <span v-if="etat.charge && etat.nbEtiquettes > 0" class="texte texte--discret">{{ etat.nbEtiquettes }} {{ pluriel(etat.nbEtiquettes, 'étiquette') }} · {{ etat.nbLignes }} {{ pluriel(etat.nbLignes, 'ligne') }} de Semis · {{ etat.feuilles.length }} {{ pluriel(etat.feuilles.length, 'feuille') }}</span>
         <span v-else-if="etat.charge" class="texte texte--discret">Aucune étiquette à imprimer</span>
         <span v-if="etat.charge && etat.placesLibres > 0" class="texte texte--discret texte--gras">{{ etat.placesLibres }} {{ pluriel(etat.placesLibres, 'place libre', 'places libres') }} sur la dernière feuille</span>
@@ -34,6 +34,41 @@
       <p v-if="etat.erreur" class="texte texte--erreur texte--gras entete__message">{{ etat.erreur }}</p>
       <p v-if="etat.succes" class="encart encart--succes texte texte--succes entete__message">{{ etat.succes }}</p>
     </header>
+    <details id="aide" class="ecran-seulement">
+      <summary class="texte aide__titre">❔ Quelle ligne créer pour avoir une étiquette ?</summary>
+      <div class="encart encart--info aide__contenu">
+        <div class="texte">Une étiquette = une ligne de la table <strong>Semis</strong> avec <strong>Nb_etiquettes</strong>. Après l'impression : « Marquer comme imprimées », puis achat-repro, case « Issu de mes étiquettes ».</div>
+
+        <div>
+          <div class="texte texte--gras">🌱 Graines de mes plants semés ou de mes plantes mères</div>
+          <div class="texte">Rien à créer : dans <strong>Sélection pour étiquettes</strong>, saisis le nombre sur la carte.</div>
+        </div>
+
+        <div>
+          <div class="texte texte--gras">🎨 Variété découverte dans un sachet mélangé</div>
+          <div class="texte">Table Semis, nouvelle ligne : <strong>NomVariete</strong> = la variété découverte (crée-la avant si besoin) · <strong>Millesime</strong> = le sachet mélangé que tu as semé · <strong>Date_s</strong> = la date du semis du mélange · <strong>Nb_etiquettes</strong>.</div>
+          <div class="texte texte--discret">Rien d'autre : godets, graines, germés et plantés sont déjà comptés sur la ligne du mélange. L'étiquette sort complète.</div>
+        </div>
+
+        <div>
+          <div class="texte texte--gras">🔁 Ressemis spontané (semé une année, ressemé tout seul ensuite)</div>
+          <div class="texte">Table Semis, nouvelle ligne : <strong>NomVariete</strong> · <strong>Millesime</strong> = ton dernier millésime récolté de cette variété (sinon le sachet d'origine) · <strong>Date_s</strong> = une date de l'année de levée · <strong>Nb_etiquettes</strong>.</div>
+          <div class="texte texte--discret">Si rien n'a été récolté entre-temps, il manque une saison par génération spontanée : corrige au stylo sur l'étiquette et dans « Nb saisons » d'achat-repro.</div>
+        </div>
+
+        <div>
+          <div class="texte texte--gras">🧳 Graines ramassées ailleurs, variété connue (rue, vacances, échange)</div>
+          <div class="texte">Table Semis, nouvelle ligne : <strong>NomVariete</strong> · <strong>Nb_etiquettes</strong>, sans Date_s ni Millesime.</div>
+          <div class="texte texte--discret">Étiquette : origine seule (souvent vide, à écrire), « …… saison(s) ». Achat-repro : « or. » ; vérifie l'origine proposée.</div>
+        </div>
+
+        <div>
+          <div class="texte texte--gras">❓ Graines à identifier (étiquette vierge)</div>
+          <div class="texte">Table Semis, nouvelle ligne : <strong>NomVariete</strong> vide · <strong>Nb_etiquettes</strong> · <strong>Note_attente</strong> = ce que tu sais (ex. « Tomate jaune du voisin »).</div>
+          <div class="texte texte--discret">Étiquette vierge, à remplir à la main. Achat-repro : « Graines à identifier » → « Créer la variété » (la note préremplit le nom), puis choisis l'origine.</div>
+        </div>
+      </div>
+    </details>
 
     <div id="appPages" class="zone-feuilles">
       <div v-for="(feuille, f) in etat.feuilles" :key="f" class="feuille" :style="{ '--zoom-ecran': etat.zoom }">
@@ -78,20 +113,6 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-        <div id="appConfirmation">
-      <div v-if="etat.confirmation" class="confirmation">
-        <div class="confirmation__boite">
-          <h2>Marquer comme imprimées ?</h2>
-          <p class="texte">{{ etat.nbEtiquettes }} {{ pluriel(etat.nbEtiquettes, 'étiquette') }} ({{ etat.nbLignes }} {{ pluriel(etat.nbLignes, 'ligne') }} de Semis) {{ pluriel(etat.nbEtiquettes, 'passe', 'passent') }} en attente et {{ pluriel(etat.nbEtiquettes, 'sort', 'sortent') }} de ce widget.</p>
-          <p class="texte texte--note">À faire seulement après avoir imprimé.</p>
-          <div class="confirmation__boutons">
-            <button type="button" class="btn" @click="annulerMarquage">Annuler</button>
-            <button type="button" class="btn btn--enregistrer" @click="marquerImprimees">Confirmer</button>
           </div>
         </div>
       </div>
