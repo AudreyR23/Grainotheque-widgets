@@ -12,209 +12,53 @@
 <body>
     <header id="appEntete" class="entete">
       <h1>Achat / repro</h1>
-      <span v-if="!etat.charge" class="statut">Chargement…</span>
+      <span class="statut" :class="{ 'statut--non-sauvegarde': etat.aEnregistrer.length > 0 }">
+        <template v-if="!etat.charge">Chargement…</template>
+        <template v-else-if="etat.aEnregistrer.length > 0">● Non sauvegardé ({{ etat.aEnregistrer.length }})</template>
+        <template v-else>✓ À jour</template>
+      </span>
       <nav class="ligne ligne--pleine">
-        <button type="button" class="btn" :class="{ 'btn--etape': etat.onglet === 'millesime' }"
-          @click="etat.onglet = 'millesime'">Nouveau millésime</button>
-        <button type="button" class="btn" :class="{ 'btn--etape': etat.onglet === 'variete' }"
-          @click="etat.onglet = 'variete'">Nouvelle variété</button>
+        <button v-if="etat.aEnregistrer.length > 0" type="button" class="btn btn--etape" @click="aller('appEnCours')">En cours ({{ etat.aEnregistrer.length }})</button>
+        <button type="button" class="btn" :class="{ 'btn--etape': etat.varieteOuverte }" @click="ouvrirVariete()">➕ Nouvelle variété</button>
+        <button type="button" class="btn" @click="aller('appMillesime')">Nouveau millésime</button>
       </nav>
-      <div class="ligne">
-      <label class="case">
-        <input type="checkbox" class="case__saisie" v-model="etat.chaine" />
-<span class="case__texte">🔗 Enchaîner automatiquement (variété → millésime)</span>
-      </label>
       <p v-if="etat.erreurChargement" class="texte texte--erreur texte--gras entete__message">{{ etat.erreurChargement }}</p>
-      </div>
+      <p v-if="etat.succes" class="encart encart--succes texte texte--succes entete__message">{{ etat.succes }}</p>
+      <p v-if="etat.erreur" class="texte texte--erreur texte--gras entete__message">{{ etat.erreur }}</p>      
       </header>
 
-    <main>
-      <!-- ===== Millésime ===== -->
-      <div id="appMillesime">    
-      <section v-show="etat.onglet === 'millesime'">
-        <div class="ligne ligne--entre">
-          <h2>Nouveau millésime</h2>
-          <button type="button" class="btn" @click="reinitialiserMillesime()">↩ Réinitialiser</button>
-        </div>
-        <p v-if="etat.bandeaux.millesime" class="encart encart--succes texte texte--succes">
-          <template v-if="etat.bandeaux.millesime.type === 'graines'">🔗 Variété « {{ etat.bandeaux.millesime.nom }} » créée — choisis l'origine et la quantité de tes graines.</template>
-          <template v-else>🔗 Variété « {{ etat.bandeaux.millesime.nom }} » créée — complète maintenant son millésime.</template>
-        </p>
-              <div class="ligne">
-        <label class="case">
-          <input type="checkbox" class="case__saisie" v-model="etat.issuEtiquettes" />
-          <span class="case__texte">Issu de mes étiquettes</span>
-        </label>
+    <main class="page">
+      <!-- ===== À enregistrer ===== -->
+      <div id="appEnCours">
+        <section v-show="etat.aEnregistrer.length > 0">
+          <h2>À enregistrer ({{ etat.aEnregistrer.length }})</h2>
+          <ul class="liste-carte">
+            <li v-for="b in etat.aEnregistrer" :key="b.id" class="carte carte--etape">
+              <div class="carte__contenu">
+                <div><strong>{{ libelle(b.variete) }}</strong><span v-if="b.variete.type" class="carte__type">{{ b.variete.type }}</span></div>
+                <div class="texte texte--discret">
+                  Millésime {{ b.annee }} · {{ b.origine }} · {{ b.nbSaisons === 'or.' ? 'original' : b.nbSaisons + ' ' + pluriel(Number(b.nbSaisons), 'saison') }}
+                  <template v-if="b.planteMere"> · 🌱 plante mère : {{ b.nbPlants }} {{ pluriel(b.nbPlants, 'plant') }}, plantée en {{ b.anneePlantation }} · {{ b.lieux.join(', ') }}</template>
+                  <template v-else> · {{ b.qtte }} {{ pluriel(b.qtte, 'graine') }}</template>
+                  <template v-if="b.don > 0"> · don : {{ b.don }} {{ pluriel(b.don, 'sachet') }}</template>
+                </div>
               </div>
-        <div v-if="etat.issuEtiquettes" class="groupe">
-          <label class="texte texte--discret" for="m-attente">Étiquettes imprimées en attente</label>
-          <div class="menu">
-            <button type="button" id="m-attente" class="champ champ--bouton champ--deroulant" :class="{ 'champ--vide': !libelleDe(optionsAttente, etat.ligneAttenteId) }" @click="basculerMenu('m-attente')">{{ libelleDe(optionsAttente, etat.ligneAttenteId) || '— Choisir une ligne —' }}</button>
-            <ul class="menu__liste" v-show="etat.menuOuvert === 'm-attente'" @mousedown.prevent>
-              <li class="menu__item" :class="{ 'menu__item--choisi': !etat.ligneAttenteId }" @click="choisir(etat, 'ligneAttenteId', '')">— Choisir une ligne —</li>
-              <li v-for="o in optionsAttente" :key="o.valeur" class="menu__item" :class="{ 'menu__item--choisi': o.valeur === etat.ligneAttenteId }" @click="choisir(etat, 'ligneAttenteId', o.valeur)">{{ o.libelle }}</li>
-            </ul>
-          </div>
-          <p v-if="etat.etiquettesChargees && !optionsAttente.length" class="texte texte--erreur texte--gras">Aucune étiquette en attente dans Semis.</p>
-          <p v-if="etat.erreurEtiquettes" class="texte texte--erreur texte--gras">Lecture des étiquettes en attente impossible : {{ etat.erreurEtiquettes }}</p>
-        </div>
-        <div v-if="ligneSansVariete" class="groupe">
-          <span class="texte texte--discret">Variété déjà dans la liste : choisis-la dans le menu « Variété » ci-dessous. Sinon :</span>
-          <div class="ligne">
-            <button type="button" class="btn" @click="allerCreerVariete()">➕ Créer la variété</button>
-          </div>
-        </div>
+              <button type="button" class="btn btn--suppr carte__action" title="Retirer de la liste" :aria-label="`Retirer ${libelle(b.variete)}`" @click="retirerDeLaListe(b.id)">✕</button>
+            </li>
+          </ul>
+          <button type="button" class="btn btn--enregistrer btn--grand" :disabled="etat.enregistrement" @click="enregistrerTout">{{ etat.enregistrement ? 'Enregistrement…' : 'Enregistrer' }}</button>          
+        </section>
+      </div>
 
-        <div class="grille">
-          <div class="groupe">
-            <label class="texte texte--titre texte--discret" for="m-variete">Variété <span class="badge badge--obligatoire">obligatoire</span></label>
-            <div class="menu">
-              <input type="search" id="m-variete" class="champ" autocomplete="off" :disabled="varieteVerrouillee"
-                :placeholder="etat.menuOuvert === 'm-variete' && libelleDe(optionsVarietes, etat.millesime.varieteId) ? libelleDe(optionsVarietes, etat.millesime.varieteId) : 'Chercher une variété…'"
-                :value="etat.menuOuvert === 'm-variete' ? etat.recherches['m-variete'] : libelleDe(optionsVarietes, etat.millesime.varieteId)"
-                @input="saisirRecherche('m-variete', $event)" @focus="ouvrirRecherche('m-variete')" @click="ouvrirRecherche('m-variete')" @blur="fermerRecherche('m-variete')" />
-              <ul class="menu__liste" v-show="etat.menuOuvert === 'm-variete'" @mousedown.prevent>
-                <li v-for="o in resultatsVariete.affiches" :key="o.valeur" class="menu__item" :class="{ 'menu__item--choisi': o.valeur === etat.millesime.varieteId }" @click="choisirRecherche('m-variete', etat.millesime, 'varieteId', o.valeur)">{{ o.libelle }}</li>
-                <li v-if="resultatsVariete.affiches.length === 0" class="menu__item menu__item--vide">Aucun résultat</li>
-                <li v-else-if="resultatsVariete.autres" class="menu__item menu__item--vide">… {{ resultatsVariete.autres }} autres, précise ta recherche</li>
-              </ul>
-            </div>          </div>
-          <div class="groupe">
-            <label class="texte texte--titre texte--discret" for="m-type">Type</label>
-            <input id="m-type" class="champ" type="text" readonly :value="typeVariete" />
-          </div>
-          <div class="groupe">
-            <label class="texte texte--titre texte--discret" for="m-nb-saisons">Nb saisons</label>
-            <div class="menu">
-              <button type="button" id="m-nb-saisons" class="champ champ--bouton champ--deroulant" :class="{ 'champ--vide': !libelleDe(optionsNbSaisons, etat.millesime.nbSaisons) }" @click="basculerMenu('m-nb-saisons')">{{ libelleDe(optionsNbSaisons, etat.millesime.nbSaisons) || '\u00a0' }}</button>
-              <ul class="menu__liste" v-show="etat.menuOuvert === 'm-nb-saisons'" @mousedown.prevent>
-                <li v-for="o in optionsNbSaisons" :key="o.valeur" class="menu__item" :class="{ 'menu__item--choisi': o.valeur === etat.millesime.nbSaisons }" @click="choisir(etat.millesime, 'nbSaisons', o.valeur)">{{ o.libelle }}</li>
-              </ul>
-            </div>
-          </div>
-          <div class="groupe">
-            <label class="texte texte--titre texte--discret" for="m-annee">Millésime (année)</label>
-<input id="m-annee" class="champ" type="text" inputmode="numeric" maxlength="4" autocomplete="off"
-  v-model="etat.millesime.annee" />
-          </div>
-        </div>
-
-        <div class="groupe">
-          <span class="texte texte--titre texte--discret">Origine <span class="badge badge--obligatoire">obligatoire</span></span>
-          <div class="ligne">
-            <span v-for="o in origineFavorites" :key="o" class="pastille pastille--choix"
-              :class="{ 'pastille--etape': etat.millesime.origine === o }"
-              @click="choisir(etat.millesime, 'origine', etat.millesime.origine === o ? '' : o)">{{ o }}</span>
-            <span class="pastille pastille--choix"
-              :class="{ 'pastille--etape': origineAutre }"
-              @click="etat.autresOrigines = !etat.autresOrigines">{{ origineAutre || 'Autre origine' }}</span>
-          </div>  
-          <div v-if="etat.autresOrigines" class="grille">
-          <div class="groupe">
-            <div class="menu">
-              <button type="button" id="m-origine-autre" class="champ champ--bouton champ--deroulant" :class="{ 'champ--vide': !origineAutre }" @click="basculerMenu('m-origine-autre')">{{ origineAutre || 'Choisir une origine' }}</button>
-              <ul class="menu__liste" v-show="etat.menuOuvert === 'm-origine-autre'" @mousedown.prevent>
-                <li v-for="o in origineAutres" :key="o" class="menu__item" :class="{ 'menu__item--choisi': o === etat.millesime.origine }" @click="choisir(etat.millesime, 'origine', o)">{{ o }}</li>
-              </ul>
-            </div>          </div>
-          <div class="groupe">    
-                        <button v-if="etat.ajout.cible !== 'origine'" type="button" class="btn" @click="ouvrirAjout('origine')">➕ Nouvelle origine…</button>
-            <div v-else class="ligne">
-              <input id="ajout-origine" type="text" class="champ champ--flexible" autocomplete="off" placeholder="Nouvelle origine" v-model="etat.ajout.texte" @keydown.enter.prevent="validerAjout" />
-              <button type="button" class="btn btn--etape" :disabled="etat.ajout.enCours" @click="validerAjout">Ajouter</button>
-              <button type="button" class="btn" @click="annulerAjout">Annuler</button>
-            </div>
-          </div>
-          </div>
-          <p v-if="varieteVerrouillee && !etat.millesime.origine" class="texte texte--erreur texte--gras">Origine non reconnue : choisis-la à la main.</p>
-        </div>
-
-        <div class="ligne">
-          <label class="case">
-            <input type="checkbox" class="case__saisie" v-model="etat.millesime.sachet" />
-            <span class="case__texte">Sachet</span>
-          </label>
-          <label class="case">
-            <input type="checkbox" class="case__saisie" v-model="etat.millesime.planteMere" />
-            <span class="case__texte">Plante mère</span>
-          </label>
-        </div>
-
-        <div class="grille">
-        <div v-if="etat.millesime.sachet" class="groupe">
-          <label class="texte texte--titre texte--discret" for="m-qtte">Quantité de graines <span class="badge badge--obligatoire">obligatoire</span></label>
-<input id="m-qtte" class="champ" type="text" inputmode="numeric" autocomplete="off" placeholder="ex: 50"
-  v-model="etat.millesime.qtte" />
-        </div>
-        </div>
-        <div v-if="ligneAttente && etat.millesime.sachet" class="groupe">
-          <label class="texte texte--titre texte--discret" for="m-sachets-reels">Sachets réels (le tien + dons) <span class="badge badge--obligatoire">obligatoire</span></label>
-<input id="m-sachets-reels" class="champ" type="text" inputmode="numeric" autocomplete="off"
-  v-model="etat.millesime.sachetsReels" />
-          <span v-if="donSachets !== null" class="texte texte--gras">Don : {{ donSachets }} {{ pluriel(donSachets, 'sachet') }}</span>
-        </div>
-
-        <div v-if="etat.millesime.planteMere">
-          <div class="grille">
-            <div class="groupe">
-              <label class="texte texte--titre texte--discret" for="m-annee-plantation">Année de plantation <span class="badge badge--obligatoire">obligatoire</span></label>
-<input id="m-annee-plantation" class="champ" type="text" inputmode="numeric" maxlength="4" autocomplete="off"
-  v-model="etat.millesime.anneePlantation" />
-  </div>
-            <div class="groupe">
-              <label class="texte texte--titre texte--discret" for="m-nb-plants">Nombre de plants <span class="badge badge--obligatoire">obligatoire</span></label>
-<input id="m-nb-plants" class="champ" type="text" inputmode="numeric" autocomplete="off"
-  placeholder="ex: 2" v-model="etat.millesime.nbPlants" />
-            </div>
-          <div v-if="etat.choixTypePlant.length" class="groupe">
-            <label class="texte texte--titre texte--discret" for="m-type-plant">Type de plant <span class="badge badge--obligatoire">obligatoire</span></label>
-            <div class="menu">
-              <button type="button" id="m-type-plant" class="champ champ--bouton champ--deroulant" :class="{ 'champ--vide': !etat.millesime.typePlant }" @click="basculerMenu('m-type-plant')">{{ etat.millesime.typePlant || 'Choisir un type' }}</button>
-              <ul class="menu__liste" v-show="etat.menuOuvert === 'm-type-plant'" @mousedown.prevent>
-                <li v-for="o in etat.choixTypePlant" :key="o" class="menu__item" :class="{ 'menu__item--choisi': o === etat.millesime.typePlant }" @click="choisir(etat.millesime, 'typePlant', o)">{{ o }}</li>
-              </ul>
-            </div>
-          </div>
-          <div class="groupe">
-            <span class="texte texte--titre texte--discret">Emplacement(s) <span class="badge badge--obligatoire">obligatoire</span></span>
-            <div>
-              <div v-if="etat.millesime.lieux.length" class="ligne ligne--sur-champ">
-                <span v-for="c in etat.millesime.lieux" :key="c" class="pastille pastille--lieu" @click="basculerDans(etat.millesime.lieux, c)">{{ c }} ✕</span>
-              </div>
-              <div class="menu">
-                <input type="search" class="champ" autocomplete="off" placeholder="Chercher…"
-                  :value="etat.menuOuvert === 'm-lieux' ? etat.recherches['m-lieux'] : ''"
-                  @input="saisirRecherche('m-lieux', $event)" @focus="ouvrirRecherche('m-lieux')" @click="ouvrirRecherche('m-lieux')" @blur="fermerRecherche('m-lieux')" />
-                <ul class="menu__liste" v-show="etat.menuOuvert === 'm-lieux'" @mousedown.prevent>
-                  <li v-for="c in lieuxProposes" :key="c" class="menu__item" @click="ajouterDans('m-lieux', etat.millesime.lieux, c)">{{ c }}</li>
-                  <li v-if="lieuxProposes.length === 0" class="menu__item menu__item--vide">Aucun choix</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          </div>
-        </div>
-        <p v-if="etat.message && etat.panneauMessage === 'millesime' && !etat.erreur" class="encart encart--succes texte texte--succes">{{ etat.message }}</p>
-        <p v-if="etat.message && etat.panneauMessage === 'millesime' && etat.erreur" class="texte texte--erreur texte--gras">{{ etat.message }}</p>
-                <div class="ligne">
-          <button type="button" class="btn btn--enregistrer" :disabled="etat.enregistrement" @click="creerMillesime()">Créer le millésime</button>
-          <div v-if="etat.doublonsMillesime.length && !etat.doublonMillesimeMasque" class="encart encart--alerte encart--cote texte texte--erreur">
-            <div>⚠️ {{ etat.doublonsMillesime.length > 1 ? etat.doublonsMillesime.length + ' millésimes existent déjà' : 'Un millésime existe déjà' }} :
-              <span class="texte texte--erreur texte--gras"> année : {{ etat.doublonsMillesime[0].annee }}, origine : {{ etat.doublonsMillesime[0].origine || '—' }}, quantité : {{ etat.doublonsMillesime[0].qtte != null ? etat.doublonsMillesime[0].qtte : '—' }}.</span></div>
-            <div class="ligne">
-              <button type="button" class="btn btn--enregistrer" :disabled="etat.enregistrement" @click="creerMillesime(true)">Créer quand même</button>
-              <button type="button" class="btn" @click="etat.doublonMillesimeMasque = true">Annuler</button>
-            </div>
-          </div>
-        </div>
-
-      </section>
-</div>   
       <!-- ===== Variété ===== -->
       <div id="appVariete">
-      <section v-show="etat.onglet === 'variete'">
+      <section>
         <div class="ligne ligne--entre">
           <h2>Nouvelle variété</h2>
+          <button type="button" class="btn" @click="etat.varieteOuverte = !etat.varieteOuverte">{{ etat.varieteOuverte ? 'Masquer' : 'Afficher' }}<span class="reserve" aria-hidden="true">Masquer</span></button>
+        </div>
+        <div v-show="etat.varieteOuverte">
+        <div class="ligne">
           <button type="button" class="btn" @click="reinitialiserVariete()">↩ Réinitialiser</button>
         </div>
         <p v-if="etat.bandeaux.variete" class="encart encart--succes texte texte--succes">🔗 Graines à identifier ({{ etat.bandeaux.variete.nb }} {{ pluriel(etat.bandeaux.variete.nb, 'étiquette') }}) : crée la variété, tu reviendras au millésime ensuite.</p>
@@ -384,8 +228,6 @@
           <textarea id="v-description" class="champ" rows="4" placeholder="Description libre de la variété…"
             v-model="etat.variete.description"></textarea>
         </div>
-        <p v-if="etat.message && etat.panneauMessage === 'variete' && !etat.erreur" class="encart encart--succes texte texte--succes">{{ etat.message }}</p>
-        <p v-if="etat.message && etat.panneauMessage === 'variete' && etat.erreur" class="texte texte--erreur texte--gras">{{ etat.message }}</p>
          <div class="ligne">
           <button type="button" class="btn btn--enregistrer" :disabled="etat.enregistrement" @click="creerVariete()"> Créer la variété</button>
 
@@ -397,11 +239,184 @@
             <button type="button" class="btn" @click="etat.doublonVarieteMasque = true">Annuler</button>
           </div>
         </div>
-
-
        </div>
+      </div>
       </section>
 </div>
+
+      <!-- ===== Millésime ===== -->
+      <div id="appMillesime">    
+      <section>
+        <div class="ligne ligne--entre">
+          <h2>Nouveau millésime</h2>
+          <button type="button" class="btn" @click="reinitialiserMillesime()">↩ Réinitialiser</button>
+        </div>
+        <p v-if="etat.bandeaux.millesime" class="encart encart--succes texte texte--succes">
+          <template v-if="etat.bandeaux.millesime.type === 'graines'">🔗 Variété « {{ etat.bandeaux.millesime.nom }} » créée — choisis l'origine et la quantité de tes graines.</template>
+          <template v-else>🔗 Variété « {{ etat.bandeaux.millesime.nom }} » créée — complète maintenant son millésime.</template>
+        </p>
+              <div class="ligne">
+        <label class="case">
+          <input type="checkbox" class="case__saisie" v-model="etat.issuEtiquettes" />
+          <span class="case__texte">Issu de mes étiquettes</span>
+        </label>
+              </div>
+        <div v-if="etat.issuEtiquettes" class="groupe">
+          <label class="texte texte--discret" for="m-attente">Étiquettes imprimées en attente</label>
+          <div class="menu">
+            <button type="button" id="m-attente" class="champ champ--bouton champ--deroulant" :class="{ 'champ--vide': !libelleDe(optionsAttente, etat.ligneAttenteId) }" @click="basculerMenu('m-attente')">{{ libelleDe(optionsAttente, etat.ligneAttenteId) || '— Choisir une ligne —' }}</button>
+            <ul class="menu__liste" v-show="etat.menuOuvert === 'm-attente'" @mousedown.prevent>
+              <li class="menu__item" :class="{ 'menu__item--choisi': !etat.ligneAttenteId }" @click="choisir(etat, 'ligneAttenteId', '')">— Choisir une ligne —</li>
+              <li v-for="o in optionsAttente" :key="o.valeur" class="menu__item" :class="{ 'menu__item--choisi': o.valeur === etat.ligneAttenteId }" @click="choisir(etat, 'ligneAttenteId', o.valeur)">{{ o.libelle }}</li>
+            </ul>
+          </div>
+        </div>
+        <div v-if="ligneSansVariete" class="groupe">
+          <span class="texte texte--discret">Variété déjà dans la liste : choisis-la dans le menu « Variété » ci-dessous. Sinon :</span>
+          <div class="ligne">
+            <button type="button" class="btn" @click="allerCreerVariete()">➕ Créer la variété</button>
+          </div>
+        </div>
+
+        <div class="grille">
+          <div class="groupe">
+            <label class="texte texte--titre texte--discret" for="m-variete">Variété <span class="badge badge--obligatoire">obligatoire</span></label>
+            <div class="menu">
+              <input type="search" id="m-variete" class="champ" autocomplete="off" :disabled="varieteVerrouillee"
+                :placeholder="etat.menuOuvert === 'm-variete' && libelleDe(optionsVarietes, etat.millesime.varieteId) ? libelleDe(optionsVarietes, etat.millesime.varieteId) : 'Chercher une variété…'"
+                :value="etat.menuOuvert === 'm-variete' ? etat.recherches['m-variete'] : libelleDe(optionsVarietes, etat.millesime.varieteId)"
+                @input="saisirRecherche('m-variete', $event)" @focus="ouvrirRecherche('m-variete')" @click="ouvrirRecherche('m-variete')" @blur="fermerRecherche('m-variete')" />
+              <ul class="menu__liste" v-show="etat.menuOuvert === 'm-variete'" @mousedown.prevent>
+                <li v-for="o in resultatsVariete.affiches" :key="o.valeur" class="menu__item" :class="{ 'menu__item--choisi': o.valeur === etat.millesime.varieteId }" @click="choisirRecherche('m-variete', etat.millesime, 'varieteId', o.valeur)">{{ o.libelle }}</li>
+                <li v-if="resultatsVariete.affiches.length === 0" class="menu__item menu__item--vide">Aucun résultat</li>
+                <li v-else-if="resultatsVariete.autres" class="menu__item menu__item--vide">… {{ resultatsVariete.autres }} autres, précise ta recherche</li>
+              </ul>
+            </div>          </div>
+          <div class="groupe">
+            <label class="texte texte--titre texte--discret" for="m-type">Type</label>
+            <input id="m-type" class="champ" type="text" readonly :value="typeVariete" />
+          </div>
+          <div class="groupe">
+            <label class="texte texte--titre texte--discret" for="m-nb-saisons">Nb saisons</label>
+            <div class="menu">
+              <button type="button" id="m-nb-saisons" class="champ champ--bouton champ--deroulant" :class="{ 'champ--vide': !libelleDe(optionsNbSaisons, etat.millesime.nbSaisons) }" @click="basculerMenu('m-nb-saisons')">{{ libelleDe(optionsNbSaisons, etat.millesime.nbSaisons) || '\u00a0' }}</button>
+              <ul class="menu__liste" v-show="etat.menuOuvert === 'm-nb-saisons'" @mousedown.prevent>
+                <li v-for="o in optionsNbSaisons" :key="o.valeur" class="menu__item" :class="{ 'menu__item--choisi': o.valeur === etat.millesime.nbSaisons }" @click="choisir(etat.millesime, 'nbSaisons', o.valeur)">{{ o.libelle }}</li>
+              </ul>
+            </div>
+          </div>
+          <div class="groupe">
+            <label class="texte texte--titre texte--discret" for="m-annee">Millésime (année)</label>
+<input id="m-annee" class="champ" type="text" inputmode="numeric" maxlength="4" autocomplete="off"
+  v-model="etat.millesime.annee" />
+          </div>
+        </div>
+        <p v-if="millesimesMemeAnnee.length" class="texte texte--info">
+          Déjà {{ millesimesMemeAnnee.length }} {{ pluriel(millesimesMemeAnnee.length, 'millésime') }} {{ etat.millesime.annee }} pour cette variété :
+          <template v-for="(x, i) in millesimesMemeAnnee" :key="x.id"><template v-if="i > 0"> ; </template>{{ x.origine || 'origine ?' }}<template v-if="x.qtte"> ({{ x.qtte }} graines)</template></template>.
+        </p>
+        <div class="groupe">
+          <span class="texte texte--titre texte--discret">Origine <span class="badge badge--obligatoire">obligatoire</span></span>
+          <div class="ligne">
+            <span v-for="o in origineFavorites" :key="o" class="pastille pastille--choix"
+              :class="{ 'pastille--etape': etat.millesime.origine === o }"
+              @click="choisir(etat.millesime, 'origine', etat.millesime.origine === o ? '' : o)">{{ o }}</span>
+            <span class="pastille pastille--choix"
+              :class="{ 'pastille--etape': origineAutre }"
+              @click="etat.autresOrigines = !etat.autresOrigines">{{ origineAutre || 'Autre origine' }}</span>
+          </div>  
+          <div v-if="etat.autresOrigines" class="grille">
+          <div class="groupe">
+            <div class="menu">
+              <button type="button" id="m-origine-autre" class="champ champ--bouton champ--deroulant" :class="{ 'champ--vide': !origineAutre }" @click="basculerMenu('m-origine-autre')">{{ origineAutre || 'Choisir une origine' }}</button>
+              <ul class="menu__liste" v-show="etat.menuOuvert === 'm-origine-autre'" @mousedown.prevent>
+                <li v-for="o in origineAutres" :key="o" class="menu__item" :class="{ 'menu__item--choisi': o === etat.millesime.origine }" @click="choisir(etat.millesime, 'origine', o)">{{ o }}</li>
+              </ul>
+            </div>          </div>
+          <div class="groupe">    
+                        <button v-if="etat.ajout.cible !== 'origine'" type="button" class="btn" @click="ouvrirAjout('origine')">➕ Nouvelle origine…</button>
+            <div v-else class="ligne">
+              <input id="ajout-origine" type="text" class="champ champ--flexible" autocomplete="off" placeholder="Nouvelle origine" v-model="etat.ajout.texte" @keydown.enter.prevent="validerAjout" />
+              <button type="button" class="btn btn--etape" :disabled="etat.ajout.enCours" @click="validerAjout">Ajouter</button>
+              <button type="button" class="btn" @click="annulerAjout">Annuler</button>
+            </div>
+          </div>
+          </div>
+          <p v-if="varieteVerrouillee && !etat.millesime.origine" class="texte texte--erreur texte--gras">Origine non reconnue : choisis-la à la main.</p>
+        </div>
+
+        <div class="ligne">
+          <label class="case">
+            <input type="checkbox" class="case__saisie" v-model="etat.millesime.sachet" />
+            <span class="case__texte">Sachet</span>
+          </label>
+          <label class="case">
+            <input type="checkbox" class="case__saisie" v-model="etat.millesime.planteMere" />
+            <span class="case__texte">Plante mère</span>
+          </label>
+        </div>
+
+        <div class="grille">
+        <div v-if="etat.millesime.sachet" class="groupe">
+          <label class="texte texte--titre texte--discret" for="m-qtte">Quantité de graines <span class="badge badge--obligatoire">obligatoire</span></label>
+<input id="m-qtte" class="champ" type="text" inputmode="numeric" autocomplete="off" placeholder="ex: 50"
+  v-model="etat.millesime.qtte" />
+        </div>
+        </div>
+        <div v-if="ligneAttente && etat.millesime.sachet" class="groupe">
+          <label class="texte texte--titre texte--discret" for="m-sachets-reels">Sachets réels (le tien + dons) <span class="badge badge--obligatoire">obligatoire</span></label>
+<input id="m-sachets-reels" class="champ" type="text" inputmode="numeric" autocomplete="off"
+  v-model="etat.millesime.sachetsReels" />
+          <span v-if="donSachets !== null" class="texte texte--gras">Don : {{ donSachets }} {{ pluriel(donSachets, 'sachet') }}</span>
+        </div>
+
+        <div v-if="etat.millesime.planteMere">
+          <div class="grille">
+            <div class="groupe">
+              <label class="texte texte--titre texte--discret" for="m-annee-plantation">Année de plantation <span class="badge badge--obligatoire">obligatoire</span></label>
+<input id="m-annee-plantation" class="champ" type="text" inputmode="numeric" maxlength="4" autocomplete="off"
+  v-model="etat.millesime.anneePlantation" />
+  </div>
+            <div class="groupe">
+              <label class="texte texte--titre texte--discret" for="m-nb-plants">Nombre de plants <span class="badge badge--obligatoire">obligatoire</span></label>
+<input id="m-nb-plants" class="champ" type="text" inputmode="numeric" autocomplete="off"
+  placeholder="ex: 2" v-model="etat.millesime.nbPlants" />
+            </div>
+          <div v-if="etat.choixTypePlant.length" class="groupe">
+            <label class="texte texte--titre texte--discret" for="m-type-plant">Type de plant <span class="badge badge--obligatoire">obligatoire</span></label>
+            <div class="menu">
+              <button type="button" id="m-type-plant" class="champ champ--bouton champ--deroulant" :class="{ 'champ--vide': !etat.millesime.typePlant }" @click="basculerMenu('m-type-plant')">{{ etat.millesime.typePlant || 'Choisir un type' }}</button>
+              <ul class="menu__liste" v-show="etat.menuOuvert === 'm-type-plant'" @mousedown.prevent>
+                <li v-for="o in etat.choixTypePlant" :key="o" class="menu__item" :class="{ 'menu__item--choisi': o === etat.millesime.typePlant }" @click="choisir(etat.millesime, 'typePlant', o)">{{ o }}</li>
+              </ul>
+            </div>
+          </div>
+          <div class="groupe">
+            <span class="texte texte--titre texte--discret">Emplacement(s) <span class="badge badge--obligatoire">obligatoire</span></span>
+            <div>
+              <div v-if="etat.millesime.lieux.length" class="ligne ligne--sur-champ">
+                <span v-for="c in etat.millesime.lieux" :key="c" class="pastille pastille--lieu" @click="basculerDans(etat.millesime.lieux, c)">{{ c }} ✕</span>
+              </div>
+              <div class="menu">
+                <input type="search" class="champ" autocomplete="off" placeholder="Chercher…"
+                  :value="etat.menuOuvert === 'm-lieux' ? etat.recherches['m-lieux'] : ''"
+                  @input="saisirRecherche('m-lieux', $event)" @focus="ouvrirRecherche('m-lieux')" @click="ouvrirRecherche('m-lieux')" @blur="fermerRecherche('m-lieux')" />
+                <ul class="menu__liste" v-show="etat.menuOuvert === 'm-lieux'" @mousedown.prevent>
+                  <li v-for="c in lieuxProposes" :key="c" class="menu__item" @click="ajouterDans('m-lieux', etat.millesime.lieux, c)">{{ c }}</li>
+                  <li v-if="lieuxProposes.length === 0" class="menu__item menu__item--vide">Aucun choix</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+        <div class="ligne">
+          <button type="button" class="btn btn--grand btn--etape" :disabled="etat.enregistrement" @click="ajouterALaListe()">Ajouter à la liste</button>          
+        </div>
+
+      </section>
+</div>   
+
     </main>
 
   <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>

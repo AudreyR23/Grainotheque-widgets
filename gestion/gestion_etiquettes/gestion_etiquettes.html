@@ -61,10 +61,18 @@
           <span class="case__texte">Plantes mères</span>
         </label>
         <label class="case">
+          <input type="checkbox" class="case__saisie" v-model="etat.filtreSemis" />
+          <span class="case__texte">Semis</span>
+        </label>        
+        <label class="case">
           <input type="checkbox"
                  class="case__saisie"
                  v-model="etat.filtreEtiquettes" />
           <span class="case__texte">Déjà des étiquettes</span>
+        </label>
+        <label class="case">
+          <input type="checkbox" class="case__saisie" v-model="etat.masquerCloturees" />
+          <span class="case__texte">Masquer les clôturées</span>
         </label>
       </div>
     </div>
@@ -135,13 +143,7 @@
     </div>
 
     <div id="appSelection">
-      <h2>
-        À étiqueter (
-        <template v-if="etat.recherche.trim() || etat.filtreMeres || etat.filtreEtiquettes">
-          {{ etat.entrees.length }} sur
-        </template>
-        {{ etat.totalEntrees }})
-      </h2>
+      <h2>À étiqueter ({{ etat.entrees.length === etat.totalEntrees ? etat.totalEntrees : etat.entrees.length + ' sur ' + etat.totalEntrees }})</h2>
       <ul class="liste-carte grille">
         <li v-for="s in etat.entrees"
             :key="s.id"

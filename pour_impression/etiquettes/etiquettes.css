@@ -104,3 +104,17 @@
   width: 5rem;
   text-align: center;
 }
+
+/* ----- Aide repliable « Quelle ligne créer ? » (écran seulement) ----- */
+#aide {
+  margin-bottom: 12px;
+}
+.aide__titre {
+  cursor: pointer;
+  font-weight: bold;
+  padding: 4px 0;
+}
+/* Complète .encart--info du commun : plus d'espace entre les cas */
+.aide__contenu {
+  gap: 10px;
+}

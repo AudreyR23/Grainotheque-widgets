@@ -49,6 +49,19 @@ Accès Grist : `full`. Versions dev (branche `Vue`) et prod (`main`).
 - **Pas de borne** sur l'étiquette. achat-repro (`saisonsPourLigne`) borne entre 1 et `NB_SAISONS_MAX` (20) :
   divergence seulement au-delà de 20 saisons (accepté ; une plantation future est impossible).
 
+## Cas particuliers (mode d'emploi)
+- **Variété découverte dans un sachet mélangé** (ex. Tournesol White dans « Tournesol mélange ») : créer la variété si besoin,
+  puis ajouter une ligne `Semis` avec `NomVariete` = la variété découverte, `Millesime` = le millésime du mélange semé,
+  `Date_s` = date du semis du mélange, `Nb_etiquettes`. Ni godets, ni graines, ni germés, ni plantés (déjà comptés sur la ligne
+  du mélange). Étiquette complète (origine du mélange → AR, saisons du mélange + 1) ; achat-repro la reconnaît comme vrai semis.
+  À vérifier : À gérer et Semis réalisés pourraient l'afficher comme un semis en cours.
+- **Ressemis spontané** (ex. soucis semés en 2025, ressemés seuls en 2026) : la génération spontanée n'a pas de millésime,
+  il manque une saison.
+  - Graines récoltées l'année du premier semis (millésime 2025 existant) : rattacher la nouvelle ligne à **ce** millésime,
+    `Date_s` = une date de l'année de levée. Saisons justes.
+  - Rien récolté entre-temps : rattacher au millésime d'origine, corriger le nombre de saisons au stylo sur l'étiquette et
+    dans le menu « Nb saisons » d'achat-repro avant de créer le millésime.
+
 ## Fonctionnement
 - **En-tête collé** (masqué à l'impression) : statut (Chargement / Enregistrement… / À jour), champ « Récolte »,
   boutons Imprimer et Marquer, aperçu « N étiquettes · M lignes de Semis · P feuilles » (ou « Aucune étiquette à imprimer »),
@@ -67,7 +80,7 @@ Accès Grist : `full`. Versions dev (branche `Vue`) et prod (`main`).
   Tous les messages de l'en-tête portent `entete__message`.
 
 ## Choix techniques
-- Zones Vue : `#appEntete`, `#appPages`, `#appConfirmation` ; un seul `etat`.
+- Zones Vue : `#appEntete`, `#appFeuilles`, `#appConfirmation` ; un seul `etat`.
 - Lignes à imprimer : `recordsParId.aImprimer` (Map id → `{ id, nbEtiquettes, enAttente }`).
   Dernières lignes reçues : `lignesRecues` (recalcul quand l'année de récolte change).
 - `etat.feuilles` : feuilles → rangées (5) → étiquettes ; 20 par feuille. Trois `v-for` imbriqués dans le HTML.
@@ -76,7 +89,7 @@ Accès Grist : `full`. Versions dev (branche `Vue`) et prod (`main`).
   `etiquette__contenu--retourne` (rotation 180°). Leur SVG ne dessine que les deux traits horizontaux : les côtés en biais
   sont ceux des voisines normales. Retournée et dernière de sa rangée (`estDerniere(i, rangee)`) : elle dessine son côté
   droit (`x1=517.5 y1=0 x2=690 y2=470`).
-- Aperçu réduit à l'écran : `ResizeObserver` sur `#appPages` → `etat.zoom = facteurZoom(largeur)` →
+- Aperçu réduit à l'écran : `ResizeObserver` sur `#appFeuilles` → `etat.zoom = facteurZoom(largeur)` →
   `:style="{ '--zoom-ecran': etat.zoom }"` sur chaque `.feuille`.
 
 ## CSS
@@ -103,7 +116,12 @@ Accès Grist : `full`. Versions dev (branche `Vue`) et prod (`main`).
       Ctrl+F5, test d'impression.
 - [x] Après la mise en prod : supprimer l'ancien widget (`main_etiquettes.js`, ancien `etiquettes.html`) et `main.css`
       (vérifier d'abord par Ctrl+Maj+F qu'aucun outil ne le charge encore).
-- [ x] **achat-repro** (`saisonsPourLigne`) : compter les saisons d'une plante mère jusqu'à l'**année de récolte** (même
+- [x] **achat-repro** (`saisonsPourLigne`) : compter les saisons d'une plante mère jusqu'à l'**année de récolte** (même
       préremplissage : année précédente en janvier-février), pas l'année en cours. Sinon, en janvier-février, le millésime
       créé a une saison de plus que l'étiquette.
 - [x] Mémo gestion_etiquettes : cocher les points « Widget d'impression » et `saisonsPourLigne` (mère sans année = « or. », pas de borne sur l'étiquette).
+
+## Pistes (non décidées)
+- **Semis spontanés** : colonne de données `Semis.Saisons_spontanees` (nombre de générations ressemées seules, vide = 0),
+  ajoutée au calcul des saisons dans l'étiquette (`Nb_saisons_mil + 1 + Saisons_spontanees`) et dans achat-repro
+  (`saisonsPourLigne`). Touche la table Semis, cet outil, achat-repro (et peut-être la sélection). À faire si le cas devient fréquent.

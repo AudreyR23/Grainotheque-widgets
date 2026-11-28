@@ -1,7 +1,7 @@
 // ===== Messages (erreurs et succès) =====
 const TEXTES = {
   echec: (msg) => `Échec de l'enregistrement : ${msg} — vérifie dans Grist, puis réessaie si les étiquettes sont toujours affichées.`,
-  succes: (n) => `✓ ${n} ${pluriel(n, 'ligne passée', 'lignes passées')} en attente.`
+  succes: (n) => `✓ ${n} ${pluriel(n, 'ligne passée', 'lignes passées')} en attente (Ctrl+Z dans Grist pour annuler).`
 };
 // ===== Mise en page (identique à l'ancien main_etiquettes.js) =====
 const PAR_RANGEE = 5;
@@ -32,7 +32,6 @@ const etat = Vue.reactive({
   imprimeA: '',             // heure de la dernière impression ('' = pas encore imprimé)
   colonnesManquantes: [],   // colonnes nécessaires absentes des lignes reçues
   charge: false,      // true après la première réception des lignes
-  confirmation: false,      // fenêtre « Marquer comme imprimées ? » ouverte
   enregistrement: false,    // écriture en cours dans Grist
   erreur: '',
   succes: ''
@@ -159,17 +158,8 @@ function imprimer() {
 // ===== Marquer comme imprimées =====
 const afficherSucces = creerMessageTemporaire(texte => { etat.succes = texte; });
 
-function demanderMarquage() {
-  etat.confirmation = true;
-}
-
-function annulerMarquage() {
-  etat.confirmation = false;
-}
-
 async function marquerImprimees() {
   // Etiq_en_attente += Nb_etiquettes, puis Nb_etiquettes = 0, en un seul envoi, avec les valeurs affichées. Aucune suppression.
-  etat.confirmation = false;
   const lignes = [...recordsParId.aImprimer.values()];
   if (lignes.length === 0 || etat.enregistrement) return;
   etat.enregistrement = true;
@@ -204,15 +194,9 @@ Vue.watch(() => etat.saisieRecolte, texte => {
 // ===== Zones Vue =====
 Vue.createApp({
   setup() {
-    return { etat, pluriel, imprimer, demanderMarquage };
+    return { etat, pluriel, imprimer, marquerImprimees };
   }
 }).mount('#appEntete');
-
-Vue.createApp({
-  setup() {
-    return { etat, pluriel, marquerImprimees, annulerMarquage };
-  }
-}).mount('#appConfirmation');
 
 Vue.createApp({
   setup() {
