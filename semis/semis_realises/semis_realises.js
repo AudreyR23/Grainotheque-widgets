@@ -609,7 +609,7 @@ Vue.createApp({ setup() { return { etat, nombreAEnregistrer, aller }; } }).mount
 Vue.createApp({ setup() { return {
   etat, libelle, retirerDeLaListe, enregistrerTout,
   pluriel, dateAffichee, dateEnSecondes, libelleMillesime
-}; } }).mount('#appEtapes');
+}; } }).mount('#appEnCours');
 Vue.createApp({ setup() { return {
   etat, choisirMode, pluriel, dateAffichee,
   surRechercheVariete, surFocusVariete, choisirVariete,

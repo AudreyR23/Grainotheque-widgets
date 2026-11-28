@@ -16,7 +16,7 @@
 
 | Fichier | Rôle |
 |---|---|
-| `semis_realises.html` | 4 zones Vue, dans l'ordre de la page : `#appEntete`, `#appEtapes`, `#appASemer`, `#appFiche` |
+| `semis_realises.html` | 4 zones Vue, dans l'ordre de la page : `#appEntete`, `#appEnCours`, `#appASemer`, `#appFiche` |
 | `semis_realises.js` | Logique ; messages dans le bloc `TEXTES` en haut du fichier |
 | `semis_realises.css` | Uniquement ce qui n'est pas dans le commun |
 | `../../styles/styles_communs.css` | Socle CSS partagé (BEM) |
@@ -62,9 +62,9 @@ Ordre de la page (comme À gérer) : en-tête collé avec navigation, cartes **�
 
 ### En-tête (`#appEntete`)
 - Titre « À semer », statut (Chargement… / ● Non sauvegardé (n) / ✓ À jour), messages (`entete__message`).
-- **Navigation** (`<nav class="ligne ligne--pleine">`) : « En cours (n) » (orange `btn--etape`, seulement s'il y a des cartes) → `aller('appEtapes')` ; « Ce mois-ci (n) » (`etat.aSemer.nbTotal`) → `aller('appASemer')` ; « Semis réalisés » → `aller('appFiche')`.
+- **Navigation** (`<nav class="ligne ligne--pleine">`) : « En cours (n) » (orange `btn--etape`, seulement s'il y a des cartes) → `aller('appEnCours')` ; « Ce mois-ci (n) » (`etat.aSemer.nbTotal`) → `aller('appASemer')` ; « Semis réalisés » → `aller('appFiche')`.
 
-### Cartes « À enregistrer » (en haut, `#appEtapes`)
+### Cartes « À enregistrer » (en haut, `#appEnCours`)
 Liseré orange, nom + type, pastille de mode, détail (millésime, date, quantités, lieux, « sachet vidé », « à reproduire » / « ne plus reproduire » si la case a changé), ✕ pour retirer. Chaque carte garde une copie de la variété (`b.variete`) et du millésime (`b.millesime`) pour son affichage. **Perdues au rechargement** (voulu, plus de `sessionStorage`). Section masquée quand la liste est vide.
 
 **Enregistrer** : bouton bleu sous les cartes (dans la même section, non collé). Boutons « Ajouter » et « Enregistrer » grisés pendant l'écriture ; cartes conservées en cas d'échec ; puis rechargement de `Varietes`, `Millesimes`, `Semis`, mise à jour de la fiche (`rafraichirFiche`) et de la section À semer (`afficherASemer`).
@@ -111,8 +111,8 @@ Après « Ajouter » : conservés = mode, date, godets, graines ; vidés = vari�
 
 ## 5. Choix techniques
 
-- **4 zones Vue**, toutes sur le même `etat` : `#appEntete` (titre, statut, navigation, messages), `#appEtapes` (cartes à enregistrer + Enregistrer), `#appASemer` (section À semer), `#appFiche` (formulaire, erreur de saisie, Ajouter).
-- **`return` de chaque zone = seulement ce que son HTML utilise** : `aller` est dans celui de `#appEntete` (navigation) ; `enregistrerTout` dans celui de `#appEtapes` (le bouton est dans cette zone). `semer()` appelle `aller` dans le JS : pas besoin de `return`.
+- **4 zones Vue**, toutes sur le même `etat` : `#appEntete` (titre, statut, navigation, messages), `#appEnCours` (cartes à enregistrer + Enregistrer), `#appASemer` (section À semer), `#appFiche` (formulaire, erreur de saisie, Ajouter).
+- **`return` de chaque zone = seulement ce que son HTML utilise** : `aller` est dans celui de `#appEntete` (navigation) ; `enregistrerTout` dans celui de `#appEnCours` (le bouton est dans cette zone). `semer()` appelle `aller` dans le JS : pas besoin de `return`.
 - **`<main class="page">`** (`.page` du commun) : les blocs s'empilent avec le `gap` du commun.
 - **État** : un seul `etat` ; la section À semer a son sous-objet `etat.aSemer` (`lignes`, `mois`, `afficherDejaSemees`, `tri`, `nbTotal`, `nbRetenues`, `filtreActif`, `filtreSousAbri`, `filtrePleineTerre`, `ouvert`, `listeTriOuverte`, `listeMoisOuverte`). Liste à enregistrer : `etat.aEnregistrer`.
 - **Noms** : `ajouterALaListe`, `retirerDeLaListe`, `prochainIdCarte`, `nombreAEnregistrer` (anciens noms en « étape intermédiaire » supprimés) ; menus : `basculerMoisASemer` / `choisirMoisASemer`, `basculerTriASemer` / `choisirTriASemer`.
@@ -158,8 +158,8 @@ Après « Ajouter » : conservés = mode, date, godets, graines ; vidés = vari�
 - Colonne renommée dans Grist : `fetchTable` ne signale rien, la valeur vaut `undefined`. D'où `COLONNES_VARIETES`.
 - Deux variantes qui fixent la même propriété (`btn--etape` / `btn--enregistrer`) : c'est l'ordre du commun qui gagne.
 - Remplacement d'un bout de HTML : une balise de l'ancien texte peut rester (`</template>` orphelin après `libelleMillesime(m)`, 25/11). Relire la ligne entière après le collage.
-- **Fonction appelée par un bouton absente du `return` de sa zone** : le clic ne fait rien. Arrivé deux fois : `aller` (navigation de l'en-tête, il faut le `return` de `#appEntete`, pas seulement le commun) et `enregistrerTout` (bouton revenu dans `#appEtapes` sans la fonction dans son `return`, 27/11 : « on ne peut plus enregistrer »).
-- `aller` sur une `zone-transparente` (`display: contents`) : pas de cadre, pas de défilement. D'où `#appEtapes` sans `zone-transparente`.
+- **Fonction appelée par un bouton absente du `return` de sa zone** : le clic ne fait rien. Arrivé deux fois : `aller` (navigation de l'en-tête, il faut le `return` de `#appEntete`, pas seulement le commun) et `enregistrerTout` (bouton revenu dans `#appEnCours` sans la fonction dans son `return`, 27/11 : « on ne peut plus enregistrer »).
+- `aller` sur une `zone-transparente` (`display: contents`) : pas de cadre, pas de défilement. D'où `#appEnCours` sans `zone-transparente`.
 - Bouton `btn--collant` dans une section : il ne reste collé que dans cette section (le placer dans une `zone-transparente` enfant direct de `<main>`, comme À gérer). Non utilisé ici depuis le 27/11.
 - Un `<label>` qui entoure un bouton et sa liste : un clic dans la liste est transmis au bouton, qui rouvre la liste. Le groupe est un `<div>`, seul le mot est un `<label for>`.
 - Code mort après le retrait d'une colonne (`typePlant` encore calculé alors que `Type_plant` n'était plus lu) : Ctrl+Maj+F sur le nom du champ JS **et** de la colonne.
@@ -224,9 +224,9 @@ Après « Ajouter » : conservés = mode, date, godets, graines ; vidés = vari�
   - carte « À enregistrer » : copie de la variété (`b.variete`), nom par `libelle`, type réaffiché ; `nomDeCarte` supprimée ;
   - écart entre les blocs : `<main class="page">` ; bouton Masquer / Afficher à largeur fixe (`.reserve`).
 - 27/11/2026 :
-  - navigation dans l'en-tête (En cours, Ce mois-ci, Semis réalisés) ; `aller` dans le `return` de `#appEntete` seulement ; `#appEtapes` sans `zone-transparente` (pour qu'`aller` la trouve) ;
+  - navigation dans l'en-tête (En cours, Ce mois-ci, Semis réalisés) ; `aller` dans le `return` de `#appEntete` seulement ; `#appEnCours` sans `zone-transparente` (pour qu'`aller` la trouve) ;
   - titre de l'en-tête « À semer » ; fiche titrée « Semis réalisés » (`<h2>`) ; « Ajouter à la liste » en orange ;
-  - bouton Enregistrer remis sous les cartes dans `#appEtapes` (plus de zone `#appEnregistrer` ni de bouton collé) ; `enregistrerTout` remis dans le `return` de `#appEtapes` (enregistrement de nouveau possible) ;
+  - bouton Enregistrer remis sous les cartes dans `#appEnCours` (plus de zone `#appEnregistrer` ni de bouton collé) ; `enregistrerTout` remis dans le `return` de `#appEnCours` (enregistrement de nouveau possible) ;
   - Mois et Trier par : menus maison au lieu des `<select>` (`listeMoisOuverte`, `listeTriOuverte`, `basculer… / choisir…ASemer`) ; `.champ--filtre` supprimée ;
   - `.page`, `.reserve`, `.menu--auto`, `.texte--info` passées au commun ;
   - encart : type seul en gras, plante mère en pastille, lignes de semis en `texte--info` ;
